@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+  <Type Name="DdsTricks">
+    <DisplayString>Tricks {plainScore}</DisplayString>
+  </Type>
+   <Type Name="DdsDeal">
+      <DisplayString>{tr}</DisplayString>
+   </Type>
+   <Type Name="Walrus">
+      <DisplayString>{nameHlp,s} {countToSolve} toSolve; Done {countIterations}/{countShare}</DisplayString>
+   </Type>
+   <Type Name="SplitBits">
+      <DisplayString>{card.w.s.w,4x}-{card.w.h.w,4x}-{card.w.d.w,4x}-{card.w.c.w,4x}</DisplayString>
+   </Type>
+   <Type Name="twlHCP">
+      <DisplayString> HCP {total} : {s}, {h}, {d}, {c}</DisplayString>
+   </Type>
+   <Type Name="twLengths">
+      <DisplayString> Shape {s}-{h}-{d}-{c}</DisplayString>
+   </Type>
+   <Type Name="DdsTask">
+      <DisplayString>{partner.hand} / {rho.hand}</DisplayString>
+   </Type>
+   <Type Name="DdsPack">
+      <DisplayString>{task}</DisplayString>
+   </Type>
+</AutoVisualizer>
