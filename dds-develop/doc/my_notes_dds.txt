@@ -1,0 +1,22 @@
+actual doc see on https://github.com/dds-bridge/dds
+
+
+AnalysePlayBin
+AnalyseAllPlaysBin
+GetDDSInfo
+ErrorMessage
+
+
+Hand	
+---------------
+North 	0
+East 	1
+South 	2
+West 	3
+
+
+target	solutions	Comment
+-1	1	Find the maximum number of tricks for the side to play.  
+		Return only one of the optimum cards and its score.
+-1	2	Find the maximum number of tricks for the side to play.  
+		Return all optimum cards and their scores.
