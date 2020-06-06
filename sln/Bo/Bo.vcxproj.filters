@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="VIsualizers">
+      <UniqueIdentifier>{e10f9932-bb80-434d-a844-84fae4f3eae8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\walrus">
+      <UniqueIdentifier>{a48795c0-beba-4ddb-b7e8-d94dee89d8af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\dds">
+      <UniqueIdentifier>{79b72e73-66b5-42fc-9274-f27a45590ad3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\walrus\waAI.cpp">
+      <Filter>Source Files\walrus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\walrus\waBitControl.cpp">
+      <Filter>Source Files\walrus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\walrus\waDDSTest.cpp">
+      <Filter>Source Files\walrus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\walrus\waInit.cpp">
+      <Filter>Source Files\walrus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\walrus\waIO.cpp">
+      <Filter>Source Files\walrus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\walrus\walrus.cpp">
+      <Filter>Source Files\walrus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\walrus\waMulti.cpp">
+      <Filter>Source Files\walrus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\walrus\waRandom.cpp">
+      <Filter>Source Files\walrus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\walrus\waSemantic.cpp">
+      <Filter>Source Files\walrus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\walrus\waShuffle.cpp">
+      <Filter>Source Files\walrus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\SolverIF.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\System.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\ThreadMgr.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\Timer.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\TimerGroup.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\TimerList.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\TimeStat.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\ABsearch.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\ABstats.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\CalcTables.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\dds.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\DealerPar.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\dump.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\File.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\Init.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\LaterTricks.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\Memory.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\Moves.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\Par.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\PBN.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\PlayAnalyser.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\QuickTricks.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\Scheduler.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\SolveBoard.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\TimeStatList.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\TransTableL.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\src\TransTableS.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dds-develop\examples\hands.cpp">
+      <Filter>Source Files\dds</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\walrus\waAI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\walrus\walrus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\walrus\waSemantic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\SolverIF.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\System.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\ThreadMgr.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\Timer.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\TimerGroup.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\TimerList.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\ABsearch.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\ABstats.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\CalcTables.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\dds.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\debug.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\dump.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\File.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\Init.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\LaterTricks.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\Memory.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\Moves.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\parallel.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\PBN.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\PlayAnalyser.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\QuickTricks.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\Scheduler.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\SolveBoard.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\TimeStat.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\TimeStatList.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\TransTable.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\TransTableL.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\src\TransTableS.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dds-develop\examples\hands.h">
+      <Filter>Source Files\dds</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\dds-develop\src\COMMENT">
+      <Filter>Source Files\dds</Filter>
+    </None>
+    <None Include="..\..\dds-develop\src\Exports.def">
+      <Filter>Source Files\dds</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\dds-develop\src\dds.rc">
+      <Filter>Source Files\dds</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="..\wa_twelve.natvis">
+      <Filter>VIsualizers</Filter>
+    </Natvis>
+  </ItemGroup>
+</Project>

@@ -262,6 +262,38 @@ void Walrus::Red_UpateHitsByTricks(DdsTricks &tr)
    hitsCount[row][camp]++;
 }
 
+void Walrus::Progress::Init(uint _step)
+{
+   step = _step;
+   went = 0;
+   margin = _step * 4;
+}
+
+bool Walrus::Progress::Step()
+{
+   went += step;
+   return (went > margin);
+}
+
+void Walrus::Progress::Up(uint idx)
+{
+   went = 0;
+   if (idx > margin * 2) {
+      margin = step * 9;
+   }
+}
+
+void Walrus::ShowProgress(uint idx)
+{
+   // do reports
+   if (progress.Step()) {
+      MiniReport(countToSolve - idx);
+      progress.Up(idx);
+   } else {
+      printf(".");
+   }
+}
+
 void Walrus::SolveInChunks(deal &dlBase)
 {
    boards bo;
@@ -271,16 +303,18 @@ void Walrus::SolveInChunks(deal &dlBase)
    uint step = 100;
 #endif // _DEBUG
 
-   uint i = 0, went = 0;
+   // do big chunks, then a tail
+   uint i = 0;
+   progress.Init(step);
    for (; i+step < countToSolve ; i+=step ) {
+      // main work
       SolveOneChunk(dlBase, bo, i, step);
+      ShowProgress(i);
 
-      went += step;
-      if (went > step * 4) {
-         MiniReport(countToSolve - i);
-         went = 0;
-      } else {
-         printf(".");
+      // keep balance on abort
+      if (exitRequested) {
+         hitsCount[3][0] = countToSolve - i - step;
+         i += countToSolve;
       }
    }
    if ( i < countToSolve ) {
@@ -291,7 +325,6 @@ void Walrus::SolveInChunks(deal &dlBase)
 
 extern int SolveAllBoardsN(boards& bds, solvedBoards& solved);
 
-//#define INTERROGATION
 void Walrus::SolveOneChunk(deal &dlBase, boards &bo, uint ofs, uint step)
 {
    bo.noOfBoards = (int)step;
@@ -325,9 +358,12 @@ void Walrus::SolveOneChunk(deal &dlBase, boards &bo, uint ofs, uint step)
          case ' ': irGoal = 10; break;
          case '1': irGoal = 11; break;
          case '2': irGoal = 12; break;
-         case 'q': irGoal = 9; break;
-         case 'w': irGoal = 8; break;
-         case 'e': irGoal = 7; break;
+         case 'q': irGoal = 9;  break;
+         case 'w': irGoal = 8;  break;
+         case 'e': irGoal = 7;  break;
+         case 'x': 
+            exitRequested = true; 
+            break;
       }
       printf("\nSeek %d tricks board...", irGoal);
    }

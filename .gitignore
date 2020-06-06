@@ -1,0 +1,6 @@
+*.db
+*.opendb
+*.suo
+/exe/*
+/intermediate/*
+/sln/Bo/x64/*

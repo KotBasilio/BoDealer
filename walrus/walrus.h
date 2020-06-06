@@ -130,13 +130,12 @@ protected:
     void ScanTricolor();
 
     void WithdrawByInput();
-    void WithdrawSuit(int suit, int count);
-    void WithdrawPts(int suit, int pts);
     void AllocFilteredTasksBuf();
     void SolveSavedTasks();
     void SolveOneByOne(struct deal &dlBase);
     void SolveInChunks(struct deal &dlBase);
     void SolveOneChunk(struct deal &dlBase, struct boards &bo, uint i, uint step);
+    void ShowProgress(uint idx);
 
     uint Remains() const { return (countIterations < countShare) ? countShare - countIterations : 0; }
     void CoWork(Walrus * other);
@@ -169,9 +168,18 @@ protected:
        s64    partscore;
     };
 
+    struct Progress
+    {
+       uint step, went, margin;
+       void Init(uint _step);
+       bool Step();
+       void Up(uint idx);
+    } progress;
+
 private:
    const char *     nameHlp;
    bool             isRunning;
+   bool             exitRequested;
    uint             countIterations, countShare, countSolo;
    SplitBits        deck[DECK_ARR_SIZE];
    SplitBits        highBits;

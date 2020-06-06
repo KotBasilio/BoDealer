@@ -85,6 +85,7 @@ SplitBits sbBlank;
 
 Walrus::Walrus()
    : isRunning(true)
+   , exitRequested(false)
    , countIterations(0)
    , countShare(MAX_ITERATION)
    , countSolo(0)
