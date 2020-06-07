@@ -179,8 +179,8 @@ void Walrus::ScanTricolor()
       sum.card.jo += flipcd;
       sec.card.jo += deck[26 + idxHandStart++].card.jo;
 
-      // smart-exit using highBits
-      if (sec.IsEndIter()) {
+      // simple exit using count -- it became faster that highBits
+      if (idxHandStart >= ACTUAL_CARDS_COUNT) {
          break;
       }
    }

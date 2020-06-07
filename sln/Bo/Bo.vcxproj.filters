@@ -138,6 +138,9 @@
     <ClCompile Include="..\..\dds-develop\examples\hands.cpp">
       <Filter>Source Files\dds</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\walrus\waScore.cpp">
+      <Filter>Source Files\walrus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\walrus\waAI.h">

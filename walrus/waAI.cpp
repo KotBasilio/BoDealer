@@ -5,7 +5,6 @@
  ************************************************************/
 
 #define  _CRT_SECURE_NO_WARNINGS
-#include <stdlib.h>
 #include <string.h>
 #include "walrus.h"
 #include "..\dds-develop\include\dll.h"
@@ -14,35 +13,6 @@
 
 // --------------------------------------------------------------------------------
 // input
-void Walrus::AllocFilteredTasksBuf()
-{
-   size_t bsize = MAX_TASKS_TO_SOLVE * sizeof(DdsTask);
-   arrToSolve = (DdsPack *)malloc(bsize);
-   if (arrToSolve) {
-      size_t oneK = 1024;
-      size_t oneM = 1024 * oneK;
-      if (bsize > oneM) {
-         printf("Memory %lluM in %s\n", bsize/oneM, nameHlp);
-      } else {
-         printf("Memory %lluK in %s\n", bsize/oneK, nameHlp);
-      }
-      return;
-   } 
-
-   // fail
-   printf("%s: alloc failed\n", nameHlp);
-   _getch();
-   exit(0);
-}
-
-Walrus::~Walrus()
-{
-   if (arrToSolve) {
-      free(arrToSolve);
-      arrToSolve = nullptr;
-   }
-}
-
 void Walrus::Red_SaveForSolver(SplitBits &partner, SplitBits &lho, SplitBits &rho)
 {
    if (countToSolve >= MAX_TASKS_TO_SOLVE) {
@@ -63,49 +33,6 @@ void DdsTask::Init(SplitBits &part, SplitBits &opp)
 void DdsTask::DTUnion::Init(SplitBits &sb)
 {
    hand = sb;
-}
-
-struct DdsTricks {
-   uint plainScore;
-   DdsTricks() : plainScore(0) {}
-   void Init(futureTricks &fut);
-} tr;
-
-void DdsTricks::Init(futureTricks &fut)
-{
-   plainScore = 13 - fut.score[0];
-}
-
-void Walrus::Red_UpdateCumulScores(DdsTricks &tr)
-{
-   // "always game"
-   uint ideal = tr.plainScore;
-   switch (ideal) {
-      case 2:  cumulScore.bidGame -= 800; break;
-      case 3:  cumulScore.bidGame -= 700; break;
-      case 4:  cumulScore.bidGame -= 600; break;
-      case 5:  cumulScore.bidGame -= 500; break;
-      case 6:  cumulScore.bidGame -= 400; break;
-      case 7:  cumulScore.bidGame -= 300; break;
-      case 8:  cumulScore.bidGame -= 200; break;
-      case 9:  cumulScore.bidGame -= 100; break;
-      case 10: cumulScore.bidGame += 620; break;
-      case 11: cumulScore.bidGame += 650; break;
-      case 12: cumulScore.bidGame += 680; break;
-      case 13: cumulScore.bidGame += 710; break;
-   }
-
-   // "always partscore"
-   int partdelta = ideal > 6 ? 50 + (ideal - 6) * 30 : -50;
-   cumulScore.partscore += partdelta;
-
-   // "ideal"
-   if (ideal < 10) {
-      cumulScore.ideal += partdelta;
-   } else {
-      cumulScore.ideal += 620 + (ideal-10)*30;
-   }
-
 }
 
 uint CountBits(uint v)// count bits set in this (32-bit value)
@@ -255,13 +182,6 @@ void Walrus::SolveOneByOne(deal &dlBase)
 
 }
 
-void Walrus::Red_UpateHitsByTricks(DdsTricks &tr)
-{
-   uint row = 0;
-   uint camp = Red_Reclassify(tr.plainScore, row);
-   hitsCount[row][camp]++;
-}
-
 void Walrus::Progress::Init(uint _step)
 {
    step = _step;
@@ -374,6 +294,7 @@ void Walrus::SolveOneChunk(deal &dlBase, boards &bo, uint ofs, uint step)
       tr.Init(solved.solvedBoard[handno]);
 
       Red_UpateHitsByTricks(tr);
+      //(this->*sem.onAfterMath)();
       Red_UpdateCumulScores(tr);
       Red_Interrogate(irGoal, tr, bo.deals[handno], solved.solvedBoard[handno]);
    }

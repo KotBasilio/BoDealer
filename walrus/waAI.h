@@ -92,4 +92,11 @@ union DdsPack
 #define KK      13
 #define KA      14
 
+struct DdsTricks
+{
+   uint plainScore;
+   DdsTricks() : plainScore(0) {}
+   void Init(struct futureTricks &fut);
+};
+
 

@@ -106,6 +106,35 @@ Walrus::Walrus()
     SeedRand();
 }
 
+void Walrus::AllocFilteredTasksBuf()
+{
+   size_t bsize = MAX_TASKS_TO_SOLVE * sizeof(DdsTask);
+   arrToSolve = (DdsPack *)malloc(bsize);
+   if (arrToSolve) {
+      size_t oneK = 1024;
+      size_t oneM = 1024 * oneK;
+      if (bsize > oneM) {
+         printf("Memory %lluM in %s\n", bsize / oneM, nameHlp);
+      } else {
+         printf("Memory %lluK in %s\n", bsize / oneK, nameHlp);
+      }
+      return;
+   }
+
+   // fail
+   printf("%s: alloc failed\n", nameHlp);
+   _getch();
+   exit(0);
+}
+
+Walrus::~Walrus()
+{
+   if (arrToSolve) {
+      free(arrToSolve);
+      arrToSolve = nullptr;
+   }
+}
+
 Walrus::Semantics::Semantics()
    : onInit      (&Walrus::NOP)
    , onShareStart(&Walrus::NOP)
@@ -222,7 +251,8 @@ void Walrus::WithdrawCard(u64 jo)
       }
    }
 
-   printf("wtf. card to withdraw is not found.\n");
+   DEBUG_UNEXPECTED;
+   printf("card to withdraw is not found.\n");
 }
 
 void Walrus::WithdrawDeuce(uint rankBit, u64 waSuit)
