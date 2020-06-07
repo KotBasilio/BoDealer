@@ -45,9 +45,6 @@
     <ClCompile Include="..\..\walrus\waMulti.cpp">
       <Filter>Source Files\walrus</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\walrus\waRandom.cpp">
-      <Filter>Source Files\walrus</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\walrus\waSemantic.cpp">
       <Filter>Source Files\walrus</Filter>
     </ClCompile>
@@ -139,6 +136,9 @@
       <Filter>Source Files\dds</Filter>
     </ClCompile>
     <ClCompile Include="..\..\walrus\waScore.cpp">
+      <Filter>Source Files\walrus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\walrus\waOrb.cpp">
       <Filter>Source Files\walrus</Filter>
     </ClCompile>
   </ItemGroup>

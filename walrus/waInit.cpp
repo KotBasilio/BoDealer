@@ -142,6 +142,7 @@ Walrus::Semantics::Semantics()
    , onScanCenter(&Walrus::NOP)
    , onAfterMath (&Walrus::NOP) 
    , onFilter    (&Walrus::FilterRejectAll) 
+   , onScoring   (&Walrus::VoidScoring)
    , scanCover(ACTUAL_CARDS_COUNT)
 {
 }

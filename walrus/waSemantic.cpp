@@ -7,94 +7,13 @@
 ************************************************************/
 #include "walrus.h"
 
-// Trivial: one hand only; can be used as a pattern for all scans
-void Walrus::ScanTrivial()
-{
-   // we have some cards starting from each position
-   SplitBits sum(SumFirstHand());
-   for (int idxHandStart = 0;;) {
-      // a dummy part, count nothing, just check total
-      uint foo = 0;
-      uint bar = 0;
-
-      // account the hand
-      hitsCount[foo][bar]++;
-
-      // advance to account next hand
-      sum.card.jo -= deck[idxHandStart].card.jo;
-      sum.card.jo += deck[13 + idxHandStart++].card.jo;
-
-      // smart-exit using highBits
-      if (sum.IsEndIter()) {
-         break;
-      }
-   }
-}
-
-// Orb: three other hands for later double-dummy solving
-void Walrus::ScanOrb()
-{
-   // we have some cards starting from each position
-   SplitBits sum(SumFirstHand());
-   SplitBits sec(SumSecondHand());
-   for (int idxHandStart = 0;;) {
-      SplitBits third(checkSum - sum.card.jo - sec.card.jo);
-      uint bar = 0;
-      uint foo = Orb_ClassifyHands(bar, sum, sec, third);
-
-      // account the deal
-      hitsCount[foo][bar]++;
-
-      // flip hands within the same deal, account it too
-      bar = 0;
-      foo = Orb_ClassifyHands(bar, sum, third, sec);
-      hitsCount[foo][bar]++;
-
-      // advance to account next hand
-      sum.card.jo -= deck[idxHandStart].card.jo;
-      u64 flipcd = deck[13 + idxHandStart].card.jo;
-      sec.card.jo -= flipcd;
-      sum.card.jo += flipcd;
-      sec.card.jo += deck[26 + idxHandStart++].card.jo;
-
-      // simple exit using count -- it became faster that highBits
-      if (idxHandStart >= ACTUAL_CARDS_COUNT) {
-         break;
-      }
-   }
-}
-
-// RET: foo/bar -- indices for accounting hand
-// OUT: camp
-uint Walrus::Orb_ClassifyHands(uint &camp, SplitBits &lho, SplitBits &partner, SplitBits &rho)
-{
-   uint fo = (this->*sem.onFilter)(partner, camp, lho, rho);
-   if (!fo) {
-      // recruit methods
-      camp = fo = 1;
-      Orb_SaveForSolver(partner, lho, rho);
-   }
-
-   return fo;
-}
-
-void Walrus::Orb_FillSem(void)
-{
-   sem.onInit = &Walrus::WithdrawByInput;
-   sem.onShareStart = &Walrus::AllocFilteredTasksBuf;
-   sem.fillFlipover = &Walrus::FillFO_39Double;
-   sem.onScanCenter = &Walrus::ScanOrb;
-   sem.scanCover = ACTUAL_CARDS_COUNT * 2; // since we flip the hands
-   sem.onAfterMath = &Walrus::SolveSavedTasks;
-}
-
-
 #ifdef SEMANTIC_RED55_KINGS_PART_15_16
 
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
    sem.onFilter = &Walrus::R55_FilterOut;
+   sem.onScoring = &Walrus::Score_4Major;
 }
 
 // OUT: camp
@@ -146,6 +65,7 @@ void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
    sem.onFilter = &Walrus::TriSunday_FilterOut; // Tricolor_FilterOut
+   sem.onScoring = &Walrus::Score_4Major;
 }
 
 // OUT: camp

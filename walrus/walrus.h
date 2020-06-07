@@ -151,15 +151,18 @@ protected:
 
     typedef void (Walrus::*SemFuncType)();
     typedef uint (Walrus::*SemFilterOut)(SplitBits &part, uint &camp, SplitBits &lho, SplitBits &rho);
+    typedef void (Walrus::*SemScoring)(DdsTricks &tr);
     void NOP() {}
     uint FilterRejectAll(SplitBits &part, uint &camp, SplitBits &lho, SplitBits &rho) { camp = 2; return 1; }
+    void VoidScoring(DdsTricks &tr) {}
     struct Semantics {
-       SemFuncType onInit;
-       SemFuncType onShareStart;
-       SemFuncType onScanCenter;
-       SemFuncType fillFlipover;
-       SemFuncType onAfterMath;
+       SemFuncType  onInit;
+       SemFuncType  onShareStart;
+       SemFuncType  onScanCenter;
        SemFilterOut onFilter;
+       SemFuncType  fillFlipover;
+       SemScoring   onScoring;
+       SemFuncType  onAfterMath;
        uint scanCover; // how much iterations covers one scan
        Semantics();
     } sem;
@@ -199,14 +202,13 @@ private:
    void Orb_FillSem(void);
    uint Orb_ClassifyHands(uint &foo, SplitBits &sum, SplitBits &lho, SplitBits &rho);
    void Orb_SaveForSolver(SplitBits &partner, SplitBits &resp, SplitBits &notrump);
-   void Orb_UpateHitsByTricks(struct DdsTricks &tr);
    void Orb_Interrogate(int &irGoal, DdsTricks &tr, deal &cards, struct futureTricks &fut);
    void Orb_ReSolveAndShow(deal &cards);
 
-   uint Score_4Major(uint plainScore, uint &row);
-   uint Score_3NT(uint plainScore, uint &row);
+   void Score_4Major(DdsTricks &tr);
+   void Score_3NT(DdsTricks &tr);
    void Score_Cumul4M(DdsTricks &tr);
-   uint Score_Cumul3NT(DdsTricks &tr);
+   void Score_Cumul3NT(DdsTricks &tr);
 
    uint R55_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
 

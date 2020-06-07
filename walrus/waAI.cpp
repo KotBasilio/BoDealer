@@ -6,23 +6,12 @@
 
 #define  _CRT_SECURE_NO_WARNINGS
 #include <string.h>
-#include "walrus.h"
 #include "..\dds-develop\include\dll.h"
 #include "..\dds-develop\examples\hands.h"
 #include <conio.h>
+#include "walrus.h"
 
-// --------------------------------------------------------------------------------
-// input
-void Walrus::Orb_SaveForSolver(SplitBits &partner, SplitBits &lho, SplitBits &rho)
-{
-   if (countToSolve >= MAX_TASKS_TO_SOLVE) {
-      return;
-   }
-
-   DdsPack pack;
-   pack.task.Init(partner, rho);
-   arrToSolve[countToSolve++] = pack;
-}
+extern int SolveAllBoardsN(boards& bds, solvedBoards& solved);
 
 void DdsTask::Init(SplitBits &part, SplitBits &opp)
 {
@@ -168,8 +157,7 @@ void Walrus::SolveOneByOne(deal &dlBase)
       dl.Solve(i);
 
       // pass
-      Orb_UpateHitsByTricks(dl.tr);
-      Score_Cumul4M(dl.tr);
+      (this->*sem.onScoring)(dl.tr);
 
       // may report
       if (!(i & 0xf)) {
@@ -243,8 +231,6 @@ void Walrus::SolveInChunks(deal &dlBase)
    }
 }
 
-extern int SolveAllBoardsN(boards& bds, solvedBoards& solved);
-
 void Walrus::SolveOneChunk(deal &dlBase, boards &bo, uint ofs, uint step)
 {
    bo.noOfBoards = (int)step;
@@ -293,64 +279,9 @@ void Walrus::SolveOneChunk(deal &dlBase, boards &bo, uint ofs, uint step)
       DdsTricks tr;
       tr.Init(solved.solvedBoard[handno]);
 
-      Orb_UpateHitsByTricks(tr);
-      //(this->*sem.onAfterMath)();
-      Score_Cumul4M(tr);
+      (this->*sem.onScoring)(tr);
       Orb_Interrogate(irGoal, tr, bo.deals[handno], solved.solvedBoard[handno]);
    }
 
 }
-
-void Walrus::Orb_Interrogate(int &irGoal, DdsTricks &tr, deal &cards, futureTricks &fut)
-{
-   // no interrogation goal => skip
-   if (!irGoal) {
-      return;
-   }
-
-   // take any board with exact amount of tricks
-   if (tr.plainScore != irGoal) {
-      return;
-   }
-
-   // relay
-   Orb_ReSolveAndShow(cards);
-
-   // let contemplate
-   printf("Any key to continue...");
-   _getch();
-   printf("ok");
-
-   // interrogation is over
-   irGoal = 0;
-}
-
-void Walrus::Orb_ReSolveAndShow(deal &cards)
-{
-   // hand & fut as they come
-   PrintHand("example:\n", cards.remainCards);
-   char lead[] = "";
-   //PrintFut(lead, &fut);
-
-   // params for re-solving
-   char line[80];
-   futureTricks fut;
-   int target = -1;
-   int solutions = 3; // 3 -- Return all cards that can be legally played, with their scores in descending order.
-   int mode = 0;
-   int threadIndex = 0;
-
-   // re-solve the board for all leads
-   int res = SolveBoard(cards, target, solutions, mode, &fut, threadIndex);
-   if (res != RETURN_NO_FAULT) {
-      sprintf(line, "Problem hand on solve: leads %s, trumps: %s\n", haPlayerToStr(cards.first), haTrumpToStr(cards.trump));
-      PrintHand(line, cards.remainCards);
-      ErrorMessage(res, line);
-      printf("DDS error: %s\n", line);
-   } else {
-      PrintFut(lead, &fut);
-   }
-}
-
-
 

@@ -148,7 +148,7 @@
     <ClCompile Include="..\..\walrus\waIO.cpp" />
     <ClCompile Include="..\..\walrus\walrus.cpp" />
     <ClCompile Include="..\..\walrus\waMulti.cpp" />
-    <ClCompile Include="..\..\walrus\waRandom.cpp" />
+    <ClCompile Include="..\..\walrus\waOrb.cpp" />
     <ClCompile Include="..\..\walrus\waScore.cpp" />
     <ClCompile Include="..\..\walrus\waSemantic.cpp" />
     <ClCompile Include="..\..\walrus\waShuffle.cpp" />
