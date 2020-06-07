@@ -15,7 +15,7 @@
 '*************************************************************/
 bool Walrus::LoadInitialStatistics(const char *fname)
 {
-   printf("\nNo initial stats needed\n");
+   //printf("\nNo initial stats needed\n");
    return true;
 }
 

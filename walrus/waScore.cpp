@@ -13,7 +13,7 @@ void DdsTricks::Init(futureTricks &fut)
    plainScore = 13 - fut.score[0];
 }
 
-void Walrus::Red_UpdateCumulScores(DdsTricks &tr)
+void Walrus::Score_Cumul4M(DdsTricks &tr)
 {
    // "always game"
    uint ideal = tr.plainScore;
@@ -45,12 +45,29 @@ void Walrus::Red_UpdateCumulScores(DdsTricks &tr)
 
 }
 
-void Walrus::Red_UpateHitsByTricks(DdsTricks &tr)
+// OUT: camp
+uint Walrus::Score_4Major(uint plainScore, uint &row)
 {
-   uint row = 0;
-   uint camp = Red_Reclassify(tr.plainScore, row);
-   hitsCount[row][camp]++;
+   if (plainScore > 9) {
+      row = 1;
+      return 1 + plainScore - 9;
+   }
+   return 1 + 10 - plainScore;
 }
 
+uint Walrus::Score_3NT(uint plainScore, uint &row)
+{
+   if (plainScore > 8) {
+      row = 1;
+      return 1 + plainScore - 8;
+   }
+   return 1 + 9 - plainScore;
+}
 
+void Walrus::Orb_UpateHitsByTricks(DdsTricks &tr)
+{
+   uint row = 0;
+   uint camp = Score_4Major(tr.plainScore, row);
+   hitsCount[row][camp]++;
+}
 

@@ -7,8 +7,8 @@
 
 #ifdef _DEBUG
    //const uint MAX_ITERATION = 20*1000000;// 20 mln 
-   //const uint MAX_ITERATION = 1000000;// 1 mln 
-   const uint MAX_ITERATION = 100000;// 0.1 mln
+   const uint MAX_ITERATION = 1000000;// 1 mln 
+   //const uint MAX_ITERATION = 100000;// 0.1 mln
    //const uint MAX_ITERATION = 10000;
    const uint MAX_TASKS_TO_SOLVE = 10240;
    #define SKIP_HELPERS
@@ -126,9 +126,8 @@ protected:
     void FillFO_39Double();
     void ClearFlipover();
 
-    void ScanDummy();
-    void ScanRed55();
-    void ScanTricolor();
+    void ScanTrivial();
+    void ScanOrb();
 
     void WithdrawByInput();
     void AllocFilteredTasksBuf();
@@ -151,13 +150,16 @@ protected:
     void Shuffle();
 
     typedef void (Walrus::*SemFuncType)();
+    typedef uint (Walrus::*SemFilterOut)(SplitBits &part, uint &camp, SplitBits &lho, SplitBits &rho);
     void NOP() {}
+    uint FilterRejectAll(SplitBits &part, uint &camp, SplitBits &lho, SplitBits &rho) { camp = 2; return 1; }
     struct Semantics {
        SemFuncType onInit;
        SemFuncType onShareStart;
        SemFuncType onScanCenter;
        SemFuncType fillFlipover;
        SemFuncType onAfterMath;
+       SemFilterOut onFilter;
        uint scanCover; // how much iterations covers one scan
        Semantics();
     } sem;
@@ -194,17 +196,20 @@ private:
    CumulativeScore  cumulScore;
    int              irGoal;
 
-   void Red_SaveForSolver(SplitBits &partner, SplitBits &resp, SplitBits &notrump);
-   uint Red_Reclassify(uint plainScore, uint &row);
-   void Red_UpateHitsByTricks(struct DdsTricks &tr);
-   void Red_UpdateCumulScores(DdsTricks &tr);
-   void Red_Interrogate(int &irGoal, DdsTricks &tr, deal &cards, struct futureTricks &fut);
-   void Red_ReSolveAndShow(deal &cards);
+   void Orb_FillSem(void);
+   uint Orb_ClassifyHands(uint &foo, SplitBits &sum, SplitBits &lho, SplitBits &rho);
+   void Orb_SaveForSolver(SplitBits &partner, SplitBits &resp, SplitBits &notrump);
+   void Orb_UpateHitsByTricks(struct DdsTricks &tr);
+   void Orb_Interrogate(int &irGoal, DdsTricks &tr, deal &cards, struct futureTricks &fut);
+   void Orb_ReSolveAndShow(deal &cards);
 
-   uint R55_ClassifyHands(uint &foo, SplitBits &sum, SplitBits &lho, SplitBits &rho);
+   uint Score_4Major(uint plainScore, uint &row);
+   uint Score_3NT(uint plainScore, uint &row);
+   void Score_Cumul4M(DdsTricks &tr);
+   uint Score_Cumul3NT(DdsTricks &tr);
+
    uint R55_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
 
-   uint Tricolor_ClassifyHands(uint &foo, SplitBits &sum, SplitBits &lho, SplitBits &rho);
    uint Tricolor_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint TriSunday_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
 

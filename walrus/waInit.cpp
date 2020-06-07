@@ -141,6 +141,7 @@ Walrus::Semantics::Semantics()
    , fillFlipover(&Walrus::NOP)
    , onScanCenter(&Walrus::NOP)
    , onAfterMath (&Walrus::NOP) 
+   , onFilter    (&Walrus::FilterRejectAll) 
    , scanCover(ACTUAL_CARDS_COUNT)
 {
 }

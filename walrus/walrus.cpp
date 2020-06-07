@@ -46,10 +46,9 @@ u64 ChronoRound()
 	return delta;
 }
 
-
 void main(int argc, char *argv[])
 {
-	printf(TITLE_VERSION" started.  ");
+	printf(TITLE_VERSION" started.\n");
 	ChronoStart();
 
 	Walrus walter;

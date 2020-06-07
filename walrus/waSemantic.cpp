@@ -7,8 +7,8 @@
 ************************************************************/
 #include "walrus.h"
 
-// a dummy pattern for all scans
-void Walrus::ScanDummy()
+// Trivial: one hand only; can be used as a pattern for all scans
+void Walrus::ScanTrivial()
 {
    // we have some cards starting from each position
    SplitBits sum(SumFirstHand());
@@ -30,19 +30,9 @@ void Walrus::ScanDummy()
       }
    }
 }
-#ifdef SEMANTIC_RED55_KINGS_PART_15_16
 
-void Walrus::FillSemantic(void)
-{
-   sem.onInit = &Walrus::WithdrawByInput;
-   sem.onShareStart = &Walrus::AllocFilteredTasksBuf;
-   sem.fillFlipover = &Walrus::FillFO_39Double;
-   sem.onScanCenter = &Walrus::ScanRed55;
-   sem.scanCover = ACTUAL_CARDS_COUNT * 2; // since we flip the hands
-   sem.onAfterMath = &Walrus::SolveSavedTasks;
-}
-
-void Walrus::ScanRed55()
+// Orb: three other hands for later double-dummy solving
+void Walrus::ScanOrb()
 {
    // we have some cards starting from each position
    SplitBits sum(SumFirstHand());
@@ -50,14 +40,14 @@ void Walrus::ScanRed55()
    for (int idxHandStart = 0;;) {
       SplitBits third(checkSum - sum.card.jo - sec.card.jo);
       uint bar = 0;
-      uint foo = R55_ClassifyHands(bar, sum, sec, third);
+      uint foo = Orb_ClassifyHands(bar, sum, sec, third);
 
       // account the deal
       hitsCount[foo][bar]++;
 
       // flip hands within the same deal, account it too
       bar = 0;
-      foo = R55_ClassifyHands(bar, sum, third, sec);
+      foo = Orb_ClassifyHands(bar, sum, third, sec);
       hitsCount[foo][bar]++;
 
       // advance to account next hand
@@ -67,8 +57,8 @@ void Walrus::ScanRed55()
       sum.card.jo += flipcd;
       sec.card.jo += deck[26 + idxHandStart++].card.jo;
 
-      // smart-exit using highBits
-      if (sec.IsEndIter()) {
+      // simple exit using count -- it became faster that highBits
+      if (idxHandStart >= ACTUAL_CARDS_COUNT) {
          break;
       }
    }
@@ -76,16 +66,35 @@ void Walrus::ScanRed55()
 
 // RET: foo/bar -- indices for accounting hand
 // OUT: camp
-uint Walrus::R55_ClassifyHands(uint &camp, SplitBits &lho, SplitBits &partner, SplitBits &rho)
+uint Walrus::Orb_ClassifyHands(uint &camp, SplitBits &lho, SplitBits &partner, SplitBits &rho)
 {
-   uint fo = R55_FilterOut(partner, camp, lho, rho);
+   uint fo = (this->*sem.onFilter)(partner, camp, lho, rho);
    if (!fo) {
       // recruit methods
       camp = fo = 1;
-      Red_SaveForSolver(partner, lho, rho);
+      Orb_SaveForSolver(partner, lho, rho);
    }
 
    return fo;
+}
+
+void Walrus::Orb_FillSem(void)
+{
+   sem.onInit = &Walrus::WithdrawByInput;
+   sem.onShareStart = &Walrus::AllocFilteredTasksBuf;
+   sem.fillFlipover = &Walrus::FillFO_39Double;
+   sem.onScanCenter = &Walrus::ScanOrb;
+   sem.scanCover = ACTUAL_CARDS_COUNT * 2; // since we flip the hands
+   sem.onAfterMath = &Walrus::SolveSavedTasks;
+}
+
+
+#ifdef SEMANTIC_RED55_KINGS_PART_15_16
+
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &Walrus::R55_FilterOut;
 }
 
 // OUT: camp
@@ -103,7 +112,7 @@ uint Walrus::R55_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, Split
    }
 
    twLengths lenPart(partner);
-   if (lenPart.h != 4) {
+   if (lenPart.h != 3) {
       camp = SKIP_BY_NT;
       return ORDER_BASE + 4; // no 4-cards fit
    }
@@ -131,74 +140,12 @@ uint Walrus::R55_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, Split
 
 #endif // SEMANTIC_RED55_KINGS_PART_15_16
 
-// OUT: camp
-uint Walrus::Red_Reclassify(uint plainScore, uint &row)
-{
-   if (plainScore > 9) {
-      row = 1;
-      return 1 + plainScore - 9;
-   }
-   return 1 + 10 - plainScore;
-}
-
-
 #ifdef SEMANTIC_TRICOLOR_STRONG
 
 void Walrus::FillSemantic(void)
 {
-   sem.onInit = &Walrus::WithdrawByInput;
-   sem.onShareStart = &Walrus::AllocFilteredTasksBuf;
-   sem.fillFlipover = &Walrus::FillFO_39Double;
-   sem.onScanCenter = &Walrus::ScanTricolor;
-   sem.scanCover = ACTUAL_CARDS_COUNT * 2; // since we flip the hands
-   sem.onAfterMath = &Walrus::SolveSavedTasks;
-}
-
-void Walrus::ScanTricolor()
-{
-   // we have some cards starting from each position
-   SplitBits sum(SumFirstHand());
-   SplitBits sec(SumSecondHand());
-   for (int idxHandStart = 0;;) {
-      SplitBits third(checkSum - sum.card.jo - sec.card.jo);
-      uint bar = 0;
-      uint foo = Tricolor_ClassifyHands(bar, sum, sec, third);
-
-      // account the deal
-      hitsCount[foo][bar]++;
-
-      // flip hands within the same deal, account it too
-      bar = 0;
-      foo = Tricolor_ClassifyHands(bar, sum, third, sec);
-      hitsCount[foo][bar]++;
-
-      // advance to account next hand
-      sum.card.jo -= deck[idxHandStart].card.jo;
-      u64 flipcd = deck[13 + idxHandStart].card.jo;
-      sec.card.jo -= flipcd;
-      sum.card.jo += flipcd;
-      sec.card.jo += deck[26 + idxHandStart++].card.jo;
-
-      // simple exit using count -- it became faster that highBits
-      if (idxHandStart >= ACTUAL_CARDS_COUNT) {
-         break;
-      }
-   }
-}
-
-// RET: foo/bar -- indices for accounting hand
-// OUT: camp
-uint Walrus::Tricolor_ClassifyHands(uint &camp, SplitBits &lho, SplitBits &partner, SplitBits &rho)
-{
-   //uint fo = Tricolor_FilterOut(partner, camp, lho, rho);
-   uint fo = TriSunday_FilterOut(partner, camp, lho, rho);
-   if (!fo) {
-      // recruit methods
-      camp = fo = 1;
-      Red_SaveForSolver(partner, lho, rho);
-   }
-
-   return fo;
+   Orb_FillSem();
+   sem.onFilter = &Walrus::TriSunday_FilterOut; // Tricolor_FilterOut
 }
 
 // OUT: camp

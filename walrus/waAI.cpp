@@ -13,7 +13,7 @@
 
 // --------------------------------------------------------------------------------
 // input
-void Walrus::Red_SaveForSolver(SplitBits &partner, SplitBits &lho, SplitBits &rho)
+void Walrus::Orb_SaveForSolver(SplitBits &partner, SplitBits &lho, SplitBits &rho)
 {
    if (countToSolve >= MAX_TASKS_TO_SOLVE) {
       return;
@@ -168,8 +168,8 @@ void Walrus::SolveOneByOne(deal &dlBase)
       dl.Solve(i);
 
       // pass
-      Red_UpateHitsByTricks(dl.tr);
-      Red_UpdateCumulScores(dl.tr);
+      Orb_UpateHitsByTricks(dl.tr);
+      Score_Cumul4M(dl.tr);
 
       // may report
       if (!(i & 0xf)) {
@@ -293,15 +293,15 @@ void Walrus::SolveOneChunk(deal &dlBase, boards &bo, uint ofs, uint step)
       DdsTricks tr;
       tr.Init(solved.solvedBoard[handno]);
 
-      Red_UpateHitsByTricks(tr);
+      Orb_UpateHitsByTricks(tr);
       //(this->*sem.onAfterMath)();
-      Red_UpdateCumulScores(tr);
-      Red_Interrogate(irGoal, tr, bo.deals[handno], solved.solvedBoard[handno]);
+      Score_Cumul4M(tr);
+      Orb_Interrogate(irGoal, tr, bo.deals[handno], solved.solvedBoard[handno]);
    }
 
 }
 
-void Walrus::Red_Interrogate(int &irGoal, DdsTricks &tr, deal &cards, futureTricks &fut)
+void Walrus::Orb_Interrogate(int &irGoal, DdsTricks &tr, deal &cards, futureTricks &fut)
 {
    // no interrogation goal => skip
    if (!irGoal) {
@@ -314,7 +314,7 @@ void Walrus::Red_Interrogate(int &irGoal, DdsTricks &tr, deal &cards, futureTric
    }
 
    // relay
-   Red_ReSolveAndShow(cards);
+   Orb_ReSolveAndShow(cards);
 
    // let contemplate
    printf("Any key to continue...");
@@ -325,7 +325,7 @@ void Walrus::Red_Interrogate(int &irGoal, DdsTricks &tr, deal &cards, futureTric
    irGoal = 0;
 }
 
-void Walrus::Red_ReSolveAndShow(deal &cards)
+void Walrus::Orb_ReSolveAndShow(deal &cards)
 {
    // hand & fut as they come
    PrintHand("example:\n", cards.remainCards);
