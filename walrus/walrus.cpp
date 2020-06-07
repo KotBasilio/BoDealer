@@ -25,6 +25,9 @@ Walrus::CumulativeScore::CumulativeScore()
    , bidGame(0L)
    , partscore(0L)
 {
+#ifdef SEEK_OPENING_LEAD
+   leadS = leadH = leadD = leadC = 0L;
+#endif // SEEK_OPENING_LEAD
 }
 
 std::chrono::steady_clock::duration timeChronoStart;

@@ -11,9 +11,9 @@ typedef unsigned long long u64;
 typedef signed long long s64;
 
 // Semantics: pick one of the list below
-#define SEMANTIC_TRICOLOR_STRONG
+//#define SEMANTIC_TRICOLOR_STRONG
 //#define SEMANTIC_RED55_KINGS_PART_15_16
-//#define SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
+#define SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
 
 // -------------------------------------------------------- JUNE_ZAKHAROVY_PREC_3NT
 #ifdef SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
@@ -41,18 +41,24 @@ const uint SOURCE_CARDS_COUNT = 52;
 
 // -----------------------------------------------------------------
 // --- WHAT TO SEEK
+// DOC: solutions parameter
+// 1 -- Find the maximum number of tricks for the side to play. Return only one of the optimum cards and its score.
+// 2 -- Find the maximum number of tricks for the side to play. Return all optimum cards and their scores.
+// 3 -- Return all cards that can be legally played, with their scores in descending order.
 // -----------------------------------------------------------------
 
 #ifdef SEEK_BIDDING_DECISION
    const uint REMOVED_CARDS_COUNT = 13;
    const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
-   #define JK_USE_DOUBLE_DUMMY_SOLVER
+   #define PARAM_SOLUTIONS_DDS   1
+   #define FIXED_HAND_NORTH
 #endif // SEEK_BIDDING_DECISION
 
 #ifdef SEEK_OPENING_LEAD
    const uint REMOVED_CARDS_COUNT = 13;
    const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
-   #define JK_USE_DOUBLE_DUMMY_SOLVER
+   #define PARAM_SOLUTIONS_DDS   3
+   #define FIXED_HAND_WEST
 #endif // SEEK_BIDDING_DECISION
 
 // -----------------------------------------------------------------

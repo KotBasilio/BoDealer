@@ -135,7 +135,6 @@ protected:
     void SolveOneByOne(struct deal &dlBase);
     void SolveInChunks(struct deal &dlBase);
     void SolveOneChunk(struct deal &dlBase, struct boards &bo, uint i, uint step);
-    void ShowProgress(uint idx);
 
     uint Remains() const { return (countIterations < countShare) ? countShare - countIterations : 0; }
     void CoWork(Walrus * other);
@@ -172,6 +171,8 @@ protected:
        u64    ideal;
        s64    bidGame;
        s64    partscore;
+       s64    leadS, leadH, leadD, leadC;
+       void OpLead3NT(s64 &lead, uint tricks);
     };
 
     struct Progress
@@ -205,19 +206,25 @@ private:
    void Orb_Interrogate(int &irGoal, DdsTricks &tr, deal &cards, struct futureTricks &fut);
    void Orb_ReSolveAndShow(deal &cards);
 
+   void ShowProgress(uint idx);
+   void DoMiniUI();
+
    void Score_4Major(DdsTricks &tr);
    void Score_3NT(DdsTricks &tr);
+   void Score_OpLead3NT(DdsTricks &tr);
    void Score_Cumul4M(DdsTricks &tr);
    void Score_Cumul3NT(DdsTricks &tr);
-
-   uint R55_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-
-   uint Tricolor_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint TriSunday_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
 
    void WithdrawHolding(uint hld, uint waSuitByDds);
    void WithdrawDeuce(uint rankBit, u64 waSuit);
    void WithdrawRank (uint rankBit, u64 waSuit, uint waSuitByDds);
    void WithdrawCard(u64 jo);
+
+   // filters
+   uint R55_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint JuneVZ_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint Tricolor_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint TriSunday_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+
 };
 

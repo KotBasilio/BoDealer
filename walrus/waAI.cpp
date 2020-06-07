@@ -78,13 +78,10 @@ public:
 
    void Solve(uint handno)
    {
-      // DOC: solutions parameter
-      // 1 -- Find the maximum number of tricks for the side to play. Return only one of the optimum cards and its score.
-      // 3 -- Return all cards that can be legally played, with their scores in descending order.
       char line[80];
       futureTricks fut;
       int target = -1;
-      int solutions = 1;  
+      int solutions = PARAM_SOLUTIONS_DDS;  
       int mode = 0;
       int threadIndex = 0;
 
@@ -115,10 +112,13 @@ public:
 
 bool DdsDeal::needInspect = true;
 
+//#define  DBG_VIEW_BOARD_ON_CONSTRUCTION
+
 DdsDeal::DdsDeal(const deal &dlBase, DdsPack &t)
 {
    memcpy(&dl, &dlBase, sizeof(dl));
 
+#ifdef FIXED_HAND_NORTH
    // decrypt all cards
    dl.remainCards[EAST ][SOL_SPADES  ] = DecryptSpades(t.task.rho);
    dl.remainCards[EAST ][SOL_HEARTS  ] = DecryptHearts(t.task.rho);
@@ -134,12 +134,32 @@ DdsDeal::DdsDeal(const deal &dlBase, DdsPack &t)
    ReconsctuctWest(SOL_HEARTS);
    ReconsctuctWest(SOL_DIAMONDS);
    ReconsctuctWest(SOL_CLUBS);
+#endif // FIXED_HAND_NORTH
+
+#ifdef FIXED_HAND_WEST
+   // decrypt all cards
+   dl.remainCards[SOUTH][SOL_SPADES  ] = DecryptSpades(t.task.rho);
+   dl.remainCards[SOUTH][SOL_HEARTS  ] = DecryptHearts(t.task.rho);
+   dl.remainCards[SOUTH][SOL_DIAMONDS] = DecryptDiamnd(t.task.rho);
+   dl.remainCards[SOUTH][SOL_CLUBS   ] = DecryptClubs (t.task.rho);
+   dl.remainCards[EAST ][SOL_SPADES  ] = DecryptSpades(t.task.partner);
+   dl.remainCards[EAST ][SOL_HEARTS  ] = DecryptHearts(t.task.partner);
+   dl.remainCards[EAST ][SOL_DIAMONDS] = DecryptDiamnd(t.task.partner);
+   dl.remainCards[EAST ][SOL_CLUBS   ] = DecryptClubs (t.task.partner);
+
+   // reconstruct 4th hand
+   ReconsctuctNorth(SOL_SPADES);
+   ReconsctuctNorth(SOL_HEARTS);
+   ReconsctuctNorth(SOL_DIAMONDS);
+   ReconsctuctNorth(SOL_CLUBS);
+#endif // FIXED_HAND_WEST
 
    // debug
    #ifdef DBG_VIEW_BOARD_ON_CONSTRUCTION
       char line[80];
       sprintf(line, "A board: \n");
       PrintHand(line, dl.remainCards);
+      _getch();
    #endif 
 }
 
@@ -202,6 +222,27 @@ void Walrus::ShowProgress(uint idx)
    }
 }
 
+void Walrus::DoMiniUI()
+{
+   // see interrogation command
+   if (_kbhit()) {
+      auto inchar = _getch();
+      switch (inchar) {
+         case ' ': irGoal = 10; break;
+         case '1': irGoal = 11; break;
+         case '2': irGoal = 12; break;
+         case 'q': irGoal = 9;  break;
+         case 'w': irGoal = 8;  break;
+         case 'e': irGoal = 7;  break;
+         case 'x':
+            exitRequested = true;
+            break;
+      }
+      printf("\nSeek %d tricks board...", irGoal);
+   }
+}
+
+
 void Walrus::SolveInChunks(deal &dlBase)
 {
    boards bo;
@@ -237,13 +278,10 @@ void Walrus::SolveOneChunk(deal &dlBase, boards &bo, uint ofs, uint step)
 
    // refill & copy all deals
    for (int i = 0; i < bo.noOfBoards ; i++) {
-      // DOC: solutions parameter
-      // 1 -- Find the maximum number of tricks for the side to play. Return only one of the optimum cards and its score.
-      // 3 -- Return all cards that can be legally played, with their scores in descending order.
       DdsDeal dl(dlBase, arrToSolve[ofs + i]);
       bo.deals[i] = dl.dl;
       bo.target[i] = -1;
-      bo.solutions[i] = 1;
+      bo.solutions[i] = PARAM_SOLUTIONS_DDS;
       bo.mode[i] = 0;
    }
 
@@ -257,24 +295,8 @@ void Walrus::SolveOneChunk(deal &dlBase, boards &bo, uint ofs, uint step)
       _getch();
    }
 
-   // see interrogation command
-   if (_kbhit()) {
-      auto inchar = _getch();
-      switch (inchar) {
-         case ' ': irGoal = 10; break;
-         case '1': irGoal = 11; break;
-         case '2': irGoal = 12; break;
-         case 'q': irGoal = 9;  break;
-         case 'w': irGoal = 8;  break;
-         case 'e': irGoal = 7;  break;
-         case 'x': 
-            exitRequested = true; 
-            break;
-      }
-      printf("\nSeek %d tricks board...", irGoal);
-   }
-
-   // account all
+   // account all, may show on console
+   DoMiniUI();
    for (int handno = 0; handno < solved.noOfBoards; handno++) {
       DdsTricks tr;
       tr.Init(solved.solvedBoard[handno]);

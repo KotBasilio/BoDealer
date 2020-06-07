@@ -14,6 +14,19 @@
 
  // --------------------------------------------------------------------------------
  // input
+#ifdef SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
+#define INPUT_HOLDINGS  julyVZ_holdings
+#define INPUT_TRUMPS    SOL_NOTRUMP
+#define INPUT_ON_LEAD   WEST
+uint julyVZ_holdings[DDS_HANDS][DDS_SUITS] =
+{ // North      East        South      West
+   { 0,         0,          0,         RA | RQ | R8  } ,      // spades
+   { 0,         0,          0,         RJ | R7 | R4 | R2  } , // hearts
+   { 0,         0,          0,         RJ | R9 | R6 | R4  } , // diamonds
+   { 0,         0,          0,         R9 | R4  }             // clubs
+};
+#endif // SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
+
 #ifdef SEMANTIC_TRICOLOR_STRONG
    #define INPUT_HOLDINGS  tri_sunday
    #define INPUT_TRUMPS    SOL_HEARTS
@@ -323,6 +336,7 @@ void Walrus::SolveSavedTasks()
    int dvs = countToSolve ? countToSolve : 1;
    printf("Passing %u for double-dummy inspection: roughly each 1 of %llu; %llu skipped\n", countToSolve, sum / dvs, sum);
    hitsCount[1][1] = 0;
+   MiniReport(countToSolve);
 
    SetMaxThreads(0);
 

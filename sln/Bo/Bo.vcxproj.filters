@@ -27,9 +27,6 @@
     <ClCompile Include="..\..\walrus\waAI.cpp">
       <Filter>Source Files\walrus</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\walrus\waBitControl.cpp">
-      <Filter>Source Files\walrus</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\walrus\waDDSTest.cpp">
       <Filter>Source Files\walrus</Filter>
     </ClCompile>
@@ -139,6 +136,9 @@
       <Filter>Source Files\walrus</Filter>
     </ClCompile>
     <ClCompile Include="..\..\walrus\waOrb.cpp">
+      <Filter>Source Files\walrus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\walrus\waBitTwelve.cpp">
       <Filter>Source Files\walrus</Filter>
     </ClCompile>
   </ItemGroup>

@@ -59,8 +59,8 @@ void Walrus::BuildFileNames(void)
 void Walrus::MiniReport(uint toGo)
 {
    uint hitsRow[14];
-   uint hitsCamp[6];
-   for (int j = 0; j < 6; j++) {
+   uint hitsCamp[7];
+   for (int j = 0; j < 7; j++) {
       hitsRow[j] = 0;
       hitsCamp[j] = 0;
    }
@@ -68,7 +68,7 @@ void Walrus::MiniReport(uint toGo)
    for (int i = 0; i < 14; i++) {
       printf("(%2d):  ", i);
       uint sumline = 0;
-      for (int j = 0; j < 6; j++) {
+      for (int j = 0; j < 7; j++) {
          printf(fmtCell, hitsCount[i][j]);
          sumline      += hitsCount[i][j];
          hitsCamp[j]  += hitsCount[i][j];
@@ -87,6 +87,7 @@ void Walrus::MiniReport(uint toGo)
       sumRows = 1;
    }
 
+#ifdef SEEK_BIDDING_DECISION
    // calc percentages
    float percPartscore = hitsRow[0] * 100.f / sumRows;
    float percGame      = hitsRow[1] * 100.f / sumRows;
@@ -97,9 +98,25 @@ void Walrus::MiniReport(uint toGo)
       cumulScore.ideal / sumRows,
       cumulScore.bidGame / sumRows,
       cumulScore.partscore / sumRows);
+#endif // SEEK_BIDDING_DECISION
+
+#ifdef SEEK_OPENING_LEAD
+   // calc percentages
+   float percPartscore = hitsRow[0] * 100.f / sumRows;
+   float percGame      = hitsRow[1] * 100.f / sumRows;
+   printf("Processed: %u total; %3.1f%% down some + %3.1f%% game\n",
+            sumRows, percPartscore, percGame);
+   printf("Averages: ideal = %llu, lead Spade = %lld, lead Hearts = %lld, lead Diamonds = %lld\n",
+      cumulScore.ideal / sumRows,
+      cumulScore.leadS / sumRows,
+      cumulScore.leadH / sumRows,
+      cumulScore.leadD / sumRows);
+#endif // SEEK_OPENING_LEAD
+
    if (toGo) {
       printf("Yet more %u to go:", toGo);
    }
+
 }
 
 void Walrus::ReportState(char *header)

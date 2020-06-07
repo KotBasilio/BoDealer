@@ -7,6 +7,71 @@
 ************************************************************/
 #include "walrus.h"
 
+
+#ifdef SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &Walrus::JuneVZ_FilterOut;
+   sem.onScoring = &Walrus::Score_OpLead3NT;
+}
+
+uint Walrus::JuneVZ_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+{
+   const uint ORDER_BASE = 5;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_OPP = 2;
+   const uint SKIP_BY_DECL = 3;
+
+   // LHO: precision 2c
+   // partner: pass
+   // RHO: 3NT
+   twlHCP hcpDecl(rho);
+   if (hcpDecl.total != 13) {
+      camp = SKIP_BY_DECL;
+      return ORDER_BASE; // wrong points count
+   }
+   twlHCP hcpOpp(lho);
+   if (hcpOpp.total < 11 || 15 < hcpOpp.total) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 1; // wrong points count
+   }
+
+   twLengths lenOpp(lho);
+   if (lenOpp.c < 5 || 6 < lenOpp.c) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 2; // wrong clubs count
+   }
+
+   twLengths lenDecl(rho);
+   if (lenDecl.h > 3 || lenDecl.s > 3) {
+      camp = SKIP_BY_DECL;
+      return ORDER_BASE + 3; // didn't ask 2d
+   }
+
+   if (lenOpp.h > 4 || lenOpp.s > 4) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 4; // 5 card majors
+   }
+   if (lenOpp.c == 5) {
+      if (lenOpp.h < 4 && lenOpp.s < 4) {
+         camp = SKIP_BY_OPP;
+         return ORDER_BASE + 5; // precision 54
+      }
+   }
+
+   if (lenDecl.c > 5) {
+      camp = SKIP_BY_DECL;
+      return ORDER_BASE + 6; // would seek 5c
+   }
+
+   // seems it passes
+   return 0;
+}
+
+
+#endif // SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
+
 #ifdef SEMANTIC_RED55_KINGS_PART_15_16
 
 void Walrus::FillSemantic(void)
@@ -164,8 +229,6 @@ uint Walrus::TriSunday_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho,
    // seems it passes
    return 0;
 }
-
-
 #endif // SEMANTIC_TRICOLOR_STRONG
 
 

@@ -10,7 +10,30 @@
 
 void DdsTricks::Init(futureTricks &fut)
 {
+   // plainScore is good for any goal
    plainScore = 13 - fut.score[0];
+
+   // the rest is for opening lead @_@ a better abstraction needed
+   #ifdef SEEK_OPENING_LEAD
+   for (int i = 0; i < fut.cards; i++) {
+      if (fut.suit[i] == SOL_SPADES && fut.rank[i] == KA) {
+         lead.S = 13 - fut.score[i];
+         continue;
+      }
+      if (fut.suit[i] == SOL_HEARTS && fut.rank[i] == R2) {
+         lead.H = 13 - fut.score[i]; 
+         continue;
+      }
+      if (fut.suit[i] == SOL_DIAMONDS && fut.rank[i] == K4) {
+         lead.D = 13 - fut.score[i]; 
+         continue;
+      }
+      // if (fut.suit[i] == SOL_CLUBS && fut.rank[i] == K4) {
+      //    int C = fut.score[i];
+      //    continue;
+      // }
+   }
+   #endif // SEEK_OPENING_LEAD
 }
 
 void Walrus::Score_Cumul4M(DdsTricks &tr)
@@ -33,7 +56,7 @@ void Walrus::Score_Cumul4M(DdsTricks &tr)
    }
 
    // "always partscore"
-   int partdelta = ideal > 6 ? 50 + (ideal - 6) * 30 : -50;
+   int partdelta = ideal > 6 ? 50 + (ideal - 6) * 30 : -100;
    cumulScore.partscore += partdelta;
 
    // "ideal"
@@ -64,7 +87,7 @@ void Walrus::Score_Cumul3NT(DdsTricks &tr)
    }
 
    // "always partscore"
-   int partdelta = ideal > 6 ? 90 + (ideal - 7) * 30 : -50;
+   int partdelta = ideal > 6 ? 90 + (ideal - 7) * 30 : -100;
    cumulScore.partscore += partdelta;
 
    // "ideal"
@@ -107,4 +130,34 @@ void Walrus::Score_3NT(DdsTricks &tr)
    // cumul
    Score_Cumul3NT(tr);
 }
+
+void Walrus::Score_OpLead3NT(DdsTricks &tr)
+{
+   // hits
+   uint row = 0, camp = 0;
+   if (tr.plainScore > 8) {
+      row = 1;
+      camp = tr.plainScore - 9;
+      cumulScore.ideal += 600 + (tr.plainScore - 9) * 30;
+   } else {
+      camp = 9 - tr.plainScore - 1;
+      cumulScore.ideal -= 100 * (9 - tr.plainScore);
+   }
+   hitsCount[row][camp]++;
+
+   // cumulative for each lead
+   cumulScore.OpLead3NT(cumulScore.leadS, tr.lead.S);
+   cumulScore.OpLead3NT(cumulScore.leadH, tr.lead.H);
+   cumulScore.OpLead3NT(cumulScore.leadD, tr.lead.D);
+}
+
+void Walrus::CumulativeScore::OpLead3NT(s64 &sum, uint tricks)
+{
+   if (tricks > 8) {
+      sum += 600 + (tricks - 9) * 30;
+   } else {
+      sum -= 100 * (9 - tricks);
+   }
+}
+
 
