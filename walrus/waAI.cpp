@@ -222,18 +222,54 @@ void Walrus::ShowProgress(uint idx)
    }
 }
 
-void Walrus::DoMiniUI()
+void Walrus::InitMiniUI()
+{
+   CumulativeScore zeroes;
+
+   // take 13 tricks then 9
+   DdsTricks tr;
+   tr.plainScore = 13;
+   (this->*sem.onScoring)(tr);
+   tr.plainScore = 9;
+   (this->*sem.onScoring)(tr);
+
+   // analyze
+   if (cumulScore.ideal > 1200) {// 1200+ => seems playing 3NT
+      ui.irBase = 9;
+   } else {
+      ui.irBase = 10;
+   }
+
+   // reset results
+   cumulScore = zeroes;
+}
+
+void Walrus::MiniUI::Run()
 {
    // see interrogation command
    if (_kbhit()) {
       auto inchar = _getch();
       switch (inchar) {
-         case ' ': irGoal = 10; break;
-         case '1': irGoal = 11; break;
-         case '2': irGoal = 12; break;
-         case 'q': irGoal = 9;  break;
-         case 'w': irGoal = 8;  break;
-         case 'e': irGoal = 7;  break;
+         // just made
+         case ' ': irGoal = irBase; break;
+
+         // overs
+         case '1': irGoal = irBase + 1; break;
+         case '2': irGoal = irBase + 2; break;
+         case '3': irGoal = irBase + 3; break;
+         case '4': irGoal = irBase + 4; break;
+
+         // down some
+         case 'q': irGoal = irBase - 1;  break;
+         case 'w': irGoal = irBase - 2;  break;
+         case 'e': irGoal = irBase - 3;  break;
+         case 'r': irGoal = irBase - 4;  break;
+         case 't': irGoal = irBase - 5;  break;
+         case 'y': irGoal = irBase - 6;  break;
+         case 'u': irGoal = irBase - 7;  break;
+         case 'i': irGoal = irBase - 8;  break;
+
+         // exit
          case 'x':
             exitRequested = true;
             break;
@@ -261,7 +297,7 @@ void Walrus::SolveInChunks(deal &dlBase)
       ShowProgress(i);
 
       // keep balance on abort
-      if (exitRequested) {
+      if (ui.exitRequested) {
          hitsCount[3][0] = countToSolve - i - step;
          i += countToSolve;
       }
@@ -296,13 +332,13 @@ void Walrus::SolveOneChunk(deal &dlBase, boards &bo, uint ofs, uint step)
    }
 
    // account all, may show on console
-   DoMiniUI();
+   ui.Run();
    for (int handno = 0; handno < solved.noOfBoards; handno++) {
       DdsTricks tr;
       tr.Init(solved.solvedBoard[handno]);
 
       (this->*sem.onScoring)(tr);
-      Orb_Interrogate(irGoal, tr, bo.deals[handno], solved.solvedBoard[handno]);
+      Orb_Interrogate(ui.irGoal, tr, bo.deals[handno], solved.solvedBoard[handno]);
    }
 
 }

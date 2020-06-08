@@ -173,7 +173,7 @@ protected:
        s64    partscore;
        s64    leadS, leadH, leadD, leadC;
        void OpLead3NT(s64 &lead, uint tricks);
-    };
+    } cumulScore;
 
     struct Progress
     {
@@ -183,10 +183,18 @@ protected:
        void Up(uint idx);
     } progress;
 
+    struct MiniUI
+    {
+       bool  exitRequested;
+       int   irGoal;
+       int   irBase;
+       MiniUI();
+       void Run();
+    } ui;
+
 private:
    const char *     nameHlp;
    bool             isRunning;
-   bool             exitRequested;
    uint             countIterations, countShare, countSolo;
    SplitBits        deck[DECK_ARR_SIZE];
    SplitBits        highBits;
@@ -197,8 +205,6 @@ private:
    uint             ridx[RIDX_SIZE];// RandIndices() <-> Shuffle()
    DdsPack    *     arrToSolve;
    uint             countToSolve;
-   CumulativeScore  cumulScore;
-   int              irGoal;
 
    void Orb_FillSem(void);
    uint Orb_ClassifyHands(uint &foo, SplitBits &sum, SplitBits &lho, SplitBits &rho);
@@ -207,7 +213,8 @@ private:
    void Orb_ReSolveAndShow(deal &cards);
 
    void ShowProgress(uint idx);
-   void DoMiniUI();
+   void InitMiniUI();
+   void RunMiniUI();
 
    void Score_4Major(DdsTricks &tr);
    void Score_3NT(DdsTricks &tr);
@@ -219,12 +226,12 @@ private:
    void WithdrawDeuce(uint rankBit, u64 waSuit);
    void WithdrawRank (uint rankBit, u64 waSuit, uint waSuitByDds);
    void WithdrawCard(u64 jo);
+   void PrepareBaseDeal(struct deal &dlBase);
 
    // filters
    uint R55_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint JuneVZ_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint Tricolor_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint TriSunday_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-
 };
 

@@ -133,6 +133,7 @@ void Walrus::Score_3NT(DdsTricks &tr)
 
 void Walrus::Score_OpLead3NT(DdsTricks &tr)
 {
+#ifdef SEEK_OPENING_LEAD
    // hits
    uint row = 0, camp = 0;
    if (tr.plainScore > 8) {
@@ -149,6 +150,7 @@ void Walrus::Score_OpLead3NT(DdsTricks &tr)
    cumulScore.OpLead3NT(cumulScore.leadS, tr.lead.S);
    cumulScore.OpLead3NT(cumulScore.leadH, tr.lead.H);
    cumulScore.OpLead3NT(cumulScore.leadD, tr.lead.D);
+#endif // SEEK_OPENING_LEAD
 }
 
 void Walrus::CumulativeScore::OpLead3NT(s64 &sum, uint tricks)

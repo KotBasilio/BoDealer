@@ -48,7 +48,7 @@ void Walrus::BuildFileNames(void)
 }
 
 #ifdef _DEBUG
-   char fmtCell[] = "%5u,";
+   char fmtCell[] = "%6u,";
    char tblHat[] =  "    :  let   spade heart  both   club       sum\n";
 #else
    char fmtCell[] = "%9u,";
@@ -75,6 +75,11 @@ void Walrus::MiniReport(uint toGo)
       }
       printf("%10u\n", sumline);
       hitsRow[i] = sumline;
+   }
+
+   if (toGo == countToSolve) {
+      printf("Solving started:");
+      return;
    }
 
    uint sumCamps = hitsCamp[0]+ hitsCamp[1]+ hitsCamp[2]+ hitsCamp[3]+ hitsCamp[4];

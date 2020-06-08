@@ -15,12 +15,19 @@
  // --------------------------------------------------------------------------------
  // input
 #ifdef SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
-#define INPUT_HOLDINGS  julyVZ_holdings
+#define INPUT_HOLDINGS  julyVZ_Axx_holdings
 #define INPUT_TRUMPS    SOL_NOTRUMP
 #define INPUT_ON_LEAD   WEST
 uint julyVZ_holdings[DDS_HANDS][DDS_SUITS] =
 { // North      East        South      West
    { 0,         0,          0,         RA | RQ | R8  } ,      // spades
+   { 0,         0,          0,         RJ | R7 | R4 | R2  } , // hearts
+   { 0,         0,          0,         RJ | R9 | R6 | R4  } , // diamonds
+   { 0,         0,          0,         R9 | R4  }             // clubs
+};
+uint julyVZ_Axx_holdings[DDS_HANDS][DDS_SUITS] =
+{ // North      East        South      West
+   { 0,         0,          0,         RA | R8 | R2  } ,      // spades
    { 0,         0,          0,         RJ | R7 | R4 | R2  } , // hearts
    { 0,         0,          0,         RJ | R9 | R6 | R4  } , // diamonds
    { 0,         0,          0,         R9 | R4  }             // clubs
@@ -98,7 +105,6 @@ SplitBits sbBlank;
 
 Walrus::Walrus()
    : isRunning(true)
-   , exitRequested(false)
    , countIterations(0)
    , countShare(MAX_ITERATION)
    , countSolo(0)
@@ -110,13 +116,20 @@ Walrus::Walrus()
    , arrToSolve(nullptr)
    , countToSolve(0)
    , cumulScore()
-   , irGoal(0)
 {
     BuildFileNames();
     FillSemantic();
     InitDeck();
     memset(hitsCount, 0, sizeof(hitsCount));
     SeedRand();
+}
+
+
+Walrus::MiniUI::MiniUI()
+   : exitRequested(false)
+   , irGoal(0)
+   , irBase(0)
+{
 }
 
 void Walrus::AllocFilteredTasksBuf()
@@ -249,44 +262,6 @@ u64 Walrus::SumSecondHand()
    );
 }
 
-// -----------------------------------------------------------------------
-// input to walrus
-void Walrus::WithdrawCard(u64 jo)
-{
-   int high = SOURCE_CARDS_COUNT;
-   while (deck[high].IsBlank()) {
-      high--;
-   }
-
-   for (uint i = 0; i < SOURCE_CARDS_COUNT; i++) {
-      if (deck[i].card.jo == jo) {
-         deck[i] = deck[high];
-         deck[high--] = sbBlank;
-         return;
-      }
-   }
-
-   DEBUG_UNEXPECTED;
-   printf("card to withdraw is not found.\n");
-}
-
-void Walrus::WithdrawDeuce(uint rankBit, u64 waSuit)
-{
-   // deuce has no bit
-   if (rankBit) {
-      WithdrawCard(waSuit);
-   }
-}
-
-void Walrus::WithdrawRank(uint rankBit, u64 waSuit, uint waSuitByDds)
-{
-   // other bits positions are 1 pos up from DDS
-   if (rankBit) {
-      u64 waBit = ((u64)rankBit) << (waSuitByDds + 1);
-      WithdrawCard(waSuit + waBit);
-   }
-}
-
 u64  wa_SuitByDds[DDS_SUITS] = { SPADS, HEART, DIAMD, CLUBS };
 uint wa_PosByDds [DDS_SUITS] = {    48,    32,    16,     0 };
 void Walrus::WithdrawByInput(void)
@@ -318,6 +293,24 @@ void Walrus::WithdrawHolding(uint hld, uint waPosByDds)
    WithdrawRank (hld & RA, waSuit, waPosByDds);
 }
 
+void Walrus::PrepareBaseDeal(deal &dlBase)
+{
+   dlBase.trump = INPUT_TRUMPS;
+   dlBase.first = INPUT_ON_LEAD;
+
+   dlBase.currentTrickSuit[0] = 0;
+   dlBase.currentTrickSuit[1] = 0;
+   dlBase.currentTrickSuit[2] = 0;
+
+   dlBase.currentTrickRank[0] = 0;
+   dlBase.currentTrickRank[1] = 0;
+   dlBase.currentTrickRank[2] = 0;
+
+   for (int h = 0; h < DDS_HANDS; h++)
+      for (int s = 0; s < DDS_SUITS; s++)
+         dlBase.remainCards[h][s] = (*input_holdings)[s][h];
+}
+
 void Walrus::SolveSavedTasks()
 {
    // a useful sum to reconstruct responder hand
@@ -333,29 +326,17 @@ void Walrus::SolveSavedTasks()
    }
    u64 sum = sum1st + sum2nd;
 
+   // show filtration results
    int dvs = countToSolve ? countToSolve : 1;
    printf("Passing %u for double-dummy inspection: roughly each 1 of %llu; %llu skipped\n", countToSolve, sum / dvs, sum);
    hitsCount[1][1] = 0;
    MiniReport(countToSolve);
 
-   SetMaxThreads(0);
-
-   // prepare base deal
+   // do inits for Bo-Analyzer
    deal dlBase;
-   dlBase.trump = INPUT_TRUMPS;
-   dlBase.first = INPUT_ON_LEAD;
-
-   dlBase.currentTrickSuit[0] = 0;
-   dlBase.currentTrickSuit[1] = 0;
-   dlBase.currentTrickSuit[2] = 0;
-
-   dlBase.currentTrickRank[0] = 0;
-   dlBase.currentTrickRank[1] = 0;
-   dlBase.currentTrickRank[2] = 0;
-
-   for (int h = 0; h < DDS_HANDS; h++)
-      for (int s = 0; s < DDS_SUITS; s++)
-         dlBase.remainCards[h][s] = (*input_holdings)[s][h];
+   PrepareBaseDeal(dlBase);
+   SetMaxThreads(0);
+   InitMiniUI();
 
    // decide how to solve
    #ifdef _DEBUG

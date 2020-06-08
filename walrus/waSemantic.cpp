@@ -49,10 +49,24 @@ uint Walrus::JuneVZ_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, Sp
       return ORDER_BASE + 3; // didn't ask 2d
    }
 
+   twLengths lenPart(partner);
+   if (lenPart.s > 6 ||
+      lenPart.h > 6 ||
+      lenPart.d > 6) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 3; // may preempt
+   }
+
    if (lenOpp.h > 4 || lenOpp.s > 4) {
       camp = SKIP_BY_OPP;
       return ORDER_BASE + 4; // 5 card majors
    }
+
+   if (lenDecl.c > 5) {
+      camp = SKIP_BY_DECL;
+      return ORDER_BASE + 6; // would seek 5c
+   }
+
    if (lenOpp.c == 5) {
       if (lenOpp.h < 4 && lenOpp.s < 4) {
          camp = SKIP_BY_OPP;
@@ -60,9 +74,14 @@ uint Walrus::JuneVZ_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, Sp
       }
    }
 
-   if (lenDecl.c > 5) {
-      camp = SKIP_BY_DECL;
-      return ORDER_BASE + 6; // would seek 5c
+   twlHCP hcpPart(partner);
+   if (hcpPart.total >= 9) {
+      if (lenPart.s > 5 ||
+         lenPart.h > 5 ||
+         lenPart.d > 5) {
+         camp = SKIP_BY_PART;
+         return ORDER_BASE + 6; // may overcall
+      }
    }
 
    // seems it passes
@@ -86,35 +105,35 @@ uint Walrus::R55_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, Split
 {
    // checks are intermixed according to profiler results
    // partner: 15-16 balanced. exactly 4 hearts. exactly 2 diamonds
-   const uint ORDER_BASE = 5;
-   const uint SKIP_BY_NT = 1;
+   const uint ORDER_BASE = 2;
+   const uint SKIP_BY_PART = 1;
 
    twlHCP hcpPart(partner);
    if (hcpPart.total < 15 || 16 < hcpPart.total) {
-      camp = SKIP_BY_NT;
+      camp = SKIP_BY_PART;
       return ORDER_BASE + 3; // wrong points count
    }
 
    twLengths lenPart(partner);
    if (lenPart.h != 3) {
-      camp = SKIP_BY_NT;
+      camp = SKIP_BY_PART;
       return ORDER_BASE + 4; // no 4-cards fit
    }
 
    if (lenPart.d != 2) {
-      camp = SKIP_BY_NT;
+      camp = SKIP_BY_PART;
       return ORDER_BASE + 5; // no doubleton diamonds
    }
 
    if (lenPart.s < 2 ||
       lenPart.c < 2) {
-      camp = SKIP_BY_NT;
+      camp = SKIP_BY_PART;
       return ORDER_BASE + 6; // a shortage in NT
    }
 
    if (lenPart.s > 4 ||
        lenPart.c > 4) {
-      camp = SKIP_BY_NT;
+      camp = SKIP_BY_PART;
       return ORDER_BASE + 7; // long black suits
    }
 

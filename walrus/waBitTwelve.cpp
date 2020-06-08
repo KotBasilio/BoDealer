@@ -88,4 +88,41 @@ twLengths::twLengths(SplitBits &hand)
 #endif // SBITS_LAYOUT_TWELVE
 
 
+// -----------------------------------------------------------------------
+// input to walrus
+void Walrus::WithdrawCard(u64 jo)
+{
+   int high = SOURCE_CARDS_COUNT;
+   while (deck[high].IsBlank()) {
+      high--;
+   }
+
+   for (uint i = 0; i < SOURCE_CARDS_COUNT; i++) {
+      if (deck[i].card.jo == jo) {
+         deck[i] = deck[high];
+         deck[high--] = sbBlank;
+         return;
+      }
+   }
+
+   DEBUG_UNEXPECTED;
+   printf("card to withdraw is not found.\n");
+}
+
+void Walrus::WithdrawDeuce(uint rankBit, u64 waSuit)
+{
+   // deuce has no bit
+   if (rankBit) {
+      WithdrawCard(waSuit);
+   }
+}
+
+void Walrus::WithdrawRank(uint rankBit, u64 waSuit, uint waSuitByDds)
+{
+   // other bits positions are 1 pos up from DDS
+   if (rankBit) {
+      u64 waBit = ((u64)rankBit) << (waSuitByDds + 1);
+      WithdrawCard(waSuit + waBit);
+   }
+}
 
