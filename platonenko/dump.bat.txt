@@ -1,0 +1,1 @@
+bdeal.exe -s lib\lib.lua lib\hands.lua lib\imps.lua lib\score.lua %1\deal.lua > dump.txt

@@ -1,0 +1,8 @@
+rem call dump mixed_6s
+rem copy dump.txt dump_5-3_2h.txt
+
+rem call dump mixed_6s_anyH
+rem copy dump.txt dump_5-3_anyH.txt
+
+call dump mixed_6s_anyD
+copy dump.txt dump_anyD.txt
