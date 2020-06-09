@@ -11,14 +11,14 @@
    //const uint MAX_ITERATION = 100000;// 0.1 mln
    //const uint MAX_ITERATION = 10000;
    const uint MAX_TASKS_TO_SOLVE = 10240;
-   #define SKIP_HELPERS
+   //#define SKIP_HELPERS
 #else
    //const uint MAX_ITERATION = 4001000000;// 4 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 2201000000;// 2 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
    const uint MAX_ITERATION = 501000000;// half mlrd
    //const uint MAX_ITERATION = 1201000000;// 1201 mln
-   const uint MAX_TASKS_TO_SOLVE = 6*400*700;
+   const uint MAX_TASKS_TO_SOLVE = 4*1000*1000;
 #endif
 
 // all cards + flip over 12 cards

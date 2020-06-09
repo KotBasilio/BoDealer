@@ -242,6 +242,10 @@ void Walrus::InitMiniUI()
 
    // reset results
    cumulScore = zeroes;
+   for (int i = 0; i < CTRL_SIZE; i++) {
+      hitsCount[0][i] = 0;
+      hitsCount[1][i] = 0;
+   }
 }
 
 void Walrus::MiniUI::Run()

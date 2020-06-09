@@ -115,12 +115,12 @@ uint Walrus::R55_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, Split
    }
 
    twLengths lenPart(partner);
-   if (lenPart.h != 3) {
+   if (lenPart.h != 3) {//4
       camp = SKIP_BY_PART;
       return ORDER_BASE + 4; // no 4-cards fit
    }
 
-   if (lenPart.d != 2) {
+   if (lenPart.d != 3) {//2
       camp = SKIP_BY_PART;
       return ORDER_BASE + 5; // no doubleton diamonds
    }

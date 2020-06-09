@@ -142,6 +142,8 @@ void Walrus::MergeResults(Walrus *other)
          uint size = other->countToSolve * sizeof(DdsTask);
          memcpy(&arrToSolve[countToSolve], other->arrToSolve, size);
          countToSolve += other->countToSolve;
+      } else {
+         printf("\nFailed to merge %d from %s\n", other->countToSolve, other->GetName());
       }
    }
 }
