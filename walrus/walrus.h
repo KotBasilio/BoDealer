@@ -17,7 +17,7 @@
    //const uint MAX_ITERATION = 2201000000;// 2 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
    const uint MAX_ITERATION = 501000000;// half mlrd
-   //const uint MAX_ITERATION = 1201000000;// 1201 mln
+   //const uint MAX_ITERATION = 101000000;// 101 mln
    const uint MAX_TASKS_TO_SOLVE = 4*1000*1000;
 #endif
 

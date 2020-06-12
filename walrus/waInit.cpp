@@ -134,10 +134,20 @@ Walrus::MiniUI::MiniUI()
 
 void Walrus::AllocFilteredTasksBuf()
 {
+   const size_t oneK = 1024;
+
+   // determine size -- helpers need 1/3 of max tasks
    size_t bsize = MAX_TASKS_TO_SOLVE * sizeof(DdsTask);
+   if (bsize > 250 * oneK) {
+      if (nameHlp[0] != 'm') {
+         bsize >>= 3;
+         bsize *= 3; // that's 3/8 -- about 1/3
+      }
+   }
+
+   // alloc
    arrToSolve = (DdsPack *)malloc(bsize);
    if (arrToSolve) {
-      size_t oneK = 1024;
       size_t oneM = 1024 * oneK;
       if (bsize > oneM) {
          printf("Memory %lluM in %s\n", bsize / oneM, nameHlp);

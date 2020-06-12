@@ -1,0 +1,34 @@
+Fix 55 responder; 1NT-2d-3d-?? Question: partscore or a game? v2.0 started.
+Aiming :  501000000 =
+   main:  168304688 +
+helperA:  166347656 +
+helperB:  166347656
+-------------------
+Memory 25M in main
+Memory 25M in helperA
+Memory 25M in helperB
+helperA:  166347714 done---> 1106932
+helperB:  166347714 done---> 1110168
+   main:  168304734 done
+
+Final result:
+
+    :  HITS COUNTS   :
+( 0):          0,        0,    20716,     9218,     1720,       91,        2,     31747
+( 1):          0,        0,    15494,     2929,       29,        1,        0,     18453
+( 2):          0,        0,        0,        0,        0,        0,        0,         0
+( 3):    1071666,        0,        0,        0,        0,        0,        0,   1071666
+( 4):          0,        0,        0,        0,        0,        0,        0,         0
+( 5):          0,444733058,        0,        0,        0,        0,        0, 444733058
+( 6):          0, 39074554,        0,        0,        0,        0,        0,  39074554
+( 7):          0, 11880732,        0,        0,        0,        0,        0,  11880732
+( 8):          0,   366918,        0,        0,        0,        0,        0,    366918
+( 9):          0,  1605934,        0,        0,        0,        0,        0,   1605934
+(10):          0,        0,        0,        0,        0,        0,        0,         0
+(11):          0,        0,        0,        0,        0,        0,        0,         0
+(12):          0,        0,        0,        0,        0,        0,        0,         0
+(13):          0,        0,        0,        0,        0,        0,        0,         0
+Processed: 50200 total; 63.2% partscore + 36.8% game
+Averages: ideal = 310, bidGame = 140, partscore=144
+The search took 2.0 + an aftermath 1667.8 sec.
+Press any key.
