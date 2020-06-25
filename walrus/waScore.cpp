@@ -8,34 +8,6 @@
 #include "..\dds-develop\include\dll.h"
 #include "..\dds-develop\examples\hands.h"
 
-void DdsTricks::Init(futureTricks &fut)
-{
-   // plainScore is good for any goal
-   plainScore = 13 - fut.score[0];
-
-   // the rest is for opening lead @_@ a better abstraction needed
-   #ifdef SEEK_OPENING_LEAD
-   for (int i = 0; i < fut.cards; i++) {
-      if (fut.suit[i] == SOL_SPADES && fut.rank[i] == K9) {
-         lead.S = 13 - fut.score[i];
-         continue;
-      }
-      if (fut.suit[i] == SOL_HEARTS && fut.rank[i] == K9) {
-         lead.H = 13 - fut.score[i]; 
-         continue;
-      }
-      if (fut.suit[i] == SOL_DIAMONDS && fut.rank[i] == K6) {
-         lead.D = 13 - fut.score[i]; 
-         continue;
-      }
-      if (fut.suit[i] == SOL_CLUBS && fut.rank[i] == KJ) {
-         lead.Ñ = 13 - fut.score[i];
-         continue;
-      }
-   }
-   #endif // SEEK_OPENING_LEAD
-}
-
 void Walrus::Score_Cumul4M(DdsTricks &tr)
 {
    // "always game"

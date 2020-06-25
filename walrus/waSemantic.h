@@ -17,7 +17,7 @@ typedef signed long long s64;
 //#define SEMANTIC_JUNE_GAMBLE_OR_5C
 #define SEMANTIC_JUNE_LEAD_3343
 
-// -------------------------------------------------------- _JUNE_LEAD_3343
+// -------------------------------------------------------- JUNE_LEAD_3343
 #ifdef SEMANTIC_JUNE_LEAD_3343
 #define TITLE_VERSION  "Fix a weak hand;\np-(p)-p-(1s)\np-(1NT)-p-(3NT)-all pass\nQuestion: what to lead?\nVer 2.0 "
 #define SEEK_OPENING_LEAD

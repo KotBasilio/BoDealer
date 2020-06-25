@@ -26,6 +26,10 @@ uint july_lead4333_holdings[DDS_HANDS][DDS_SUITS] =
 	{ 0,         0,          0,         RA | RJ | R6 | R5  } , // diamonds
 	{ 0,         0,          0,         RJ | R4 | R2}          // clubs
 };
+#define CARD_LEAD_SPADE   K9
+#define CARD_LEAD_HEARTS  K9
+#define CARD_LEAD_DIAMD   K6
+#define CARD_LEAD_CLUBS   KJ
 #endif // SEMANTIC_JUNE_LEAD_3343
 
 #ifdef SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
@@ -116,6 +120,34 @@ uint julyVZ_Axx_holdings[DDS_HANDS][DDS_SUITS] =
 uint(*input_holdings)[DDS_HANDS][DDS_SUITS] = &INPUT_HOLDINGS;
 
 SplitBits sbBlank;
+
+void DdsTricks::Init(futureTricks &fut)
+{
+   // plainScore is good for any goal
+   plainScore = 13 - fut.score[0];
+
+   // the rest is for opening lead
+#ifdef SEEK_OPENING_LEAD
+   for (int i = 0; i < fut.cards; i++) {
+      if (fut.suit[i] == SOL_SPADES && fut.rank[i] == CARD_LEAD_SPADE) {
+         lead.S = 13 - fut.score[i];
+         continue;
+      }
+      if (fut.suit[i] == SOL_HEARTS && fut.rank[i] == CARD_LEAD_HEARTS) {
+         lead.H = 13 - fut.score[i];
+         continue;
+      }
+      if (fut.suit[i] == SOL_DIAMONDS && fut.rank[i] == CARD_LEAD_DIAMD) {
+         lead.D = 13 - fut.score[i];
+         continue;
+      }
+      if (fut.suit[i] == SOL_CLUBS && fut.rank[i] == KJ) {
+         lead.Ñ = 13 - fut.score[i];
+         continue;
+      }
+   }
+#endif // SEEK_OPENING_LEAD
+}
 
 Walrus::Walrus()
    : isRunning(true)
