@@ -50,6 +50,10 @@ uint julyVZ_Axx_holdings[DDS_HANDS][DDS_SUITS] =
    { 0,         0,          0,         RJ | R9 | R6 | R4  } , // diamonds
    { 0,         0,          0,         R9 | R4  }             // clubs
 };
+#define CARD_LEAD_SPADE   KA
+#define CARD_LEAD_HEARTS  K2
+#define CARD_LEAD_DIAMD   K4
+#define CARD_LEAD_CLUBS   K9
 #endif // SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
 
 #ifdef SEMANTIC_TRICOLOR_STRONG
@@ -141,7 +145,7 @@ void DdsTricks::Init(futureTricks &fut)
          lead.D = 13 - fut.score[i];
          continue;
       }
-      if (fut.suit[i] == SOL_CLUBS && fut.rank[i] == KJ) {
+      if (fut.suit[i] == SOL_CLUBS && fut.rank[i] == CARD_LEAD_CLUBS) {
          lead.Ñ = 13 - fut.score[i];
          continue;
       }

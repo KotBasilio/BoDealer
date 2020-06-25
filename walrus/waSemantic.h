@@ -13,9 +13,9 @@ typedef signed long long s64;
 // Semantics: pick one of the list below
 //#define SEMANTIC_TRICOLOR_STRONG
 //#define SEMANTIC_RED55_KINGS_PART_15_16
-//#define SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
+#define SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
 //#define SEMANTIC_JUNE_GAMBLE_OR_5C
-#define SEMANTIC_JUNE_LEAD_3343
+//#define SEMANTIC_JUNE_LEAD_3343
 
 // -------------------------------------------------------- JUNE_LEAD_3343
 #ifdef SEMANTIC_JUNE_LEAD_3343
