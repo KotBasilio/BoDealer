@@ -14,6 +14,20 @@
 
  // --------------------------------------------------------------------------------
  // input
+#ifdef SEMANTIC_JUNE_LEAD_3343
+// origin https://www.gambler.ru/tour/762803/protocol?id=71379460&teamid=53269
+#define INPUT_HOLDINGS  july_lead4333_holdings
+#define INPUT_TRUMPS    SOL_NOTRUMP
+#define INPUT_ON_LEAD   WEST
+uint july_lead4333_holdings[DDS_HANDS][DDS_SUITS] =
+{ // North      East        South      West
+	{ 0,         0,          0,         R9 | R8 | R7  } ,      // spades
+	{ 0,         0,          0,         R9 | R8 | R7  } ,      // hearts
+	{ 0,         0,          0,         RA | RJ | R6 | R5  } , // diamonds
+	{ 0,         0,          0,         RJ | R4 | R2}          // clubs
+};
+#endif // SEMANTIC_JUNE_LEAD_3343
+
 #ifdef SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
 #define INPUT_HOLDINGS  julyVZ_Axx_holdings
 #define INPUT_TRUMPS    SOL_NOTRUMP

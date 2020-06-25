@@ -7,6 +7,86 @@
 ************************************************************/
 #include "walrus.h"
 
+#ifdef SEMANTIC_JUNE_LEAD_3343
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &Walrus::LeadFlat_FilterOut;
+   sem.onScoring = &Walrus::Score_OpLead3NT;
+}
+
+uint Walrus::LeadFlat_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+{
+   const uint ORDER_BASE = 5;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_OPP = 2;
+   const uint SKIP_BY_DECL = 3;
+
+   // LHO: fr-nat 1s, raise to 3NT
+   // partner: pass
+   // RHO: 1NT
+   twlHCP hcpDecl(rho);
+   if (hcpDecl.total < 5 || 9 < hcpDecl.total) {
+      camp = SKIP_BY_DECL;
+      return ORDER_BASE; // wrong points count
+   }
+   twlHCP hcpOpp(lho);
+   if (hcpOpp.total < 16 || 20 < hcpOpp.total) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 1; // wrong points count
+   }
+
+   twLengths lenOpp(lho);
+   if (lenOpp.s < 5 || 6 < lenOpp.s) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 2; // wrong spades count
+   }
+
+   twLengths lenDecl(rho);
+   if (lenDecl.s > 2) {
+      camp = SKIP_BY_DECL;
+      return ORDER_BASE + 3; // didn't fit
+   }
+
+   twLengths lenPart(partner);
+   if (lenPart.s > 6 ||
+      lenPart.h > 6 ||
+      lenPart.d > 6) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 3; // might preempt
+   }
+
+   if (lenOpp.s == 6) {
+      if (lenOpp.h > 3 || lenOpp.d > 3 || lenOpp.c > 3) {
+         camp = SKIP_BY_OPP;
+         return ORDER_BASE + 4; // 6-4 
+      }
+   } else {
+      if (lenOpp.h > 4 || lenOpp.d > 4 || lenOpp.c > 4) {
+         camp = SKIP_BY_OPP;
+         return ORDER_BASE + 4; // 5-5 
+      }
+   }
+
+   twlHCP hcpPart(partner);
+   if (hcpPart.total >= 12) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 5; // might do something
+   } else if (hcpPart.total >= 10) {
+      if (lenPart.c > 4 ||
+         lenPart.h > 4 ||
+         lenPart.d > 4) {
+         camp = SKIP_BY_PART;
+         return ORDER_BASE + 6; // might overcall
+      }
+   }
+
+   // seems it passes
+   return 0;
+}
+
+
+#endif // SEMANTIC_JUNE_LEAD_3343
 
 #ifdef SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
 void Walrus::FillSemantic(void)

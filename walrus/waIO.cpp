@@ -111,11 +111,12 @@ void Walrus::MiniReport(uint toGo)
    float percGame      = hitsRow[1] * 100.f / sumRows;
    printf("Processed: %u total; %3.1f%% down some + %3.1f%% game\n",
             sumRows, percPartscore, percGame);
-   printf("Averages: ideal = %llu, lead Spade = %lld, lead Hearts = %lld, lead Diamonds = %lld\n",
+   printf("Averages: ideal = %llu, lead Spade = %lld, lead Hearts = %lld, lead Diamonds = %lld, lead Clubs = %lld\n",
       cumulScore.ideal / sumRows,
       cumulScore.leadS / sumRows,
       cumulScore.leadH / sumRows,
-      cumulScore.leadD / sumRows);
+      cumulScore.leadD / sumRows,
+      cumulScore.leadC / sumRows);
 #endif // SEEK_OPENING_LEAD
 
    if (toGo) {

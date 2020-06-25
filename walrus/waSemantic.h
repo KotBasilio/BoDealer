@@ -12,8 +12,22 @@ typedef signed long long s64;
 
 // Semantics: pick one of the list below
 //#define SEMANTIC_TRICOLOR_STRONG
-#define SEMANTIC_RED55_KINGS_PART_15_16
+//#define SEMANTIC_RED55_KINGS_PART_15_16
 //#define SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
+//#define SEMANTIC_JUNE_GAMBLE_OR_5C
+#define SEMANTIC_JUNE_LEAD_3343
+
+// -------------------------------------------------------- _JUNE_LEAD_3343
+#ifdef SEMANTIC_JUNE_LEAD_3343
+#define TITLE_VERSION  "Fix a weak hand;\np-(p)-p-(1s)\np-(1NT)-p-(3NT)-all pass\nQuestion: what to lead?\nVer 2.0 "
+#define SEEK_OPENING_LEAD
+#endif 
+
+// -------------------------------------------------------- JUNE_GAMBLE_OR_5C
+#ifdef SEMANTIC_JUNE_GAMBLE_OR_5C
+   #define TITLE_VERSION  "Fix 3307 fourth hand;\n(2h)-p-(p)-??\nQuestion: 3NT, partscore or 5C? Ver 2.0 "
+   #define SEEK_DENOMINATION
+#endif 
 
 // -------------------------------------------------------- JUNE_ZAKHAROVY_PREC_3NT
 #ifdef SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
@@ -24,13 +38,13 @@ typedef signed long long s64;
 // -------------------------------------------------------- TRICOLOR_STRONG
 #ifdef SEMANTIC_TRICOLOR_STRONG
    #define TITLE_VERSION  "Fix tricolor opening;\np-(p)-1c-(1d)\np-(p)-dbl-(2d)\n2h-(p)-??\nQuestion: partscore or a game? Ver 2.0 "
-   #define SEEK_BIDDING_DECISION
+   #define SEEK_BIDDING_LEVEL
 #endif 
 
 // -------------------------------------------------------- RED55_KINGS_PART_15_16
 #ifdef SEMANTIC_RED55_KINGS_PART_15_16
 	#define TITLE_VERSION  "Fix 55 responder; 1NT-2d-3d-?? Question: partscore or a game? v2.0"
-   #define SEEK_BIDDING_DECISION
+   #define SEEK_BIDDING_LEVEL
 #endif 
 
 // -----------------------------------------------------------------
@@ -47,19 +61,19 @@ const uint SOURCE_CARDS_COUNT = 52;
 // 3 -- Return all cards that can be legally played, with their scores in descending order.
 // -----------------------------------------------------------------
 
-#ifdef SEEK_BIDDING_DECISION
+#ifdef SEEK_BIDDING_LEVEL
    const uint REMOVED_CARDS_COUNT = 13;
    const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
    #define PARAM_SOLUTIONS_DDS   1
    #define FIXED_HAND_NORTH
-#endif // SEEK_BIDDING_DECISION
+#endif // SEEK_BIDDING_LEVEL
 
 #ifdef SEEK_OPENING_LEAD
    const uint REMOVED_CARDS_COUNT = 13;
    const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
    #define PARAM_SOLUTIONS_DDS   3
    #define FIXED_HAND_WEST
-#endif // SEEK_BIDDING_DECISION
+#endif // SEEK_BIDDING_LEVEL
 
 // -----------------------------------------------------------------
 // --- BITS LAYOUT VARIANTS

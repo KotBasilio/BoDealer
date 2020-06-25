@@ -1,0 +1,67 @@
+Fix a weak hand;
+p-(p)-p-(1s)
+p-(1NT)-p-(3NT)-all pass
+Question: what to lead?
+Ver 2.0  started.
+Aiming :  251000000 =
+   main:   84320314 +
+helperA:   83339843 +
+helperB:   83339843
+-------------------
+Memory 61M in main
+Memory 22M in helperA
+Memory 22M in helperB
+helperA:   83339880 done---> 351085
+helperB:   82019340 done---> 345423
+   main:   85640880 done
+Passing for double-dummy inspection: roughly each 1 of 68; 72367512 skipped
+
+Solving started:.
+... 
+--------------------------------
+Seek 8 tricks board...example:
+--------
+            KQT654
+            AQ4
+            K2
+            K3
+987                     AJ
+987                     KJ63
+AJ65                    Q94
+J42                     T986
+            32
+            T52
+            T873
+            AQ75
+
+  card suit   rank   equals score
+     0 H      9      87     5
+     1 D      6      5      4
+     2 D      A             3
+     3 S      9      87     3
+     4 C      2             3
+     5 C      4             3
+     6 C      J             3
+     7 D      J             3
+
+Final result:
+
+    :  HITS COUNTS   :
+( 0):     285773,   132381,    36625,     5698,     1071,      273,       10,    461831
+( 1):     325420,   184662,    62414,    19682,        0,        0,        0,    592178
+( 2):          0,        0,        0,        0,        0,        0,        0,         0
+( 3):          0,        0,        0,        0,        0,        0,        0,         0
+( 4):          0,        0,        0,        0,        0,        0,        0,         0
+( 5):          0,        0,        0,177023446,        0,        0,        0, 177023446
+( 6):          0,        0, 55231925,        0,        0,        0,        0,  55231925
+( 7):          0,        0, 15156732,        0,        0,        0,        0,  15156732
+( 8):          0,    18468,        0,  1622100,        0,        0,        0,   1640568
+( 9):          0,        0,   485005,        0,        0,        0,        0,    485005
+(10):          0,   189087,        0,        0,        0,        0,        0,    189087
+(11):          0,   219328,        0,        0,        0,        0,        0,    219328
+(12):          0,        0,        0,        0,        0,        0,        0,         0
+(13):          0,        0,        0,        0,        0,        0,        0,         0
+Processed: 1054009 total; 43.8% down some + 56.2% game
+Averages: ideal = 282, lead Spade = 439, lead Hearts = 405, lead Diamonds = 426, lead Clubs = 441
+The search took 1.7 + an aftermath 48368.1 sec.
+Press any key.

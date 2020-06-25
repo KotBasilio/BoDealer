@@ -16,22 +16,22 @@ void DdsTricks::Init(futureTricks &fut)
    // the rest is for opening lead @_@ a better abstraction needed
    #ifdef SEEK_OPENING_LEAD
    for (int i = 0; i < fut.cards; i++) {
-      if (fut.suit[i] == SOL_SPADES && fut.rank[i] == KA) {
+      if (fut.suit[i] == SOL_SPADES && fut.rank[i] == K9) {
          lead.S = 13 - fut.score[i];
          continue;
       }
-      if (fut.suit[i] == SOL_HEARTS && fut.rank[i] == R2) {
+      if (fut.suit[i] == SOL_HEARTS && fut.rank[i] == K9) {
          lead.H = 13 - fut.score[i]; 
          continue;
       }
-      if (fut.suit[i] == SOL_DIAMONDS && fut.rank[i] == K4) {
+      if (fut.suit[i] == SOL_DIAMONDS && fut.rank[i] == K6) {
          lead.D = 13 - fut.score[i]; 
          continue;
       }
-      // if (fut.suit[i] == SOL_CLUBS && fut.rank[i] == K4) {
-      //    int C = fut.score[i];
-      //    continue;
-      // }
+      if (fut.suit[i] == SOL_CLUBS && fut.rank[i] == KJ) {
+         lead.Ñ = 13 - fut.score[i];
+         continue;
+      }
    }
    #endif // SEEK_OPENING_LEAD
 }
@@ -150,6 +150,7 @@ void Walrus::Score_OpLead3NT(DdsTricks &tr)
    cumulScore.OpLead3NT(cumulScore.leadS, tr.lead.S);
    cumulScore.OpLead3NT(cumulScore.leadH, tr.lead.H);
    cumulScore.OpLead3NT(cumulScore.leadD, tr.lead.D);
+   cumulScore.OpLead3NT(cumulScore.leadC, tr.lead.Ñ);
 #endif // SEEK_OPENING_LEAD
 }
 
