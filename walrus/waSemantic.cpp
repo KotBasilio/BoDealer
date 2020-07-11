@@ -7,6 +7,103 @@
 ************************************************************/
 #include "walrus.h"
 
+#ifdef SEMANTIC_JUNE_MAX_5D_LEAD
+void Walrus::FillSemantic(void)
+{
+	Orb_FillSem();
+	sem.onFilter = &Walrus::LeadMax5D_FilterOut;
+	sem.onScoring = &Walrus::Score_OpLead5DX;
+}
+
+uint Walrus::LeadMax5D_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+{
+	const uint ORDER_BASE = 3;
+	const uint SKIP_BY_PART = 1;
+	const uint SKIP_BY_OPP = 2;
+	const uint SKIP_BY_DECL = 3;
+
+	// LHO: fr-nat pass, raise D, pass
+	// partner: pass, fit 3h
+	// RHO: fr-nat 1D, pass on 3h, sacrifice 5D
+	twlHCP hcpDecl(rho);
+	if (hcpDecl.total < 10 || 17 < hcpDecl.total) {
+		camp = SKIP_BY_DECL;
+		return ORDER_BASE; // wrong points count
+	}
+	twLengths lenDecl(rho);
+	if (lenDecl.d < 4) {
+		camp = SKIP_BY_DECL;
+		return ORDER_BASE + 1; 
+	}
+	if (lenDecl.h > 2 || lenDecl.s > 4) {
+		camp = SKIP_BY_DECL;
+		return ORDER_BASE + 2;
+	}
+	if (lenDecl.h == 2 && lenDecl.d == 4) {
+		camp = SKIP_BY_DECL;
+		return ORDER_BASE + 3;
+	}
+	if (lenDecl.s == 4 && hcpDecl.s > 4) {
+		camp = SKIP_BY_DECL;
+		return ORDER_BASE + 4;
+	}
+
+	twlHCP hcpOpp(lho);
+	if (hcpOpp.total < 2 || 9 < hcpOpp.total) {
+		camp = SKIP_BY_OPP;
+		return ORDER_BASE + 2; // wrong points count
+	}
+	twLengths lenOpp(lho);
+	if (lenOpp.d < 4 || 5 < lenOpp.d) {
+		camp = SKIP_BY_OPP;
+		return ORDER_BASE + 3;
+	}
+	if (lenOpp.s > 4 && hcpOpp.total > 7) {
+		camp = SKIP_BY_OPP;
+		return ORDER_BASE + 4;
+	}
+	if (6 < lenOpp.c) {
+		camp = SKIP_BY_OPP;
+		return ORDER_BASE + 5;
+	}
+	if (7 < hcpOpp.total && 2 < hcpOpp.h) {
+		camp = SKIP_BY_OPP;
+		return ORDER_BASE + 6; // 6-8 and stopper
+	}
+
+	twlHCP hcpPart(partner);
+	if (hcpPart.total < 6 || 11 < hcpPart.total) {
+		camp = SKIP_BY_PART;
+		return ORDER_BASE + 3; // might do something
+	} 
+
+	twLengths lenPart(partner);
+	if (lenPart.h < 3 || 4 < lenPart.h) {
+		camp = SKIP_BY_PART;
+		return ORDER_BASE + 4; // not 3h
+	}
+
+	if (hcpPart.total < 8 && lenPart.h < 4) {
+		camp = SKIP_BY_PART;
+		return ORDER_BASE + 5; // too weak fit
+	}
+
+	if (5 < lenPart.s) {
+		camp = SKIP_BY_PART;
+		return ORDER_BASE + 6; // multi
+	}
+
+	if (6 < lenPart.c) {
+		camp = SKIP_BY_PART;
+		return ORDER_BASE + 7; // club preempt
+	}
+
+	// seems it passes
+	return 0;
+}
+
+#endif // SEMANTIC_JUNE_MAX_5D_LEAD
+
 #ifdef SEMANTIC_JUNE_LEAD_3343
 void Walrus::FillSemantic(void)
 {

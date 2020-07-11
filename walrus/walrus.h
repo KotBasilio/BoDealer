@@ -15,9 +15,9 @@
 #else
    //const uint MAX_ITERATION = 4001000000;// 4 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 2201000000;// 2 mlrd + 1 millon gratis
-   //const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
+   const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 501000000;// half mlrd
-   const uint MAX_ITERATION = 251000000;// quarter mlrd
+   //const uint MAX_ITERATION = 251000000;// quarter mlrd
    //const uint MAX_ITERATION = 101000000;// 101 mln
    const uint MAX_TASKS_TO_SOLVE = 4*1000*1000;
 #endif
@@ -169,11 +169,13 @@ protected:
 
     struct CumulativeScore {
        CumulativeScore();
-       u64    ideal;
+       s64    ideal;
        s64    bidGame;
        s64    partscore;
        s64    leadS, leadH, leadD, leadC;
-       void OpLead3NT(s64 &lead, uint tricks);
+       void OpLead3NT   (s64 &sum, uint tricks);
+       void OpLead5minor(s64 &sum, uint tricks);
+       void OpLead5mX   (s64 &sum, uint tricks);
     } cumulScore;
 
     struct Progress
@@ -214,12 +216,15 @@ private:
    void Orb_ReSolveAndShow(deal &cards);
 
    void ShowProgress(uint idx);
+   int  DetectInterrogationBase();
    void InitMiniUI();
    void RunMiniUI();
 
    void Score_4Major(DdsTricks &tr);
    void Score_3NT(DdsTricks &tr);
    void Score_OpLead3NT(DdsTricks &tr);
+   void Score_OpLead5D(DdsTricks &tr);
+   void Score_OpLead5DX(DdsTricks &tr);
    void Score_Cumul4M(DdsTricks &tr);
    void Score_Cumul3NT(DdsTricks &tr);
 
@@ -233,6 +238,7 @@ private:
    uint R55_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint JuneVZ_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint LeadFlat_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint LeadMax5D_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint Tricolor_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint TriSunday_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
 };

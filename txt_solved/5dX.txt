@@ -1,0 +1,66 @@
+Fix a strong hand;
+(p)-p-(1d)-1h
+(3d)-3h-(p)-4h
+(p)-p-(5d)-X-all pass
+Question: what to lead?
+Aiming : 1001000000 =
+   main:  336273438 +
+helperA:  332363281 +
+helperB:  332363281
+-------------------
+Memory 61M in main
+Memory 22M in helperA
+Memory 22M in helperB
+helperB:  332363304 done---> 379043
+helperA:  330675618 done---> 378123
+   main:  337961364 done
+Passing 1142643 for double-dummy inspection: roughly each 1 of 30; 34422186 skipped
+...
+
+    :  HITS COUNTS   :
+( 0):       9602,    31926,    67446,    64599,    30332,     6782,      292,    210979
+( 1):       1845,      176,        0,        0,        0,        0,        0,      2021
+( 2):          0,        0,        0,        0,        0,        0,        0,         0
+( 3):          0,        0,        0,642811562,        0,        0,        0, 642811562
+( 4):          0,        0,        0,204293762,        0,        0,        0, 204293762
+( 5):          0,        0,  7100313, 85405854,        0,        0,        0,  92506167
+( 6):          0,   824250, 22952759, 22775892,        0,        0,        0,  46552901
+( 7):          0,  1120467,   221673, 11291030,        0,        0,        0,  12633170
+( 8):          0,   296751,     1114,        0,        0,        0,        0,    297865
+( 9):          0,   362820,   395000,        0,        0,        0,        0,    757820
+(10):          0,     4396,        0,        0,        0,        0,        0,      4396
+(11):          0,        0,        0,        0,        0,        0,        0,         0
+(12):          0,        0,        0,        0,        0,        0,        0,         0
+(13):          0,        0,        0,        0,        0,        0,        0,         0
+Processed: 213000 total; 99.1% down some + 0.9% game
+Averages: ideal = -648, lead Spade = -622, lead Hearts = -579, lead Diamonds = -584, lead Clubs = -555
+Yet more 929743 to go
+
+Seek 8 tricks board...example:
+--------
+            AK7
+            874
+            T853
+            J86
+32                      Q965
+AQT62                   KJ93
+A74                     92
+KQ7                     T53
+            JT84
+            5
+            KQJ6
+            A942
+
+  card suit   rank   equals score
+     0 S      3      2      5
+     1 D      A             5
+     2 D      4             5
+     3 D      7             5
+     4 H      2             4
+     5 H      6             4
+     6 H      T             4
+     7 H      Q             4
+     8 H      A             4
+     9 C      K      Q      4
+    10 C      7             4
+

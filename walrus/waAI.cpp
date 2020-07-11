@@ -222,7 +222,7 @@ void Walrus::ShowProgress(uint idx)
    }
 }
 
-void Walrus::InitMiniUI()
+int Walrus::DetectInterrogationBase()
 {
    CumulativeScore zeroes;
 
@@ -234,18 +234,28 @@ void Walrus::InitMiniUI()
    (this->*sem.onScoring)(tr);
 
    // analyze
+   int ret = 7;
    if (cumulScore.ideal > 1200) {// 1200+ => seems playing 3NT
-      ui.irBase = 9;
+      ret = 9;
+   } else if (cumulScore.ideal > 480) {// seems playing 4M
+      ret = 10;
    } else {
-      ui.irBase = 10;
+      ret = 11;
    }
 
-   // reset results
+   // reset table results
    cumulScore = zeroes;
    for (int i = 0; i < CTRL_SIZE; i++) {
       hitsCount[0][i] = 0;
       hitsCount[1][i] = 0;
    }
+
+   return ret;
+}
+
+void Walrus::InitMiniUI()
+{
+   ui.irBase = DetectInterrogationBase();
 }
 
 void Walrus::MiniUI::Run()
