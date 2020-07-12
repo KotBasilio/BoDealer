@@ -206,6 +206,7 @@ private:
    uint             oldRand;
    uint             hitsCount[HCP_SIZE][CTRL_SIZE];
    uint             ridx[RIDX_SIZE];// RandIndices() <-> Shuffle()
+   uint             maxTasksToSolve;
    DdsPack    *     arrToSolve;
    uint             countToSolve;
 
@@ -227,6 +228,7 @@ private:
    void Score_OpLead5DX(DdsTricks &tr);
    void Score_Cumul4M(DdsTricks &tr);
    void Score_Cumul3NT(DdsTricks &tr);
+   void HitByScore(DdsTricks &tr, uint made);
 
    void WithdrawHolding(uint hld, uint waSuitByDds);
    void WithdrawDeuce(uint rankBit, u64 waSuit);

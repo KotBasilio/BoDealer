@@ -235,11 +235,11 @@ int Walrus::DetectInterrogationBase()
 
    // analyze
    int ret = 7;
-   if (cumulScore.ideal > 1200) {// 1200+ => seems playing 3NT
+   if (cumulScore.ideal > 1200) {// made two games => seems playing 3NT
       ret = 9;
-   } else if (cumulScore.ideal > 480) {// seems playing 4M
+   } else if (cumulScore.ideal > 500) {// made one game => seems playing 4M
       ret = 10;
-   } else {
+   } else { // so far one case 450 for 5dX+2(750) and 5dX-2(-300)
       ret = 11;
    }
 

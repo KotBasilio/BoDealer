@@ -8,9 +8,21 @@
 #include "..\dds-develop\include\dll.h"
 #include "..\dds-develop\examples\hands.h"
 
+void Walrus::HitByScore(DdsTricks &tr, uint made)
+{
+   uint row = 0, camp = 0;
+   if (tr.plainScore >= made) {
+      row = 1;
+      camp = tr.plainScore - made;
+   } else {
+      camp = made - tr.plainScore - 1;
+   }
+   hitsCount[row][camp]++;
+}
+
 void Walrus::Score_Cumul4M(DdsTricks &tr)
 {
-   // "always game"
+   // "always game" strategy
    uint ideal = tr.plainScore;
    switch (ideal) {
       case 2:  cumulScore.bidGame -= 800; break;
@@ -27,7 +39,7 @@ void Walrus::Score_Cumul4M(DdsTricks &tr)
       case 13: cumulScore.bidGame += 710; break;
    }
 
-   // "always partscore"
+   // "always partscore" strategy
    int partdelta = ideal > 6 ? 50 + (ideal - 6) * 30 : -100;
    cumulScore.partscore += partdelta;
 
@@ -41,7 +53,7 @@ void Walrus::Score_Cumul4M(DdsTricks &tr)
 
 void Walrus::Score_Cumul3NT(DdsTricks &tr)
 {
-   // "always game"
+   // "always game" strategy
    uint ideal = tr.plainScore;
    switch (ideal) {
       case 2:  cumulScore.bidGame -= 700; break;
@@ -58,7 +70,7 @@ void Walrus::Score_Cumul3NT(DdsTricks &tr)
       case 13: cumulScore.bidGame += 720; break;
    }
 
-   // "always partscore"
+   // "always partscore" strategy
    int partdelta = ideal > 6 ? 90 + (ideal - 7) * 30 : -100;
    cumulScore.partscore += partdelta;
 
@@ -74,14 +86,7 @@ void Walrus::Score_Cumul3NT(DdsTricks &tr)
 void Walrus::Score_4Major(DdsTricks &tr)
 {
    // hits
-   uint row = 0, camp = 0;
-   if (tr.plainScore > 9) {
-      row = 1;
-      camp = 1 + tr.plainScore - 9;
-   } else {
-      camp = 1 + 10 - tr.plainScore;
-   }
-   hitsCount[row][camp]++;
+   HitByScore(tr, 10);
 
    // cumul
    Score_Cumul4M(tr);
@@ -90,14 +95,7 @@ void Walrus::Score_4Major(DdsTricks &tr)
 void Walrus::Score_3NT(DdsTricks &tr)
 {
    // hits
-   uint row = 0, camp = 0;
-   if (tr.plainScore > 8) {
-      row = 1;
-      camp = 1 + tr.plainScore - 8;
-   } else {
-      camp = 1 + 9 - tr.plainScore;
-   }
-   hitsCount[row][camp]++;
+   HitByScore(tr, 9);
 
    // cumul
    Score_Cumul3NT(tr);
@@ -107,18 +105,10 @@ void Walrus::Score_OpLead3NT(DdsTricks &tr)
 {
 #ifdef SEEK_OPENING_LEAD
    // hits
-   uint row = 0, camp = 0;
-   if (tr.plainScore > 8) {
-      row = 1;
-      camp = tr.plainScore - 9;
-      cumulScore.ideal += 600 + (tr.plainScore - 9) * 30;
-   } else {
-      camp = 9 - tr.plainScore - 1;
-      cumulScore.ideal -= 100 * (9 - tr.plainScore);
-   }
-   hitsCount[row][camp]++;
+   HitByScore(tr, 9);
 
    // cumulative for each lead
+   cumulScore.OpLead3NT(cumulScore.ideal, tr.plainScore);
    cumulScore.OpLead3NT(cumulScore.leadS, tr.lead.S);
    cumulScore.OpLead3NT(cumulScore.leadH, tr.lead.H);
    cumulScore.OpLead3NT(cumulScore.leadD, tr.lead.D);
@@ -146,21 +136,24 @@ void Walrus::CumulativeScore::OpLead5minor(s64 &sum, uint tricks)
 
 void Walrus::Score_OpLead5D(DdsTricks &tr)
 {
+#ifdef SEEK_OPENING_LEAD
+   // hits
+   HitByScore(tr, 11);
 
+   // cumulative for ideal and for each lead
+   cumulScore.OpLead5minor(cumulScore.ideal, tr.plainScore);
+   cumulScore.OpLead5minor(cumulScore.leadS, tr.lead.S);
+   cumulScore.OpLead5minor(cumulScore.leadH, tr.lead.H);
+   cumulScore.OpLead5minor(cumulScore.leadD, tr.lead.D);
+   cumulScore.OpLead5minor(cumulScore.leadC, tr.lead.Ñ);
+#endif // SEEK_OPENING_LEAD
 }
 
 void Walrus::Score_OpLead5DX(DdsTricks &tr)
 {
 #ifdef SEEK_OPENING_LEAD
    // hits
-   uint row = 0, camp = 0;
-   if (tr.plainScore > 10) {
-      row = 1;
-      camp = tr.plainScore - 11;
-   } else {
-      camp = 11 - tr.plainScore - 1;
-   }
-   hitsCount[row][camp]++;
+   HitByScore(tr, 11);
 
    // cumulative for ideal and for each lead
    cumulScore.OpLead5mX(cumulScore.ideal, tr.plainScore);

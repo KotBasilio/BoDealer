@@ -18,6 +18,15 @@ Walrus::Walrus(Walrus *other, const char *nameH, int ourShare)
    // get name and appointment
    nameHlp = nameH;
    countShare = ourShare;
+
+   // helpers need 1/3 of max tasks
+   const size_t oneK = 1024;
+   maxTasksToSolve = MAX_TASKS_TO_SOLVE;
+   size_t bsize = maxTasksToSolve * sizeof(DdsTask);
+   if (bsize > 250 * oneK) {
+      maxTasksToSolve >>= 3;
+      maxTasksToSolve *= 3; // that's 3/8 -- about 1/3
+   }
 }
 
 void ProcHelper(void *arg)

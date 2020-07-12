@@ -94,7 +94,7 @@ void Walrus::Orb_FillSem(void)
 
 void Walrus::Orb_SaveForSolver(SplitBits &partner, SplitBits &lho, SplitBits &rho)
 {
-   if (countToSolve >= MAX_TASKS_TO_SOLVE) {
+   if (countToSolve >= maxTasksToSolve) {
       return;
    }
 

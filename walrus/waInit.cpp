@@ -175,6 +175,7 @@ Walrus::Walrus()
    , countIterations(0)
    , countShare(MAX_ITERATION)
    , countSolo(0)
+   , maxTasksToSolve(MAX_TASKS_TO_SOLVE)
    // highBitscounts as many two cards in any suit. easily detected. doesn't cause an overflow
    , highBits(HIBITS)  
    , checkSum(0)
@@ -201,21 +202,14 @@ Walrus::MiniUI::MiniUI()
 
 void Walrus::AllocFilteredTasksBuf()
 {
-   const size_t oneK = 1024;
-
-   // determine size -- helpers need 1/3 of max tasks
-   size_t bsize = MAX_TASKS_TO_SOLVE * sizeof(DdsTask);
-   if (bsize > 250 * oneK) {
-      if (nameHlp[0] != 'm') {
-         bsize >>= 3;
-         bsize *= 3; // that's 3/8 -- about 1/3
-      }
-   }
+   // determine size
+   size_t bsize = maxTasksToSolve * sizeof(DdsTask);
 
    // alloc
    arrToSolve = (DdsPack *)malloc(bsize);
    if (arrToSolve) {
-      size_t oneM = 1024 * oneK;
+      const size_t oneK = 1024;
+      const size_t oneM = 1024 * oneK;
       if (bsize > oneM) {
          printf("Memory %lluM in %s\n", bsize / oneM, nameHlp);
       } else {
