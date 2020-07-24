@@ -7,6 +7,108 @@
 ************************************************************/
 #include "walrus.h"
 
+#ifdef SEMANTIC_JULY_AUTO_FITO_PLANKTON
+
+void Walrus::FillSemantic(void)
+{
+  Orb_FillSem();
+  sem.onFilter = &Walrus::TriFitoJuly_FilterOut;
+  sem.onScoring = &Walrus::Score_4Major;
+  sem.onOppContract = &Walrus::Score_3MajorDoubled;
+}
+
+// OUT: camp
+uint Walrus::TriFitoJuly_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+{
+  const uint ORDER_BASE = 3;
+  const uint SKIP_BY_PART = 1;
+  const uint SKIP_BY_OPP = 2;
+  const uint SKIP_BY_RESP = 3;
+
+  // LHO: fr-nat 1s, pass
+  // partner: 2h overcall, pass
+  // RHO: fit 2s, balance 3s
+  twLengths lenPart(partner);
+  if (lenPart.h < 5 || 6 < lenPart.h) {
+    camp = SKIP_BY_PART;
+    return ORDER_BASE; // bid hearts, pass 3h
+  }
+  twlHCP hcpPart(partner);
+  if (hcpPart.total < 11) {
+    bool tenAndSix = (hcpPart.total == 10 && lenPart.h == 6);
+    if (!tenAndSix) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // wrong points count
+    }
+  }
+
+  // opener opp
+  twlHCP hcpOpp(rho);
+  if (hcpOpp.total < 11) {
+    camp = SKIP_BY_OPP;
+    return ORDER_BASE + 2; // opener points count
+  }
+  twLengths lenOpp(rho);
+  if (lenOpp.s != 5) {
+    camp = SKIP_BY_OPP;
+    return ORDER_BASE + 3; // more spades => bid over 3h
+  }
+  if (hcpOpp.total > 13) {
+    if (hcpOpp.total > 15) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 4; // opener points count
+    }
+    if (lenOpp.c > 1 && lenOpp.d > 1 && lenOpp.h > 1) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 5; // no shortage, i.e.5332, 5422
+    }
+  }
+
+  // responder opp
+  twlHCP hcpResp(lho);
+  if (hcpResp.total < 6 || 9 < hcpResp.total) {
+    camp = SKIP_BY_RESP;
+    return ORDER_BASE + 2; // resp points count
+  }
+  twLengths lenResp(lho);
+  if (lenResp.s < 3) {
+    camp = SKIP_BY_RESP;
+    return ORDER_BASE + 3; // fit
+  }
+  if (lenResp.s == 3) {
+    bool shortH = lenResp.h < 2;
+    bool goodS = hcpResp.s > 5;
+    if (!goodS && !shortH) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 4; // balance 3s over 3h
+    }
+  }
+
+  // part could raise 3h to 4h
+  bool hasSide5 = (lenPart.c > 4 || lenPart.d > 4);
+  bool hasPoints = (hcpPart.total > 12);
+  if (lenPart.h == 5) {
+    if (hasSide5 && hasPoints) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 4; // 5-5 and some points
+    }
+  } else {
+    if (hasPoints) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 5; // 6 card and some points
+    }
+    if (hasSide5) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 6; // enough distribution
+    }
+  }
+
+  // seems it passes
+  return 0;
+}
+
+#endif // SEMANTIC_JULY_AUTO_FITO_PLANKTON
+
 #ifdef SEMANTIC_JUNE_MAX_5D_LEAD
 void Walrus::FillSemantic(void)
 {

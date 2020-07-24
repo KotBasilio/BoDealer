@@ -101,6 +101,13 @@ void Walrus::Score_3NT(DdsTricks &tr)
    Score_Cumul3NT(tr);
 }
 
+void Walrus::Score_3MajorDoubled(DdsTricks &tr)
+{
+  // we don't need any hits; need only a cumulative score
+  cumulScore.OC_3Major(cumulScore.oppContract,   tr.plainScore);
+  cumulScore.OC_3MajX (cumulScore.oppCtrDoubled, tr.plainScore);
+}
+
 void Walrus::Score_OpLead3NT(DdsTricks &tr)
 {
 #ifdef SEEK_OPENING_LEAD
@@ -184,5 +191,49 @@ void Walrus::CumulativeScore::OpLead5mX(s64 &sum, uint tricks)
       case  0: sum -= 2900; return;
    }
 }
+
+void Walrus::CumulativeScore::OC_3MajX(s64 &sum, uint tricks)
+{
+  switch (tricks) {
+    case  9: sum -= 530; return;
+    case 10: sum -= 630; return;
+    case 11: sum -= 730; return;
+    case 12: sum -= 830; return;
+    case 13: sum -= 930; return;
+
+    case  8: sum += 100 ; return;
+    case  7: sum += 300 ; return;
+    case  6: sum += 500 ; return;
+    case  5: sum += 800 ; return;
+    case  4: sum += 1100; return;
+    case  3: sum += 1400; return;
+    case  2: sum += 1700; return;
+    case  1: sum += 2000; return;
+    case  0: sum += 2300; return;
+  }
+}
+
+void Walrus::CumulativeScore::OC_3Major(s64 &sum, uint tricks)
+{
+  switch (tricks) {
+    case  9: sum -= 140; return;
+    case 10: sum -= 170; return;
+    case 11: sum -= 200; return;
+    case 12: sum -= 230; return;
+    case 13: sum -= 260; return;
+
+    case  8: sum += 50; return;
+    case  7: sum += 100; return;
+    case  6: sum += 150; return;
+    case  5: sum += 200; return;
+    case  4: sum += 250; return;
+    case  3: sum += 300; return;
+    case  2: sum += 350; return;
+    case  1: sum += 400; return;
+    case  0: sum += 450; return;
+  }
+}
+
+
 
 

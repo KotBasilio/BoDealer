@@ -14,6 +14,19 @@
 
  // --------------------------------------------------------------------------------
  // input
+#ifdef SEMANTIC_JULY_AUTO_FITO_PLANKTON
+#define INPUT_HOLDINGS  fito_july
+#define INPUT_TRUMPS    SOL_HEARTS
+#define INPUT_ON_LEAD   WEST
+uint fito_july[DDS_HANDS][DDS_SUITS] =
+{ // North                    East        South       West
+  { RT | R7 | R6 | R2,      0,          0,         0  } , // spades
+  { R8 | R4 | R3,           0,          0,         0  } , // hearts
+  { RA | R9 ,               0,          0,         0  } , // diamonds
+  { RK | RT | R9 | R2 ,     0,          0,         0  }   // clubs
+};
+#endif // SEMANTIC_JULY_AUTO_FITO_PLANKTON
+
 #ifdef SEMANTIC_JUNE_MAX_5D_LEAD
 #define INPUT_HOLDINGS  july_max_5dX_holdings
 #define INPUT_TRUMPS    SOL_DIAMONDS
@@ -233,13 +246,14 @@ Walrus::~Walrus()
 }
 
 Walrus::Semantics::Semantics()
-   : onInit      (&Walrus::NOP)
-   , onShareStart(&Walrus::NOP)
-   , fillFlipover(&Walrus::NOP)
-   , onScanCenter(&Walrus::NOP)
-   , onAfterMath (&Walrus::NOP) 
-   , onFilter    (&Walrus::FilterRejectAll) 
-   , onScoring   (&Walrus::VoidScoring)
+   : onInit       (&Walrus::NOP)
+   , onShareStart (&Walrus::NOP)
+   , fillFlipover (&Walrus::NOP)
+   , onScanCenter (&Walrus::NOP)
+   , onAfterMath  (&Walrus::NOP) 
+   , onFilter     (&Walrus::FilterRejectAll) 
+   , onScoring    (&Walrus::VoidScoring)
+   , onOppContract(&Walrus::VoidScoring)
    , scanCover(ACTUAL_CARDS_COUNT)
 {
 }

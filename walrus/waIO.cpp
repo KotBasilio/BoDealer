@@ -51,7 +51,7 @@ void Walrus::BuildFileNames(void)
    char fmtCell[] = "%6u,";
    char tblHat[] =  "    :  let   spade heart  both   club       sum\n";
 #else
-   char fmtCell[] = "%9u,";
+   char fmtCell[] = "%10u,";
    //char tblHat[] =  "    :       let    spade    heart     both     club             sum\n";
    char tblHat[] =  "    :  HITS COUNTS   :\n";
 #endif   
@@ -92,18 +92,23 @@ void Walrus::MiniReport(uint toGo)
       sumRows = 1;
    }
 
-#ifdef SEEK_BIDDING_DECISION
+#ifdef SEEK_BIDDING_LEVEL
    // calc percentages
    float percPartscore = hitsRow[0] * 100.f / sumRows;
    float percGame      = hitsRow[1] * 100.f / sumRows;
 
    printf("Processed: %u total; %3.1f%% partscore + %3.1f%% game\n",
       sumRows, percPartscore, percGame);
-   printf("Averages: ideal = %llu, bidGame = %lld, partscore=%lld\n",
+   printf("Averages: ideal = %lld, bidGame = %lld, partscore=%lld\n",
       cumulScore.ideal / sumRows,
       cumulScore.bidGame / sumRows,
       cumulScore.partscore / sumRows);
-#endif // SEEK_BIDDING_DECISION
+   #ifdef SCORE_OPP_CONTRACT
+     printf("Their contract expectation average: passed = %lld, doubled = %lld\n",
+       cumulScore.oppContract / sumRows, 
+       cumulScore.oppCtrDoubled / sumRows);
+   #endif // SCORE_OPP_CONTRACT
+#endif // SEEK_BIDDING_LEVEL
 
 #ifdef SEEK_OPENING_LEAD
    // calc percentages

@@ -11,12 +11,24 @@ typedef unsigned long long u64;
 typedef signed long long s64;
 
 // Semantics: pick one of the list below
-#define SEMANTIC_JUNE_MAX_5D_LEAD
-//#define SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
+// -- tasks for bidding decision:
+#define SEMANTIC_JULY_AUTO_FITO_PLANKTON
 //#define SEMANTIC_JUNE_GAMBLE_OR_5C
-//#define SEMANTIC_JUNE_LEAD_3343
 //#define SEMANTIC_TRICOLOR_STRONG
 //#define SEMANTIC_RED55_KINGS_PART_15_16
+// -- tasks for opening lead:
+//#define SEMANTIC_JUNE_MAX_5D_LEAD
+//#define SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
+//#define SEMANTIC_JUNE_LEAD_3343
+
+// -------------------------------------------------------- 
+#ifdef SEMANTIC_JULY_AUTO_FITO_PLANKTON
+#define TITLE_VERSION  "Fix 7 hcp hand;\n(1s)-2h-(2s)-3h\n(p)-p-(3s)-??\nQuestion: pass/dbl or a game? Ver 2.0 "
+#define SEEK_BIDDING_LEVEL
+#define SCORE_OPP_CONTRACT
+#define OC_TRUMPS       SOL_SPADES
+#define OC_ON_LEAD      SOUTH
+#endif 
 
 // -------------------------------------------------------- JUNE_MAX_5D_LEAD
 #ifdef SEMANTIC_JUNE_MAX_5D_LEAD

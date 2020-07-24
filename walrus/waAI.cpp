@@ -322,6 +322,18 @@ void Walrus::SolveInChunks(deal &dlBase)
    }
 }
 
+void Walrus::HandleDDSFail(int res)
+{
+  if (res == RETURN_NO_FAULT) {
+    return;
+  }
+
+  char line[80];
+  ErrorMessage(res, line);
+  printf("DDS error: %s\n", line);
+  _getch();
+}
+
 void Walrus::SolveOneChunk(deal &dlBase, boards &bo, uint ofs, uint step)
 {
    bo.noOfBoards = (int)step;
@@ -338,14 +350,9 @@ void Walrus::SolveOneChunk(deal &dlBase, boards &bo, uint ofs, uint step)
    // solve in parallel
    solvedBoards solved;
    int res = SolveAllBoardsN(bo, solved);
-   if (res != RETURN_NO_FAULT) {
-      char line[80];
-      ErrorMessage(res, line);
-      printf("DDS error: %s\n", line);
-      _getch();
-   }
+   HandleDDSFail(res);
 
-   // account all, may show on console
+   // account all hands, may show on console
    ui.Run();
    for (int handno = 0; handno < solved.noOfBoards; handno++) {
       DdsTricks tr;
@@ -355,5 +362,21 @@ void Walrus::SolveOneChunk(deal &dlBase, boards &bo, uint ofs, uint step)
       Orb_Interrogate(ui.irGoal, tr, bo.deals[handno], solved.solvedBoard[handno]);
    }
 
+   // may score their contract
+   #ifdef SCORE_OPP_CONTRACT
+   {
+     for (int i = 0; i < bo.noOfBoards; i++) {
+       bo.deals[i].trump = OC_TRUMPS;
+       bo.deals[i].first = OC_ON_LEAD;
+     }
+     int res = SolveAllBoardsN(bo, solved);
+     HandleDDSFail(res);
+     for (int handno = 0; handno < solved.noOfBoards; handno++) {
+       DdsTricks tr;
+       tr.Init(solved.solvedBoard[handno]);
+       (this->*sem.onOppContract)(tr);
+     }
+   }
+   #endif // SCORE_OPP_CONTRACT
 }
 

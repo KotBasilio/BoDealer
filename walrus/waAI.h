@@ -94,7 +94,10 @@ union DdsPack
 
 struct DdsTricks
 {
-   uint plainScore;
+   // number of tricks in basic contract
+   uint plainScore; 
+
+   // tricks for each opening lead
    #ifdef SEEK_OPENING_LEAD
    struct Lead
    {
@@ -102,6 +105,7 @@ struct DdsTricks
       Lead() { S = H = D = Ñ = 13; }
    } lead;
    #endif // SEEK_OPENING_LEAD
+
    DdsTricks() : plainScore(0) {}
    void Init(struct futureTricks &fut);
 };

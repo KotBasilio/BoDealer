@@ -24,10 +24,10 @@ Walrus::CumulativeScore::CumulativeScore()
    : ideal(0L)
    , bidGame(0L)
    , partscore(0L)
+   , oppContract(0L)
+   , oppCtrDoubled(0L)
 {
-#ifdef SEEK_OPENING_LEAD
    leadS = leadH = leadD = leadC = 0L;
-#endif // SEEK_OPENING_LEAD
 }
 
 std::chrono::steady_clock::duration timeChronoStart;
