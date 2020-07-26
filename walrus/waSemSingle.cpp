@@ -47,7 +47,8 @@ uint Walrus::KC_ClassifyHand(uint &camp, SplitBits &partner)
    twlHCP hcpPart(partner);
    //if (hcpPart.total != 12) {
    //if (hcpPart.total < 10 || 12 < hcpPart.total) {
-   if (hcpPart.total < 10 || 11 < hcpPart.total) {
+   //if (hcpPart.total < 10 || 11 < hcpPart.total) {
+   if (hcpPart.total < 17) {
       camp = SKIP_BY_PART;
       return ORDER_BASE; // wrong points count
    }
@@ -57,7 +58,7 @@ uint Walrus::KC_ClassifyHand(uint &camp, SplitBits &partner)
       camp = SKIP_BY_PART;
       return ORDER_BASE + 1; // no majors
    }
-   if (lenPart.c > 5 || lenPart.s < 5) {
+   if (lenPart.c > 5 || lenPart.d > 5) {
       camp = SKIP_BY_PART;
       return ORDER_BASE + 2; // too long minors
    }

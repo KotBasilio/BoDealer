@@ -49,11 +49,13 @@ void Walrus::BuildFileNames(void)
 
 #ifdef _DEBUG
    char fmtCell[] = "%6u,";
-   char tblHat[] =  "    :  let   spade heart  both   club       sum\n";
+   char fmtCellFloat[] = "%6.1f,";
+   char tblHat[] = "    :  HITS COUNT   :\n";
 #else
    char fmtCell[] = "%10u,";
+   char fmtCellFloat[] = "%10.1f,";
    //char tblHat[] =  "    :       let    spade    heart     both     club             sum\n";
-   char tblHat[] =  "    :  HITS COUNTS   :\n";
+   char tblHat[] = "    :  HITS COUNT   :\n";
 #endif   
 
 void Walrus::MiniReport(uint toGo)
@@ -67,14 +69,27 @@ void Walrus::MiniReport(uint toGo)
    printf("\n%s", tblHat);
    for (int i = 0; i < 14; i++) {
       printf("(%2d):  ", i);
+
       uint sumline = 0;
       for (int j = 0; j < 7; j++) {
          printf(fmtCell, hitsCount[i][j]);
          sumline      += hitsCount[i][j];
          hitsCamp[j]  += hitsCount[i][j];
       }
+
       printf("%10u\n", sumline);
       hitsRow[i] = sumline;
+
+      #ifdef SEMANTIC_KEYCARDS_10_12
+         if (i == 0) {
+            printf("( %%):  ");
+            for (int j = 0; j < 7; j++) {
+               float percent = hitsCount[i][j] * 100.f / sumline;
+               printf(fmtCellFloat, percent);
+            }
+            printf("\n");
+         }
+      #endif // SEMANTIC_KEYCARDS_10_12
    }
 
    if (countToSolve && (toGo == countToSolve)) {
