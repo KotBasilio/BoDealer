@@ -77,7 +77,7 @@ void Walrus::MiniReport(uint toGo)
       hitsRow[i] = sumline;
    }
 
-   if (toGo == countToSolve) {
+   if (countToSolve && (toGo == countToSolve)) {
       printf("Solving started:");
       return;
    }
@@ -123,6 +123,15 @@ void Walrus::MiniReport(uint toGo)
       cumulScore.leadD / sumRows,
       cumulScore.leadC / sumRows);
 #endif // SEEK_OPENING_LEAD
+
+#ifdef SEMANTIC_KEYCARDS_10_12
+   float key0 = hitsCount[0][0] * 100.f / sumRows;
+   float key1 = hitsCount[0][1] * 100.f / sumRows;
+   float key2 = hitsCount[0][2] * 100.f / sumRows;
+   float key3 = hitsCount[0][3] * 100.f / sumRows;
+   printf("Keycards: 0->%3.1f%%  1->%3.1f%%  2->%3.1f%%  3->%3.1f%%\n",
+      key0, key1, key2, key3);
+#endif // SEMANTIC_KEYCARDS_10_12
 
    if (toGo) {
       printf("Yet more %u to go:", toGo);

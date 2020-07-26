@@ -129,6 +129,7 @@ protected:
 
     void ScanTrivial();
     void ScanOrb();
+    void ScanKeycards();
 
     void WithdrawByInput();
     void AllocFilteredTasksBuf();
@@ -215,10 +216,12 @@ private:
    uint             countToSolve;
 
    void Orb_FillSem(void);
-   uint Orb_ClassifyHands(uint &foo, SplitBits &sum, SplitBits &lho, SplitBits &rho);
+   uint Orb_ClassifyHands(uint &camp, SplitBits &sum, SplitBits &lho, SplitBits &rho);
    void Orb_SaveForSolver(SplitBits &partner, SplitBits &resp, SplitBits &notrump);
    void Orb_Interrogate(int &irGoal, DdsTricks &tr, deal &cards, struct futureTricks &fut);
    void Orb_ReSolveAndShow(deal &cards);
+   uint KC_ClassifyHand(uint &ba, SplitBits &sum);
+   uint CountKeyCards(SplitBits &hand);
 
    void ShowProgress(uint idx);
    int  DetectInterrogationBase();
@@ -248,6 +251,6 @@ private:
    uint LeadMax5D_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint Tricolor_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint TriSunday_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint TriFitoJuly_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint FitoJuly_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
 };
 

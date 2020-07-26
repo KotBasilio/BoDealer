@@ -42,9 +42,6 @@
     <ClCompile Include="..\..\walrus\waMulti.cpp">
       <Filter>Source Files\walrus</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\walrus\waSemantic.cpp">
-      <Filter>Source Files\walrus</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\walrus\waShuffle.cpp">
       <Filter>Source Files\walrus</Filter>
     </ClCompile>
@@ -139,6 +136,15 @@
       <Filter>Source Files\walrus</Filter>
     </ClCompile>
     <ClCompile Include="..\..\walrus\waBitTwelve.cpp">
+      <Filter>Source Files\walrus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\walrus\waSemLead.cpp">
+      <Filter>Source Files\walrus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\walrus\waSemBidding.cpp">
+      <Filter>Source Files\walrus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\walrus\waSemSingle.cpp">
       <Filter>Source Files\walrus</Filter>
     </ClCompile>
   </ItemGroup>

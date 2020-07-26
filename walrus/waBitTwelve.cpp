@@ -85,6 +85,11 @@ twLengths::twLengths(SplitBits &hand)
    c = (uint)((hand.card.jo & 0x000000000000000FLL) );
 }
 
+uint Walrus::CountKeyCards(SplitBits &hand)
+{
+   return 0;
+}
+
 #endif // SBITS_LAYOUT_TWELVE
 
 

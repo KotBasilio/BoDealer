@@ -150,7 +150,9 @@
     <ClCompile Include="..\..\walrus\waMulti.cpp" />
     <ClCompile Include="..\..\walrus\waOrb.cpp" />
     <ClCompile Include="..\..\walrus\waScore.cpp" />
-    <ClCompile Include="..\..\walrus\waSemantic.cpp" />
+    <ClCompile Include="..\..\walrus\waSemBidding.cpp" />
+    <ClCompile Include="..\..\walrus\waSemLead.cpp" />
+    <ClCompile Include="..\..\walrus\waSemSingle.cpp" />
     <ClCompile Include="..\..\walrus\waShuffle.cpp" />
   </ItemGroup>
   <ItemGroup>

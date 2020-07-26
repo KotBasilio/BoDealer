@@ -12,7 +12,7 @@ typedef signed long long s64;
 
 // Semantics: pick one of the list below
 // -- tasks for bidding decision:
-#define SEMANTIC_JULY_AUTO_FITO_PLANKTON
+//#define SEMANTIC_JULY_AUTO_FITO_PLANKTON
 //#define SEMANTIC_JUNE_GAMBLE_OR_5C
 //#define SEMANTIC_TRICOLOR_STRONG
 //#define SEMANTIC_RED55_KINGS_PART_15_16
@@ -20,6 +20,14 @@ typedef signed long long s64;
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
 //#define SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
 //#define SEMANTIC_JUNE_LEAD_3343
+// -- tasks for one hand:
+#define SEMANTIC_KEYCARDS_10_12
+
+// -------------------------------------------------------- 
+#ifdef SEMANTIC_KEYCARDS_10_12
+#define TITLE_VERSION  "Abstract 10-12 with 4+ major;\nQuestion: how keycards are distributed? Ver 2.0 "
+#define SINGLE_HAND_TASK
+#endif 
 
 // -------------------------------------------------------- 
 #ifdef SEMANTIC_JULY_AUTO_FITO_PLANKTON
@@ -93,6 +101,12 @@ const uint SOURCE_CARDS_COUNT = 52;
    #define PARAM_SOLUTIONS_DDS   3
    #define FIXED_HAND_WEST
 #endif // SEEK_BIDDING_LEVEL
+
+#ifdef SINGLE_HAND_TASK
+   const uint REMOVED_CARDS_COUNT = 0;
+   const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
+   #define PARAM_SOLUTIONS_DDS   1
+#endif // SINGLE_HAND_TASK
 
 // -----------------------------------------------------------------
 // --- BITS LAYOUT VARIANTS
