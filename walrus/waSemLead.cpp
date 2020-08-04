@@ -104,6 +104,71 @@ uint Walrus::LeadMax5D_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho,
 
 #endif // SEMANTIC_JUNE_MAX_5D_LEAD
 
+#ifdef SEMANTIC_AUG_LEAD_VS_3H
+void Walrus::FillSemantic(void)
+{
+	Orb_FillSem();
+	sem.onFilter = &Walrus::LeadAugVs3H_FilterOut;
+	sem.onScoring = &Walrus::Score_OpLead3Major;
+}
+
+uint Walrus::LeadAugVs3H_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_OPP = 2;
+   const uint SKIP_BY_DECL = 3;
+
+   twlHCP hcpDecl(rho);
+   if (hcpDecl.total < 8 || 12 < hcpDecl.total) {
+      camp = SKIP_BY_DECL;
+      return ORDER_BASE; // wrong points count
+   }
+   twlHCP hcpResp(lho);
+   if (hcpResp.total < 8 || 11 < hcpResp.total) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 1; // wrong points count
+   }
+
+   twLengths lenResp(lho);
+   twLengths lenDecl(rho);
+   if (lenDecl.s < 5 || 6 < lenDecl.s) {
+      camp = SKIP_BY_DECL;
+      return ORDER_BASE + 2; // wrong spades count
+   }
+   if (lenDecl.h < 1 || 2 < lenDecl.h) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 3; // no h fit
+   }
+
+   twLengths lenPart(partner);
+   if (lenPart.s > 6 ||
+      lenPart.h > 6 ||
+      lenPart.d > 6) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 3; // may preempt
+   }
+
+   if (2 < lenResp.s) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 4; // resp has no fit
+   }
+   if (lenResp.h < 6 || 7 < lenResp.h) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 5; // resp 6-7 hearts
+   }
+   if (lenResp.c > 4 || lenResp.d > 4) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 6; // resp no side 5+
+   }
+
+   // seems it passes
+   return 0;
+}
+
+
+#endif // SEMANTIC_AUG_LEAD_VS_3H
+
 #ifdef SEMANTIC_JUNE_LEAD_3343
 void Walrus::FillSemantic(void)
 {

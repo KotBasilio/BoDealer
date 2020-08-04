@@ -123,6 +123,30 @@ void Walrus::Score_OpLead3NT(DdsTricks &tr)
 #endif // SEEK_OPENING_LEAD
 }
 
+void Walrus::Score_OpLead3Major(DdsTricks &tr)
+{
+#ifdef SEEK_OPENING_LEAD
+   // hits
+   HitByScore(tr, 9);
+
+   // cumulative for each lead
+   cumulScore.OpLead3Major(cumulScore.ideal, tr.plainScore);
+   cumulScore.OpLead3Major(cumulScore.leadS, tr.lead.S);
+   cumulScore.OpLead3Major(cumulScore.leadH, tr.lead.H);
+   cumulScore.OpLead3Major(cumulScore.leadD, tr.lead.D);
+   cumulScore.OpLead3Major(cumulScore.leadC, tr.lead.Ñ);
+#endif // SEEK_OPENING_LEAD
+}
+
+void Walrus::CumulativeScore::OpLead3Major(s64 &sum, uint tricks)
+{
+   if (tricks > 8) {
+      sum += 140 + (tricks - 9) * 30;
+   } else {
+      sum -= 50 * (9 - tricks);
+   }
+}
+
 void Walrus::CumulativeScore::OpLead3NT(s64 &sum, uint tricks)
 {
    if (tricks > 8) {

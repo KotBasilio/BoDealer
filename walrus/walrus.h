@@ -13,9 +13,9 @@
    const uint MAX_TASKS_TO_SOLVE = 10240;
    //#define SKIP_HELPERS
 #else
-   const uint MAX_ITERATION = 4001000000;// 4 mlrd + 1 millon gratis
+   //const uint MAX_ITERATION = 4001000000;// 4 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 2201000000;// 2 mlrd + 1 millon gratis
-   //const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
+   const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 501000000;// half mlrd
    //const uint MAX_ITERATION = 251000000;// quarter mlrd
    //const uint MAX_ITERATION = 101000000;// 101 mln
@@ -177,6 +177,7 @@ protected:
        s64    leadS, leadH, leadD, leadC;
        s64    oppContract, oppCtrDoubled;
        void OpLead3NT   (s64 &sum, uint tricks);
+       void OpLead3Major(s64 &sum, uint tricks);
        void OpLead5minor(s64 &sum, uint tricks);
        void OpLead5mX   (s64 &sum, uint tricks);
        void OC_3MajX    (s64 &sum, uint tricks);
@@ -231,6 +232,7 @@ private:
    void Score_4Major(DdsTricks &tr);
    void Score_3NT(DdsTricks &tr);
    void Score_3MajorDoubled(DdsTricks &tr);
+   void Score_OpLead3Major(DdsTricks &tr);
    void Score_OpLead3NT(DdsTricks &tr);
    void Score_OpLead5D(DdsTricks &tr);
    void Score_OpLead5DX(DdsTricks &tr);
@@ -252,5 +254,6 @@ private:
    uint Tricolor_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint TriSunday_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint FitoJuly_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint LeadAugVs3H_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
 };
 

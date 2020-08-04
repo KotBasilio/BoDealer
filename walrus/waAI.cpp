@@ -225,22 +225,26 @@ void Walrus::ShowProgress(uint idx)
 int Walrus::DetectInterrogationBase()
 {
    CumulativeScore zeroes;
+   int ret = 7;
 
-   // take 13 tricks then 9
+   // take 13 tricks 
    DdsTricks tr;
    tr.plainScore = 13;
    (this->*sem.onScoring)(tr);
-   tr.plainScore = 9;
-   (this->*sem.onScoring)(tr);
-
-   // analyze
-   int ret = 7;
-   if (cumulScore.ideal > 1200) {// made two games => seems playing 3NT
+   if (cumulScore.ideal < 300) {
+      // not a game => partscore
       ret = 9;
-   } else if (cumulScore.ideal > 500) {// made one game => seems playing 4M
-      ret = 10;
-   } else { // so far one case 450 for 5dX+2(750) and 5dX-2(-300)
-      ret = 11;
+   } else {
+      // take 9 and analyze
+      tr.plainScore = 9;
+      (this->*sem.onScoring)(tr);
+      if (cumulScore.ideal > 1200) {// made two games => seems playing 3NT
+         ret = 9;
+      } else if (cumulScore.ideal > 500) {// made one game => seems playing 4M
+         ret = 10;
+      } else { // so far one case 450 for 5dX+2(750) and 5dX-2(-300)
+         ret = 11;
+      }
    }
 
    // reset table results

@@ -129,7 +129,7 @@ void Walrus::MiniReport(uint toGo)
    // calc percentages
    float percPartscore = hitsRow[0] * 100.f / sumRows;
    float percGame      = hitsRow[1] * 100.f / sumRows;
-   printf("Processed: %u total; %3.1f%% down some + %3.1f%% game\n",
+   printf("Processed: %u total; %3.1f%% down some + %3.1f%% make\n",
             sumRows, percPartscore, percGame);
    printf("Averages: ideal = %lld, lead Spade = %lld, lead Hearts = %lld, lead Diamonds = %lld, lead Clubs = %lld\n",
       cumulScore.ideal / sumRows,

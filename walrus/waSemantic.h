@@ -20,8 +20,15 @@ typedef signed long long s64;
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
 //#define SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
 //#define SEMANTIC_JUNE_LEAD_3343
+#define SEMANTIC_AUG_LEAD_VS_3H
 // -- tasks for one hand:
-#define SEMANTIC_KEYCARDS_10_12
+//#define SEMANTIC_KEYCARDS_10_12
+
+// -------------------------------------------------------- 
+#ifdef SEMANTIC_AUG_LEAD_VS_3H
+#define TITLE_VERSION  "Fix a hand with an ace;\n....s\nQuestion: what to lead?\nVer 2.0 "
+#define SEEK_OPENING_LEAD
+#endif 
 
 // -------------------------------------------------------- 
 #ifdef SEMANTIC_KEYCARDS_10_12

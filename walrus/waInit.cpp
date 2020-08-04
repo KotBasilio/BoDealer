@@ -44,6 +44,25 @@ uint july_max_5dX_holdings[DDS_HANDS][DDS_SUITS] =
 #define CARD_LEAD_CLUBS   KK
 #endif // SEMANTIC_JUNE_MAX_5D_LEAD
 
+#ifdef SEMANTIC_AUG_LEAD_VS_3H
+// origin match at home
+#define INPUT_HOLDINGS  aug_lead_vs_3h
+#define INPUT_TRUMPS    SOL_HEARTS
+#define INPUT_ON_LEAD   WEST
+uint aug_lead_vs_3h[DDS_HANDS][DDS_SUITS] =
+{ // North      East        South      West
+	{ 0,         0,          0,         RQ | RT  } ,      // spades
+	{ 0,         0,          0,         RQ | RT  } ,      // hearts
+	{ 0,         0,          0,         RT | R7 | R6 | R5 | R4  } , // diamonds
+	{ 0,         0,          0,         RA | R9 | R6 | R3 }          // clubs
+};
+#define CARD_LEAD_SPADE   KQ
+#define CARD_LEAD_HEARTS  KQ
+#define CARD_LEAD_DIAMD   K7
+#define CARD_LEAD_CLUBS   K3
+#endif // SEMANTIC_AUG_LEAD_VS_3H
+
+
 #ifdef SEMANTIC_JUNE_LEAD_3343
 // origin https://www.gambler.ru/tour/762803/protocol?id=71379460&teamid=53269
 #define INPUT_HOLDINGS  july_lead4333_holdings
