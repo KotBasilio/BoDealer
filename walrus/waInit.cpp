@@ -14,6 +14,19 @@
 
  // --------------------------------------------------------------------------------
  // input
+#ifdef SEMANTIC_AUG_SPLIT_FIT
+#define INPUT_HOLDINGS  holdings_aug_split_fit
+#define INPUT_TRUMPS    SOL_SPADES
+#define INPUT_ON_LEAD   WEST
+uint holdings_aug_split_fit[DDS_HANDS][DDS_SUITS] =
+{ // North                    East        South       West
+	{ RK | RT | R9 | R4,      0,          0,         0  } , // spades
+	{ R6 | R2,                0,          0,         0  } , // hearts
+	{ RQ | RT | R8 | R7 | R3 | R2,        0,          0,         0  } , // diamonds
+	{ RK                ,     0,          0,         0  }   // clubs
+};
+#endif // SEMANTIC_AUG_SPLIT_FIT
+
 #ifdef SEMANTIC_JULY_AUTO_FITO_PLANKTON
 #define INPUT_HOLDINGS  fito_july
 #define INPUT_TRUMPS    SOL_HEARTS

@@ -16,11 +16,12 @@ typedef signed long long s64;
 //#define SEMANTIC_JUNE_GAMBLE_OR_5C
 //#define SEMANTIC_TRICOLOR_STRONG
 //#define SEMANTIC_RED55_KINGS_PART_15_16
+#define SEMANTIC_AUG_SPLIT_FIT
 // -- tasks for opening lead:
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
 //#define SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
 //#define SEMANTIC_JUNE_LEAD_3343
-#define SEMANTIC_AUG_LEAD_VS_3H
+//#define SEMANTIC_AUG_LEAD_VS_3H
 // -- tasks for one hand:
 //#define SEMANTIC_KEYCARDS_10_12
 
@@ -77,9 +78,14 @@ typedef signed long long s64;
 
 // -------------------------------------------------------- RED55_KINGS_PART_15_16
 #ifdef SEMANTIC_RED55_KINGS_PART_15_16
-	#define TITLE_VERSION  "Fix 55 responder; 1NT-2d-3d-?? Question: partscore or a game? v2.0"
+   #define TITLE_VERSION  "Fix 55 responder; 1NT-2d-3d-?? Question: partscore or a game? v2.0"
    #define SEEK_BIDDING_LEVEL
 #endif 
+
+#ifdef SEMANTIC_AUG_SPLIT_FIT
+	#define TITLE_VERSION  "Fix 6-4 responder; (2d)-2s-(dbl)-?? Question: partscore or a game? v2.0"
+	#define SEEK_BIDDING_LEVEL
+#endif // SEMANTIC_AUG_SPLIT_FIT
 
 // -----------------------------------------------------------------
 // --- COMMON

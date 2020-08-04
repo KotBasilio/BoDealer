@@ -230,6 +230,7 @@ private:
    void RunMiniUI();
 
    void Score_4Major(DdsTricks &tr);
+   void Score_NV_4Major(DdsTricks &tr);
    void Score_3NT(DdsTricks &tr);
    void Score_3MajorDoubled(DdsTricks &tr);
    void Score_OpLead3Major(DdsTricks &tr);
@@ -237,6 +238,7 @@ private:
    void Score_OpLead5D(DdsTricks &tr);
    void Score_OpLead5DX(DdsTricks &tr);
    void Score_Cumul4M(DdsTricks &tr);
+   void Score_CumulNV4M(DdsTricks &tr);
    void Score_Cumul3NT(DdsTricks &tr);
    void HitByScore(DdsTricks &tr, uint made);
 
@@ -255,5 +257,6 @@ private:
    uint TriSunday_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint FitoJuly_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint LeadAugVs3H_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint AugSplitFit_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
 };
 

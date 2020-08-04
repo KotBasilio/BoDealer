@@ -108,6 +108,63 @@ uint Walrus::FitoJuly_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, 
 }
 #endif // SEMANTIC_JULY_AUTO_FITO_PLANKTON
 
+#ifdef SEMANTIC_AUG_SPLIT_FIT
+void Walrus::FillSemantic(void)
+{
+	Orb_FillSem();
+	sem.onFilter = &Walrus::AugSplitFit_FilterOut;
+	sem.onScoring = &Walrus::Score_NV_4Major;
+}
+
+uint Walrus::AugSplitFit_FilterOut(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
+{
+	const uint ORDER_BASE = 3;
+	const uint SKIP_BY_PART = 1;
+	const uint SKIP_BY_RESP = 2;
+	const uint SKIP_BY_OPP  = 3;
+
+	twlHCP hcpPart(partner);
+	if (hcpPart.total < 11 || 13 < hcpPart.total) {// not 14-15
+		camp = SKIP_BY_PART;
+		return ORDER_BASE; // wrong points count
+	}
+
+	twlHCP hcpOpp(lho);
+	if (hcpOpp.total < 6 || 11 < hcpOpp.total) {
+		camp = SKIP_BY_OPP;
+		return ORDER_BASE + 2; // wrong points count
+	}
+
+	twLengths lenOpp(lho);
+	if (lenOpp.h != 6) {
+		camp = SKIP_BY_RESP;
+		return ORDER_BASE + 3; // multi
+	}
+
+	twLengths lenPart(partner);
+	if (lenPart.s < 5 || 6 < lenPart.s) {// not 7-card
+		camp = SKIP_BY_PART;
+		return ORDER_BASE + 4; // bid spades
+	}
+	if (lenPart.c > 4 ||
+		  lenPart.d > 4) {
+		camp = SKIP_BY_PART;
+		return ORDER_BASE + 5; // no 5-5
+	}
+
+	twLengths lenResp(rho);
+	if (lenResp.h < 3) {
+		camp = SKIP_BY_RESP;
+		return ORDER_BASE + 5; // dbl
+	}
+
+	// seems it passes
+	return 0;
+}
+
+#endif // SEMANTIC_AUG_SPLIT_FIT
+
+
 #ifdef SEMANTIC_RED55_KINGS_PART_15_16
 
 void Walrus::FillSemantic(void)
