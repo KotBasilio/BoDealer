@@ -16,7 +16,8 @@ typedef signed long long s64;
 //#define SEMANTIC_JUNE_GAMBLE_OR_5C
 //#define SEMANTIC_TRICOLOR_STRONG
 //#define SEMANTIC_RED55_KINGS_PART_15_16
-#define SEMANTIC_AUG_SPLIT_FIT
+//#define SEMANTIC_AUG_SPLIT_FIT
+#define SEMANTIC_AUG_MULTI_VUL
 // -- tasks for opening lead:
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
 //#define SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
@@ -86,6 +87,11 @@ typedef signed long long s64;
 	#define TITLE_VERSION  "Fix 6-4 responder; (2d)-2s-(dbl)-?? Question: partscore or a game? v2.0"
 	#define SEEK_BIDDING_LEVEL
 #endif // SEMANTIC_AUG_SPLIT_FIT
+
+#ifdef SEMANTIC_AUG_MULTI_VUL
+	#define TITLE_VERSION  "Fix a 15 hcp;\n....s\nQuestion: partscore or a game? v2.0"
+	#define SEEK_BIDDING_LEVEL
+#endif // SEMANTIC_AUG_MULTI_VUL
 
 // -----------------------------------------------------------------
 // --- COMMON

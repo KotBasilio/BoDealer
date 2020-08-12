@@ -108,6 +108,79 @@ uint Walrus::FitoJuly_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, 
 }
 #endif // SEMANTIC_JULY_AUTO_FITO_PLANKTON
 
+#ifdef SEMANTIC_AUG_MULTI_VUL
+void Walrus::FillSemantic(void)
+{
+	Orb_FillSem();
+	sem.onFilter = &Walrus::AugMultiVul_FilterOut;
+	sem.onScoring = &Walrus::Score_4Major;
+}
+
+uint Walrus::AugMultiVul_FilterOut(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
+{
+	const uint ORDER_BASE = 3;
+	const uint SKIP_BY_PART = 1;
+	const uint SKIP_BY_RESP = 2;
+	const uint SKIP_BY_OPP = 3;
+
+	twlHCP hcpPart(partner);
+	//if (hcpPart.total < 7 || 8 < hcpPart.total) {// multi min
+	if (hcpPart.total != 7) {// multi full min
+		camp = SKIP_BY_PART;
+		return ORDER_BASE; // wrong points count
+	}
+	twLengths lenPart(partner);
+	if (lenPart.s != 6) {// multi, decline invitation
+		camp = SKIP_BY_PART;
+		return ORDER_BASE + 1; // bid spades
+	}
+	if (hcpPart.s < 5) {
+		camp = SKIP_BY_PART;
+		return ORDER_BASE + 2; // good six
+	}
+
+	twlHCP hcpOpp(rho);
+	if (hcpOpp.total < 11 || 15 < hcpOpp.total) {
+		camp = SKIP_BY_OPP;
+		return ORDER_BASE + 2; // wrong points count, bid h
+	}
+
+	twLengths lenOpp(rho);
+	if (lenOpp.h < 5 || 6 < lenOpp.h) {
+		camp = SKIP_BY_RESP;
+		return ORDER_BASE + 3; // bid h
+	}
+
+	if (lenPart.c < 1 ||
+		lenPart.d < 1 ||
+		lenPart.h < 1) {
+		camp = SKIP_BY_PART;
+		return ORDER_BASE + 3; // no voids
+	}
+
+	if (lenPart.c > 4 ||
+		lenPart.d > 4) {
+		camp = SKIP_BY_PART;
+		return ORDER_BASE + 3; // no long minors
+	}
+
+// 	if (lenPart.c > 4 ||
+// 		lenPart.d > 4) {
+// 		camp = SKIP_BY_PART;
+// 		return ORDER_BASE + 5; // no 5-5
+// 	}
+// 
+// 	twLengths lenResp(rho);
+// 	if (lenResp.h < 3) {
+// 		camp = SKIP_BY_RESP;
+// 		return ORDER_BASE + 5; // dbl
+// 	}
+
+	// seems it passes
+	return 0;
+}
+#endif // SEMANTIC_AUG_MULTI_VUL
+
 #ifdef SEMANTIC_AUG_SPLIT_FIT
 void Walrus::FillSemantic(void)
 {

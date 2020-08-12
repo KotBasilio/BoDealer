@@ -14,6 +14,19 @@
 
  // --------------------------------------------------------------------------------
  // input
+#ifdef SEMANTIC_AUG_MULTI_VUL
+#define INPUT_HOLDINGS  multi_vul
+#define INPUT_TRUMPS    SOL_SPADES
+#define INPUT_ON_LEAD   EAST
+uint multi_vul[DDS_HANDS][DDS_SUITS] =
+{ // North                    East        South       West
+	{ RK | R8,                  0,          0,         0  } , // spades
+	{ RA | RJ | R6 | R3,        0,          0,         0  } , // hearts
+	{ RK | RT | R6 | R2 ,       0,          0,         0  } , // diamonds
+	{ RA | R9 | R6,             0,          0,         0  }   // clubs
+};
+#endif // SEMANTIC_AUG_MULTI_VUL
+
 #ifdef SEMANTIC_AUG_SPLIT_FIT
 #define INPUT_HOLDINGS  holdings_aug_split_fit
 #define INPUT_TRUMPS    SOL_SPADES
