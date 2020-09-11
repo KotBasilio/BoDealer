@@ -17,7 +17,7 @@ typedef signed long long s64;
 //#define SEMANTIC_TRICOLOR_STRONG
 //#define SEMANTIC_RED55_KINGS_PART_15_16
 //#define SEMANTIC_AUG_SPLIT_FIT
-#define SEMANTIC_AUG_MULTI_VUL
+//#define SEMANTIC_AUG_MULTI_VUL
 // -- tasks for opening lead:
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
 //#define SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
@@ -25,6 +25,15 @@ typedef signed long long s64;
 //#define SEMANTIC_AUG_LEAD_VS_3H
 // -- tasks for one hand:
 //#define SEMANTIC_KEYCARDS_10_12
+#define SEMANTIC_SPADE_4_WHEN_1H
+
+// -------------------------------------------------------- 
+#ifdef SEMANTIC_SPADE_4_WHEN_1H
+#define TITLE_VERSION  "Part opened 1H. We hold ~4333 with 4s;\nQuestion: how often part has 4+ spades? Ver 2.0 "
+#define PARTNER_HAND_TASK
+#define PERCENTAGES_IN_ANSWER_ROW
+#define ANSWER_ROW_IDX  1
+#endif // SEMANTIC_SPADE_4_WHEN_1H
 
 // -------------------------------------------------------- 
 #ifdef SEMANTIC_AUG_LEAD_VS_3H
@@ -36,6 +45,8 @@ typedef signed long long s64;
 #ifdef SEMANTIC_KEYCARDS_10_12
 #define TITLE_VERSION  "Abstract 10-12 with 4+ major;\nQuestion: how keycards are distributed? Ver 2.0 "
 #define SINGLE_HAND_TASK
+#define PERCENTAGES_IN_ANSWER_ROW
+#define ANSWER_ROW_IDX  0
 #endif 
 
 // -------------------------------------------------------- 
@@ -126,6 +137,13 @@ const uint SOURCE_CARDS_COUNT = 52;
    const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
    #define PARAM_SOLUTIONS_DDS   1
 #endif // SINGLE_HAND_TASK
+
+#ifdef PARTNER_HAND_TASK
+   const uint REMOVED_CARDS_COUNT = 13;
+   const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
+   #define PARAM_SOLUTIONS_DDS   1
+   #define FIXED_HAND_NORTH
+#endif // PARTNER_HAND_TASK
 
 // -----------------------------------------------------------------
 // --- BITS LAYOUT VARIANTS

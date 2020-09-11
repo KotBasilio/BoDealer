@@ -80,8 +80,11 @@ void Walrus::MiniReport(uint toGo)
       printf("%10u\n", sumline);
       hitsRow[i] = sumline;
 
-      #ifdef SEMANTIC_KEYCARDS_10_12
-         if (i == 0) {
+      #ifdef PERCENTAGES_IN_ANSWER_ROW
+         if (i == ANSWER_ROW_IDX) {
+            if (!sumline) {
+               sumline = 1;
+            }
             printf("( %%):  ");
             for (int j = 0; j < 7; j++) {
                float percent = hitsCount[i][j] * 100.f / sumline;
@@ -89,7 +92,7 @@ void Walrus::MiniReport(uint toGo)
             }
             printf("\n");
          }
-      #endif // SEMANTIC_KEYCARDS_10_12
+      #endif // PERCENTAGES_IN_ANSWER_ROW
    }
 
    if (countToSolve && (toGo == countToSolve)) {

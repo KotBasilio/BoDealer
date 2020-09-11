@@ -14,7 +14,8 @@
    //#define SKIP_HELPERS
 #else
    //const uint MAX_ITERATION = 4001000000;// 4 mlrd + 1 millon gratis
-   const uint MAX_ITERATION = 2201000000;// 2 mlrd + 1 millon gratis
+   const uint MAX_ITERATION = 3001000000;// 3 mlrd + 1 millon gratis
+   //const uint MAX_ITERATION = 2001000000;// 2 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 501000000;// half mlrd
    //const uint MAX_ITERATION = 251000000;// quarter mlrd
@@ -259,5 +260,6 @@ private:
    uint LeadAugVs3H_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint AugSplitFit_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint AugMultiVul_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint Spade4_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
 };
 

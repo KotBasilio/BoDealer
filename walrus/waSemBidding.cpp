@@ -161,20 +161,8 @@ uint Walrus::AugMultiVul_FilterOut(SplitBits &partner, uint &camp, SplitBits &rh
 	if (lenPart.c > 4 ||
 		lenPart.d > 4) {
 		camp = SKIP_BY_PART;
-		return ORDER_BASE + 3; // no long minors
+		return ORDER_BASE + 4; // no long minors
 	}
-
-// 	if (lenPart.c > 4 ||
-// 		lenPart.d > 4) {
-// 		camp = SKIP_BY_PART;
-// 		return ORDER_BASE + 5; // no 5-5
-// 	}
-// 
-// 	twLengths lenResp(rho);
-// 	if (lenResp.h < 3) {
-// 		camp = SKIP_BY_RESP;
-// 		return ORDER_BASE + 5; // dbl
-// 	}
 
 	// seems it passes
 	return 0;

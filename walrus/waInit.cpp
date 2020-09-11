@@ -209,6 +209,19 @@ uint julyVZ_Axx_holdings[DDS_HANDS][DDS_SUITS] =
    };
 #endif // SINGLE_HAND_TASK
 
+#ifdef SEMANTIC_SPADE_4_WHEN_1H
+   #define INPUT_HOLDINGS  spade_4_holdings
+   #define INPUT_TRUMPS    SOL_HEARTS
+   #define INPUT_ON_LEAD   EAST
+   uint spade_4_holdings[DDS_HANDS][DDS_SUITS] =
+   { // North                    East        South       West
+      { RA | R7 | R5 | R4,       0,          0,         0  } , // spades
+      { RK | R9 ,            0,          0,         0  } , // hearts
+      { RK | R6 | R5,            0,          0,         0  } , // diamonds
+      { RQ | RJ | R6 | R2,           0,          0,         0  }   // clubs
+   };
+#endif // SEMANTIC_SPADE_4_WHEN_1H
+
 uint(*input_holdings)[DDS_HANDS][DDS_SUITS] = &INPUT_HOLDINGS;
 
 SplitBits sbBlank;
