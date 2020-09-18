@@ -385,4 +385,57 @@ uint Walrus::TriSunday_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho,
 }
 #endif // SEMANTIC_TRICOLOR_STRONG
 
+#ifdef SEMANTIC_SEPT_MAJORS54_18HCP
+void Walrus::FillSemantic(void)
+{
+	Orb_FillSem();
+	sem.onFilter = &Walrus::SeptMajors_FilterOut;
+	sem.onScoring = &Walrus::Score_4Major;
+}
+
+uint Walrus::SeptMajors_FilterOut(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
+{
+	const uint ORDER_BASE = 3;
+	const uint SKIP_BY_PART = 1;
+	const uint SKIP_BY_RESP = 2;
+	const uint SKIP_BY_OPP = 3;
+
+	twlHCP hcpPart(partner);
+	if (hcpPart.total < 4 || 6 < hcpPart.total) {// neg max
+		camp = SKIP_BY_PART;
+		return ORDER_BASE; // wrong points count
+	}
+	twLengths lenPart(partner);
+	if (lenPart.s > 2) {
+		camp = SKIP_BY_PART;
+		return ORDER_BASE + 1; // spade fit
+	}
+	if (lenPart.h != 4) {
+		camp = SKIP_BY_PART;
+		return ORDER_BASE + 2; // five => bid to game
+	}
+
+	if (lenPart.c > 5 || lenPart.d > 5) {
+		if (hcpPart.total > 4) {
+			camp = SKIP_BY_PART;
+			return ORDER_BASE + 3; // 5+, 6-4 distribution => bid to game
+		}
+	}
+
+	if (hcpPart.total == 6) {
+		if (lenPart.c < 2 || lenPart.d < 2 || lenPart.s < 2) {
+			camp = SKIP_BY_PART;
+			return ORDER_BASE + 4; // full max, singleton and a fit => bid to game
+		}
+		if (partner.card.jo && ANY_ACE) {
+			camp = SKIP_BY_PART;
+			return ORDER_BASE + 5; // full max, any ace
+		}
+	}
+
+
+	// seems it passes
+	return 0;
+}
+#endif // SEMANTIC_SEPT_MAJORS54_18HCP
 

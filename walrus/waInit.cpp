@@ -14,6 +14,19 @@
 
  // --------------------------------------------------------------------------------
  // input
+#ifdef SEMANTIC_SEPT_MAJORS54_18HCP
+#define INPUT_HOLDINGS  majors54_18hcp
+#define INPUT_TRUMPS    SOL_HEARTS
+#define INPUT_ON_LEAD   EAST
+uint majors54_18hcp[DDS_HANDS][DDS_SUITS] =
+{ // North                    East        South       West
+   { RK | RQ | RJ | R6 | R3,   0,          0,         0  } , // spades
+   { RA | RK | R7 | R2,        0,          0,         0  } , // hearts
+   { R4 ,                      0,          0,         0  } , // diamonds
+   { RK | RQ | R5,             0,          0,         0  }   // clubs
+};
+#endif // SEMANTIC_SEPT_MAJORS54_18HCP
+
 #ifdef SEMANTIC_AUG_MULTI_VUL
 #define INPUT_HOLDINGS  multi_vul
 #define INPUT_TRUMPS    SOL_SPADES

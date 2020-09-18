@@ -18,6 +18,7 @@ typedef signed long long s64;
 //#define SEMANTIC_RED55_KINGS_PART_15_16
 //#define SEMANTIC_AUG_SPLIT_FIT
 //#define SEMANTIC_AUG_MULTI_VUL
+#define SEMANTIC_SEPT_MAJORS54_18HCP
 // -- tasks for opening lead:
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
 //#define SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
@@ -25,7 +26,13 @@ typedef signed long long s64;
 //#define SEMANTIC_AUG_LEAD_VS_3H
 // -- tasks for one hand:
 //#define SEMANTIC_KEYCARDS_10_12
-#define SEMANTIC_SPADE_4_WHEN_1H
+//#define SEMANTIC_SPADE_4_WHEN_1H
+
+// -------------------------------------------------------- 
+#ifdef SEMANTIC_SEPT_MAJORS54_18HCP
+#define TITLE_VERSION  "Fix a 18 hcp;\n1c 1d\n1s 1NT\2h 3h\nQuestion: partscore or a game? v2.0"
+#define SEEK_BIDDING_LEVEL
+#endif // SEMANTIC_SEPT_MAJORS54_18HCP
 
 // -------------------------------------------------------- 
 #ifdef SEMANTIC_SPADE_4_WHEN_1H
@@ -182,12 +189,13 @@ const uint SOURCE_CARDS_COUNT = 52;
          twSuit s;/* spades */            \
       } w;
 
-   #define SPADS 0x0001000000000000LL
-   #define HEART 0x0000000100000000LL
-   #define DIAMD 0x0000000000010000LL
-   #define CLUBS 0x0000000000000001LL
-   #define HIBITS ((SPADS+HEART+DIAMD+CLUBS) << 1)
-      
+   #define SPADS   0x0001000000000000LL
+   #define HEART   0x0000000100000000LL
+   #define DIAMD   0x0000000000010000LL
+   #define CLUBS   0x0000000000000001LL
+   #define HIBITS  ((SPADS+HEART+DIAMD+CLUBS) << 1)
+   #define ANY_ACE 0x8000800080008000LL
+
 #define SBITS_SEMANTIC_OPS                                              \
       bool IsBlank() { return (card.jo == 0L); }                        \
       bool IsEndIter() { return (CountAll() > 13); }
