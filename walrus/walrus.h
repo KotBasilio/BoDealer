@@ -200,6 +200,7 @@ protected:
     struct MiniUI
     {
        bool  exitRequested;
+       bool  firstAutoShow;
        int   irGoal;
        int   irBase;
        MiniUI();
@@ -224,7 +225,7 @@ private:
    void Orb_FillSem(void);
    uint Orb_ClassifyHands(uint &camp, SplitBits &sum, SplitBits &lho, SplitBits &rho);
    void Orb_SaveForSolver(SplitBits &partner, SplitBits &resp, SplitBits &notrump);
-   void Orb_Interrogate(int &irGoal, DdsTricks &tr, deal &cards, struct futureTricks &fut);
+   void Orb_Interrogate(DdsTricks &tr, deal &cards, struct futureTricks &fut);
    void Orb_ReSolveAndShow(deal &cards);
    uint KC_ClassifyHand(uint &ba, SplitBits &sum);
    uint CountKeyCards(SplitBits &hand);

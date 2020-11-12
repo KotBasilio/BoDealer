@@ -103,54 +103,62 @@ void Walrus::Orb_SaveForSolver(SplitBits &partner, SplitBits &lho, SplitBits &rh
    arrToSolve[countToSolve++] = pack;
 }
 
-void Walrus::Orb_Interrogate(int &irGoal, DdsTricks &tr, deal &cards, futureTricks &fut)
+void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)
 {
    // no interrogation goal => skip
-   if (!irGoal) {
+   if (!ui.irGoal) {
       return;
    }
 
    // take any board with exact amount of tricks
-   if (tr.plainScore != irGoal) {
+   if (tr.plainScore != ui.irGoal) {
       return;
    }
 
    // relay
    Orb_ReSolveAndShow(cards);
 
-   // let contemplate
-   printf("Any key to continue...");
-   _getch();
-   printf("ok");
+   // may contemplate
+   if (ui.firstAutoShow) {
+      ui.firstAutoShow = false;
+   } else {
+      printf("Any key to continue...");
+      _getch();
+      printf("ok");
+   }
 
    // interrogation is over
-   irGoal = 0;
+   ui.irGoal = 0;
 }
 
 void Walrus::Orb_ReSolveAndShow(deal &cards)
 {
-   // hand & fut as they come
+   // board first 
    PrintHand("example:\n", cards.remainCards);
-   char lead[] = "";
-   //PrintFut(lead, &fut);
+   if (ui.firstAutoShow) {
+      return;
+   }
 
-   // params for re-solving
+   // to show leads we need to re-solve it
+   // -- params for re-solving
    char line[80];
    futureTricks fut;
    int target = -1;
    int solutions = 3; // 3 -- Return all cards that can be legally played, with their scores in descending order.
    int mode = 0;
    int threadIndex = 0;
-
-   // re-solve the board for all leads
+   // -- re-solve & show
    int res = SolveBoard(cards, target, solutions, mode, &fut, threadIndex);
-   if (res != RETURN_NO_FAULT) {
-      sprintf(line, "Problem hand on solve: leads %s, trumps: %s\n", haPlayerToStr(cards.first), haTrumpToStr(cards.trump));
-      PrintHand(line, cards.remainCards);
-      ErrorMessage(res, line);
-      printf("DDS error: %s\n", line);
-   } else {
+   if (res == RETURN_NO_FAULT) {
+      char lead[] = "";
       PrintFut(lead, &fut);
+      return;
    }
+
+   // error-handling
+   sprintf(line, "Problem hand on solve: leads %s, trumps: %s\n", haPlayerToStr(cards.first), haTrumpToStr(cards.trump));
+   PrintHand(line, cards.remainCards);
+   ErrorMessage(res, line);
+   printf("DDS error: %s\n", line);
 }
 

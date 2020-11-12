@@ -297,7 +297,18 @@ void Walrus::MiniUI::Run()
             exitRequested = true;
             break;
       }
-      printf("\nSeek %d tricks board...", irGoal);
+
+      if (irGoal) {
+         printf("\nSeek %d tricks board...", irGoal);
+      } else if (!exitRequested) {
+         printf("\nCommand '%c' is ignored...", inchar);
+      }
+   }
+
+   // auto-command
+   if (firstAutoShow && !irGoal) {
+      irGoal = irBase;
+      printf(" %d tricks board ", irGoal);
    }
 }
 
@@ -363,7 +374,7 @@ void Walrus::HandleSolvedBoard(DdsTricks &tr, deal &cards, futureTricks &fut)
 
    // intact => run mini-UI to show boards on console
    if (intactScore) {
-      Orb_Interrogate(ui.irGoal, tr, cards, fut);
+      Orb_Interrogate(tr, cards, fut);
    }
 }
 

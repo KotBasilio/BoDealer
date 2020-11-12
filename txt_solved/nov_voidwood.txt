@@ -1,0 +1,43 @@
+Fix a 3730 three aces;
+1nt(11-13) 2d
+2h 5c -- opp doubled that
+XX(zero of 5) ??
+Question: a game or a slam? v2.0 started.
+Aiming :  330000000 =
+   main:  110859376 +
+helperA:  109570312 +
+helperB:  109570312
+-------------------
+Seek 12 tricks board...example:
+--------
+            A97
+            AQJT853
+            A53
+            -
+3                       JT854
+K92                     6
+J98                     QT62
+KT7652                  A98
+            KQ62
+            74
+            K74
+            QJ43
+--------
+
+Total iterations = 330000138, balance is fine
+Final result:
+--------------------------------
+    :  HITS COUNT   :
+( 0):      372539,     40090,      1930,        19,         0,         0,         0,    414578
+( 1):      429532,    320479,         0,         0,         0,         0,         0,    750011
+( 2):           0,         0,         0,         0,         0,         0,         0,         0
+( 3):           0, 267092444,         0,         0,         0,         0,         0, 267092444
+( 4):           0,  54290205,         0,         0,         0,         0,         0,  54290205
+( 5):           0,   4708692,    204900,    194768,         0,         0,         0,   5108360
+( 6):           0,   2344540,         0,         0,         0,         0,         0,   2344540
+( 7):           0,         0,         0,         0,         0,         0,         0,         0
+( 8):           0,         0,         0,         0,         0,         0,         0,         0
+Processed: 1164589 total; 64.4% slam + 35.6% game
+Averages: ideal = 797, bidGame = 475, slam=619
+The search took 1.5 + an aftermath 8868.6 sec.
+Press any key.

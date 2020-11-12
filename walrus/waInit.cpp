@@ -305,6 +305,7 @@ Walrus::Walrus()
 
 Walrus::MiniUI::MiniUI()
    : exitRequested(false)
+   , firstAutoShow(true)
    , irGoal(0)
    , irBase(0)
 {
