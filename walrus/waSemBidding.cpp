@@ -11,10 +11,10 @@
 
 void Walrus::FillSemantic(void)
 {
-  Orb_FillSem();
-  sem.onFilter = &Walrus::FitoJuly_FilterOut;
-  sem.onScoring = &Walrus::Score_4Major;
-  sem.onOppContract = &Walrus::Score_3MajorDoubled;
+   Orb_FillSem();
+   sem.onFilter = &Walrus::FitoJuly_FilterOut;
+   sem.onScoring = &Walrus::Score_4Major;
+   sem.onOppContract = &Walrus::Score_3MajorDoubled;
 }
 
 // OUT: camp
@@ -438,4 +438,72 @@ uint Walrus::SeptMajors_FilterOut(SplitBits &partner, uint &camp, SplitBits &rho
 	return 0;
 }
 #endif // SEMANTIC_SEPT_MAJORS54_18HCP
+
+#ifdef SEMANTIC_NOV_VOIDWOOD
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &Walrus::NovVoidwood_FilterOut;
+   sem.onScoring = &Walrus::Score_NV6Major;
+}
+
+uint Walrus::NovVoidwood_FilterOut(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_RHO = 2;
+   const uint SKIP_BY_LHO = 3;
+   const u64 kc_mask        = 0x8000C00080008000LL;
+   const u64 ace_clubs_mask = 0x0000000000008000LL;
+
+   twlHCP hcpPart(partner);
+   if (hcpPart.total < 11 || 13 < hcpPart.total) {// opener
+      camp = SKIP_BY_PART;
+      return ORDER_BASE; // wrong points count
+   }
+   if (partner.card.jo & kc_mask) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // no keycards on part
+   }
+   twLengths lenPart(partner);
+   if (lenPart.s > 4 ||
+       lenPart.h > 4 ||
+       lenPart.c > 5 ||
+       lenPart.d > 5) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 2; // bid notrump
+   }
+   if (lenPart.s < 2 ||
+       lenPart.h < 2 ||
+       lenPart.c < 2 ||
+       lenPart.d < 2) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 3; // bid notrump
+   }
+
+   twLengths lenRHO(rho);
+   if (lenRHO.s > 6 ||
+       lenRHO.c > 6 ||
+       lenRHO.d > 6) {
+      camp = SKIP_BY_RHO;
+      return ORDER_BASE + 2; // may preempt
+   }
+
+   twLengths lenLHO(lho);
+   if (lenLHO.s > 6 ||
+       lenLHO.c > 6 ||
+       lenLHO.d > 6) {
+      camp = SKIP_BY_LHO;
+      return ORDER_BASE + 2; // may preempt
+   }
+
+   if (rho.card.jo & ace_clubs_mask) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // ace of clubs with another guy pls
+   }
+
+   // seems the board passes
+   return 0;
+}
+#endif // SEMANTIC_NOV_VOIDWOOD
 

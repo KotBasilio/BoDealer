@@ -14,6 +14,19 @@
 
  // --------------------------------------------------------------------------------
  // input
+#ifdef SEMANTIC_NOV_VOIDWOOD
+#define INPUT_HOLDINGS  heartsNovVoidwood
+#define INPUT_TRUMPS    SOL_HEARTS
+#define INPUT_ON_LEAD   EAST
+uint heartsNovVoidwood[DDS_HANDS][DDS_SUITS] =
+{ // North                    East        South       West
+   { RA | R9 | R7,             0,          0,         0  } , // spades
+   { RA | RQ | RJ | RT | R8 | R5 | R3, 0,  0,         0  } , // hearts
+   { RA | R5 | R3 ,            0,          0,         0  } , // diamonds
+   { 0,                        0,          0,         0  }   // clubs
+};
+#endif // SEMANTIC_NOV_VOIDWOOD
+
 #ifdef SEMANTIC_SEPT_MAJORS54_18HCP
 #define INPUT_HOLDINGS  majors54_18hcp
 #define INPUT_TRUMPS    SOL_HEARTS

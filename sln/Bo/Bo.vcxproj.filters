@@ -147,6 +147,9 @@
     <ClCompile Include="..\..\walrus\waSemSingle.cpp">
       <Filter>Source Files\walrus</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\walrus\waScOpLead.cpp">
+      <Filter>Source Files\walrus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\walrus\waAI.h">

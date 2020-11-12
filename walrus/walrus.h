@@ -17,7 +17,8 @@
    //const uint MAX_ITERATION = 3001000000;// 3 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 2001000000;// 2 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
-   const uint MAX_ITERATION = 501000000;// half mlrd
+   //const uint MAX_ITERATION = 501000000;// half of mlrd
+   const uint MAX_ITERATION = 330000000;// third of mlrd
    //const uint MAX_ITERATION = 251000000;// quarter mlrd
    //const uint MAX_ITERATION = 101000000;// 101 mln
    const uint MAX_TASKS_TO_SOLVE = 4*1000*1000;
@@ -112,6 +113,8 @@ public:
 protected:
     void BuildFileNames(void);
     void MiniReport(uint toGo);
+    void CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp);
+
     void FillSemantic(void);
     void InitDeck(void);
     int  InitSuit(u64 suit, int idx);
@@ -138,6 +141,7 @@ protected:
     void SolveOneByOne(struct deal &dlBase);
     void SolveInChunks(struct deal &dlBase);
     void SolveOneChunk(struct deal &dlBase, struct boards &bo, uint i, uint step);
+    void HandleSolvedBoard(DdsTricks &tr, deal &cards, futureTricks &fut);
     void HandleDDSFail(int res);
     uint Remains() const { return (countIterations < countShare) ? countShare - countIterations : 0; }
     void CoWork(Walrus * other);
@@ -173,7 +177,7 @@ protected:
     struct CumulativeScore {
        CumulativeScore();
        s64    ideal;
-       s64    bidGame;
+       s64    bidGame, bidSlam;
        s64    partscore;
        s64    leadS, leadH, leadD, leadC;
        s64    oppContract, oppCtrDoubled;
@@ -181,8 +185,8 @@ protected:
        void OpLead3Major(s64 &sum, uint tricks);
        void OpLead5minor(s64 &sum, uint tricks);
        void OpLead5mX   (s64 &sum, uint tricks);
-       void OC_3MajX    (s64 &sum, uint tricks);
-       void OC_3Major   (s64 &sum, uint tricks);
+       void Opp_3MajX    (s64 &sum, uint tricks);
+       void Opp_3Major   (s64 &sum, uint tricks);
     } cumulScore;
 
     struct Progress
@@ -226,7 +230,9 @@ private:
    uint CountKeyCards(SplitBits &hand);
 
    void ShowProgress(uint idx);
-   int  DetectInterrogationBase();
+   int  PokeScorerForTricks();
+   void CleanupStats();
+
    void InitMiniUI();
    void RunMiniUI();
 
@@ -234,12 +240,14 @@ private:
    void Score_NV_4Major(DdsTricks &tr);
    void Score_3NT(DdsTricks &tr);
    void Score_3MajorDoubled(DdsTricks &tr);
+   void Score_NV6Major(DdsTricks &tr);
    void Score_OpLead3Major(DdsTricks &tr);
    void Score_OpLead3NT(DdsTricks &tr);
    void Score_OpLead5D(DdsTricks &tr);
    void Score_OpLead5DX(DdsTricks &tr);
    void Score_Cumul4M(DdsTricks &tr);
    void Score_CumulNV4M(DdsTricks &tr);
+   void Score_CumulNV6M(DdsTricks &tr);
    void Score_Cumul3NT(DdsTricks &tr);
    void HitByScore(DdsTricks &tr, uint made);
 
@@ -262,5 +270,6 @@ private:
    uint AugMultiVul_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint Spade4_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint SeptMajors_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint NovVoidwood_FilterOut(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho);
 };
 

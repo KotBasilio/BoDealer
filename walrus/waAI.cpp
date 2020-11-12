@@ -222,44 +222,49 @@ void Walrus::ShowProgress(uint idx)
    }
 }
 
-int Walrus::DetectInterrogationBase()
+int Walrus::PokeScorerForTricks()
 {
-   CumulativeScore zeroes;
-   int ret = 7;
-
    // take 13 tricks 
    DdsTricks tr;
    tr.plainScore = 13;
    (this->*sem.onScoring)(tr);
+
+
+   // not a game => some partscore
    if (cumulScore.ideal < 300) {
-      // not a game => partscore
-      ret = 9;
-   } else {
-      // take 9 and analyze
-      tr.plainScore = 9;
-      (this->*sem.onScoring)(tr);
-      if (cumulScore.ideal > 1200) {// made two games => seems playing 3NT
-         ret = 9;
-      } else if (cumulScore.ideal > 500) {// made one game => seems playing 4M
-         ret = 10;
-      } else { // so far one case 450 for 5dX+2(750) and 5dX-2(-300)
-         ret = 11;
-      }
-   }
+      return 9;
+   } 
+   
+   // 920 etc => at least a small slam
+   if (cumulScore.ideal > 900) {
+      return 12;
+   } 
 
-   // reset table results
-   cumulScore = zeroes;
-   for (int i = 0; i < CTRL_SIZE; i++) {
-      hitsCount[0][i] = 0;
-      hitsCount[1][i] = 0;
-   }
+   // take 9 and analyze sum
+   tr.plainScore = 9;
+   (this->*sem.onScoring)(tr);
 
-   return ret;
+   // made two games => seems playing 3NT
+   if (cumulScore.ideal > 1200) {
+      return 9;
+   } 
+
+   // made one game => seems playing 4M
+   if (cumulScore.ideal > 500) {
+      return 10;
+   } 
+   
+   // so far one case 450 for 5dX+2(750) and 5dX-2(-300)
+   return 11;
 }
 
 void Walrus::InitMiniUI()
 {
-   ui.irBase = DetectInterrogationBase();
+   // how many tricks is the base?
+   ui.irBase = PokeScorerForTricks();
+
+   // that poking has left some marks in stats
+   CleanupStats();
 }
 
 void Walrus::MiniUI::Run()
@@ -338,6 +343,30 @@ void Walrus::HandleDDSFail(int res)
   _getch();
 }
 
+void Walrus::HandleSolvedBoard(DdsTricks &tr, deal &cards, futureTricks &fut)
+{
+   // cater for unplayable boards
+   bool intactScore = true;
+   #ifdef UNPLAYABLE_ONE_OF
+   if (tr.plainScore == ui.irBase) {
+      static int cycleCatering = UNPLAYABLE_ONE_OF;
+      if (0 == --cycleCatering) {
+         tr.plainScore--;
+         intactScore = false;
+         cycleCatering = UNPLAYABLE_ONE_OF;
+      }
+   }
+   #endif // UNPLAYABLE_ONE_OF
+
+   // score and add to statistic
+   (this->*sem.onScoring)(tr);
+
+   // intact => run mini-UI to show boards on console
+   if (intactScore) {
+      Orb_Interrogate(ui.irGoal, tr, cards, fut);
+   }
+}
+
 void Walrus::SolveOneChunk(deal &dlBase, boards &bo, uint ofs, uint step)
 {
    bo.noOfBoards = (int)step;
@@ -356,14 +385,12 @@ void Walrus::SolveOneChunk(deal &dlBase, boards &bo, uint ofs, uint step)
    int res = SolveAllBoardsN(bo, solved);
    HandleDDSFail(res);
 
-   // account all hands, may show on console
+   // handle all solved
    ui.Run();
    for (int handno = 0; handno < solved.noOfBoards; handno++) {
-      DdsTricks tr;
-      tr.Init(solved.solvedBoard[handno]);
-
-      (this->*sem.onScoring)(tr);
-      Orb_Interrogate(ui.irGoal, tr, bo.deals[handno], solved.solvedBoard[handno]);
+      futureTricks &fut = solved.solvedBoard[handno];
+      DdsTricks tr; tr.Init(fut);
+      HandleSolvedBoard(tr, bo.deals[handno], fut);
    }
 
    // may score their contract

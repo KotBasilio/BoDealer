@@ -23,11 +23,22 @@ bool Walrus::AfterMath()
 Walrus::CumulativeScore::CumulativeScore()
    : ideal(0L)
    , bidGame(0L)
+   , bidSlam(0L)
    , partscore(0L)
    , oppContract(0L)
    , oppCtrDoubled(0L)
 {
    leadS = leadH = leadD = leadC = 0L;
+}
+
+void Walrus::CleanupStats()
+{
+   CumulativeScore zeroes;
+   cumulScore = zeroes;
+   for (int i = 0; i < CTRL_SIZE; i++) {
+      hitsCount[0][i] = 0;
+      hitsCount[1][i] = 0;
+   }
 }
 
 std::chrono::steady_clock::duration timeChronoStart;

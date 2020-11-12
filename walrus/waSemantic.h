@@ -18,7 +18,8 @@ typedef signed long long s64;
 //#define SEMANTIC_RED55_KINGS_PART_15_16
 //#define SEMANTIC_AUG_SPLIT_FIT
 //#define SEMANTIC_AUG_MULTI_VUL
-#define SEMANTIC_SEPT_MAJORS54_18HCP
+//#define SEMANTIC_SEPT_MAJORS54_18HCP
+#define SEMANTIC_NOV_VOIDWOOD
 // -- tasks for opening lead:
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
 //#define SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
@@ -29,8 +30,15 @@ typedef signed long long s64;
 //#define SEMANTIC_SPADE_4_WHEN_1H
 
 // -------------------------------------------------------- 
+#ifdef SEMANTIC_NOV_VOIDWOOD
+#define TITLE_VERSION  "Fix a 3730 three aces;\n1nt(11-13) 2d\n2h 5c -- opp doubled that\nXX(zero of 5) ??\nQuestion: a game or a slam? v2.0"
+#define SEEK_BIDDING_LEVEL
+#define UNPLAYABLE_ONE_OF  6    // adjust to singleton king offside -- go down in 1/6 of such cases
+#endif // SEMANTIC_NOV_VOIDWOOD
+
+// -------------------------------------------------------- 
 #ifdef SEMANTIC_SEPT_MAJORS54_18HCP
-#define TITLE_VERSION  "Fix a 18 hcp;\n1c 1d\n1s 1NT\2h 3h\nQuestion: partscore or a game? v2.0"
+#define TITLE_VERSION  "Fix a 18 hcp;\n1c 1d\n1s 1NT\n2h 3h\nQuestion: partscore or a game? v2.0"
 #define SEEK_BIDDING_LEVEL
 #endif // SEMANTIC_SEPT_MAJORS54_18HCP
 

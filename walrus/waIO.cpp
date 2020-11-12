@@ -7,6 +7,20 @@
 #include <Windows.h> // GetModuleFileName
 #include "walrus.h"
 
+#ifdef _DEBUG
+char fmtCell[] = "%6u,";
+char fmtCellFloat[] = "%6.1f,";
+char tblHat[] = "    :  HITS COUNT   :\n";
+#else
+char fmtCell[] = "%10u,";
+char fmtCellFloat[] = "%10.1f,";
+//char tblHat[] =  "    :       let    spade    heart     both     club             sum\n";
+char tblHat[] = "    :  HITS COUNT   :\n";
+#endif   
+
+#define MINI_CAMPS 7
+#define MINI_ROWS 14
+
 /*************************************************************
 '* Walrus::LoadInitialStatistics()
 '*
@@ -47,34 +61,22 @@ void Walrus::BuildFileNames(void)
    strcat(namesBase.Progress, PROGRESS_FNAME);
 }
 
-#ifdef _DEBUG
-   char fmtCell[] = "%6u,";
-   char fmtCellFloat[] = "%6.1f,";
-   char tblHat[] = "    :  HITS COUNT   :\n";
-#else
-   char fmtCell[] = "%10u,";
-   char fmtCellFloat[] = "%10.1f,";
-   //char tblHat[] =  "    :       let    spade    heart     both     club             sum\n";
-   char tblHat[] = "    :  HITS COUNT   :\n";
-#endif   
-
-void Walrus::MiniReport(uint toGo)
+// OUT: hitsRow[], hitsCamp[]
+void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
 {
-   uint hitsRow[14];
-   uint hitsCamp[7];
-   for (int j = 0; j < 7; j++) {
+   for (int j = 0; j < MINI_CAMPS; j++) {
       hitsRow[j] = 0;
       hitsCamp[j] = 0;
    }
    printf("\n%s", tblHat);
-   for (int i = 0; i < 14; i++) {
+   for (int i = 0; i < MINI_ROWS; i++) {
       printf("(%2d):  ", i);
 
       uint sumline = 0;
-      for (int j = 0; j < 7; j++) {
+      for (int j = 0; j < MINI_CAMPS; j++) {
          printf(fmtCell, hitsCount[i][j]);
-         sumline      += hitsCount[i][j];
-         hitsCamp[j]  += hitsCount[i][j];
+         sumline     += hitsCount[i][j];
+         hitsCamp[j] += hitsCount[i][j];
       }
 
       printf("%10u\n", sumline);
@@ -86,7 +88,7 @@ void Walrus::MiniReport(uint toGo)
                sumline = 1;
             }
             printf("( %%):  ");
-            for (int j = 0; j < 7; j++) {
+            for (int j = 0; j < MINI_CAMPS; j++) {
                float percent = hitsCount[i][j] * 100.f / sumline;
                printf(fmtCellFloat, percent);
             }
@@ -94,6 +96,13 @@ void Walrus::MiniReport(uint toGo)
          }
       #endif // PERCENTAGES_IN_ANSWER_ROW
    }
+}
+
+void Walrus::MiniReport(uint toGo)
+{
+   uint hitsRow[MINI_ROWS];
+   uint hitsCamp[MINI_CAMPS];
+   CalcHitsForMiniReport(hitsRow, hitsCamp);
 
    if (countToSolve && (toGo == countToSolve)) {
       printf("Solving started:");
@@ -111,16 +120,33 @@ void Walrus::MiniReport(uint toGo)
    }
 
 #ifdef SEEK_BIDDING_LEVEL
-   // calc percentages
-   float percPartscore = hitsRow[0] * 100.f / sumRows;
-   float percGame      = hitsRow[1] * 100.f / sumRows;
+   // slam/game/partscore
+   if (ui.irBase < 12) {
+      // calc percentages
+      float percPartscore = hitsRow[0] * 100.f / sumRows;
+      float percGame      = hitsRow[1] * 100.f / sumRows;
 
-   printf("Processed: %u total; %3.1f%% partscore + %3.1f%% game\n",
-      sumRows, percPartscore, percGame);
-   printf("Averages: ideal = %lld, bidGame = %lld, partscore=%lld\n",
-      cumulScore.ideal / sumRows,
-      cumulScore.bidGame / sumRows,
-      cumulScore.partscore / sumRows);
+      // show
+      printf("Processed: %u total; %3.1f%% partscore + %3.1f%% game\n",
+         sumRows, percPartscore, percGame);
+      printf("Averages: ideal = %lld, bidGame = %lld, partscore=%lld\n",
+         cumulScore.ideal / sumRows,
+         cumulScore.bidGame / sumRows,
+         cumulScore.partscore / sumRows);
+   } else {
+      // calc percentages
+      float percGame = hitsRow[0] * 100.f / sumRows;
+      float percSlam = hitsRow[1] * 100.f / sumRows;
+
+      // show
+      printf("Processed: %u total; %3.1f%% slam + %3.1f%% game\n",
+         sumRows, percSlam, percGame);
+      printf("Averages: ideal = %lld, bidGame = %lld, slam=%lld\n",
+         cumulScore.ideal / sumRows,
+         cumulScore.bidGame / sumRows,
+         cumulScore.bidSlam / sumRows);
+   }
+
    #ifdef SCORE_OPP_CONTRACT
      printf("Their contract expectation average: passed = %lld, doubled = %lld\n",
        cumulScore.oppContract / sumRows, 
