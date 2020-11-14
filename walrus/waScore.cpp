@@ -4,15 +4,19 @@
  *
  ************************************************************/
 #include <string.h>
+
 #include "walrus.h"
 #include "..\dds-develop\include\dll.h"
 #include "..\dds-develop\examples\hands.h"
 
-void Walrus::HitByScore(DdsTricks &tr, uint made)
+#define OUR_ROW   0
+#define THEIR_ROW 10
+
+void Walrus::HitByScore(DdsTricks &tr, uint made, uint row /*= OUR_ROW*/)
 {
-   uint row = 0, camp = 0;
+   uint camp = 0;
    if (tr.plainScore >= made) {
-      row = 1;
+      row++;
       camp = tr.plainScore - made;
    } else {
       camp = made - tr.plainScore - 1;
@@ -47,39 +51,39 @@ void Walrus::Score_Cumul4M(DdsTricks &tr)
    if (ideal < 10) {
       cumulScore.ideal += partdelta;
    } else {
-      cumulScore.ideal += 620 + (ideal-10)*30;
+      cumulScore.ideal += 620 + (ideal - 10) * 30;
    }
 }
 
 void Walrus::Score_CumulNV4M(DdsTricks &tr)
 {
-	// "always game" strategy
-	uint ideal = tr.plainScore;
-	switch (ideal) {
-		case 2:  cumulScore.bidGame -= 400; break;
-		case 3:  cumulScore.bidGame -= 350; break;
-		case 4:  cumulScore.bidGame -= 300; break;
-		case 5:  cumulScore.bidGame -= 250; break;
-		case 6:  cumulScore.bidGame -= 200; break;
-		case 7:  cumulScore.bidGame -= 150; break;
-		case 8:  cumulScore.bidGame -= 100; break;
-		case 9:  cumulScore.bidGame -= 50; break;
-		case 10: cumulScore.bidGame += 420; break;
-		case 11: cumulScore.bidGame += 450; break;
-		case 12: cumulScore.bidGame += 480; break;
-		case 13: cumulScore.bidGame += 510; break;
-	}
+   // "always game" strategy
+   uint ideal = tr.plainScore;
+   switch (ideal) {
+      case 2:  cumulScore.bidGame -= 400; break;
+      case 3:  cumulScore.bidGame -= 350; break;
+      case 4:  cumulScore.bidGame -= 300; break;
+      case 5:  cumulScore.bidGame -= 250; break;
+      case 6:  cumulScore.bidGame -= 200; break;
+      case 7:  cumulScore.bidGame -= 150; break;
+      case 8:  cumulScore.bidGame -= 100; break;
+      case 9:  cumulScore.bidGame -= 50; break;
+      case 10: cumulScore.bidGame += 420; break;
+      case 11: cumulScore.bidGame += 450; break;
+      case 12: cumulScore.bidGame += 480; break;
+      case 13: cumulScore.bidGame += 510; break;
+   }
 
-	// "always partscore" strategy
-	int partdelta = ideal > 6 ? 50 + (ideal - 6) * 30 : -50;
-	cumulScore.partscore += partdelta;
+   // "always partscore" strategy
+   int partdelta = ideal > 6 ? 50 + (ideal - 6) * 30 : -50;
+   cumulScore.partscore += partdelta;
 
-	// "ideal"
-	if (ideal < 10) {
-		cumulScore.ideal += partdelta;
-	} else {
-		cumulScore.ideal += 420 + (ideal - 10) * 30;
-	}
+   // "ideal"
+   if (ideal < 10) {
+      cumulScore.ideal += partdelta;
+   } else {
+      cumulScore.ideal += 420 + (ideal - 10) * 30;
+   }
 }
 
 void Walrus::Score_Cumul3NT(DdsTricks &tr)
@@ -113,11 +117,44 @@ void Walrus::Score_Cumul3NT(DdsTricks &tr)
    }
 }
 
-void Walrus::Score_CumulNV6M(DdsTricks &tr)
+void Walrus::CumulativeScore::Our6mNV(uint tricks)
+{
+   // "always slam" strategy
+   switch (tricks) {
+      case 2:  bidSlam -= 450; break;
+      case 3:  bidSlam -= 350; break;
+      case 4:  bidSlam -= 400; break;
+      case 5:  bidSlam -= 350; break;
+      case 6:  bidSlam -= 300; break;
+      case 7:  bidSlam -= 250; break;
+      case 8:  bidSlam -= 200; break;
+      case 9:  bidSlam -= 150; break;
+      case 10: bidSlam -= 100; break;
+      case 11: bidSlam -= 50;  break;
+      case 12: bidSlam += 920; break;
+      case 13: bidSlam += 940; break;
+   }
+
+   // "always game" strategy
+   int gameDelta = tricks > 10 ? 
+      300 + (tricks - 6) * 20 : 
+      -50 * (11 - tricks);
+   bidGame += gameDelta;
+
+   // "ideal"
+   if (tricks < 12) {
+      ideal += gameDelta;
+   } else {
+      ideal += 920 + (tricks - 12) * 20;
+   }
+}
+
+void Walrus::Score_CumulNV6M(DdsTricks& tr)
 {
    // "always slam" strategy
    uint ideal = tr.plainScore;
-   switch (ideal) {
+   switch (ideal)
+   {
       case 2:  cumulScore.bidSlam -=  450; break;
       case 3:  cumulScore.bidSlam -=  350; break;
       case 4:  cumulScore.bidSlam -=  400; break;
@@ -127,13 +164,13 @@ void Walrus::Score_CumulNV6M(DdsTricks &tr)
       case 8:  cumulScore.bidSlam -=  200; break;
       case 9:  cumulScore.bidSlam -=  150; break;
       case 10: cumulScore.bidSlam -=  100; break;
-      case 11: cumulScore.bidSlam -=   50; break;
+      case 11: cumulScore.bidSlam -=  50;  break;
       case 12: cumulScore.bidSlam +=  980; break;
       case 13: cumulScore.bidSlam += 1010; break;
    }
 
    // "always game" strategy
-   int gameDelta = ideal > 9 ? 300 + (ideal - 6) * 30 : -100;
+   int gameDelta = ideal > 9 ? 300 + (ideal - 6) * 30 : -50;
    cumulScore.bidGame += gameDelta;
 
    // "ideal"
@@ -144,7 +181,7 @@ void Walrus::Score_CumulNV6M(DdsTricks &tr)
    }
 }
 
-void Walrus::Score_4Major(DdsTricks &tr)
+void Walrus::Score_4Major(DdsTricks& tr)
 {
    // hits
    HitByScore(tr, 10);
@@ -153,16 +190,16 @@ void Walrus::Score_4Major(DdsTricks &tr)
    Score_Cumul4M(tr);
 }
 
-void Walrus::Score_NV_4Major(DdsTricks &tr)
+void Walrus::Score_NV_4Major(DdsTricks& tr)
 {
-	// hits
-	HitByScore(tr, 10);
+   // hits
+   HitByScore(tr, 10);
 
-	// cumul
-	Score_CumulNV4M(tr);
+   // cumul
+   Score_CumulNV4M(tr);
 }
 
-void Walrus::Score_3NT(DdsTricks &tr)
+void Walrus::Score_3NT(DdsTricks& tr)
 {
    // hits
    HitByScore(tr, 9);
@@ -171,14 +208,24 @@ void Walrus::Score_3NT(DdsTricks &tr)
    Score_Cumul3NT(tr);
 }
 
-void Walrus::Score_3MajorDoubled(DdsTricks &tr)
+void Walrus::Score_Opp3MajorDoubled(DdsTricks& tr)
 {
-  // we don't need any hits; need only a cumulative score
-  cumulScore.Opp_3Major(cumulScore.oppContract,   tr.plainScore);
-  cumulScore.Opp_3MajX (cumulScore.oppCtrDoubled, tr.plainScore);
+   // we don't need any hits; need only a cumulative score
+   cumulScore.Opp_3Major(cumulScore.oppContract, tr.plainScore);
+   cumulScore.Opp_3MajX(cumulScore.oppCtrDoubled, tr.plainScore);
 }
 
-void Walrus::Score_NV6Major(DdsTricks &tr)
+void Walrus::Score_Opp4MajorDoubled(DdsTricks& tr)
+{
+   // store their hits
+   HitByScore(tr, 10, THEIR_ROW);
+   countOppContractMarks++;
+
+   // store their cumulative score
+   cumulScore.Opp_4MajX(cumulScore.oppCtrDoubled, tr.plainScore);
+}
+
+void Walrus::Score_NV6Major(DdsTricks& tr)
 {
    // hits
    HitByScore(tr, 12);
@@ -187,3 +234,11 @@ void Walrus::Score_NV6Major(DdsTricks &tr)
    Score_CumulNV6M(tr);
 }
 
+void Walrus::Score_NV6Minor(DdsTricks& tr)
+{
+   // hits
+   HitByScore(tr, 12);
+
+   // cumul
+   cumulScore.Our6mNV(tr.plainScore);
+}

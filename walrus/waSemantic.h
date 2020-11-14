@@ -19,7 +19,8 @@ typedef signed long long s64;
 //#define SEMANTIC_AUG_SPLIT_FIT
 //#define SEMANTIC_AUG_MULTI_VUL
 //#define SEMANTIC_SEPT_MAJORS54_18HCP
-#define SEMANTIC_NOV_VOIDWOOD
+//#define SEMANTIC_NOV_VOIDWOOD
+#define SEMANTIC_NOV_BID_6C_OR_DBL_4S
 // -- tasks for opening lead:
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
 //#define SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
@@ -28,6 +29,17 @@ typedef signed long long s64;
 // -- tasks for one hand:
 //#define SEMANTIC_KEYCARDS_10_12
 //#define SEMANTIC_SPADE_4_WHEN_1H
+
+// -------------------------------------------------------- 
+#ifdef SEMANTIC_NOV_BID_6C_OR_DBL_4S
+//#define TITLE_VERSION  "Fix 17 hcp hand;\n1c-(1s)-dbl-(3s)\n-3NT-(4s)-dbl-(p)-??\nAssume partner 12+\nQuestion: dbl, 5 clubs / 6 clubs? Ver 2.0 "
+//#define TITLE_VERSION  "Fix 17 hcp hand;\n1c-(1s)-dbl-(3s)\n-3NT-(4s)-dbl-(p)-??\nAssume partner (10-11)\nQuestion: dbl, 5 clubs / 6 clubs? Ver 2.0 "
+#define TITLE_VERSION  "Fix 17 hcp hand;\n1c-(1s)-dbl-(3s)\n-3NT-(4s)-dbl-(p)-??\nAssume partner 13+\nQuestion: dbl, 5 clubs / 6 clubs? Ver 2.0 "
+#define SEEK_BIDDING_LEVEL
+#define SCORE_OPP_CONTRACT
+#define OC_TRUMPS       SOL_SPADES
+#define OC_ON_LEAD      SOUTH
+#endif 
 
 // -------------------------------------------------------- 
 #ifdef SEMANTIC_NOV_VOIDWOOD

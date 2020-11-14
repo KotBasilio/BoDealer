@@ -7,6 +7,98 @@
 ************************************************************/
 #include "walrus.h"
 
+#ifdef SEMANTIC_NOV_BID_6C_OR_DBL_4S
+
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &Walrus::NovSlam_FilterOut;
+   sem.onScoring = &Walrus::Score_NV6Minor;
+   sem.onOppContract = &Walrus::Score_Opp4MajorDoubled;
+}
+
+// OUT: camp
+uint Walrus::NovSlam_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_OPP = 2;
+   const uint SKIP_BY_RESP = 3;
+
+   // LHO: 1s, raise to 3s
+   // partner: X, X
+   // RHO: jumps to 3s
+   twLengths lenOpp(rho);
+   if (lenOpp.s < 5 || 6 < lenOpp.s) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE; // 5-6 spades
+   }
+   twLengths lenResp(lho);
+   if (lenResp.s != 4) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 1; // fit to 3s
+   }
+
+   twLengths lenPart(partner);
+   if (lenPart.h > 5 || 
+       lenPart.d > 5 || 
+       lenPart.c > 5) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE; // no 6+ suits
+   }
+   twlHCP hcpPart(partner);
+   if (hcpPart.total < 13) {
+   //if (hcpPart.total < 12) {
+   //if (hcpPart.total < 10 || 11 < hcpPart.total) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // wrong points count
+   }
+
+   // opener opp
+   twlHCP hcpOpp(rho);
+   if (hcpOpp.total < 7) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 1; // opener points count
+   }
+   // responder opp
+   twlHCP hcpResp(lho);
+   if (hcpResp.total < 3 || 6 < hcpResp.total) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 2; // resp points count
+   }
+
+   // exclude Michaels
+   if (lenOpp.h > 4 ||
+       lenOpp.d > 4 ||
+       lenOpp.c > 4) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 2;
+   }
+
+   // request a shortage when 5 spades
+   if (lenOpp.s == 5) {
+      if (lenOpp.h > 1 &&
+          lenOpp.d > 1 &&
+          lenOpp.c > 1) {
+         camp = SKIP_BY_OPP;
+         return ORDER_BASE + 3; 
+      }
+   }
+
+   // exclude side 6+ in responder
+   if (lenResp.h > 5 ||
+       lenResp.d > 5 ||
+       lenResp.c > 5) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 3;
+   }
+
+
+   // seems it passes
+   return 0;
+}
+#endif // SEMANTIC_NOV_BID_6C_OR_DBL_4S
+
 #ifdef SEMANTIC_JULY_AUTO_FITO_PLANKTON
 
 void Walrus::FillSemantic(void)
@@ -14,7 +106,7 @@ void Walrus::FillSemantic(void)
    Orb_FillSem();
    sem.onFilter = &Walrus::FitoJuly_FilterOut;
    sem.onScoring = &Walrus::Score_4Major;
-   sem.onOppContract = &Walrus::Score_3MajorDoubled;
+   sem.onOppContract = &Walrus::Score_Opp3MajorDoubled;
 }
 
 // OUT: camp

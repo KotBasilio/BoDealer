@@ -14,6 +14,19 @@
 
  // --------------------------------------------------------------------------------
  // input
+#ifdef SEMANTIC_NOV_BID_6C_OR_DBL_4S
+#define INPUT_HOLDINGS  fito_july
+#define INPUT_TRUMPS    SOL_CLUBS
+#define INPUT_ON_LEAD   EAST
+uint fito_july[DDS_HANDS][DDS_SUITS] =
+{ // North                         East        South       West
+   { RA | RQ ,                      0,          0,         0  } , // spades
+   { RJ | R7,                       0,          0,         0  } , // hearts
+   { RA | RJ | R8 ,                 0,          0,         0  } , // diamonds
+   { RK | RQ | R8 | R7 | R6 | R4 ,  0,          0,         0  }   // clubs
+};
+#endif // SEMANTIC_NOV_BID_6C_OR_DBL_4S
+
 #ifdef SEMANTIC_NOV_VOIDWOOD
 #define INPUT_HOLDINGS  heartsNovVoidwood
 #define INPUT_TRUMPS    SOL_HEARTS
@@ -283,6 +296,7 @@ void DdsTricks::Init(futureTricks &fut)
 Walrus::Walrus()
    : isRunning(true)
    , countIterations(0)
+   , countOppContractMarks(0)
    , countShare(MAX_ITERATION)
    , countSolo(0)
    , maxTasksToSolve(MAX_TASKS_TO_SOLVE)

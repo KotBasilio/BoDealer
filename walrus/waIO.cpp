@@ -183,19 +183,25 @@ void Walrus::MiniReport(uint toGo)
 
 }
 
+#ifdef IO_NEED_FULL_TABLE
+   #define OUT_BIG_TABLE(fmt, par)   printf(fmt, par)
+#else
+   #define OUT_BIG_TABLE(fmt, par)   
+#endif // IO_NEED_FULL_TABLE
+
 void Walrus::ReportState(char *header)
 {
-   uint bookman = countIterations;
+   uint bookman = countIterations + countOppContractMarks;
 
-   printf("%s", header);
+   OUT_BIG_TABLE("%s", header);
    for (int i = 0; i < HCP_SIZE; i++) {
       uint sumline = 0;
       for (int j = 0; j < CTRL_SIZE; j++) {
-         printf(fmtCell, hitsCount[i][j]);
+         OUT_BIG_TABLE(fmtCell, hitsCount[i][j]);
          bookman -= hitsCount[i][j];
          sumline += hitsCount[i][j];
       }
-      printf("%10u\n", sumline);
+      OUT_BIG_TABLE("%10u\n", sumline);
    }
    printf("\n\nTotal iterations = %u, balance ", countIterations);
    if (bookman) {

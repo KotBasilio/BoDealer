@@ -15,10 +15,10 @@
 #else
    //const uint MAX_ITERATION = 4001000000;// 4 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 3001000000;// 3 mlrd + 1 millon gratis
-   //const uint MAX_ITERATION = 2001000000;// 2 mlrd + 1 millon gratis
+   const uint MAX_ITERATION = 2001000000;// 2 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 501000000;// half of mlrd
-   const uint MAX_ITERATION = 330000000;// third of mlrd
+   //const uint MAX_ITERATION = 330000000;// third of mlrd
    //const uint MAX_ITERATION = 251000000;// quarter mlrd
    //const uint MAX_ITERATION = 101000000;// 101 mln
    const uint MAX_TASKS_TO_SOLVE = 4*1000*1000;
@@ -187,6 +187,8 @@ protected:
        void OpLead5mX   (s64 &sum, uint tricks);
        void Opp_3MajX    (s64 &sum, uint tricks);
        void Opp_3Major   (s64 &sum, uint tricks);
+       void Opp_4MajX    (s64 &sum, uint tricks);
+       void Our6mNV      (uint tricks);
     } cumulScore;
 
     struct Progress
@@ -211,6 +213,7 @@ private:
    const char *     nameHlp;
    bool             isRunning;
    uint             countIterations, countShare, countSolo;
+   uint             countOppContractMarks;
    SplitBits        deck[DECK_ARR_SIZE];
    SplitBits        highBits;
    SaDeck           saDeck;
@@ -240,8 +243,8 @@ private:
    void Score_4Major(DdsTricks &tr);
    void Score_NV_4Major(DdsTricks &tr);
    void Score_3NT(DdsTricks &tr);
-   void Score_3MajorDoubled(DdsTricks &tr);
    void Score_NV6Major(DdsTricks &tr);
+   void Score_NV6Minor(DdsTricks &tr);
    void Score_OpLead3Major(DdsTricks &tr);
    void Score_OpLead3NT(DdsTricks &tr);
    void Score_OpLead5D(DdsTricks &tr);
@@ -250,7 +253,9 @@ private:
    void Score_CumulNV4M(DdsTricks &tr);
    void Score_CumulNV6M(DdsTricks &tr);
    void Score_Cumul3NT(DdsTricks &tr);
-   void HitByScore(DdsTricks &tr, uint made);
+   void Score_Opp3MajorDoubled(DdsTricks &tr);
+   void Score_Opp4MajorDoubled(DdsTricks &tr);
+   void HitByScore(DdsTricks &tr, uint made, uint row = 0);
 
    void WithdrawHolding(uint hld, uint waSuitByDds);
    void WithdrawDeuce(uint rankBit, u64 waSuit);
@@ -272,5 +277,6 @@ private:
    uint Spade4_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint SeptMajors_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint NovVoidwood_FilterOut(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho);
+   uint NovSlam_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
 };
 
