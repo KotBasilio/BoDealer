@@ -14,7 +14,22 @@
 
  // --------------------------------------------------------------------------------
  // input
+#ifdef SEMANTIC_NOV_DBL_ON_3NT
+// origin: a match at home
+#define INPUT_HOLDINGS  nov_3nt_doubled
+#define INPUT_TRUMPS    SOL_NOTRUMP
+#define INPUT_ON_LEAD   EAST
+uint nov_3nt_doubled[DDS_HANDS][DDS_SUITS] =
+{ // North      East        South      West
+   { 0,         0,          0,         RJ | R9 | R7 | R5  } , // spades
+   { 0,         0,          0,         RQ | R6 | R4  } ,      // hearts
+   { 0,         0,          0,         RQ | R8  } ,           // diamonds
+   { 0,         0,          0,         RQ | RJ | R7 | R5}     // clubs
+};
+#endif // SEMANTIC_NOV_DBL_ON_3NT
+
 #ifdef SEMANTIC_NOV_BID_6C_OR_DBL_4S
+// origin: Morozevich https://www.gambler.ru/tour/786003/protocol?id=72526447 brd 11
 #define INPUT_HOLDINGS  fito_july
 #define INPUT_TRUMPS    SOL_CLUBS
 #define INPUT_ON_LEAD   EAST
@@ -28,6 +43,7 @@ uint fito_july[DDS_HANDS][DDS_SUITS] =
 #endif // SEMANTIC_NOV_BID_6C_OR_DBL_4S
 
 #ifdef SEMANTIC_NOV_VOIDWOOD
+// origin: a match at home
 #define INPUT_HOLDINGS  heartsNovVoidwood
 #define INPUT_TRUMPS    SOL_HEARTS
 #define INPUT_ON_LEAD   EAST

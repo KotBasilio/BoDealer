@@ -7,8 +7,145 @@
 ************************************************************/
 #include "walrus.h"
 
-#ifdef SEMANTIC_NOV_BID_6C_OR_DBL_4S
+#ifdef SEMANTIC_NOV_DBL_ON_3NT
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &Walrus::NovDbl3NT_FilterOut;
+   sem.onScoring = &Walrus::Score_Doubled3NT;
+}
 
+// OUT: camp
+uint Walrus::NovDbl3NT_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_OPP = 2;
+   const uint SKIP_BY_RESP = 3;
+
+   // LHO: 1c, 17-21 nt, jump to 3NT
+   twlHCP hcpDecl(lho);
+   if (hcpDecl.total < 20 || 21 < hcpDecl.total) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 1; // wrong points count
+   }
+   twLengths lenDecl(lho);
+   if (lenDecl.s > 3) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 2; // spade fit
+   }
+//    if (lenDecl.s != 1) {
+//       camp = SKIP_BY_OPP;
+//       return ORDER_BASE + 2; // Basha exactly one spade
+//    }
+   if (lenDecl.h > 4 ||
+      lenDecl.d > 5 ||
+      lenDecl.c > 7) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 3;// kind of NT
+   }
+//    if (lenDecl.h > 4 ||
+//       lenDecl.d > 5) {
+//       camp = SKIP_BY_OPP;
+//       return ORDER_BASE + 3;// kind of NT + Manticora Gambling
+//    }
+   if (lenDecl.h < 2 ||
+      lenDecl.d < 2 ||
+      lenDecl.c < 2) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 4;// kind of NT
+   }
+
+   // partner: passss
+   twLengths lenPart(partner);
+   if (lenPart.s > 6 ||
+      lenPart.h > 6 ||
+      lenPart.d > 6 ||
+      lenPart.c > 6) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE; // no 7+ suits
+   }
+   twlHCP hcpPart(partner);
+   if (hcpPart.total > 11) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // no overcall
+   }
+   if (hcpPart.total > 9) {
+      if (lenPart.s > 4 || lenPart.h > 4) {
+         camp = SKIP_BY_PART;
+         return ORDER_BASE + 2; // no overcall
+      }
+   }
+   if (hcpPart.total > 6) {
+      if (lenPart.h > 4) {
+         if (lenPart.c > 4 ||
+            lenPart.d > 4) {
+            camp = SKIP_BY_PART;
+            return ORDER_BASE + 3; // Michaels
+         }
+      }
+      if (lenPart.c > 4 && lenPart.d > 4) {
+         camp = SKIP_BY_PART;
+         return ORDER_BASE + 4; // Michaels
+      }
+      if (lenPart.h > 5 && hcpPart.h > 5 || 
+          lenPart.d > 5 && hcpPart.d > 5 || 
+          lenPart.c > 5 && hcpPart.c > 5 ) {
+         camp = SKIP_BY_PART;
+         return ORDER_BASE + 5; // no overcall
+      }
+   }
+
+   // RHO: neg, trf to spades, pass on 3NT
+   twlHCP hcpResp(rho);
+   if (hcpResp.total > 6) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 1;
+   }
+   twLengths lenResp(rho);
+   if (lenResp.s != 5) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 1; // fit to 3s
+   }
+   if (lenResp.h > 4 ||
+      lenResp.d > 4 ||
+      lenResp.c > 4) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 3;
+   }
+//    if (lenResp.h > 5 ||
+//       lenResp.d > 5 ||
+//       lenResp.c > 5) {
+//       camp = SKIP_BY_RESP;
+//       return ORDER_BASE + 3;// Basha allow 5-5 resp
+//    }
+
+   // no 5-5-3-0 resp
+//    if (lenResp.h > 5 &&
+//       lenResp.d < 1 ||
+//       lenResp.c < 1) {
+//       camp = SKIP_BY_RESP;
+//       return ORDER_BASE + 4;
+//    }
+//    if (lenResp.d > 5 &&
+//       lenResp.h < 1 ||
+//       lenResp.c < 1) {
+//       camp = SKIP_BY_RESP;
+//       return ORDER_BASE + 4;
+//    }
+//    if (lenResp.c > 5 &&
+//       lenResp.d < 1 ||
+//       lenResp.h < 1) {
+//       camp = SKIP_BY_RESP;
+//       return ORDER_BASE + 4;
+//    }
+
+   // seems it passes
+   return 0;
+}
+#endif // SEMANTIC_NOV_DBL_ON_3NT
+
+#ifdef SEMANTIC_NOV_BID_6C_OR_DBL_4S
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();

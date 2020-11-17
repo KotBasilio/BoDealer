@@ -180,3 +180,45 @@ void Walrus::CumulativeScore::Opp_3Major(s64 &sum, uint tricks)
   }
 }
 
+void Walrus::CumulativeScore::Opp_3NT(s64 &sum, uint tricks)
+{
+   switch (tricks) {
+      case  9: sum -= 600; return;
+      case 10: sum -= 630; return;
+      case 11: sum -= 660; return;
+      case 12: sum -= 690; return;
+      case 13: sum -= 720; return;
+
+      case  8: sum += 100; return;
+      case  7: sum += 200; return;
+      case  6: sum += 300; return;
+      case  5: sum += 400; return;
+      case  4: sum += 500; return;
+      case  3: sum += 600; return;
+      case  2: sum += 700; return;
+      case  1: sum += 800; return;
+      case  0: sum += 900; return;
+   }
+}
+
+void Walrus::CumulativeScore::Opp_3NTX(s64 &sum, uint tricks)
+{
+   switch (tricks) {
+      case  9: sum -=  750; return;
+      case 10: sum -=  950; return;
+      case 11: sum -= 1150; return;
+      case 12: sum -= 1350; return;
+      case 13: sum -= 1550; return;
+
+      case  8: sum +=  200; return;
+      case  7: sum +=  500; return;
+      case  6: sum +=  800; return;
+      case  5: sum += 1100; return;
+      case  4: sum += 1400; return;
+      case  3: sum += 1700; return;
+      case  2: sum += 2000; return;
+      case  1: sum += 2300; return;
+      case  0: sum += 2600; return;
+   }
+}
+

@@ -1,0 +1,22 @@
+
+выборка Саши:
+    :  HITS COUNT   :
+( down):       11571,      6367,      2296,       763,        47,         1,         0,     21045
+( make):       11691,      5704,      1349,       208,         3,         0,         0,     18955
+Processed: 40000 total; 52.6% down some + 47.4% make
+Their contract expectation average: passed = 204, doubled = 194
+
+выборка Базилио:
+    :  HITS COUNT   :
+    :  HITS COUNT   :
+( down):       15609,      8950,      3390,       680,        21,         3,         0,     28653
+( make):       14369,      5543,      1263,       169,         3,         0,         0,     21347
+Processed: 50000 total; 57.3% down some + 42.7% make
+Their contract expectation average: passed = 168, doubled = 132
+
+выборка Мантикоры:
+    :  HITS COUNT   :
+( down):      155759,     89233,     34523,      6863,       263,         9,         0,    286650
+( make):      139979,     57480,     13684,      2133,        74,         0,         0,    213350
+Processed: 500000 total; 57.3% down some + 42.7% make
+Their contract expectation average: passed = 168, doubled = 134

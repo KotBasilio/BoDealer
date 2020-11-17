@@ -181,13 +181,15 @@ protected:
        s64    partscore;
        s64    leadS, leadH, leadD, leadC;
        s64    oppContract, oppCtrDoubled;
-       void OpLead3NT   (s64 &sum, uint tricks);
-       void OpLead3Major(s64 &sum, uint tricks);
-       void OpLead5minor(s64 &sum, uint tricks);
-       void OpLead5mX   (s64 &sum, uint tricks);
+       void OpLead3NT    (s64 &sum, uint tricks);
+       void OpLead3Major (s64 &sum, uint tricks);
+       void OpLead5minor (s64 &sum, uint tricks);
+       void OpLead5mX    (s64 &sum, uint tricks);
        void Opp_3MajX    (s64 &sum, uint tricks);
        void Opp_3Major   (s64 &sum, uint tricks);
        void Opp_4MajX    (s64 &sum, uint tricks);
+       void Opp_3NT      (s64 &sum, uint tricks);
+       void Opp_3NTX     (s64 &sum, uint tricks);
        void Our6mNV      (uint tricks);
     } cumulScore;
 
@@ -243,6 +245,7 @@ private:
    void Score_4Major(DdsTricks &tr);
    void Score_NV_4Major(DdsTricks &tr);
    void Score_3NT(DdsTricks &tr);
+   void Score_Doubled3NT(DdsTricks &tr);
    void Score_NV6Major(DdsTricks &tr);
    void Score_NV6Minor(DdsTricks &tr);
    void Score_OpLead3Major(DdsTricks &tr);
@@ -278,5 +281,6 @@ private:
    uint SeptMajors_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint NovVoidwood_FilterOut(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho);
    uint NovSlam_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint NovDbl3NT_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
 };
 

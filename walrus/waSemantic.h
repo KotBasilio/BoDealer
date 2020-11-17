@@ -20,7 +20,8 @@ typedef signed long long s64;
 //#define SEMANTIC_AUG_MULTI_VUL
 //#define SEMANTIC_SEPT_MAJORS54_18HCP
 //#define SEMANTIC_NOV_VOIDWOOD
-#define SEMANTIC_NOV_BID_6C_OR_DBL_4S
+//#define SEMANTIC_NOV_BID_6C_OR_DBL_4S
+#define SEMANTIC_NOV_DBL_ON_3NT
 // -- tasks for opening lead:
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
 //#define SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
@@ -29,6 +30,13 @@ typedef signed long long s64;
 // -- tasks for one hand:
 //#define SEMANTIC_KEYCARDS_10_12
 //#define SEMANTIC_SPADE_4_WHEN_1H
+
+// -------------------------------------------------------- 
+#ifdef SEMANTIC_NOV_DBL_ON_3NT
+#define TITLE_VERSION  "Fix some even values 8hcp;\nOpps bid:\np-1c\n1d-1nt(17-21)\n2h 3NT\n\nQuestion: maybe double that? v2.0"
+#define SEEK_DECISION_OVER_DOUBLE
+#define SHOW_OPP_RESULTS
+#endif // SEMANTIC_NOV_DBL_ON_3NT
 
 // -------------------------------------------------------- 
 #ifdef SEMANTIC_NOV_BID_6C_OR_DBL_4S
@@ -131,6 +139,10 @@ typedef signed long long s64;
 	#define SEEK_BIDDING_LEVEL
 #endif // SEMANTIC_AUG_MULTI_VUL
 
+#ifdef SCORE_OPP_CONTRACT
+   #define SHOW_OPP_RESULTS
+#endif 
+
 // -----------------------------------------------------------------
 // --- COMMON
 // -----------------------------------------------------------------
@@ -144,6 +156,13 @@ const uint SOURCE_CARDS_COUNT = 52;
 // 2 -- Find the maximum number of tricks for the side to play. Return all optimum cards and their scores.
 // 3 -- Return all cards that can be legally played, with their scores in descending order.
 // -----------------------------------------------------------------
+
+#ifdef SEEK_DECISION_OVER_DOUBLE
+const uint REMOVED_CARDS_COUNT = 13;
+const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
+#define PARAM_SOLUTIONS_DDS   1
+#define FIXED_HAND_WEST
+#endif // SEEK_DECISION_OVER_DOUBLE
 
 #ifdef SEEK_BIDDING_LEVEL
    const uint REMOVED_CARDS_COUNT = 13;

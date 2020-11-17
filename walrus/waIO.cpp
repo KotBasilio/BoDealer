@@ -70,7 +70,9 @@ void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
    }
    printf("\n%s", tblHat);
    for (int i = 0; i < MINI_ROWS; i++) {
-      printf("(%2d):  ", i);
+      printf( i==0 ? "(down):  ":
+              i==1 ? "(make):  ":
+                     "(%4d):  ", i);
 
       uint sumline = 0;
       for (int j = 0; j < MINI_CAMPS; j++) {
@@ -146,13 +148,23 @@ void Walrus::MiniReport(uint toGo)
          cumulScore.bidGame / sumRows,
          cumulScore.bidSlam / sumRows);
    }
-
-   #ifdef SCORE_OPP_CONTRACT
-     printf("Their contract expectation average: passed = %lld, doubled = %lld\n",
-       cumulScore.oppContract / sumRows, 
-       cumulScore.oppCtrDoubled / sumRows);
-   #endif // SCORE_OPP_CONTRACT
 #endif // SEEK_BIDDING_LEVEL
+
+#ifndef SCORE_OPP_CONTRACT
+   // calc percentages
+   float percGoDown = hitsRow[0] * 100.f / sumRows;
+   float percMake   = hitsRow[1] * 100.f / sumRows;
+
+   // show
+   printf("Processed: %u total; %3.1f%% down some + %3.1f%% make\n",
+      sumRows, percGoDown, percMake);
+#endif // SCORE_OPP_CONTRACT
+
+#ifdef SHOW_OPP_RESULTS
+   printf("Their contract expectation average: passed = %lld, doubled = %lld\n",
+      - cumulScore.oppContract / sumRows, 
+      - cumulScore.oppCtrDoubled / sumRows);
+#endif // SCORE_OPP_CONTRACT
 
 #ifdef SEEK_OPENING_LEAD
    // calc percentages
