@@ -181,16 +181,23 @@ protected:
        s64    partscore;
        s64    leadS, leadH, leadD, leadC;
        s64    oppContract, oppCtrDoubled;
+       // -- opening lead
        void OpLead3NT    (s64 &sum, uint tricks);
        void OpLead3Major (s64 &sum, uint tricks);
        void OpLead5minor (s64 &sum, uint tricks);
        void OpLead5mX    (s64 &sum, uint tricks);
+       // -- opp contract
        void Opp_3MajX    (s64 &sum, uint tricks);
        void Opp_3Major   (s64 &sum, uint tricks);
        void Opp_4MajX    (s64 &sum, uint tricks);
        void Opp_3NT      (s64 &sum, uint tricks);
        void Opp_3NTX     (s64 &sum, uint tricks);
-       void Our6mNV      (uint tricks);
+       // -- our contracts
+       void OurNV6m      (uint tricks);
+       void OurNV6Maj    (uint tricks);
+       void Our3NT       (uint tricks);
+       void Our4M        (uint tricks);
+       void OurNV4M      (uint tricks);
     } cumulScore;
 
     struct Progress
@@ -252,10 +259,7 @@ private:
    void Score_OpLead3NT(DdsTricks &tr);
    void Score_OpLead5D(DdsTricks &tr);
    void Score_OpLead5DX(DdsTricks &tr);
-   void Score_Cumul4M(DdsTricks &tr);
-   void Score_CumulNV4M(DdsTricks &tr);
    void Score_CumulNV6M(DdsTricks &tr);
-   void Score_Cumul3NT(DdsTricks &tr);
    void Score_Opp3MajorDoubled(DdsTricks &tr);
    void Score_Opp4MajorDoubled(DdsTricks &tr);
    void HitByScore(DdsTricks &tr, uint made, uint row = 0);

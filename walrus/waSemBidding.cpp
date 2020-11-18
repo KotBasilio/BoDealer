@@ -30,20 +30,27 @@ uint Walrus::NovDbl3NT_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho,
       return ORDER_BASE + 1; // wrong points count
    }
    twLengths lenDecl(lho);
-   if (lenDecl.s > 3) {
-      camp = SKIP_BY_OPP;
-      return ORDER_BASE + 2; // spade fit
-   }
-//    if (lenDecl.s != 1) {
+//    if (lenDecl.s > 3) {
 //       camp = SKIP_BY_OPP;
-//       return ORDER_BASE + 2; // Basha exactly one spade
+//       return ORDER_BASE + 2; // spade fit
 //    }
-   if (lenDecl.h > 4 ||
-      lenDecl.d > 5 ||
-      lenDecl.c > 7) {
+   if (lenDecl.s != 1) {
       camp = SKIP_BY_OPP;
-      return ORDER_BASE + 3;// kind of NT
+      return ORDER_BASE + 2; // Basha exactly 1444
    }
+   if (lenDecl.h != 4 ||
+      lenDecl.d != 4 ||
+      lenDecl.c != 4) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 3;// Basha exactly 1444
+   }
+
+//    if (lenDecl.h > 4 ||
+//       lenDecl.d > 5 ||
+//       lenDecl.c > 7) {
+//       camp = SKIP_BY_OPP;
+//       return ORDER_BASE + 3;// kind of NT
+//    }
 //    if (lenDecl.h > 4 ||
 //       lenDecl.d > 5) {
 //       camp = SKIP_BY_OPP;

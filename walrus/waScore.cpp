@@ -31,7 +31,7 @@ void Walrus::Score_4Major(DdsTricks& tr)
    HitByScore(tr, 10);
 
    // cumul
-   Score_Cumul4M(tr);
+   cumulScore.Our4M(tr.plainScore);
 }
 
 void Walrus::Score_NV_4Major(DdsTricks& tr)
@@ -40,7 +40,7 @@ void Walrus::Score_NV_4Major(DdsTricks& tr)
    HitByScore(tr, 10);
 
    // cumul
-   Score_CumulNV4M(tr);
+   cumulScore.OurNV4M(tr.plainScore);
 }
 
 void Walrus::Score_3NT(DdsTricks& tr)
@@ -49,7 +49,7 @@ void Walrus::Score_3NT(DdsTricks& tr)
    HitByScore(tr, 9);
 
    // cumul
-   Score_Cumul3NT(tr);
+   cumulScore.Our3NT(tr.plainScore);
 }
 
 void Walrus::Score_Doubled3NT(DdsTricks &tr)
@@ -86,7 +86,7 @@ void Walrus::Score_NV6Major(DdsTricks& tr)
    HitByScore(tr, 12);
 
    // cumul
-   Score_CumulNV6M(tr);
+   cumulScore.OurNV6Maj(tr.plainScore);
 }
 
 void Walrus::Score_NV6Minor(DdsTricks& tr)
@@ -95,5 +95,5 @@ void Walrus::Score_NV6Minor(DdsTricks& tr)
    HitByScore(tr, 12);
 
    // cumul
-   cumulScore.Our6mNV(tr.plainScore);
+   cumulScore.OurNV6m(tr.plainScore);
 }
