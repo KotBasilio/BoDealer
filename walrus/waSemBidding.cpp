@@ -743,3 +743,66 @@ uint Walrus::NovVoidwood_FilterOut(SplitBits &partner, uint &camp, SplitBits &rh
 }
 #endif // SEMANTIC_NOV_VOIDWOOD
 
+#ifdef SEMANTIC_NOV_64_AS_TWO_SUITER
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &Walrus::SeptMajors_FilterOut;
+   sem.onScoring = &Walrus::Score_4Major;
+}
+
+uint Walrus::SeptMajors_FilterOut(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_RESP = 2;
+   const uint SKIP_BY_OPP = 3;
+
+   twlHCP hcpPart(partner);
+   if (hcpPart.total < 4 || 11 < hcpPart.total) {// a raise to 3s
+      camp = SKIP_BY_PART;
+      return ORDER_BASE; // wrong points count
+   }
+   twLengths lenPart(partner);
+   if (lenPart.s != 4) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // spade fit
+   }
+
+   // direct opp
+   twlHCP hcpDopp(lho);
+   if (hcpDopp.total > 12) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE; // would overcall
+   }
+   if (hcpDopp.total > 9) {
+      twLengths lenDopp(lho);
+      if (lenDopp.h > 5 ||
+          lenDopp.d > 5 ||
+          lenDopp.c > 5) {
+         camp = SKIP_BY_RESP;
+         return ORDER_BASE + 1; // would overcall
+      }
+   }
+
+   // sandwich opp
+   twlHCP hcpSand(rho);
+   if (hcpSand.total > 13) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE; // would overcall
+   }
+   if (hcpSand.total > 10) {
+      twLengths lenSand(rho);
+      if (lenSand.h > 5 ||
+          lenSand.d > 5 ||
+          lenSand.c > 5) {
+         camp = SKIP_BY_OPP;
+         return ORDER_BASE + 2; // would overcall
+      }
+   }
+
+   // seems it passes
+   return 0;
+}
+#endif // SEMANTIC_NOV_64_AS_TWO_SUITER
+

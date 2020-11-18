@@ -150,17 +150,17 @@ void Walrus::MiniReport(uint toGo)
    }
 #endif // SEEK_BIDDING_LEVEL
 
+#ifdef SHOW_OPP_RESULTS
 #ifndef SCORE_OPP_CONTRACT
    // calc percentages
    float percGoDown = hitsRow[0] * 100.f / sumRows;
-   float percMake   = hitsRow[1] * 100.f / sumRows;
+   float percMake = hitsRow[1] * 100.f / sumRows;
 
    // show
    printf("Processed: %u total; %3.1f%% down some + %3.1f%% make\n",
       sumRows, percGoDown, percMake);
 #endif // SCORE_OPP_CONTRACT
 
-#ifdef SHOW_OPP_RESULTS
    printf("Their contract expectation average: passed = %lld, doubled = %lld\n",
       - cumulScore.oppContract / sumRows, 
       - cumulScore.oppCtrDoubled / sumRows);

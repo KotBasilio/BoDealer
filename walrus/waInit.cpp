@@ -56,6 +56,20 @@ uint heartsNovVoidwood[DDS_HANDS][DDS_SUITS] =
 };
 #endif // SEMANTIC_NOV_VOIDWOOD
 
+#ifdef SEMANTIC_NOV_64_AS_TWO_SUITER
+// origin: http://spb.bridgesport.ru/spb/DKVkusa/p2011171/d21p.php
+#define INPUT_HOLDINGS  nov64_as_two_suiter
+#define INPUT_TRUMPS    SOL_SPADES
+#define INPUT_ON_LEAD   EAST
+uint nov64_as_two_suiter[DDS_HANDS][DDS_SUITS] =
+{ // North                    East        South       West
+   { RT | R8 | R6 | R5 | R4 | R2, 0,      0,         0  } , // spades
+   { R7 | R4,                 0,          0,         0  } , // hearts
+   { R9 ,                     0,          0,         0  } , // diamonds
+   { RA | RK | RQ | RJ,       0,          0,         0  }   // clubs
+};
+#endif // SEMANTIC_NOV_64_AS_TWO_SUITER
+
 #ifdef SEMANTIC_SEPT_MAJORS54_18HCP
 #define INPUT_HOLDINGS  majors54_18hcp
 #define INPUT_TRUMPS    SOL_HEARTS

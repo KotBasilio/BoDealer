@@ -21,7 +21,8 @@ typedef signed long long s64;
 //#define SEMANTIC_SEPT_MAJORS54_18HCP
 //#define SEMANTIC_NOV_VOIDWOOD
 //#define SEMANTIC_NOV_BID_6C_OR_DBL_4S
-#define SEMANTIC_NOV_DBL_ON_3NT
+//#define SEMANTIC_NOV_DBL_ON_3NT
+#define SEMANTIC_NOV_64_AS_TWO_SUITER
 // -- tasks for opening lead:
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
 //#define SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
@@ -30,6 +31,12 @@ typedef signed long long s64;
 // -- tasks for one hand:
 //#define SEMANTIC_KEYCARDS_10_12
 //#define SEMANTIC_SPADE_4_WHEN_1H
+
+// -------------------------------------------------------- 
+#ifdef SEMANTIC_NOV_64_AS_TWO_SUITER
+#define TITLE_VERSION  "Fix a 10 hcp 6-4;\n2s 3s\n??\nQuestion: partscore or a game? v2.0"
+#define SEEK_BIDDING_LEVEL
+#endif // SEMANTIC_NOV_64_AS_TWO_SUITER
 
 // -------------------------------------------------------- 
 #ifdef SEMANTIC_NOV_DBL_ON_3NT
