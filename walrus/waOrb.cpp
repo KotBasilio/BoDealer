@@ -72,7 +72,7 @@ void Walrus::ScanOrb()
 // OUT: camp
 uint Walrus::Orb_ClassifyHands(uint &camp, SplitBits &lho, SplitBits &partner, SplitBits &rho)
 {
-   uint fo = (this->*sem.onFilter)(partner, camp, lho, rho);
+   uint fo = (filter.*sem.onFilter)(partner, camp, lho, rho);
    if (!fo) {
       // recruit methods
       camp = fo = 1;

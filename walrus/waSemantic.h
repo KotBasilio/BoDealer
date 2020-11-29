@@ -121,3 +121,30 @@ struct twLengths
    twLengths(SplitBits &hand);
    uint s, h, d, c;
 };
+
+// Filters
+class WaFilter
+{
+   int dummy;
+public:
+   WaFilter() : dummy(42) {}
+   uint RejectAll(SplitBits &part, uint &camp, SplitBits &lho, SplitBits &rho) { camp = 2; return 1; }
+   uint R55(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint JuneVZ(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint LeadFlat(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint LeadMax5D(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint Tricolor(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint TriSunday(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint FitoJuly(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint LeadAugVs3H(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint AugSplitFit(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint AugMultiVul(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint Spade4(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint SeptMajors(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint NovVoidwood(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho);
+   uint NovSlam(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint NovDbl3NT(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint NovLevk(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+};
+typedef uint(WaFilter::*SemFilterOut)(SplitBits &part, uint &camp, SplitBits &lho, SplitBits &rho);
+

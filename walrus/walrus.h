@@ -81,10 +81,8 @@ protected:
     // semantics
     void FillSemantic(void);
     typedef void (Walrus::*SemFuncType)();
-    typedef uint (Walrus::*SemFilterOut)(SplitBits &part, uint &camp, SplitBits &lho, SplitBits &rho);
     typedef void (Walrus::*SemScoring)(DdsTricks &tr);
     void NOP() {}
-    uint FilterRejectAll(SplitBits &part, uint &camp, SplitBits &lho, SplitBits &rho) { camp = 2; return 1; }
     void VoidScoring(DdsTricks &tr) {}
     u64  SumFirstHand();
     u64  SumSecondHand();
@@ -176,6 +174,7 @@ private:
    uint             oldRand;
    uint             hitsCount[HCP_SIZE][CTRL_SIZE];
    uint             ridx[RIDX_SIZE];// RandIndices() <-> Shuffle()
+   WaFilter         filter;
    uint             maxTasksToSolve;
    DdsPack    *     arrToSolve;
    uint             countToSolve;
@@ -188,23 +187,6 @@ private:
    void Orb_ReSolveAndShow(deal &cards);
    uint KC_ClassifyHand(uint &ba, SplitBits &sum);
    uint CountKeyCards(SplitBits &hand);
-
-   // filtering
-   uint R55_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint JuneVZ_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint LeadFlat_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint LeadMax5D_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint Tricolor_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint TriSunday_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint FitoJuly_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint LeadAugVs3H_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint AugSplitFit_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint AugMultiVul_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint Spade4_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint SeptMajors_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint NovVoidwood_FilterOut(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho);
-   uint NovSlam_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint NovDbl3NT_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint NovLevk_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
 };
+
 

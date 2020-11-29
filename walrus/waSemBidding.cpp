@@ -11,12 +11,12 @@
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &Walrus::NovDbl3NT_FilterOut;
+   sem.onFilter = &WaFilter::NovDbl3NT;
    sem.onScoring = &Walrus::Score_Doubled3NT;
 }
 
 // OUT: camp
-uint Walrus::NovDbl3NT_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+uint WaFilter::NovDbl3NT(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
    const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
@@ -156,13 +156,13 @@ uint Walrus::NovDbl3NT_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho,
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &Walrus::NovSlam_FilterOut;
+   sem.onFilter = &WaFilter::NovSlam;
    sem.onScoring = &Walrus::Score_NV6Minor;
    sem.onOppContract = &Walrus::Score_Opp4MajorDoubled;
 }
 
 // OUT: camp
-uint Walrus::NovSlam_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+uint WaFilter::NovSlam(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
    const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
@@ -248,13 +248,13 @@ uint Walrus::NovSlam_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, S
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &Walrus::FitoJuly_FilterOut;
+   sem.onFilter = &WaFilter::FitoJuly;
    sem.onScoring = &Walrus::Score_4Major;
    sem.onOppContract = &Walrus::Score_Opp3MajorDoubled;
 }
 
 // OUT: camp
-uint Walrus::FitoJuly_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+uint WaFilter::FitoJuly(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
   const uint ORDER_BASE = 3;
   const uint SKIP_BY_PART = 1;
@@ -348,11 +348,11 @@ uint Walrus::FitoJuly_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, 
 void Walrus::FillSemantic(void)
 {
 	Orb_FillSem();
-	sem.onFilter = &Walrus::AugMultiVul_FilterOut;
+	sem.onFilter = &WaFilter::AugMultiVul;
 	sem.onScoring = &Walrus::Score_4Major;
 }
 
-uint Walrus::AugMultiVul_FilterOut(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
+uint WaFilter::AugMultiVul(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
 {
 	const uint ORDER_BASE = 3;
 	const uint SKIP_BY_PART = 1;
@@ -409,11 +409,11 @@ uint Walrus::AugMultiVul_FilterOut(SplitBits &partner, uint &camp, SplitBits &rh
 void Walrus::FillSemantic(void)
 {
 	Orb_FillSem();
-	sem.onFilter = &Walrus::AugSplitFit_FilterOut;
+	sem.onFilter = &WaFilter::AugSplitFit;
 	sem.onScoring = &Walrus::Score_NV_4Major;
 }
 
-uint Walrus::AugSplitFit_FilterOut(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
+uint WaFilter::AugSplitFit(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
 {
 	const uint ORDER_BASE = 3;
 	const uint SKIP_BY_PART = 1;
@@ -467,12 +467,12 @@ uint Walrus::AugSplitFit_FilterOut(SplitBits &partner, uint &camp, SplitBits &rh
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &Walrus::R55_FilterOut;
+   sem.onFilter = &WaFilter::R55;
    sem.onScoring = &Walrus::Score_4Major;
 }
 
 // OUT: camp
-uint Walrus::R55_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+uint WaFilter::R55(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
    // checks are intermixed according to profiler results
    // partner: 15-16 balanced. exactly 4 hearts. exactly 2 diamonds
@@ -519,12 +519,12 @@ uint Walrus::R55_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, Split
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &Walrus::TriSunday_FilterOut; // Tricolor_FilterOut
+   sem.onFilter = &WaFilter::TriSunday; // Tricolor
    sem.onScoring = &Walrus::Score_4Major;
 }
 
 // OUT: camp
-uint Walrus::Tricolor_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+uint WaFilter::Tricolor(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
    const uint ORDER_BASE = 5;
    const uint SKIP_BY_PART = 1;
@@ -580,7 +580,7 @@ uint Walrus::Tricolor_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, 
    return 0;
 }
 
-uint Walrus::TriSunday_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+uint WaFilter::TriSunday(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
    const uint ORDER_BASE = 5;
    const uint SKIP_BY_PART = 1;
@@ -625,11 +625,11 @@ uint Walrus::TriSunday_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho,
 void Walrus::FillSemantic(void)
 {
 	Orb_FillSem();
-	sem.onFilter = &Walrus::SeptMajors_FilterOut;
+	sem.onFilter = &WaFilter::SeptMajors;
 	sem.onScoring = &Walrus::Score_4Major;
 }
 
-uint Walrus::SeptMajors_FilterOut(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
+uint WaFilter::SeptMajors(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
 {
 	const uint ORDER_BASE = 3;
 	const uint SKIP_BY_PART = 1;
@@ -679,11 +679,11 @@ uint Walrus::SeptMajors_FilterOut(SplitBits &partner, uint &camp, SplitBits &rho
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &Walrus::NovVoidwood_FilterOut;
+   sem.onFilter = &WaFilter::NovVoidwood;
    sem.onScoring = &Walrus::Score_NV6Major;
 }
 
-uint Walrus::NovVoidwood_FilterOut(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
+uint WaFilter::NovVoidwood(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
 {
    const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
@@ -747,11 +747,11 @@ uint Walrus::NovVoidwood_FilterOut(SplitBits &partner, uint &camp, SplitBits &rh
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &Walrus::SeptMajors_FilterOut;
+   sem.onFilter = &WaFilter::SeptMajors;
    sem.onScoring = &Walrus::Score_4Major;
 }
 
-uint Walrus::SeptMajors_FilterOut(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
+uint WaFilter::SeptMajors(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
 {
    const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;

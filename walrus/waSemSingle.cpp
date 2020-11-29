@@ -94,10 +94,10 @@ void Walrus::FillSemantic(void)
    sem.fillFlipover = &Walrus::FillFO_39Double;
    sem.onScanCenter = &Walrus::ScanOrb;
    sem.scanCover = ACTUAL_CARDS_COUNT * 2; // since we flip the hands
-   sem.onFilter = &Walrus::Spade4_FilterOut;
+   sem.onFilter = &WaFilter::Spade4;
 }
 
-uint Walrus::Spade4_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+uint WaFilter::Spade4(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
    const uint PASS_BASE = ANSWER_ROW_IDX;
    const uint ORDER_BASE = 3;

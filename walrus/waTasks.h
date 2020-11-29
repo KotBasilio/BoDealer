@@ -22,9 +22,9 @@
 // Tasks for opening lead:
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
 //#define SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
-//#define SEMANTIC_JUNE_LEAD_3343
+#define SEMANTIC_JUNE_LEAD_3343
 //#define SEMANTIC_AUG_LEAD_VS_3H
-#define SEMANTIC_IMPS_LEAD_LEVKOVICH
+//#define SEMANTIC_IMPS_LEAD_LEVKOVICH
 
 // Tasks for one hand:
 //#define SEMANTIC_KEYCARDS_10_12
@@ -34,7 +34,7 @@
 // -------------------------------------------------------- 
 #ifdef SEMANTIC_IMPS_ACCEPT_3NT_ON_SPADE_FIT
 #define TITLE_VERSION  "Fix a 8 hcp with plits/fit;\n1s 2h(split)\n3s ??\nQuestion: partscore 3s or a game 3NT? Task"
-#define SEEK_BIDDING_LEVEL
+#define SEEK_DENOMINATION
 #endif // SEMANTIC_IMPS_ACCEPT_3NT_ON_SPADE_FIT
 
 // -------------------------------------------------------- 
@@ -163,7 +163,6 @@
 
 // -----------------------------------------------------------------
 // --- COMMON
-// -----------------------------------------------------------------
 typedef unsigned char UCHAR;
 typedef unsigned short int u16;
 typedef unsigned int uint;
@@ -173,48 +172,57 @@ const uint SOURCE_CARDS_COUNT = 52;
 #define SBITS_LAYOUT_TWELVE
 
 // -----------------------------------------------------------------
-// --- WHAT TO SEEK
+// --- WHAT TO SEEK, setup or miss a few options
+// algorithm details and output may also depend on that
+
+#ifdef SEEK_DECISION_OVER_DOUBLE
+   #define FIXED_HAND_WEST
+#endif
+
+#ifdef SEEK_BIDDING_LEVEL
+   #define FIXED_HAND_NORTH
+#endif
+
+#ifdef SEEK_DENOMINATION
+   #define FIXED_HAND_NORTH
+#endif
+
+#ifdef SEEK_OPENING_LEAD
+   #define DETAILED_LEADS
+   #define FIXED_HAND_WEST
+#endif
+
+#ifdef SINGLE_HAND_TASK
+   // no lead definition
+   // no fixed hand definition
+#endif
+
+#ifdef PARTNER_HAND_TASK
+   #define FIXED_HAND_NORTH
+#endif
+
+// -----------------------------------------------------------------
+// --- Derivatives
+
+#if defined(FIXED_HAND_NORTH) || defined(FIXED_HAND_WEST)
+   const uint REMOVED_CARDS_COUNT = 13;
+#else
+   const uint REMOVED_CARDS_COUNT = 0;
+#endif // any FIXED_HAND_...
+const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
+
 // DOC: solutions parameter
 // 1 -- Find the maximum number of tricks for the side to play. Return only one of the optimum cards and its score.
 // 2 -- Find the maximum number of tricks for the side to play. Return all optimum cards and their scores.
 // 3 -- Return all cards that can be legally played, with their scores in descending order.
-// -----------------------------------------------------------------
-
-#ifdef SEEK_DECISION_OVER_DOUBLE
-const uint REMOVED_CARDS_COUNT = 13;
-const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
-#define PARAM_SOLUTIONS_DDS   1
-#define FIXED_HAND_WEST
-#endif // SEEK_DECISION_OVER_DOUBLE
-
-#ifdef SEEK_BIDDING_LEVEL
-   const uint REMOVED_CARDS_COUNT = 13;
-   const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
-   #define PARAM_SOLUTIONS_DDS   1
-   #define FIXED_HAND_NORTH
-#endif // SEEK_BIDDING_LEVEL
-
-#ifdef SEEK_OPENING_LEAD
-   const uint REMOVED_CARDS_COUNT = 13;
-   const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
+#ifdef DETAILED_LEADS
    #define PARAM_SOLUTIONS_DDS   3
-   #define FIXED_HAND_WEST
-#endif // SEEK_BIDDING_LEVEL
-
-#ifdef SINGLE_HAND_TASK
-   const uint REMOVED_CARDS_COUNT = 0;
-   const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
+#else
    #define PARAM_SOLUTIONS_DDS   1
-#endif // SINGLE_HAND_TASK
+#endif // DETAILED_LEADS
 
-#ifdef PARTNER_HAND_TASK
-   const uint REMOVED_CARDS_COUNT = 13;
-   const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
-   #define PARAM_SOLUTIONS_DDS   1
-   #define FIXED_HAND_NORTH
-#endif // PARTNER_HAND_TASK
-
-// Iterations count
+// -----------------------------------------------------------------
+// --- Iterations count
 #ifdef _DEBUG
    //const uint MAX_ITERATION = 20*1000000;// 20 mln 
    const uint MAX_ITERATION = 1000000;// 1 mln 

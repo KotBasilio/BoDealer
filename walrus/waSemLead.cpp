@@ -11,11 +11,11 @@
 void Walrus::FillSemantic(void)
 {
 	Orb_FillSem();
-	sem.onFilter = &Walrus::LeadMax5D_FilterOut;
+	sem.onFilter = &WaFilter::LeadMax5D;
 	sem.onScoring = &Walrus::Score_OpLead5DX;
 }
 
-uint Walrus::LeadMax5D_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+uint WaFilter::LeadMax5D(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
 	const uint ORDER_BASE = 3;
 	const uint SKIP_BY_PART = 1;
@@ -108,11 +108,11 @@ uint Walrus::LeadMax5D_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho,
 void Walrus::FillSemantic(void)
 {
 	Orb_FillSem();
-	sem.onFilter = &Walrus::LeadAugVs3H_FilterOut;
+	sem.onFilter = &WaFilter::LeadAugVs3H;
 	sem.onScoring = &Walrus::Score_OpLead3Major;
 }
 
-uint Walrus::LeadAugVs3H_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+uint WaFilter::LeadAugVs3H(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
    const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
@@ -173,11 +173,11 @@ uint Walrus::LeadAugVs3H_FilterOut(SplitBits &partner, uint &camp, SplitBits &lh
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &Walrus::LeadFlat_FilterOut;
+   sem.onFilter = &WaFilter::LeadFlat;
    sem.onScoring = &Walrus::Score_OpLead3NT;
 }
 
-uint Walrus::LeadFlat_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+uint WaFilter::LeadFlat(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
    const uint ORDER_BASE = 5;
    const uint SKIP_BY_PART = 1;
@@ -252,11 +252,11 @@ uint Walrus::LeadFlat_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, 
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &Walrus::JuneVZ_FilterOut;
+   sem.onFilter = &WaFilter::JuneVZ;
    sem.onScoring = &Walrus::Score_OpLead3NT;
 }
 
-uint Walrus::JuneVZ_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+uint WaFilter::JuneVZ(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
    const uint ORDER_BASE = 5;
    const uint SKIP_BY_PART = 1;
@@ -333,11 +333,11 @@ uint Walrus::JuneVZ_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, Sp
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &Walrus::NovLevk_FilterOut;
+   sem.onFilter = &WaFilter::NovLevk;
    sem.onScoring = &Walrus::Score_OpLead3NT;
 }
 
-uint Walrus::NovLevk_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+uint WaFilter::NovLevk(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
    const uint ORDER_BASE = 5;
    const uint SKIP_BY_PART = 1;
