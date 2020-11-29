@@ -419,14 +419,6 @@ Walrus::Semantics::Semantics()
 {
 }
 
-SaDeck::SaDeck()
-{
-   for (int i = 0; i < COUNT_AI_CARDS ; i++)
-   {
-      arr[i] = sbBlank;
-   }
-}
-
 void Walrus::InitDeck(void)
 {
    int i = 0;

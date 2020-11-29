@@ -3,25 +3,11 @@
  *
  ************************************************************/
 
-// SA = "Semi-AI"
-typedef SplitBits saCard;
-typedef SplitBits saHand;
-
 #ifdef _DEBUG
    #define DEBUG_UNEXPECTED printf("\nwtf?")
 #else
    #define DEBUG_UNEXPECTED
 #endif // _DEBUG
-
-const int COUNT_AI_CARDS = 16;
-
-class SaDeck
-{
-public:
-   saCard  arr[COUNT_AI_CARDS];
-
-   SaDeck();
-};
 
 // Double-dummy solver integration
 void sample_main_SolveBoard();
