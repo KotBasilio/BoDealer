@@ -22,12 +22,13 @@ typedef signed long long s64;
 //#define SEMANTIC_NOV_VOIDWOOD
 //#define SEMANTIC_NOV_BID_6C_OR_DBL_4S
 //#define SEMANTIC_NOV_DBL_ON_3NT
-#define SEMANTIC_NOV_64_AS_TWO_SUITER
+//#define SEMANTIC_NOV_64_AS_TWO_SUITER
 // -- tasks for opening lead:
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
 //#define SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
 //#define SEMANTIC_JUNE_LEAD_3343
 //#define SEMANTIC_AUG_LEAD_VS_3H
+#define SEMANTIC_IMPS_LEAD_LEVKOVICH
 // -- tasks for one hand:
 //#define SEMANTIC_KEYCARDS_10_12
 //#define SEMANTIC_SPADE_4_WHEN_1H
@@ -80,6 +81,12 @@ typedef signed long long s64;
 // -------------------------------------------------------- 
 #ifdef SEMANTIC_AUG_LEAD_VS_3H
 #define TITLE_VERSION  "Fix a hand with an ace;\n....s\nQuestion: what to lead?\nVer 2.0 "
+#define SEEK_OPENING_LEAD
+#endif 
+
+// -------------------------------------------------------- 
+#ifdef SEMANTIC_IMPS_LEAD_LEVKOVICH
+#define TITLE_VERSION  "Fix a hand with an 3-4 majors;\n3d-p-3NTs\nQuestion: what to lead?\nVer 2.0 "
 #define SEEK_OPENING_LEAD
 #endif 
 

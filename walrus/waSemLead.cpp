@@ -246,8 +246,6 @@ uint Walrus::LeadFlat_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, 
    // seems it passes
    return 0;
 }
-
-
 #endif // SEMANTIC_JUNE_LEAD_3343
 
 #ifdef SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
@@ -331,4 +329,64 @@ uint Walrus::JuneVZ_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, Sp
 }
 #endif // SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
 
+#ifdef SEMANTIC_IMPS_LEAD_LEVKOVICH
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &Walrus::NovLevk_FilterOut;
+   sem.onScoring = &Walrus::Score_OpLead3NT;
+}
+
+uint Walrus::NovLevk_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+{
+   const uint ORDER_BASE = 5;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_OPP = 2;
+   const uint SKIP_BY_DECL = 3;
+
+   // LHO: preempt 3d
+   // partner: pass
+   // RHO: 3NT
+   twlHCP hcpDecl(rho);
+   if (hcpDecl.total < 16 || 19 < hcpDecl.total) {
+      camp = SKIP_BY_DECL;
+      return ORDER_BASE; // wrong points count
+   }
+   twlHCP hcpOpp(lho);
+   if (hcpOpp.total < 7 || 10 < hcpOpp.total) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 1; // wrong points count
+   }
+
+   twLengths lenOpp(lho);
+   if (lenOpp.d < 6 || 7 < lenOpp.d) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 2; // wrong clubs count
+   }
+
+   twLengths lenDecl(rho);
+   if (lenDecl.h > 5 || lenDecl.s > 5) {
+      camp = SKIP_BY_DECL;
+      return ORDER_BASE + 3; // didn't ask 2d
+   }
+
+   twlHCP hcpPart(partner);
+   twLengths lenPart(partner);
+   if (hcpPart.total > 14) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE; // all overcall
+   }
+   if (hcpPart.total > 11) {
+      if (lenPart.s > 4 ||
+         lenPart.h > 4 ||
+         lenPart.d > 5) {
+         camp = SKIP_BY_PART;
+         return ORDER_BASE + 3; // may overcall
+      }
+   }
+
+   // seems it passes
+   return 0;
+}
+#endif // SEMANTIC_IMPS_LEAD_LEVKOVICH
 

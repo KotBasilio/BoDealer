@@ -177,6 +177,7 @@ uint july_lead4333_holdings[DDS_HANDS][DDS_SUITS] =
 #endif // SEMANTIC_JUNE_LEAD_3343
 
 #ifdef SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
+// origin match at home
 #define INPUT_HOLDINGS  julyVZ_Axx_holdings
 #define INPUT_TRUMPS    SOL_NOTRUMP
 #define INPUT_ON_LEAD   WEST
@@ -199,6 +200,24 @@ uint julyVZ_Axx_holdings[DDS_HANDS][DDS_SUITS] =
 #define CARD_LEAD_DIAMD   K4
 #define CARD_LEAD_CLUBS   K9
 #endif // SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
+
+#ifdef SEMANTIC_IMPS_LEAD_LEVKOVICH
+// origin http://spb.bridgesport.ru/spb/SpbImp20/p2011281/d19p.php
+#define INPUT_HOLDINGS  novLevk_holdings
+#define INPUT_TRUMPS    SOL_NOTRUMP
+#define INPUT_ON_LEAD   WEST
+uint novLevk_holdings[DDS_HANDS][DDS_SUITS] =
+{ // North      East        South      West
+   { 0,         0,          0,         R8 | R7 | R4  } ,      // spades
+   { 0,         0,          0,         RQ | RT | R9 | R7  } , // hearts
+   { 0,         0,          0,         RQ | RT | R9 | R7  } , // diamonds
+   { 0,         0,          0,         RT | R5  }             // clubs
+};
+#define CARD_LEAD_SPADE   K8
+#define CARD_LEAD_HEARTS  KT
+#define CARD_LEAD_DIAMD   KT
+#define CARD_LEAD_CLUBS   KT
+#endif // SEMANTIC_IMPS_LEAD_LEVKOVICH
 
 #ifdef SEMANTIC_TRICOLOR_STRONG
    #define INPUT_HOLDINGS  tri_sunday

@@ -286,5 +286,6 @@ private:
    uint NovVoidwood_FilterOut(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho);
    uint NovSlam_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint NovDbl3NT_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint NovLevk_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
 };
 

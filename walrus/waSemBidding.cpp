@@ -191,9 +191,9 @@ uint Walrus::NovSlam_FilterOut(SplitBits &partner, uint &camp, SplitBits &lho, S
       return ORDER_BASE; // no 6+ suits
    }
    twlHCP hcpPart(partner);
-   if (hcpPart.total < 13) {
+   //if (hcpPart.total < 13) {
    //if (hcpPart.total < 12) {
-   //if (hcpPart.total < 10 || 11 < hcpPart.total) {
+   if (hcpPart.total < 10 || 11 < hcpPart.total) {
       camp = SKIP_BY_PART;
       return ORDER_BASE + 1; // wrong points count
    }
