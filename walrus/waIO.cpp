@@ -89,7 +89,7 @@ void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
             if (!sumline) {
                sumline = 1;
             }
-            printf("( %%):  ");
+            printf("(  %% ):  ");
             for (int j = 0; j < MINI_CAMPS; j++) {
                float percent = hitsCount[i][j] * 100.f / sumline;
                printf(fmtCellFloat, percent);
