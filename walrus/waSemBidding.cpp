@@ -806,3 +806,62 @@ uint WaFilter::SeptMajors(SplitBits &partner, uint &camp, SplitBits &rho, SplitB
 }
 #endif // SEMANTIC_NOV_64_AS_TWO_SUITER
 
+#ifdef SEMANTIC_DEC_12_2425
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &WaFilter::Dec12_2425;
+   sem.onScoring = &Walrus::Score_3NT;
+}
+
+uint WaFilter::Dec12_2425(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_RESP = 2;
+   const uint SKIP_BY_OPP = 3;
+
+   twlHCP hcpPart(partner);
+   if (hcpPart.total < 11 || 12 < hcpPart.total) {// normal opener min
+      camp = SKIP_BY_PART;
+      return ORDER_BASE; // wrong points count
+   }
+   twLengths lenPart(partner);
+   if (lenPart.s != 5) {// opened 1s
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // bid spades
+   }
+   if (lenPart.h > 4 ||
+       lenPart.d > 4 ||
+       lenPart.c > 4) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 2;// any 5-5
+   }
+
+   twlHCP hcpOpp(rho);
+   if (hcpOpp.total > 12) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 2; // wrong points count, would overcall
+   }
+
+   twLengths lenR(rho);
+   if (lenR.h > 6 ||
+       lenR.d > 6 ||
+       lenR.c > 6) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 3;// no 7+ suits
+   }
+
+   twLengths lenL(rho);
+   if (lenL.h > 6 ||
+       lenL.d > 6 ||
+       lenL.c > 6) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE;// no 7+ suits
+   }
+
+   // seems it passes
+   return 0;
+}
+#endif // SEMANTIC_DEC_12_2425
+

@@ -70,6 +70,20 @@ uint nov64_as_two_suiter[DDS_HANDS][DDS_SUITS] =
 };
 #endif // SEMANTIC_NOV_64_AS_TWO_SUITER
 
+#ifdef SEMANTIC_DEC_12_2425
+// origin: http://spb.bridgesport.ru/spb/Zimn_Cap_20/Cup20r8/d32p.htm
+#define INPUT_HOLDINGS  dec_12_2425
+#define INPUT_TRUMPS    SOL_NOTRUMP
+#define INPUT_ON_LEAD   EAST
+uint dec_12_2425[DDS_HANDS][DDS_SUITS] =
+{ // North                    East        South       West
+   { RJ | R9,                 0,          0,         0  } , // spades
+   { RA | RK | R8 | R4,       0,          0,         0  } , // hearts
+   { RQ | R3 ,                0,          0,         0  } , // diamonds
+   { RQ | R9 | R6 | R3 | R2,  0,          0,         0  }   // clubs
+};
+#endif // SEMANTIC_DEC_12_2425
+
 #ifdef SEMANTIC_SEPT_MAJORS54_18HCP
 #define INPUT_HOLDINGS  majors54_18hcp
 #define INPUT_TRUMPS    SOL_HEARTS

@@ -10,9 +10,10 @@
 //#define SEMANTIC_NOV_VOIDWOOD
 //#define SEMANTIC_NOV_64_AS_TWO_SUITER
 //#define SEMANTIC_IMPS_ACCEPT_3NT_ON_SPADE_FIT
+#define SEMANTIC_DEC_12_2425
 
 // Bidding decision competitive:
-#define SEMANTIC_JULY_AUTO_FITO_PLANKTON
+//#define SEMANTIC_JULY_AUTO_FITO_PLANKTON
 //#define SEMANTIC_JUNE_GAMBLE_OR_5C
 //#define SEMANTIC_TRICOLOR_STRONG
 //#define SEMANTIC_AUG_SPLIT_FIT
@@ -32,9 +33,14 @@
 
 // -----------------------------------------------------------------
 // --- DESCRIPTIONS
+#ifdef SEMANTIC_DEC_12_2425
+#define TITLE_VERSION  "Fix a 12 hcp with no fit;\n1s 1NT\npass\nQuestion: did we miss the 3NT? Task"
+#define SEEK_BIDDING_LEVEL
+#endif // SEMANTIC_DEC_12_2425
+
 // ---
 #ifdef SEMANTIC_IMPS_ACCEPT_3NT_ON_SPADE_FIT
-#define TITLE_VERSION  "Fix a 8 hcp with plits/fit;\n1s 2h(split)\n3s ??\nQuestion: partscore 3s or a game 3NT? Task"
+#define TITLE_VERSION  "Fix a 8 hcp with split/fit;\n1s 2h(split)\n3s ??\nQuestion: partscore 3s or a game 3NT? Task"
 #define SEEK_DENOMINATION
 #endif // SEMANTIC_IMPS_ACCEPT_3NT_ON_SPADE_FIT
 
@@ -244,8 +250,8 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
    //const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 501000000;// half of mlrd
    //const uint MAX_ITERATION = 330000000;// third of mlrd
-   const uint MAX_ITERATION = 251000000;// quarter mlrd
-   //const uint MAX_ITERATION = 101000000;// 101 mln
+   //const uint MAX_ITERATION = 251000000;// quarter mlrd
+   const uint MAX_ITERATION = 101000000;// 101 mln
    const uint MAX_TASKS_TO_SOLVE = 4*1000*1000;
 #endif
 
