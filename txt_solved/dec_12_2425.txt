@@ -2,6 +2,10 @@ Fix a 12 hcp with no fit;
 1s 1NT
 pass
 Question: did we miss the 3NT? Task started.
+Re:
+Processed: 545696 total; 82.1% partscore + 17.9% game
+Averages: ideal = 141, bidGame = -53, partscore=61
+
 Aiming :  251000000 =
    main:   84320314 +
 helperA:   83339843 +
@@ -67,3 +71,123 @@ Processed: 545696 total; 82.1% partscore + 17.9% game
 Averages: ideal = 141, bidGame = -53, partscore=61
 The search took 1.5 + an aftermath 29350.2 sec.
 Press any key.
+
+
+
+
+============================================
+============================================================
+for a changed location of values:
+
+Fix a 12 hcp with no fit;
+1s 1NT
+pass
+Question: did we miss the 3NT? Task started.
+Passing 2131378 for double-dummy inspection: roughly each 1 of 47; 100704176 skipped
+
+    :  HITS COUNT   :
+(down):           0,         0,         0,         0,         0,         0,         0,         0
+(make):           0,         0,         0,         0,         0,         0,         0,         0
+(   2):           0,         0,         0,         0,         0,         0,         0,         0
+(   3):           0,  84213358,         0,         0,         0,         0,         0,  84213358
+(   4):           0,  13764982,         0,         0,         0,         0,         0,  13764982
+(   5):           0,    594458,         0,    233290,         0,         0,         0,    827748
+(   6):           0,         0,         0,     63096,         0,         0,         0,     63096
+(   7):           0,         0,         0,         0,         0,         0,         0,         0
+(   8):           0,         0,         0,         0,         0,         0,         0,         0
+(   9):           0,         0,         0,         0,         0,         0,         0,         0
+(  10):           0,         0,         0,         0,         0,         0,         0,         0
+(  11):           0,         0,         0,         0,         0,         0,         0,         0
+(  12):           0,         0,         0,         0,         0,         0,         0,         0
+(  13):           0,         0,         0,         0,         0,         0,         0,         0
+Solving started: 9 tricks board example:
+--------
+            J9
+            Q984
+            Q3
+            AK632
+K732                    A4
+A6                      J752
+98764                   JT
+QJ                      T9875
+            QT865
+            KT3
+            AK52
+            4
+--------------------------------
+
+Final result:
+
+    :  HITS COUNT   :
+(down):       20005,     19845,     10364,      2540,       489,        47,         5,     53295
+(make):        9277,      1598,       127,         1,         0,         0,         0,     11003
+(   2):           0,         0,         0,         0,         0,         0,         0,         0
+(   3):     2067078,  84213358,         0,         0,         0,         0,         0,  86280436
+(   4):           0,  13764982,         0,         0,         0,         0,         0,  13764982
+(   5):           0,    594458,         0,    233290,         0,         0,         0,    827748
+(   6):           0,         0,         0,     63096,         0,         0,         0,     63096
+(   7):           0,         0,         0,         0,         0,         0,         0,         0
+(   8):           0,         0,         0,         0,         0,         0,         0,         0
+(   9):           0,         0,         0,         0,         0,         0,         0,         0
+(  10):           0,         0,         0,         0,         0,         0,         0,         0
+(  11):           0,         0,         0,         0,         0,         0,         0,         0
+(  12):           0,         0,         0,         0,         0,         0,         0,         0
+(  13):           0,         0,         0,         0,         0,         0,         0,         0
+Processed: 64298 total; 82.9% partscore + 17.1% game
+Averages: ideal = 142, bidGame = -57, partscore=64
+The search took 0.5 + an aftermath 3320.2 sec.
+Press any key.
+
+============================================================
+for 13 hcp on part:
+Fix a 12 hcp with no fit;
+1s 1NT
+pass
+Question: did we miss the 3NT? Task started.
+Aiming :  101000000 =
+   main:   33929688 +
+helperA:   33535156 +
+helperB:   33535156
+-------------------
+Memory 61M in main
+Memory 22M in helperB
+Memory 22M in helperA
+helperB:   33535164 done---> 290901
+helperA:   33272538 done---> 288617
+   main:   34192548 done
+Passing 873566 for double-dummy inspection: roughly each 1 of 115; 100926196 skipped
+Solving started: 9 tricks board example:
+--------
+            J9
+            AK84
+            Q3
+            Q9632
+754                     T82
+J92                     Q53
+JT75                    K98
+JT5                     AK74
+            AKQ63
+            T76
+            A642
+            8
+....
+    :  HITS COUNT   :
+(down):        3086,      1739,       712,       134,        24,         1,         0,      5696
+(make):        3121,      1029,       145,         9,         0,         0,         0,      4304
+(   2):           0,         0,         0,         0,         0,         0,         0,         0
+(   3):           0,  94701646,         0,         0,         0,         0,         0,  94701646
+(   4):           0,   5131362,         0,         0,         0,         0,         0,   5131362
+(   5):           0,    219622,         0,     47690,         0,         0,         0,    267312
+(   6):           0,         0,         0,     26364,         0,         0,         0,     26364
+(   7):           0,         0,         0,         0,         0,         0,         0,         0
+(   8):           0,         0,         0,         0,         0,         0,         0,         0
+(   9):           0,         0,         0,         0,         0,         0,         0,         0
+(  10):           0,         0,         0,         0,         0,         0,         0,         0
+(  11):           0,         0,         0,         0,         0,         0,         0,         0
+(  12):           0,         0,         0,         0,         0,         0,         0,         0
+(  13):           0,         0,         0,         0,         0,         0,         0,         0
+Processed: 10000 total; 57.0% partscore + 43.0% game
+Averages: ideal = 304, bidGame = 168, partscore=110
+The search took 0.4 + an aftermath 532.5 sec.
+Press any key.
+========================

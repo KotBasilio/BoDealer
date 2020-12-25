@@ -42,6 +42,20 @@ uint fito_july[DDS_HANDS][DDS_SUITS] =
 };
 #endif // SEMANTIC_NOV_BID_6C_OR_DBL_4S
 
+#ifdef SEMANTIC_DEC_BID_5H_OR_DBL_4S
+// origin: Serbin http://spb.bridgesport.ru/spb/Zimn_Cap_20/Cup20r5/d1p.htm
+#define INPUT_HOLDINGS  longers_dec
+#define INPUT_TRUMPS    SOL_HEARTS
+#define INPUT_ON_LEAD   EAST
+uint longers_dec[DDS_HANDS][DDS_SUITS] =
+{ // North                         East        South       West
+   { 0 ,                       0,          0,         0  } , // spades
+   { RA | RK | RQ | RJ | RT | R6 | R3, 0,  0,         0  } , // hearts
+   { RA | RJ ,                 0,          0,         0  } , // diamonds
+   { RK | RT | R8 | R2,        0,          0,         0  }   // clubs
+};
+#endif // SEMANTIC_DEC_BID_5H_OR_DBL_4S
+
 #ifdef SEMANTIC_NOV_VOIDWOOD
 // origin: a match at home
 #define INPUT_HOLDINGS  heartsNovVoidwood
@@ -81,6 +95,13 @@ uint dec_12_2425[DDS_HANDS][DDS_SUITS] =
    { RA | RK | R8 | R4,       0,          0,         0  } , // hearts
    { RQ | R3 ,                0,          0,         0  } , // diamonds
    { RQ | R9 | R6 | R3 | R2,  0,          0,         0  }   // clubs
+};
+uint var_dec_12_2425[DDS_HANDS][DDS_SUITS] =
+{ // North                    East        South       West
+   { RJ | R9,                 0,          0,         0  } , // spades
+   { RQ | R9 | R8 | R4,       0,          0,         0  } , // hearts
+   { RQ | R3 ,                0,          0,         0  } , // diamonds
+   { RA | RK | R6 | R3 | R2,  0,          0,         0  }   // clubs
 };
 #endif // SEMANTIC_DEC_12_2425
 

@@ -9,10 +9,7 @@
 #include "..\dds-develop\include\dll.h"
 #include "..\dds-develop\examples\hands.h"
 
-#define OUR_ROW   0
-#define THEIR_ROW 10
-
-void Walrus::HitByScore(DdsTricks &tr, uint made, uint row /*= OUR_ROW*/)
+void Walrus::HitByScore(DdsTricks &tr, uint made, uint row /*= IO_ROW_OUR_DOWN*/)
 {
    uint camp = 0;
    if (tr.plainScore >= made) {
@@ -41,6 +38,15 @@ void Walrus::Score_NV_4Major(DdsTricks& tr)
 
    // cumul
    cumulScore.OurNV4M(tr.plainScore);
+}
+
+void Walrus::Score_NV_5Major(DdsTricks &tr)
+{
+   // hits
+   HitByScore(tr, 11);
+
+   // cumul
+   cumulScore.OurNV5M(tr.plainScore);
 }
 
 void Walrus::Score_3NT(DdsTricks& tr)
@@ -73,7 +79,7 @@ void Walrus::Score_Opp3MajorDoubled(DdsTricks& tr)
 void Walrus::Score_Opp4MajorDoubled(DdsTricks& tr)
 {
    // store their hits
-   HitByScore(tr, 10, THEIR_ROW);
+   HitByScore(tr, 10, IO_ROW_THEIRS);
    countOppContractMarks++;
 
    // store their cumulative score

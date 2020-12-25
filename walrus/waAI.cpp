@@ -229,7 +229,6 @@ int Walrus::PokeScorerForTricks()
    tr.plainScore = 13;
    (this->*sem.onScoring)(tr);
 
-
    // not a game => some partscore
    if (cumulScore.ideal < 300) {
       return 9;
@@ -251,6 +250,10 @@ int Walrus::PokeScorerForTricks()
 
    // made one game => seems playing 4M
    if (cumulScore.ideal > 500) {
+      // maybe 5M?
+      if (cumulScore.bidGame < 500) {
+         return 11;
+      }
       return 10;
    } 
    

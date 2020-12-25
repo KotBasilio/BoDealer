@@ -54,6 +54,11 @@
 
 #endif // SBITS_LAYOUT_TWELVE
 
+// output rows
+const uint IO_ROW_OUR_DOWN = 0;
+const uint IO_ROW_OUR_MADE = IO_ROW_OUR_DOWN + 1;
+const uint IO_ROW_THEIRS = 10;
+
 // all cards + flip over 12 cards
 const uint FLIP_OVER_SIZE = 12;
 const uint FLIP_OVER_START_IDX = ACTUAL_CARDS_COUNT;
@@ -144,6 +149,7 @@ public:
    uint FitoJuly(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint AugSplitFit(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint NovSlam(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint DecTopHearts(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint NovDbl3NT(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint Tricolor(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint TriSunday(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);

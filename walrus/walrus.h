@@ -124,9 +124,11 @@ protected:
        void Our3NT       (uint tricks);
        void Our4M        (uint tricks);
        void OurNV4M      (uint tricks);
+       void OurNV5M      (uint tricks);
     } cumulScore;
     void Score_4Major(DdsTricks &tr);
     void Score_NV_4Major(DdsTricks &tr);
+    void Score_NV_5Major(DdsTricks &tr);
     void Score_3NT(DdsTricks &tr);
     void Score_Doubled3NT(DdsTricks &tr);
     void Score_NV6Major(DdsTricks &tr);
@@ -137,7 +139,7 @@ protected:
     void Score_OpLead5DX(DdsTricks &tr);
     void Score_Opp3MajorDoubled(DdsTricks &tr);
     void Score_Opp4MajorDoubled(DdsTricks &tr);
-    void HitByScore(DdsTricks &tr, uint made, uint row = 0);
+    void HitByScore(DdsTricks &tr, uint made, uint row = IO_ROW_OUR_DOWN);
 
     // UI
     struct Progress

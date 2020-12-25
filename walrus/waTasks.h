@@ -10,7 +10,7 @@
 //#define SEMANTIC_NOV_VOIDWOOD
 //#define SEMANTIC_NOV_64_AS_TWO_SUITER
 //#define SEMANTIC_IMPS_ACCEPT_3NT_ON_SPADE_FIT
-#define SEMANTIC_DEC_12_2425
+//#define SEMANTIC_DEC_12_2425
 
 // Bidding decision competitive:
 //#define SEMANTIC_JULY_AUTO_FITO_PLANKTON
@@ -19,6 +19,7 @@
 //#define SEMANTIC_AUG_SPLIT_FIT
 //#define SEMANTIC_NOV_DBL_ON_3NT
 //#define SEMANTIC_NOV_BID_6C_OR_DBL_4S
+#define SEMANTIC_DEC_BID_5H_OR_DBL_4S
 
 // Opening lead:
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
@@ -67,6 +68,15 @@
 #define OC_TRUMPS       SOL_SPADES
 #define OC_ON_LEAD      SOUTH
 #endif 
+
+// ---
+#ifdef SEMANTIC_DEC_BID_5H_OR_DBL_4S
+#define TITLE_VERSION  "Fix heart-top-7 hand;\n1c-(1s)-pass-(3s)\n-4h-(4s)-dbl-(p)-??\nQuestion: dbl or 5h? Ver 2.0 "
+#define SEEK_BIDDING_LEVEL
+#define SCORE_OPP_CONTRACT
+#define OC_TRUMPS       SOL_SPADES
+#define OC_ON_LEAD      SOUTH
+#endif // SEMANTIC_DEC_BID_5H_OR_DBL_4S
 
 // ---
 #ifdef SEMANTIC_NOV_VOIDWOOD
@@ -238,8 +248,8 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
 // --- Iterations count
 #ifdef _DEBUG
    //const uint MAX_ITERATION = 20*1000000;// 20 mln 
-   const uint MAX_ITERATION = 1000000;// 1 mln 
-   //const uint MAX_ITERATION = 100000;// 0.1 mln
+   //const uint MAX_ITERATION = 1000000;// 1 mln 
+   const uint MAX_ITERATION = 100000;// 0.1 mln
    //const uint MAX_ITERATION = 10000;
    const uint MAX_TASKS_TO_SOLVE = 10240;
    //#define SKIP_HELPERS

@@ -19,7 +19,9 @@ char tblHat[] = "    :  HITS COUNT   :\n";
 #endif   
 
 #define MINI_CAMPS 7
-#define MINI_ROWS 14
+#define MINI_ROWS 13
+
+char miniRowStart[MINI_ROWS][16];
 
 /*************************************************************
 '* Walrus::LoadInitialStatistics()
@@ -30,6 +32,18 @@ char tblHat[] = "    :  HITS COUNT   :\n";
 bool Walrus::LoadInitialStatistics(const char *fname)
 {
    //printf("\nNo initial stats needed\n");
+
+   // init lines in mini-report
+   sprintf(miniRowStart[0], "(down):  ");
+   sprintf(miniRowStart[1], "(make):  ");
+   for (int i = 2; i < MINI_ROWS; i++) {
+      sprintf(miniRowStart[i], "(%4d):  ", i);
+   }
+   #ifdef SHOW_OPP_RESULTS
+      sprintf(miniRowStart[10], "(down):  ");
+      sprintf(miniRowStart[11], "(make):  ");
+   #endif
+
    return true;
 }
 
@@ -64,15 +78,27 @@ void Walrus::BuildFileNames(void)
 // OUT: hitsRow[], hitsCamp[]
 void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
 {
+   // zero hit sums
+   for (int i = 0; i < MINI_ROWS; i++) {
+      hitsRow[i] = 0;
+   }
    for (int j = 0; j < MINI_CAMPS; j++) {
-      hitsRow[j] = 0;
       hitsCamp[j] = 0;
    }
+
+   // print all rows
    printf("\n%s", tblHat);
    for (int i = 0; i < MINI_ROWS; i++) {
-      printf( i==0 ? "(down):  ":
-              i==1 ? "(make):  ":
-                     "(%4d):  ", i);
+      // maybe we don't need this row already
+      if ( IO_ROW_OUR_MADE+1 < i && i < IO_ROW_THEIRS ) {
+         uint solvedCount = hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE];
+         if (solvedCount > 900) {
+            continue;
+         }
+      }
+
+      // ok start printing
+      printf( miniRowStart[i] );
 
       uint sumline = 0;
       for (int j = 0; j < MINI_CAMPS; j++) {
@@ -102,47 +128,33 @@ void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
 
 void Walrus::MiniReport(uint toGo)
 {
-   uint hitsRow[MINI_ROWS];
-   uint hitsCamp[MINI_CAMPS];
-   CalcHitsForMiniReport(hitsRow, hitsCamp);
-
    if (countToSolve && (toGo == countToSolve)) {
       printf("Solving started:");
       return;
    }
 
-   uint sumCamps = hitsCamp[0]+ hitsCamp[1]+ hitsCamp[2]+ hitsCamp[3]+ hitsCamp[4];
-   if (!sumCamps) {
-      sumCamps = 1;
-   }
+   // small tables
+   uint hitsRow[MINI_ROWS];
+   uint hitsCamp[MINI_CAMPS];
+   CalcHitsForMiniReport(hitsRow, hitsCamp);
 
-   uint sumRows = hitsRow[0] + hitsRow[1];
-   if (!sumRows) {
-      sumRows = 1;
-   }
+   // percentages
+   uint sumCamps = __max( hitsCamp[0]+ hitsCamp[1]+ hitsCamp[2]+ hitsCamp[3]+ hitsCamp[4], 1);
+   uint sumRows  = __max( hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE], 1);
+   float percGoDown = hitsRow[IO_ROW_OUR_DOWN] * 100.f / sumRows;
+   float percMake = hitsRow[IO_ROW_OUR_MADE] * 100.f / sumRows;
+   printf("Processed: %u total. Goal is %d tricks. Chances: %3.1f%% down some + %3.1f%% make\n",
+      sumRows, ui.irBase,
+      percGoDown, percMake);
 
 #ifdef SEEK_BIDDING_LEVEL
    // slam/game/partscore
    if (ui.irBase < 12) {
-      // calc percentages
-      float percPartscore = hitsRow[0] * 100.f / sumRows;
-      float percGame      = hitsRow[1] * 100.f / sumRows;
-
-      // show
-      printf("Processed: %u total; %3.1f%% partscore + %3.1f%% game\n",
-         sumRows, percPartscore, percGame);
       printf("Averages: ideal = %lld, bidGame = %lld, partscore=%lld\n",
          cumulScore.ideal / sumRows,
          cumulScore.bidGame / sumRows,
          cumulScore.partscore / sumRows);
    } else {
-      // calc percentages
-      float percGame = hitsRow[0] * 100.f / sumRows;
-      float percSlam = hitsRow[1] * 100.f / sumRows;
-
-      // show
-      printf("Processed: %u total; %3.1f%% slam + %3.1f%% game\n",
-         sumRows, percSlam, percGame);
       printf("Averages: ideal = %lld, bidGame = %lld, slam=%lld\n",
          cumulScore.ideal / sumRows,
          cumulScore.bidGame / sumRows,
@@ -151,27 +163,16 @@ void Walrus::MiniReport(uint toGo)
 #endif // SEEK_BIDDING_LEVEL
 
 #ifdef SHOW_OPP_RESULTS
-#ifndef SCORE_OPP_CONTRACT
-   // calc percentages
-   float percGoDown = hitsRow[0] * 100.f / sumRows;
-   float percMake = hitsRow[1] * 100.f / sumRows;
-
-   // show
-   printf("Processed: %u total; %3.1f%% down some + %3.1f%% make\n",
-      sumRows, percGoDown, percMake);
-#endif // SCORE_OPP_CONTRACT
-
-   printf("Their contract expectation average: passed = %lld, doubled = %lld\n",
-      - cumulScore.oppContract / sumRows, 
-      - cumulScore.oppCtrDoubled / sumRows);
+   // printf("Their contract expectation average: passed = %lld, doubled = %lld\n",
+   //    cumulScore.oppContract / sumRows, 
+   //    cumulScore.oppCtrDoubled / sumRows);
+   uint sumOppRows = __max(hitsRow[IO_ROW_THEIRS] + hitsRow[IO_ROW_THEIRS + 1], 1);
+   printf("Their contract doubled, expectation average: %lld. Chance to make = %3.1f%%\n", 
+      cumulScore.oppCtrDoubled / sumRows,
+      hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumRows);
 #endif // SCORE_OPP_CONTRACT
 
 #ifdef SEEK_OPENING_LEAD
-   // calc percentages
-   float percPartscore = hitsRow[0] * 100.f / sumRows;
-   float percGame      = hitsRow[1] * 100.f / sumRows;
-   printf("Processed: %u total; %3.1f%% down some + %3.1f%% make\n",
-            sumRows, percPartscore, percGame);
    printf("Averages: ideal = %lld, lead Spade = %lld, lead Hearts = %lld, lead Diamonds = %lld, lead Clubs = %lld\n",
       cumulScore.ideal / sumRows,
       cumulScore.leadS / sumRows,

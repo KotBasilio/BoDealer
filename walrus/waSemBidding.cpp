@@ -822,7 +822,8 @@ uint WaFilter::Dec12_2425(SplitBits &partner, uint &camp, SplitBits &rho, SplitB
    const uint SKIP_BY_OPP = 3;
 
    twlHCP hcpPart(partner);
-   if (hcpPart.total < 11 || 12 < hcpPart.total) {// normal opener min
+   //if (hcpPart.total < 11 || 12 < hcpPart.total) {// normal opener min
+   if (hcpPart.total != 13) {// normal opener min
       camp = SKIP_BY_PART;
       return ORDER_BASE; // wrong points count
    }
@@ -865,3 +866,72 @@ uint WaFilter::Dec12_2425(SplitBits &partner, uint &camp, SplitBits &rho, SplitB
 }
 #endif // SEMANTIC_DEC_12_2425
 
+#ifdef SEMANTIC_DEC_BID_5H_OR_DBL_4S
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &WaFilter::DecTopHearts;
+   sem.onScoring = &Walrus::Score_NV_5Major;
+   sem.onOppContract = &Walrus::Score_Opp4MajorDoubled;
+}
+
+// OUT: camp
+uint WaFilter::DecTopHearts(SplitBits &partner, uint &camp, SplitBits &advancer, SplitBits &firstOpp)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_OPP = 2;
+   const uint SKIP_BY_RESP = 3;
+
+   // LHO: 1s, raise to 4s
+   twLengths lenOpp(firstOpp);
+   if (lenOpp.s < 5 || 6 < lenOpp.s) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE; // 5-6 spades
+   }
+   twlHCP hcpOpp(firstOpp);
+   if (hcpOpp.total < 11 || 16 < hcpOpp.total) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 1; // opener points count
+   }
+   if (lenOpp.s == 5) {
+      if (lenOpp.h > 1) {
+         camp = SKIP_BY_OPP;
+         return ORDER_BASE + 3;// request a heart shortage when =5 spades
+      }
+   }
+
+   // partner: pass, X
+   twlHCP hcpPart(partner);
+   if (hcpPart.total < 2 || 7 < hcpPart.total) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // too few points count
+   }
+   twLengths lenPart(partner);
+   if (lenPart.h > 2) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 2; // would bid 5h
+   }
+
+   // RHO: fits with 2s
+   twLengths lenAdv(advancer);
+   if (lenAdv.s < 3 || 4 < lenAdv.s) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 1; // fit to 2s
+   }
+   twlHCP hcpAdv(advancer);
+   if (hcpAdv.total < 3 || 9 < hcpAdv.total) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 2; // resp points count
+   }
+   if (lenAdv.h > 5 ||
+      lenAdv.d > 5 ||
+      lenAdv.c > 5) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 3;// adv would jump
+   }
+
+   // seems it passes
+   return 0;
+}
+#endif // SEMANTIC_DEC_BID_5H_OR_DBL_4S
