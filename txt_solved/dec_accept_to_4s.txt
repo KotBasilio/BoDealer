@@ -1,0 +1,229 @@
+Fix 4441 13 hcp;
+....s
+Question: partscore or a game? v2.0 started.
+Aiming :  251000000 =
+   main:   84320314 +
+helperA:   83339843 +
+helperB:   83339843
+-------------------
+Memory 61M in main
+Memory 22M in helperB
+Memory 22M in helperA
+helperA:   77706174 donehelperB:   83208060 done---> 436371
+---> 468360
+   main:   90086100 done
+Passing 1411019 for double-dummy inspection: roughly each 1 of 174; 246231531 skipped
+Solving started: 10 tricks board example:
+--------
+            KJ87
+            KJ86
+            5
+            KQ73
+2                       Q94
+A7                      Q952
+KQJT4                   7632
+AJ642                   T9
+            AT653
+            T43
+            A98
+            85
+....
+    :  HITS COUNT   :
+(down):         185,       105,        28,         6,         0,         0,         0,       324
+(make):         123,        53,         0,         0,         0,         0,         0,       176
+(   2):           0,         0,         0,         0,         0,         0,         0,         0
+(   3):           0,         0,  65170810,         0,         0,         0,         0,  65170810
+(   4):           0,  40752732, 121456748,   2498628,         0,         0,         0, 164708108
+(   5):           0,  15769094,         0,    656051,         0,         0,         0,  16425145
+(   6):           0,   1307979,         0,    429006,         0,         0,         0,   1736985
+(   7):           0,    363149,         0,   1185118,         0,         0,         0,   1548267
+(   8):           0,         0,         0,         0,         0,         0,         0,         0
+(   9):           0,         0,         0,         0,         0,         0,         0,         0
+(  10):           0,         0,         0,         0,         0,         0,         0,         0
+(  11):           0,         0,         0,         0,         0,         0,         0,         0
+(  12):           0,         0,         0,         0,         0,         0,         0,         0
+Processed: 500 total. Goal is 10 tricks. Chances: 64.8% down some + 35.2% make
+Averages: ideal = 229, bidGame = 100, partscore=141
+Yet more 1410619 to go:..
+Seek 9 tricks board...example:
+--------
+            KJ87
+            KJ86
+            5
+            KQ73
+AQ4                     T6
+T97                     Q43
+J9872                   AQT3
+A5                      T642
+            9532
+            A52
+            K64
+            J98
+
+  card suit   rank   equals score
+     0 C      A             4
+     1 C      5             4
+     2 D      2             3
+     3 D      9      87     3
+     4 D      J             3
+     5 S      A             3
+     6 H      7             3
+     7 H      T      9      3
+     8 S      4             3
+     9 S      Q             3
+
+Any key to continue...ok..
+    :  HITS COUNT   :
+(down):         358,       219,        61,        16,         2,         0,         0,       656
+(make):         258,        85,         1,         0,         0,         0,         0,       344
+Processed: 1000 total. Goal is 10 tricks. Chances: 65.6% down some + 34.4% make
+Averages: ideal = 225, bidGame = 94, partscore=139
+Yet more 1410119 to go:...
+Seek 9 tricks board...example:
+--------
+            KJ87
+            KJ86
+            5
+            KQ73
+96                      AQT
+T432                    Q7
+AKQ43                   JT962
+JT                      964
+            5432
+            A95
+            87
+            A852
+
+  card suit   rank   equals score
+     0 D      A      KQ     4
+     1 D      4      3      4
+     2 S      6             4
+     3 S      9             4
+     4 H      4      32     4
+     5 H      T             4
+     6 C      J      T      4
+
+Any key to continue...ok......
+    :  HITS COUNT   :
+(down):         730,       436,       104,        24,         2,         0,         0,      1296
+(make):         516,       184,         4,         0,         0,         0,         0,       704
+Processed: 2000 total. Goal is 10 tricks. Chances: 64.8% down some + 35.2% make
+Averages: ideal = 229, bidGame = 100, partscore=141
+Yet more 1409119 to go:.........
+    :  HITS COUNT   :
+(down):        1062,       669,       170,        35,         5,         0,         0,      1941
+(make):         787,       268,         4,         0,         0,         0,         0,      1059
+Processed: 3000 total. Goal is 10 tricks. Chances: 64.7% down some + 35.3% make
+Averages: ideal = 228, bidGame = 99, partscore=140
+Yet more 1408119 to go:.........
+    :  HITS COUNT   :
+(down):        1407,       885,       214,        40,         6,         0,         0,      2552
+(make):        1090,       354,         4,         0,         0,         0,         0,      1448
+Processed: 4000 total. Goal is 10 tricks. Chances: 63.8% down some + 36.2% make
+Averages: ideal = 231, bidGame = 104, partscore=141
+Yet more 1407119 to go:......
+Seek 9 tricks board...example:
+--------
+            KJ87
+            KJ86
+            5
+            KQ73
+T632                    -
+QT                      A7543
+AKQ62                   JT43
+A4                      T985
+            AQ954
+            92
+            987
+            J62
+
+  card suit   rank   equals score
+     0 D      A      KQ     4
+     1 H      T             4
+     2 H      Q             4
+     3 D      2             4
+     4 D      6             4
+     5 C      A             4
+     6 C      4             4
+     7 S      3      2      4
+     8 S      6             4
+     9 S      T             4
+
+Any key to continue...ok...
+Seek 9 tricks board...example:
+--------
+            KJ87
+            KJ86
+            5
+            KQ73
+QT92                    3
+Q95                     AT74
+KQJT8                   A963
+9                       JT62
+            A654
+            32
+            742
+            A854
+
+  card suit   rank   equals score
+     0 D      8             4
+     1 D      K      QJT    4
+     2 H      5             4
+     3 H      9             4
+     4 H      Q             4
+     5 S      2             4
+     6 C      9             4
+     7 S      T      9      4
+     8 S      Q             4
+
+Any key to continue...ok
+    :  HITS COUNT   :
+(down):        1760,      1098,       273,        52,         7,         0,         0,      3190
+(make):        1347,       458,         5,         0,         0,         0,         0,      1810
+Processed: 5000 total. Goal is 10 tricks. Chances: 63.8% down some + 36.2% make
+Averages: ideal = 231, bidGame = 104, partscore=141
+Yet more 1406119 to go:.........
+    :  HITS COUNT   :
+(down):        2108,      1309,       330,        63,         7,         0,         0,      3817
+(make):        1615,       563,         5,         0,         0,         0,         0,      2183
+Processed: 6000 total. Goal is 10 tricks. Chances: 63.6% down some + 36.4% make
+Averages: ideal = 232, bidGame = 105, partscore=141
+Yet more 1405119 to go:.........
+    :  HITS COUNT   :
+(down):        2442,      1518,       390,        84,         9,         0,         0,      4443
+(make):        1904,       648,         5,         0,         0,         0,         0,      2557
+Processed: 7000 total. Goal is 10 tricks. Chances: 63.5% down some + 36.5% make
+Averages: ideal = 232, bidGame = 106, partscore=141
+Yet more 1404119 to go:.........
+    :  HITS COUNT   :
+(down):        2790,      1742,       450,        90,        10,         0,         0,      5082
+(make):        2189,       724,         5,         0,         0,         0,         0,      2918
+Processed: 8000 total. Goal is 10 tricks. Chances: 63.5% down some + 36.5% make
+Averages: ideal = 232, bidGame = 105, partscore=141
+Yet more 1403119 to go:.........
+    :  HITS COUNT   :
+(down):        3181,      1928,       510,        99,        11,         0,         0,      5729
+(make):        2454,       811,         6,         0,         0,         0,         0,      3271
+Processed: 9000 total. Goal is 10 tricks. Chances: 63.7% down some + 36.3% make
+Averages: ideal = 232, bidGame = 105, partscore=141
+Yet more 1402119 to go:.........
+    :  HITS COUNT   :
+(down):        3549,      2144,       577,       107,        13,         0,         0,      6390
+(make):        2730,       873,         7,         0,         0,         0,         0,      3610
+Processed: 10000 total. Goal is 10 tricks. Chances: 63.9% down some + 36.1% make
+Averages: ideal = 231, bidGame = 103, partscore=141
+Yet more 1401119 to go:..
+
+Total iterations = 251000334, balance is fine
+
+--------------------------------
+
+Final result:
+
+    :  HITS COUNT   :
+(down):        3615,      2188,       588,       110,        13,         0,         0,      6514
+(make):        2788,       891,         7,         0,         0,         0,         0,      3686
+Processed: 10200 total. Goal is 10 tricks. Chances: 63.9% down some + 36.1% make
+Averages: ideal = 231, bidGame = 104, partscore=141
+The search took 1.6 + an aftermath 597.6 sec.
+Press any key.

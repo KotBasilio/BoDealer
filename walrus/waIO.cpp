@@ -36,12 +36,14 @@ bool Walrus::LoadInitialStatistics(const char *fname)
    // init lines in mini-report
    sprintf(miniRowStart[0], "(down):  ");
    sprintf(miniRowStart[1], "(make):  ");
+   sprintf(miniRowStart[2], "(----):  ");
    for (int i = 2; i < MINI_ROWS; i++) {
       sprintf(miniRowStart[i], "(%4d):  ", i);
    }
    #ifdef SHOW_OPP_RESULTS
       sprintf(miniRowStart[10], "(down):  ");
       sprintf(miniRowStart[11], "(make):  ");
+      sprintf(miniRowStart[12], "(----):  ");
    #endif
 
    return true;
@@ -75,6 +77,17 @@ void Walrus::BuildFileNames(void)
    strcat(namesBase.Progress, PROGRESS_FNAME);
 }
 
+static bool IsRowSkippable(int i)
+{
+   // opp res => only middle is skippable
+   #ifdef SHOW_OPP_RESULTS
+      return IO_ROW_OUR_MADE + 1 < i && i < IO_ROW_THEIRS;
+   #endif // SHOW_OPP_RESULTS
+
+   // only our results => many are skippable
+   return i > IO_ROW_OUR_MADE;
+}
+
 // OUT: hitsRow[], hitsCamp[]
 void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
 {
@@ -90,24 +103,25 @@ void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
    printf("\n%s", tblHat);
    for (int i = 0; i < MINI_ROWS; i++) {
       // maybe we don't need this row already
-      if ( IO_ROW_OUR_MADE+1 < i && i < IO_ROW_THEIRS ) {
+      bool showRow = true;
+      if ( IsRowSkippable(i) ) {
          uint solvedCount = hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE];
          if (solvedCount > 900) {
-            continue;
+            showRow = false;
          }
       }
 
       // ok start printing
-      printf( miniRowStart[i] );
+      if (showRow) printf( miniRowStart[i] );
 
       uint sumline = 0;
       for (int j = 0; j < MINI_CAMPS; j++) {
-         printf(fmtCell, hitsCount[i][j]);
+         if (showRow) printf(fmtCell, hitsCount[i][j]);
          sumline     += hitsCount[i][j];
          hitsCamp[j] += hitsCount[i][j];
       }
 
-      printf("%10u\n", sumline);
+      if (showRow) printf("%10u\n", sumline);
       hitsRow[i] = sumline;
 
       #ifdef PERCENTAGES_IN_ANSWER_ROW

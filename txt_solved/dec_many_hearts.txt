@@ -128,3 +128,20 @@ their 4sX
 Processed: 40000 total. Goal is 11 tricks. Chances: 42.5% down some + 57.5% make
 Average:  bidGame = 236
 Their contract doubled, expectation average: 173. Chance to make = 16.6%
+
+
+
+Final result:
+
+    :  HITS COUNT   :
+(down):      296219,    140063,     12812,       294,         0,         0,         0,    449388
+(make):      388318,    181670,     40196,         0,         0,         0,         0,    610184
+(   2):           0,         0,         0,         0,         0,         0,         0,         0
+(down):      276938,    314371,    210105,     68195,      8011,       282,        12,    877914
+(make):      141064,     36673,      3868,        29,         0,         0,         0,    181634
+(  12):           0,         0,         0,         0,         0,         0,         0,         0
+Processed: 1059572 total. Goal is 11 tricks. Chances: 42.4% down some + 57.6% make
+Averages: ideal = 383, bidGame = 237, partscore=0
+Their contract doubled, expectation average: 169. Chance to make = 17.1%
+The search took 0.6 + an aftermath 58994.5 sec.
+Press any key.

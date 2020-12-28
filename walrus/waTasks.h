@@ -19,7 +19,9 @@
 //#define SEMANTIC_AUG_SPLIT_FIT
 //#define SEMANTIC_NOV_DBL_ON_3NT
 //#define SEMANTIC_NOV_BID_6C_OR_DBL_4S
-#define SEMANTIC_DEC_BID_5H_OR_DBL_4S
+//#define SEMANTIC_DEC_BID_5H_OR_DBL_4S
+//#define SEMANTIC_DEC_ACCEPT_TO_4S
+#define SEMANTIC_DEC_JUMP_TO_4S
 
 // Opening lead:
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
@@ -128,37 +130,31 @@
 #define OC_ON_LEAD      SOUTH
 #endif 
 
-// -------------------------------------------------------- JUNE_MAX_5D_LEAD
 #ifdef SEMANTIC_JUNE_MAX_5D_LEAD
 #define TITLE_VERSION  "Fix a strong hand;\n(p)-p-(1d)-1h\n(3d)-3h-(p)-4h\n(p)-p-(5d)-X-all pass\nQuestion: what to lead?\nVer 2.0 "
 #define SEEK_OPENING_LEAD
 #endif 
 
-// -------------------------------------------------------- JUNE_LEAD_3343
 #ifdef SEMANTIC_JUNE_LEAD_3343
 #define TITLE_VERSION  "Fix a weak hand;\np-(p)-p-(1s)\np-(1NT)-p-(3NT)-all pass\nQuestion: what to lead?\nVer 2.0 "
 #define SEEK_OPENING_LEAD
 #endif 
 
-// -------------------------------------------------------- JUNE_GAMBLE_OR_5C
 #ifdef SEMANTIC_JUNE_GAMBLE_OR_5C
    #define TITLE_VERSION  "Fix 3307 fourth hand;\n(2h)-p-(p)-??\nQuestion: 3NT, partscore or 5C? Ver 2.0 "
    #define SEEK_DENOMINATION
 #endif 
 
-// -------------------------------------------------------- JUNE_ZAKHAROVY_PREC_3NT
 #ifdef SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
    #define TITLE_VERSION  "Fix a weak hand;\n(2c)-p-(3NT)-all pass\nQuestion: what to lead?\nVer 2.0 "
    #define SEEK_OPENING_LEAD
 #endif 
 
-// -------------------------------------------------------- TRICOLOR_STRONG
 #ifdef SEMANTIC_TRICOLOR_STRONG
    #define TITLE_VERSION  "Fix tricolor opening;\np-(p)-1c-(1d)\np-(p)-dbl-(2d)\n2h-(p)-??\nQuestion: partscore or a game? Ver 2.0 "
    #define SEEK_BIDDING_LEVEL
 #endif 
 
-// -------------------------------------------------------- RED55_KINGS_PART_15_16
 #ifdef SEMANTIC_RED55_KINGS_PART_15_16
    #define TITLE_VERSION  "Fix 55 responder; 1NT-2d-3d-?? Question: partscore or a game? v2.0"
    #define SEEK_BIDDING_LEVEL
@@ -173,6 +169,17 @@
 	#define TITLE_VERSION  "Fix a 15 hcp;\n....s\nQuestion: partscore or a game? v2.0"
 	#define SEEK_BIDDING_LEVEL
 #endif // SEMANTIC_AUG_MULTI_VUL
+
+#ifdef SEMANTIC_DEC_ACCEPT_TO_4S
+   #define TITLE_VERSION  "Fix 4441 13 hcp;\n(p)-p-(1d)-X\n(3d)-3s-(p)-??\nQuestion: partscore or a game? v2.0"
+   #define SEEK_BIDDING_LEVEL
+#endif // SEMANTIC_DEC_ACCEPT_TO_4S
+
+#ifdef SEMANTIC_DEC_JUMP_TO_4S
+   #define TITLE_VERSION  "Fix 4234 10 hcp;\n(p)-p-(1d)-X\n(3d)-??\nQuestion: 3s or 4s? v2.0"
+   #define SEEK_BIDDING_LEVEL
+#endif // SEMANTIC_DEC_JUMP_TO_4S
+
 
 #ifdef SCORE_OPP_CONTRACT
    #define SHOW_OPP_RESULTS
@@ -260,8 +267,8 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
    //const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 501000000;// half of mlrd
    //const uint MAX_ITERATION = 330000000;// third of mlrd
-   //const uint MAX_ITERATION = 251000000;// quarter mlrd
-   const uint MAX_ITERATION = 101000000;// 101 mln
+   const uint MAX_ITERATION = 251000000;// quarter mlrd
+   //const uint MAX_ITERATION = 101000000;// 101 mln
    const uint MAX_TASKS_TO_SOLVE = 4*1000*1000;
 #endif
 

@@ -144,6 +144,32 @@ uint holdings_aug_split_fit[DDS_HANDS][DDS_SUITS] =
 };
 #endif // SEMANTIC_AUG_SPLIT_FIT
 
+#ifdef SEMANTIC_DEC_ACCEPT_TO_4S
+#define INPUT_HOLDINGS  holdings_dec_compet
+#define INPUT_TRUMPS    SOL_SPADES
+#define INPUT_ON_LEAD   WEST
+uint holdings_dec_compet[DDS_HANDS][DDS_SUITS] =
+{ // North                    East        South       West
+   { RK | RJ | R8 | R7,      0,          0,         0  } , // spades
+   { RK | RJ | R8 | R6,      0,          0,         0  } , // hearts
+   { R5,                     0,          0,         0  } , // diamonds
+   { RK | RQ | R7 | R3,      0,          0,         0  }   // clubs
+};
+#endif // SEMANTIC_DEC_ACCEPT_TO_4S
+
+#ifdef SEMANTIC_DEC_JUMP_TO_4S
+#define INPUT_HOLDINGS  holdings_dec_compet
+#define INPUT_TRUMPS    SOL_SPADES
+#define INPUT_ON_LEAD   WEST
+uint holdings_dec_compet[DDS_HANDS][DDS_SUITS] =
+{ // North                    East        South       West
+   { RA | RQ | RT | R2,      0,          0,         0  } , // spades
+   { RQ | R9,                0,          0,         0  } , // hearts
+   { RQ | RT | R7,           0,          0,         0  } , // diamonds
+   { R9 | R8 | R4 | R2,      0,          0,         0  }   // clubs
+};
+#endif // SEMANTIC_DEC_JUMP_TO_4S
+
 #ifdef SEMANTIC_JULY_AUTO_FITO_PLANKTON
 #define INPUT_HOLDINGS  fito_july
 #define INPUT_TRUMPS    SOL_HEARTS
@@ -417,13 +443,13 @@ void Walrus::AllocFilteredTasksBuf()
    // alloc
    arrToSolve = (DdsPack *)malloc(bsize);
    if (arrToSolve) {
-      const size_t oneK = 1024;
-      const size_t oneM = 1024 * oneK;
-      if (bsize > oneM) {
-         printf("Memory %lluM in %s\n", bsize / oneM, nameHlp);
-      } else {
-         printf("Memory %lluK in %s\n", bsize / oneK, nameHlp);
-      }
+      // const size_t oneK = 1024;
+      // const size_t oneM = 1024 * oneK;
+      // if (bsize > oneM) {
+      //    printf("Memory %lluM in %s\n", bsize / oneM, nameHlp);
+      // } else {
+      //    printf("Memory %lluK in %s\n", bsize / oneK, nameHlp);
+      // }
       return;
    }
 

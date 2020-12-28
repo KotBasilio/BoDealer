@@ -935,3 +935,158 @@ uint WaFilter::DecTopHearts(SplitBits &partner, uint &camp, SplitBits &advancer,
    return 0;
 }
 #endif // SEMANTIC_DEC_BID_5H_OR_DBL_4S
+
+#ifdef SEMANTIC_DEC_ACCEPT_TO_4S
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &WaFilter::DecAcceptTo4S;
+   sem.onScoring = &Walrus::Score_NV_4Major;
+}
+
+uint WaFilter::DecAcceptTo4S(SplitBits &partner, uint &camp, SplitBits &advancer, SplitBits &firstOpp)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_OPP = 2;
+   const uint SKIP_BY_RESP = 3;
+
+   // LHO: pass, raise to 3d
+   twlHCP hcpOpp(firstOpp);
+   if (hcpOpp.total < 3 || 9 < hcpOpp.total) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 1; // opener points count
+   }
+   twLengths lenOpp(firstOpp);
+   if (lenOpp.d < 4 || 5 < lenOpp.d) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE; // 4-5 diam
+   }
+
+   // partner: pass, 3s
+   twlHCP hcpPart(partner);
+   if (hcpPart.total < 7 || 10 < hcpPart.total) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // too few points count
+   }
+   twLengths lenPart(partner);
+   if (lenPart.s < 4 || 5 < lenPart.s) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 2; // bid 3s
+   }
+   if (5 == lenPart.s) {
+      if (8 < hcpPart.total) {
+         camp = SKIP_BY_PART;
+         return ORDER_BASE + 3; // would open 8-17
+      }
+   }
+   if (lenPart.h > lenPart.s) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 4; // would bid 3h
+   }
+
+   // RHO: 1d, pass
+   twLengths lenAdv(advancer);
+   if (lenAdv.d < 4 || 5 < lenAdv.d) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 1; // 1d
+   }
+   twlHCP hcpAdv(advancer);
+   if (hcpAdv.total < 10 || 15 < hcpAdv.total) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 2; // points count
+   }
+   if (lenAdv.h > 4 || lenAdv.s > 4 || lenAdv.c > 5) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 3; // no 5M, no prec
+   }
+   if (lenAdv.d == 4) {
+      if (lenAdv.h > 1 && lenAdv.s > 1 && lenAdv.c > 1) {
+         camp = SKIP_BY_RESP;
+         return ORDER_BASE + 4;// unbalanced
+      }
+   }
+
+   // seems it passes
+   return 0;
+}
+#endif // SEMANTIC_DEC_ACCEPT_TO_4S
+
+#ifdef SEMANTIC_DEC_JUMP_TO_4S
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &WaFilter::DecAcceptTo4S;
+   sem.onScoring = &Walrus::Score_NV_4Major;
+}
+
+uint WaFilter::DecAcceptTo4S(SplitBits &partner, uint &camp, SplitBits &firstOpp, SplitBits &advancer)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_OPP = 2;
+   const uint SKIP_BY_RESP = 3;
+
+   // LHO: pass, raise to 3d
+   twlHCP hcpOpp(firstOpp);
+   if (hcpOpp.total < 3 || 9 < hcpOpp.total) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 1; // opener points count
+   }
+   twLengths lenOpp(firstOpp);
+   if (lenOpp.d < 4 || 5 < lenOpp.d) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE; // 4-5 diam
+   }
+
+   // partner: X
+   twlHCP hcpPart(partner);
+   auto workingHCP = hcpPart.total - hcpPart.d;
+   if (hcpPart.total < 12 || 13 < hcpPart.total) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // too few points count
+   }
+   twLengths lenPart(partner);
+   if (lenPart.d > 2) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 2; // opps raise d
+   }
+   if (lenPart.h > 4 || lenPart.s > 4) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 3; // would bid 1M
+   }
+   if (lenPart.h + lenPart.s < 7) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 4; // at least 4-3 M
+   }
+   if (lenPart.c > 5) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 5; // would bid 1M
+   }
+
+   // RHO: 1d, pass
+   twLengths lenAdv(advancer);
+   if (lenAdv.d < 4 || 5 < lenAdv.d) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 1; // 1d
+   }
+   twlHCP hcpAdv(advancer);
+   if (hcpAdv.total < 10 || 15 < hcpAdv.total) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 2; // points count
+   }
+   if (lenAdv.h > 4 || lenAdv.s > 4 || lenAdv.c > 5) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 3; // no 5M, no prec
+   }
+   if (lenAdv.d == 4) {
+      if (lenAdv.h > 1 && lenAdv.s > 1 && lenAdv.c > 1) {
+         camp = SKIP_BY_RESP;
+         return ORDER_BASE + 4;// unbalanced
+      }
+   }
+
+   // seems it passes
+   return 0;
+}
+#endif // SEMANTIC_DEC_JUMP_TO_4S
