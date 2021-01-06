@@ -261,13 +261,31 @@ int Walrus::PokeScorerForTricks()
    return 11;
 }
 
-void Walrus::InitMiniUI()
+static const char *s_TrumpNames[] = {
+   "spades",
+   "hearts",
+   "diamonds",
+   "clubs",
+   "notrump"
+};
+static const char *s_SeatNames[] = {
+   "North",
+   "East",
+   "South",
+   "West"
+};
+
+void Walrus::InitMiniUI(int trump, int first)
 {
    // how many tricks is the base?
    ui.irBase = PokeScorerForTricks();
 
    // that poking has left some marks in stats
    CleanupStats();
+
+   // fill names
+   strcpy(ui.declTrump, s_TrumpNames[trump]);
+   strcpy(ui.seatOnLead, s_SeatNames[first]);
 }
 
 void Walrus::MiniUI::Run()

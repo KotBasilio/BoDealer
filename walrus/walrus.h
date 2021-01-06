@@ -155,12 +155,12 @@ protected:
     {
        bool  exitRequested;
        bool  firstAutoShow;
-       int   irGoal;
-       int   irBase;
+       int   irGoal, irBase;
+       char  declTrump[10], seatOnLead[10];
        MiniUI();
        void Run();
     } ui;
-    void InitMiniUI();
+    void InitMiniUI(int trump, int first);
     void MiniReport(uint toGo);
     void CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp);
     int  PokeScorerForTricks();

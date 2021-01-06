@@ -74,7 +74,7 @@ uint heartsSlamTry[DDS_HANDS][DDS_SUITS] =
 // origin: http://spb.bridgesport.ru/spb/XMas21p/XMas21ps1/d21p.php#h
 #define INPUT_HOLDINGS  slamOnDiamonds
 #define INPUT_TRUMPS    SOL_NOTRUMP
-#define INPUT_ON_LEAD   EAST
+#define INPUT_ON_LEAD   WEST
 uint slamOnDiamonds[DDS_HANDS][DDS_SUITS] =
 { // North                         East        South       West
    { RQ | R5,                      0,          0,         0  } , // spades
@@ -619,9 +619,11 @@ void Walrus::PrepareBaseDeal(deal &dlBase)
    dlBase.currentTrickRank[1] = 0;
    dlBase.currentTrickRank[2] = 0;
 
-   for (int h = 0; h < DDS_HANDS; h++)
-      for (int s = 0; s < DDS_SUITS; s++)
+   for (int h = 0; h < DDS_HANDS; h++) {
+      for (int s = 0; s < DDS_SUITS; s++) {
          dlBase.remainCards[h][s] = (*input_holdings)[s][h];
+      }
+   }
 }
 
 void Walrus::SolveSavedTasks()
@@ -648,8 +650,8 @@ void Walrus::SolveSavedTasks()
    // do inits for Bo-Analyzer
    deal dlBase;
    PrepareBaseDeal(dlBase);
+   InitMiniUI(dlBase.trump, dlBase.first);
    SetMaxThreads(0);
-   InitMiniUI();
 
    // decide how to solve
    #ifdef _DEBUG
@@ -659,4 +661,3 @@ void Walrus::SolveSavedTasks()
       SolveInChunks(dlBase);
    #endif // _DEBUG
 }
-

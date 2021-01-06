@@ -170,9 +170,7 @@ void Walrus::MiniReport(uint toGo)
    uint sumRows  = __max( hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE], 1);
    float percGoDown = hitsRow[IO_ROW_OUR_DOWN] * 100.f / sumRows;
    float percMake = hitsRow[IO_ROW_OUR_MADE] * 100.f / sumRows;
-   printf("Processed: %u total. Goal is %d tricks. Chances: %3.1f%% down some + %3.1f%% make\n",
-      sumRows, ui.irBase,
-      percGoDown, percMake);
+   printf("Processed: %u total. %s is on lead. Goal is %d tricks in %s.\n", sumRows, ui.seatOnLead, ui.irBase, ui.declTrump);
 
 #ifdef SEEK_BIDDING_LEVEL
    // slam/game/partscore
@@ -188,6 +186,8 @@ void Walrus::MiniReport(uint toGo)
          cumulScore.bidSlam / sumRows);
    }
 #endif // SEEK_BIDDING_LEVEL
+
+   printf("Chances: %3.1f%% down some + %3.1f%% make\n", percGoDown, percMake);
 
 #ifdef SHOW_OPP_RESULTS
    // printf("Their contract expectation average: passed = %lld, doubled = %lld\n",

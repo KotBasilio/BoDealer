@@ -496,52 +496,49 @@ void PrintHand(char title[],
   int c, h, s, r;
   char text[DDS_HAND_LINES][DDS_FULL_LINE];
 
+  // clear virtual screen
   for (int l = 0; l < DDS_HAND_LINES; l++)
   {
     memset(text[l], ' ', DDS_FULL_LINE);
     text[l][DDS_FULL_LINE - 1] = '\0';
   }
 
+  // for each hand
   for (h = 0; h < DDS_HANDS; h++)
   {
-    int offset, line;
-    if (h == 0)
-    {
-      offset = DDS_HAND_OFFSET;
-      line = 0;
-    }
-    else if (h == 1)
-    {
-      offset = 2 * DDS_HAND_OFFSET;
-      line = 4;
-    }
-    else if (h == 2)
-    {
-      offset = DDS_HAND_OFFSET;
-      line = 8;
-    }
-    else
-    {
-      offset = 0;
-      line = 4;
-    }
-
-    for (s = 0; s < DDS_SUITS; s++)
-    {
-      c = offset;
-      for (r = 14; r >= 2; r--)
-      {
-        if ((remainCards[h][s] >> 2) & dbitMapRank[r])
-          text[line + s][c++] = static_cast<char>(dcardRank[r]);
-      }
-
-      if (c == offset)
-        text[line + s][c++] = '-';
-
-      if (h != 3)
-        text[line + s][c] = '\0';
-    }
+     // detect location
+     int offset, line;
+     if (h == 0) {
+       offset = DDS_HAND_OFFSET;
+       line = 0;
+     } else if (h == 1) {
+       offset = 2 * DDS_HAND_OFFSET;
+       line = 4;
+     } else if (h == 2) {
+       offset = DDS_HAND_OFFSET;
+       line = 8;
+     } else {
+       offset = 0;
+       line = 4;
+     }
+ 
+     // print hand to v-screen
+     for (s = 0; s < DDS_SUITS; s++) {
+       c = offset;
+       for (r = 14; r >= 2; r--) {
+         if ((remainCards[h][s] >> 2) & dbitMapRank[r])
+           text[line + s][c++] = static_cast<char>(dcardRank[r]);
+       }
+ 
+       if (c == offset)
+         text[line + s][c++] = '-';
+ 
+       if (h != 3)
+         text[line + s][c] = '\0';
+     }
   }
+
+  // start with title
   printf("%s", title);
   char dashes[80];
   int l = static_cast<int>(strlen(title)) - 1;
@@ -549,8 +546,10 @@ void PrintHand(char title[],
     dashes[i] = '-';
   dashes[l] = '\0';
   printf("%s\n", dashes);
+
+  // print the v-screen
   for (int i = 0; i < DDS_HAND_LINES; i++)
-    printf("%s\n", text[i]);
+    printf("   %s\n", text[i]);
   //printf("\n\n");
 }
 
