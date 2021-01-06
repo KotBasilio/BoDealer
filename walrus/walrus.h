@@ -121,6 +121,7 @@ protected:
        // -- our contracts
        void OurNV6m      (uint tricks);
        void OurNV6Maj    (uint tricks);
+       void OurNV6_No    (uint tricks);
        void Our3NT       (uint tricks);
        void Our4M        (uint tricks);
        void OurNV4M      (uint tricks);
@@ -133,6 +134,7 @@ protected:
     void Score_Doubled3NT(DdsTricks &tr);
     void Score_NV6Major(DdsTricks &tr);
     void Score_NV6Minor(DdsTricks &tr);
+    void Score_NV6NoTrump(DdsTricks &tr);
     void Score_OpLead3Major(DdsTricks &tr);
     void Score_OpLead3NT(DdsTricks &tr);
     void Score_OpLead5D(DdsTricks &tr);

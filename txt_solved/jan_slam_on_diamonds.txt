@@ -1,0 +1,45 @@
+Fix a 2263 16 hcp;
+ 1NT - ??
+Question: a game or a slam? v2.0 started.
+Aiming :  251000000 =
+   main:   84320314 +
+helperA:   83339843 +
+helperB:   83339843
+-------------------
+helperB:   83339880 done---> 958384
+helperA:   82267458 done---> 944926
+   main:   85392840 done
+Passing 2885432 for double-dummy inspection: roughly each 1 of 86; 250902098 skipped
+Solving started: 12 tricks board example:
+сдачка со вчерашней сессии:
+http://spb.bridgesport.ru/spb/XMas21p/XMas21ps1/d21p.php#h
+
+а партнёр открывает сильным БК. 
+в реальной сдаче всё прошло идеально, аж 13 взяток. 
+вопрос: хорошая ли затея лепить 6БК, даже не инвитировать? 
+(у оппов откидываем 7-карты и прочие резкие типа 6-5)
+ответ генератора:
+
+при 15-17 равномерных у партнёра:
+
+    :  HITS COUNT   :
+(down):     1790,    284,     86,     73,     16,      0,      0,      2249
+(make):    10069,   7682,      0,      0,      0,      0,      0,     17751
+Processed: 20000 total. Goal is 12 tricks. Chances: 11.2% down some + 88.8% make
+Averages: bidGame = 495, slam=882
+
+при 14-16 у партнёра:
+    :  HITS COUNT   :
+(down):     3659,    674,    241,    131,     21,      0,      0,      4726
+(make):    10256,   5018,      0,      0,      0,      0,      0,     15274
+Processed: 20000 total. Goal is 12 tricks. Chances: 23.6% down some + 76.4% make
+Averages: bidGame = 484, slam=747
+
+при ровно 14-ти у партнёра:
+    :  HITS COUNT   :
+(down):     5154,   1057,    424,    212,     59,      0,      0,      6906
+(make):     9757,   3337,      0,      0,      0,      0,      0,     13094
+Processed: 20000 total. Goal is 12 tricks. Chances: 34.5% down some + 65.5% make
+Averages: bidGame = 474, slam=628
+
+в общем, можно грузить

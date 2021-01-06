@@ -679,11 +679,11 @@ uint WaFilter::SeptMajors(SplitBits &partner, uint &camp, SplitBits &rho, SplitB
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::NovVoidwood;
+   sem.onFilter = &WaFilter::SlamTry;
    sem.onScoring = &Walrus::Score_NV6Major;
 }
 
-uint WaFilter::NovVoidwood(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
+uint WaFilter::SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
 {
    const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
@@ -1090,3 +1090,95 @@ uint WaFilter::DecAcceptTo4S(SplitBits &partner, uint &camp, SplitBits &firstOpp
    return 0;
 }
 #endif // SEMANTIC_DEC_JUMP_TO_4S
+
+#ifdef SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &WaFilter::SlamTry;
+   sem.onScoring = &Walrus::Score_NV6NoTrump;
+   //sem.onScoring = &Walrus::Score_3NT;
+}
+
+uint WaFilter::SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_OPP = 2;
+   const uint SKIP_BY_RESP = 3;
+
+   // partner: 1NT
+   twlHCP hcpPart(partner);
+   //if (hcpPart.total < 15 || 17 < hcpPart.total) {
+   //if (hcpPart.total < 14 || 16 < hcpPart.total) {
+   if (hcpPart.total < 14 || 14 < hcpPart.total) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE; // NT
+   }
+   twLengths lenPart(partner);
+   if (lenPart.s > 4 ||
+      lenPart.h > 4 ||
+      lenPart.d > 4 ||
+      lenPart.c > 5) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // wrong points count
+   }
+   if (lenPart.s < 2 ||
+      lenPart.h < 2 ||
+      lenPart.d < 2 ||
+      lenPart.c < 2) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 2;// kind of NT
+   }
+   if (lenPart.s == 2) {
+      if (hcpPart.s < 2) {
+         camp = SKIP_BY_PART;
+         return ORDER_BASE + 3;// stop spades
+      }
+   }
+
+   // RHO, LHO: passs
+   twLengths lenOpp(rho);
+   if (lenOpp.s > 6 ||
+      lenOpp.h > 6 ||
+      lenOpp.d > 6 ||
+      lenOpp.c > 6) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE; // no 7+
+   }
+   twLengths lenResp(lho);
+   if (lenResp.s > 6 ||
+      lenResp.h > 6 ||
+      lenResp.d > 6 ||
+      lenResp.c > 6) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 1; // no 7+
+   }
+
+   // two suiters
+   if (lenResp.s >= 5) {
+      if (lenResp.h > 5 ||
+         lenResp.c > 5) {
+         camp = SKIP_BY_OPP;
+         return ORDER_BASE + 2; // no two-suiters
+      }
+   } else if (lenResp.h + lenResp.c > 9) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 2; // no two-suiters
+   }
+   if (lenOpp.s >= 5) {
+      if (lenOpp.h > 5 ||
+         lenOpp.c > 5) {
+         camp = SKIP_BY_RESP;
+         return ORDER_BASE + 2; // no two-suiters
+      }
+   } else if (lenOpp.h + lenOpp.c > 9) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 2; // no two-suiters
+   }
+
+   // seems it passes
+   return 0;
+}
+
+#endif // SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS

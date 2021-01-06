@@ -200,3 +200,36 @@ void Walrus::CumulativeScore::OurNV6Maj(uint tricks)
    }
 }
 
+void Walrus::CumulativeScore::OurNV6_No(uint tricks)
+{
+   // "always slam" strategy
+   switch (tricks) {
+      case 2:  bidSlam -= 450; break;
+      case 3:  bidSlam -= 350; break;
+      case 4:  bidSlam -= 400; break;
+      case 5:  bidSlam -= 350; break;
+      case 6:  bidSlam -= 300; break;
+      case 7:  bidSlam -= 250; break;
+      case 8:  bidSlam -= 200; break;
+      case 9:  bidSlam -= 150; break;
+      case 10: bidSlam -= 100; break;
+      case 11: bidSlam -= 50;  break;
+      case 12: bidSlam += 990; break;
+      case 13: bidSlam += 1020; break;
+   }
+
+   // "always game" strategy
+   int gameDelta = tricks > 8 ?
+      400 + (tricks - 9) * 30 :
+      -50 * (9 - tricks);
+   bidGame += gameDelta;
+
+   // "ideal"
+   if (tricks < 12) {
+      ideal += gameDelta;
+   } else {
+      ideal += 990 + (tricks - 12) * 30;
+   }
+}
+
+

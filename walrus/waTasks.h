@@ -11,6 +11,7 @@
 //#define SEMANTIC_NOV_64_AS_TWO_SUITER
 //#define SEMANTIC_IMPS_ACCEPT_3NT_ON_SPADE_FIT
 //#define SEMANTIC_DEC_12_2425
+#define SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS
 
 // Bidding decision competitive:
 //#define SEMANTIC_JULY_AUTO_FITO_PLANKTON
@@ -21,7 +22,7 @@
 //#define SEMANTIC_NOV_BID_6C_OR_DBL_4S
 //#define SEMANTIC_DEC_BID_5H_OR_DBL_4S
 //#define SEMANTIC_DEC_ACCEPT_TO_4S
-#define SEMANTIC_DEC_JUMP_TO_4S
+//#define SEMANTIC_DEC_JUMP_TO_4S
 
 // Opening lead:
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
@@ -86,6 +87,12 @@
 #define SEEK_BIDDING_LEVEL
 #define UNPLAYABLE_ONE_OF  6    // adjust to singleton king offside -- go down in 1/6 of such cases
 #endif // SEMANTIC_NOV_VOIDWOOD
+
+// ---
+#ifdef SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS
+#define TITLE_VERSION  "Fix a 2263 16 hcp;\n 1NT - ??\nQuestion: a game or a slam? v2.0"
+#define SEEK_BIDDING_LEVEL
+#endif // SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS
 
 // ---
 #ifdef SEMANTIC_SEPT_MAJORS54_18HCP

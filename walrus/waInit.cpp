@@ -58,10 +58,10 @@ uint longers_dec[DDS_HANDS][DDS_SUITS] =
 
 #ifdef SEMANTIC_NOV_VOIDWOOD
 // origin: a match at home
-#define INPUT_HOLDINGS  heartsNovVoidwood
+#define INPUT_HOLDINGS  heartsSlamTry
 #define INPUT_TRUMPS    SOL_HEARTS
 #define INPUT_ON_LEAD   EAST
-uint heartsNovVoidwood[DDS_HANDS][DDS_SUITS] =
+uint heartsSlamTry[DDS_HANDS][DDS_SUITS] =
 { // North                    East        South       West
    { RA | R9 | R7,             0,          0,         0  } , // spades
    { RA | RQ | RJ | RT | R8 | R5 | R3, 0,  0,         0  } , // hearts
@@ -69,6 +69,20 @@ uint heartsNovVoidwood[DDS_HANDS][DDS_SUITS] =
    { 0,                        0,          0,         0  }   // clubs
 };
 #endif // SEMANTIC_NOV_VOIDWOOD
+
+#ifdef SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS
+// origin: http://spb.bridgesport.ru/spb/XMas21p/XMas21ps1/d21p.php#h
+#define INPUT_HOLDINGS  slamOnDiamonds
+#define INPUT_TRUMPS    SOL_NOTRUMP
+#define INPUT_ON_LEAD   EAST
+uint slamOnDiamonds[DDS_HANDS][DDS_SUITS] =
+{ // North                         East        South       West
+   { RQ | R5,                      0,          0,         0  } , // spades
+   { RA | RJ,                      0,          0,         0  } , // hearts
+   { RA | RQ | RT | R9 | R7 | R2 , 0,          0,         0  } , // diamonds
+   { RK | R3 | R2,                 0,          0,         0  }   // clubs
+};
+#endif // SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS
 
 #ifdef SEMANTIC_NOV_64_AS_TWO_SUITER
 // origin: http://spb.bridgesport.ru/spb/DKVkusa/p2011171/d21p.php

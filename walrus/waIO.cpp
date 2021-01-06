@@ -12,16 +12,17 @@ char fmtCell[] = "%6u,";
 char fmtCellFloat[] = "%6.1f,";
 char tblHat[] = "    :  HITS COUNT   :\n";
 #else
-char fmtCell[] = "%10u,";
-char fmtCellFloat[] = "%10.1f,";
+char fmtCell[] = "%7u,";
+char fmtCellFloat[] = "%7.1f,";
 //char tblHat[] =  "    :       let    spade    heart     both     club             sum\n";
 char tblHat[] = "    :  HITS COUNT   :\n";
 #endif   
 
-#define MINI_CAMPS 7
-#define MINI_ROWS 13
+const int MAX_CAMPS = 15;
+const int MINI_ROWS = 13;
 
-char miniRowStart[MINI_ROWS][16];
+const int PREFIX_LEN = 16;
+char miniRowStart[MINI_ROWS][PREFIX_LEN];
 
 /*************************************************************
 '* Walrus::LoadInitialStatistics()
@@ -95,8 +96,19 @@ void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
    for (int i = 0; i < MINI_ROWS; i++) {
       hitsRow[i] = 0;
    }
-   for (int j = 0; j < MINI_CAMPS; j++) {
+   for (int j = 0; j < MAX_CAMPS; j++) {
       hitsCamp[j] = 0;
+   }
+
+   // detect optimal camps
+   auto miniCamps = MAX_CAMPS / 2;
+   for (; miniCamps < MAX_CAMPS; miniCamps++) {
+      if (hitsCount[IO_ROW_OUR_DOWN][miniCamps - 1] == 0) {
+         #ifdef SHOW_OPP_RESULTS
+         if (hitsCount[IO_ROW_THEIRS][miniCamps - 1] == 0) // intended incomplete
+         #endif // SHOW_OPP_RESULTS
+         break;
+      }
    }
 
    // print all rows
@@ -115,7 +127,8 @@ void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
       if (showRow) printf( miniRowStart[i] );
 
       uint sumline = 0;
-      for (int j = 0; j < MINI_CAMPS; j++) {
+      int j = 0;
+      for (; j < miniCamps; j++) {
          if (showRow) printf(fmtCell, hitsCount[i][j]);
          sumline     += hitsCount[i][j];
          hitsCamp[j] += hitsCount[i][j];
@@ -130,7 +143,7 @@ void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
                sumline = 1;
             }
             printf("(  %% ):  ");
-            for (int j = 0; j < MINI_CAMPS; j++) {
+            for (int j = 0; j < miniCamps; j++) {
                float percent = hitsCount[i][j] * 100.f / sumline;
                printf(fmtCellFloat, percent);
             }
@@ -149,7 +162,7 @@ void Walrus::MiniReport(uint toGo)
 
    // small tables
    uint hitsRow[MINI_ROWS];
-   uint hitsCamp[MINI_CAMPS];
+   uint hitsCamp[MAX_CAMPS];
    CalcHitsForMiniReport(hitsRow, hitsCamp);
 
    // percentages
