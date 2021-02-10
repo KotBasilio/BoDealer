@@ -294,6 +294,19 @@ uint novLevk_holdings[DDS_HANDS][DDS_SUITS] =
 #define CARD_LEAD_CLUBS   KT
 #endif // SEMANTIC_IMPS_LEAD_LEVKOVICH
 
+#ifdef SEMANTIC_DEC_JAN_DBL_THEN_HEARTS
+#define INPUT_HOLDINGS  dbl_then_hearts
+#define INPUT_TRUMPS    SOL_HEARTS
+#define INPUT_ON_LEAD   EAST
+uint dbl_then_hearts[DDS_HANDS][DDS_SUITS] =
+{ // North                         East        South       West
+   { RK | R8 | R5,                 0,          0,         0  } , // spades
+   { RA | RK | RQ | RJ | RT | R5,  0,          0,         0  } , // hearts
+   { RA | RQ | R7 | R2,            0,          0,         0  } , // diamonds
+   { 0                  ,          0,          0,         0  }   // clubs
+};
+#endif // SEMANTIC_DEC_JAN_DBL_THEN_HEARTS
+
 #ifdef SEMANTIC_TRICOLOR_STRONG
    #define INPUT_HOLDINGS  tri_sunday
    #define INPUT_TRUMPS    SOL_HEARTS

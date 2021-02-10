@@ -1182,3 +1182,70 @@ uint WaFilter::SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits
 }
 
 #endif // SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS
+
+#ifdef SEMANTIC_DEC_JAN_DBL_THEN_HEARTS
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &WaFilter::JanDblThenH;
+   sem.onScoring = &Walrus::Score_4Major;
+}
+
+uint WaFilter::JanDblThenH(SplitBits &partner, uint &camp, SplitBits &firstOpp, SplitBits &resp)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_RESP = 2;
+   const uint SKIP_BY_OPP = 3;
+
+   // first opp: precision
+   twlHCP hcpOpp(firstOpp);
+   if (hcpOpp.total < 11 || 16 < hcpOpp.total) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE; // opener points count
+   }
+   twLengths lenOpp(firstOpp);
+   if (lenOpp.c < 5) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 1; // too few clubs
+   }
+   if (lenOpp.c < 6) {
+      camp = SKIP_BY_OPP;
+      if (lenOpp.h != 4 || lenOpp.s != 4) {
+         return ORDER_BASE + 2; // have 4 in a major
+      }
+   }
+   if (lenOpp.h > 4 || lenOpp.s > 4) {
+      return ORDER_BASE + 3; // no 5 in a major
+   }
+   if (lenOpp.c > 7) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 4; // have 4 in a major
+   }
+
+   twlHCP hcpResp(resp);
+   twLengths lenResp(resp);
+   if (lenResp.c < 3) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 1; // fit to 3c
+   }
+   if (lenResp.c == 3 && hcpResp.total < 6) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 2; // fit-3 at least 6 hcp
+   }
+   if (lenResp.c == 4 && hcpResp.total < 4) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 3; // fit-4 at least 4 hcp
+   }
+
+   twlHCP hcpPart(partner);
+   if (hcpPart.total > 6) {// part hcp range 0..
+      camp = SKIP_BY_PART;
+      return ORDER_BASE; // wrong points count
+   }
+
+   // seems it passes
+   return 0;
+}
+#endif // SEMANTIC_DEC_JAN_DBL_THEN_HEARTS
+

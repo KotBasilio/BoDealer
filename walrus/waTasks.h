@@ -11,7 +11,7 @@
 //#define SEMANTIC_NOV_64_AS_TWO_SUITER
 //#define SEMANTIC_IMPS_ACCEPT_3NT_ON_SPADE_FIT
 //#define SEMANTIC_DEC_12_2425
-#define SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS
+//#define SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS
 
 // Bidding decision competitive:
 //#define SEMANTIC_JULY_AUTO_FITO_PLANKTON
@@ -23,6 +23,7 @@
 //#define SEMANTIC_DEC_BID_5H_OR_DBL_4S
 //#define SEMANTIC_DEC_ACCEPT_TO_4S
 //#define SEMANTIC_DEC_JUMP_TO_4S
+#define SEMANTIC_DEC_JAN_DBL_THEN_HEARTS
 
 // Opening lead:
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
@@ -157,6 +158,11 @@
    #define SEEK_OPENING_LEAD
 #endif 
 
+#ifdef SEMANTIC_DEC_JAN_DBL_THEN_HEARTS
+   #define TITLE_VERSION  "Fix 19 hcp 3640 -- strong with hearts;\np-(2c)-X-(3c)\np-(p)-??\nQuestion: partscore or a game? Task "
+   #define SEEK_BIDDING_LEVEL
+#endif // SEMANTIC_DEC_JAN_DBL_THEN_HEARTS
+
 #ifdef SEMANTIC_TRICOLOR_STRONG
    #define TITLE_VERSION  "Fix tricolor opening;\np-(p)-1c-(1d)\np-(p)-dbl-(2d)\n2h-(p)-??\nQuestion: partscore or a game? Ver 2.0 "
    #define SEEK_BIDDING_LEVEL
@@ -274,8 +280,9 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
    //const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 501000000;// half of mlrd
    //const uint MAX_ITERATION = 330000000;// third of mlrd
-   const uint MAX_ITERATION = 251000000;// quarter mlrd
+   //const uint MAX_ITERATION = 251000000;// quarter mlrd
    //const uint MAX_ITERATION = 101000000;// 101 mln
+   const uint MAX_ITERATION = 12000000;// 12 mln
    const uint MAX_TASKS_TO_SOLVE = 4*1000*1000;
 #endif
 

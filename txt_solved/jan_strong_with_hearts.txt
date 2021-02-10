@@ -1,0 +1,85 @@
+Fix 19 hcp 3640 -- strong with hearts;
+p-(2c)-X-(3c)
+p-(p)-??
+Question: partscore or a game? Task  started.
+Aiming :   12000000 =
+   main:    4031250 +
+helperA:    3984375 +
+helperB:    3984375
+-------------------
+helperB:    3984396 donehelperA:    3984396 done---> 56935
+---> 57387
+   main:    4031274 done
+Passing 172364 for double-dummy inspection: roughly each 1 of 2; 412944 skipped
+Solving started: 10 tricks board example:
+--------
+               K85
+               AKQJT5
+               AQ72
+               -
+   Q6                      AT4
+   8                       9764
+   JT65                    43
+   AKQJT9                  8432
+               J9732
+               32
+               K98
+               765
+
+
+part 0-6 hcp
+    :  HITS COUNT   :
+(down):     1278,    323,     65,      1,      0,      0,      0,      1667
+(make):     2705,   3153,   2143,    332,      0,      0,      0,      8333
+Processed: 10000 total. East is on lead. Goal is 10 tricks in hearts.
+Averages: ideal = 563, bidGame = 520, partscore=188
+Chances: 16.7% down some + 83.3% make
+
+part 0-5 hcp
+    :  HITS COUNT   :
+(down):     1303,    432,     68,      2,      0,      0,      0,      1805
+(make):     2775,   3182,   2000,    238,      0,      0,      0,      8195
+Processed: 10000 total. East is on lead. Goal is 10 tricks in hearts.
+Averages: ideal = 555, bidGame = 507, partscore=186
+Chances: 18.0% down some + 81.9% make
+
+part 0-4 hcp
+    :  HITS COUNT   :
+(down):     1465,    459,     71,      1,      0,      0,      0,      1996
+(make):     3054,   3096,   1786,     68,      0,      0,      0,      8004
+Processed: 10000 total. East is on lead. Goal is 10 tricks in hearts.
+Averages: ideal = 542, bidGame = 490, partscore=182
+Chances: 20.0% down some + 80.0% make
+
+part 0-3 hcp
+    :  HITS COUNT   :
+(down):     1747,    482,     73,      2,      0,      0,      0,      2304
+(make):     3462,   2901,   1319,     14,      0,      0,      0,      7696
+Processed: 10000 total. East is on lead. Goal is 10 tricks in hearts.
+Averages: ideal = 524, bidGame = 464, partscore=177
+Chances: 23.0% down some + 77.0% make
+
+part 0-2 hcp
+    :  HITS COUNT   :
+(down):     2149,    630,     93,      2,      0,      0,      0,      2874
+(make):     3810,   2451,    858,      7,      0,      0,      0,      7126
+Processed: 10000 total. East is on lead. Goal is 10 tricks in hearts.
+Averages: ideal = 492, bidGame = 417, partscore=171
+Chances: 28.7% down some + 71.3% make
+
+part 0-1 hcp
+    :  HITS COUNT   :
+(down):     2503,    841,    127,      0,      0,      0,      0,      3471
+(make):     3851,   2006,    660,     12,      0,      0,      0,      6529
+Processed: 10000 total. East is on lead. Goal is 10 tricks in hearts.
+Averages: ideal = 460, bidGame = 369, partscore=166
+Chances: 34.7% down some + 65.3% make
+
+part 0 hcp 
+    :  HITS COUNT   :
+(down):     4413,   1741,    309,      4,      0,      0,      0,      6467
+(make):     5558,   2399,    567,      9,      0,      0,      0,      8533
+Processed: 15000 total. East is on lead. Goal is 10 tricks in hearts.
+Averages: ideal = 415, bidGame = 300, partscore=159
+Chances: 43.1% down some + 56.9% make 
+
