@@ -40,6 +40,15 @@ void Walrus::Score_NV_4Major(DdsTricks& tr)
    cumulScore.OurNV4M(tr.plainScore);
 }
 
+void Walrus::Score_5Major(DdsTricks &tr)
+{
+   // hits
+   HitByScore(tr, 11);
+
+   // cumul
+   cumulScore.Our5M(tr.plainScore);
+}
+
 void Walrus::Score_NV_5Major(DdsTricks &tr)
 {
    // hits
@@ -83,7 +92,7 @@ void Walrus::Score_Opp4MajorDoubled(DdsTricks& tr)
    countOppContractMarks++;
 
    // store their cumulative score
-   cumulScore.Opp_4MajX(cumulScore.oppCtrDoubled, tr.plainScore);
+   cumulScore.Opp_NV_4MajX(cumulScore.oppCtrDoubled, tr.plainScore);
 }
 
 void Walrus::Score_NV6Major(DdsTricks& tr)

@@ -137,7 +137,7 @@ void Walrus::CumulativeScore::Opp_3MajX(s64 &sum, uint tricks)
   }
 }
 
-void Walrus::CumulativeScore::Opp_4MajX(s64 &sum, uint tricks)
+void Walrus::CumulativeScore::Opp_NV_4MajX(s64 &sum, uint tricks)
 {
    switch (tricks) {
       case 10: sum -= 590; return;

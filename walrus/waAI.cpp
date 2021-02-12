@@ -251,7 +251,8 @@ int Walrus::PokeScorerForTricks()
    // made one game => seems playing 4M
    if (cumulScore.ideal > 500) {
       // maybe 5M?
-      if (cumulScore.bidGame < 420) {
+      if (cumulScore.bidGame < 420 ||
+          cumulScore.bidGame == 510) {
          return 11;
       }
       return 10;

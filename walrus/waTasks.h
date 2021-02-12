@@ -23,7 +23,8 @@
 //#define SEMANTIC_DEC_BID_5H_OR_DBL_4S
 //#define SEMANTIC_DEC_ACCEPT_TO_4S
 //#define SEMANTIC_DEC_JUMP_TO_4S
-#define SEMANTIC_DEC_JAN_DBL_THEN_HEARTS
+//#define SEMANTIC_DEC_JAN_DBL_THEN_HEARTS
+#define SEMANTIC_FEB_4711_DILEMMA_ON_4S
 
 // Opening lead:
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
@@ -72,6 +73,14 @@
 #define OC_TRUMPS       SOL_SPADES
 #define OC_ON_LEAD      SOUTH
 #endif 
+
+#ifdef SEMANTIC_FEB_4711_DILEMMA_ON_4S
+   #define TITLE_VERSION  "Fix 12 hcp 4711 -- 4 controls;\n1h-(p)-2h-(X)\n4h-(4s)p-(p)-??\nQuestion: double them or bid our 5h? Task "
+   #define SEEK_BIDDING_LEVEL
+   #define SCORE_OPP_CONTRACT
+   #define OC_TRUMPS       SOL_SPADES
+   #define OC_ON_LEAD      SOUTH
+#endif // SEMANTIC_FEB_4711_DILEMMA_ON_4S
 
 // ---
 #ifdef SEMANTIC_DEC_BID_5H_OR_DBL_4S
@@ -280,9 +289,9 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
    //const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 501000000;// half of mlrd
    //const uint MAX_ITERATION = 330000000;// third of mlrd
-   //const uint MAX_ITERATION = 251000000;// quarter mlrd
+   const uint MAX_ITERATION = 251000000;// quarter mlrd
    //const uint MAX_ITERATION = 101000000;// 101 mln
-   const uint MAX_ITERATION = 12000000;// 12 mln
+   //const uint MAX_ITERATION = 12000000;// 12 mln
    const uint MAX_TASKS_TO_SOLVE = 4*1000*1000;
 #endif
 

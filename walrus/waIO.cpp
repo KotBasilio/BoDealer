@@ -35,16 +35,22 @@ bool Walrus::LoadInitialStatistics(const char *fname)
    //printf("\nNo initial stats needed\n");
 
    // init lines in mini-report
-   sprintf(miniRowStart[0], "(down):  ");
-   sprintf(miniRowStart[1], "(make):  ");
-   sprintf(miniRowStart[2], "(----):  ");
-   for (int i = 2; i < MINI_ROWS; i++) {
-      sprintf(miniRowStart[i], "(%4d):  ", i);
+   {
+      sprintf(miniRowStart[ 0], "     (down): ");
+      sprintf(miniRowStart[ 1], "     (make): ");
+      sprintf(miniRowStart[ 2], "     (----): ");
+   }
+   for (int i = 3; i < MINI_ROWS; i++) {
+      sprintf(miniRowStart[i], "     (%4d): ", i);
    }
    #ifdef SHOW_OPP_RESULTS
-      sprintf(miniRowStart[10], "(down):  ");
-      sprintf(miniRowStart[11], "(make):  ");
-      sprintf(miniRowStart[12], "(----):  ");
+   {
+      sprintf(miniRowStart[ 0], "  (we down): ");
+      sprintf(miniRowStart[ 1], "  (we make): ");
+      sprintf(miniRowStart[10], "  (op down): ");
+      sprintf(miniRowStart[11], "  (op make): ");
+      sprintf(miniRowStart[12], "  (-------): ");
+      }
    #endif
 
    return true;
@@ -83,7 +89,7 @@ static bool IsRowSkippable(int i)
    // opp res => only middle is skippable
    #ifdef SHOW_OPP_RESULTS
       return IO_ROW_OUR_MADE + 1 < i && i < IO_ROW_THEIRS;
-   #endif // SHOW_OPP_RESULTS
+   #endif
 
    // only our results => many are skippable
    return i > IO_ROW_OUR_MADE;
@@ -175,7 +181,11 @@ void Walrus::MiniReport(uint toGo)
 #ifdef SEEK_BIDDING_LEVEL
    // slam/game/partscore
    if (ui.irBase < 12) {
+   #ifdef SHOW_OPP_RESULTS
+      printf("Averages: ideal = %lld, bidGame = %lld.   ",
+   #else
       printf("Averages: ideal = %lld, bidGame = %lld, partscore=%lld\n",
+   #endif 
          cumulScore.ideal / sumRows,
          cumulScore.bidGame / sumRows,
          cumulScore.partscore / sumRows);

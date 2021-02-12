@@ -1249,3 +1249,94 @@ uint WaFilter::JanDblThenH(SplitBits &partner, uint &camp, SplitBits &firstOpp, 
 }
 #endif // SEMANTIC_DEC_JAN_DBL_THEN_HEARTS
 
+#ifdef SEMANTIC_FEB_4711_DILEMMA_ON_4S
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &WaFilter::FebManyHearts;
+   sem.onScoring = &Walrus::Score_5Major;
+   sem.onOppContract = &Walrus::Score_Opp4MajorDoubled;
+}
+
+// OUT: camp
+uint WaFilter::FebManyHearts(SplitBits &partner, uint &camp, SplitBits &doubler, SplitBits &advancer)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_ADVANCER = 2;
+   const uint SKIP_BY_DOUBLER = 3;
+
+   // LHO: pass, 4s
+   // partner: 2h, pass
+   // RHO: X, pass
+   twLengths lenOpp(advancer);
+   if (lenOpp.s < 4) {
+      camp = SKIP_BY_ADVANCER;
+      return ORDER_BASE; // 4-5
+   }
+   twLengths lenResp(doubler);
+   if (lenResp.s != 4) {
+      camp = SKIP_BY_DOUBLER;
+      return ORDER_BASE ; // X
+   }
+
+   twLengths lenPart(partner);
+   if (lenPart.h < 3 || 4 < lenPart.h) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE; // fit
+   }
+   twlHCP hcpPart(partner);
+   if (hcpPart.total < 3 || 9 < hcpPart.total) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // wrong points count
+   }
+   if (hcpPart.total < 6 && lenPart.h < 4) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 2; // wrong points count
+   }
+
+   // hcp doubler
+   twlHCP hcpResp(doubler);
+   if (hcpResp.total < 11) {
+      camp = SKIP_BY_DOUBLER;
+      return ORDER_BASE + 1; // resp points count
+   }
+
+   // no suit better than spades in opp
+   if (lenOpp.c > lenOpp.s ||
+       lenOpp.d > lenOpp.s) {
+      camp = SKIP_BY_ADVANCER;
+      return ORDER_BASE + 1; // 
+   }
+
+   // doubler has no 6+ suits
+   if (lenResp.d > 5 || lenResp.c > 5) {
+      camp = SKIP_BY_DOUBLER;
+      return ORDER_BASE + 2; // X
+   }
+
+   // 5+ spades => no 9+ pts
+   if (lenOpp.s > 4) {
+      twlHCP hcpOpp(advancer);
+      if (hcpOpp.total > 8) {
+         camp = SKIP_BY_ADVANCER;
+         return ORDER_BASE + 2; // 
+      }
+   }
+
+   // thin filter: we want part to have both void in spades and 4+ hearts
+   // if (lenPart.s > 0 || lenPart.h < 4) {
+   //    camp = SKIP_BY_PART;
+   //    return ORDER_BASE + 4; // thin
+   // }
+
+   // clever part: when both void in spades and 4+ hearts => bid 5h
+   if (lenPart.s == 0 || lenPart.h > 3) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 3; 
+   }
+
+   // seems it passes
+   return 0;
+}
+#endif // SEMANTIC_FEB_4711_DILEMMA_ON_4S

@@ -42,6 +42,20 @@ uint fito_july[DDS_HANDS][DDS_SUITS] =
 };
 #endif // SEMANTIC_NOV_BID_6C_OR_DBL_4S
 
+#ifdef SEMANTIC_FEB_4711_DILEMMA_ON_4S
+// origin: Morozevich vs Nokhaeva
+#define INPUT_HOLDINGS  many_hearts
+#define INPUT_TRUMPS    SOL_HEARTS
+#define INPUT_ON_LEAD   EAST
+uint many_hearts[DDS_HANDS][DDS_SUITS] =
+{ // North                                  East        South       West
+   { RK | RJ | R9 | R6 ,                      0,          0,         0  } , // spades
+   { RK | RJ | R9 | R6 | R5  | R4 | R3,       0,          0,         0  } , // hearts
+   { RA  ,                                    0,          0,         0  } , // diamonds
+   { R7  ,                                    0,          0,         0  }   // clubs
+};
+#endif // SEMANTIC_FEB_4711_DILEMMA_ON_4S
+
 #ifdef SEMANTIC_DEC_BID_5H_OR_DBL_4S
 // origin: Serbin http://spb.bridgesport.ru/spb/Zimn_Cap_20/Cup20r5/d1p.htm
 #define INPUT_HOLDINGS  longers_dec
