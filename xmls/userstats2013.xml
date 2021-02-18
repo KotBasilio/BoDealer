@@ -857,16 +857,52 @@
 				<StatRuleId>ab5c7327-2b5d-4e73-ae14-82360545c8a7</StatRuleId>
 			</StatRuleIds>
 		</Event>
-		<Event name="XBX">
+		<Event name="XBXKaerMorhenTrained">
 			<PartBVersion>2</PartBVersion>
 			<PartCVersion>1</PartCVersion>
 			<EventType>IGB</EventType>
-			<Description>Scarlett for </Description>
+			<Description>Scarlett for KaerMorhenTrained</Description>
 			<PartCFields>
 				<Field name="Count" dataType="Int32" />
 			</PartCFields>
 			<StatRuleIds>
-				<StatRuleId></StatRuleId>
+				<StatRuleId>6805df00-4dad-421e-8c53-290db7d94f75</StatRuleId>
+			</StatRuleIds>
+		</Event>
+		<Event name="XBXThatIstheEvilestThing">
+			<PartBVersion>2</PartBVersion>
+			<PartCVersion>1</PartCVersion>
+			<EventType>IGB</EventType>
+			<Description>Scarlett for ThatIstheEvilestThing</Description>
+			<PartCFields>
+				<Field name="Count" dataType="Int32" />
+			</PartCFields>
+			<StatRuleIds>
+				<StatRuleId>927e432a-1252-48f2-94c9-a9b7a5a697d7</StatRuleId>
+			</StatRuleIds>
+		</Event>
+		<Event name="XBXMasterMarksman">
+			<PartBVersion>2</PartBVersion>
+			<PartCVersion>1</PartCVersion>
+			<EventType>IGB</EventType>
+			<Description>Scarlett for MasterMarksman</Description>
+			<PartCFields>
+				<Field name="Count" dataType="Int32" />
+			</PartCFields>
+			<StatRuleIds>
+				<StatRuleId>4b5d426e-9dfb-422d-8213-61e7f718ac27</StatRuleId>
+			</StatRuleIds>
+		</Event>
+		<Event name="XBXWhatWasThat">
+			<PartBVersion>2</PartBVersion>
+			<PartCVersion>1</PartCVersion>
+			<EventType>IGB</EventType>
+			<Description>Scarlett for WhatWasThat</Description>
+			<PartCFields>
+				<Field name="Count" dataType="Int32" />
+			</PartCFields>
+			<StatRuleIds>
+				<StatRuleId>a48724bc-ffbf-4c32-8d24-f881e9089206</StatRuleId>
 			</StatRuleIds>
 		</Event>
 		<Event name="XBXEnvironmentallyUnfriendly">
@@ -2670,6 +2706,54 @@
 			<IsServerOnly>false</IsServerOnly>
 			<StatName>
 				<Literal>XBRHumptyDumpty</Literal>
+			</StatName>
+			<StatContext />
+		</StatRule>
+		<StatRule id="6805df00-4dad-421e-8c53-290db7d94f75" name="XBRKaerMorhenTrained">
+			<Operator>REPLACE</Operator>
+			<Parameter dataType="Integer">
+				<Field>Count</Field>
+			</Parameter>
+			<Accessibility>Open</Accessibility>
+			<IsServerOnly>false</IsServerOnly>
+			<StatName>
+				<Literal>XBRKaerMorhenTrained</Literal>
+			</StatName>
+			<StatContext />
+		</StatRule>
+		<StatRule id="927e432a-1252-48f2-94c9-a9b7a5a697d7" name="XBRThatIstheEvilestThing">
+			<Operator>REPLACE</Operator>
+			<Parameter dataType="Integer">
+				<Field>Count</Field>
+			</Parameter>
+			<Accessibility>Open</Accessibility>
+			<IsServerOnly>false</IsServerOnly>
+			<StatName>
+				<Literal>XBRThatIstheEvilestThing</Literal>
+			</StatName>
+			<StatContext />
+		</StatRule>
+		<StatRule id="4b5d426e-9dfb-422d-8213-61e7f718ac27" name="XBRMasterMarksman">
+			<Operator>REPLACE</Operator>
+			<Parameter dataType="Integer">
+				<Field>Count</Field>
+			</Parameter>
+			<Accessibility>Open</Accessibility>
+			<IsServerOnly>false</IsServerOnly>
+			<StatName>
+				<Literal>XBRMasterMarksman</Literal>
+			</StatName>
+			<StatContext />
+		</StatRule>
+		<StatRule id="a48724bc-ffbf-4c32-8d24-f881e9089206" name="XBRWhatWasThat">
+			<Operator>REPLACE</Operator>
+			<Parameter dataType="Integer">
+				<Field>Count</Field>
+			</Parameter>
+			<Accessibility>Open</Accessibility>
+			<IsServerOnly>false</IsServerOnly>
+			<StatName>
+				<Literal>XBRWhatWasThat</Literal>
 			</StatName>
 			<StatContext />
 		</StatRule>

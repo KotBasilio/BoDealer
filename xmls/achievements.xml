@@ -1208,15 +1208,16 @@
 			<TelemetryRule>
 				<RuleFriendlyId>7504f007-9d67-4043-bd7f-5e764a809089</RuleFriendlyId>
 				<RuleType>Basic</RuleType>
-				<OperationType>SUM</OperationType>
-				<GoalThreshold>1</GoalThreshold>
-				<RuleParticipationType>Individual</RuleParticipationType>
 				<ReferenceIds>
 					<Reference>
-						<Id>W3StatAchievementUnlocked.Achievement.KaerMorhenTrained</Id>
-						<ServiceConfigId>644d0100-530a-4159-848f-1c8b1f9e3767</ServiceConfigId>
+						<Id>XBRKaerMorhenTrained</Id>
+					</Reference>
+					<Reference>
+						<Id>XSRUnlock.Achievement.KaerMorhenTrained</Id>
 					</Reference>
 				</ReferenceIds>
+				<GoalThreshold>100</GoalThreshold>
+				<RuleParticipationType>Individual</RuleParticipationType>
 			</TelemetryRule>
 		</TelemetryRules>
 		<BaseAchievement>true</BaseAchievement>
@@ -1425,15 +1426,16 @@
 			<TelemetryRule>
 				<RuleFriendlyId>6fcf6ef1-ef3c-4407-9a6d-3e0d7ab6c0ae</RuleFriendlyId>
 				<RuleType>Basic</RuleType>
-				<OperationType>SUM</OperationType>
-				<GoalThreshold>1</GoalThreshold>
-				<RuleParticipationType>Individual</RuleParticipationType>
 				<ReferenceIds>
 					<Reference>
-						<Id>W3StatAchievementUnlocked.Achievement.MasterMarksman</Id>
-						<ServiceConfigId>644d0100-530a-4159-848f-1c8b1f9e3767</ServiceConfigId>
+						<Id>XBRMasterMarksman</Id>
+					</Reference>
+					<Reference>
+						<Id>XSRUnlock.Achievement.MasterMarksman</Id>
 					</Reference>
 				</ReferenceIds>
+				<GoalThreshold>100</GoalThreshold>
+				<RuleParticipationType>Individual</RuleParticipationType>
 			</TelemetryRule>
 		</TelemetryRules>
 		<BaseAchievement>true</BaseAchievement>
@@ -1952,15 +1954,16 @@
 			<TelemetryRule>
 				<RuleFriendlyId>37b68148-5876-47a3-a2d2-ac056c87cadf</RuleFriendlyId>
 				<RuleType>Basic</RuleType>
-				<OperationType>SUM</OperationType>
-				<GoalThreshold>1</GoalThreshold>
-				<RuleParticipationType>Individual</RuleParticipationType>
 				<ReferenceIds>
 					<Reference>
-						<Id>W3StatAchievementUnlocked.Achievement.ThatIstheEvilestThing</Id>
-						<ServiceConfigId>644d0100-530a-4159-848f-1c8b1f9e3767</ServiceConfigId>
+						<Id>XBRThatIstheEvilestThing</Id>
+					</Reference>
+					<Reference>
+						<Id>XSRUnlock.Achievement.ThatIstheEvilestThing</Id>
 					</Reference>
 				</ReferenceIds>
+				<GoalThreshold>100</GoalThreshold>
+				<RuleParticipationType>Individual</RuleParticipationType>
 			</TelemetryRule>
 		</TelemetryRules>
 		<BaseAchievement>true</BaseAchievement>
@@ -2263,15 +2266,15 @@
 			<TelemetryRule>
 				<RuleFriendlyId>8f9a65ce-d368-48c2-96af-74503cbab83b</RuleFriendlyId>
 				<RuleType>Basic</RuleType>
-				<OperationType>SUM</OperationType>
-				<GoalThreshold>1</GoalThreshold>
-				<RuleParticipationType>Individual</RuleParticipationType>
 				<ReferenceIds>
 					<Reference>
-						<Id>W3StatAchievementUnlocked.Achievement.WhatWasThat</Id>
-						<ServiceConfigId>644d0100-530a-4159-848f-1c8b1f9e3767</ServiceConfigId>
+						<Id>XBRWhatWasThat</Id>
+					</Reference>
+					<Reference>
+						<Id>XSRUnlock.Achievement.WhatWasThat</Id>
 					</Reference>
 				</ReferenceIds>
+				<GoalThreshold>100</GoalThreshold>
 			</TelemetryRule>
 		</TelemetryRules>
 		<BaseAchievement>true</BaseAchievement>
