@@ -9,7 +9,7 @@
 		<AchievementNameId>AchievementNameId_4e434e4e-114a-4e00-bf8d-ee030688d277</AchievementNameId>
 		<LockedDescriptionId>LockedDescriptionId_baf7c11b-8447-4a58-b438-61f1b07cb047</LockedDescriptionId>
 		<UnlockedDescriptionId>UnlockedDescriptionId_3ad52de2-be60-4f75-a046-b16f9a6944f8</UnlockedDescriptionId>
-		<IsHidden>true</IsHidden>
+		<IsHidden>false</IsHidden>
 		<MediaAssets>
 			<IconImageId>a5c71b0f-f1df-4eb3-8268-43addee97d14</IconImageId>
 		</MediaAssets>
@@ -521,15 +521,16 @@
 			<TelemetryRule>
 				<RuleFriendlyId>6722c730-e901-47d9-b8b2-99883c0e9798</RuleFriendlyId>
 				<RuleType>Basic</RuleType>
-				<OperationType>SUM</OperationType>
-				<GoalThreshold>1</GoalThreshold>
-				<RuleParticipationType>Individual</RuleParticipationType>
 				<ReferenceIds>
 					<Reference>
-						<Id>W3StatAchievementUnlocked.Achievement.Dendrologist</Id>
-						<ServiceConfigId>644d0100-530a-4159-848f-1c8b1f9e3767</ServiceConfigId>
+						<Id>XBRDendrologist</Id>
+					</Reference>
+					<Reference>
+						<Id>XSRUnlock.Achievement.Dendrologist</Id>
 					</Reference>
 				</ReferenceIds>
+				<GoalThreshold>100</GoalThreshold>
+				<RuleParticipationType>Individual</RuleParticipationType>
 			</TelemetryRule>
 		</TelemetryRules>
 		<BaseAchievement>true</BaseAchievement>
@@ -665,7 +666,7 @@
 		<AchievementNameId>AchievementNameId_73147eb8-4948-48c6-a66f-c038b3f23394</AchievementNameId>
 		<LockedDescriptionId>LockedDescriptionId_bf0d34cf-20e7-4937-8ebd-cc65f79227e1</LockedDescriptionId>
 		<UnlockedDescriptionId>UnlockedDescriptionId_7cc5239f-c86f-4d1c-bb7f-f88929601be9</UnlockedDescriptionId>
-		<IsHidden>true</IsHidden>
+		<IsHidden>false</IsHidden>
 		<MediaAssets>
 			<IconImageId>c51ed5a7-43c9-4274-8cf0-b44edfdf8422</IconImageId>
 		</MediaAssets>
@@ -676,15 +677,16 @@
 			<TelemetryRule>
 				<RuleFriendlyId>b7024499-c58b-42e9-b06a-aa83879b6ff2</RuleFriendlyId>
 				<RuleType>Basic</RuleType>
-				<OperationType>SUM</OperationType>
-				<GoalThreshold>1</GoalThreshold>
-				<RuleParticipationType>Individual</RuleParticipationType>
 				<ReferenceIds>
 					<Reference>
-						<Id>W3StatAchievementUnlocked.Achievement.FamilyCounselor</Id>
-						<ServiceConfigId>644d0100-530a-4159-848f-1c8b1f9e3767</ServiceConfigId>
+						<Id>XBRFamilyCounselor</Id>
+					</Reference>
+					<Reference>
+						<Id>XSRUnlock.Achievement.FamilyCounselor</Id>
 					</Reference>
 				</ReferenceIds>
+				<GoalThreshold>100</GoalThreshold>
+				<RuleParticipationType>Individual</RuleParticipationType>
 			</TelemetryRule>
 		</TelemetryRules>
 		<BaseAchievement>true</BaseAchievement>
@@ -955,15 +957,16 @@
 			<TelemetryRule>
 				<RuleFriendlyId>07269166-02a6-4974-88af-f597588fd696</RuleFriendlyId>
 				<RuleType>Basic</RuleType>
-				<OperationType>SUM</OperationType>
-				<GoalThreshold>1</GoalThreshold>
-				<RuleParticipationType>Individual</RuleParticipationType>
 				<ReferenceIds>
 					<Reference>
-						<Id>W3StatAchievementUnlocked.Achievement.GeraltTheProfessional</Id>
-						<ServiceConfigId>644d0100-530a-4159-848f-1c8b1f9e3767</ServiceConfigId>
+						<Id>XBRGeraltTheProfessional</Id>
+					</Reference>
+					<Reference>
+						<Id>XSRUnlock.Achievement.GeraltTheProfessional</Id>
 					</Reference>
 				</ReferenceIds>
+				<GoalThreshold>100</GoalThreshold>
+				<RuleParticipationType>Individual</RuleParticipationType>
 			</TelemetryRule>
 		</TelemetryRules>
 		<BaseAchievement>true</BaseAchievement>
@@ -1079,15 +1082,16 @@
 			<TelemetryRule>
 				<RuleFriendlyId>a0ff0829-aa95-4a7b-ae3a-39837f365a51</RuleFriendlyId>
 				<RuleType>Basic</RuleType>
-				<OperationType>SUM</OperationType>
-				<GoalThreshold>1</GoalThreshold>
-				<RuleParticipationType>Individual</RuleParticipationType>
 				<ReferenceIds>
 					<Reference>
-						<Id>W3StatAchievementUnlocked.Achievement.HumptyDumpty</Id>
-						<ServiceConfigId>644d0100-530a-4159-848f-1c8b1f9e3767</ServiceConfigId>
+						<Id>XBRHumptyDumpty</Id>
+					</Reference>
+					<Reference>
+						<Id>XSRUnlock.Achievement.HumptyDumpty</Id>
 					</Reference>
 				</ReferenceIds>
+				<GoalThreshold>100</GoalThreshold>
+				<RuleParticipationType>Individual</RuleParticipationType>
 			</TelemetryRule>
 		</TelemetryRules>
 		<BaseAchievement>true</BaseAchievement>
@@ -2009,15 +2013,16 @@
 			<TelemetryRule>
 				<RuleFriendlyId>45034bc3-deef-4e0a-bff4-ae3fa2ab5f68</RuleFriendlyId>
 				<RuleType>Basic</RuleType>
-				<OperationType>SUM</OperationType>
-				<GoalThreshold>1</GoalThreshold>
-				<RuleParticipationType>Individual</RuleParticipationType>
 				<ReferenceIds>
 					<Reference>
-						<Id>W3StatAchievementUnlocked.Achievement.MyEnemysEnemy</Id>
-						<ServiceConfigId>644d0100-530a-4159-848f-1c8b1f9e3767</ServiceConfigId>
+						<Id>XBRMyEnemysEnemy</Id>
+					</Reference>
+					<Reference>
+						<Id>XSRUnlock.Achievement.MyEnemysEnemy</Id>
 					</Reference>
 				</ReferenceIds>
+				<GoalThreshold>100</GoalThreshold>
+				<RuleParticipationType>Individual</RuleParticipationType>
 			</TelemetryRule>
 		</TelemetryRules>
 		<BaseAchievement>true</BaseAchievement>

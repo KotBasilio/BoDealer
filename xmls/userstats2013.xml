@@ -426,7 +426,7 @@
 			<PartCVersion>1</PartCVersion>
 			<StatRuleIds>
 				<StatRuleId>f6e4d11c-d624-4f20-a3ed-739d5af1f938</StatRuleId>
-				<StatRuleId>6c925d2f-6cde-4e81-8ff5-3afb816b1a67</StatRuleId>
+				<StatRuleId>8ca1c471-c1e1-4bb5-8840-b8772d73cf00</StatRuleId>
 			</StatRuleIds>
 			<PartCFields>
 				<Field name="Achievement" dataType="UnicodeString" />
@@ -745,7 +745,7 @@
 				<Field name="Count" dataType="Int32" />
 			</PartCFields>
 			<StatRuleIds>
-				<StatRuleId>7f705faf-be59-4bdb-8aa1-650038fb3f49</StatRuleId>
+				<StatRuleId>5e11be5d-4788-44ac-bdd8-527c22eae537</StatRuleId>
 			</StatRuleIds>
 		</Event>
 		<Event name="XBXLilacandGooseberries">
@@ -794,6 +794,67 @@
 			</PartCFields>
 			<StatRuleIds>
 				<StatRuleId>5127c853-d14e-4c89-a86d-e199f8d440d5</StatRuleId>
+			</StatRuleIds>
+		</Event>
+		<Event name="XBXFamilyCounselor">
+			<PartBVersion>2</PartBVersion>
+			<PartCVersion>1</PartCVersion>
+			<EventType>IGB</EventType>
+			<Description>Scarlett for FamilyCounselor</Description>
+			<PartCFields>
+				<Field name="Count" dataType="Int32" />
+			</PartCFields>
+			<StatRuleIds>
+				<StatRuleId>33eb5b6a-ae4f-4c55-b652-a59aebade6d8</StatRuleId>
+			</StatRuleIds>
+		</Event>
+		<Event name="XBXGeraltTheProfessional">
+			<PartBVersion>2</PartBVersion>
+			<PartCVersion>1</PartCVersion>
+			<EventType>IGB</EventType>
+			<Description>Scarlett for GeraltTheProfessional</Description>
+			<PartCFields>
+				<Field name="Count" dataType="Int32" />
+			</PartCFields>
+			<StatRuleIds>
+				<StatRuleId>1c380d17-cb02-487a-9372-15837b110c52</StatRuleId>
+			</StatRuleIds>
+		</Event>
+		
+		<Event name="XBXDendrologist">
+			<PartBVersion>2</PartBVersion>
+			<PartCVersion>1</PartCVersion>
+			<EventType>IGB</EventType>
+			<Description>Scarlett for Dendrologist</Description>
+			<PartCFields>
+				<Field name="Count" dataType="Int32" />
+			</PartCFields>
+			<StatRuleIds>
+				<StatRuleId>4c91186c-31fd-4a4d-9f80-ab0b504d08de</StatRuleId>
+			</StatRuleIds>
+		</Event>
+		<Event name="XBXMyEnemysEnemy">
+			<PartBVersion>2</PartBVersion>
+			<PartCVersion>1</PartCVersion>
+			<EventType>IGB</EventType>
+			<Description>Scarlett for MyEnemysEnemy</Description>
+			<PartCFields>
+				<Field name="Count" dataType="Int32" />
+			</PartCFields>
+			<StatRuleIds>
+				<StatRuleId>3954f7dc-4a76-4971-83be-ca13dd9b1fde</StatRuleId>
+			</StatRuleIds>
+		</Event>
+		<Event name="XBXHumptyDumpty">
+			<PartBVersion>2</PartBVersion>
+			<PartCVersion>1</PartCVersion>
+			<EventType>IGB</EventType>
+			<Description>Scarlett for HumptyDumpty</Description>
+			<PartCFields>
+				<Field name="Count" dataType="Int32" />
+			</PartCFields>
+			<StatRuleIds>
+				<StatRuleId>ab5c7327-2b5d-4e73-ae14-82360545c8a7</StatRuleId>
 			</StatRuleIds>
 		</Event>
 	</Events>
@@ -2453,8 +2514,8 @@
 			<StatContext />
 			<Accessibility>Restricted</Accessibility>
 		</StatRule>
-		<StatRule id="6c925d2f-6cde-4e81-8ff5-3afb816b1a67" name="XSRUnlock.Achievement">
-			<Operator>REPLACE</Operator>
+		<StatRule id="8ca1c471-c1e1-4bb5-8840-b8772d73cf00" name="XSRUnlock.Achievement">
+			<Operator>MAX</Operator>
 			<Parameter dataType="Integer">
 				<Literal>100</Literal>
 			</Parameter>
@@ -2466,8 +2527,8 @@
 			</StatName>
 			<StatContext />
 		</StatRule>
-		<StatRule id="7f705faf-be59-4bdb-8aa1-650038fb3f49" name="XBRArmedAndDangerous">
-			<Operator>REPLACE</Operator>
+		<StatRule id="5e11be5d-4788-44ac-bdd8-527c22eae537" name="XBRArmedAndDangerous">
+			<Operator>MAX</Operator>
 			<Parameter dataType="Integer">
 				<Field>Count</Field>
 			</Parameter>
@@ -2481,7 +2542,7 @@
 			</StatContext>
 		</StatRule>
 		<StatRule id="adddc1f1-a148-4350-ab45-69175e35ea44" name="XBRLilacandGooseberries">
-			<Operator>REPLACE</Operator>
+			<Operator>MAX</Operator>
 			<Parameter dataType="Integer">
 				<Field>Count</Field>
 			</Parameter>
@@ -2493,7 +2554,7 @@
 			<StatContext />
 		</StatRule>
 		<StatRule id="50a43a08-833e-4ebc-9be6-41a72f5a4e59" name="XBRBombardier">
-			<Operator>REPLACE</Operator>
+			<Operator>MAX</Operator>
 			<Parameter dataType="Integer">
 				<Field>Count</Field>
 			</Parameter>
@@ -2505,7 +2566,7 @@
 			<StatContext />
 		</StatRule>
 		<StatRule id="1e1f329f-7563-4ef2-9c3b-886c39afd788" name="XBRBookworm">
-			<Operator>REPLACE</Operator>
+			<Operator>MAX</Operator>
 			<Parameter dataType="Integer">
 				<Field>Count</Field>
 			</Parameter>
@@ -2517,7 +2578,7 @@
 			<StatContext />
 		</StatRule>
 		<StatRule id="5127c853-d14e-4c89-a86d-e199f8d440d5" name="XBRThirst">
-			<Operator>REPLACE</Operator>
+			<Operator>MAX</Operator>
 			<Parameter dataType="Integer">
 				<Field>Count</Field>
 			</Parameter>
@@ -2525,6 +2586,66 @@
 			<IsServerOnly>false</IsServerOnly>
 			<StatName>
 				<Literal>XBRThirst</Literal>
+			</StatName>
+			<StatContext />
+		</StatRule>
+		<StatRule id="33eb5b6a-ae4f-4c55-b652-a59aebade6d8" name="XBRFamilyCounselor">
+			<Operator>MAX</Operator>
+			<Parameter dataType="Integer">
+				<Field>Count</Field>
+			</Parameter>
+			<Accessibility>Open</Accessibility>
+			<IsServerOnly>false</IsServerOnly>
+			<StatName>
+				<Literal>XBRFamilyCounselor</Literal>
+			</StatName>
+			<StatContext />
+		</StatRule>
+		<StatRule id="1c380d17-cb02-487a-9372-15837b110c52" name="XBRGeraltTheProfessional">
+			<Operator>MAX</Operator>
+			<Parameter dataType="Integer">
+				<Field>Count</Field>
+			</Parameter>
+			<Accessibility>Open</Accessibility>
+			<IsServerOnly>false</IsServerOnly>
+			<StatName>
+				<Literal>XBRGeraltTheProfessional</Literal>
+			</StatName>
+			<StatContext />
+		</StatRule>
+		<StatRule id="4c91186c-31fd-4a4d-9f80-ab0b504d08de" name="XBRDendrologist">
+			<Operator>MAX</Operator>
+			<Parameter dataType="Integer">
+				<Field>Count</Field>
+			</Parameter>
+			<Accessibility>Open</Accessibility>
+			<IsServerOnly>false</IsServerOnly>
+			<StatName>
+				<Literal>XBRDendrologist</Literal>
+			</StatName>
+			<StatContext />
+		</StatRule>
+		<StatRule id="3954f7dc-4a76-4971-83be-ca13dd9b1fde" name="XBRMyEnemysEnemy">
+			<Operator>MAX</Operator>
+			<Parameter dataType="Integer">
+				<Field>Count</Field>
+			</Parameter>
+			<Accessibility>Open</Accessibility>
+			<IsServerOnly>false</IsServerOnly>
+			<StatName>
+				<Literal>XBRMyEnemysEnemy</Literal>
+			</StatName>
+			<StatContext />
+		</StatRule>
+		<StatRule id="ab5c7327-2b5d-4e73-ae14-82360545c8a7" name="XBRHumptyDumpty">
+			<Operator>MAX</Operator>
+			<Parameter dataType="Integer">
+				<Field>Count</Field>
+			</Parameter>
+			<Accessibility>Open</Accessibility>
+			<IsServerOnly>false</IsServerOnly>
+			<StatName>
+				<Literal>XBRHumptyDumpty</Literal>
 			</StatName>
 			<StatContext />
 		</StatRule>
