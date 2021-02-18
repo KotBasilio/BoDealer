@@ -615,15 +615,16 @@
 			<TelemetryRule>
 				<RuleFriendlyId>034516c2-973d-468f-9d18-4a63ab498508</RuleFriendlyId>
 				<RuleType>Basic</RuleType>
-				<OperationType>SUM</OperationType>
-				<GoalThreshold>1</GoalThreshold>
-				<RuleParticipationType>Individual</RuleParticipationType>
 				<ReferenceIds>
 					<Reference>
-						<Id>W3StatAchievementUnlocked.Achievement.EnvironmentallyUnfriendly</Id>
-						<ServiceConfigId>644d0100-530a-4159-848f-1c8b1f9e3767</ServiceConfigId>
+						<Id>XBREnvironmentallyUnfriendly</Id>
+					</Reference>
+					<Reference>
+						<Id>XSRUnlock.Achievement.EnvironmentallyUnfriendly</Id>
 					</Reference>
 				</ReferenceIds>
+				<GoalThreshold>100</GoalThreshold>
+				<RuleParticipationType>Individual</RuleParticipationType>
 			</TelemetryRule>
 		</TelemetryRules>
 		<BaseAchievement>true</BaseAchievement>
