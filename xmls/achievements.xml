@@ -1,8 +1,5 @@
-
-<Achievements
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://config.mgt.xboxlive.com/schema/achievements/1">
+<?xml version="1.0" encoding="utf-8"?>
+<Achievements xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://config.mgt.xboxlive.com/schema/achievements/1">
 	<Achievement>
 		<AchievementFriendlyId>2</AchievementFriendlyId>
 		<AchievementType>Persistent</AchievementType>
