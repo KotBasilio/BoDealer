@@ -1,0 +1,10 @@
+// make image (use after changes in Dockerfile and requirements.txt)
+docker image build -t fgs-ip .
+// run the container
+docker run -v C:\Nastya\GSP\FGP-IP:/tmp/fgs-ip -p 4620:4620/udp -p 4521:4521/udp --name fgs-ip -it fgs-ip /bin/bash
+// run another session to the container
+docker exec -it fgs-ip bash
+// purge old container (use before run)
+docker container prune -f
+// purge all images (carefully! use before creating a new image)
+docker image prune -af
