@@ -3,9 +3,14 @@
  * Multi thread parts
  *
  ************************************************************/
-#include <Windows.h> // Sleep
-#include <process.h> // _beginthread
+//#include <Windows.h> // Sleep
+//#include <process.h> // _beginthread
+#include <cstring>
+#include <unistd.h>
+#include <pthread.h>
 #include "walrus.h"
+
+#define SUCCESS               0
 
 Walrus::Walrus(Walrus *other, const char *nameH, int ourShare)
 {
@@ -29,11 +34,13 @@ Walrus::Walrus(Walrus *other, const char *nameH, int ourShare)
    }
 }
 
-void ProcHelper(void *arg)
+void* ProcHelper(void *arg)
 {
    Walrus *helper = (Walrus *)(arg);
    printf("%s: %10u done", helper->GetName(), helper->DoTheShare());
    printf("---> %u\n", helper->NumFiltered());
+
+   return SUCCESS;
 }
 
 void Walrus::LaunchHelpers(Walrus &hA, Walrus &hB)
@@ -44,8 +51,12 @@ void Walrus::LaunchHelpers(Walrus &hA, Walrus &hB)
    hA.isRunning = false;
    hB.isRunning = false;
 #else
-   _beginthread(ProcHelper, 0, &hA);
-   _beginthread(ProcHelper, 0, &hB);
+    pthread_t thread1;
+    pthread_t thread2;
+    pthread_create(&thread1, NULL, ProcHelper, (void*)&hA );
+    pthread_create(&thread2, NULL, ProcHelper, (void*)&hB );
+   //_beginthread(ProcHelper, 0, &hA);
+   //_beginthread(ProcHelper, 0, &hB);
 #endif // SKIP_HELPERS
 }
 
@@ -89,7 +100,7 @@ void Walrus::MainScan(void)
    MergeResults(&hB);
 
    // don't work all day! have a dinner break ;-)
-   Sleep(20);
+   sleep(20);
    printf("   main: %10u done\n", countSolo);
 }
 

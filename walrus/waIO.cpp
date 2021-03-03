@@ -4,7 +4,10 @@
  *
  ************************************************************/
 #define  _CRT_SECURE_NO_WARNINGS
-#include <Windows.h> // GetModuleFileName
+typedef unsigned int DWORD;
+
+//#include <Windows.h> // GetModuleFileName
+#include <string.h>
 #include "walrus.h"
 
 #ifdef _DEBUG
@@ -23,6 +26,14 @@ const int MINI_ROWS = 13;
 
 const int PREFIX_LEN = 16;
 char miniRowStart[MINI_ROWS][PREFIX_LEN];
+
+typedef unsigned int guint32;
+#define MAXUINT32	((guint32) 0xffffffff)
+
+#define __max(a,b) \
+       ({ typeof (a) _a = (a); \
+           typeof (b) _b = (b); \
+         _a > _b ? _a : _b; })
 
 /*************************************************************
 '* Walrus::LoadInitialStatistics()
@@ -61,6 +72,7 @@ void Walrus::BuildFileNames(void)
    // make path
    char *buf = namesBase.StartFrom;
    size_t size = sizeof(namesBase.StartFrom);
+   /* TODO Nastya
    int rl = GetModuleFileName(NULL, buf, (DWORD)size);
    int slashToDel = 2;
    for (int i = rl; --i >= 0;) {
@@ -70,7 +82,8 @@ void Walrus::BuildFileNames(void)
          }
       }
       buf[i] = 0;
-   }
+   } */
+   
 
    // duplicate
    memcpy(namesBase.Indices, buf, size);

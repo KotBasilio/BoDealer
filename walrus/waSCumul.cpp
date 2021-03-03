@@ -6,8 +6,8 @@
 #include <string.h>
 
 #include "walrus.h"
-#include "..\dds-develop\include\dll.h"
-#include "..\dds-develop\examples\hands.h"
+#include "../dds-develop/include/dll.h"
+#include "../dds-develop/examples/hands.h"
 
 void Walrus::CumulativeScore::Our4M(uint tricks)
 {

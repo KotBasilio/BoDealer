@@ -6,9 +6,10 @@
 *
 ************************************************************/
 #define  _CRT_SECURE_NO_WARNINGS
-#include "..\dds-develop\include\dll.h"
-#include "..\dds-develop\examples\hands.h"
-#include <conio.h>
+#include "../dds-develop/include/dll.h"
+#include "../dds-develop/examples/hands.h"
+//#include <conio.h>
+#include <curses.h>
 #include "walrus.h"
 
 // Trivial: one hand only; can be used as a pattern for all scans
@@ -123,7 +124,7 @@ void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)
       ui.firstAutoShow = false;
    } else {
       printf("Any key to continue...");
-      _getch();
+      getch();
       printf("ok");
    }
 
@@ -158,7 +159,7 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
    // error-handling
    sprintf(line, "Problem hand on solve: leads %s, trumps: %s\n", haPlayerToStr(cards.first), haTrumpToStr(cards.trump));
    PrintHand(line, cards.remainCards);
-   ErrorMessage(res, line);
+   // TODO Nastya ErrorMessage(res, line);
    printf("DDS error: %s\n", line);
 }
 

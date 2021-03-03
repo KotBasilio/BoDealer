@@ -2,12 +2,13 @@
 // Test program for the SolveBoard function.
 // Uses the hands pre-set in hands.cpp.
 
-#include <conio.h>
+//#include <conio.h>
+#include <curses.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "..\dds-develop\include\dll.h"
-#include "..\dds-develop\examples\hands.h"
+#include "../dds-develop/include/dll.h"
+#include "../dds-develop/examples/hands.h"
 #include "walrus.h"
 
 // Hands in binary: (or similar)
@@ -75,7 +76,7 @@ void sample_main_JK_Solve()
 
    if (res != RETURN_NO_FAULT)
    {
-      ErrorMessage(res, line);
+      // TODO Nastya ErrorMessage(res, line);
       printf("DDS error: %s\n", line);
    }
 
@@ -124,12 +125,12 @@ void sample_main_SolveBoard_S1()
 
       if (res != RETURN_NO_FAULT)
       {
-         ErrorMessage(res, line);
+         // TODO Nastya ErrorMessage(res, line);
          printf("DDS error: %s\n", line);
       }
 
       PrintFut("", &fut1);
-      _getch();
+      getch();
 
       // W.E.T.
       dl.first = NORTH;
@@ -144,7 +145,7 @@ void sample_main_SolveBoard_S1()
 
       if (res != RETURN_NO_FAULT)
       {
-         ErrorMessage(res, line);
+         // TODO Nastya ErrorMessage(res, line);
          printf("DDS error: %s\n", line);
       }
 
@@ -193,7 +194,7 @@ void sample_main_SolveBoard()
 
       if (res != RETURN_NO_FAULT)
       {
-         ErrorMessage(res, line);
+         // TODO Nastya ErrorMessage(res, line);
          printf("DDS error: %s\n", line);
       }
 
@@ -204,7 +205,7 @@ void sample_main_SolveBoard()
       res = SolveBoard(dl, target, solutions, mode, &fut2, threadIndex);
       if (res != RETURN_NO_FAULT)
       {
-         ErrorMessage(res, line);
+         // TODO Nastya ErrorMessage(res, line);
          printf("DDS error: %s\n", line);
       }
 
@@ -272,7 +273,7 @@ void sample_main_PlayBin()
 
       if (res != RETURN_NO_FAULT)
       {
-         ErrorMessage(res, line);
+         // TODO Nastya ErrorMessage(res, line);
          printf("DDS error: %s\n", line);
       }
 

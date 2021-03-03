@@ -5,8 +5,8 @@
  ************************************************************/
 #include <string.h>
 #include "walrus.h"
-#include "..\dds-develop\include\dll.h"
-#include "..\dds-develop\examples\hands.h"
+#include "../dds-develop/include/dll.h"
+#include "../dds-develop/examples/hands.h"
 
 void Walrus::Score_OpLead3NT(DdsTricks &tr)
 {

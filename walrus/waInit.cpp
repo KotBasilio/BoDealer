@@ -7,9 +7,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "walrus.h"
-#include "..\dds-develop\include\dll.h"
-#include "..\dds-develop\examples\hands.h"
-#include <conio.h>
+#include "../dds-develop/include/dll.h"
+#include "../dds-develop/examples/hands.h"
+//#include <conio.h>
+#include <curses.h>
 #include <memory.h> // memset
 
  // --------------------------------------------------------------------------------
@@ -496,7 +497,7 @@ void Walrus::AllocFilteredTasksBuf()
 
    // fail
    printf("%s: alloc failed\n", nameHlp);
-   _getch();
+   getch();
    exit(0);
 }
 
@@ -539,7 +540,8 @@ void Walrus::InitDeck(void)
 u64 Walrus::CalcCheckSum()
 {
     u64 jo = 0;
-    for each (SplitBits sb in deck) {
+    //for each (SplitBits sb in deck) {
+    for (auto sb : deck) {
         jo += sb.card.jo;
     }
     return jo;

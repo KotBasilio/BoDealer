@@ -5,7 +5,7 @@
 ************************************************************/
 #define  _CRT_SECURE_NO_WARNINGS
 #include "walrus.h"
-#include <conio.h> // _getch()
+//#include <conio.h> // _getch()
 #include <chrono>
 
 bool Walrus::AfterMath()
@@ -60,7 +60,7 @@ u64 ChronoRound()
 	return delta;
 }
 
-void main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 	printf(TITLE_VERSION" started.\n");
 	ChronoStart();
@@ -89,5 +89,6 @@ void main(int argc, char *argv[])
 	//sample_main_SolveBoard();
 	//sample_main_SolveBoard_S1();
 	//sample_main_JK_Solve();
-	_getch();
+	//_getch();
+        return 0;
 }
