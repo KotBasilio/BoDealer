@@ -4,3 +4,6 @@
 /exe/*
 /intermediate/*
 /sln/Bo/x64/*
+*.o
+*.d
+

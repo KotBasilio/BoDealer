@@ -9,8 +9,17 @@
 #include "walrus.h"
 #include "../dds-develop/include/dll.h"
 #include "../dds-develop/examples/hands.h"
-//#include <conio.h>
-#include <curses.h>
+
+// a start of cross-platform header
+#ifdef _MSC_VER
+   #define HEADER_CURSES  <conio.h>
+   #define PLATFORM_GETCH _getch
+#else
+   #define HEADER_CURSES  <curses.h>
+   #define PLATFORM_GETCH getch
+#endif
+
+#include HEADER_CURSES
 #include <memory.h> // memset
 
  // --------------------------------------------------------------------------------
@@ -497,7 +506,7 @@ void Walrus::AllocFilteredTasksBuf()
 
    // fail
    printf("%s: alloc failed\n", nameHlp);
-   getch();
+   PLATFORM_GETCH();
    exit(0);
 }
 
@@ -540,7 +549,6 @@ void Walrus::InitDeck(void)
 u64 Walrus::CalcCheckSum()
 {
     u64 jo = 0;
-    //for each (SplitBits sb in deck) {
     for (auto sb : deck) {
         jo += sb.card.jo;
     }
