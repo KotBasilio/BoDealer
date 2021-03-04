@@ -36,8 +36,7 @@ int Walrus::InitSuit(u64 suit, int idx)
 
    // put others
    u64 bitRank = suit << 4;
-   //for each (char r in ranks) {
-    for (auto x : ranks) {
+   for (auto x : ranks) {
       deck[idx++].card.jo = bitRank | suit;
       bitRank <<= 1;
    }

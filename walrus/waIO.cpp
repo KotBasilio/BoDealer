@@ -4,11 +4,12 @@
  *
  ************************************************************/
 #define  _CRT_SECURE_NO_WARNINGS
-typedef unsigned int DWORD;
 
-//#include <Windows.h> // GetModuleFileName
+#include "waCrossPlatform.h"
+#include HEADER_SLEEP
 #include <string.h>
 #include "walrus.h"
+#include HEADER_CURSES
 
 #ifdef _DEBUG
 char fmtCell[] = "%6u,";
@@ -26,14 +27,6 @@ const int MINI_ROWS = 13;
 
 const int PREFIX_LEN = 16;
 char miniRowStart[MINI_ROWS][PREFIX_LEN];
-
-typedef unsigned int guint32;
-#define MAXUINT32	((guint32) 0xffffffff)
-
-#define __max(a,b) \
-       ({ typeof (a) _a = (a); \
-           typeof (b) _b = (b); \
-         _a > _b ? _a : _b; })
 
 /*************************************************************
 '* Walrus::LoadInitialStatistics()
@@ -72,29 +65,31 @@ void Walrus::BuildFileNames(void)
    // make path
    char *buf = namesBase.StartFrom;
    size_t size = sizeof(namesBase.StartFrom);
-   /* TODO Nastya
-   int rl = GetModuleFileName(NULL, buf, (DWORD)size);
-   int slashToDel = 2;
-   for (int i = rl; --i >= 0;) {
-      if (buf[i] == '\\') {
-         if (--slashToDel == 0) {
-            break;
+   #ifdef WIN_DETECT_PATH
+      int rl = GetModuleFileName(NULL, buf, (DWORD)size);
+      int slashToDel = 2;
+      for (int i = rl; --i >= 0;) {
+         if (buf[i] == '\\') {
+            if (--slashToDel == 0) {
+               break;
+            }
          }
+         buf[i] = 0;
       }
-      buf[i] = 0;
-   } */
-   
+   #else
+      buf[0] = 0;
+   #endif // WIN_DETECT_PATH
 
    // duplicate
-   memcpy(namesBase.Indices, buf, size);
+   memcpy(namesBase.Command, buf, size);
    memcpy(namesBase.Progress, buf, size);
    memcpy(namesBase.Solution, buf, size);
 
    // make real names
    strcat(namesBase.StartFrom, START_FROM_FNAME);
-   strcat(namesBase.Indices, INDICES_FNAME);
-   strcat(namesBase.Solution, OUT_FNAME);
+   strcat(namesBase.Command, COMMAND_FNAME);
    strcat(namesBase.Progress, PROGRESS_FNAME);
+   strcat(namesBase.Solution, OUT_FNAME);
 }
 
 static bool IsRowSkippable(int i)
@@ -196,12 +191,14 @@ void Walrus::MiniReport(uint toGo)
    if (ui.irBase < 12) {
    #ifdef SHOW_OPP_RESULTS
       printf("Averages: ideal = %lld, bidGame = %lld.   ",
+         cumulScore.ideal / sumRows,
+         cumulScore.bidGame / sumRows);
    #else
       printf("Averages: ideal = %lld, bidGame = %lld, partscore=%lld\n",
-   #endif 
          cumulScore.ideal / sumRows,
          cumulScore.bidGame / sumRows,
          cumulScore.partscore / sumRows);
+   #endif 
    } else {
       printf("Averages: ideal = %lld, bidGame = %lld, slam=%lld\n",
          cumulScore.ideal / sumRows,

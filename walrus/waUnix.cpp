@@ -6,6 +6,8 @@
 
 #ifndef _MSC_VER
 
+#include <string.h>
+#include <curses.h>
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>

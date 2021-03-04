@@ -75,13 +75,13 @@ const int CTRL_SIZE = 12 + 4;// to get 16 as padding
 
 // file names
 #define START_FROM_FNAME "start_from.txt"
-#define INDICES_FNAME  "Indices.txt"
-#define OUT_FNAME      "stm%d%d%d%d%d%d%d%d%d%d.txt"
-#define PROGRESS_FNAME "w09progress.txt"
+#define COMMAND_FNAME    "in_cmd.txt"
+#define OUT_FNAME        "stm%d%d%d%d%d%d%d%d%d%d.txt"
+#define PROGRESS_FNAME   "waProgress.txt"
 const int FNAME_SIZE = 128 + 64;
 static struct tFileNames {
     char StartFrom[FNAME_SIZE];
-    char Indices[FNAME_SIZE];
+    char Command[FNAME_SIZE];
     char Progress[FNAME_SIZE];
     char Solution[FNAME_SIZE];
 } namesBase;

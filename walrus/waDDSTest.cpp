@@ -2,14 +2,13 @@
 // Test program for the SolveBoard function.
 // Uses the hands pre-set in hands.cpp.
 
-//#include <conio.h>
-#include <curses.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "../dds-develop/include/dll.h"
 #include "../dds-develop/examples/hands.h"
 #include "walrus.h"
+#include HEADER_CURSES
 
 // Hands in binary: (or similar)
 //               54

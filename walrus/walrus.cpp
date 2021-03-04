@@ -5,7 +5,7 @@
 ************************************************************/
 #define  _CRT_SECURE_NO_WARNINGS
 #include "walrus.h"
-//#include <conio.h> // _getch()
+#include HEADER_CURSES
 #include <chrono>
 
 bool Walrus::AfterMath()
@@ -62,33 +62,33 @@ u64 ChronoRound()
 
 int main(int argc, char *argv[])
 {
-	printf(TITLE_VERSION" started.\n");
-	ChronoStart();
+   printf(TITLE_VERSION" started.\n");
+   ChronoStart();
 
-	Walrus walter;
-	if (walter.LoadInitialStatistics(namesBase.StartFrom)) {
-		// phase 1
-		walter.MainScan();
-		auto delta1 = ChronoRound();
+   Walrus walter;
+   if (walter.LoadInitialStatistics(namesBase.StartFrom)) {
+      // phase 1
+      walter.MainScan();
+      auto delta1 = ChronoRound();
 
-		// phase 2
-		if (walter.AfterMath()) {
-			auto delta2 = ChronoRound();
-			walter.ReportState("\nFinal result:\n");
-			printf("The search took %llu.%llu + an aftermath %llu.%llu sec.\n"
-				, delta1 / 1000, (delta1 % 1000) / 100
-				, delta2 / 1000, (delta2 % 1000) / 100);
-		} else {
-			walter.ReportState("\nEnding with:\n");
-			printf("The search is done in %llu.%llu sec.\n", delta1 / 1000, (delta1 % 1000) / 100);
-		}
+      // phase 2
+      if (walter.AfterMath()) {
+         auto delta2 = ChronoRound();
+         walter.ReportState("\nFinal result:\n");
+         printf("The search took %llu.%llu + an aftermath %llu.%llu sec.\n"
+            , delta1 / 1000, (delta1 % 1000) / 100
+            , delta2 / 1000, (delta2 % 1000) / 100);
+      } else {
+         walter.ReportState("\nEnding with:\n");
+         printf("The search is done in %llu.%llu sec.\n", delta1 / 1000, (delta1 % 1000) / 100);
+      }
 
-	}
-	printf("Press any key.\n");
-	//sample_main_PlayBin();
-	//sample_main_SolveBoard();
-	//sample_main_SolveBoard_S1();
-	//sample_main_JK_Solve();
-	//_getch();
-        return 0;
+   }
+   printf("Press any key.\n");
+   //sample_main_PlayBin();
+   //sample_main_SolveBoard();
+   //sample_main_SolveBoard_S1();
+   //sample_main_JK_Solve();
+   PLATFORM_GETCH();
+   return 0;
 }

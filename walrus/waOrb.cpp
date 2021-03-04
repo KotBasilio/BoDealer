@@ -8,9 +8,8 @@
 #define  _CRT_SECURE_NO_WARNINGS
 #include "../dds-develop/include/dll.h"
 #include "../dds-develop/examples/hands.h"
-//#include <conio.h>
-#include <curses.h>
 #include "walrus.h"
+#include HEADER_CURSES
 
 // Trivial: one hand only; can be used as a pattern for all scans
 void Walrus::ScanTrivial()
