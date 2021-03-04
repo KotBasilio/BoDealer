@@ -9,16 +9,6 @@
 #include "walrus.h"
 #include "../dds-develop/include/dll.h"
 #include "../dds-develop/examples/hands.h"
-
-// a start of cross-platform header
-#ifdef _MSC_VER
-   #define HEADER_CURSES  <conio.h>
-   #define PLATFORM_GETCH _getch
-#else
-   #define HEADER_CURSES  <curses.h>
-   #define PLATFORM_GETCH getch
-#endif
-
 #include HEADER_CURSES
 #include <memory.h> // memset
 

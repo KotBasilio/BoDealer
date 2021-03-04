@@ -124,7 +124,7 @@ void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)
       ui.firstAutoShow = false;
    } else {
       printf("Any key to continue...");
-      getch();
+      PLATFORM_GETCH();
       printf("ok");
    }
 
@@ -159,7 +159,7 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
    // error-handling
    sprintf(line, "Problem hand on solve: leads %s, trumps: %s\n", haPlayerToStr(cards.first), haTrumpToStr(cards.trump));
    PrintHand(line, cards.remainCards);
-   // TODO Nastya ErrorMessage(res, line);
+   ErrorMessage(res, line);
    printf("DDS error: %s\n", line);
 }
 

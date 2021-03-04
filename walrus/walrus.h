@@ -2,6 +2,7 @@
  * WALRUS.H                                        17.12.2019
  *
  ************************************************************/
+#include "waCrossPlatform.h"
 #include "waTasks.h"
 #include "waSemantic.h"
 #include "waAI.h"

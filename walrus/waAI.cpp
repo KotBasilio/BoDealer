@@ -8,12 +8,8 @@
 #include <string.h>
 #include "../dds-develop/include/dll.h"
 #include "../dds-develop/examples/hands.h"
-//#include <conio.h>
-#include <curses.h>
-#include <termios.h>
-#include <unistd.h>
-#include <fcntl.h>
 #include "walrus.h"
+#include HEADER_CURSES
 
 extern int SolveAllBoardsN(boards& bds, solvedBoards& solved);
 
@@ -94,16 +90,16 @@ public:
          sprintf(line, "Problem hand on solve, #%d: leads %s, trumps: %s\n", handno,
             haPlayerToStr(dl.first), haTrumpToStr(dl.trump) );
          PrintHand(line, dl.remainCards);
-         // TODO Nastya ErrorMessage(res, line);
+         ErrorMessage(res, line);
          printf("DDS error: %s\n", line);
-         getch();
+         PLATFORM_GETCH();
       }
 
       // inspect
       if (needInspect) {
          PrintHand("ONE-BY-ONE solving\n", dl.remainCards);
          PrintFut("", &fut);
-         auto inchar = getch();
+         auto inchar = PLATFORM_GETCH();
          if (inchar != ' ') {
             needInspect = false;
          }
@@ -163,7 +159,7 @@ DdsDeal::DdsDeal(const deal &dlBase, DdsPack &t)
       char line[80];
       sprintf(line, "A board: \n");
       PrintHand(line, dl.remainCards);
-      getch();
+      PLATFORM_GETCH();
    #endif 
 }
 
@@ -293,38 +289,11 @@ void Walrus::InitMiniUI(int trump, int first)
    strcpy(ui.seatOnLead, s_SeatNames[first]);
 }
 
-int kbhit(void)
-{
-  struct termios oldt, newt;
-  int ch;
-  int oldf;
-
-  tcgetattr(STDIN_FILENO, &oldt);
-  newt = oldt;
-  newt.c_lflag &= ~(ICANON | ECHO);
-  tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-  oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
-  fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
-
-  ch = getchar();
-
-  tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-  fcntl(STDIN_FILENO, F_SETFL, oldf);
-
-  if(ch != EOF)
-  {
-    ungetc(ch, stdin);
-    return 1;
-  }
-
-  return 0;
-}
-
 void Walrus::MiniUI::Run()
 {
    // see interrogation command
-   if (kbhit()) {
-      auto inchar = getch();
+   if (PLATFORM_KBHIT()) {
+      auto inchar = PLATFORM_GETCH();
       switch (inchar) {
          // just made
          case ' ': irGoal = irBase; break;
@@ -402,9 +371,9 @@ void Walrus::HandleDDSFail(int res)
   }
 
   char line[80];
-  // TODO Nastya ErrorMessage(res, line);
+  ErrorMessage(res, line);
   printf("DDS error: %s\n", line);
-  getch();
+  PLATFORM_GETCH();
 }
 
 void Walrus::HandleSolvedBoard(DdsTricks &tr, deal &cards, futureTricks &fut)

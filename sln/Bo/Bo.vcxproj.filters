@@ -153,6 +153,9 @@
     <ClCompile Include="..\..\walrus\waSCumul.cpp">
       <Filter>Source Files\walrus</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\walrus\waUnix.cpp">
+      <Filter>Source Files\walrus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\walrus\waAI.h">
@@ -252,6 +255,9 @@
       <Filter>Source Files\dds</Filter>
     </ClInclude>
     <ClInclude Include="..\..\walrus\waTasks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\walrus\waCrossPlatform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

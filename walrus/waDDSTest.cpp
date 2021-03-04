@@ -76,7 +76,7 @@ void sample_main_JK_Solve()
 
    if (res != RETURN_NO_FAULT)
    {
-      // TODO Nastya ErrorMessage(res, line);
+      ErrorMessage(res, line);
       printf("DDS error: %s\n", line);
    }
 
@@ -125,12 +125,12 @@ void sample_main_SolveBoard_S1()
 
       if (res != RETURN_NO_FAULT)
       {
-         // TODO Nastya ErrorMessage(res, line);
+         ErrorMessage(res, line);
          printf("DDS error: %s\n", line);
       }
 
       PrintFut("", &fut1);
-      getch();
+      PLATFORM_GETCH();
 
       // W.E.T.
       dl.first = NORTH;
@@ -145,7 +145,7 @@ void sample_main_SolveBoard_S1()
 
       if (res != RETURN_NO_FAULT)
       {
-         // TODO Nastya ErrorMessage(res, line);
+         ErrorMessage(res, line);
          printf("DDS error: %s\n", line);
       }
 
@@ -194,7 +194,7 @@ void sample_main_SolveBoard()
 
       if (res != RETURN_NO_FAULT)
       {
-         // TODO Nastya ErrorMessage(res, line);
+         ErrorMessage(res, line);
          printf("DDS error: %s\n", line);
       }
 
@@ -205,7 +205,7 @@ void sample_main_SolveBoard()
       res = SolveBoard(dl, target, solutions, mode, &fut2, threadIndex);
       if (res != RETURN_NO_FAULT)
       {
-         // TODO Nastya ErrorMessage(res, line);
+         ErrorMessage(res, line);
          printf("DDS error: %s\n", line);
       }
 
@@ -273,7 +273,7 @@ void sample_main_PlayBin()
 
       if (res != RETURN_NO_FAULT)
       {
-         // TODO Nastya ErrorMessage(res, line);
+         ErrorMessage(res, line);
          printf("DDS error: %s\n", line);
       }
 
