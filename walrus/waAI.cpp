@@ -171,9 +171,9 @@ void Walrus::SolveOneByOne(deal &dlBase)
    uint freqMiniReport = 0xff;
 #endif // _DEBUG
 
-   for (uint i = 0; i < countToSolve ; i++) {
+   for (uint i = 0; i < mul.countToSolve ; i++) {
       // refill & solve the next deal
-      DdsDeal dl(dlBase, arrToSolve[i]);
+      DdsDeal dl(dlBase, mul.arrToSolve[i]);
       dl.Solve(i);
 
       // pass
@@ -183,11 +183,16 @@ void Walrus::SolveOneByOne(deal &dlBase)
       if (!(i & 0xf)) {
          printf(".");
          if (i && !(i & freqMiniReport)) {
-            MiniReport(countToSolve - i);
+            MiniReport(mul.countToSolve - i);
          }
       }
    } // boards
 
+}
+
+Walrus::Progress::Progress()
+   : countOppContractMarks(0)
+{
 }
 
 void Walrus::Progress::Init(uint _step)
@@ -215,7 +220,7 @@ void Walrus::ShowProgress(uint idx)
 {
    // do reports
    if (progress.Step()) {
-      MiniReport(countToSolve - idx);
+      MiniReport(mul.countToSolve - idx);
       progress.Up(idx);
    } else {
       printf(".");
@@ -347,19 +352,19 @@ void Walrus::SolveInChunks(deal &dlBase)
    // do big chunks, then a tail
    uint i = 0;
    progress.Init(step);
-   for (; i+step < countToSolve ; i+=step ) {
+   for (; i+step < mul.countToSolve ; i+=step ) {
       // main work
       SolveOneChunk(dlBase, bo, i, step);
       ShowProgress(i);
 
       // keep balance on abort
       if (ui.exitRequested) {
-         hitsCount[3][0] = countToSolve - i - step;
-         i += countToSolve;
+         progress.hitsCount[3][0] = mul.countToSolve - i - step;
+         i += mul.countToSolve;
       }
    }
-   if ( i < countToSolve ) {
-      step = countToSolve - i;
+   if ( i < mul.countToSolve ) {
+      step = mul.countToSolve - i;
       SolveOneChunk(dlBase, bo, i, step);
    }
 }
@@ -406,7 +411,7 @@ void Walrus::SolveOneChunk(deal &dlBase, boards &bo, uint ofs, uint step)
 
    // refill & copy all deals
    for (int i = 0; i < bo.noOfBoards ; i++) {
-      DdsDeal dl(dlBase, arrToSolve[ofs + i]);
+      DdsDeal dl(dlBase, mul.arrToSolve[ofs + i]);
       bo.deals[i] = dl.dl;
       bo.target[i] = -1;
       bo.solutions[i] = PARAM_SOLUTIONS_DDS;

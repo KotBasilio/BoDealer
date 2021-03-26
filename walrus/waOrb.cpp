@@ -22,11 +22,11 @@ void Walrus::ScanTrivial()
       uint bar = 0;
 
       // account the hand
-      hitsCount[foo][bar]++;
+      progress.hitsCount[foo][bar]++;
 
       // advance to account next hand
-      sum.card.jo -= deck[idxHandStart].card.jo;
-      sum.card.jo += deck[13 + idxHandStart++].card.jo;
+      sum.card.jo -= shuf.deck[idxHandStart].card.jo;
+      sum.card.jo += shuf.deck[13 + idxHandStart++].card.jo;
 
       // smart-exit using highBits
       if (sum.IsEndIter()) {
@@ -42,24 +42,24 @@ void Walrus::ScanOrb()
    SplitBits sum(SumFirstHand());
    SplitBits sec(SumSecondHand());
    for (int idxHandStart = 0;;) {
-      SplitBits third(checkSum - sum.card.jo - sec.card.jo);
+      SplitBits third(shuf.checkSum - sum.card.jo - sec.card.jo);
       uint bar = 0;
       uint foo = Orb_ClassifyHands(bar, sum, sec, third);
 
       // account the deal
-      hitsCount[foo][bar]++;
+      progress.hitsCount[foo][bar]++;
 
       // flip hands within the same deal, account it too
       bar = 0;
       foo = Orb_ClassifyHands(bar, sum, third, sec);
-      hitsCount[foo][bar]++;
+      progress.hitsCount[foo][bar]++;
 
       // advance to account next hand
-      sum.card.jo -= deck[idxHandStart].card.jo;
-      u64 flipcd = deck[13 + idxHandStart].card.jo;
+      sum.card.jo -= shuf.deck[idxHandStart].card.jo;
+      u64 flipcd = shuf.deck[13 + idxHandStart].card.jo;
       sec.card.jo -= flipcd;
       sum.card.jo += flipcd;
-      sec.card.jo += deck[26 + idxHandStart++].card.jo;
+      sec.card.jo += shuf.deck[26 + idxHandStart++].card.jo;
 
       // simple exit using count -- it became faster that highBits
       if (idxHandStart >= ACTUAL_CARDS_COUNT) {
@@ -94,13 +94,13 @@ void Walrus::Orb_FillSem(void)
 
 void Walrus::Orb_SaveForSolver(SplitBits &partner, SplitBits &lho, SplitBits &rho)
 {
-   if (countToSolve >= maxTasksToSolve) {
+   if (mul.countToSolve >= mul.maxTasksToSolve) {
       return;
    }
 
    DdsPack pack;
    pack.task.Init(partner, rho);
-   arrToSolve[countToSolve++] = pack;
+   mul.arrToSolve[mul.countToSolve++] = pack;
 }
 
 void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)

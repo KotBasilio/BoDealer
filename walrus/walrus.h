@@ -23,9 +23,9 @@ public:
    uint DoTheShare();
    void ReportState(char *header);
    bool AfterMath();
-   bool IsRunning(void) const { return isRunning; }
-   const char *GetName() const { return nameHlp; }
-   uint NumFiltered() const { return countToSolve; }
+   bool IsRunning(void) const { return mul.isRunning; }
+   const char *GetName() const { return mul.nameHlp; }
+   uint NumFiltered() const { return mul.countToSolve; }
 
 protected:
     // Start
@@ -74,7 +74,7 @@ protected:
     // multi-thread
     void LaunchHelpers(Walrus &hA, Walrus &hB);
     void DoIteration();
-    uint Remains() const { return (countIterations < countShare) ? countShare - countIterations : 0; }
+    uint Remains() const { return (mul.countIterations < mul.countShare) ? mul.countShare - mul.countIterations : 0; }
     void CoWork(Walrus * other);
     void Supervise(Walrus *helperA, Walrus *helperB);
     void MergeResults(Walrus *other);
@@ -147,15 +147,16 @@ protected:
     void HitByScore(DdsTricks &tr, uint made, uint row = IO_ROW_OUR_DOWN);
 
     // UI
-    struct Progress
-    {
+    struct Progress {
+       Progress();
+       uint hitsCount[HCP_SIZE][CTRL_SIZE];
        uint step, went, margin;
+       uint countOppContractMarks;
        void Init(uint _step);
        bool Step();
        void Up(uint idx);
     } progress;
-    struct MiniUI
-    {
+    struct MiniUI {
        bool  exitRequested;
        bool  firstAutoShow;
        int   irGoal, irBase;
@@ -170,21 +171,32 @@ protected:
     void CleanupStats();
     void ShowProgress(uint idx);
 
+    // Multi-thread
+    struct Multi {
+       Multi();
+       // main scan part
+       bool             isRunning;
+       const char *     nameHlp;
+       uint             countIterations, countShare, countSolo;
+       // aftermath double-dummy
+       uint             maxTasksToSolve;
+       DdsPack    *     arrToSolve;
+       uint             countToSolve;
+    } mul;
+
+    // Shuffling
+    struct Shuf {
+       Shuf();
+       SplitBits        deck[DECK_ARR_SIZE];
+       SplitBits        highBits;
+       u64              checkSum;
+       uint             oldRand;
+       uint             ridx[RIDX_SIZE];// RandIndices() <-> Shuffle()
+       uint             cardsInDeck;
+    } shuf;
+
 private:
-   const char *     nameHlp;
-   bool             isRunning;
-   uint             countIterations, countShare, countSolo;
-   uint             countOppContractMarks;
-   SplitBits        deck[DECK_ARR_SIZE];
-   SplitBits        highBits;
-   u64              checkSum;
-   uint             oldRand;
-   uint             hitsCount[HCP_SIZE][CTRL_SIZE];
-   uint             ridx[RIDX_SIZE];// RandIndices() <-> Shuffle()
    WaFilter         filter;
-   uint             maxTasksToSolve;
-   DdsPack    *     arrToSolve;
-   uint             countToSolve;
 
    // scan patterns
    void Orb_FillSem(void);

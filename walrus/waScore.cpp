@@ -18,7 +18,7 @@ void Walrus::HitByScore(DdsTricks &tr, uint made, uint row /*= IO_ROW_OUR_DOWN*/
    } else {
       camp = made - tr.plainScore - 1;
    }
-   hitsCount[row][camp]++;
+   progress.hitsCount[row][camp]++;
 }
 
 
@@ -89,7 +89,7 @@ void Walrus::Score_Opp4MajorDoubled(DdsTricks& tr)
 {
    // store their hits
    HitByScore(tr, 10, IO_ROW_THEIRS);
-   countOppContractMarks++;
+   progress.countOppContractMarks++;
 
    // store their cumulative score
    cumulScore.Opp_NV_4MajX(cumulScore.oppCtrDoubled, tr.plainScore);

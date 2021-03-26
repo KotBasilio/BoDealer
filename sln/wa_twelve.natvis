@@ -7,7 +7,7 @@
       <DisplayString>{tr}</DisplayString>
    </Type>
    <Type Name="Walrus">
-      <DisplayString>{nameHlp,s} {countToSolve} toSolve; Done {countIterations}/{countShare}</DisplayString>
+      <DisplayString>{mul.nameHlp,s} {mul.countToSolve} toSolve; Done {mul.countIterations}/{mul.countShare}</DisplayString>
    </Type>
    <Type Name="SplitBits">
       <DisplayString>{card.w.s.w,4x}-{card.w.h.w,4x}-{card.w.d.w,4x}-{card.w.c.w,4x}</DisplayString>

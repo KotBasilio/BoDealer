@@ -25,11 +25,11 @@ void Walrus::ScanKeycards()
       uint foo = KC_ClassifyHand(bar, sum);
 
       // account the hand
-      hitsCount[foo][bar]++;
+      progress.hitsCount[foo][bar]++;
 
       // advance to account next hand
-      sum.card.jo -= deck[idxHandStart].card.jo;
-      sum.card.jo += deck[13 + idxHandStart++].card.jo;
+      sum.card.jo -= shuf.deck[idxHandStart].card.jo;
+      sum.card.jo += shuf.deck[13 + idxHandStart++].card.jo;
 
       // smart-exit using highBits
       if (sum.IsEndIter()) {

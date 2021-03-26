@@ -9,6 +9,19 @@
 #include HEADER_THREADS
 #include "walrus.h"
 
+
+Walrus::Multi::Multi()
+   : isRunning(true)
+   , nameHlp("main")
+   , countIterations(0)
+   , countShare(MAX_ITERATION)
+   , countSolo(0)
+   , maxTasksToSolve(MAX_TASKS_TO_SOLVE)
+   , arrToSolve(nullptr)
+   , countToSolve(0)
+{
+}
+
 Walrus::Walrus(Walrus *other, const char *nameH, int ourShare)
 {
    // duplicate fully
@@ -18,16 +31,16 @@ Walrus::Walrus(Walrus *other, const char *nameH, int ourShare)
    StepAsideRand(100 * 42);
 
    // get name and appointment
-   nameHlp = nameH;
-   countShare = ourShare;
+   mul.nameHlp = nameH;
+   mul.countShare = ourShare;
 
    // helpers need 1/3 of max tasks
    const size_t oneK = 1024;
-   maxTasksToSolve = MAX_TASKS_TO_SOLVE;
-   size_t bsize = maxTasksToSolve * sizeof(DdsTask);
+   mul.maxTasksToSolve = MAX_TASKS_TO_SOLVE;
+   size_t bsize = mul.maxTasksToSolve * sizeof(DdsTask);
    if (bsize > 250 * oneK) {
-      maxTasksToSolve >>= 3;
-      maxTasksToSolve *= 3; // that's 3/8 -- about 1/3
+      mul.maxTasksToSolve >>= 3;
+      mul.maxTasksToSolve *= 3; // that's 3/8 -- about 1/3
    }
 }
 
@@ -43,10 +56,10 @@ PFM_THREAD_RETTYPE ProcHelper(void *arg)
 void Walrus::LaunchHelpers(Walrus &hA, Walrus &hB)
 {
 #ifdef SKIP_HELPERS
-   hA.countShare = 0;
-   hB.countShare = 0;
-   hA.isRunning = false;
-   hB.isRunning = false;
+   hA.mul.countShare = 0;
+   hB.mul.countShare = 0;
+   hA.mul.isRunning = false;
+   hB.mul.isRunning = false;
 #else
    PLATFORM_BEGIN_THREAD(ProcHelper, &hA);
    PLATFORM_BEGIN_THREAD(ProcHelper, &hB);
@@ -56,12 +69,12 @@ void Walrus::LaunchHelpers(Walrus &hA, Walrus &hB)
 void Walrus::MainScan(void)
 {
    // decide how to split effort as the main thread is faster a bit
-   uint effortA = (countShare >> 2)
-                + (countShare >> 4)
-                + (countShare >> 6)
-                + (countShare >> 8);
+   uint effortA = (mul.countShare >> 2)
+                + (mul.countShare >> 4)
+                + (mul.countShare >> 6)
+                + (mul.countShare >> 8);
    uint effortB = effortA;
-   countShare -= effortA + effortB;
+   mul.countShare -= effortA + effortB;
 
    // split the effort
    Walrus hA(this, "helperA", effortA);
@@ -69,9 +82,9 @@ void Walrus::MainScan(void)
    printf("Aiming : %10u =\n"
           "   main: %10u +\n"
           "%s: %10u +\n%s: %10u\n-------------------\n"
-      , MAX_ITERATION, countShare
-      , hA.GetName(), hA.countShare
-      , hB.GetName(), hB.countShare);
+      , MAX_ITERATION, mul.countShare
+      , hA.GetName(), hA.mul.countShare
+      , hB.GetName(), hB.mul.countShare);
 
    // monitor random in debug
    #ifdef _DEBUG
@@ -87,13 +100,13 @@ void Walrus::MainScan(void)
    Supervise(&hA, &hB);
 
    // merge all
-   countSolo = countIterations;
+   mul.countSolo = mul.countIterations;
    MergeResults(&hA);
    MergeResults(&hB);
 
    // don't work all day! have a dinner break ;-)
    PLATFORM_SLEEP(20);
-   printf("   main: %10u done\n", countSolo);
+   printf("   main: %10u done\n", mul.countSolo);
 }
 
 void Walrus::DoIteration()
@@ -110,7 +123,7 @@ void Walrus::DoIteration()
    VerifyCheckSum();
 
    // done
-   countIterations += sem.scanCover;
+   mul.countIterations += sem.scanCover;
 }
 
 
@@ -120,13 +133,13 @@ uint Walrus::DoTheShare()
    (this->*sem.onShareStart)();
 
    // iterate until stopped
-   while (countIterations < countShare) {
+   while (mul.countIterations < mul.countShare) {
       DoIteration();
    }
 
    // signal
-   isRunning = false;
-   return countIterations;
+   mul.isRunning = false;
+   return mul.countIterations;
 }
 
 //------------------------------------------------
@@ -137,32 +150,32 @@ void Walrus::MergeResults(Walrus *other)
    // helper is busy => do some of its work
    while (other->IsRunning()) {
       CoWork(other);
-      countSolo += sem.scanCover;
+      mul.countSolo += sem.scanCover;
    }
 
    // sum up
    for (int i = 0; i < HCP_SIZE; i++) {
       for (int j = 0; j < CTRL_SIZE; j++) {
-         hitsCount[i][j] += other->hitsCount[i][j];
+         progress.hitsCount[i][j] += other->progress.hitsCount[i][j];
       }
    }
-   countIterations += other->countIterations;
+   mul.countIterations += other->mul.countIterations;
 
    // copy tasks
-   if (arrToSolve && other->arrToSolve && other->countToSolve) {
-      if (countToSolve + other->countToSolve <= MAX_TASKS_TO_SOLVE) {
-         uint size = other->countToSolve * sizeof(DdsTask);
-         memcpy(&arrToSolve[countToSolve], other->arrToSolve, size);
-         countToSolve += other->countToSolve;
+   if (mul.arrToSolve && other->mul.arrToSolve && other->mul.countToSolve) {
+      if (mul.countToSolve + other->mul.countToSolve <= MAX_TASKS_TO_SOLVE) {
+         uint size = other->mul.countToSolve * sizeof(DdsTask);
+         memcpy(&mul.arrToSolve[mul.countToSolve], other->mul.arrToSolve, size);
+         mul.countToSolve += other->mul.countToSolve;
       } else {
-         printf("\nFailed to merge %d from %s\n", other->countToSolve, other->GetName());
+         printf("\nFailed to merge %d from %s\n", other->mul.countToSolve, other->GetName());
       }
    }
 }
 
 void Walrus::CoWork(Walrus *slowHelper)
 {
-   slowHelper->countShare -= sem.scanCover;
+   slowHelper->mul.countShare -= sem.scanCover;
    DoIteration();
 }
 

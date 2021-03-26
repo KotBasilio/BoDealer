@@ -25,6 +25,7 @@
 //#define SEMANTIC_DEC_JUMP_TO_4S
 //#define SEMANTIC_DEC_JAN_DBL_THEN_HEARTS
 #define SEMANTIC_FEB_4711_DILEMMA_ON_4S
+//#define SEMANTIC_MIXED_PREVENTIVE_4S
 
 // Opening lead:
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
@@ -39,6 +40,14 @@
 
 // -----------------------------------------------------------------
 // --- DESCRIPTIONS
+#ifdef SEMANTIC_MIXED_PREVENTIVE_4S
+#define TITLE_VERSION  "Fix some 2 hcp with 6331;\n1NT X 2h(trf) X\n2s 3h ??\nQuestion: 3s or 4s? Task"
+#define SEEK_BIDDING_LEVEL
+#define SCORE_OPP_CONTRACT
+#define OC_TRUMPS       SOL_HEARTS
+#define OC_ON_LEAD      NORTH
+#endif // SEMANTIC_MIXED_PREVENTIVE_4S
+
 #ifdef SEMANTIC_DEC_12_2425
 #define TITLE_VERSION  "Fix a 12 hcp with no fit;\n1s 1NT\npass\nQuestion: did we miss the 3NT? Task"
 #define SEEK_BIDDING_LEVEL

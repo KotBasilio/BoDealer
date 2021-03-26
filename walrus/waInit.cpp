@@ -12,8 +12,24 @@
 #include HEADER_CURSES
 #include <memory.h> // memset
 
+// TODO: deal with PBN format. Looks like this:
+// [Event "Ligovka Wed"]
+// [Board "7"]
+// [Dealer "S"]
+// [Vulnerable "ALL"]
+// [Deal "N:AJ32.KT5.A62.T73 K7.86432.KJ3.K52 Q964.J9.QT97.J98 T85.AQ7.854.AQ64"]
+// [Ability "N:67465 E:76868 S:67465 W:76868"]
+// [Minimax "2HE-110"]
+
  // --------------------------------------------------------------------------------
  // input
+#ifdef SEMANTIC_MIXED_PREVENTIVE_4S
+// origin: a match at homehttps://bridgemoscow.ru/tournaments/results/r21pmx/r21pmxd34p.htm
+#define INPUT_AS_PBN
+#define INPUT_TRUMPS    SOL_SPADES
+#define INPUT_ON_LEAD   EAST
+#endif // SEMANTIC_MIXED_PREVENTIVE_4S
+
 #ifdef SEMANTIC_NOV_DBL_ON_3NT
 // origin: a match at home
 #define INPUT_HOLDINGS  nov_3nt_doubled
@@ -412,6 +428,17 @@ uint dbl_then_hearts[DDS_HANDS][DDS_SUITS] =
    };
 #endif // SEMANTIC_SPADE_4_WHEN_1H
 
+#ifdef INPUT_AS_PBN
+   uint zero_holdings[DDS_HANDS][DDS_SUITS] =
+   { // North    East        South       West
+      { 0,       0,          0,         0  } , // spades
+      { 0,       0,          0,         0  } , // hearts
+      { 0,       0,          0,         0  } , // diamonds
+      { 0,       0,          0,         0  }   // clubs
+   };
+   #define INPUT_HOLDINGS  zero_holdings
+#endif // INPUT_AS_PBN
+
 uint(*input_holdings)[DDS_HANDS][DDS_SUITS] = &INPUT_HOLDINGS;
 
 SplitBits sbBlank;
@@ -445,26 +472,20 @@ void DdsTricks::Init(futureTricks &fut)
 }
 
 Walrus::Walrus()
-   : isRunning(true)
-   , countIterations(0)
-   , countOppContractMarks(0)
-   , countShare(MAX_ITERATION)
-   , countSolo(0)
-   , maxTasksToSolve(MAX_TASKS_TO_SOLVE)
    // highBitscounts as many two cards in any suit. easily detected. doesn't cause an overflow
-   , highBits(HIBITS)  
-   , checkSum(0)
-   , oldRand(0)
-   , nameHlp("main")
-   , arrToSolve(nullptr)
-   , countToSolve(0)
+   : sem()
    , cumulScore()
+   , progress()
+   , ui()
+   , mul()
+   , shuf()
+   , filter()
 {
-    BuildFileNames();
-    FillSemantic();
-    InitDeck();
-    memset(hitsCount, 0, sizeof(hitsCount));
-    SeedRand();
+   BuildFileNames();
+   FillSemantic();
+   InitDeck();
+   memset(progress.hitsCount, 0, sizeof(progress.hitsCount));
+   SeedRand();
 }
 
 
@@ -479,11 +500,11 @@ Walrus::MiniUI::MiniUI()
 void Walrus::AllocFilteredTasksBuf()
 {
    // determine size
-   size_t bsize = maxTasksToSolve * sizeof(DdsTask);
+   size_t bsize = mul.maxTasksToSolve * sizeof(DdsTask);
 
    // alloc
-   arrToSolve = (DdsPack *)malloc(bsize);
-   if (arrToSolve) {
+   mul.arrToSolve = (DdsPack *)malloc(bsize);
+   if (mul.arrToSolve) {
       // const size_t oneK = 1024;
       // const size_t oneM = 1024 * oneK;
       // if (bsize > oneM) {
@@ -495,16 +516,16 @@ void Walrus::AllocFilteredTasksBuf()
    }
 
    // fail
-   printf("%s: alloc failed\n", nameHlp);
+   printf("%s: alloc failed\n", mul.nameHlp);
    PLATFORM_GETCH();
    exit(0);
 }
 
 Walrus::~Walrus()
 {
-   if (arrToSolve) {
-      free(arrToSolve);
-      arrToSolve = nullptr;
+   if (mul.arrToSolve) {
+      free(mul.arrToSolve);
+      mul.arrToSolve = nullptr;
    }
 }
 
@@ -528,18 +549,19 @@ void Walrus::InitDeck(void)
    i = InitSuit(DIAMD, i);
    i = InitSuit(HEART, i);
    i = InitSuit(SPADS, i);
+   shuf.cardsInDeck = i;
 
    (this->*sem.onInit)();
 
    ClearFlipover();
 
-   checkSum = CalcCheckSum();
+   shuf.checkSum = CalcCheckSum();
 }
 
 u64 Walrus::CalcCheckSum()
 {
     u64 jo = 0;
-    for (auto sb : deck) {
+    for (auto sb : shuf.deck) {
         jo += sb.card.jo;
     }
     return jo;
@@ -548,7 +570,7 @@ u64 Walrus::CalcCheckSum()
 void Walrus::VerifyCheckSum()
 {
 #ifdef _DEBUG
-    if (CalcCheckSum() != checkSum) {
+    if (CalcCheckSum() != shuf.checkSum) {
         printf("\nFatal -- checksum failure\n");
         for(;;) {}
     }
@@ -558,7 +580,7 @@ void Walrus::VerifyCheckSum()
 void Walrus::ClearFlipover()
 {
     for (int i = FLIP_OVER_START_IDX; i < DECK_ARR_SIZE; i++) {
-        deck[i] = sbBlank;
+        shuf.deck[i] = sbBlank;
     }
 }
 
@@ -566,19 +588,19 @@ u64 Walrus::SumFirstHand()
 {
    // sum up the first 13 cards -- kind of unrolled loop
    return (
-      deck[ 0].card.jo +
-      deck[ 1].card.jo +
-      deck[ 2].card.jo +
-      deck[ 3].card.jo +
-      deck[ 4].card.jo +
-      deck[ 5].card.jo +
-      deck[ 6].card.jo +
-      deck[ 7].card.jo +
-      deck[ 8].card.jo +
-      deck[ 9].card.jo +
-      deck[10].card.jo +
-      deck[11].card.jo +
-      deck[12].card.jo
+      shuf.deck[ 0].card.jo +
+      shuf.deck[ 1].card.jo +
+      shuf.deck[ 2].card.jo +
+      shuf.deck[ 3].card.jo +
+      shuf.deck[ 4].card.jo +
+      shuf.deck[ 5].card.jo +
+      shuf.deck[ 6].card.jo +
+      shuf.deck[ 7].card.jo +
+      shuf.deck[ 8].card.jo +
+      shuf.deck[ 9].card.jo +
+      shuf.deck[10].card.jo +
+      shuf.deck[11].card.jo +
+      shuf.deck[12].card.jo
    );
 }
 
@@ -586,19 +608,19 @@ u64 Walrus::SumSecondHand()
 {
    // sum up the first 13 cards
    return (
-      deck[13].card.jo +
-      deck[14].card.jo +
-      deck[15].card.jo +
-      deck[16].card.jo +
-      deck[17].card.jo +
-      deck[18].card.jo +
-      deck[19].card.jo +
-      deck[20].card.jo +
-      deck[21].card.jo +
-      deck[22].card.jo +
-      deck[23].card.jo +
-      deck[24].card.jo +
-      deck[25].card.jo
+      shuf.deck[13].card.jo +
+      shuf.deck[14].card.jo +
+      shuf.deck[15].card.jo +
+      shuf.deck[16].card.jo +
+      shuf.deck[17].card.jo +
+      shuf.deck[18].card.jo +
+      shuf.deck[19].card.jo +
+      shuf.deck[20].card.jo +
+      shuf.deck[21].card.jo +
+      shuf.deck[22].card.jo +
+      shuf.deck[23].card.jo +
+      shuf.deck[24].card.jo +
+      shuf.deck[25].card.jo
    );
 }
 
@@ -606,11 +628,17 @@ u64  wa_SuitByDds[DDS_SUITS] = { SPADS, HEART, DIAMD, CLUBS };
 uint wa_PosByDds [DDS_SUITS] = {    48,    32,    16,     0 };
 void Walrus::WithdrawByInput(void)
 {
+#ifdef INPUT_AS_PBN
+#endif // INPUT_AS_PBN
    for (int h = 0; h < DDS_HANDS; h++) {
       for (int s = 0; s < DDS_SUITS; s++) {
          auto hld = (*input_holdings)[s][h];
          WithdrawHolding(hld, wa_PosByDds[s]);
       }
+   }
+
+   if (shuf.cardsInDeck != 39) {
+      printf("\nERROR: Wrong count of cards discarded: %d is left\n", shuf.cardsInDeck);
    }
 }
 
@@ -656,23 +684,23 @@ void Walrus::PrepareBaseDeal(deal &dlBase)
 void Walrus::SolveSavedTasks()
 {
    // a useful sum to reconstruct responder hand
-   SplitBits sbSum(checkSum);
+   SplitBits sbSum(shuf.checkSum);
    DdsTask::DTUnion taskSum;
    taskSum.Init(sbSum);
 
    // how much filtered out
    u64 sum1st = 0, sum2nd = 0;
    for (int i = 0; i < 20 ; i++) {
-      sum1st += hitsCount[i][1];
-      sum2nd += hitsCount[i][2];
+      sum1st += progress.hitsCount[i][1];
+      sum2nd += progress.hitsCount[i][2];
    }
    u64 sum = sum1st + sum2nd;
 
    // show filtration results
-   int dvs = countToSolve ? countToSolve : 1;
-   printf("Passing %u for double-dummy inspection: roughly each 1 of %llu; %llu skipped\n", countToSolve, sum / dvs, sum);
-   hitsCount[1][1] = 0;
-   MiniReport(countToSolve);
+   int dvs = mul.countToSolve ? mul.countToSolve : 1;
+   printf("Passing %u for double-dummy inspection: roughly each 1 of %llu; %llu skipped\n", mul.countToSolve, sum / dvs, sum);
+   progress.hitsCount[1][1] = 0;
+   MiniReport(mul.countToSolve);
 
    // do inits for Bo-Analyzer
    deal dlBase;

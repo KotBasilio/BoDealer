@@ -117,9 +117,9 @@ void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
    // detect optimal camps
    auto miniCamps = MAX_CAMPS / 2;
    for (; miniCamps < MAX_CAMPS; miniCamps++) {
-      if (hitsCount[IO_ROW_OUR_DOWN][miniCamps - 1] == 0) {
+      if (progress.hitsCount[IO_ROW_OUR_DOWN][miniCamps - 1] == 0) {
          #ifdef SHOW_OPP_RESULTS
-         if (hitsCount[IO_ROW_THEIRS][miniCamps - 1] == 0) // intended incomplete
+         if (progress.hitsCount[IO_ROW_THEIRS][miniCamps - 1] == 0) // intended incomplete
          #endif // SHOW_OPP_RESULTS
          break;
       }
@@ -143,9 +143,9 @@ void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
       uint sumline = 0;
       int j = 0;
       for (; j < miniCamps; j++) {
-         if (showRow) printf(fmtCell, hitsCount[i][j]);
-         sumline     += hitsCount[i][j];
-         hitsCamp[j] += hitsCount[i][j];
+         if (showRow) printf(fmtCell, progress.hitsCount[i][j]);
+         sumline     += progress.hitsCount[i][j];
+         hitsCamp[j] += progress.hitsCount[i][j];
       }
 
       if (showRow) printf("%10u\n", sumline);
@@ -158,7 +158,7 @@ void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
             }
             printf("(  %% ):  ");
             for (int j = 0; j < miniCamps; j++) {
-               float percent = hitsCount[i][j] * 100.f / sumline;
+               float percent = progress.hitsCount[i][j] * 100.f / sumline;
                printf(fmtCellFloat, percent);
             }
             printf("\n");
@@ -169,7 +169,7 @@ void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
 
 void Walrus::MiniReport(uint toGo)
 {
-   if (countToSolve && (toGo == countToSolve)) {
+   if (mul.countToSolve && (toGo == mul.countToSolve)) {
       printf("Solving started:");
       return;
    }
@@ -229,10 +229,10 @@ void Walrus::MiniReport(uint toGo)
 #endif // SEEK_OPENING_LEAD
 
 #ifdef SEMANTIC_KEYCARDS_10_12
-   float key0 = hitsCount[0][0] * 100.f / sumRows;
-   float key1 = hitsCount[0][1] * 100.f / sumRows;
-   float key2 = hitsCount[0][2] * 100.f / sumRows;
-   float key3 = hitsCount[0][3] * 100.f / sumRows;
+   float key0 = progress.hitsCount[0][0] * 100.f / sumRows;
+   float key1 = progress.hitsCount[0][1] * 100.f / sumRows;
+   float key2 = progress.hitsCount[0][2] * 100.f / sumRows;
+   float key3 = progress.hitsCount[0][3] * 100.f / sumRows;
    printf("Keycards: 0->%3.1f%%  1->%3.1f%%  2->%3.1f%%  3->%3.1f%%\n",
       key0, key1, key2, key3);
 #endif // SEMANTIC_KEYCARDS_10_12
@@ -251,22 +251,22 @@ void Walrus::MiniReport(uint toGo)
 
 void Walrus::ReportState(char *header)
 {
-   uint bookman = countIterations + countOppContractMarks;
+   uint bookman = mul.countIterations + progress.countOppContractMarks;
 
    OUT_BIG_TABLE("%s", header);
    for (int i = 0; i < HCP_SIZE; i++) {
       uint sumline = 0;
       for (int j = 0; j < CTRL_SIZE; j++) {
-         OUT_BIG_TABLE(fmtCell, hitsCount[i][j]);
-         bookman -= hitsCount[i][j];
-         sumline += hitsCount[i][j];
+         OUT_BIG_TABLE(fmtCell, progress.hitsCount[i][j]);
+         bookman -= progress.hitsCount[i][j];
+         sumline += progress.hitsCount[i][j];
       }
       OUT_BIG_TABLE("%10u\n", sumline);
    }
-   printf("\n\nTotal iterations = %u, balance ", countIterations);
+   printf("\n\nTotal iterations = %u, balance ", mul.countIterations);
    if (bookman) {
       printf("is broken: ");
-      if (bookman < countIterations) {
+      if (bookman < mul.countIterations) {
          printf("%u iterations left no mark\n", bookman);
       } else {
          printf("%u more marks than expected\n", MAXUINT32 - bookman + 1);

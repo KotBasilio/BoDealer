@@ -32,12 +32,12 @@ static char ranks[] = { /*'2',*/ '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q
 int Walrus::InitSuit(u64 suit, int idx)
 {
    // put deuce 
-   deck[idx++].card.jo = suit;
+   shuf.deck[idx++].card.jo = suit;
 
    // put others
    u64 bitRank = suit << 4;
    for (auto x : ranks) {
-      deck[idx++].card.jo = bitRank | suit;
+      shuf.deck[idx++].card.jo = bitRank | suit;
       bitRank <<= 1;
    }
    return idx;
@@ -98,14 +98,15 @@ uint Walrus::CountKeyCards(SplitBits &hand)
 void Walrus::WithdrawCard(u64 jo)
 {
    int high = SOURCE_CARDS_COUNT;
-   while (deck[high].IsBlank()) {
+   while (shuf.deck[high].IsBlank()) {
       high--;
    }
 
    for (uint i = 0; i < SOURCE_CARDS_COUNT; i++) {
-      if (deck[i].card.jo == jo) {
-         deck[i] = deck[high];
-         deck[high--] = sbBlank;
+      if (shuf.deck[i].card.jo == jo) {
+         shuf.deck[i] = shuf.deck[high];
+         shuf.deck[high--] = sbBlank;
+         shuf.cardsInDeck--;
          return;
       }
    }
