@@ -156,6 +156,7 @@ public:
    uint TriSunday(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint DecAcceptTo4S(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint FebManyHearts(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint MixedPreventive(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
 
    // Opening lead:
    uint NovLevk(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);

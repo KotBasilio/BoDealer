@@ -33,28 +33,25 @@ void Walrus::Score_4Major(DdsTricks& tr)
 
 void Walrus::Score_NV_4Major(DdsTricks& tr)
 {
-   // hits
    HitByScore(tr, 10);
-
-   // cumul
    cumulScore.OurNV4M(tr.plainScore);
+}
+
+void Walrus::Score_NV_Doubled4Major(DdsTricks &tr)
+{
+   HitByScore(tr, 10);
+   cumulScore.OurNV4MX(tr.plainScore);
 }
 
 void Walrus::Score_5Major(DdsTricks &tr)
 {
-   // hits
    HitByScore(tr, 11);
-
-   // cumul
    cumulScore.Our5M(tr.plainScore);
 }
 
 void Walrus::Score_NV_5Major(DdsTricks &tr)
 {
-   // hits
    HitByScore(tr, 11);
-
-   // cumul
    cumulScore.OurNV5M(tr.plainScore);
 }
 
@@ -95,30 +92,28 @@ void Walrus::Score_Opp4MajorDoubled(DdsTricks& tr)
    cumulScore.Opp_NV_4MajX(cumulScore.oppCtrDoubled, tr.plainScore);
 }
 
+void Walrus::Score_Opp4Major(DdsTricks &tr)
+{
+   HitByScore(tr, 10, IO_ROW_THEIRS);
+   progress.countOppContractMarks++;
+   cumulScore.Opp_4M(cumulScore.oppContract, tr.plainScore);
+}
+
 void Walrus::Score_NV6Major(DdsTricks& tr)
 {
-   // hits
    HitByScore(tr, 12);
-
-   // cumul
    cumulScore.OurNV6Maj(tr.plainScore);
 }
 
 void Walrus::Score_NV6Minor(DdsTricks& tr)
 {
-   // hits
    HitByScore(tr, 12);
-
-   // cumul
    cumulScore.OurNV6m(tr.plainScore);
 }
 
 void Walrus::Score_NV6NoTrump(DdsTricks &tr)
 {
-   // hits
    HitByScore(tr, 12);
-
-   // cumul
    cumulScore.OurNV6_No(tr.plainScore);
 }
 

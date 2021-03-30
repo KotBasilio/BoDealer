@@ -20,12 +20,20 @@
 // [Deal "N:AJ32.KT5.A62.T73 K7.86432.KJ3.K52 Q964.J9.QT97.J98 T85.AQ7.854.AQ64"]
 // [Ability "N:67465 E:76868 S:67465 W:76868"]
 // [Minimax "2HE-110"]
+// #define INPUT_AS_PBN
 
  // --------------------------------------------------------------------------------
  // input
 #ifdef SEMANTIC_MIXED_PREVENTIVE_4S
-// origin: a match at homehttps://bridgemoscow.ru/tournaments/results/r21pmx/r21pmxd34p.htm
-#define INPUT_AS_PBN
+// origin: https://bridgemoscow.ru/tournaments/results/r21pmx/r21pmxd34p.htm
+#define INPUT_HOLDINGS  mixed_preventive
+uint mixed_preventive[DDS_HANDS][DDS_SUITS] =
+{ // North                         East        South       West
+   { RT | R9 | R8 | R5 | R3 | R2 ,                      0,          0,         0  } , // spades
+   { RT | R9 | R7,                       0,          0,         0  } , // hearts
+   { RQ | R3 | R2 ,                 0,          0,         0  } , // diamonds
+   { R9 ,  0,          0,         0  }   // clubs
+};
 #define INPUT_TRUMPS    SOL_SPADES
 #define INPUT_ON_LEAD   EAST
 #endif // SEMANTIC_MIXED_PREVENTIVE_4S
@@ -630,6 +638,7 @@ void Walrus::WithdrawByInput(void)
 {
 #ifdef INPUT_AS_PBN
 #endif // INPUT_AS_PBN
+
    for (int h = 0; h < DDS_HANDS; h++) {
       for (int s = 0; s < DDS_SUITS; s++) {
          auto hld = (*input_holdings)[s][h];

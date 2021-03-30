@@ -149,16 +149,39 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
    int threadIndex = 0;
    // -- re-solve & show
    int res = SolveBoard(cards, target, solutions, mode, &fut, threadIndex);
-   if (res == RETURN_NO_FAULT) {
-      char lead[] = "";
-      PrintFut(lead, &fut);
+   if (res != RETURN_NO_FAULT) {
+      // error-handling
+      sprintf(line, "Problem hand on solve: leads %s, trumps: %s\n", haPlayerToStr(cards.first), haTrumpToStr(cards.trump));
+      PrintHand(line, cards.remainCards);
+      ErrorMessage(res, line);
+      printf("DDS error: %s\n", line);
       return;
    }
 
-   // error-handling
-   sprintf(line, "Problem hand on solve: leads %s, trumps: %s\n", haPlayerToStr(cards.first), haTrumpToStr(cards.trump));
-   PrintHand(line, cards.remainCards);
-   ErrorMessage(res, line);
-   printf("DDS error: %s\n", line);
+   // ok print
+   char lead[] = "";
+   PrintFut(lead, &fut);
+
+   // may score their contract
+   #ifdef SCORE_OPP_CONTRACT
+   {
+      cards.trump = OC_TRUMPS;
+      cards.first = OC_ON_LEAD;
+      target = -1;
+      int res = SolveBoard(cards, target, PARAM_SOLUTIONS_DDS, mode, &fut, threadIndex);
+      if (res != RETURN_NO_FAULT) {
+         // error-handling
+         sprintf(line, "Problem hand on solve: leads %s, trumps: %s\n", haPlayerToStr(cards.first), haTrumpToStr(cards.trump));
+         PrintHand(line, cards.remainCards);
+         ErrorMessage(res, line);
+         printf("DDS error: %s\n", line);
+         return;
+      }
+      DdsTricks tr;
+      tr.Init(fut);
+      printf("Their contract in %s tricks: %d\n", ui.theirTrump, tr.plainScore);
+   }
+   #endif // SCORE_OPP_CONTRACT
+
 }
 

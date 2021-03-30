@@ -24,8 +24,8 @@
 //#define SEMANTIC_DEC_ACCEPT_TO_4S
 //#define SEMANTIC_DEC_JUMP_TO_4S
 //#define SEMANTIC_DEC_JAN_DBL_THEN_HEARTS
-#define SEMANTIC_FEB_4711_DILEMMA_ON_4S
-//#define SEMANTIC_MIXED_PREVENTIVE_4S
+//#define SEMANTIC_FEB_4711_DILEMMA_ON_4S
+#define SEMANTIC_MIXED_PREVENTIVE_4S
 
 // Opening lead:
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
@@ -43,7 +43,9 @@
 #ifdef SEMANTIC_MIXED_PREVENTIVE_4S
 #define TITLE_VERSION  "Fix some 2 hcp with 6331;\n1NT X 2h(trf) X\n2s 3h ??\nQuestion: 3s or 4s? Task"
 #define SEEK_BIDDING_LEVEL
+#define SHOW_PARTSCORE
 #define SCORE_OPP_CONTRACT
+#define SHOW_OPPS_ON_PASS
 #define OC_TRUMPS       SOL_HEARTS
 #define OC_ON_LEAD      NORTH
 #endif // SEMANTIC_MIXED_PREVENTIVE_4S
@@ -211,10 +213,14 @@
    #define SEEK_BIDDING_LEVEL
 #endif // SEMANTIC_DEC_JUMP_TO_4S
 
-
 #ifdef SCORE_OPP_CONTRACT
    #define SHOW_OPP_RESULTS
-#endif 
+#endif
+
+#ifndef SHOW_OPP_RESULTS
+   #define SHOW_PARTSCORE
+#endif // !SHOW_OPP_RESULTS
+
 
 // -----------------------------------------------------------------
 // --- COMMON

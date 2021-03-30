@@ -1340,3 +1340,88 @@ uint WaFilter::FebManyHearts(SplitBits &partner, uint &camp, SplitBits &doubler,
    return 0;
 }
 #endif // SEMANTIC_FEB_4711_DILEMMA_ON_4S
+
+#ifdef SEMANTIC_MIXED_PREVENTIVE_4S
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &WaFilter::MixedPreventive;
+   sem.onScoring = &Walrus::Score_NV_Doubled4Major;
+   sem.onOppContract = &Walrus::Score_Opp4Major;
+}
+
+// OUT: camp
+uint WaFilter::MixedPreventive(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_OPP = 2;
+   const uint SKIP_BY_RESP = 3;
+
+   // LHO: double on 2h
+   // partner: 1NT, 2s
+   // RHO: double on 1NT, 3h
+   twlHCP hcpPart(partner);
+   if (hcpPart.total < 15 || 17 < hcpPart.total) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE; // wrong points count
+   }
+   twLengths lenPart(partner);
+   if (lenPart.s > 4 ||
+      lenPart.h > 4 ||
+      lenPart.d > 5 ||
+      lenPart.c > 5) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // kind of NT
+   }
+   if (lenPart.s < 2 ||
+      lenPart.h < 2 ||
+      lenPart.d < 2 ||
+      lenPart.c < 2) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 2;// kind of NT
+   }
+
+   // doubler opp
+   twlHCP hcpDoubler(lho);
+   if (hcpDoubler.total < 15) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 1; // opener points count
+   }
+   twLengths lenDoubler(lho);
+   if (lenDoubler.s > 5 ||
+       lenDoubler.h > 5) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 2; // would multi 2d
+   }
+   if (lenDoubler.h < 3) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 3; // did bid 3h
+   }
+
+   // advancer
+   twLengths lenOpp(rho);
+   if (lenOpp.h < 4) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE; // doubled 2h
+   }
+   twlHCP hcpAdv(rho);
+   if (lenOpp.h < 5 && hcpAdv.h < 2) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 1; // doubled 2h
+   }
+
+   if (lenPart.s < 3) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 4; // support 3-4 sp
+   }
+   if (lenPart.s < 4) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 5; // support 4 sp
+   }
+
+   // seems it passes
+   return 0;
+}
+#endif // SEMANTIC_MIXED_PREVENTIVE_4S
+

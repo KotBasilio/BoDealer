@@ -73,6 +73,38 @@ void Walrus::CumulativeScore::OurNV4M(uint tricks)
    }
 }
 
+void Walrus::CumulativeScore::OurNV4MX(uint tricks)
+{
+   // "always game" strategy
+   switch (tricks) {
+      case 2:  bidGame -= 2000; break;
+      case 3:  bidGame -= 1700; break;
+      case 4:  bidGame -= 1400; break;
+      case 5:  bidGame -= 1100; break;
+      case 6:  bidGame -= 800;  break;
+      case 7:  bidGame -= 500;  break;
+      case 8:  bidGame -= 300;  break;
+      case 9:  bidGame -= 100;  break;
+      case 10: bidGame += 590;  break;
+      case 11: bidGame += 690;  break;
+      case 12: bidGame += 790;  break;
+      case 13: bidGame += 890;  break;
+   }
+
+   // "always partscore" strategy
+   int partdelta = tricks > 6 ?
+      50 + (tricks - 6) * 30 :
+      -50 * (7 - tricks);
+   partscore += partdelta;
+
+   // "ideal"
+   if (tricks < 10) {
+      ideal += partdelta;
+   } else {
+      ideal += 590 + (tricks - 10) * 100;
+   }
+}
+
 void Walrus::CumulativeScore::Our5M(uint tricks)
 {
    // "always game" strategy

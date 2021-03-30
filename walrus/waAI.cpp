@@ -244,6 +244,11 @@ int Walrus::PokeScorerForTricks()
       return 12;
    } 
 
+   // 890 is NV 4M doubled +2
+   if (cumulScore.ideal == 890) {
+      return 10;
+   }
+
    // take 9 and analyze sum
    tr.plainScore = 9;
    (this->*sem.onScoring)(tr);
@@ -292,6 +297,9 @@ void Walrus::InitMiniUI(int trump, int first)
    // fill names
    strcpy(ui.declTrump, s_TrumpNames[trump]);
    strcpy(ui.seatOnLead, s_SeatNames[first]);
+#ifdef SCORE_OPP_CONTRACT
+   strcpy(ui.theirTrump, s_TrumpNames[OC_TRUMPS]);
+#endif // SCORE_OPP_CONTRACT
 }
 
 void Walrus::MiniUI::Run()

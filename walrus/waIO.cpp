@@ -189,16 +189,14 @@ void Walrus::MiniReport(uint toGo)
 #ifdef SEEK_BIDDING_LEVEL
    // slam/game/partscore
    if (ui.irBase < 12) {
-   #ifdef SHOW_OPP_RESULTS
-      printf("Averages: ideal = %lld, bidGame = %lld.   ",
+      printf("Averages: ideal = %lld, bidGame = %lld",
          cumulScore.ideal / sumRows,
          cumulScore.bidGame / sumRows);
-   #else
-      printf("Averages: ideal = %lld, bidGame = %lld, partscore=%lld\n",
-         cumulScore.ideal / sumRows,
-         cumulScore.bidGame / sumRows,
-         cumulScore.partscore / sumRows);
-   #endif 
+      #ifdef SHOW_PARTSCORE
+         printf(", partscore=%lld.   ", cumulScore.partscore / sumRows);
+      #else
+         printf(".   ");
+      #endif 
    } else {
       printf("Averages: ideal = %lld, bidGame = %lld, slam=%lld\n",
          cumulScore.ideal / sumRows,
@@ -210,13 +208,16 @@ void Walrus::MiniReport(uint toGo)
    printf("Chances: %3.1f%% down some + %3.1f%% make\n", percGoDown, percMake);
 
 #ifdef SHOW_OPP_RESULTS
-   // printf("Their contract expectation average: passed = %lld, doubled = %lld\n",
-   //    cumulScore.oppContract / sumRows, 
-   //    cumulScore.oppCtrDoubled / sumRows);
    uint sumOppRows = __max(hitsRow[IO_ROW_THEIRS] + hitsRow[IO_ROW_THEIRS + 1], 1);
-   printf("Their contract doubled, expectation average: %lld. Chance to make = %3.1f%%\n", 
-      cumulScore.oppCtrDoubled / sumRows,
-      hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumRows);
+   #ifdef SHOW_OPPS_ON_PASS
+      printf("Their contract expectation average: passed = %lld, doubled = %lld.",
+         cumulScore.oppContract / sumOppRows, 
+         cumulScore.oppCtrDoubled / sumOppRows);
+   #else
+      printf("Their contract doubled, expectation average: %lld.",
+         cumulScore.oppCtrDoubled / sumOppRows);
+   #endif // SHOW_OPPS_ON_PASS
+   printf(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows);
 #endif // SCORE_OPP_CONTRACT
 
 #ifdef SEEK_OPENING_LEAD

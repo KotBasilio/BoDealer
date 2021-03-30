@@ -116,6 +116,7 @@ protected:
        // -- opp contract
        void Opp_3MajX    (s64 &sum, uint tricks);
        void Opp_3Major   (s64 &sum, uint tricks);
+       void Opp_4M       (s64 &sum, uint tricks);
        void Opp_NV_4MajX (s64 &sum, uint tricks);
        void Opp_3NT      (s64 &sum, uint tricks);
        void Opp_3NTX     (s64 &sum, uint tricks);
@@ -126,11 +127,13 @@ protected:
        void Our3NT       (uint tricks);
        void Our4M        (uint tricks);
        void OurNV4M      (uint tricks);
+       void OurNV4MX     (uint tricks);
        void Our5M        (uint tricks);
        void OurNV5M      (uint tricks);
     } cumulScore;
     void Score_4Major(DdsTricks &tr);
     void Score_NV_4Major(DdsTricks &tr);
+    void Score_NV_Doubled4Major(DdsTricks &tr);
     void Score_5Major(DdsTricks &tr);
     void Score_NV_5Major(DdsTricks &tr);
     void Score_3NT(DdsTricks &tr);
@@ -144,6 +147,7 @@ protected:
     void Score_OpLead5DX(DdsTricks &tr);
     void Score_Opp3MajorDoubled(DdsTricks &tr);
     void Score_Opp4MajorDoubled(DdsTricks &tr);
+    void Score_Opp4Major(DdsTricks &tr);
     void HitByScore(DdsTricks &tr, uint made, uint row = IO_ROW_OUR_DOWN);
 
     // UI
@@ -160,7 +164,7 @@ protected:
        bool  exitRequested;
        bool  firstAutoShow;
        int   irGoal, irBase;
-       char  declTrump[10], seatOnLead[10];
+       char  declTrump[10], seatOnLead[10], theirTrump[10];
        MiniUI();
        void Run();
     } ui;
