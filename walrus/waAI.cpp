@@ -39,6 +39,15 @@ uint CountBits(uint v)// count bits set in this (32-bit value)
    return c;
 }
 
+void HandleErrorDDS(deal &cards, int res)
+{
+   char line[80];
+   sprintf(line, "Problem hand on solve: leads %s, trumps: %s\n", haPlayerToStr(cards.first), haTrumpToStr(cards.trump));
+   PrintHand(line, cards.remainCards);
+   ErrorMessage(res, line);
+   printf("DDS error: %s\n", line);
+}
+
 struct DdsDeal 
 {
    // to pass to DDS
@@ -78,7 +87,6 @@ public:
 
    void Solve(uint handno)
    {
-      char line[80];
       futureTricks fut;
       int target = -1;
       int solutions = PARAM_SOLUTIONS_DDS;  
@@ -87,11 +95,7 @@ public:
 
       int res = SolveBoard(dl, target, solutions, mode, &fut, threadIndex);
       if (res != RETURN_NO_FAULT) {
-         sprintf(line, "Problem hand on solve, #%d: leads %s, trumps: %s\n", handno,
-            haPlayerToStr(dl.first), haTrumpToStr(dl.trump) );
-         PrintHand(line, dl.remainCards);
-         ErrorMessage(res, line);
-         printf("DDS error: %s\n", line);
+         HandleErrorDDS(dl, res);
          PLATFORM_GETCH();
       }
 
@@ -334,7 +338,7 @@ void Walrus::MiniUI::Run()
       }
 
       if (irGoal) {
-         printf("\nSeek %d tricks board...", irGoal);
+         printf("\nSeek %d tricks board in %s...", irGoal, declTrump);
       } else if (!exitRequested) {
          printf("\nCommand '%c' is ignored...", inchar);
       }
@@ -343,7 +347,7 @@ void Walrus::MiniUI::Run()
    // auto-command
    if (firstAutoShow && !irGoal) {
       irGoal = irBase;
-      printf(" %d tricks board ", irGoal);
+      printf(" %d tricks board in %s ", irGoal, declTrump);
    }
 }
 

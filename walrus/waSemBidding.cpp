@@ -1415,10 +1415,10 @@ uint WaFilter::MixedPreventive(SplitBits &partner, uint &camp, SplitBits &lho, S
       camp = SKIP_BY_PART;
       return ORDER_BASE + 4; // support 3-4 sp
    }
-   if (lenPart.s < 4) {
-      camp = SKIP_BY_PART;
-      return ORDER_BASE + 5; // support 4 sp
-   }
+//    if (lenPart.s < 4) {
+//       camp = SKIP_BY_PART;
+//       return ORDER_BASE + 5; // support 4 sp
+//    }
 
    // seems it passes
    return 0;

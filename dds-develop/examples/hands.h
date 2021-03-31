@@ -27,6 +27,7 @@ extern int playRank[3][52];
 
 
 void PrintFut(char title[], futureTricks * fut);
+void PrintTwoFutures(char title[], futureTricks * fut1, futureTricks * fut2);
 void equals_to_string(int equals, char * res);
 bool CompareFut(futureTricks * fut, int handno, int solutions);
 
@@ -44,8 +45,7 @@ void PrintBinPlay(playTraceBin * play, solvedPlay * solved);
 void PrintPBNPlay(playTracePBN * play, solvedPlay * solved);
 
 
-void PrintHand(char title[], 
-  unsigned int rankInSuit[DDS_HANDS][DDS_SUITS]);
+void PrintHand(char title[], unsigned int rankInSuit[DDS_HANDS][DDS_SUITS]);
 
 void PrintPBNHand(char title[], char remainCards[]);
 

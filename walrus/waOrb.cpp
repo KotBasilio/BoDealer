@@ -135,52 +135,49 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
 {
    // board first 
    PrintHand("example:\n", cards.remainCards);
-   if (ui.firstAutoShow) {
-      return;
-   }
+   #ifndef SCORE_OPP_CONTRACT
+      if (ui.firstAutoShow) {
+         return;
+      }
+   #endif
 
    // to show leads we need to re-solve it
    // -- params for re-solving
-   char line[80];
-   futureTricks fut;
+   futureTricks futUs;
    int target = -1;
    int solutions = 3; // 3 -- Return all cards that can be legally played, with their scores in descending order.
    int mode = 0;
    int threadIndex = 0;
    // -- re-solve & show
-   int res = SolveBoard(cards, target, solutions, mode, &fut, threadIndex);
+   int res = SolveBoard(cards, target, solutions, mode, &futUs, threadIndex);
    if (res != RETURN_NO_FAULT) {
-      // error-handling
-      sprintf(line, "Problem hand on solve: leads %s, trumps: %s\n", haPlayerToStr(cards.first), haTrumpToStr(cards.trump));
-      PrintHand(line, cards.remainCards);
-      ErrorMessage(res, line);
-      printf("DDS error: %s\n", line);
+      HandleErrorDDS(cards, res);
       return;
    }
 
-   // ok print
-   char lead[] = "";
-   PrintFut(lead, &fut);
+   // single side solution => ok print
+   #ifndef SCORE_OPP_CONTRACT
+      char lead[] = "";
+      PrintFut(lead, &futUs);
+   #else
+      // score their contract
+      futureTricks futTheirs;
 
-   // may score their contract
-   #ifdef SCORE_OPP_CONTRACT
-   {
       cards.trump = OC_TRUMPS;
       cards.first = OC_ON_LEAD;
       target = -1;
-      int res = SolveBoard(cards, target, PARAM_SOLUTIONS_DDS, mode, &fut, threadIndex);
+      res = SolveBoard(cards, target, solutions, mode, &futTheirs, threadIndex);
       if (res != RETURN_NO_FAULT) {
-         // error-handling
-         sprintf(line, "Problem hand on solve: leads %s, trumps: %s\n", haPlayerToStr(cards.first), haTrumpToStr(cards.trump));
-         PrintHand(line, cards.remainCards);
-         ErrorMessage(res, line);
-         printf("DDS error: %s\n", line);
+         HandleErrorDDS(cards, res);
          return;
       }
       DdsTricks tr;
-      tr.Init(fut);
-      printf("Their contract in %s tricks: %d\n", ui.theirTrump, tr.plainScore);
-   }
+      tr.Init(futTheirs);
+
+      // output
+      char header[40];
+      sprintf(header, "Their contract in %s has %d tricks.", ui.theirTrump, tr.plainScore);
+      PrintTwoFutures(header, &futUs, &futTheirs);
    #endif // SCORE_OPP_CONTRACT
 
 }

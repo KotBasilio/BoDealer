@@ -96,4 +96,6 @@ struct DdsTricks
    void Init(struct futureTricks &fut);
 };
 
+void HandleErrorDDS(struct deal &cards, int res);
+
 

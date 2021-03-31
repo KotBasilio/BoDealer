@@ -41,7 +41,7 @@
 // -----------------------------------------------------------------
 // --- DESCRIPTIONS
 #ifdef SEMANTIC_MIXED_PREVENTIVE_4S
-#define TITLE_VERSION  "Fix some 2 hcp with 6331;\n1NT X 2h(trf) X\n2s 3h ??\nQuestion: 3s or 4s? Task"
+#define TITLE_VERSION  "Fix some 2 hcp with 6331;\n1NT X 2h(trf) X\n2s(fit 3 or 4) 3h ??\nQuestion: 3s or 4s? Task"
 #define SEEK_BIDDING_LEVEL
 #define SHOW_PARTSCORE
 #define SCORE_OPP_CONTRACT
@@ -304,8 +304,8 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
    //const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 501000000;// half of mlrd
    //const uint MAX_ITERATION = 330000000;// third of mlrd
-   const uint MAX_ITERATION = 251000000;// quarter mlrd
-   //const uint MAX_ITERATION = 101000000;// 101 mln
+   //const uint MAX_ITERATION = 251000000;// quarter mlrd
+   const uint MAX_ITERATION = 101000000;// 101 mln
    //const uint MAX_ITERATION = 12000000;// 12 mln
    const uint MAX_TASKS_TO_SOLVE = 4*1000*1000;
 #endif

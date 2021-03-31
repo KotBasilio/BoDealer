@@ -7,6 +7,7 @@
    See LICENSE and README.
 */
 
+#define  _CRT_SECURE_NO_WARNINGS
 
 // General initialization of three hands to be used in examples.
 
@@ -489,6 +490,7 @@ void PrintPBNPlay(playTracePBN * playp, solvedPlay * solved)
 #define DDS_FULL_LINE 80
 #define DDS_HAND_OFFSET 12
 #define DDS_HAND_LINES 12
+#define DDS_OPLEAD_LINES 15
 
 void PrintHand(char title[],
                unsigned int remainCards[DDS_HANDS][DDS_SUITS])
@@ -553,6 +555,45 @@ void PrintHand(char title[],
   //printf("\n\n");
 }
 
+void PrintTwoFutures(char title[], futureTricks * fut1, futureTricks * fut2)
+{
+   char text[DDS_OPLEAD_LINES][DDS_FULL_LINE];
+
+   // clear virtual screen
+   for (int l = 0; l < DDS_OPLEAD_LINES; l++) {
+      memset(text[l], ' ', DDS_FULL_LINE);
+      text[l][DDS_FULL_LINE - 1] = '\0';
+   }
+
+   int off2 = 35;
+   sprintf(text[0] + off2, "%s", title);
+
+   sprintf(text[1], " %-6s %-6s %-6s              %-6s %-6s %-6s",
+      "suit", "rank", "score",
+      "suit", "rank", "score"
+   );
+
+   for (int i = 0; i < fut1->cards; i++) {
+      sprintf(text[2+i], "   %-6c %-6c %-6d",
+         dcardSuit[fut1->suit[i]],
+         dcardRank[fut1->rank[i]],
+         fut1->score[i]);
+      text[2+i][23] = ' ';
+   }
+
+   for (int i = 0; i < fut2->cards; i++) {
+      sprintf(text[2 + i] + off2, "  %-6c %-6c %-6d",
+         dcardSuit[fut2->suit[i]],
+         dcardRank[fut2->rank[i]],
+         fut2->score[i]);
+   }
+
+   // print the v-screen
+   auto maxlne = __max(fut1->cards, fut2->cards) + 2;
+   for (int i = 0; i < maxlne; i++) {
+      printf("   %s\n", text[i]);
+   }
+}
 
 void PrintPBNHand(char title[], char remainCardsPBN[])
 {
@@ -560,7 +601,6 @@ void PrintPBNHand(char title[], char remainCardsPBN[])
   ConvertPBN(remainCardsPBN, remainCards);
   PrintHand(title, remainCards);
 }
-
 
 int ConvertPBN(char * dealBuff,
                unsigned int remainCards[DDS_HANDS][DDS_SUITS])
