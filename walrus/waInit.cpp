@@ -122,6 +122,28 @@ uint slamOnDiamonds[DDS_HANDS][DDS_SUITS] =
 };
 #endif // SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS
 
+#ifdef SEMANTIC_APR_64_INVITE
+// origin: VaBene on Gambler
+#define INPUT_HOLDINGS  apr64
+#define INPUT_TRUMPS    SOL_NOTRUMP
+#define INPUT_ON_LEAD   WEST
+uint apr64[DDS_HANDS][DDS_SUITS] =
+{ // North                         East        South       West
+   { RT | R9 | R7 | R5,            0,          0,         0  } , // spades
+   { RQ,                           0,          0,         0  } , // hearts
+   { RK | RT | R9 | R8 | R5 | R2 , 0,          0,         0  } , // diamonds
+   { RK | R3,                      0,          0,         0  }   // clubs
+};
+/*
+Results
+:  HITS COUNT   :
+(down):  703259, 653392, 317622, 106627,  25318,   3169,    898,    241,      8,      0,   1810534
+(make):  618046, 222393,  22174,    847,      6,      0,      0,      0,      0,      0,    863466
+Processed: 2674000 total. West is on lead. Goal is 9 tricks in notrump.
+Averages: ideal = 226, bidGame = 64, partscore=81.   Chances: 67.7% down some + 32.3% make
+*/
+#endif // SEMANTIC_APR_64_INVITE
+
 #ifdef SEMANTIC_NOV_64_AS_TWO_SUITER
 // origin: http://spb.bridgesport.ru/spb/DKVkusa/p2011171/d21p.php
 #define INPUT_HOLDINGS  nov64_as_two_suiter

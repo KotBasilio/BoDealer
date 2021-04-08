@@ -12,6 +12,7 @@
 //#define SEMANTIC_IMPS_ACCEPT_3NT_ON_SPADE_FIT
 //#define SEMANTIC_DEC_12_2425
 //#define SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS
+#define SEMANTIC_APR_64_INVITE
 
 // Bidding decision competitive:
 //#define SEMANTIC_JULY_AUTO_FITO_PLANKTON
@@ -25,7 +26,7 @@
 //#define SEMANTIC_DEC_JUMP_TO_4S
 //#define SEMANTIC_DEC_JAN_DBL_THEN_HEARTS
 //#define SEMANTIC_FEB_4711_DILEMMA_ON_4S
-#define SEMANTIC_MIXED_PREVENTIVE_4S
+//#define SEMANTIC_MIXED_PREVENTIVE_4S
 
 // Opening lead:
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
@@ -108,6 +109,12 @@
 #define SEEK_BIDDING_LEVEL
 #define UNPLAYABLE_ONE_OF  6    // adjust to singleton king offside -- go down in 1/6 of such cases
 #endif // SEMANTIC_NOV_VOIDWOOD
+
+// ---
+#ifdef SEMANTIC_APR_64_INVITE
+#define TITLE_VERSION  "Fix a 4162 8 hcp;\n 1NT - ??\nQuestion: a game or a invtie? v2.0"
+#define SEEK_BIDDING_LEVEL
+#endif // SEMANTIC_APR_64_INVITE
 
 // ---
 #ifdef SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS
