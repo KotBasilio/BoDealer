@@ -75,6 +75,17 @@ void Walrus::Score_Doubled3NT(DdsTricks &tr)
 #endif // SEEK_DECISION_OVER_DOUBLE
 }
 
+void Walrus::Score_2m(DdsTricks &tr)
+{
+   // hits
+   HitByScore(tr, 8);
+
+#ifdef SHOW_OPP_RESULTS
+   cumulScore.Opp_2m(cumulScore.oppContract, tr.plainScore);
+   cumulScore.Opp_2mX(cumulScore.oppCtrDoubled, tr.plainScore);
+#endif // SEEK_DECISION_OVER_DOUBLE
+}
+
 void Walrus::Score_Opp3MajorDoubled(DdsTricks& tr)
 {
    // we don't need any hits; need only a cumulative score

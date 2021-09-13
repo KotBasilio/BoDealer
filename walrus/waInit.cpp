@@ -38,6 +38,20 @@ uint mixed_preventive[DDS_HANDS][DDS_SUITS] =
 #define INPUT_ON_LEAD   EAST
 #endif // SEMANTIC_MIXED_PREVENTIVE_4S
 
+#ifdef SEMANTIC_MIXED_2D_WITH_MAJOR
+// origin: june
+#define INPUT_HOLDINGS  mixed_2d_wM
+uint mixed_2d_wM[DDS_HANDS][DDS_SUITS] =
+{ // North                         East        South       West
+   { R9 | R8 | R6 ,          0,          0,         0  } , // spades
+   { R9 | R8 | R4 | R2,      0,          0,         0  } , // hearts
+   { RK | RJ | R2,           0,          0,         0  } , // diamonds
+   { RK | R9 | R5,           0,          0,         0  }   // clubs
+};
+#define INPUT_TRUMPS    SOL_DIAMONDS
+#define INPUT_ON_LEAD   NORTH
+#endif // SEMANTIC_MIXED_2D_WITH_MAJOR
+
 #ifdef SEMANTIC_NOV_DBL_ON_3NT
 // origin: a match at home
 #define INPUT_HOLDINGS  nov_3nt_doubled
@@ -121,6 +135,20 @@ uint slamOnDiamonds[DDS_HANDS][DDS_SUITS] =
    { RK | R3 | R2,                 0,          0,         0  }   // clubs
 };
 #endif // SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS
+
+#ifdef SEMANTIC_SEPT_MANTICORA_14_16
+// origin: home match
+#define INPUT_HOLDINGS  sash_hand
+#define INPUT_TRUMPS    SOL_HEARTS
+#define INPUT_ON_LEAD   WEST
+uint sash_hand[DDS_HANDS][DDS_SUITS] =
+{ // North                         East        South       West
+   { RQ | RJ | R9 ,                 0,          0,         0  } , // spades
+   { RJ | RT | R7 | R6 | R4,        0,  0,         0  } , // hearts
+   { RK | R4 | R3 | R2 ,            0,          0,         0  } , // diamonds
+   { R8,                            0,          0,         0  }   // clubs
+};
+#endif
 
 #ifdef SEMANTIC_APR_64_INVITE
 // origin: VaBene on Gambler
@@ -313,7 +341,7 @@ uint july_lead4333_holdings[DDS_HANDS][DDS_SUITS] =
 
 #ifdef SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
 // origin match at home
-#define INPUT_HOLDINGS  julyVZ_Axx_holdings
+#define INPUT_HOLDINGS  julyVZ_holdings
 #define INPUT_TRUMPS    SOL_NOTRUMP
 #define INPUT_ON_LEAD   WEST
 uint julyVZ_holdings[DDS_HANDS][DDS_SUITS] =

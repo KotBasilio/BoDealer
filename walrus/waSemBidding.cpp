@@ -7,6 +7,99 @@
 ************************************************************/
 #include "walrus.h"
 
+#ifdef SEMANTIC_MIXED_2D_WITH_MAJOR
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &WaFilter::Mixed2DwM;
+   sem.onScoring = &Walrus::Score_2m;
+}
+
+// OUT: camp
+uint WaFilter::Mixed2DwM(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_OPP = 2;
+   const uint SKIP_BY_RESP = 3;
+
+   // part : 15-17 
+   twlHCP hcpPart(partner);
+   if (hcpPart.total < 15 || 17 < hcpPart.total) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 3; // wrong points count
+   }
+
+   twLengths lenPart(partner);
+
+   if (lenPart.d < 2) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 5; // a shortage in NT 
+   }
+
+   if (lenPart.s < 2 ||
+      lenPart.h < 2 ||
+      lenPart.c < 2) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 6; // a shortage in NT
+   }
+
+   if (lenPart.s > 4 ||
+      lenPart.h > 4 ||
+      lenPart.d > 4 ||
+      lenPart.c > 4) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 7; // long black suits
+   }
+
+   // seems it passes
+   // LHO: pass, 2d
+   twlHCP hcpDecl(lho);
+   if (hcpDecl.total > 11) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 1; // wrong points count
+   }
+   twLengths lenDecl(lho);
+   if (lenDecl.s != 4 &&
+      lenDecl.h != 4) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 2; 
+   }
+   if (lenDecl.d < 5 ||
+      lenDecl.d > 6) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 3;
+   }
+   if (lenDecl.s > 4 ||
+      lenDecl.h > 4) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 4; 
+   }
+
+   // RHO: pass
+   twlHCP hcpResp(rho);
+   if (hcpResp.total > 10) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 1;
+   }
+   twLengths lenResp(rho);
+   if (lenResp.s > 4 ||
+      lenResp.h > 4) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 4;
+   }
+   if (lenResp.c > 5 ||
+      lenResp.d > 5) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 5;
+   }
+
+   // seems it passes
+   return 0;
+}
+#endif // SEMANTIC_MIXED_2D_WITH_MAJOR
+
+
 #ifdef SEMANTIC_NOV_DBL_ON_3NT
 void Walrus::FillSemantic(void)
 {
@@ -1511,3 +1604,112 @@ uint WaFilter::SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits
 }
 
 #endif // SEMANTIC_APR_64_INVITE
+
+#ifdef SEMANTIC_SEPT_MANTICORA_14_16
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &WaFilter::SlamTry;
+   sem.onScoring = &Walrus::Score_NV_4Major;
+}
+
+uint WaFilter::SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_OPP = 2;
+   const uint SKIP_BY_RESP = 3;
+
+   // partner: 1NT (14-16)
+   twlHCP hcpPart(partner);
+   if (hcpPart.total < 14 || 16 < hcpPart.total) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE; // NT
+   }
+   twLengths lenPart(partner);
+   if (lenPart.s != 2 ||
+      lenPart.h > 4 ||
+      lenPart.d > 4 ||
+      lenPart.c > 4) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // wrong points count
+   }
+   if (lenPart.s < 2 ||
+      lenPart.h < 2 ||
+      lenPart.d < 2 || // 3
+      lenPart.c < 2) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 2;// kind of NT
+   }
+   if (lenPart.h == 3) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 4;// fit
+      if (hcpPart.h < 5) {
+         camp = SKIP_BY_PART;
+         return ORDER_BASE + 3;// fit
+      }
+      if (hcpPart.total < 15) {
+         camp = SKIP_BY_PART;
+         return ORDER_BASE + 4;// fit
+      }
+   }
+   //    if (lenPart.d == 3 &&  hcpPart.d < 1) {
+   //       camp = SKIP_BY_PART;
+   //       return ORDER_BASE + 3;// want fit
+   //    }
+
+   // RHO, LHO: pass
+   twLengths lenOpp(rho);
+   if (lenOpp.s !=5 ||
+      lenOpp.h > 6 ||
+      lenOpp.d > 6 ||
+      lenOpp.c > 6) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE; // no 7+
+   }
+   twLengths lenResp(lho);
+   if (lenResp.s != 3 ||
+      lenResp.h > 6 ||
+      lenResp.d > 6 ||
+      lenResp.c > 6) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 1; // no 7+
+   }
+   twlHCP hcpOpp(rho);
+   if (hcpOpp.total < 9) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 2; // no 7+
+   }
+   twlHCP hcpResp(lho);
+   if (hcpResp.total > 8) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 3; // no 7+
+   }
+
+   // two suiters
+//    if (lenResp.s >= 5) {
+//       if (lenResp.h > 5 ||
+//          lenResp.c > 5) {
+//          camp = SKIP_BY_OPP;
+//          return ORDER_BASE + 2; // no two-suiters
+//       }
+//    } else if (lenResp.h + lenResp.c > 9) {
+//       camp = SKIP_BY_OPP;
+//       return ORDER_BASE + 2; // no two-suiters
+//    }
+//    if (lenOpp.s >= 5) {
+//       if (lenOpp.h > 5 ||
+//          lenOpp.c > 5) {
+//          camp = SKIP_BY_RESP;
+//          return ORDER_BASE + 2; // no two-suiters
+//       }
+//    } else if (lenOpp.h + lenOpp.c > 9) {
+//       camp = SKIP_BY_RESP;
+//       return ORDER_BASE + 2; // no two-suiters
+//    }
+
+   // seems it passes
+   return 0;
+}
+#endif 
+

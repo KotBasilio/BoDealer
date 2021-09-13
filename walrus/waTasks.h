@@ -12,7 +12,8 @@
 //#define SEMANTIC_IMPS_ACCEPT_3NT_ON_SPADE_FIT
 //#define SEMANTIC_DEC_12_2425
 //#define SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS
-#define SEMANTIC_APR_64_INVITE
+//#define SEMANTIC_APR_64_INVITE
+#define SEMANTIC_SEPT_MANTICORA_14_16
 
 // Bidding decision competitive:
 //#define SEMANTIC_JULY_AUTO_FITO_PLANKTON
@@ -27,6 +28,7 @@
 //#define SEMANTIC_DEC_JAN_DBL_THEN_HEARTS
 //#define SEMANTIC_FEB_4711_DILEMMA_ON_4S
 //#define SEMANTIC_MIXED_PREVENTIVE_4S
+//#define SEMANTIC_MIXED_2D_WITH_MAJOR
 
 // Opening lead:
 //#define SEMANTIC_JUNE_MAX_5D_LEAD
@@ -75,6 +77,13 @@
 #define SHOW_OPP_RESULTS
 #endif // SEMANTIC_NOV_DBL_ON_3NT
 
+
+#ifdef SEMANTIC_MIXED_2D_WITH_MAJOR
+#define TITLE_VERSION  "Fix some even values 7hcp;\nQuestion: maybe pass that? v2.0"
+#define SEEK_BIDDING_LEVEL
+#define SHOW_OPP_RESULTS
+#endif // SEMANTIC_MIXED_2D_WITH_MAJOR
+
 // ---
 #ifdef SEMANTIC_NOV_BID_6C_OR_DBL_4S
 //#define TITLE_VERSION  "Fix 17 hcp hand;\n1c-(1s)-dbl-(3s)\n-3NT-(4s)-dbl-(p)-??\nAssume partner 12+\nQuestion: dbl, 5 clubs / 6 clubs? Ver 2.0 "
@@ -115,6 +124,12 @@
 #define TITLE_VERSION  "Fix a 4162 8 hcp;\n 1NT - ??\nQuestion: a game or a invtie? v2.0"
 #define SEEK_BIDDING_LEVEL
 #endif // SEMANTIC_APR_64_INVITE
+
+// ---
+#ifdef SEMANTIC_SEPT_MANTICORA_14_16
+#define TITLE_VERSION  "Fix a Sash hand 7hcp;\n  ??\nQuestion: a game or a partscore? v2.0"
+#define SEEK_BIDDING_LEVEL
+#endif // SEMANTIC_SEPT_MANTICORA_14_16
 
 // ---
 #ifdef SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS

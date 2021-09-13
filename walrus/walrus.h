@@ -120,6 +120,8 @@ protected:
        void Opp_NV_4MajX (s64 &sum, uint tricks);
        void Opp_3NT      (s64 &sum, uint tricks);
        void Opp_3NTX     (s64 &sum, uint tricks);
+       void Opp_2m       (s64 &sum, uint tricks);
+       void Opp_2mX      (s64 &sum, uint tricks);
        // -- our contracts
        void OurNV6m      (uint tricks);
        void OurNV6Maj    (uint tricks);
@@ -137,6 +139,7 @@ protected:
     void Score_5Major(DdsTricks &tr);
     void Score_NV_5Major(DdsTricks &tr);
     void Score_3NT(DdsTricks &tr);
+    void Score_2m(DdsTricks &tr);
     void Score_Doubled3NT(DdsTricks &tr);
     void Score_NV6Major(DdsTricks &tr);
     void Score_NV6Minor(DdsTricks &tr);
