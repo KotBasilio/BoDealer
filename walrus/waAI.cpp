@@ -240,8 +240,7 @@ int Walrus::PokeScorerForTricks()
 
    // not a game => some partscore
    if (cumulScore.ideal < 300) {
-      return 8;// @_@
-//      return 9;
+      return 9;
    } 
    
    // 920 etc => at least a small slam
