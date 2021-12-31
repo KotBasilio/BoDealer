@@ -126,6 +126,12 @@ struct twLengths
    twLengths(SplitBits &hand);
    uint s, h, d, c;
 };
+// -- controls
+struct twlControls
+{
+   twlControls(SplitBits &hand);
+   uint s, h, d, c, total;
+};
 
 // Filters
 class WaFilter
@@ -152,6 +158,7 @@ public:
    uint NovSlam(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint DecTopHearts(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint NovDbl3NT(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint Dec21Dbl3NT(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint Tricolor(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint TriSunday(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint DecAcceptTo4S(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);

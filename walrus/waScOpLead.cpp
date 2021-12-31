@@ -23,6 +23,21 @@ void Walrus::Score_OpLead3NT(DdsTricks &tr)
 #endif // SEEK_OPENING_LEAD
 }
 
+void Walrus::Score_OpLead3NTX(DdsTricks &tr)
+{
+#ifdef SEEK_OPENING_LEAD
+   // hits
+   HitByScore(tr, 9);
+
+   // cumulative for each lead
+   cumulScore.OpLead3NTX(cumulScore.ideal, tr.plainScore);
+   cumulScore.OpLead3NTX(cumulScore.leadS, tr.lead.S);
+   cumulScore.OpLead3NTX(cumulScore.leadH, tr.lead.H);
+   cumulScore.OpLead3NTX(cumulScore.leadD, tr.lead.D);
+   cumulScore.OpLead3NTX(cumulScore.leadC, tr.lead.Ñ);
+#endif // SEEK_OPENING_LEAD
+}
+
 void Walrus::Score_OpLead3Major(DdsTricks &tr)
 {
 #ifdef SEEK_OPENING_LEAD
@@ -53,6 +68,27 @@ void Walrus::CumulativeScore::OpLead3NT(s64 &sum, uint tricks)
       sum += 600 + (tricks - 9) * 30;
    } else {
       sum -= 100 * (9 - tricks);
+   }
+}
+
+void Walrus::CumulativeScore::OpLead3NTX(s64 &sum, uint tricks)
+{
+   switch (tricks) {
+      case  9: sum += 750;  return;
+      case 10: sum += 950;  return;
+      case 11: sum += 1150; return;
+      case 12: sum += 1350; return;
+      case 13: sum += 1550; return;
+
+      case  8: sum -= 200;  return;
+      case  7: sum -= 500;  return;
+      case  6: sum -= 800;  return;
+      case  5: sum -= 1100; return;
+      case  4: sum -= 1400; return;
+      case  3: sum -= 1700; return;
+      case  2: sum -= 2000; return;
+      case  1: sum -= 2300; return;
+      case  0: sum -= 2600; return;
    }
 }
 

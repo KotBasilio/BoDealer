@@ -1,0 +1,128 @@
+#include <stdio.h>
+#include <string.h>
+#include "config.h"
+#include <json-c/json.h>
+
+#define CONFIG_BUFFER_SIZE 1000
+
+
+
+void fillStrValue(char** str, const char* value) {
+	free(*str);
+	*str = (char*)malloc(sizeof(char)*(strlen(value) + 1));
+	if (!str) {
+		perror("malloc (fillStrValue)");
+		fflush(stderr);
+		exit(EXIT_FAILURE);
+	}
+	strcpy(*str, value);
+}
+
+void json_parse_our_config(json_object* jobj, OurConfig* config) {
+	enum json_type type;
+
+	free(config->configPath);
+	free(config->watchdogPath);
+	config->configPath = NULL;
+	config->watchdogPath = NULL;
+	json_object_object_foreach(jobj, key, val) {
+		type =  json_object_get_type(val);
+		if (type == json_type_string) {
+			const char* strValue = json_object_get_string(val);
+			if (strcmp(key, "configPath") == 0)
+			   fillStrValue(&config->configPath, strValue);
+			else if (strcmp(key, "watchdogPath") == 0)
+			   fillStrValue(&config->watchdogPath, strValue);
+		} else if (type == json_type_int) {
+			if (strcmp(key, "watchdogInterval") == 0)
+			   config->watchdogInterval = json_object_get_int(val);
+		}
+	}
+}
+
+void json_parse_their_config(json_object* jobj, Config* config) {
+	enum json_type type;
+	json_object_object_foreach(jobj, key, val) {
+		type = json_object_get_type(val);
+		if (type == json_type_string) {
+			const char* strValue = json_object_get_string(val);
+			if (strcmp(key, "audioChannel1") == 0)
+				fillStrValue(&config->audioChannels[0], strValue);
+			else if (strcmp(key, "audioChannel2") == 0)
+				fillStrValue(&config->audioChannels[1], strValue);
+			else if (strcmp(key, "audioChannel3") == 0)
+				fillStrValue(&config->audioChannels[2], strValue);
+			else if (strcmp(key, "audioChannel4") == 0)
+				fillStrValue(&config->audioChannels[3], strValue);
+			else if (strcmp(key, "audioChannel5") == 0)
+				fillStrValue(&config->audioChannels[4], strValue);
+			else if (strcmp(key, "audioChannel6") == 0)
+				fillStrValue(&config->audioChannels[5], strValue);
+			else if (strcmp(key, "prioChannel") == 0)
+				fillStrValue(&config->prioChannel, strValue);
+			else if (strcmp(key, "videoChannel") == 0)
+				fillStrValue(&config->videoChannel, strValue);
+			else if (strcmp(key, "outSocket") == 0)
+                                fillStrValue(&config->outSocket, strValue);
+                } else if (type == json_type_int) {
+                        if (strcmp(key, "delay") == 0)
+                                config->delay = json_object_get_int(val);
+		}
+	}
+}
+
+int read_config (char* configName, OurConfig* ourConfig, Config* config) {
+    FILE* fOurConfigPtr;
+    FILE* fTheirConfigPtr;
+
+    char bufferOurConfig[CONFIG_BUFFER_SIZE];
+    char bufferTheirConfig[CONFIG_BUFFER_SIZE];
+
+        if (!ourConfig->configPath) {
+                fOurConfigPtr = fopen(configName, "rb");
+		if (NULL == fOurConfigPtr) {
+                        fprintf(stderr, "Failed to open config file (%s)\n", configName);
+			perror("fopen");
+			fflush(stderr);
+			return -1;
+		}
+
+		int bytes_read = fread(bufferOurConfig, sizeof(char), CONFIG_BUFFER_SIZE, fOurConfigPtr);
+		fclose(fOurConfigPtr);
+				
+		json_object* jobj = json_tokener_parse(bufferOurConfig);
+			if(!jobj) {
+			fprintf(stderr, "Failed to parse config file (%s)\n", configName);
+			fflush(stderr);
+			return -1;
+		}
+		json_parse_our_config(jobj, ourConfig);
+
+		if (NULL == ourConfig->configPath) {
+		   fprintf(stderr, "Path to config file was not found\n");
+		   fflush(stderr);
+		   return -1;
+		}
+	}
+	
+    fTheirConfigPtr = fopen(ourConfig->configPath, "rb");
+    if (NULL == fTheirConfigPtr) {
+        fprintf(stderr, "Failed to open config file (%s)\n", ourConfig->configPath);
+		perror("fopen");
+		fflush(stderr);
+        return -1;
+    }
+	
+    int bytes_read_their = fread(bufferTheirConfig, sizeof(char), CONFIG_BUFFER_SIZE, fTheirConfigPtr);
+	fclose(fTheirConfigPtr);
+    
+	json_object* jobj1 = json_tokener_parse(bufferTheirConfig);
+	if(!jobj1) {
+		fprintf(stderr, "Failed to parse config file (%s)\n", ourConfig->configPath);
+		fflush(stderr);
+		return -1;
+	}
+    json_parse_their_config(jobj1, config);
+
+    return 0;
+}

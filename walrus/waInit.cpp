@@ -66,6 +66,24 @@ uint nov_3nt_doubled[DDS_HANDS][DDS_SUITS] =
 };
 #endif // SEMANTIC_NOV_DBL_ON_3NT
 
+#ifdef SEMANTIC_DEC21_DBL_ON_3NT
+// origin: ligovka Dec 2021
+#define INPUT_HOLDINGS  nov_3nt_doubled
+#define INPUT_TRUMPS    SOL_NOTRUMP
+#define INPUT_ON_LEAD   WEST
+uint nov_3nt_doubled[DDS_HANDS][DDS_SUITS] =
+{ // North      East        South      West
+	{ 0,         0,          0,         RK | RQ | R5  } , // spades
+	{ 0,         0,          0,         R8 | R7  } ,      // hearts
+	{ 0,         0,          0,         RJ | RT | R8 | R7 | R3  } ,           // diamonds
+	{ 0,         0,          0,         RK | RT | R3 }    // clubs
+};
+#define CARD_LEAD_SPADE   KK
+#define CARD_LEAD_HEARTS  K8
+#define CARD_LEAD_DIAMD   KJ
+#define CARD_LEAD_CLUBS   K3
+#endif // SEMANTIC_DEC21_DBL_ON_3NT
+
 #ifdef SEMANTIC_NOV_BID_6C_OR_DBL_4S
 // origin: Morozevich https://www.gambler.ru/tour/786003/protocol?id=72526447 brd 11
 #define INPUT_HOLDINGS  fito_july

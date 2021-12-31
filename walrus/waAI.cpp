@@ -241,8 +241,13 @@ int Walrus::PokeScorerForTricks()
    // not a game => some partscore
    if (cumulScore.ideal < 300) {
       return 9;
-   } 
-   
+   }
+
+   // exactly 1550 => 3NT doubled
+   if (cumulScore.ideal == 1550) {
+      return 9;
+   }
+
    // 920 etc => at least a small slam
    if (cumulScore.ideal > 900) {
       return 12;

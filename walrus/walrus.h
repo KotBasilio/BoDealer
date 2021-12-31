@@ -73,6 +73,7 @@ protected:
 
     // multi-thread
     void LaunchHelpers(Walrus &hA, Walrus &hB);
+    void ShowEffortSplit(Walrus &hA, Walrus &hB);
     void DoIteration();
     uint Remains() const { return (mul.countIterations < mul.countShare) ? mul.countShare - mul.countIterations : 0; }
     void CoWork(Walrus * other);
@@ -110,6 +111,7 @@ protected:
        s64    oppContract, oppCtrDoubled;
        // -- opening lead
        void OpLead3NT    (s64 &sum, uint tricks);
+       void OpLead3NTX   (s64 &sum, uint tricks);
        void OpLead3Major (s64 &sum, uint tricks);
        void OpLead5minor (s64 &sum, uint tricks);
        void OpLead5mX    (s64 &sum, uint tricks);
@@ -146,6 +148,7 @@ protected:
     void Score_NV6NoTrump(DdsTricks &tr);
     void Score_OpLead3Major(DdsTricks &tr);
     void Score_OpLead3NT(DdsTricks &tr);
+    void Score_OpLead3NTX(DdsTricks &tr);
     void Score_OpLead5D(DdsTricks &tr);
     void Score_OpLead5DX(DdsTricks &tr);
     void Score_Opp3MajorDoubled(DdsTricks &tr);

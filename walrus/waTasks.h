@@ -13,7 +13,7 @@
 //#define SEMANTIC_DEC_12_2425
 //#define SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS
 //#define SEMANTIC_APR_64_INVITE
-#define SEMANTIC_SEPT_MANTICORA_14_16
+//#define SEMANTIC_SEPT_MANTICORA_14_16
 
 // Bidding decision competitive:
 //#define SEMANTIC_JULY_AUTO_FITO_PLANKTON
@@ -36,10 +36,14 @@
 //#define SEMANTIC_JUNE_LEAD_3343
 //#define SEMANTIC_AUG_LEAD_VS_3H
 //#define SEMANTIC_IMPS_LEAD_LEVKOVICH
+#define SEMANTIC_DEC21_DBL_ON_3NT
 
 // One hand tasks:
 //#define SEMANTIC_KEYCARDS_10_12
 //#define SEMANTIC_SPADE_4_WHEN_1H
+
+// Personal opinions:
+//#define OPINION_BASHA
 
 // -----------------------------------------------------------------
 // --- DESCRIPTIONS
@@ -77,6 +81,12 @@
 #define SHOW_OPP_RESULTS
 #endif // SEMANTIC_NOV_DBL_ON_3NT
 
+#ifdef SEMANTIC_DEC21_DBL_ON_3NT
+#define TITLE_VERSION  "Fix some even values 9hcp;\nOpps bid:\n1c-1h\n1nt-2h\n2NT 3NT\n\nQuestion: maybe double that? v2.0"
+//#define SEEK_DECISION_OVER_DOUBLE
+#define SEEK_OPENING_LEAD
+//#define SHOW_OPP_RESULTS
+#endif // SEMANTIC_DEC21_DBL_ON_3NT
 
 #ifdef SEMANTIC_MIXED_2D_WITH_MAJOR
 #define TITLE_VERSION  "Fix some even values 7hcp;\nQuestion: maybe pass that? v2.0"
@@ -318,16 +328,16 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
    const uint MAX_ITERATION = 100000;// 0.1 mln
    //const uint MAX_ITERATION = 10000;
    const uint MAX_TASKS_TO_SOLVE = 10240;
-   //#define SKIP_HELPERS
+   #define SKIP_HELPERS
 #else
    //const uint MAX_ITERATION = 4001000000;// 4 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 3001000000;// 3 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 2001000000;// 2 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
-   //const uint MAX_ITERATION = 501000000;// half of mlrd
+   const uint MAX_ITERATION = 501000000;// half of mlrd
    //const uint MAX_ITERATION = 330000000;// third of mlrd
    //const uint MAX_ITERATION = 251000000;// quarter mlrd
-   const uint MAX_ITERATION = 101000000;// 101 mln
+   //const uint MAX_ITERATION = 101000000;// 101 mln
    //const uint MAX_ITERATION = 12000000;// 12 mln
    const uint MAX_TASKS_TO_SOLVE = 4*1000*1000;
 #endif

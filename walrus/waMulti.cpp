@@ -66,6 +66,27 @@ void Walrus::LaunchHelpers(Walrus &hA, Walrus &hB)
 #endif // SKIP_HELPERS
 }
 
+
+void Walrus::ShowEffortSplit(Walrus &hA, Walrus &hB)
+{
+#ifdef SHOW_EFFORT_SPLIT
+   printf("Aiming : %10u =\n"
+      "   main: %10u +\n"
+      "%s: %10u +\n%s: %10u\n-------------------\n"
+      , MAX_ITERATION, mul.countShare
+      , hA.GetName(), hA.mul.countShare
+      , hB.GetName(), hB.mul.countShare);
+
+   // monitor random in debug
+   #ifdef _DEBUG
+      TestSeed();
+      hA.TestSeed();
+      hB.TestSeed();
+      printf("-------------------\n");
+   #endif // _DEBUG
+#endif // SHOW_EFFORT_SPLIT
+}
+
 void Walrus::MainScan(void)
 {
    // decide how to split effort as the main thread is faster a bit
@@ -79,20 +100,7 @@ void Walrus::MainScan(void)
    // split the effort
    Walrus hA(this, "helperA", effortA);
    Walrus hB(&hA , "helperB", effortB);
-   printf("Aiming : %10u =\n"
-          "   main: %10u +\n"
-          "%s: %10u +\n%s: %10u\n-------------------\n"
-      , MAX_ITERATION, mul.countShare
-      , hA.GetName(), hA.mul.countShare
-      , hB.GetName(), hB.mul.countShare);
-
-   // monitor random in debug
-   #ifdef _DEBUG
-      TestSeed();
-      hA.TestSeed();
-      hB.TestSeed();
-      printf("-------------------\n");
-   #endif // _DEBUG
+   ShowEffortSplit(hA, hB);
 
    // do the parallel work
    LaunchHelpers(hA, hB);

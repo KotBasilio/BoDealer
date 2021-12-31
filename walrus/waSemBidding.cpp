@@ -1713,3 +1713,165 @@ uint WaFilter::SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits
 }
 #endif 
 
+#ifdef SEMANTIC_DEC21_DBL_ON_3NT
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &WaFilter::Dec21Dbl3NT;
+   sem.onScoring = &Walrus::Score_OpLead3NTX;
+}
+
+// OUT: camp
+uint WaFilter::Dec21Dbl3NT(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_OPP = 2;
+   const uint SKIP_BY_RESP = 3;
+
+   // LHO: 1h, 2h, raise to 3NT
+   twlHCP hcpDummy(lho);
+   if (hcpDummy.total < 8 || 10 < hcpDummy.total) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 1;
+   }
+   twLengths lenDummy(lho);
+   if (lenDummy.s > 4 ||
+      lenDummy.h > 6 ||
+      lenDummy.d > 4 ||
+      lenDummy.c > 4) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 2;
+   }
+   if (lenDummy.s < 2 ||
+      lenDummy.h < 5 ||
+      lenDummy.d < 2 ||
+      lenDummy.c < 2) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 3;// no singletons, 5-6 h
+   }
+
+
+#ifdef OPINION_BASHA
+   // always 6h, only AQ or AK there
+   if (lenDummy.h != 6 || hcpDummy.h < 6) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 4;
+   }
+   if (hcpDummy.total > 9) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 5;
+   }
+   twlControls ctrDummy(lho);
+   if (ctrDummy.h < 2) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 4;
+   }
+#else // end OPINION
+   if (lenDummy.h == 5) {
+      // =5h => 10 hcp
+      if (hcpDummy.total < 10) {
+         camp = SKIP_BY_RESP;
+         return ORDER_BASE + 4;
+      }
+   } else if (hcpDummy.total > 9) {
+      // =6h => 8-9 hcp
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 5;
+   }
+#endif
+
+   // partner: passss
+   twLengths lenPart(partner);
+   if (lenPart.s > 6 ||
+      lenPart.h > 6 ||
+      lenPart.d > 6 ||
+      lenPart.c > 6) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE; // no 7+ suits
+   }
+   twlHCP hcpPart(partner);
+   if (hcpPart.total > 11) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // no overcall
+   }
+   if (hcpPart.total > 7) {
+      if (lenPart.s > 4) {
+         camp = SKIP_BY_PART;
+         return ORDER_BASE + 2; // no overcall
+      }
+   }
+   if (hcpPart.total > 6) {
+      if (lenPart.s > 4) {
+         if (lenPart.c > 4 ||
+            lenPart.d > 4) {
+            camp = SKIP_BY_PART;
+            return ORDER_BASE + 3; // Michaels
+         }
+      }
+      if (lenPart.c > 4 && lenPart.d > 4) {
+         camp = SKIP_BY_PART;
+         return ORDER_BASE + 4; // Michaels
+      }
+      if (lenPart.s > 5 && hcpPart.s > 5 ||
+         lenPart.d > 5 && hcpPart.d > 5 ||
+         lenPart.c > 5 && hcpPart.c > 5) {
+         camp = SKIP_BY_PART;
+         return ORDER_BASE + 5; // no overcall
+      }
+   }
+
+   // RHO: 1c, 1NT, 2NT
+   twlHCP hcpDecl(rho);
+   if (hcpDecl.total < 13 || 14 < hcpDecl.total) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 1;
+   }
+   twLengths lenDecl(rho);
+   if (lenDecl.s > 4 ||
+      lenDecl.d > 5 ||
+      lenDecl.c > 5) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 3;// kind of NT, allow 4 spades
+   }
+   if (lenDecl.s < 2 ||
+      lenDecl.d < 2 ||
+      lenDecl.c < 2) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 4;// kind of NT
+   }
+   if (lenDecl.s == 4) {
+      if (hcpDecl.s > 1) {
+         camp = SKIP_BY_OPP;
+         return ORDER_BASE + 5;// allow only weak 4s
+      }
+   }
+
+#ifdef OPINION_BASHA
+   // always three aces, always 3h
+   if (lenDecl.h != 3) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 2;
+   }
+   twlControls ctrDecl(rho);
+   if (ctrDecl.s < 2 ||
+       ctrDecl.d < 2 ||
+       ctrDecl.c < 2) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 5;
+   }
+#else // end OPINION
+   if (lenDecl.h != 2) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 2;
+   }
+   if (hcpDecl.h < 2) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 5;
+   }
+#endif
+
+   // seems it passes
+   return 0;
+}
+#endif // SEMANTIC_DEC21_DBL_ON_3NT

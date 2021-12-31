@@ -64,7 +64,7 @@ twlHCP::twlHCP(SplitBits &hand)
    // take 8 for aces, 4 for kings, 2 for queens, 1 for jacks
    u64 x =  hand.card.jo & 0xF000F000F000F000LL; 
 
-   // sub 4 for aces, 1 for kings
+   // subtract 4 for aces, 1 for kings
    u64 y = (hand.card.jo & 0x8000800080008000LL) >> 1;
    u64 z = (hand.card.jo & 0x4000400040004000LL) >> 2;
    x -= y + z; 
@@ -74,6 +74,20 @@ twlHCP::twlHCP(SplitBits &hand)
    h = (uint)((x & 0x0000F00000000000LL) >> (12 + 32));
    d = (uint)((x & 0x00000000F0000000LL) >> (12 + 16));
    c = (uint)((x & 0x000000000000F000LL) >>  12);
+   total = s + h + d + c;
+}
+
+
+twlControls::twlControls(SplitBits &hand)
+{
+   // take 2 for aces, 1 for kings
+   u64 x = hand.card.jo & 0xC000C000C000C000LL;
+
+   // fill out
+   s = (uint)((x & 0xF000000000000000LL) >> (14 + 48));
+   h = (uint)((x & 0x0000F00000000000LL) >> (14 + 32));
+   d = (uint)((x & 0x00000000F0000000LL) >> (14 + 16));
+   c = (uint)((x & 0x000000000000F000LL) >>  14);
    total = s + h + d + c;
 }
 
