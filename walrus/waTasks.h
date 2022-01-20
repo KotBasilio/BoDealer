@@ -14,6 +14,7 @@
 //#define SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS
 //#define SEMANTIC_APR_64_INVITE
 //#define SEMANTIC_SEPT_MANTICORA_14_16
+#define SEMANTIC_JAN_SPADES_GAME
 
 // Bidding decision competitive:
 //#define SEMANTIC_JULY_AUTO_FITO_PLANKTON
@@ -36,7 +37,7 @@
 //#define SEMANTIC_JUNE_LEAD_3343
 //#define SEMANTIC_AUG_LEAD_VS_3H
 //#define SEMANTIC_IMPS_LEAD_LEVKOVICH
-#define SEMANTIC_DEC21_DBL_ON_3NT
+//#define SEMANTIC_DEC21_DBL_ON_3NT
 
 // One hand tasks:
 //#define SEMANTIC_KEYCARDS_10_12
@@ -44,6 +45,7 @@
 
 // Personal opinions:
 //#define OPINION_BASHA
+#define ACCEPT_INVITE
 
 // -----------------------------------------------------------------
 // --- DESCRIPTIONS
@@ -233,7 +235,12 @@
 #ifdef SEMANTIC_AUG_MULTI_VUL
 	#define TITLE_VERSION  "Fix a 15 hcp;\n....s\nQuestion: partscore or a game? v2.0"
 	#define SEEK_BIDDING_LEVEL
-#endif // SEMANTIC_AUG_MULTI_VUL
+#endif
+
+#ifdef SEMANTIC_JAN_SPADES_GAME
+   #define TITLE_VERSION  "Fix an 8 hcp, part 14-16;\n....s\nQuestion: partscore or a game? v2.0"
+   #define SEEK_BIDDING_LEVEL
+#endif
 
 #ifdef SEMANTIC_DEC_ACCEPT_TO_4S
    #define TITLE_VERSION  "Fix 4441 13 hcp;\n(p)-p-(1d)-X\n(3d)-3s-(p)-??\nQuestion: partscore or a game? v2.0"
@@ -334,9 +341,9 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
    //const uint MAX_ITERATION = 3001000000;// 3 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 2001000000;// 2 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
-   const uint MAX_ITERATION = 501000000;// half of mlrd
+   //const uint MAX_ITERATION = 501000000;// half of mlrd
    //const uint MAX_ITERATION = 330000000;// third of mlrd
-   //const uint MAX_ITERATION = 251000000;// quarter mlrd
+   const uint MAX_ITERATION = 251000000;// quarter mlrd
    //const uint MAX_ITERATION = 101000000;// 101 mln
    //const uint MAX_ITERATION = 12000000;// 12 mln
    const uint MAX_TASKS_TO_SOLVE = 4*1000*1000;

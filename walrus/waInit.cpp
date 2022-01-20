@@ -251,6 +251,19 @@ uint multi_vul[DDS_HANDS][DDS_SUITS] =
 };
 #endif // SEMANTIC_AUG_MULTI_VUL
 
+#ifdef SEMANTIC_JAN_SPADES_GAME
+#define INPUT_HOLDINGS  spades_nv
+#define INPUT_TRUMPS    SOL_SPADES
+#define INPUT_ON_LEAD   WEST
+uint spades_nv[DDS_HANDS][DDS_SUITS] =
+{ // North                    East        South       West
+   { RK | RQ | RJ | RT | R9 | R8,   0,     0,         0  } , // spades
+   { R7 | R5 | R3,                  0,     0,         0  } , // hearts
+   { R6  ,                          0,     0,         0  } , // diamonds
+   { RQ | R7 | R4,                  0,     0,         0  }   // clubs
+};
+#endif // SEMANTIC_JAN_SPADES_GAME
+
 #ifdef SEMANTIC_AUG_SPLIT_FIT
 #define INPUT_HOLDINGS  holdings_aug_split_fit
 #define INPUT_TRUMPS    SOL_SPADES

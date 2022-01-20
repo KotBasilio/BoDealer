@@ -1214,7 +1214,7 @@ uint WaFilter::SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits
       lenPart.d > 4 ||
       lenPart.c > 5) {
       camp = SKIP_BY_PART;
-      return ORDER_BASE + 1; // wrong points count
+      return ORDER_BASE + 1; // kind of NT
    }
    if (lenPart.s < 2 ||
       lenPart.h < 2 ||
@@ -1875,3 +1875,93 @@ uint WaFilter::Dec21Dbl3NT(SplitBits &partner, uint &camp, SplitBits &lho, Split
    return 0;
 }
 #endif // SEMANTIC_DEC21_DBL_ON_3NT
+
+#ifdef SEMANTIC_JAN_SPADES_GAME
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &WaFilter::JanSpadesGame;
+   sem.onScoring = &Walrus::Score_NV_4Major;
+}
+
+uint WaFilter::JanSpadesGame(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_RESP = 2;
+   const uint SKIP_BY_OPP = 3;
+
+   twlHCP hcpPart(partner);
+   twLengths lenPart(partner);
+#ifdef ACCEPT_INVITE
+   if (hcpPart.total < 15 || 16 < hcpPart.total) {// 1c 14-16
+      camp = SKIP_BY_PART;
+      return ORDER_BASE; // 
+   }
+   if ((lenPart.s < 4) && (hcpPart.total == 15)) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 3;// 
+   }
+#else // ACCEPT_INVITE
+   if (hcpPart.total < 14 || 15 < hcpPart.total) {// 1c 14-16
+      camp = SKIP_BY_PART;
+      return ORDER_BASE; // wrong points count
+   }
+   if ((lenPart.s == 4) && (hcpPart.total == 15)) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 3;// would accept invitation
+   }
+#endif // ACCEPT_INVITE
+   if (lenPart.s > 4 ||
+      lenPart.h > 4 ||
+      lenPart.d > 5 ||
+      lenPart.c > 5) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // kind of NT
+   }
+   if (lenPart.s < 2 ||
+      lenPart.h < 2 ||
+      lenPart.d < 2 ||
+      lenPart.c < 2) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 2;// kind of NT
+   }
+
+   twlHCP hcpOpp(rho);
+   if (hcpOpp.total < 8 || 15 < hcpOpp.total) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 2; // wrong points count, bid h
+   }
+   twLengths lenOpp(rho);
+   if (lenOpp.s > 4 ||
+      lenOpp.d > 5 ||
+      lenOpp.c > 5) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 1; // allow only 5-5 with a minor
+   }
+   if (lenOpp.h < 5 || 6 < lenOpp.h) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 3; // bid 1h
+   }
+   if (lenOpp.h == 6 && hcpOpp.total < 11) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 4; // would bid 2h
+   }
+
+   twlHCP hcpResp(lho);
+   twLengths lenResp(lho);
+   if (lenResp.h > 3 && hcpResp.total > 2) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE; // wrong points count, bid h
+   }
+   if (lenResp.s > 6 ||
+      lenResp.d > 6 ||
+      lenResp.c > 6) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // no 7+ suits
+   }
+
+   // seems it passes
+   return 0;
+}
+#endif // SEMANTIC_JAN_SPADES_GAME
