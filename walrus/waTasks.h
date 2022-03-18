@@ -14,7 +14,8 @@
 //#define SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS
 //#define SEMANTIC_APR_64_INVITE
 //#define SEMANTIC_SEPT_MANTICORA_14_16
-#define SEMANTIC_JAN_SPADES_GAME
+//#define SEMANTIC_JAN_SPADES_GAME
+#define SEMANTIC_MORO_SLAM
 
 // Bidding decision competitive:
 //#define SEMANTIC_JULY_AUTO_FITO_PLANKTON
@@ -148,6 +149,12 @@
 #define TITLE_VERSION  "Fix a 2263 16 hcp;\n 1NT - ??\nQuestion: a game or a slam? v2.0"
 #define SEEK_BIDDING_LEVEL
 #endif // SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS
+
+// ---
+#ifdef SEMANTIC_MORO_SLAM
+#define TITLE_VERSION  "Fix a 1174 13 hcp;\n 1d - 1s\n3d - 3NT\n??\nQuestion: pass here or a slam? v2.0"
+#define SEEK_BIDDING_LEVEL
+#endif // SEMANTIC_MORO_SLAM
 
 // ---
 #ifdef SEMANTIC_SEPT_MAJORS54_18HCP

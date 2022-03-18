@@ -154,6 +154,22 @@ uint slamOnDiamonds[DDS_HANDS][DDS_SUITS] =
 };
 #endif // SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS
 
+#ifdef SEMANTIC_MORO_SLAM
+// origin: whatsapp chat
+#define INPUT_HOLDINGS  slamOnDiamonds
+//#define INPUT_TRUMPS    SOL_NOTRUMP
+//#define INPUT_ON_LEAD   WEST
+#define INPUT_TRUMPS    SOL_DIAMONDS
+#define INPUT_ON_LEAD   EAST
+uint slamOnDiamonds[DDS_HANDS][DDS_SUITS] =
+{ // North                         East        South       West
+   { RA,                      0,          0,         0  } , // spades
+   { R8,                      0,          0,         0  } , // hearts
+   { RA | RQ | R8 | R9 | R7 | R3 | R2 , 0,          0,         0  } , // diamonds
+   { RK | R8 | R5 | R2,                 0,          0,         0  }   // clubs
+};
+#endif // SEMANTIC_MORO_SLAM
+
 #ifdef SEMANTIC_SEPT_MANTICORA_14_16
 // origin: home match
 #define INPUT_HOLDINGS  sash_hand

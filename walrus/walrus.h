@@ -134,12 +134,14 @@ protected:
        void OurNV4MX     (uint tricks);
        void Our5M        (uint tricks);
        void OurNV5M      (uint tricks);
+       void OurNV5minor  (uint tricks);
     } cumulScore;
     void Score_4Major(DdsTricks &tr);
     void Score_NV_4Major(DdsTricks &tr);
     void Score_NV_Doubled4Major(DdsTricks &tr);
     void Score_5Major(DdsTricks &tr);
     void Score_NV_5Major(DdsTricks &tr);
+    void Score_NV_5Minor(DdsTricks &tr);
     void Score_3NT(DdsTricks &tr);
     void Score_2m(DdsTricks &tr);
     void Score_Doubled3NT(DdsTricks &tr);
