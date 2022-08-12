@@ -2061,3 +2061,83 @@ uint WaFilter::SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits
 }
 
 #endif // SEMANTIC_MORO_SLAM
+
+#ifdef SEMANTIC_AUG_3NT_ON_SPADE_FIT
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &WaFilter::Aug3NTOnFit;
+   //sem.onScoring = &Walrus::Score_NV_5Minor;
+   //sem.onScoring = &Walrus::Score_4Major;
+   sem.onScoring = &Walrus::Score_3NT;
+}
+
+uint WaFilter::Aug3NTOnFit(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_OPP = 2;
+   const uint SKIP_BY_RESP = 3;
+
+   // partner: 1c-1s-2s
+   twlHCP hcpPart(partner);
+   if (hcpPart.total < 17 || 18 < hcpPart.total) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE; // min strong on S
+   }
+   twLengths lenPart(partner);
+   if (lenPart.s < 6 || 7 < lenPart.s ||
+      lenPart.h > 3 ||
+      lenPart.d > 3 ||
+      lenPart.c > 3) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // no other longer
+   }
+
+   // RHO, LHO: passs
+   twLengths lenOpp(rho);
+   if (lenOpp.s > 6 ||
+      lenOpp.h > 6 ||
+      lenOpp.d > 6 ||
+      lenOpp.c > 6) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE; // no 7+
+   }
+   twLengths lenResp(lho);
+   if (lenResp.s > 6 ||
+      lenResp.h > 6 ||
+      lenResp.d > 6 ||
+      lenResp.c > 6) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 1; // no 7+
+   }
+
+   // two suiters
+   if (lenResp.s >= 5) {
+      if (lenResp.h > 5 ||
+         lenResp.c > 5) {
+         camp = SKIP_BY_OPP;
+         return ORDER_BASE + 2; // no two-suiters
+      }
+   }
+   else if (lenResp.h + lenResp.c > 9) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 2; // no two-suiters
+   }
+   if (lenOpp.s >= 5) {
+      if (lenOpp.h > 5 ||
+         lenOpp.c > 5) {
+         camp = SKIP_BY_RESP;
+         return ORDER_BASE + 2; // no two-suiters
+      }
+   }
+   else if (lenOpp.h + lenOpp.c > 9) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 2; // no two-suiters
+   }
+
+   // seems it passes
+   return 0;
+}
+#endif // SEMANTIC_AUG_3NT_ON_SPADE_FIT
+

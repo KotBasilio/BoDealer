@@ -24,6 +24,21 @@
 
  // --------------------------------------------------------------------------------
  // input
+#ifdef SEMANTIC_AUG_3NT_ON_SPADE_FIT
+// origin: gambler 11.08.2022
+#define INPUT_HOLDINGS  max_gambler
+uint max_gambler[DDS_HANDS][DDS_SUITS] =
+{ // North                         East        South       West
+   { R9 | R6 ,                      0,          0,         0  } , // spades
+   { RK | RQ | R9 | R5,                       0,          0,         0  } , // hearts
+   { RT | R8 | R3 | R2 ,                 0,          0,         0  } , // diamonds
+   { RA | R8 | R7 ,  0,          0,         0  }   // clubs
+};
+//#define INPUT_TRUMPS    SOL_SPADES
+#define INPUT_TRUMPS    SOL_NOTRUMP
+#define INPUT_ON_LEAD   EAST
+#endif
+
 #ifdef SEMANTIC_MIXED_PREVENTIVE_4S
 // origin: https://bridgemoscow.ru/tournaments/results/r21pmx/r21pmxd34p.htm
 #define INPUT_HOLDINGS  mixed_preventive
@@ -37,6 +52,7 @@ uint mixed_preventive[DDS_HANDS][DDS_SUITS] =
 #define INPUT_TRUMPS    SOL_SPADES
 #define INPUT_ON_LEAD   EAST
 #endif // SEMANTIC_MIXED_PREVENTIVE_4S
+
 
 #ifdef SEMANTIC_MIXED_2D_WITH_MAJOR
 // origin: june

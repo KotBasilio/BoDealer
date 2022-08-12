@@ -146,7 +146,8 @@ public:
 
    // Bidding decision one-sided:
    uint R55(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint AugMultiVul(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint AugMultiVul(SplitBits& partner, uint& camp, SplitBits& lho, SplitBits& rho);
+   uint Aug3NTOnFit(SplitBits& partner, uint& camp, SplitBits& lho, SplitBits& rho);
    uint JanSpadesGame(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint SeptMajors(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho);
