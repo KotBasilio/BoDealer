@@ -6,4 +6,5 @@
 /sln/Bo/x64/*
 *.o
 *.d
+/sln/Bo/.vs/*
 
