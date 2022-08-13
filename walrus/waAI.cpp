@@ -400,14 +400,14 @@ void Walrus::HandleDDSFail(int res)
 
 void Walrus::HandleSolvedBoard(DdsTricks &tr, deal &cards, futureTricks &fut)
 {
-   // cater for unplayable boards
-   bool intactScore = true;
+   // cater for unplayable boards -- we change board result on some percentage boards
+   bool isDecimated = false;
    #ifdef UNPLAYABLE_ONE_OF
    if (tr.plainScore == ui.irBase) {
       static int cycleCatering = UNPLAYABLE_ONE_OF;
       if (0 == --cycleCatering) {
          tr.plainScore--;
-         intactScore = false;
+         isDecimated = true;
          cycleCatering = UNPLAYABLE_ONE_OF;
       }
    }
@@ -416,18 +416,18 @@ void Walrus::HandleSolvedBoard(DdsTricks &tr, deal &cards, futureTricks &fut)
    // score and add to statistic
    (this->*sem.onScoring)(tr);
 
-   // intact => run mini-UI to show boards on console
-   if (intactScore) {
+   // results are intact => run mini-UI to show boards on console
+   if (!isDecimated) {
       Orb_Interrogate(tr, cards, fut);
    }
 }
 
-void Walrus::SolveOneChunk(deal &dlBase, boards &bo, uint ofs, uint step)
+void Walrus::SolveOneChunk(deal& dlBase, boards& bo, uint ofs, uint step)
 {
    bo.noOfBoards = (int)step;
 
    // refill & copy all deals
-   for (int i = 0; i < bo.noOfBoards ; i++) {
+   for (int i = 0; i < bo.noOfBoards; i++) {
       DdsDeal dl(dlBase, mul.arrToSolve[ofs + i]);
       bo.deals[i] = dl.dl;
       bo.target[i] = -1;
@@ -440,14 +440,23 @@ void Walrus::SolveOneChunk(deal &dlBase, boards &bo, uint ofs, uint step)
    int res = SolveAllBoardsN(bo, solved);
    HandleDDSFail(res);
 
-   // handle all solved
+   // read user commands
    ui.Run();
+
+   // relay
+   HandleSolvedChunk(bo, solved);
+}
+
+void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
+{
+   // pass to statistics
    for (int handno = 0; handno < solved.noOfBoards; handno++) {
       futureTricks &fut = solved.solvedBoard[handno];
       DdsTricks tr; tr.Init(fut);
       HandleSolvedBoard(tr, bo.deals[handno], fut);
    }
 
+   // may do something else with the same set of boards
    // may score their contract
    #ifdef SCORE_OPP_CONTRACT
    {
@@ -464,5 +473,7 @@ void Walrus::SolveOneChunk(deal &dlBase, boards &bo, uint ofs, uint step)
      }
    }
    #endif // SCORE_OPP_CONTRACT
+
+   // may seek magic fly 
 }
 

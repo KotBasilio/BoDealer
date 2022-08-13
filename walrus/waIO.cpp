@@ -47,14 +47,16 @@ bool Walrus::LoadInitialStatistics(const char *fname)
    for (int i = 3; i < MINI_ROWS; i++) {
       sprintf(miniRowStart[i], "     (%4d): ", i);
    }
+
+   // may rewrite some lines
    #ifdef SHOW_OPP_RESULTS
    {
-      sprintf(miniRowStart[ 0], "  (we down): ");
-      sprintf(miniRowStart[ 1], "  (we make): ");
-      sprintf(miniRowStart[10], "  (op down): ");
-      sprintf(miniRowStart[11], "  (op make): ");
-      sprintf(miniRowStart[12], "  (-------): ");
-      }
+      sprintf(miniRowStart[IO_ROW_OUR_DOWN], "  (we down): ");
+      sprintf(miniRowStart[IO_ROW_OUR_MADE], "  (we make): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS+0], "  (op down): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS+1], "  (op make): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS+2], "  (-------): ");
+   }
    #endif
 
    return true;

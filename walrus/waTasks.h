@@ -268,6 +268,7 @@
 
 #ifdef SCORE_OPP_CONTRACT
    #define SHOW_OPP_RESULTS
+   #define RE_SOLVE_HANDLED_CHUNK
 #endif
 
 #ifndef SHOW_OPP_RESULTS
@@ -345,8 +346,8 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
 // --- Iterations count
 #ifdef _DEBUG
    //const uint MAX_ITERATION = 20*1000000;// 20 mln 
-   //const uint MAX_ITERATION = 1000000;// 1 mln 
-   const uint MAX_ITERATION = 100000;// 0.1 mln
+   const uint MAX_ITERATION = 1000000;// 1 mln 
+   //const uint MAX_ITERATION = 100000;// 0.1 mln
    //const uint MAX_ITERATION = 10000;
    const uint MAX_TASKS_TO_SOLVE = 10240;
    #define SKIP_HELPERS

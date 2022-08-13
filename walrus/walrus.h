@@ -68,6 +68,7 @@ protected:
     void SolveOneByOne(struct deal &dlBase);
     void SolveInChunks(struct deal &dlBase);
     void SolveOneChunk(struct deal &dlBase, struct boards &bo, uint i, uint step);
+    void HandleSolvedChunk(struct boards& bo, struct solvedBoards& chunk);
     void HandleSolvedBoard(DdsTricks &tr, deal &cards, futureTricks &fut);
     void HandleDDSFail(int res);
 
