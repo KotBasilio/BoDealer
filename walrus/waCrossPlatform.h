@@ -59,4 +59,14 @@ int kbhit(void);
 
 #endif // platforms
 
+#include <stdio.h> // printf
+
+// -----------------------------------------------------------------
+// --- common types
+typedef unsigned char UCHAR;
+typedef unsigned short int u16;
+typedef unsigned int uint;
+typedef unsigned long long u64;
+typedef signed long long s64;
+
 #endif //WALRUS_CROSS_PFM

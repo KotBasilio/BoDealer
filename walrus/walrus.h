@@ -4,6 +4,7 @@
  ************************************************************/
 #include "waCrossPlatform.h"
 #include "waTasks.h"
+#include "waLayout.h"
 #include "waSemantic.h"
 #include "waAI.h"
 

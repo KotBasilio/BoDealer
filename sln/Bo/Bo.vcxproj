@@ -190,9 +190,14 @@
     <ClInclude Include="..\..\dds-develop\src\TransTableS.h" />
     <ClInclude Include="..\..\walrus\waAI.h" />
     <ClInclude Include="..\..\walrus\waCrossPlatform.h" />
+    <ClInclude Include="..\..\walrus\waDerived.h" />
+    <ClInclude Include="..\..\walrus\waLayout.h" />
     <ClInclude Include="..\..\walrus\walrus.h" />
     <ClInclude Include="..\..\walrus\waSemantic.h" />
     <ClInclude Include="..\..\walrus\waTasks.h" />
+    <ClInclude Include="..\..\walrus\waTCompetitive.h" />
+    <ClInclude Include="..\..\walrus\waTLead.h" />
+    <ClInclude Include="..\..\walrus\waTOneSided.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\dds-develop\src\COMMENT" />
