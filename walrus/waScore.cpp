@@ -77,11 +77,18 @@ void Walrus::Score_MagicFly(DdsTricks& tr)
 
 void Walrus::NoticeMagicFly(uint trickSuit, uint tricksNT)
 {
-   if (tricksNT >= trickSuit) {
-      progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_PREFER_NT]++;
-   } else {
+   if (tricksNT > trickSuit) {
+      progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_MORE_NT]++;
+   }
+   else if (tricksNT == trickSuit) {
+      progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_SAME_NT]++;
+   }
+   else {
       progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_PREFER_SUIT]++;
    }
+
+   // etxra marks: one for 3NT result, and one for the fly
+   progress.countExtraMarks += 2;
 }
 
 void Walrus::Score_Doubled3NT(DdsTricks &tr)
@@ -117,7 +124,7 @@ void Walrus::Score_Opp4MajorDoubled(DdsTricks& tr)
 {
    // store their hits
    HitByScore(tr, 10, IO_ROW_THEIRS);
-   progress.countOppContractMarks++;
+   progress.countExtraMarks++;
 
    // store their cumulative score
    cumulScore.Opp_NV_4MajX(cumulScore.oppCtrDoubled, tr.plainScore);
@@ -126,7 +133,7 @@ void Walrus::Score_Opp4MajorDoubled(DdsTricks& tr)
 void Walrus::Score_Opp4Major(DdsTricks &tr)
 {
    HitByScore(tr, 10, IO_ROW_THEIRS);
-   progress.countOppContractMarks++;
+   progress.countExtraMarks++;
    cumulScore.Opp_4M(cumulScore.oppContract, tr.plainScore);
 }
 

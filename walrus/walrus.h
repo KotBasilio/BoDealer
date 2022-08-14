@@ -167,7 +167,7 @@ protected:
        Progress();
        uint hitsCount[HCP_SIZE][CTRL_SIZE];
        uint step, went, margin;
-       uint countOppContractMarks;
+       uint countExtraMarks;
        void Init(uint _step);
        bool Step();
        void Up(uint idx);
@@ -175,7 +175,7 @@ protected:
     struct MiniUI {
        bool  exitRequested;
        bool  firstAutoShow;
-       int   irGoal, irBase;
+       int   irGoal, irBase, irFly;
        char  declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10];
        MiniUI();
        void Run();

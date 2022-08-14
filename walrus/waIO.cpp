@@ -40,30 +40,30 @@ bool Walrus::LoadInitialStatistics(const char *fname)
 
    // init lines in mini-report
    {
-      sprintf(miniRowStart[ 0], "      (down): ");
-      sprintf(miniRowStart[ 1], "      (make): ");
-      sprintf(miniRowStart[ 2], "      (----): ");
+      sprintf(miniRowStart[ 0], "       (down): ");
+      sprintf(miniRowStart[ 1], "       (make): ");
+      sprintf(miniRowStart[ 2], "       (----): ");
    }
    for (int i = 3; i < MINI_ROWS; i++) {
-      sprintf(miniRowStart[i], "      (%4d): ", i);
+      sprintf(miniRowStart[i], "       (%4d): ", i);
    }
 
    // may rewrite some lines
    #ifdef SHOW_OPP_RESULTS
    {
-      sprintf(miniRowStart[IO_ROW_OUR_DOWN], "   (we down): ");
-      sprintf(miniRowStart[IO_ROW_OUR_MADE], "   (we make): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS+0], "  (opp down): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS+1], "  (opp make): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS+2], "  (--------): ");
+      sprintf(miniRowStart[IO_ROW_OUR_DOWN], "    (we down): ");
+      sprintf(miniRowStart[IO_ROW_OUR_MADE], "    (we make): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS+0], "   (opp down): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS+1], "   (opp make): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS+2], "   (--------): ");
    }
    #endif
 
    #ifdef SHOW_MY_FLY_RESULTS
    {
-      sprintf(miniRowStart[IO_ROW_THEIRS + 0], "  (3NT down): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS + 1], "  (3NT make): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS + 2], "  (NT  suit): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS + 0], "   (3NT down): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS + 1], "   (3NT make): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS + 2], "less, =, more: ");
    }
    #endif // SHOW_MY_FLY_RESULTS
 
@@ -250,7 +250,8 @@ void Walrus::MiniReport(uint toGo)
 
    // magic fly
 #ifdef SHOW_MY_FLY_RESULTS
-   uint sumNT = progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_PREFER_NT];
+   uint sumNT   = progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_MORE_NT] +
+                  progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_SAME_NT];
    uint sumSuit = progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_PREFER_SUIT];
    sumRows = __max(sumNT + sumSuit, 1);
    float percBetterNT = sumNT * 100.f / sumRows;
@@ -271,7 +272,7 @@ void Walrus::MiniReport(uint toGo)
 
 void Walrus::ReportState(char *header)
 {
-   uint bookman = mul.countIterations + progress.countOppContractMarks;
+   uint bookman = mul.countIterations + progress.countExtraMarks;
 
    OUT_BIG_TABLE("%s", header);
    for (int i = 0; i < HCP_SIZE; i++) {

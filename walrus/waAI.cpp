@@ -195,7 +195,7 @@ void Walrus::SolveOneByOne(deal &dlBase)
 }
 
 Walrus::Progress::Progress()
-   : countOppContractMarks(0)
+   : countExtraMarks(0)
 {
 }
 
@@ -319,6 +319,8 @@ void Walrus::MiniUI::Run()
 {
    // see interrogation command
    if (PLATFORM_KBHIT()) {
+      irFly = IO_CAMP_OFF;
+
       auto inchar = PLATFORM_GETCH();
       switch (inchar) {
          // just made
@@ -340,6 +342,13 @@ void Walrus::MiniUI::Run()
          case 'u': irGoal = irBase - 7;  break;
          case 'i': irGoal = irBase - 8;  break;
 
+         // comparison
+         #ifdef SEEK_MAGIC_FLY
+            case '=': irGoal = irBase; irFly = IO_CAMP_SAME_NT; break;
+            case '[': irGoal = irBase; irFly = IO_CAMP_PREFER_SUIT; break;
+            case ']': irGoal = irBase; irFly = IO_CAMP_MORE_NT; break;
+         #endif 
+
          // exit
          case 'x':
             exitRequested = true;
@@ -347,7 +356,19 @@ void Walrus::MiniUI::Run()
       }
 
       if (irGoal) {
-         printf("\nSeek %d tricks board by %s in %s ... ", irGoal, declSeat, declTrump);
+         printf("\nSeek %d tricks board by %s in %s ", irGoal, declSeat, declTrump);
+         switch (irFly) {
+            case IO_CAMP_MORE_NT:
+               printf("where NT gives more tricks ");
+               break;
+            case IO_CAMP_SAME_NT:
+               printf("where NT gives the same number of tricks ");
+               break;
+            case IO_CAMP_PREFER_SUIT:
+               printf("where NT gives less tricks ");
+               break;
+         }
+         printf("... ");
       } else if (!exitRequested) {
          printf("\nCommand '%c' is ignored...", inchar);
       }

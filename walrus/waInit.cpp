@@ -614,6 +614,7 @@ Walrus::MiniUI::MiniUI()
    , firstAutoShow(true)
    , irGoal(0)
    , irBase(0)
+   , irFly(0)
 {
 }
 
