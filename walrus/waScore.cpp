@@ -70,6 +70,20 @@ void Walrus::Score_3NT(DdsTricks& tr)
    cumulScore.Our3NT(tr.plainScore);
 }
 
+void Walrus::Score_MagicFly(DdsTricks& tr)
+{
+   HitByScore(tr, 9, IO_ROW_THEIRS);
+}
+
+void Walrus::NoticeMagicFly(uint trickSuit, uint tricksNT)
+{
+   if (tricksNT >= trickSuit) {
+      progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_PREFER_NT]++;
+   } else {
+      progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_PREFER_SUIT]++;
+   }
+}
+
 void Walrus::Score_Doubled3NT(DdsTricks &tr)
 {
    // hits
@@ -89,7 +103,7 @@ void Walrus::Score_2m(DdsTricks &tr)
 #ifdef SHOW_OPP_RESULTS
    cumulScore.Opp_2m(cumulScore.oppContract, tr.plainScore);
    cumulScore.Opp_2mX(cumulScore.oppCtrDoubled, tr.plainScore);
-#endif // SEEK_DECISION_OVER_DOUBLE
+#endif 
 }
 
 void Walrus::Score_Opp3MajorDoubled(DdsTricks& tr)

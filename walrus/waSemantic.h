@@ -7,6 +7,9 @@
 const uint IO_ROW_OUR_DOWN = 0;
 const uint IO_ROW_OUR_MADE = IO_ROW_OUR_DOWN + 1;
 const uint IO_ROW_THEIRS = 10;
+const uint IO_ROW_MYFLY = 12;
+const uint IO_CAMP_PREFER_NT = 0;
+const uint IO_CAMP_PREFER_SUIT = 1;
 
 // all cards + flip over 12 cards
 const uint FLIP_OVER_SIZE = 12;

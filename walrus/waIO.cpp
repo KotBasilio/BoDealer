@@ -59,6 +59,14 @@ bool Walrus::LoadInitialStatistics(const char *fname)
    }
    #endif
 
+   #ifdef SHOW_MY_FLY_RESULTS
+   {
+      sprintf(miniRowStart[IO_ROW_THEIRS + 0], "  (3NT down): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS + 1], "  (3NT make): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS + 2], "  (NT  suit): ");
+   }
+   #endif // SHOW_MY_FLY_RESULTS
+
    return true;
 }
 
@@ -97,7 +105,7 @@ void Walrus::BuildFileNames(void)
 static bool IsRowSkippable(int i)
 {
    // opp res => only middle is skippable
-   #ifdef SHOW_OPP_RESULTS
+   #if defined(SHOW_OPP_RESULTS) || defined (SHOW_MY_FLY_RESULTS)
       return IO_ROW_OUR_MADE + 1 < i && i < IO_ROW_THEIRS;
    #endif
 
@@ -220,7 +228,7 @@ void Walrus::MiniReport(uint toGo)
          cumulScore.oppCtrDoubled / sumOppRows);
    #endif // SHOW_OPPS_ON_PASS
    printf(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows);
-#endif // SCORE_OPP_CONTRACT
+#endif 
 
 #ifdef SEEK_OPENING_LEAD
    printf("Averages: ideal = %lld, lead Spade = %lld, lead Hearts = %lld, lead Diamonds = %lld, lead Clubs = %lld\n",
@@ -239,6 +247,15 @@ void Walrus::MiniReport(uint toGo)
    printf("Keycards: 0->%3.1f%%  1->%3.1f%%  2->%3.1f%%  3->%3.1f%%\n",
       key0, key1, key2, key3);
 #endif // SEMANTIC_KEYCARDS_10_12
+
+   // magic fly
+#ifdef SHOW_MY_FLY_RESULTS
+   uint sumNT = progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_PREFER_NT];
+   uint sumSuit = progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_PREFER_SUIT];
+   sumRows = __max(sumNT + sumSuit, 1);
+   float percBetterNT = sumNT * 100.f / sumRows;
+   printf("NT is better in: %3.1f%% cases\n", percBetterNT);
+#endif // SHOW_MY_FLY_RESULTS
 
    if (toGo) {
       printf("Yet more %u to go:", toGo);

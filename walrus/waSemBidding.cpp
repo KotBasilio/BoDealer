@@ -251,7 +251,7 @@ void Walrus::FillSemantic(void)
    Orb_FillSem();
    sem.onFilter = &WaFilter::NovSlam;
    sem.onScoring = &Walrus::Score_NV6Minor;
-   sem.onOppContract = &Walrus::Score_Opp4MajorDoubled;
+   sem.onSolvedTwice = &Walrus::Score_Opp4MajorDoubled;
 }
 
 // OUT: camp
@@ -343,7 +343,7 @@ void Walrus::FillSemantic(void)
    Orb_FillSem();
    sem.onFilter = &WaFilter::FitoJuly;
    sem.onScoring = &Walrus::Score_4Major;
-   sem.onOppContract = &Walrus::Score_Opp3MajorDoubled;
+   sem.onSolvedTwice = &Walrus::Score_Opp3MajorDoubled;
 }
 
 // OUT: camp
@@ -965,7 +965,7 @@ void Walrus::FillSemantic(void)
    Orb_FillSem();
    sem.onFilter = &WaFilter::DecTopHearts;
    sem.onScoring = &Walrus::Score_NV_5Major;
-   sem.onOppContract = &Walrus::Score_Opp4MajorDoubled;
+   sem.onSolvedTwice = &Walrus::Score_Opp4MajorDoubled;
 }
 
 // OUT: camp
@@ -1348,7 +1348,7 @@ void Walrus::FillSemantic(void)
    Orb_FillSem();
    sem.onFilter = &WaFilter::FebManyHearts;
    sem.onScoring = &Walrus::Score_5Major;
-   sem.onOppContract = &Walrus::Score_Opp4MajorDoubled;
+   sem.onSolvedTwice = &Walrus::Score_Opp4MajorDoubled;
 }
 
 // OUT: camp
@@ -1440,7 +1440,7 @@ void Walrus::FillSemantic(void)
    Orb_FillSem();
    sem.onFilter = &WaFilter::MixedPreventive;
    sem.onScoring = &Walrus::Score_NV_Doubled4Major;
-   sem.onOppContract = &Walrus::Score_Opp4Major;
+   sem.onSolvedTwice = &Walrus::Score_Opp4Major;
 }
 
 // OUT: camp
@@ -2067,9 +2067,7 @@ void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
    sem.onFilter = &WaFilter::Aug3NTOnFit;
-   //sem.onScoring = &Walrus::Score_NV_5Minor;
-   //sem.onScoring = &Walrus::Score_4Major;
-   sem.onScoring = &Walrus::Score_3NT;
+   sem.onScoring = &Walrus::Score_4Major;
 }
 
 uint WaFilter::Aug3NTOnFit(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho)

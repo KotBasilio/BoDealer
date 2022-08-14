@@ -71,6 +71,7 @@ protected:
     void SolveOneChunk(struct deal &dlBase, struct boards &bo, uint i, uint step);
     void HandleSolvedChunk(struct boards& bo, struct solvedBoards& chunk);
     void HandleSolvedBoard(DdsTricks &tr, deal &cards, futureTricks &fut);
+    void NoticeMagicFly(uint trickSuit, uint tricksNT);
     void HandleDDSFail(int res);
 
     // multi-thread
@@ -97,7 +98,7 @@ protected:
        SemFilterOut onFilter;
        SemFuncType  fillFlipover;
        SemScoring   onScoring;
-       SemScoring   onOppContract;
+       SemScoring   onSolvedTwice;
        SemFuncType  onAfterMath;
        uint scanCover; // how much iterations covers one scan
        Semantics();
@@ -145,6 +146,7 @@ protected:
     void Score_NV_5Major(DdsTricks &tr);
     void Score_NV_5Minor(DdsTricks &tr);
     void Score_3NT(DdsTricks &tr);
+    void Score_MagicFly(DdsTricks& tr);
     void Score_2m(DdsTricks &tr);
     void Score_Doubled3NT(DdsTricks &tr);
     void Score_NV6Major(DdsTricks &tr);

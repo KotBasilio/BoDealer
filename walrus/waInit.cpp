@@ -34,8 +34,7 @@ uint max_gambler[DDS_HANDS][DDS_SUITS] =
    { RT | R8 | R3 | R2 ,                 0,          0,         0  } , // diamonds
    { RA | R8 | R7 ,  0,          0,         0  }   // clubs
 };
-//#define INPUT_TRUMPS    SOL_SPADES
-#define INPUT_TRUMPS    SOL_NOTRUMP
+#define INPUT_TRUMPS    SOL_SPADES
 #define INPUT_ON_LEAD   EAST
 #endif
 
@@ -658,9 +657,12 @@ Walrus::Semantics::Semantics()
    , onAfterMath  (&Walrus::NOP) 
    , onFilter     (&WaFilter::RejectAll) 
    , onScoring    (&Walrus::VoidScoring)
-   , onOppContract(&Walrus::VoidScoring)
+   , onSolvedTwice(&Walrus::VoidScoring)
    , scanCover(ACTUAL_CARDS_COUNT)
 {
+#ifdef SEEK_MAGIC_FLY
+   onSolvedTwice = &Walrus::Score_MagicFly;
+#endif // SEEK_MAGIC_FLY
 }
 
 void Walrus::InitDeck(void)

@@ -460,27 +460,30 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
       HandleSolvedBoard(tr, bo.deals[handno], fut);
    }
 
-   // may do something else with the same set of boards
-   #ifdef SOLVE_TWICE_HANDLED_CHUNK
-      for (int i = 0; i < bo.noOfBoards; i++) {
-         bo.deals[i].trump = TWICE_TRUMPS;
-         bo.deals[i].first = TWICE_ON_LEAD;
-      }
-      int res = SolveAllBoardsN(bo, solved);
-      HandleDDSFail(res);
-   #endif // SOLVE_TWICE_HANDLED_CHUNK
+   // ensure we do something else with the same set of boards
+   #ifndef SOLVE_TWICE_HANDLED_CHUNK
+      return;
+   #endif
 
-   // may score their contract
-   #ifdef SCORE_OPP_CONTRACT
-   {
-     for (int handno = 0; handno < solved.noOfBoards; handno++) {
-       DdsTricks tr;
-       tr.Init(solved.solvedBoard[handno]);
-       (this->*sem.onOppContract)(tr);
-     }
+   // solve second time
+   solvedBoards twice;
+   for (int i = 0; i < bo.noOfBoards; i++) {
+      bo.deals[i].trump = TWICE_TRUMPS;
+      bo.deals[i].first = TWICE_ON_LEAD;
    }
-   #endif // SCORE_OPP_CONTRACT
+   int res = SolveAllBoardsN(bo, twice);
+   HandleDDSFail(res);
 
-   // may seek magic fly 
+   // score their contract or seek magic fly 
+   for (int handno = 0; handno < twice.noOfBoards; handno++) {
+      DdsTricks trTw;
+      trTw.Init(twice.solvedBoard[handno]);
+      (this->*sem.onSolvedTwice)(trTw);
+
+      #ifdef SEEK_MAGIC_FLY
+         DdsTricks tr; tr.Init(solved.solvedBoard[handno]);
+         NoticeMagicFly(tr.plainScore, trTw.plainScore);
+      #endif // SEEK_MAGIC_FLY
+   }
 }
 

@@ -4,7 +4,6 @@
 #ifdef SEMANTIC_MIXED_PREVENTIVE_4S
    #define TITLE_VERSION  "Fix some 2 hcp with 6331;\n1NT X 2h(trf) X\n2s(fit 3 or 4) 3h ??\nQuestion: 3s or 4s? Task"
    #define SEEK_BIDDING_LEVEL
-   #define SHOW_PARTSCORE_STATLINE
    #define SCORE_OPP_CONTRACT
    #define SHOW_OPPS_ON_PASS
    #define OC_TRUMPS       SOL_HEARTS
