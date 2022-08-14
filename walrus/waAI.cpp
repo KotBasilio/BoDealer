@@ -308,7 +308,11 @@ void Walrus::InitMiniUI(int trump, int first)
    strcpy(ui.seatOnLead, s_SeatNames[first]);
 #ifdef SCORE_OPP_CONTRACT
    strcpy(ui.theirTrump, s_TrumpNames[OC_TRUMPS]);
-#endif // SCORE_OPP_CONTRACT
+#endif
+
+   // decl is anti-ccw from leader
+   int declSeat = (first + 3) % 4;
+   strcpy(ui.declSeat, s_SeatNames[declSeat]);
 }
 
 void Walrus::MiniUI::Run()
@@ -343,7 +347,7 @@ void Walrus::MiniUI::Run()
       }
 
       if (irGoal) {
-         printf("\nSeek %d tricks board in %s...", irGoal, declTrump);
+         printf("\nSeek %d tricks board by %s in %s ... ", irGoal, declSeat, declTrump);
       } else if (!exitRequested) {
          printf("\nCommand '%c' is ignored...", inchar);
       }
@@ -352,7 +356,7 @@ void Walrus::MiniUI::Run()
    // auto-command
    if (firstAutoShow && !irGoal) {
       irGoal = irBase;
-      printf(" %d tricks board in %s ", irGoal, declTrump);
+      printf(" %d tricks board by %s in %s ", irGoal, declSeat, declTrump);
    }
 }
 
@@ -457,15 +461,18 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
    }
 
    // may do something else with the same set of boards
+   #ifdef SOLVE_TWICE_HANDLED_CHUNK
+      for (int i = 0; i < bo.noOfBoards; i++) {
+         bo.deals[i].trump = TWICE_TRUMPS;
+         bo.deals[i].first = TWICE_ON_LEAD;
+      }
+      int res = SolveAllBoardsN(bo, solved);
+      HandleDDSFail(res);
+   #endif // SOLVE_TWICE_HANDLED_CHUNK
+
    // may score their contract
    #ifdef SCORE_OPP_CONTRACT
    {
-     for (int i = 0; i < bo.noOfBoards; i++) {
-       bo.deals[i].trump = OC_TRUMPS;
-       bo.deals[i].first = OC_ON_LEAD;
-     }
-     int res = SolveAllBoardsN(bo, solved);
-     HandleDDSFail(res);
      for (int handno = 0; handno < solved.noOfBoards; handno++) {
        DdsTricks tr;
        tr.Init(solved.solvedBoard[handno]);

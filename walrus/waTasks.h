@@ -5,7 +5,7 @@
 
 // Bidding decision one-sided:
 //#define SEMANTIC_APR_64_INVITE
-#define SEMANTIC_AUG_3NT_ON_SPADE_FIT
+//#define SEMANTIC_AUG_3NT_ON_SPADE_FIT
 //#define SEMANTIC_AUG_MULTI_VUL
 //#define SEMANTIC_DEC_12_2425
 //#define SEMANTIC_IMPS_ACCEPT_3NT_ON_SPADE_FIT
@@ -29,7 +29,7 @@
 //#define SEMANTIC_JUNE_GAMBLE_OR_5C
 //#define SEMANTIC_MIXED_2D_WITH_MAJOR
 //#define SEMANTIC_MIXED_PREVENTIVE_4S
-//#define SEMANTIC_NOV_BID_6C_OR_DBL_4S
+#define SEMANTIC_NOV_BID_6C_OR_DBL_4S
 //#define SEMANTIC_NOV_DBL_ON_3NT
 //#define SEMANTIC_TRICOLOR_STRONG
 
@@ -47,30 +47,10 @@
 //#define SEMANTIC_SPADE_4_WHEN_1H
 
 // -----------------------------------------------------------------
-// --- DESCRIPTIONS
+// task descriptions
 #include "waTOneSided.h"
 #include "waTCompetitive.h"
 #include "waTLead.h"
-// -----------------------------------------------------------------
-// --- Iterations count
-#ifdef _DEBUG
-   //const uint MAX_ITERATION = 20*1000000;// 20 mln 
-   const uint MAX_ITERATION = 1000000;// 1 mln 
-   //const uint MAX_ITERATION = 100000;// 0.1 mln
-   //const uint MAX_ITERATION = 10000;
-   const uint MAX_TASKS_TO_SOLVE = 10240;
-   #define SKIP_HELPERS
-#else
-   //const uint MAX_ITERATION = 4001000000;// 4 mlrd + 1 millon gratis
-   //const uint MAX_ITERATION = 3001000000;// 3 mlrd + 1 millon gratis
-   //const uint MAX_ITERATION = 2001000000;// 2 mlrd + 1 millon gratis
-   //const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
-   //const uint MAX_ITERATION = 501000000;// half of mlrd
-   //const uint MAX_ITERATION = 330000000;// one third of mlrd
-   //const uint MAX_ITERATION = 251000000;// one quarter mlrd
-   const uint MAX_ITERATION = 101000000;// 101 mln
-   //const uint MAX_ITERATION = 12000000;// 12 mln
-   const uint MAX_TASKS_TO_SOLVE = 4*1000*1000;
-#endif
 
+// other parameters for solving
 #include "waDerived.h"

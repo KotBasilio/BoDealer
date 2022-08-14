@@ -40,22 +40,22 @@ bool Walrus::LoadInitialStatistics(const char *fname)
 
    // init lines in mini-report
    {
-      sprintf(miniRowStart[ 0], "     (down): ");
-      sprintf(miniRowStart[ 1], "     (make): ");
-      sprintf(miniRowStart[ 2], "     (----): ");
+      sprintf(miniRowStart[ 0], "      (down): ");
+      sprintf(miniRowStart[ 1], "      (make): ");
+      sprintf(miniRowStart[ 2], "      (----): ");
    }
    for (int i = 3; i < MINI_ROWS; i++) {
-      sprintf(miniRowStart[i], "     (%4d): ", i);
+      sprintf(miniRowStart[i], "      (%4d): ", i);
    }
 
    // may rewrite some lines
    #ifdef SHOW_OPP_RESULTS
    {
-      sprintf(miniRowStart[IO_ROW_OUR_DOWN], "  (we down): ");
-      sprintf(miniRowStart[IO_ROW_OUR_MADE], "  (we make): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS+0], "  (op down): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS+1], "  (op make): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS+2], "  (-------): ");
+      sprintf(miniRowStart[IO_ROW_OUR_DOWN], "   (we down): ");
+      sprintf(miniRowStart[IO_ROW_OUR_MADE], "   (we make): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS+0], "  (opp down): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS+1], "  (opp make): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS+2], "  (--------): ");
    }
    #endif
 
@@ -122,8 +122,8 @@ void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
       if (progress.hitsCount[IO_ROW_OUR_DOWN][miniCamps - 1] == 0) {
          #ifdef SHOW_OPP_RESULTS
          if (progress.hitsCount[IO_ROW_THEIRS][miniCamps - 1] == 0) // intended incomplete
-         #endif // SHOW_OPP_RESULTS
-         break;
+         #endif
+            break;
       }
    }
 
@@ -194,7 +194,7 @@ void Walrus::MiniReport(uint toGo)
       printf("Averages: ideal = %lld, bidGame = %lld",
          cumulScore.ideal / sumRows,
          cumulScore.bidGame / sumRows);
-      #ifdef SHOW_PARTSCORE
+      #ifdef SHOW_PARTSCORE_STATLINE
          printf(", partscore=%lld.   ", cumulScore.partscore / sumRows);
       #else
          printf(".   ");

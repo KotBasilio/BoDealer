@@ -174,7 +174,7 @@ protected:
        bool  exitRequested;
        bool  firstAutoShow;
        int   irGoal, irBase;
-       char  declTrump[10], seatOnLead[10], theirTrump[10];
+       char  declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10];
        MiniUI();
        void Run();
     } ui;

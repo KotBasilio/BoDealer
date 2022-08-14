@@ -135,11 +135,13 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
 {
    // board first 
    PrintHand("example:\n", cards.remainCards);
-   #ifndef SCORE_OPP_CONTRACT
-      if (ui.firstAutoShow) {
+
+   // auto show may be very short
+   if (ui.firstAutoShow) {
+      #ifndef SOLVE_TWICE_HANDLED_CHUNK
          return;
-      }
-   #endif
+      #endif
+   }
 
    // to show leads we need to re-solve it
    // -- params for re-solving
@@ -156,29 +158,36 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
    }
 
    // single side solution => ok print
-   #ifndef SCORE_OPP_CONTRACT
+   #ifndef SOLVE_TWICE_HANDLED_CHUNK
       char lead[] = "";
       PrintFut(lead, &futUs);
-   #else
-      // score their contract
-      futureTricks futTheirs;
+      return;
+   #endif 
 
-      cards.trump = OC_TRUMPS;
-      cards.first = OC_ON_LEAD;
-      target = -1;
-      res = SolveBoard(cards, target, solutions, mode, &futTheirs, threadIndex);
-      if (res != RETURN_NO_FAULT) {
-         HandleErrorDDS(cards, res);
-         return;
-      }
-      DdsTricks tr;
-      tr.Init(futTheirs);
+   // score alternative contract
+   futureTricks futTheirs;
+   cards.trump = TWICE_TRUMPS;
+   cards.first = TWICE_ON_LEAD;
+   target = -1;
+   res = SolveBoard(cards, target, solutions, mode, &futTheirs, threadIndex);
+   if (res != RETURN_NO_FAULT) {
+      HandleErrorDDS(cards, res);
+      return;
+   }
+   DdsTricks tr;
+   tr.Init(futTheirs);
 
-      // output
-      char header[40];
+   // build header
+   char header[40];
+   #ifdef SCORE_OPP_CONTRACT
       sprintf(header, "Their contract in %s has %d tricks.", ui.theirTrump, tr.plainScore);
-      PrintTwoFutures(header, &futUs, &futTheirs);
-   #endif // SCORE_OPP_CONTRACT
+   #elif defined(SEEK_MAGIC_FLY) 
+      sprintf(header, "NT contract has %d tricks.", tr.plainScore);
+   #else 
+      sprintf(header, "<not filled title>");
+   #endif 
 
+   // output
+   PrintTwoFutures(header, &futUs, &futTheirs);
 }
 
