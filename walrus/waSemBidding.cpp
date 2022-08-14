@@ -2079,7 +2079,8 @@ uint WaFilter::Aug3NTOnFit(SplitBits& partner, uint& camp, SplitBits& rho, Split
 
    // partner: 1c-1s-2s
    twlHCP hcpPart(partner);
-   if (hcpPart.total < 17 || 18 < hcpPart.total) {
+   //if (hcpPart.total < 17 || 18 < hcpPart.total) {
+   if (hcpPart.total < 19) {
       camp = SKIP_BY_PART;
       return ORDER_BASE; // min strong on S
    }

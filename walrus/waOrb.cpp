@@ -115,6 +115,14 @@ void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)
       return;
    }
 
+   // fly can look for specific condition
+   if (ui.irFly != IO_CAMP_OFF) {
+      bool fits = Orb_ApproveByFly(cards);
+      if (!fits) {
+         return;
+      }
+   }
+
    // relay
    Orb_ReSolveAndShow(cards);
 
@@ -161,33 +169,67 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
    #ifndef SOLVE_TWICE_HANDLED_CHUNK
       char lead[] = "";
       PrintFut(lead, &futUs);
-      return;
-   #endif 
-
-   // score alternative contract
-   futureTricks futTheirs;
-   cards.trump = TWICE_TRUMPS;
-   cards.first = TWICE_ON_LEAD;
-   target = -1;
-   res = SolveBoard(cards, target, solutions, mode, &futTheirs, threadIndex);
-   if (res != RETURN_NO_FAULT) {
-      HandleErrorDDS(cards, res);
-      return;
-   }
-   DdsTricks tr;
-   tr.Init(futTheirs);
-
-   // build header
-   char header[40];
-   #ifdef SCORE_OPP_CONTRACT
-      sprintf(header, "Their contract in %s has %d tricks.", ui.theirTrump, tr.plainScore);
-   #elif defined(SEEK_MAGIC_FLY) 
-      sprintf(header, "NT contract has %d tricks.", tr.plainScore);
    #else 
-      sprintf(header, "<not filled title>");
-   #endif 
+      // score alternative contract
+      futureTricks futTheirs;
+      cards.trump = TWICE_TRUMPS;
+      cards.first = TWICE_ON_LEAD;
+      target = -1;
+      res = SolveBoard(cards, target, solutions, mode, &futTheirs, threadIndex);
+      if (res != RETURN_NO_FAULT) {
+         HandleErrorDDS(cards, res);
+         return;
+      }
+      DdsTricks tr;
+      tr.Init(futTheirs);
 
-   // output
-   PrintTwoFutures(header, &futUs, &futTheirs);
+      // build header
+      char header[40];
+      #ifdef SCORE_OPP_CONTRACT
+         sprintf(header, "Their contract in %s has %d tricks.", ui.theirTrump, tr.plainScore);
+      #elif defined(SEEK_MAGIC_FLY) 
+         sprintf(header, "NT contract has %d tricks.", tr.plainScore);
+      #else 
+         sprintf(header, "<not filled title>");
+      #endif 
+
+      // output
+      PrintTwoFutures(header, &futUs, &futTheirs);
+   #endif // SOLVE_TWICE_HANDLED_CHUNK
 }
+
+bool Walrus::Orb_ApproveByFly(deal& cards)
+{
+   #ifdef SEEK_MAGIC_FLY
+      // solve for the fly
+      futureTricks fut;
+      int target = -1;
+      int solutions = PARAM_SOLUTIONS_DDS;
+      int mode = 0;
+      int threadIndex = 0;
+      deal flyDeal = cards;
+      flyDeal.trump = TWICE_TRUMPS;
+      flyDeal.first = TWICE_ON_LEAD;
+      int res = SolveBoard(flyDeal, target, solutions, mode, &fut, threadIndex);
+      if (res != RETURN_NO_FAULT) {
+         HandleErrorDDS(flyDeal, res);
+         return false;
+      }
+      DdsTricks tr;
+      tr.Init(fut);
+
+      // may accept
+      switch (ui.irFly) {
+         case IO_CAMP_MORE_NT:
+            return tr.plainScore > ui.irGoal;
+         case IO_CAMP_SAME_NT:
+            return tr.plainScore == ui.irGoal;
+         case IO_CAMP_PREFER_SUIT:
+            return tr.plainScore < ui.irGoal;
+      }
+   #endif // SEEK_MAGIC_FLY
+
+   return false;
+}
+
 

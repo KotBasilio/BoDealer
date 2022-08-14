@@ -219,6 +219,7 @@ private:
    uint Orb_ClassifyHands(uint &camp, SplitBits &sum, SplitBits &lho, SplitBits &rho);
    void Orb_SaveForSolver(SplitBits &partner, SplitBits &resp, SplitBits &notrump);
    void Orb_Interrogate(DdsTricks &tr, deal &cards, struct futureTricks &fut);
+   bool Orb_ApproveByFly(deal& cards);
    void Orb_ReSolveAndShow(deal &cards);
    uint KC_ClassifyHand(uint &ba, SplitBits &sum);
    uint CountKeyCards(SplitBits &hand);
