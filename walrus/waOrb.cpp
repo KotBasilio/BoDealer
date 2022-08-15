@@ -221,11 +221,11 @@ bool Walrus::Orb_ApproveByFly(deal& cards)
       // may accept
       switch (ui.irFly) {
          case IO_CAMP_MORE_NT:
-            return tr.plainScore > ui.irGoal;
+            return (int)tr.plainScore > ui.irGoal;
          case IO_CAMP_SAME_NT:
-            return tr.plainScore == ui.irGoal;
+            return (int)tr.plainScore == ui.irGoal;
          case IO_CAMP_PREFER_SUIT:
-            return tr.plainScore < ui.irGoal;
+            return (int)tr.plainScore < ui.irGoal;
       }
    #endif // SEEK_MAGIC_FLY
 
