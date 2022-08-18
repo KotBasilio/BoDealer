@@ -4,6 +4,10 @@
    #define TITLE_VERSION  "Max scoring. Fix a 9 hcp with doubleton fit;\n1c 1h\n1s 1NT\n2s 2NT\n3NT ??\nQuestion: pass 3NT or 4s? Task"
    #define SEEK_MAGIC_FLY
 #endif 
+#ifdef SEMANTIC_AUG_3NT2_ON_SPADE_FIT
+   #define TITLE_VERSION  "Max scoring. Fix a 8 hcp with doubleton fit;\n1c 1dh\n1s 1NT\n2s 2NT(!)\n3d/3s/3NT ??\nQuestion: pass 3NT or 4s? Task"
+   #define SEEK_MAGIC_FLY
+#endif 
 
 // ---
 #ifdef SEMANTIC_DEC_12_2425

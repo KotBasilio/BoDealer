@@ -24,6 +24,20 @@
 
  // --------------------------------------------------------------------------------
  // input
+#ifdef SEMANTIC_AUG_3NT2_ON_SPADE_FIT
+#define INPUT_HOLDINGS  max_gambler
+uint max_gambler[DDS_HANDS][DDS_SUITS] =
+{ // North                         East        South       West
+   { RT | R3 ,                      0,          0,         0  } , // spades
+   { RT | R5,                       0,          0,         0  } , // hearts
+   { RA | RJ | R8 | RT | R5 ,                 0,          0,         0  } , // diamonds
+   { RK | R9 | R6 | R7 ,  0,          0,         0  }   // clubs
+};
+#define INPUT_TRUMPS    SOL_SPADES
+#define INPUT_ON_LEAD   EAST
+#endif
+
+
 #ifdef SEMANTIC_AUG_3NT_ON_SPADE_FIT
 // origin: gambler 11.08.2022
 #define INPUT_HOLDINGS  max_gambler
