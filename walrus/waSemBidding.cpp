@@ -2062,7 +2062,7 @@ uint WaFilter::SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits
 
 #endif // SEMANTIC_MORO_SLAM
 
-#if defined (SEMANTIC_AUG_3NT2_ON_SPADE_FIT) || defined(SEMANTIC_AUG_3NT2_ON_SPADE_FIT)
+#ifdef SEEK_MAGIC_FLY
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
@@ -2218,3 +2218,74 @@ uint WaFilter::Aug3NTOnFit(SplitBits& partner, uint& camp, SplitBits& rho, Split
 }
 #endif // SEMANTIC_AUG_3NT2_ON_SPADE_FIT
 
+#ifdef SEMANTIC_AUG_3NT_ON_44H
+uint WaFilter::Aug3NTOnFit(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_OPP = 2;
+   const uint SKIP_BY_RESP = 3;
+
+   // partner: 2NT
+   twlHCP hcpPart(partner);
+   if (hcpPart.total < 20 || 21 < hcpPart.total) {
+   //if (hcpPart.total < 18 || 19 < hcpPart.total) {
+   //if (hcpPart.total != 19) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE; // 2NT opening
+   }
+   twLengths lenPart(partner);
+   if (lenPart.s < 2 || 4 < lenPart.s ||
+      lenPart.h != 4 ||
+      lenPart.d < 2 || 4 < lenPart.d ||
+      lenPart.c < 2 || 4 < lenPart.c) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // no other longer
+   }
+
+   // RHO, LHO: passs
+   twLengths lenOpp(rho);
+   if (lenOpp.s > 6 ||
+      lenOpp.h > 6 ||
+      lenOpp.d > 6 ||
+      lenOpp.c > 6) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE; // no 7+
+   }
+   twLengths lenResp(lho);
+   if (lenResp.s > 6 ||
+      lenResp.h > 6 ||
+      lenResp.d > 6 ||
+      lenResp.c > 6) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 1; // no 7+
+   }
+
+   // two suiters 65
+   if (lenResp.s >= 5) {
+      if (lenResp.d > 5 ||
+         lenResp.c > 5) {
+         camp = SKIP_BY_OPP;
+         return ORDER_BASE + 2; // no 65 two-suiters
+      }
+   }
+   else if (lenResp.d + lenResp.c > 10) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 2; // no 65 two-suiters
+   }
+   if (lenOpp.s >= 5) {
+      if (lenOpp.d > 5 ||
+         lenOpp.c > 5) {
+         camp = SKIP_BY_RESP;
+         return ORDER_BASE + 2; // no 65 two-suiters
+      }
+   }
+   else if (lenOpp.d + lenOpp.c > 10) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 2; // no 65 two-suiters
+   }
+
+   // seems it passes
+   return 0;
+}
+#endif // SEMANTIC_AUG_3NT_ON_44H

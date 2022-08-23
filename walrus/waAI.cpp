@@ -490,7 +490,6 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
    solvedBoards twice;
    for (int i = 0; i < bo.noOfBoards; i++) {
       bo.deals[i].trump = TWICE_TRUMPS;
-      bo.deals[i].first = TWICE_ON_LEAD;
    }
    int res = SolveAllBoardsN(bo, twice);
    HandleDDSFail(res);

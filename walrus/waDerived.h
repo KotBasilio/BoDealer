@@ -9,7 +9,7 @@
    #define FIXED_HAND_NORTH
    #define SOLVE_TWICE_HANDLED_CHUNK
    #define TWICE_TRUMPS    SOL_NOTRUMP
-   #define TWICE_ON_LEAD   EAST
+   #define TWICE_ON_LEAD   cards.first
    #define SHOW_MY_FLY_RESULTS
 #endif
 

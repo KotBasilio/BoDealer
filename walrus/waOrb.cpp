@@ -209,7 +209,6 @@ bool Walrus::Orb_ApproveByFly(deal& cards)
       int threadIndex = 0;
       deal flyDeal = cards;
       flyDeal.trump = TWICE_TRUMPS;
-      flyDeal.first = TWICE_ON_LEAD;
       int res = SolveBoard(flyDeal, target, solutions, mode, &fut, threadIndex);
       if (res != RETURN_NO_FAULT) {
          HandleErrorDDS(flyDeal, res);

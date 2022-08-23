@@ -24,6 +24,19 @@
 
  // --------------------------------------------------------------------------------
  // input
+#ifdef SEMANTIC_AUG_3NT_ON_44H
+#define INPUT_HOLDINGS  max_partizan
+uint max_partizan[DDS_HANDS][DDS_SUITS] =
+{ // North                         East        South       West
+   { RK | RJ | R3 ,                      0,          0,         0  } , // spades
+   { R9 | R8 | R6 | R5,                       0,          0,         0  } , // hearts
+   { RQ | R7 | R5 ,                 0,          0,         0  } , // diamonds
+   { RJ | RT | R7 ,  0,          0,         0  }   // clubs
+};
+#define INPUT_TRUMPS    SOL_HEARTS
+#define INPUT_ON_LEAD   WEST
+#endif
+
 #ifdef SEMANTIC_AUG_3NT2_ON_SPADE_FIT
 #define INPUT_HOLDINGS  max_gambler
 uint max_gambler[DDS_HANDS][DDS_SUITS] =
