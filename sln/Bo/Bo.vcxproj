@@ -156,6 +156,7 @@
     <ClCompile Include="..\..\walrus\waSemLead.cpp" />
     <ClCompile Include="..\..\walrus\waSemSingle.cpp" />
     <ClCompile Include="..\..\walrus\waShuffle.cpp" />
+    <ClCompile Include="..\..\walrus\waTaskHands.cpp" />
     <ClCompile Include="..\..\walrus\waUnix.cpp" />
   </ItemGroup>
   <ItemGroup>
