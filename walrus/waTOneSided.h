@@ -19,6 +19,11 @@
    #define SEEK_BIDDING_LEVEL
 #endif 
 
+#ifdef SEMANTIC_SEPT_INVITE_OR_FG
+  #define TITLE_VERSION  "Fix a 10 hcp with 54;\n1c 1s\n1NT \nQuestion: should we bid 3NT? Task"
+  #define SEEK_BIDDING_LEVEL
+#endif
+
 // ---
 #ifdef SEMANTIC_IMPS_ACCEPT_3NT_ON_SPADE_FIT
    #define TITLE_VERSION  "Fix a 8 hcp with split/fit;\n1s 2h(split)\n3s ??\nQuestion: partscore 3s or a game 3NT? Task"

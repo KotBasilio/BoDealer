@@ -24,6 +24,22 @@
 
  // --------------------------------------------------------------------------------
  // input
+
+#ifdef SEMANTIC_SEPT_INVITE_OR_FG
+// origin: http://spb.bridgesport.ru/spb/Zimn_Cap_20/Cup20r8/d32p.htm
+#define INPUT_HOLDINGS  sep_10_2425
+#define INPUT_TRUMPS    SOL_NOTRUMP
+#define INPUT_ON_LEAD   WEST
+uint sep_10_2425[DDS_HANDS][DDS_SUITS] =
+{ // North                    East        South       West
+   { RA | RQ | R7 | R2,             0,          0,         0  } , // spades
+   { R8 | R7,                       0,          0,         0  } , // hearts
+   { RK | RT | R8 | R7 | R2 ,       0,          0,         0  } , // diamonds
+   { RJ | R9,                       0,          0,         0  }   // clubs
+};
+#endif // SEMANTIC_SEPT_INVITE_OR_FG
+
+
 #ifdef SEMANTIC_AUG_3NT_ON_44H
 #define INPUT_HOLDINGS  max_partizan
 uint max_partizan[DDS_HANDS][DDS_SUITS] =

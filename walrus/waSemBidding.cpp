@@ -2289,3 +2289,87 @@ uint WaFilter::Aug3NTOnFit(SplitBits& partner, uint& camp, SplitBits& rho, Split
    return 0;
 }
 #endif // SEMANTIC_AUG_3NT_ON_44H
+
+#ifdef SEMANTIC_SEPT_INVITE_OR_FG
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &WaFilter::Sep10_4252;
+   sem.onScoring = &Walrus::Score_3NT;
+}
+
+uint WaFilter::Sep10_4252(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_RESP = 2;
+   const uint SKIP_BY_OPP = 3;
+
+   twlHCP hcpPart(partner);
+   if (hcpPart.total < 14 || 15 < hcpPart.total) {// 1c(nv) opener min
+      camp = SKIP_BY_PART;
+      return ORDER_BASE; // wrong points count
+   }
+   if (hcpPart.total == 15 && hcpPart.d > 2) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1;
+   }
+   twLengths lenPart(partner);
+   if (lenPart.s < 2 || 3 < lenPart.s ||
+      lenPart.h < 2 || 4 < lenPart.h ||
+      lenPart.d < 2 || 5 < lenPart.d ||
+      lenPart.c < 2 || 5 < lenPart.c) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 2; // no other longer
+   }
+
+   twlHCP hcpOpp(rho);
+   if (hcpOpp.total > 12) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 2; // wrong points count, would overcall
+   }
+
+   twLengths lenR(rho);
+   if (lenR.h > 6 ||
+      lenR.d > 6 ||
+      lenR.c > 6) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 3;// no 7+ suits
+   }
+
+   twLengths lenL(rho);
+   if (lenL.h > 6 ||
+      lenL.d > 6 ||
+      lenL.c > 6) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE;// no 7+ suits
+   }
+
+   // two suiters 65
+   if (lenR.s >= 5) {
+      if (lenR.d > 5 ||
+         lenR.c > 5) {
+         camp = SKIP_BY_OPP;
+         return ORDER_BASE + 2; // no 65 two-suiters
+      }
+   }
+   else if (lenR.d + lenR.c > 10) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 2; // no 65 two-suiters
+   }
+   if (lenL.s >= 5) {
+      if (lenL.d > 5 ||
+         lenL.c > 5) {
+         camp = SKIP_BY_RESP;
+         return ORDER_BASE + 2; // no 65 two-suiters
+      }
+   }
+   else if (lenL.d + lenL.c > 10) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 2; // no 65 two-suiters
+   }
+
+   // seems it passes
+   return 0;
+}
+#endif 
