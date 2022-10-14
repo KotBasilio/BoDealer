@@ -8,15 +8,17 @@
 #ifdef SEEK_MAGIC_FLY
    #define FIXED_HAND_NORTH
    #define SOLVE_TWICE_HANDLED_CHUNK
-   #define TWICE_TRUMPS    SOL_NOTRUMP
-   #define TWICE_ON_LEAD   cards.first
+   #define TWICE_TRUMPS            SOL_NOTRUMP
+   #define TWICE_ON_LEAD_INSPECT   cards.first
+   #define TWICE_ON_LEAD_CHUNK     bo.deals[i].first
    #define SHOW_MY_FLY_RESULTS
 #endif
 
 #ifdef SCORE_OPP_CONTRACT
    #define SOLVE_TWICE_HANDLED_CHUNK
-   #define TWICE_TRUMPS    OC_TRUMPS
-   #define TWICE_ON_LEAD   OC_ON_LEAD
+   #define TWICE_TRUMPS            OC_TRUMPS
+   #define TWICE_ON_LEAD_INSPECT   OC_ON_LEAD
+   #define TWICE_ON_LEAD_CHUNK     OC_ON_LEAD
    #define SHOW_OPP_RESULTS
 #endif
 
@@ -96,10 +98,10 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
    //const uint MAX_ITERATION = 3001000000;// 3 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 2001000000;// 2 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
-   //const uint MAX_ITERATION = 501000000;// half of mlrd
-   //const uint MAX_ITERATION = 330000000;// one third of mlrd
-   //const uint MAX_ITERATION = 251000000;// one quarter mlrd
-   const uint MAX_ITERATION = 101000000;// 101 mln
+   //const uint MAX_ITERATION = 501000000;// a half of mlrd
+   //const uint MAX_ITERATION = 333000000;// a third of mlrd
+   const uint MAX_ITERATION = 251000000;// a quarter of mlrd
+   //const uint MAX_ITERATION = 101000000;// 101 mln
    //const uint MAX_ITERATION = 12000000;// 12 mln
    const uint MAX_TASKS_TO_SOLVE = 4*1000*1000;
 #endif

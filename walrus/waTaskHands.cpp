@@ -14,6 +14,16 @@
 
  // --------------------------------------------------------------------------------
  // input
+#ifdef SEMANTIC_OCT_WEAK_GAMBLING
+// origin: Partizan club, IMP
+#define INPUT_AS_PBN 
+//char const taskHandPBN[] = "N:87..J762.AKQ9754]";
+//char const taskHandPBN[] = "N:8.7.J762.AKQ9754]";
+//char const taskHandPBN[] = "N:8.7.J72.AKQ97654]";
+char const taskHandPBN[] = "N:.87.J762.AKQ9754]";
+#define INPUT_TRUMPS    SOL_CLUBS
+#define INPUT_ON_LEAD   EAST
+#endif
 
 #ifdef SEMANTIC_SEPT_INVITE_OR_FG
 // origin: Momo's club, max

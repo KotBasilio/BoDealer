@@ -1,0 +1,228 @@
+Fix weak Gambling hand 2047;
+2c p 3d(trf) 3s
+??
+Question: 4c or 5c? Task started.
+helperA:   83339880 done---> 137682
+helperB:   83339880 done---> 139183
+   main:   84320340 done
+Passing 418115 for double-dummy inspection: roughly each 1 of 586;
+Solving started: 11 tricks board by North in clubs 
+
+    :  HITS COUNT   :
+    (we down):   58296,  59865,  34161,  16621,   2758,    200,      3,      0,    171904
+    (we make):   22840,   4788,    468,      0,      0,      0,      0,      0,     28096
+       (----):       0,      0,      0,      0,      0,      0,      0,      0,         0
+   (opp down):   64684,  37906,  13470,   2382,    180,      5,      0,      0,    118627
+   (opp make):   55344,  21580,   3926,    479,     44,      0,      0,      0,     81373
+   (--------):       0,      0,      0,      0,      0,      0,      0,      0,         0
+Processed: 200000 total. East is on lead. Goal is 11 tricks in clubs.
+Averages: ideal = 138, bidGame = -33, partscore=12.   Chances: 86.0% down some + 14.0% make
+Their contract expectation average: passed = -13, doubled = -97. Chance to make = 40.7%
+
+Seek 10 tricks board by North in clubs ... example:
+--------
+               87
+               -
+               J762
+               AKQ9754
+   AKQT65                  932
+   J2                      KT543
+   Q9                      K843
+   632                     J
+               J4
+               AQ9876
+               AT5
+               T8
+                                      Their contract in spades has 9 tricks.
+    suit   rank   score               suit   rank   score
+      S      3      3                   C      A      4
+      S      9      3                   D      2      4
+      D      4      3                   D      7      4
+      D      8      3                   D      J      4
+      C      J      3                   S      8      4
+      D      K      2                   C      5      3
+      H      5      1                   C      7      3
+      H      T      1                   C      9      3
+      H      K      1
+
+=============================================
+try 1-1-4-7
+2c p 3d(trf) 3s
+??
+Question: 4c or 5c? Task started.
+helperB:   83339880 done---> 105575
+helperA:   83339880 done---> 104800
+   main:   84320340 done
+Passing 315945 for double-dummy inspection: roughly each 1 of 780; 246588208 skipped
+Solving started: 11 tricks board by North in clubs 
+
+    :  HITS COUNT   :
+    (we down):   91977,  90477,  42948,  11418,   1350,     80,      1,      0,    238251
+    (we make):   50181,  11101,    467,      0,      0,      0,      0,      0,     61749
+       (----):       0,      0,      0,      0,      0,      0,      0,      0,         0
+   (opp down):   99101,  45109,  11912,   1307,     42,      0,      0,      0,    157471
+   (opp make):   93271,  40239,   8169,    812,     38,      0,      0,      0,    142529
+   (--------):       0,      0,      0,      0,      0,      0,      0,      0,         0
+Processed: 300000 total. East is on lead. Goal is 11 tricks in clubs.
+Averages: ideal = 186, bidGame = 7, partscore=35.   Chances: 79.4% down some + 20.6% make
+Their contract expectation average: passed = -34, doubled = -169. Chance to make = 47.5%
+
+Seek 10 tricks board by North in clubs ... example:
+--------
+               8
+               7
+               J762
+               AKQ9754
+   KQT973                  652
+   K3                      Q985
+   K84                     AT53
+   T8                      J6
+               AJ4
+               AJT642
+               Q9
+               32
+                                      Their contract in spades has 8 tricks.
+    suit   rank   score               suit   rank   score
+      S      2      3                   C      A      5
+      S      6      3                   H      7      5
+      D      3      3                   D      2      5
+      D      5      3                   S      8      5
+      D      A      3                   D      7      5
+      H      5      3                   C      5      4
+      H      9      3                   C      7      4
+      C      6      3                   C      9      4
+      C      J      3                   D      J      4
+      D      T      2
+      H      Q      0
+
+======================================================================
+try 1-1-3-8
+    :  HITS COUNT   :
+    (we down):   18800,  11449,   3384,    350,      7,      0,      0,     33990
+    (we make):   13425,   2531,     54,      0,      0,      0,      0,     16010
+       (----):       0,      0,      0,      0,      0,      0,      0,         0
+   (opp down):   14529,   5435,    918,     58,      0,      0,      0,     20940
+   (opp make):   17278,   9246,   2234,    279,     23,      0,      0,     29060
+   (--------):       0,      0,      0,      0,      0,      0,      0,         0
+Processed: 50000 total. East is on lead. Goal is 11 tricks in clubs.
+Averages: ideal = 284, bidGame = 75, partscore=78.   Chances: 68.0% down some + 32.0% make
+Their contract expectation average: passed = -61, doubled = -265. Chance to make = 58.1%
+Seek 9 tricks board by North in clubs ... example:
+--------
+               8
+               7
+               J72
+               AKQ97654
+   KQJ632                  T94
+   K3                      T65
+   Q94                     AK85
+   T3                      J82
+               A75
+               AQJ9842
+               T63
+               -
+                                      Their contract in spades has 8 tricks.
+    suit   rank   score               suit   rank   score
+      D      A      4                   C      A      5
+      D      5      4                   H      7      5
+      D      8      4                   C      7      5
+      S      4      3                   C      9      5
+      S      T      3                   D      2      3
+      H      6      0                   D      7      3
+      H      T      0                   D      J      3
+      C      2      0                   S      8      3
+      C      8      0
+      C      J      0
+
+======================================================================
+try 0-2-4-7
+    :  HITS COUNT   :
+    (we down):    7958,   6317,   3201,   1280,    141,      9,      0,     18906
+    (we make):    5746,   4269,   1079,      0,      0,      0,      0,     11094
+       (----):       0,      0,      0,      0,      0,      0,      0,         0
+   (opp down):    9270,   3730,    505,      6,      0,      0,      0,     13511
+   (opp make):    9968,   5070,   1317,    127,      7,      0,      0,     16489
+   (--------):       0,      0,      0,      0,      0,      0,      0,         0
+Processed: 30000 total. East is on lead. Goal is 11 tricks in clubs.
+Averages: ideal = 255, bidGame = 92, partscore=65.   Chances: 63.0% down some + 37.0% make
+Their contract expectation average: passed = -54, doubled = -241. Chance to make = 55.0%
+
+Seek 11 tricks board by North in clubs ... example:
+--------
+               -
+               87
+               J762
+               AKQ9754
+   AQJ8753                 42
+   Q                       6542
+   KQ4                     AT98
+   32                      JT8
+               KT96
+               AKJT93
+               53
+               6
+                                      Their contract in spades has 8 tricks.
+    suit   rank   score               suit   rank   score
+      D      T      2                   H      8      5
+      D      A      2                   C      A      5
+      H      2      0                   D      2      4
+      H      6      0                   D      7      4
+      C      8      0                   D      J      4
+      C      J      0                   C      5      3
+      S      2      0                   C      7      3
+      S      4      0                   C      9      3
+
+Seek 11 tricks board by North in clubs ... example:
+--------
+               -
+               87
+               J762
+               AKQ9754
+   AKT753                  Q64
+   A                       JT42
+   KQT9                    8543
+   32                      86
+               J982
+               KQ9653
+               A
+               JT
+                                      Their contract in spades has 8 tricks.
+    suit   rank   score               suit   rank   score
+      D      5      2                   D      2      5
+      D      8      2                   D      7      5
+      C      6      2                   D      J      5
+      C      8      2                   C      A      4
+      H      2      1                   H      8      4
+      H      4      1                   C      5      4
+      H      J      1                   C      7      4
+      S      4      1                   C      9      4
+      S      6      1
+      S      Q      1
+
+Seek 10 tricks board by North in clubs ... example:
+--------
+               -
+               87
+               J762
+               AKQ9754
+   AKQT762                 94
+   3                       QJT2
+   AK95                    T843
+   6                       T83
+               J853
+               AK9654
+               Q
+               J2
+                                      Their contract in spades has 9 tricks.
+    suit   rank   score               suit   rank   score
+      D      4      3                   C      A      4
+      D      8      3                   H      8      4
+      D      T      3                   C      5      4
+      H      Q      3                   C      7      4
+      C      3      3                   C      9      4
+      C      8      3                   D      2      4
+      C      T      3                   D      7      4
+      S      4      3                   D      J      3
+      S      9      3
+      H      2      2
+

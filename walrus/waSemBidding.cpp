@@ -2373,3 +2373,72 @@ uint WaFilter::Sep10_4252(SplitBits& partner, uint& camp, SplitBits& rho, SplitB
    return 0;
 }
 #endif 
+
+#ifdef SEMANTIC_OCT_WEAK_GAMBLING
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &WaFilter::OctWeakGambling;
+   sem.onScoring = &Walrus::Score_NV_5Minor;
+   sem.onSolvedTwice = &Walrus::Score_Opp3Major;
+}
+
+uint WaFilter::OctWeakGambling(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_RESP = 2;
+   const uint SKIP_BY_OPP = 3;
+
+   twlHCP hcpPart(partner);
+   if (hcpPart.total < 11 || 12 < hcpPart.total) {// normal invitation
+      camp = SKIP_BY_PART;
+      return ORDER_BASE; // wrong points count
+   }
+   twLengths lenPart(partner);
+   if (4 < lenPart.s ||
+      lenPart.h < 6 || 7 < lenPart.h ||
+      4 < lenPart.d ||
+      3 < lenPart.c) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 2; // no other longer
+   }
+
+   twLengths lenOpp(lho);
+   if (lenOpp.h > 6 ||
+      lenOpp.d > 6 ||
+      lenOpp.s > 3) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 3;// no 7+ suits, no 4+ support spades
+   }
+
+   twlHCP hcpDir(lho);
+   if (hcpDir.total > 11) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 2; // wrong points count, would overcall
+   }
+
+   twlHCP hcpSand(rho);
+   if (hcpSand.total < 10) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 2; // wrong points count, would overcall
+   }
+
+
+   twLengths lenSand(rho);
+   if (lenSand.s < 6 || 7 < lenSand.s ||
+      4 < lenSand.d) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE;// overcalled 3s
+   }
+
+   // overcall on 5s only with more strength
+//    if (lenSand.s == 5 && hcpSand.total <12) {
+//       camp = SKIP_BY_RESP;
+//       return ORDER_BASE + 1;
+//    }
+
+   // seems it passes
+   return 0;
+}
+#endif // SEMANTIC_OCT_WEAK_GAMBLING

@@ -155,8 +155,22 @@ void Walrus::CumulativeScore::OurNV5minor(uint tricks)
       case 13: bidGame += 440; break;
    }
 
-   // "always partscore" strategy -- not applicable
+   // "always partscore" strategy
    int partdelta = 0;
+   switch (tricks) {
+      case 2:  partdelta -= 400; break;
+      case 3:  partdelta -= 350; break;
+      case 4:  partdelta -= 300; break;
+      case 5:  partdelta -= 250; break;
+      case 6:  partdelta -= 200; break;
+      case 7:  partdelta -= 150; break;
+      case 8:  partdelta -= 100; break;
+      case 9:  partdelta -= 50; break;
+      case 10: partdelta += 130; break;
+      case 11: partdelta += 150; break;
+      case 12: partdelta += 170; break;
+      case 13: partdelta += 190; break;
+   }
    partscore += partdelta;
 
    // "ideal"

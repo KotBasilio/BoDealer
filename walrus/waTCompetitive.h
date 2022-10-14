@@ -1,6 +1,17 @@
 // -----------------------------------------------------------------
 // --- DESCRIPTIONS
 
+#ifdef SEMANTIC_OCT_WEAK_GAMBLING
+   #define TITLE_VERSION  "Fix weak Gambling hand 2047;\n2c p 3d(trf) 3s\n??\nQuestion: 4c or 5c? Task"
+   #define SEEK_BIDDING_LEVEL
+   #define SHOW_PARTSCORE_STATLINE
+   #define SCORE_OPP_CONTRACT
+   #define SHOW_OPP_RESULTS
+   #define SHOW_OPPS_ON_PASS
+   #define OC_TRUMPS       SOL_SPADES
+   #define OC_ON_LEAD      NORTH
+#endif
+
 #ifdef SEMANTIC_MIXED_PREVENTIVE_4S
    #define TITLE_VERSION  "Fix some 2 hcp with 6331;\n1NT X 2h(trf) X\n2s(fit 3 or 4) 3h ??\nQuestion: 3s or 4s? Task"
    #define SEEK_BIDDING_LEVEL

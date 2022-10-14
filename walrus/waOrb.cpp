@@ -173,7 +173,7 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
       // score alternative contract
       futureTricks futTheirs;
       cards.trump = TWICE_TRUMPS;
-      cards.first = TWICE_ON_LEAD;
+      cards.first = TWICE_ON_LEAD_INSPECT;
       target = -1;
       res = SolveBoard(cards, target, solutions, mode, &futTheirs, threadIndex);
       if (res != RETURN_NO_FAULT) {

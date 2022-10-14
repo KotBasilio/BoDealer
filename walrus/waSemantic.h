@@ -105,9 +105,10 @@ public:
    uint SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho);
    uint Dec12_2425(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
    uint Sep10_4252(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
-   uint JanDblThenH(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho);
+   uint JanDblThenH(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
 
    // Bidding decision competitive:
+   uint OctWeakGambling(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
    uint FitoJuly(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint AugSplitFit(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint NovSlam(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);

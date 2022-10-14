@@ -157,7 +157,8 @@ protected:
     void Score_OpLead3NTX(DdsTricks &tr);
     void Score_OpLead5D(DdsTricks &tr);
     void Score_OpLead5DX(DdsTricks &tr);
-    void Score_Opp3MajorDoubled(DdsTricks &tr);
+    void Score_Opp3MajorDoubled(DdsTricks& tr);
+    void Score_Opp3Major(DdsTricks& tr);
     void Score_Opp4MajorDoubled(DdsTricks &tr);
     void Score_Opp4Major(DdsTricks &tr);
     void HitByScore(DdsTricks &tr, uint made, uint row = IO_ROW_OUR_DOWN);

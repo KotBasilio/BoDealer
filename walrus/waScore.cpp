@@ -115,9 +115,19 @@ void Walrus::Score_2m(DdsTricks &tr)
 
 void Walrus::Score_Opp3MajorDoubled(DdsTricks& tr)
 {
-   // we don't need any hits; need only a cumulative score
+   // store their hits
+   HitByScore(tr, 9, IO_ROW_THEIRS);
+   progress.countExtraMarks++;
+
+   // cumulative score
    cumulScore.Opp_3Major(cumulScore.oppContract, tr.plainScore);
    cumulScore.Opp_3MajX(cumulScore.oppCtrDoubled, tr.plainScore);
+}
+
+void Walrus::Score_Opp3Major(DdsTricks& tr)
+{
+   // this scores both
+   Score_Opp3MajorDoubled(tr);
 }
 
 void Walrus::Score_Opp4MajorDoubled(DdsTricks& tr)
