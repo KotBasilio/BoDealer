@@ -2426,21 +2426,21 @@ uint WaFilter::OctWeakGambling(SplitBits& partner, uint& camp, SplitBits& rho, S
 
 
    twLengths lenSand(rho);
-   if (lenSand.s < 5 || 7 < lenSand.s ||
+   if (lenSand.s < 6 || 7 < lenSand.s ||
       4 < lenSand.d) {
       camp = SKIP_BY_RESP;
       return ORDER_BASE;// overcalled 3s
    }
 
    // overcall on 5s only with more strength
-   if (lenSand.s == 5) {
-      if (hcpSand.total < 12 ||
-          3 < lenSand.h ||
-          4 < lenSand.d ) {
-      }
-      camp = SKIP_BY_RESP;
-      return ORDER_BASE + 1;
-   }
+//    if (lenSand.s == 5) {
+//       if (hcpSand.total < 12 ||
+//           3 < lenSand.h ||
+//           4 < lenSand.d ) {
+//       }
+//       camp = SKIP_BY_RESP;
+//       return ORDER_BASE + 1;
+//    }
 
    // seems it passes
    return 0;

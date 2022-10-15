@@ -224,4 +224,16 @@ Seek 10 tricks board by North in clubs ... example:
       S      4      3                   D      J      3
       S      9      3
       H      2      2
+===============================
+1-1-4-8
+    :  HITS COUNT   :
+    (we down):   91708,  90271,  43421,  11544,   1303,     89,      1,      0,    238337
+    (we make):   50033,  11142,    488,      0,      0,      0,      0,      0,     61663
+       (----):       0,      0,      0,      0,      0,      0,      0,      0,         0
+   (opp down):   99099,  45377,  11816,   1305,     49,      0,      0,      0,    157646
+   (opp make):   93276,  39901,   8337,    794,     46,      0,      0,      0,    142354
+   (--------):       0,      0,      0,      0,      0,      0,      0,      0,         0
+Processed: 300000 total. East is on lead. Goal is 11 tricks in clubs.
+Averages: ideal = 185, bidGame = 7, partscore=35.   Chances: 79.4% down some + 20.6% make
+Their contract expectation average: passed = -33, doubled = -169. Chance to make = 47.5%
 
