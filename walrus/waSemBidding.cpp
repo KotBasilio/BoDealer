@@ -2446,3 +2446,70 @@ uint WaFilter::OctWeakGambling(SplitBits& partner, uint& camp, SplitBits& rho, S
    return 0;
 }
 #endif // SEMANTIC_OCT_WEAK_GAMBLING
+
+#ifdef SEMANTIC_NOV_INVITE_PRECISION
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &WaFilter::NovInvitePrecision;
+   sem.onScoring = &Walrus::Score_4Major;
+}
+
+uint WaFilter::NovInvitePrecision(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho)
+{
+   const uint ORDER_BASE = 3;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_RESP = 2;
+   const uint SKIP_BY_OPP = 3;
+
+   twlHCP hcpPart(partner);
+   if (hcpPart.total < 14 || 15 < hcpPart.total) {// max of 2c
+      camp = SKIP_BY_PART;
+      return ORDER_BASE; // wrong points count
+   }
+   twLengths lenPart(partner);
+   if (4 != lenPart.s ||
+      3 < lenPart.h ||
+      //4 < lenPart.d ||
+      5 != lenPart.c) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 2; // 5-4 spades
+   }
+
+   twLengths lenOpp(lho);
+   if (lenOpp.h > 6 ||
+      lenOpp.d > 6 ) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 3;// no 7+ suits
+   }
+
+   twlHCP hcpDir(lho);
+   if (hcpDir.total > 11 && lenOpp.c < 3) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 2; // wrong points count, would overcall
+   }
+   if (hcpDir.total > 13) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE; // wrong points count, would overcall
+   }
+
+   twlHCP hcpSand(rho);
+   if (hcpSand.total > 12) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE + 2; // wrong points count, would overcall
+   }
+
+
+   twLengths lenSand(rho);
+   if (lenSand.h > 6 || 
+       lenSand.d > 6) {
+      camp = SKIP_BY_RESP;
+      return ORDER_BASE;// no 7+ suits
+   }
+
+   // seems it passes
+   return 0;
+}
+
+#endif // SEMANTIC_NOV_INVITE_PRECISION
+

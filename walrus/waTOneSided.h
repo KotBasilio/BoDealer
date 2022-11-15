@@ -1,5 +1,11 @@
 // -----------------------------------------------------------------
 // --- DESCRIPTIONS
+#ifdef SEMANTIC_NOV_INVITE_PRECISION
+   #define TITLE_VERSION  "Fix a 8 hcp with 5-4 fit;\n2c 2d\n2s\nQuestion: Should we invite with 3s? Task"
+   #define SEEK_BIDDING_LEVEL
+#endif 
+
+// ---
 #ifdef SEMANTIC_AUG_3NT_ON_SPADE_FIT
    #define TITLE_VERSION  "Max scoring. Fix a 9 hcp with doubleton fit;\n1c 1h\n1s 1NT\n2s 2NT\n3NT ??\nQuestion: pass 3NT or 4s? Task"
    #define SEEK_MAGIC_FLY

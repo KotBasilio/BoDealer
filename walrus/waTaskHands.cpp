@@ -14,6 +14,14 @@
 
  // --------------------------------------------------------------------------------
  // input
+#ifdef SEMANTIC_NOV_INVITE_PRECISION
+#define INPUT_AS_PBN 
+char const taskHandPBN[] = "[N:J942.AQJ72.73.62]";
+//char const taskHandPBN[] = "[N:AQJ72.J942.73.62]";
+#define INPUT_TRUMPS    SOL_SPADES
+#define INPUT_ON_LEAD   WEST
+#endif 
+
 #ifdef SEMANTIC_OCT_WEAK_GAMBLING
 // origin: Partizan club, IMP
 #define INPUT_AS_PBN 

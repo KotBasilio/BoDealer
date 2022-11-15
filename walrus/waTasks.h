@@ -4,6 +4,7 @@
  ************************************************************/
 
 // Bidding decision one-sided:
+#define SEMANTIC_NOV_INVITE_PRECISION
 //#define SEMANTIC_APR_64_INVITE
 //#define SEMANTIC_AUG_3NT_ON_SPADE_FIT
 //#define SEMANTIC_AUG_3NT2_ON_SPADE_FIT
@@ -22,7 +23,7 @@
 //#define SEMANTIC_SEPT_MANTICORA_14_16
 
 // Bidding decision competitive:
-#define SEMANTIC_OCT_WEAK_GAMBLING
+//#define SEMANTIC_OCT_WEAK_GAMBLING
 //#define SEMANTIC_AUG_SPLIT_FIT
 //#define SEMANTIC_DEC_ACCEPT_TO_4S
 //#define SEMANTIC_DEC_BID_5H_OR_DBL_4S

@@ -106,6 +106,7 @@ public:
    uint Dec12_2425(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
    uint Sep10_4252(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
    uint JanDblThenH(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
+   uint NovInvitePrecision(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
 
    // Bidding decision competitive:
    uint OctWeakGambling(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
