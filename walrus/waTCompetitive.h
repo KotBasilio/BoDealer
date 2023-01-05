@@ -28,6 +28,13 @@
    #define SHOW_OPP_RESULTS
 #endif 
 
+#ifdef SEMANTIC_DEC21_DBL_ON_3NT
+#define TITLE_VERSION  "Fix some even values 9hcp;\nOpps bid:\n1c-1h\n1nt-2h\n2NT 3NT\n\nQuestion: maybe double that? v2.0"
+//#define SEEK_DECISION_OVER_DOUBLE
+#define SEEK_OPENING_LEAD
+//#define SHOW_OPP_RESULTS
+#endif
+
 #ifdef SEMANTIC_MIXED_2D_WITH_MAJOR
    #define TITLE_VERSION  "Fix some even values 7hcp;\nQuestion: maybe pass that? v2.0"
    #define SEEK_BIDDING_LEVEL

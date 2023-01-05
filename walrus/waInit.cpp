@@ -14,34 +14,6 @@
 
 SplitBits sbBlank;
 
-void DdsTricks::Init(futureTricks &fut)
-{
-   // plainScore is good for any goal
-   plainScore = 13 - fut.score[0];
-
-   // the rest is for opening lead
-#ifdef SEEK_OPENING_LEAD
-   for (int i = 0; i < fut.cards; i++) {
-      if (fut.suit[i] == SOL_SPADES && fut.rank[i] == CARD_LEAD_SPADE) {
-         lead.S = 13 - fut.score[i];
-         continue;
-      }
-      if (fut.suit[i] == SOL_HEARTS && fut.rank[i] == CARD_LEAD_HEARTS) {
-         lead.H = 13 - fut.score[i];
-         continue;
-      }
-      if (fut.suit[i] == SOL_DIAMONDS && fut.rank[i] == CARD_LEAD_DIAMD) {
-         lead.D = 13 - fut.score[i];
-         continue;
-      }
-      if (fut.suit[i] == SOL_CLUBS && fut.rank[i] == CARD_LEAD_CLUBS) {
-         lead.Ñ = 13 - fut.score[i];
-         continue;
-      }
-   }
-#endif // SEEK_OPENING_LEAD
-}
-
 Walrus::Walrus()
    // highBitscounts as many two cards in any suit. easily detected. doesn't cause an overflow
    : sem()
@@ -247,8 +219,8 @@ void Walrus::SolveSavedTasks()
 
    // decide how to solve
    #ifdef _DEBUG
-      //SolveOneByOne(dlBase);
-      SolveInChunks(dlBase);
+      SolveOneByOne(dlBase);
+      //SolveInChunks(dlBase);
    #else
       SolveInChunks(dlBase);
    #endif // _DEBUG

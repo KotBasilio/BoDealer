@@ -24,21 +24,6 @@ void DdsTask::DTUnion::Init(SplitBits &sb)
    hand = sb;
 }
 
-uint CountBits(uint v)// count bits set in this (32-bit value)
-{
-   uint c; // store the total here
-   static const int S[] = { 1, 2, 4, 8, 16 }; // Magic Binary Numbers
-   static const int B[] = { 0x55555555, 0x33333333, 0x0F0F0F0F, 0x00FF00FF, 0x0000FFFF };
-
-   c = v - ((v >> 1) & B[0]);
-   c = ((c >> S[1]) & B[1]) + (c & B[1]);
-   c = ((c >> S[2]) + c) & B[2];
-   c = ((c >> S[3]) + c) & B[3];
-   c = ((c >> S[4]) + c) & B[4];
-
-   return c;
-}
-
 void HandleErrorDDS(deal &cards, int res)
 {
    char line[80];

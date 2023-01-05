@@ -2,6 +2,11 @@
 // --- DESCRIPTIONS
 // -------------------------------------------------------- 
 
+#ifdef SEMANTIC_JAN_PETYA_VS_3NT
+   #define TITLE_VERSION  "Fix a 10 hcp ;\n 1NT - 3NT\nQuestion: what to lead?\nVer 2.0 "
+   #define SEEK_OPENING_LEAD
+#endif // SEMANTIC_JAN_PETYA_VS_3NT
+
 // ---
 #ifdef SEMANTIC_AUG_LEAD_VS_3H
    #define TITLE_VERSION  "Fix a hand with an ace;\n....s\nQuestion: what to lead?\nVer 2.0 "
@@ -14,13 +19,6 @@
    #define SEEK_OPENING_LEAD
    #define PERCENTAGES_IN_ANSWER_ROW
 #endif 
-
-#ifdef SEMANTIC_DEC21_DBL_ON_3NT
-   #define TITLE_VERSION  "Fix some even values 9hcp;\nOpps bid:\n1c-1h\n1nt-2h\n2NT 3NT\n\nQuestion: maybe double that? v2.0"
-   //#define SEEK_DECISION_OVER_DOUBLE
-   #define SEEK_OPENING_LEAD
-   //#define SHOW_OPP_RESULTS
-#endif
 
 #ifdef SEMANTIC_JUNE_MAX_5D_LEAD
    #define TITLE_VERSION  "Fix a strong hand;\n(p)-p-(1d)-1h\n(3d)-3h-(p)-4h\n(p)-p-(5d)-X-all pass\nQuestion: what to lead?\nVer 2.0 "

@@ -14,6 +14,19 @@
 
  // --------------------------------------------------------------------------------
  // input
+
+#ifdef SEMANTIC_JAN_PETYA_VS_3NT
+// origin match at home
+#define INPUT_AS_PBN 
+char const taskHandPBN[] = "[W:QT83.A72.73.A862]";
+#define INPUT_TRUMPS    SOL_NOTRUMP
+#define INPUT_ON_LEAD   WEST
+#define CARD_LEAD_SPADE   K3
+#define CARD_LEAD_HEARTS  KA
+#define CARD_LEAD_DIAMD   K7
+#define CARD_LEAD_CLUBS   K2
+#endif // SEMANTIC_JAN_PETYA_VS_3NT
+
 #ifdef SEMANTIC_NOV_INVITE_PRECISION
 #define INPUT_AS_PBN 
 char const taskHandPBN[] = "[N:J942.AQJ72.73.62]";
@@ -641,6 +654,21 @@ void Walrus::WithdrawByInput(void)
    }
 }
 
+uint CountBits(uint v)// count bits set in this (32-bit value)
+{
+   uint c; // store the total here
+   static const int S[] = { 1, 2, 4, 8, 16 }; // Magic Binary Numbers
+   static const int B[] = { 0x55555555, 0x33333333, 0x0F0F0F0F, 0x00FF00FF, 0x0000FFFF };
+
+   c = v - ((v >> 1) & B[0]);
+   c = ((c >> S[1]) & B[1]) + (c & B[1]);
+   c = ((c >> S[2]) + c) & B[2];
+   c = ((c >> S[3]) + c) & B[3];
+   c = ((c >> S[4]) + c) & B[4];
+
+   return c;
+}
+
 void Walrus::PrepareBaseDeal(deal& dlBase)
 {
    dlBase.trump = INPUT_TRUMPS;
@@ -654,10 +682,46 @@ void Walrus::PrepareBaseDeal(deal& dlBase)
    dlBase.currentTrickRank[1] = 0;
    dlBase.currentTrickRank[2] = 0;
 
+   uint countCards = 0;
    for (int h = 0; h < DDS_HANDS; h++) {
       for (int s = 0; s < DDS_SUITS; s++) {
-         dlBase.remainCards[h][s] = (*input_holdings)[s][h];
+         auto holding = (*input_holdings)[s][h];
+         dlBase.remainCards[h][s] = holding;
+         countCards += CountBits(holding);
       }
    }
+
+   if (countCards != 13) {
+      printf("\nERROR: Wrong count of cards in hand: %d\n", shuf.cardsInDeck);
+   }
 }
+
+void DdsTricks::Init(futureTricks& fut)
+{
+   // plainScore is good for any goal
+   plainScore = 13 - fut.score[0];
+
+   // the rest is for opening lead
+#ifdef SEEK_OPENING_LEAD
+   for (int i = 0; i < fut.cards; i++) {
+      if (fut.suit[i] == SOL_SPADES && fut.rank[i] == CARD_LEAD_SPADE) {
+         lead.S = 13 - fut.score[i];
+         continue;
+      }
+      if (fut.suit[i] == SOL_HEARTS && fut.rank[i] == CARD_LEAD_HEARTS) {
+         lead.H = 13 - fut.score[i];
+         continue;
+      }
+      if (fut.suit[i] == SOL_DIAMONDS && fut.rank[i] == CARD_LEAD_DIAMD) {
+         lead.D = 13 - fut.score[i];
+         continue;
+      }
+      if (fut.suit[i] == SOL_CLUBS && fut.rank[i] == CARD_LEAD_CLUBS) {
+         lead.Ñ = 13 - fut.score[i];
+         continue;
+      }
+   }
+#endif // SEEK_OPENING_LEAD
+}
+
 

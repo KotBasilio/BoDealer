@@ -4,7 +4,7 @@
  ************************************************************/
 
 // Bidding decision one-sided:
-#define SEMANTIC_NOV_INVITE_PRECISION
+//#define SEMANTIC_NOV_INVITE_PRECISION
 //#define SEMANTIC_APR_64_INVITE
 //#define SEMANTIC_AUG_3NT_ON_SPADE_FIT
 //#define SEMANTIC_AUG_3NT2_ON_SPADE_FIT
@@ -36,11 +36,12 @@
 //#define SEMANTIC_MIXED_PREVENTIVE_4S
 //#define SEMANTIC_NOV_BID_6C_OR_DBL_4S
 //#define SEMANTIC_NOV_DBL_ON_3NT
+//#define SEMANTIC_DEC21_DBL_ON_3NT
 //#define SEMANTIC_TRICOLOR_STRONG
 
 // Opening lead:
+#define SEMANTIC_JAN_PETYA_VS_3NT
 //#define SEMANTIC_AUG_LEAD_VS_3H
-//#define SEMANTIC_DEC21_DBL_ON_3NT
 //#define SEMANTIC_IMPS_LEAD_LEVKOVICH
 //#define SEMANTIC_JUNE_LEAD_3343
 //#define SEMANTIC_JUNE_MAX_5D_LEAD

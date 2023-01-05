@@ -390,3 +390,92 @@ uint WaFilter::NovLevk(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits
 }
 #endif // SEMANTIC_IMPS_LEAD_LEVKOVICH
 
+#ifdef SEMANTIC_JAN_PETYA_VS_3NT
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &WaFilter::NovLevk;
+   sem.onScoring = &Walrus::Score_OpLead3NT;
+}
+
+uint WaFilter::NovLevk(SplitBits& partner, uint& camp, SplitBits& dummy, SplitBits& decl)
+{
+   const uint ORDER_BASE = 5;
+   const uint SKIP_BY_PART = 1;
+   const uint SKIP_BY_OPP = 2;
+   const uint SKIP_BY_DECL = 3;
+
+   // decl:  1NT
+   // dummy: 3NT
+   // partner: pass
+   twlHCP hcpDecl(decl);
+   if (hcpDecl.total < 15 || 17 < hcpDecl.total) {
+      camp = SKIP_BY_DECL;
+      return ORDER_BASE; // wrong points count
+   }
+   twlHCP hcpDummy(dummy);
+   if (hcpDummy.total < 9 || 11 < hcpDummy.total) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 1; // wrong points count
+   }
+
+   twLengths lenDum(dummy);
+   if (hcpDummy.total == 9) {// hcp => request 5+ minor
+      if ((lenDum.d < 5 || 7 < lenDum.d) &&
+          (lenDum.c < 5 || 7 < lenDum.c)) {
+         camp = SKIP_BY_OPP;
+         return ORDER_BASE + 2; // wrong minor
+      }
+   }
+
+   // exclude 5+ major
+   if (lenDum.h > 4 || 
+       lenDum.s > 4) {
+      camp = SKIP_BY_OPP;
+      return ORDER_BASE + 3;
+   }
+
+   // allow =4M only in 4333
+   if (lenDum.h == 4) {
+      if (lenDum.s < 3 || lenDum.c < 3 || lenDum.d < 3) {
+         camp = SKIP_BY_OPP;
+         return ORDER_BASE + 4;
+      }
+   }
+   if (lenDum.s == 4) {
+      if (lenDum.h < 3 || lenDum.c < 3 || lenDum.d < 3) {
+         camp = SKIP_BY_OPP;
+         return ORDER_BASE + 5;
+      }
+   }
+
+   twLengths lenDecl(decl);
+   if (lenDecl.s > 4 ||
+      lenDecl.h > 4 ||
+      lenDecl.d > 5 ||
+      lenDecl.c > 5) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // kind of NT
+   }
+   if (lenDecl.s < 2 ||
+      lenDecl.h < 2 ||
+      lenDecl.d < 2 ||
+      lenDecl.c < 2) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 2;// kind of NT
+   }
+
+   twLengths lenPart(partner);
+   if (lenPart.s > 7 ||
+      lenPart.h > 7 ||
+      lenPart.c > 7 ||
+      lenPart.d > 7) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 3; // may overcall
+   }
+
+   // seems it passes
+   return 0;
+}
+#endif // SEMANTIC_JAN_PETYA_VS_3NT
+
