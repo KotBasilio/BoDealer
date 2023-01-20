@@ -2613,6 +2613,18 @@ uint WaFilter::SomeInvite(SplitBits& partner, uint& camp, SplitBits& direct, Spl
       }
    }
 
+   // detect stopper
+   bool hasStopper = 
+      (hcpPart.h > 3) ||
+      (hcpPart.h > 2 && lenPart.h > 1) || 
+      (hcpPart.h > 1 && lenPart.h > 2) ||
+      (hcpPart.h > 0 && lenPart.h > 3);
+
+   if (hasStopper) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 6; // lucky coin
+   }
+
    // seems it passes
    return 0;
 }

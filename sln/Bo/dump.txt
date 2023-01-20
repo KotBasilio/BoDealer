@@ -1,40 +1,40 @@
 Error code=-14
 
 Deal data:
-trump=N
+trump=D
 first=W
-index1=0 index2=0 remainCards=6028
-index1=0 index2=1 remainCards=16588
-index1=0 index2=2 remainCards=30120
-index1=0 index2=3 remainCards=17236
-index1=1 index2=0 remainCards=2128
-index1=1 index2=1 remainCards=1824
-index1=1 index2=2 remainCards=2640
-index1=1 index2=3 remainCards=8320
-index1=2 index2=0 remainCards=24608
-index1=2 index2=1 remainCards=14352
-index1=2 index2=2 remainCards=4
-index1=2 index2=3 remainCards=7208
-index1=3 index2=0 remainCards=0
-index1=3 index2=1 remainCards=0
-index1=3 index2=2 remainCards=0
-index1=3 index2=3 remainCards=0
+index1=0 index2=0 remainCards=19984
+index1=0 index2=1 remainCards=192
+index1=0 index2=2 remainCards=7232
+index1=0 index2=3 remainCards=16704
+index1=1 index2=0 remainCards=12288
+index1=1 index2=1 remainCards=316
+index1=1 index2=2 remainCards=24
+index1=1 index2=3 remainCards=4768
+index1=2 index2=0 remainCards=40
+index1=2 index2=1 remainCards=12288
+index1=2 index2=2 remainCards=24964
+index1=2 index2=3 remainCards=3096
+index1=3 index2=0 remainCards=452
+index1=3 index2=1 remainCards=19968
+index1=3 index2=2 remainCards=544
+index1=3 index2=3 remainCards=8196
 
 target=-1
-solutions=3
+solutions=1
 mode=0
 
 
-        S QT98732
-        H A7632
-        D AKQT8753
-        C A98642
-S --            S J64
-H --            H T985
-D --            D J964
-C --            C K7
-        S AK5
-        H KQJ4
-        D 2
-        C QJT53
+        S AJT94
+        H 76
+        D QJT6
+        C A86
+S 8762          S KQ
+H AJT9          H 85432
+D 95            D 43
+C K2            C Q975
+        S 53
+        H KQ
+        D AK872
+        C JT43
 
