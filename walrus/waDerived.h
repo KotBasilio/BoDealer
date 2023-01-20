@@ -14,12 +14,16 @@
    #define SHOW_MY_FLY_RESULTS
 #endif
 
-#ifdef SCORE_OPP_CONTRACT
+#ifdef SCORE_THE_OTHER_CONTRACT
    #define SOLVE_TWICE_HANDLED_CHUNK
    #define TWICE_TRUMPS            OC_TRUMPS
    #define TWICE_ON_LEAD_INSPECT   OC_ON_LEAD
    #define TWICE_ON_LEAD_CHUNK     OC_ON_LEAD
-   #define SHOW_OPP_RESULTS
+   #ifdef THE_OTHER_IS_OURS
+      #define SHOW_OUR_OTHER
+   #else
+      #define SHOW_OPP_RESULTS
+   #endif
 #endif
 
 #ifndef SHOW_OPP_RESULTS
@@ -93,6 +97,7 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
    //const uint MAX_ITERATION = 10000;
    const uint MAX_TASKS_TO_SOLVE = 10240;
    #define SKIP_HELPERS
+   //#define SOLVE_ONE_BY_ONE
 #else
    //const uint MAX_ITERATION = 4001000000;// 4 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 3001000000;// 3 mlrd + 1 millon gratis
@@ -100,8 +105,8 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
    //const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 501000000;// a half of mlrd
    //const uint MAX_ITERATION = 333000000;// a third of mlrd
-   const uint MAX_ITERATION = 251000000;// a quarter of mlrd
-   //const uint MAX_ITERATION = 101000000;// 101 mln
+   //const uint MAX_ITERATION = 251000000;// a quarter of mlrd
+   const uint MAX_ITERATION = 101000000;// 101 mln
    //const uint MAX_ITERATION = 12000000;// 12 mln
    const uint MAX_TASKS_TO_SOLVE = 4*1000*1000;
 #endif

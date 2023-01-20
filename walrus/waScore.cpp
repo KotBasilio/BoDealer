@@ -9,6 +9,8 @@
 #include "../dds-develop/include/dll.h"
 #include "../dds-develop/examples/hands.h"
 
+#define min(a,b) (((a) < (b)) ? (a) : (b))
+
 void Walrus::HitByScore(DdsTricks &tr, uint made, uint row /*= IO_ROW_OUR_DOWN*/)
 {
    uint camp = 0;
@@ -55,6 +57,12 @@ void Walrus::Score_NV_5Major(DdsTricks &tr)
    cumulScore.OurNV5M(tr.plainScore);
 }
 
+void Walrus::Score_5Minor(DdsTricks& tr)
+{
+   HitByScore(tr, 11);
+   cumulScore.Our5minor(tr.plainScore);
+}
+
 void Walrus::Score_NV_5Minor(DdsTricks &tr)
 {
    HitByScore(tr, 11);
@@ -87,7 +95,7 @@ void Walrus::NoticeMagicFly(uint trickSuit, uint tricksNT)
       progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_PREFER_SUIT]++;
    }
 
-   // etxra marks: one for 3NT result, and one for the fly
+   // extra marks: one for 3NT result, and one for the fly
    progress.countExtraMarks += 2;
 }
 
@@ -145,6 +153,28 @@ void Walrus::Score_Opp4Major(DdsTricks &tr)
    HitByScore(tr, 10, IO_ROW_THEIRS);
    progress.countExtraMarks++;
    cumulScore.Opp_4M(cumulScore.oppContract, tr.plainScore);
+}
+
+void Walrus::Score_Opp3NT(DdsTricks& tr)
+{
+   HitByScore(tr, 9, IO_ROW_THEIRS);
+   progress.countExtraMarks++;
+   cumulScore.Opp_3NT(cumulScore.oppContract, tr.plainScore);
+   cumulScore.ourOther = -cumulScore.oppContract;
+}
+
+void Walrus::CountComboScore(uint trickSuit, uint tricksNT)
+{
+   s64    deltaCombo = 0L;
+   if (tricksNT > 8) {
+      cumulScore.Opp_3NT(deltaCombo, tricksNT);
+   } else if (trickSuit > 10) {
+      cumulScore.Opp_5minor(deltaCombo, trickSuit);
+   } else {
+      uint tricksSet = min(9-tricksNT, 11-trickSuit);
+      deltaCombo = 100 * tricksSet;
+   }
+   cumulScore.ourCombo -= deltaCombo;
 }
 
 void Walrus::Score_NV6Major(DdsTricks& tr)

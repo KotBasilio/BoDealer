@@ -256,7 +256,8 @@ int Walrus::PokeScorerForTricks()
    if (cumulScore.ideal > 500) {
       // maybe 5M?
       if (cumulScore.bidGame < 420 ||
-          cumulScore.bidGame == 510) {
+          cumulScore.bidGame == 510 ||
+          cumulScore.bidGame == 440) {
          return 11;
       }
       return 10;
@@ -291,7 +292,7 @@ void Walrus::InitMiniUI(int trump, int first)
    // fill names
    strcpy(ui.declTrump, s_TrumpNames[trump]);
    strcpy(ui.seatOnLead, s_SeatNames[first]);
-#ifdef SCORE_OPP_CONTRACT
+#ifdef SCORE_THE_OTHER_CONTRACT
    strcpy(ui.theirTrump, s_TrumpNames[OC_TRUMPS]);
 #endif
 
@@ -488,6 +489,11 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
             DdsTricks tr; tr.Init(solved.solvedBoard[handno]);
             NoticeMagicFly(tr.plainScore, trTw.plainScore);
          #endif // SEEK_MAGIC_FLY
+
+         #ifdef THE_OTHER_IS_OURS
+            // DdsTricks tr; tr.Init(solved.solvedBoard[handno]);
+            // CountComboScore(tr.plainScore, trTw.plainScore);
+         #endif // THE_OTHER_IS_OURS
       }
    }
    #endif

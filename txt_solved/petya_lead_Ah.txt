@@ -1,0 +1,8 @@
+    :  HITS COUNT   :
+       (down):    6942,   2203,    652,    104,      6,      0,      0,      9907
+       (make):    9312,   5607,   2174,      0,      0,      0,      0,     17093
+Processed: 27000 total. West is on lead. Goal is 9 tricks in notrump.
+Chances: 36.7% down some + 63.3% make
+Averages: ideal = 339, lead Spade = 442, lead Hearts = 425, lead Diamonds = 504, lead Clubs = 520
+Yet more 876737 to go:.........
+

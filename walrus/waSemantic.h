@@ -6,6 +6,8 @@
 // output rows
 const uint IO_ROW_OUR_DOWN = 0;
 const uint IO_ROW_OUR_MADE = IO_ROW_OUR_DOWN + 1;
+const uint IO_ROW_ZEROES = IO_ROW_OUR_DOWN + 2;
+const uint ORDER_BASE = 3;
 const uint IO_ROW_THEIRS = 10;
 const uint IO_ROW_MYFLY = 12;
 
@@ -14,6 +16,11 @@ const uint IO_CAMP_OFF = 0;
 const uint IO_CAMP_PREFER_SUIT = 1;
 const uint IO_CAMP_SAME_NT = 2;
 const uint IO_CAMP_MORE_NT = 3;
+const uint SKIP_BY_PART = 1;
+const uint SKIP_BY_RESP = 2;
+const uint SKIP_BY_OPP = 3;
+const uint SKIP_BY_DIRECT = SKIP_BY_RESP;
+const uint SKIP_BY_SANDWICH = SKIP_BY_OPP;
 
 // all cards + flip over 12 cards
 const uint FLIP_OVER_SIZE = 12;
@@ -107,6 +114,7 @@ public:
    uint Sep10_4252(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
    uint JanDblThenH(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
    uint NovInvitePrecision(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
+   uint SomeInvite(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
 
    // Bidding decision competitive:
    uint OctWeakGambling(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);

@@ -184,9 +184,13 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
       tr.Init(futTheirs);
 
       // build header
-      char header[40];
-      #ifdef SCORE_OPP_CONTRACT
-         sprintf(header, "Their contract in %s has %d tricks.", ui.theirTrump, tr.plainScore);
+      char header[60];
+      #ifdef SCORE_THE_OTHER_CONTRACT
+         const char *whos = "Their";
+         #ifdef THE_OTHER_IS_OURS
+            whos = "A";
+         #endif
+         sprintf(header, "%s contract in %s has %d tricks.", whos, ui.theirTrump, tr.plainScore);
       #elif defined(SEEK_MAGIC_FLY) 
          sprintf(header, "NT contract has %d tricks.", tr.plainScore);
       #else 

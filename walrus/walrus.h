@@ -72,6 +72,7 @@ protected:
     void HandleSolvedChunk(struct boards& bo, struct solvedBoards& chunk);
     void HandleSolvedBoard(DdsTricks &tr, deal &cards, futureTricks &fut);
     void NoticeMagicFly(uint trickSuit, uint tricksNT);
+    void CountComboScore(uint trickSuit, uint tricksNT);
     void HandleDDSFail(int res);
 
     // multi-thread
@@ -112,6 +113,7 @@ protected:
        s64    partscore;
        s64    leadS, leadH, leadD, leadC;
        s64    oppContract, oppCtrDoubled;
+       s64    ourOther, ourCombo;
        // -- opening lead
        void OpLead3NT    (s64 &sum, uint tricks);
        void OpLead3NTX   (s64 &sum, uint tricks);
@@ -125,7 +127,8 @@ protected:
        void Opp_NV_4MajX (s64 &sum, uint tricks);
        void Opp_3NT      (s64 &sum, uint tricks);
        void Opp_3NTX     (s64 &sum, uint tricks);
-       void Opp_2m       (s64 &sum, uint tricks);
+       void Opp_5minor   (s64& sum, uint tricks);
+       void Opp_2m       (s64& sum, uint tricks);
        void Opp_2mX      (s64 &sum, uint tricks);
        // -- our contracts
        void OurNV6m      (uint tricks);
@@ -137,6 +140,7 @@ protected:
        void OurNV4MX     (uint tricks);
        void Our5M        (uint tricks);
        void OurNV5M      (uint tricks);
+       void Our5minor    (uint tricks);
        void OurNV5minor  (uint tricks);
     } cumulScore;
     void Score_4Major(DdsTricks &tr);
@@ -144,6 +148,7 @@ protected:
     void Score_NV_Doubled4Major(DdsTricks &tr);
     void Score_5Major(DdsTricks &tr);
     void Score_NV_5Major(DdsTricks &tr);
+    void Score_5Minor(DdsTricks& tr);
     void Score_NV_5Minor(DdsTricks &tr);
     void Score_3NT(DdsTricks &tr);
     void Score_MagicFly(DdsTricks& tr);
@@ -160,7 +165,8 @@ protected:
     void Score_Opp3MajorDoubled(DdsTricks& tr);
     void Score_Opp3Major(DdsTricks& tr);
     void Score_Opp4MajorDoubled(DdsTricks &tr);
-    void Score_Opp4Major(DdsTricks &tr);
+    void Score_Opp4Major(DdsTricks& tr);
+    void Score_Opp3NT(DdsTricks& tr);
     void HitByScore(DdsTricks &tr, uint made, uint row = IO_ROW_OUR_DOWN);
 
     // UI

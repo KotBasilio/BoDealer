@@ -1,11 +1,19 @@
 // -----------------------------------------------------------------
 // --- DESCRIPTIONS
+#ifdef SEMANTIC_JAN_INVITE_MINORS
+   #define TITLE_VERSION  "Fix a 12 hcp with 4-2-4-3;\n1d 1s\n2c \nQuestion: Should we invite with 3d? Task"
+   #define SEEK_BIDDING_LEVEL
+   #define SCORE_THE_OTHER_CONTRACT
+   #define THE_OTHER_IS_OURS
+   #define OC_TRUMPS       SOL_NOTRUMP
+   #define OC_ON_LEAD      WEST
+#endif // SEMANTIC_JAN_INVITE_MINORS
+
 #ifdef SEMANTIC_NOV_INVITE_PRECISION
    #define TITLE_VERSION  "Fix a 8 hcp with 5-4 fit;\n2c 2d\n2s\nQuestion: Should we invite with 3s? Task"
    #define SEEK_BIDDING_LEVEL
 #endif 
 
-// ---
 #ifdef SEMANTIC_AUG_3NT_ON_SPADE_FIT
    #define TITLE_VERSION  "Max scoring. Fix a 9 hcp with doubleton fit;\n1c 1h\n1s 1NT\n2s 2NT\n3NT ??\nQuestion: pass 3NT or 4s? Task"
    #define SEEK_MAGIC_FLY
@@ -14,6 +22,7 @@
    #define TITLE_VERSION  "Max scoring. Fix a 8 hcp with doubleton fit;\n1c 1dh\n1s 1NT\n2s 2NT(!)\n3d/3s/3NT ??\nQuestion: pass 3NT or 4s? Task"
    #define SEEK_MAGIC_FLY
 #endif
+
 #ifdef SEMANTIC_AUG_3NT_ON_44H
    #define TITLE_VERSION  "Max scoring. Fix a 7 hcp with 3433;\n2NT ??\nQuestion: pass 3NT or seek 4h? Task"
    #define SEEK_MAGIC_FLY

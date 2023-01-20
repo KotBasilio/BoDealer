@@ -11,15 +11,17 @@
 #include "walrus.h"
 #include HEADER_CURSES
 
+// output alignments
+char tblHat[]        = "    :  HITS COUNT   :\n";
+char tblFiltering[]  = "(FILTERING)       PARTNER       DIRECT     SANDWICH        TOTAL\n";
+char fmtFiltering[]  = "%12u,";
 #ifdef _DEBUG
 char fmtCell[] = "%6u,";
 char fmtCellFloat[] = "%6.1f,";
-char tblHat[] = "    :  HITS COUNT   :\n";
 #else
 char fmtCell[] = "%7u,";
 char fmtCellFloat[] = "%7.1f,";
 //char tblHat[] =  "    :       let    spade    heart     both     club             sum\n";
-char tblHat[] = "    :  HITS COUNT   :\n";
 #endif   
 
 const int MAX_CAMPS = 15;
@@ -55,6 +57,15 @@ bool Walrus::LoadInitialStatistics(const char *fname)
       sprintf(miniRowStart[IO_ROW_OUR_MADE], "    (we make): ");
       sprintf(miniRowStart[IO_ROW_THEIRS+0], "   (opp down): ");
       sprintf(miniRowStart[IO_ROW_THEIRS+1], "   (opp make): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS+2], "   (--------): ");
+   }
+   #endif
+   #ifdef SHOW_OUR_OTHER
+   {
+      sprintf(miniRowStart[IO_ROW_OUR_DOWN], "    (5d down): ");
+      sprintf(miniRowStart[IO_ROW_OUR_MADE], "    (5d make): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS+0], "   (3NT down): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS+1], "   (3NT make): ");
       sprintf(miniRowStart[IO_ROW_THEIRS+2], "   (--------): ");
    }
    #endif
@@ -105,7 +116,7 @@ void Walrus::BuildFileNames(void)
 static bool IsRowSkippable(int i)
 {
    // opp res => only middle is skippable
-   #if defined(SHOW_OPP_RESULTS) || defined (SHOW_MY_FLY_RESULTS)
+   #if defined(SHOW_OPP_RESULTS) || defined (SHOW_MY_FLY_RESULTS) || defined(SHOW_OUR_OTHER)
       return IO_ROW_OUR_MADE + 1 < i && i < IO_ROW_THEIRS;
    #endif
 
@@ -135,32 +146,50 @@ void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
       }
    }
 
-   // print all rows
+   // hat
    printf("\n%s", tblHat);
+
+   // for all rows
+   bool showFiltering = false;
    for (int i = 0; i < MINI_ROWS; i++) {
       // maybe we don't need this row already
       bool showRow = true;
       if ( IsRowSkippable(i) ) {
          uint solvedCount = hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE];
-         if (solvedCount > 900) {
+         if (solvedCount > 900 || showFiltering) {
             showRow = false;
+         } else if (i == IO_ROW_ZEROES) {
+            // switch to show filtering
+            showRow = false;
+            printf(tblFiltering);
+            showFiltering = true;
+            continue;
          }
       }
 
       // ok start printing
       if (showRow) printf( miniRowStart[i] );
+      char *fmt = fmtCell;
+      if (showFiltering) {
+         fmt = fmtFiltering;
+         miniCamps = 4;
+         showRow = showFiltering;
+      }
 
+      // calc and print one line
+      // -- its body
       uint sumline = 0;
       int j = 0;
       for (; j < miniCamps; j++) {
-         if (showRow) printf(fmtCell, progress.hitsCount[i][j]);
+         if (showRow) printf(fmt, progress.hitsCount[i][j]);
          sumline     += progress.hitsCount[i][j];
          hitsCamp[j] += progress.hitsCount[i][j];
       }
-
-      if (showRow) printf("%10u\n", sumline);
+      // -- its sum
+      if (showRow) printf("%12u\n", sumline);
       hitsRow[i] = sumline;
 
+      // may add percentages
       #ifdef PERCENTAGES_IN_ANSWER_ROW
          if (i == ANSWER_ROW_IDX) {
             if (!sumline) {
@@ -229,6 +258,13 @@ void Walrus::MiniReport(uint toGo)
    #endif // SHOW_OPPS_ON_PASS
    printf(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows);
 #endif 
+
+#ifdef SHOW_OUR_OTHER
+   uint sumOppRows = __max(hitsRow[IO_ROW_THEIRS] + hitsRow[IO_ROW_THEIRS + 1], 1);
+   printf("The other contract expectation average = %lld.", cumulScore.ourOther / sumOppRows);
+   printf(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows);
+   //printf("Combo-score average for our two contracts = %lld.\n", cumulScore.ourCombo / sumOppRows);
+#endif // SHOW_OUR_OTHER
 
 #ifdef SEEK_OPENING_LEAD
    printf("Averages: ideal = %lld, lead Spade = %lld, lead Hearts = %lld, lead Diamonds = %lld, lead Clubs = %lld\n",

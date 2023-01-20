@@ -218,10 +218,9 @@ void Walrus::SolveSavedTasks()
    SetMaxThreads(0);
 
    // decide how to solve
-   #ifdef _DEBUG
+   #ifdef SOLVE_ONE_BY_ONE
       SolveOneByOne(dlBase);
-      //SolveInChunks(dlBase);
    #else
       SolveInChunks(dlBase);
-   #endif // _DEBUG
+   #endif
 }

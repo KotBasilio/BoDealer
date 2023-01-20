@@ -137,6 +137,51 @@ void Walrus::CumulativeScore::Our5M(uint tricks)
    }
 }
 
+void Walrus::CumulativeScore::Our5minor(uint tricks)
+{
+   // "always game" strategy
+   switch (tricks) {
+      case 2:  bidGame -= 900; break;
+      case 3:  bidGame -= 800; break;
+      case 4:  bidGame -= 700; break;
+      case 5:  bidGame -= 600; break;
+      case 6:  bidGame -= 500; break;
+      case 7:  bidGame -= 400; break;
+      case 8:  bidGame -= 300; break;
+      case 9:  bidGame -= 200; break;
+      case 10: bidGame -= 100; break;
+      case 11: bidGame += 600; break;
+      case 12: bidGame += 620; break;
+      case 13: bidGame += 640; break;
+   }
+
+   // "always partscore" strategy
+   int partdelta = 0;
+   switch (tricks) {
+      case 2:  partdelta -= 700; break;
+      case 3:  partdelta -= 600; break;
+      case 4:  partdelta -= 500; break;
+      case 5:  partdelta -= 400; break;
+      case 6:  partdelta -= 300; break;
+      case 7:  partdelta -= 200; break;
+      case 8:  partdelta -= 100; break;
+      case 9:  partdelta += 110; break;
+      case 10: partdelta += 130; break;
+      case 11: partdelta += 150; break;
+      case 12: partdelta += 170; break;
+      case 13: partdelta += 190; break;
+   }
+   partscore += partdelta;
+
+   // "ideal"
+   if (tricks < 10) {
+      ideal += partdelta;
+   }
+   else {
+      ideal += 600 + (tricks - 11) * 20;
+   }
+}
+
 void Walrus::CumulativeScore::OurNV5minor(uint tricks)
 {
    // "always game" strategy
@@ -158,14 +203,14 @@ void Walrus::CumulativeScore::OurNV5minor(uint tricks)
    // "always partscore" strategy
    int partdelta = 0;
    switch (tricks) {
-      case 2:  partdelta -= 400; break;
-      case 3:  partdelta -= 350; break;
-      case 4:  partdelta -= 300; break;
-      case 5:  partdelta -= 250; break;
-      case 6:  partdelta -= 200; break;
-      case 7:  partdelta -= 150; break;
-      case 8:  partdelta -= 100; break;
-      case 9:  partdelta -= 50; break;
+      case 2:  partdelta -= 350; break;
+      case 3:  partdelta -= 300; break;
+      case 4:  partdelta -= 250; break;
+      case 5:  partdelta -= 200; break;
+      case 6:  partdelta -= 150; break;
+      case 7:  partdelta -= 100; break;
+      case 8:  partdelta -= 50 ; break;
+      case 9:  partdelta += 110; break;
       case 10: partdelta += 130; break;
       case 11: partdelta += 150; break;
       case 12: partdelta += 170; break;
@@ -177,7 +222,7 @@ void Walrus::CumulativeScore::OurNV5minor(uint tricks)
    if (tricks < 10) {
       ideal += partdelta;
    } else {
-      ideal += 450 + (tricks - 11) * 30;
+      ideal += 400 + (tricks - 11) * 20;
    }
 }
 

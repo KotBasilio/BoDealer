@@ -2513,3 +2513,109 @@ uint WaFilter::NovInvitePrecision(SplitBits& partner, uint& camp, SplitBits& rho
 
 #endif // SEMANTIC_NOV_INVITE_PRECISION
 
+
+#ifdef SEMANTIC_JAN_INVITE_MINORS
+void Walrus::FillSemantic(void)
+{
+   Orb_FillSem();
+   sem.onFilter = &WaFilter::SomeInvite;
+   sem.onScoring = &Walrus::Score_5Minor;
+   sem.onSolvedTwice = &Walrus::Score_Opp3NT;
+}
+
+uint WaFilter::SomeInvite(SplitBits& partner, uint& camp, SplitBits& direct, SplitBits& sand)
+{
+   twlHCP hcpPart(partner);
+   if (hcpPart.total < 11 || 13 < hcpPart.total) {// min of 1d-1s-2c
+      camp = SKIP_BY_PART;
+      return ORDER_BASE; // wrong points count
+   }
+   twLengths lenPart(partner);
+   if (lenPart.d + lenPart.c < 9) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 1; // 1d-1s-2c
+   }
+   if (2 < lenPart.s ||
+      4 < lenPart.h ||
+      5 < lenPart.d ||
+      5 < lenPart.c) {
+      camp = SKIP_BY_PART;
+      return ORDER_BASE + 2; // 1d-1s-2c
+   }
+   twlControls ctrPart(partner);
+   if (hcpPart.total > 11) {
+      if (ctrPart.total > 4) {
+         camp = SKIP_BY_PART;
+         return ORDER_BASE + 4; // 12+ hcp 5+ ctrl
+      }
+      if (lenPart.c == 5 && lenPart.d == 5) {
+         if (ctrPart.total > 3) {
+            camp = SKIP_BY_PART;
+            return ORDER_BASE + 3; // 5-5 and 12+ hcp 4+ctrl
+         }
+      }
+   }
+
+   twLengths lenDir(direct);
+   twlHCP hcpDir(direct);
+   if (hcpDir.total > 11 && lenDir.d < 3) {
+      camp = SKIP_BY_DIRECT;
+      return ORDER_BASE; // would overcall
+   }
+   if (hcpDir.total > 5) {
+      if (lenDir.h > 5 ||
+         lenDir.s > 5) {
+         camp = SKIP_BY_DIRECT;
+         return ORDER_BASE + 1;// no preempt
+      }
+      if (lenDir.h + lenDir.s > 9) {
+         camp = SKIP_BY_DIRECT;
+         return ORDER_BASE + 2;// michaels
+      }
+   }
+
+   if (hcpDir.h > 4 && lenDir.h > 5) {
+      camp = SKIP_BY_DIRECT;
+      return ORDER_BASE + 3;// h preempt
+   }
+   if (hcpDir.s > 4 && lenDir.s > 5) {
+      camp = SKIP_BY_DIRECT;
+      return ORDER_BASE + 3;// s preempt
+   }
+
+   if (hcpDir.total > 8) {
+      if (lenDir.h > 4 ||
+         lenDir.s > 4) {
+         camp = SKIP_BY_DIRECT;
+         return ORDER_BASE + 4; // would overcall
+      }
+   }
+
+   twLengths lenSand(sand);
+   if (lenSand.h > 6 ||
+      lenSand.c > 6) {
+      camp = SKIP_BY_SANDWICH;
+      return ORDER_BASE;// no 7+ suits
+   }
+
+   twlHCP hcpSand(sand);
+   if (hcpSand.total > 5) {
+      if (lenSand.h > 5) {
+         camp = SKIP_BY_SANDWICH;
+         return ORDER_BASE + 1; // wrong points count, would overcall
+      }
+   }
+
+   if (hcpSand.total > 11) {
+      if (lenSand.h > 4) {
+         camp = SKIP_BY_SANDWICH;
+         return ORDER_BASE + 2; // wrong points count, would overcall
+      }
+   }
+
+   // seems it passes
+   return 0;
+}
+
+#endif // SEMANTIC_JAN_INVITE_MINORS
+
