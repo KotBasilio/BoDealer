@@ -189,7 +189,8 @@ protected:
     } ui;
     void InitMiniUI(int trump, int first);
     void MiniReport(uint toGo);
-    void CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp);
+    void ReportFilteringResults();
+    void CalcHitsForMiniReport(uint* hitsRow, uint* hitsCamp);
     int  PokeScorerForTricks();
     void CleanupStats();
     void ShowProgress(uint idx);

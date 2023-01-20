@@ -13,7 +13,7 @@
 
 // output alignments
 char tblHat[]        = "    :  HITS COUNT   :\n";
-char tblFiltering[]  = "(FILTERING)       PARTNER       DIRECT     SANDWICH        TOTAL\n";
+char tblFiltering[]  = "  (FILTERING)       PARTNER       DIRECT     SANDWICH        TOTAL\n";
 char fmtFiltering[]  = "%12u,";
 #ifdef _DEBUG
 char fmtCell[] = "%6u,";
@@ -125,6 +125,34 @@ static bool IsRowSkippable(int i)
 }
 
 // OUT: hitsRow[], hitsCamp[]
+void Walrus::ReportFilteringResults()
+{
+   // hat
+   printf(tblFiltering);
+   int miniCamps = 4;
+
+   // for all rows
+   bool showFiltering = false;
+   for (int i = IO_ROW_OUR_MADE+2; i < IO_ROW_THEIRS; i++) {
+      // ok start printing
+      printf(miniRowStart[i]);
+
+      // calc and print one line
+      // -- its body
+      uint sumline = 0;
+      for (int j = 1; j < miniCamps; j++) {
+         printf(fmtFiltering, progress.hitsCount[i][j]);
+         sumline += progress.hitsCount[i][j];
+      }
+      // -- its sum
+      printf("%12u\n", sumline);
+   }
+
+   // repeat in case it scrolls
+   printf(tblFiltering);
+}
+
+// OUT: hitsRow[], hitsCamp[]
 void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
 {
    // zero hit sums
@@ -150,31 +178,13 @@ void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
    printf("\n%s", tblHat);
 
    // for all rows
-   bool showFiltering = false;
    for (int i = 0; i < MINI_ROWS; i++) {
       // maybe we don't need this row already
-      bool showRow = true;
-      if ( IsRowSkippable(i) ) {
-         uint solvedCount = hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE];
-         if (solvedCount > 900 || showFiltering) {
-            showRow = false;
-         } else if (i == IO_ROW_ZEROES) {
-            // switch to show filtering
-            showRow = false;
-            printf(tblFiltering);
-            showFiltering = true;
-            continue;
-         }
-      }
+      bool showRow = !IsRowSkippable(i);
 
       // ok start printing
       if (showRow) printf( miniRowStart[i] );
       char *fmt = fmtCell;
-      if (showFiltering) {
-         fmt = fmtFiltering;
-         miniCamps = 4;
-         showRow = showFiltering;
-      }
 
       // calc and print one line
       // -- its body
@@ -209,7 +219,8 @@ void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
 void Walrus::MiniReport(uint toGo)
 {
    if (mul.countToSolve && (toGo == mul.countToSolve)) {
-      printf("Solving started:");
+      ReportFilteringResults();
+      printf("Solving started: ");
       return;
    }
 
