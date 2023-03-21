@@ -1,7 +1,8 @@
 /************************************************************
  * Walrus BITS LAYOUT VARIANTS
- // a suit is encoded in 16 bits:
- // top 12 bits are for ranks; low 4 bits are for count
+ // each suit is encoded in 16 bits:
+ // -- top 12 bits are for ranks; 
+ // -- low 4 bits are for count
  // the deuce presence is deducted logically
  // NB: low bytes first, so never overflow
  ************************************************************/

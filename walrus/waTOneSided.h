@@ -1,5 +1,12 @@
 // -----------------------------------------------------------------
 // --- DESCRIPTIONS
+
+#ifdef SEMANTIC_FEB_3NT_REBID
+   #define TITLE_VERSION  "Fix a 14 hcp 6 diamonds;\n1d 1NT\nQuestion: Should we invite bid 3NT? Task"
+   #define SEEK_BIDDING_LEVEL
+   #define INPUT_AS_PBN 
+#endif 
+
 #ifdef SEMANTIC_JAN_INVITE_MINORS
    #define TITLE_VERSION  "Fix a 12 hcp with 4-2-4-3;\n1d 1s\n2c \nQuestion: Should we invite with 3d? Task"
    #define SEEK_BIDDING_LEVEL

@@ -14,11 +14,18 @@
 
  // --------------------------------------------------------------------------------
  // input
+//char const taskHandPBN[] = "[N:...]";
+
+#ifdef SEMANTIC_FEB_3NT_REBID
+char const taskHandPBN[] = "[N:94.A9.AQJ763.KT9]";
+#define INPUT_TRUMPS    SOL_NOTRUMP
+#define INPUT_ON_LEAD   WEST
+#endif 
 
 #ifdef SEMANTIC_JAN_INVITE_MINORS
 #define INPUT_AS_PBN 
-//char const taskHandPBN[] = "[N:AJT4.76.QJT6.A86]";
-char const taskHandPBN[] = "[N:AJ94.76.QJT6.A86]";
+char const taskHandPBN[] = "[N:AJT4.76.QJT6.A86]";
+//char const taskHandPBN[] = "[N:AJ94.76.QJT6.A86]";
 //char const taskHandPBN[] = "[N:AJT4.J6.QJT6.A86]";
 //char const taskHandPBN[] = "[N:AJT4.76.QJT6.AJ6]";
 //char const taskHandPBN[] = "[N:AT42.76.QJT6.AJ6]";

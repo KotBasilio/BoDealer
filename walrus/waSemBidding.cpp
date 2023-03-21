@@ -2620,7 +2620,7 @@ uint WaFilter::SomeInvite(SplitBits& partner, uint& camp, SplitBits& direct, Spl
       (hcpPart.h > 1 && lenPart.h > 2) ||
       (hcpPart.h > 0 && lenPart.h > 3);
 
-   if (hasStopper) {
+   if (!hasStopper) {
       camp = SKIP_BY_PART;
       return ORDER_BASE + 6; // lucky coin
    }

@@ -4,7 +4,8 @@
  ************************************************************/
 
 // Bidding decision one-sided:
-#define SEMANTIC_JAN_INVITE_MINORS
+#define SEMANTIC_FEB_3NT_REBID
+//#define SEMANTIC_JAN_INVITE_MINORS
 //#define SEMANTIC_NOV_INVITE_PRECISION
 //#define SEMANTIC_APR_64_INVITE
 //#define SEMANTIC_AUG_3NT_ON_SPADE_FIT
