@@ -79,6 +79,21 @@ uint WaFilter::SomeInvite(SplitBits& partner, uint& camp, SplitBits& sand, Split
       }
    }
 
+   if (lenDir.d < 1 ||
+      lenDir.h < 1 ||
+      lenDir.s < 1 || 
+      lenDir.c < 1) {
+      camp = SKIP_BY_DIRECT;
+      return ORDER_BASE + 5;// no voids
+   }
+   if (lenDir.d < 2 ||
+      lenDir.h < 2 ||
+      lenDir.s < 2 ||
+      lenDir.c < 2) {
+      camp = SKIP_BY_DIRECT;
+      return ORDER_BASE + 6;// no singletons
+   }
+
    twLengths lenSand(sand);
    if (lenSand.h > 6 ||
       lenSand.s > 6 ||
@@ -86,18 +101,38 @@ uint WaFilter::SomeInvite(SplitBits& partner, uint& camp, SplitBits& sand, Split
       camp = SKIP_BY_SANDWICH;
       return ORDER_BASE;// no 7+ suits
    }
-
    twlHCP hcpSand(sand);
    if (hcpSand.total > 8) {
       if (lenSand.h + lenSand.s > 8) {
          camp = SKIP_BY_SANDWICH;
-         return ORDER_BASE + 1; // wrong points count, would overcall
+         return ORDER_BASE + 1; // wrong majors, would overcall
       }
    }
    if (lenSand.h + lenSand.s > 10) {
       camp = SKIP_BY_SANDWICH;
-      return ORDER_BASE + 2; // wrong points count, would overcall
+      return ORDER_BASE + 2; // wrong majors, would overcall
    }
+   if (lenSand.d < 1 ||
+      lenSand.h < 1 ||
+      lenSand.s < 1 ||
+      lenSand.c < 1) {
+      camp = SKIP_BY_SANDWICH;
+      return ORDER_BASE + 3;// no voids
+   }
+   if (lenSand.d < 2 ||
+      lenSand.h < 2 ||
+      lenSand.s < 2 ||
+      lenSand.c < 2) {
+      camp = SKIP_BY_SANDWICH;
+      return ORDER_BASE + 3;// no singletons
+   }
+   if (hcpSand.total > 11) {
+      if (lenSand.h > 4 || lenSand.s > 4) {
+         camp = SKIP_BY_SANDWICH;
+         return ORDER_BASE + 4; // wrong majors, would overcall
+      }
+   }
+
 
    // seems it passes
    return 0;
