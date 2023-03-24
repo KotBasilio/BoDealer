@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32630.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bo", "Bo.vcxproj", "{C57E3FAE-DCC2-4036-9DA4-82E92A126DF3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Oscar", "..\Oscar\Oscar.vcxproj", "{F8BED00D-12C5-47F4-B02E-6C4DC4D4A0AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +23,19 @@ Global
 		{C57E3FAE-DCC2-4036-9DA4-82E92A126DF3}.Release|x64.Build.0 = Release|x64
 		{C57E3FAE-DCC2-4036-9DA4-82E92A126DF3}.Release|x86.ActiveCfg = Release|Win32
 		{C57E3FAE-DCC2-4036-9DA4-82E92A126DF3}.Release|x86.Build.0 = Release|Win32
+		{F8BED00D-12C5-47F4-B02E-6C4DC4D4A0AD}.Debug|x64.ActiveCfg = Debug|x64
+		{F8BED00D-12C5-47F4-B02E-6C4DC4D4A0AD}.Debug|x64.Build.0 = Debug|x64
+		{F8BED00D-12C5-47F4-B02E-6C4DC4D4A0AD}.Debug|x86.ActiveCfg = Debug|Win32
+		{F8BED00D-12C5-47F4-B02E-6C4DC4D4A0AD}.Debug|x86.Build.0 = Debug|Win32
+		{F8BED00D-12C5-47F4-B02E-6C4DC4D4A0AD}.Release|x64.ActiveCfg = Release|x64
+		{F8BED00D-12C5-47F4-B02E-6C4DC4D4A0AD}.Release|x64.Build.0 = Release|x64
+		{F8BED00D-12C5-47F4-B02E-6C4DC4D4A0AD}.Release|x86.ActiveCfg = Release|Win32
+		{F8BED00D-12C5-47F4-B02E-6C4DC4D4A0AD}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57BC7701-BC69-4E71-B280-DBF646D2D42B}
 	EndGlobalSection
 EndGlobal

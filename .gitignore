@@ -4,6 +4,7 @@
 /exe/*
 /intermediate/*
 /sln/Bo/x64/*
+/sln/Oscar/x64/*
 *.o
 *.d
 /sln/Bo/.vs/*
