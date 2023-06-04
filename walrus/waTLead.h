@@ -51,5 +51,6 @@
    #define PARTNER_HAND_TASK
    #define PERCENTAGES_IN_ANSWER_ROW
    #define ANSWER_ROW_IDX  1
-#endif 
+   #define IO_NEED_FULL_TABLE
+#endif
 

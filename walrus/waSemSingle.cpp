@@ -154,7 +154,6 @@ uint WaFilter::Spade4(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits 
       camp = 4;
    }
    return PASS_BASE;
-//   return ORDER_BASE; // wrong points count
 }
 
 #endif // SEMANTIC_SPADE_4_WHEN_1H

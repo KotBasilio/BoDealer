@@ -4,7 +4,7 @@
  ************************************************************/
 
 // Bidding decision one-sided:
-#define SEMANTIC_FEB_3NT_REBID
+//#define SEMANTIC_FEB_3NT_REBID
 //#define SEMANTIC_JAN_INVITE_MINORS
 //#define SEMANTIC_NOV_INVITE_PRECISION
 //#define SEMANTIC_APR_64_INVITE
@@ -52,7 +52,7 @@
 
 // One hand tasks:
 //#define SEMANTIC_KEYCARDS_10_12
-//#define SEMANTIC_SPADE_4_WHEN_1H
+#define SEMANTIC_SPADE_4_WHEN_1H
 
 // -----------------------------------------------------------------
 // task descriptions

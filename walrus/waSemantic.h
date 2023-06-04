@@ -47,6 +47,7 @@ struct waFileNames {
     char Command[FNAME_SIZE];
     char Progress[FNAME_SIZE];
     char Solution[FNAME_SIZE];
+    void Build();
 };
 
 // split bits card to operate super-fast

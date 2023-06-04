@@ -24,23 +24,19 @@ Walrus::Walrus()
    , shuf()
    , filter()
 {
-   BuildFileNames();
+   namesBase.Build();
+}
+
+bool Walrus::InitByConfig()
+{
+   // may read something
+   const char* fname = namesBase.StartFrom; //printf("\nNo initial stats needed\n");
+
+   // prepare basing on config
    FillSemantic();
    InitDeck();
    memset(progress.hitsCount, 0, sizeof(progress.hitsCount));
    SeedRand();
-}
-
-/*************************************************************
-'* Walrus::LoadInitialStatistics()
-'*
-'* RET : success/fail
-'* IN  : fname
-'*************************************************************/
-bool Walrus::LoadConfig()
-{
-   const char* fname = namesBase.StartFrom;
-   //printf("\nNo initial stats needed\n");
 
    return true;
 }

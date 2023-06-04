@@ -181,6 +181,8 @@ void Walrus::SolveOneByOne(deal &dlBase)
 
 Walrus::Progress::Progress()
    : countExtraMarks(0)
+   , delta1(0)
+   , delta2(0)
 {
 }
 

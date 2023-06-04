@@ -19,10 +19,10 @@ public:
    Walrus(Walrus *other, const char *nameH, int ourShare);
    ~Walrus();
 
-   bool LoadConfig();
+   bool InitByConfig();
    void MainScan(void);
    uint DoTheShare();
-   void ReportState(char *header);
+   void ReportState();
    bool AfterMath();
    bool IsRunning(void) const { return mul.isRunning; }
    const char *GetName() const { return mul.nameHlp; }
@@ -30,7 +30,6 @@ public:
 
 protected:
     // Start
-    void BuildFileNames(void);
     void PrepareBaseDeal(struct deal &dlBase);
     void InitDeck(void);
     int  InitSuit(u64 suit, int idx);
@@ -176,6 +175,7 @@ protected:
        uint hitsCount[HCP_SIZE][CTRL_SIZE];
        uint step, went, margin;
        uint countExtraMarks;
+       u64  delta1, delta2;
        void Init(uint _step);
        bool Step();
        void Up(uint idx);
@@ -184,11 +184,15 @@ protected:
        bool  exitRequested;
        bool  firstAutoShow;
        int   irGoal, irBase, irFly;
+       int   farCol;
        char  declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10];
        MiniUI();
        void Run();
     } ui;
     void InitMiniUI(int trump, int first);
+    void DetectFarColumn();
+    void ReportState(char* header, u64 delta1, u64 delta2 = 0);
+    void ReportLine(uint sumline, int i);
     void MiniReport(uint toGo);
     void ReportFilteringResults();
     void CalcHitsForMiniReport(uint* hitsRow, uint* hitsCamp);
@@ -234,4 +238,4 @@ private:
    uint CountKeyCards(SplitBits &hand);
 };
 
-
+void DoSelfTests();

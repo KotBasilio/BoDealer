@@ -7,6 +7,28 @@
 #include "walrus.h"
 #include HEADER_CURSES
 #include <chrono>
+// #include "waCrossPlatform.h"
+// #include <cstring>
+// #include HEADER_SLEEP  
+
+std::chrono::steady_clock::duration timeChronoStart;
+
+void ChronoStart()
+{
+   timeChronoStart = std::chrono::high_resolution_clock::now().time_since_epoch();
+}
+
+u64 ChronoRound()
+{
+   // calc delta from the previous round
+   auto finish = std::chrono::high_resolution_clock::now().time_since_epoch();
+   auto delta = std::chrono::duration_cast<std::chrono::milliseconds>(finish - timeChronoStart).count();
+
+   // start new round
+   timeChronoStart = finish;
+
+   return delta;
+}
 
 bool Walrus::AfterMath()
 {
@@ -17,6 +39,10 @@ bool Walrus::AfterMath()
 
    // relay
    (this->*sem.onAfterMath)();
+
+   // perf
+   progress.delta2 = ChronoRound();
+
    return true;
 }
 
@@ -43,23 +69,12 @@ void Walrus::CleanupStats()
    }
 }
 
-std::chrono::steady_clock::duration timeChronoStart;
-
-void ChronoStart()
+void DoSelfTests()
 {
-	timeChronoStart = std::chrono::high_resolution_clock::now().time_since_epoch();
-}
-
-u64 ChronoRound()
-{
-	// calc delta from the previous round
-	auto finish = std::chrono::high_resolution_clock::now().time_since_epoch();
-	auto delta = std::chrono::duration_cast<std::chrono::milliseconds>(finish - timeChronoStart).count();
-
-	// start new round
-	timeChronoStart = finish;
-
-	return delta;
+   //sample_main_PlayBin();
+   //sample_main_SolveBoard();
+   //sample_main_SolveBoard_S1();
+   //sample_main_JK_Solve();
 }
 
 int main(int argc, char *argv[])
@@ -68,29 +83,17 @@ int main(int argc, char *argv[])
    ChronoStart();
 
    Walrus walter;
-   if (walter.LoadConfig()) {
-      // phase 1
+   if (walter.InitByConfig()) {
+      // phases 1 and 2
       walter.MainScan();
-      auto delta1 = ChronoRound();
+      walter.AfterMath();
 
-      // phase 2
-      if (walter.AfterMath()) {
-         auto delta2 = ChronoRound();
-         walter.ReportState("\nFinal result:\n");
-         printf("The search took %llu.%llu + an aftermath %llu.%llu sec.\n"
-            , delta1 / 1000, (delta1 % 1000) / 100
-            , delta2 / 1000, (delta2 % 1000) / 100);
-      } else {
-         walter.ReportState("\nEnding with:\n");
-         printf("The search is done in %llu.%llu sec.\n", delta1 / 1000, (delta1 % 1000) / 100);
-      }
-
+      // report
+      walter.ReportState();
    }
+
    printf("Press any key.\n");
-   //sample_main_PlayBin();
-   //sample_main_SolveBoard();
-   //sample_main_SolveBoard_S1();
-   //sample_main_JK_Solve();
+   DoSelfTests();
    PLATFORM_GETCH();
    return 0;
 }

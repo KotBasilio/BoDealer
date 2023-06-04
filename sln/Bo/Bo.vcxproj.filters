@@ -162,6 +162,9 @@
     <ClCompile Include="..\..\walrus\waSemOneSided.cpp">
       <Filter>Source Files\walrus</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\walrus\wa4Hands.cpp">
+      <Filter>Source Files\walrus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\walrus\waAI.h">

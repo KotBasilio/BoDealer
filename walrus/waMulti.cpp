@@ -9,6 +9,7 @@
 #include HEADER_THREADS
 #include "walrus.h"
 
+extern u64 ChronoRound();
 
 Walrus::Multi::Multi()
    : isRunning(true)
@@ -115,6 +116,9 @@ void Walrus::MainScan(void)
    // don't work all day! have a dinner break ;-)
    PLATFORM_SLEEP(20);
    printf("   main: %10u done\n", mul.countSolo);
+
+   // perf
+   progress.delta1 = ChronoRound();
 }
 
 void Walrus::DoIteration()

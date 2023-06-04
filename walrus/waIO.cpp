@@ -36,6 +36,7 @@ Walrus::MiniUI::MiniUI()
    , irGoal(0)
    , irBase(0)
    , irFly(0)
+   , farCol(CTRL_SIZE)
 {
    // init lines in mini-report
    {
@@ -76,13 +77,11 @@ Walrus::MiniUI::MiniUI()
    #endif // SHOW_MY_FLY_RESULTS
 }
 
-#define WIN_DETECT_PATH
-
-void Walrus::BuildFileNames(void)
+void waFileNames::Build()
 {
    // make path
-   char *buf = namesBase.StartFrom;
-   size_t size = sizeof(namesBase.StartFrom);
+   char *buf = StartFrom;
+   size_t size = sizeof(StartFrom);
    #ifdef WIN_DETECT_PATH
       int rl = GetModuleFileName(NULL, buf, (DWORD)size);
       int slashToDel = 2;
@@ -99,15 +98,15 @@ void Walrus::BuildFileNames(void)
    #endif // WIN_DETECT_PATH
 
    // duplicate
-   memcpy(namesBase.Command, buf, size);
-   memcpy(namesBase.Progress, buf, size);
-   memcpy(namesBase.Solution, buf, size);
+   memcpy(Command, buf, size);
+   memcpy(Progress, buf, size);
+   memcpy(Solution, buf, size);
 
    // make real names
-   strcat(namesBase.StartFrom, START_FROM_FNAME);
-   strcat(namesBase.Command, COMMAND_FNAME);
-   strcat(namesBase.Progress, PROGRESS_FNAME);
-   strcat(namesBase.Solution, OUT_FNAME);
+   strcat(StartFrom, START_FROM_FNAME);
+   strcat(Command, COMMAND_FNAME);
+   strcat(Progress, PROGRESS_FNAME);
+   strcat(Solution, OUT_FNAME);
 }
 
 static bool IsRowSkippable(int i)
@@ -314,20 +313,33 @@ void Walrus::MiniReport(uint toGo)
    #define OUT_BIG_TABLE(fmt, par)   
 #endif // IO_NEED_FULL_TABLE
 
-void Walrus::ReportState(char *header)
+void Walrus::ReportState()
 {
-   uint bookman = mul.countIterations + progress.countExtraMarks;
+   if (progress.delta2 > 0) {
+      ReportState("\nFinal result:\n", progress.delta1, progress.delta2);
+   } else {
+      ReportState("\nEnding with:\n", progress.delta1);
+   }
+}
 
+void Walrus::ReportState(char* header, u64 delta1, u64 delta2)
+{
+   DetectFarColumn();
+
+   // always act as if printing big table as we do bookman calc
    OUT_BIG_TABLE("%s", header);
+   uint bookman = mul.countIterations + progress.countExtraMarks;
    for (int i = 0; i < HCP_SIZE; i++) {
       uint sumline = 0;
       for (int j = 0; j < CTRL_SIZE; j++) {
-         OUT_BIG_TABLE(fmtCell, progress.hitsCount[i][j]);
-         bookman -= progress.hitsCount[i][j];
-         sumline += progress.hitsCount[i][j];
+         auto cell = progress.hitsCount[i][j];
+         bookman -= cell;
+         sumline += cell;
       }
-      OUT_BIG_TABLE("%10u\n", sumline);
+      ReportLine(sumline, i);
    }
+
+   // self-control
    printf("\n\nTotal iterations = %u, balance ", mul.countIterations);
    if (bookman) {
       printf("is broken: ");
@@ -340,7 +352,50 @@ void Walrus::ReportState(char *header)
       printf("is fine\n");
    }
 
-   printf("\n--------------------------------\n%s", header);
-   MiniReport(0);
+   // tailing report
+   if (delta2 > 0) {
+      printf("\n--------------------------------\n%s", header);
+      MiniReport(0);
+      printf("The search took %llu.%llu + an aftermath %llu.%llu sec.\n"
+         , delta1 / 1000, (delta1 % 1000) / 100
+         , delta2 / 1000, (delta2 % 1000) / 100);
+   } else {
+      printf("The search is done in %llu.%llu sec.\n"
+         , delta1 / 1000, (delta1 % 1000) / 100);
+   }
 }
+
+void Walrus::DetectFarColumn()
+{
+   // to trim tailing zeros
+   ui.farCol = 1;
+   for (int i = 0; i < HCP_SIZE; i++) {
+      for (int j = 0; j < CTRL_SIZE; j++) {
+         auto cell = progress.hitsCount[i][j];
+         if (cell) {
+            if (ui.farCol < j) {
+               ui.farCol = j;
+            }
+         }
+      }
+   }
+}
+
+void Walrus::ReportLine(uint sumline, int i)
+{
+   // skip lines filled with zeros
+   if (!sumline) {
+      return;
+   }
+
+   OUT_BIG_TABLE("%02d: ", i);
+   for (int j = 0; j < ui.farCol; j++) {
+      auto cell = progress.hitsCount[i][j];
+      OUT_BIG_TABLE(fmtCell, cell);
+   }
+
+   OUT_BIG_TABLE("    : %10u\n", sumline);
+}
+
+
 
