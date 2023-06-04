@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
    ChronoStart();
 
    Walrus walter;
-   if (walter.LoadInitialStatistics(namesBase.StartFrom)) {
+   if (walter.LoadConfig()) {
       // phase 1
       walter.MainScan();
       auto delta1 = ChronoRound();

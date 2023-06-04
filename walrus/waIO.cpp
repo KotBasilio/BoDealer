@@ -30,16 +30,13 @@ const int MINI_ROWS = 13;
 const int PREFIX_LEN = 16;
 char miniRowStart[MINI_ROWS][PREFIX_LEN];
 
-/*************************************************************
-'* Walrus::LoadInitialStatistics()
-'*
-'* RET : success/fail
-'* IN  : fname
-'*************************************************************/
-bool Walrus::LoadInitialStatistics(const char *fname)
+Walrus::MiniUI::MiniUI()
+   : exitRequested(false)
+   , firstAutoShow(true)
+   , irGoal(0)
+   , irBase(0)
+   , irFly(0)
 {
-   //printf("\nNo initial stats needed\n");
-
    // init lines in mini-report
    {
       sprintf(miniRowStart[ 0], "       (down): ");
@@ -77,9 +74,9 @@ bool Walrus::LoadInitialStatistics(const char *fname)
       sprintf(miniRowStart[IO_ROW_THEIRS + 2], "less, =, more: ");
    }
    #endif // SHOW_MY_FLY_RESULTS
-
-   return true;
 }
+
+#define WIN_DETECT_PATH
 
 void Walrus::BuildFileNames(void)
 {

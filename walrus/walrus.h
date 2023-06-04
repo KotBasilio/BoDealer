@@ -19,7 +19,7 @@ public:
    Walrus(Walrus *other, const char *nameH, int ourShare);
    ~Walrus();
 
-   bool LoadInitialStatistics(const char *fname);
+   bool LoadConfig();
    void MainScan(void);
    uint DoTheShare();
    void ReportState(char *header);
@@ -36,6 +36,7 @@ protected:
     int  InitSuit(u64 suit, int idx);
     u64  CalcCheckSum();
     void VerifyCheckSum();
+    waFileNames namesBase;
 
     // Flip over
     void FillFO_MaxDeck();

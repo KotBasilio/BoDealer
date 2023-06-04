@@ -31,14 +31,18 @@ Walrus::Walrus()
    SeedRand();
 }
 
-
-Walrus::MiniUI::MiniUI()
-   : exitRequested(false)
-   , firstAutoShow(true)
-   , irGoal(0)
-   , irBase(0)
-   , irFly(0)
+/*************************************************************
+'* Walrus::LoadInitialStatistics()
+'*
+'* RET : success/fail
+'* IN  : fname
+'*************************************************************/
+bool Walrus::LoadConfig()
 {
+   const char* fname = namesBase.StartFrom;
+   //printf("\nNo initial stats needed\n");
+
+   return true;
 }
 
 void Walrus::AllocFilteredTasksBuf()
@@ -48,21 +52,23 @@ void Walrus::AllocFilteredTasksBuf()
 
    // alloc
    mul.arrToSolve = (DdsPack *)malloc(bsize);
-   if (mul.arrToSolve) {
-      // const size_t oneK = 1024;
-      // const size_t oneM = 1024 * oneK;
-      // if (bsize > oneM) {
-      //    printf("Memory %lluM in %s\n", bsize / oneM, nameHlp);
-      // } else {
-      //    printf("Memory %lluK in %s\n", bsize / oneK, nameHlp);
-      // }
-      return;
+   if (!mul.arrToSolve) {
+      printf("%s: alloc failed\n", mul.nameHlp);
+      PLATFORM_GETCH();
+      exit(0);
    }
 
-   // fail
-   printf("%s: alloc failed\n", mul.nameHlp);
-   PLATFORM_GETCH();
-   exit(0);
+   // may report
+   #ifdef DBG_SHOW_ALLOCS
+      const size_t oneK = 1024;
+      const size_t oneM = 1024 * oneK;
+      if (bsize > oneM) {
+         printf("Memory %lluM in %s\n", bsize / oneM, nameHlp);
+      }
+      else {
+         printf("Memory %lluK in %s\n", bsize / oneK, nameHlp);
+      }
+   #endif
 }
 
 Walrus::~Walrus()

@@ -42,12 +42,12 @@ const int CTRL_SIZE = 12 + 4;// to get 16 as padding
 #define OUT_FNAME        "stm%d%d%d%d%d%d%d%d%d%d.txt"
 #define PROGRESS_FNAME   "waProgress.txt"
 const int FNAME_SIZE = 128 + 64;
-static struct tFileNames {
+struct waFileNames {
     char StartFrom[FNAME_SIZE];
     char Command[FNAME_SIZE];
     char Progress[FNAME_SIZE];
     char Solution[FNAME_SIZE];
-} namesBase;
+};
 
 // split bits card to operate super-fast
 struct SplitBits {
