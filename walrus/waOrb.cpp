@@ -61,7 +61,7 @@ void Walrus::ScanOrb()
       sum.card.jo += flipcd;
       sec.card.jo += shuf.deck[26 + idxHandStart++].card.jo;
 
-      // simple exit using count -- it became faster that highBits
+      // simple exit using count -- it became faster than highBits
       if (idxHandStart >= ACTUAL_CARDS_COUNT) {
          break;
       }

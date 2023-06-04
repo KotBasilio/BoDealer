@@ -62,7 +62,8 @@ struct SplitBits {
     explicit SplitBits(u64 jo)   { card.jo = jo; }
     SplitBits(uint hld, uint waPos);
     u16 CountAll();
-    SBITS_SEMANTIC_OPS
+    bool IsBlank() { return (card.jo == 0L); }
+    u16 IsEndIter() { return (CountAll() & (u16)(0x10)); }
 };
 inline u16 SplitBits::CountAll()
 {
@@ -101,8 +102,9 @@ public:
    WaFilter() : dummy(42) {}
    uint RejectAll(SplitBits &part, uint &camp, SplitBits &lho, SplitBits &rho) { camp = 2; return 1; }
 
-   // One hand tasks:
+   // One/4 hand tasks:
    uint Spade4(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+   uint Splinter(SplitBits& partner, uint& camp, SplitBits& lho, SplitBits& rho);
 
    // Bidding decision one-sided:
    uint R55(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);

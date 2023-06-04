@@ -52,7 +52,10 @@
 
 // One hand tasks:
 //#define SEMANTIC_KEYCARDS_10_12
-#define SEMANTIC_SPADE_4_WHEN_1H
+//#define SEMANTIC_SPADE_4_WHEN_1H
+
+// 4 hands tasks:
+#define SEMANTIC_SPLINTER_SHAPE
 
 // -----------------------------------------------------------------
 // task descriptions

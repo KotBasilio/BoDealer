@@ -62,6 +62,7 @@ protected:
     void ScanTrivial();
     void ScanOrb();
     void ScanKeycards();
+    void ScanTricolor();
 
     // solving
     void AllocFilteredTasksBuf();
@@ -217,7 +218,7 @@ protected:
     struct Shuf {
        Shuf();
        SplitBits        deck[DECK_ARR_SIZE];
-       SplitBits        highBits;
+       SplitBits        highBits; // placed intentionally after deck
        u64              checkSum;
        uint             oldRand;
        uint             ridx[RIDX_SIZE];// RandIndices() <-> Shuffle()

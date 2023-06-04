@@ -1,8 +1,8 @@
 /************************************************************
 * Walrus project                                        2019
 * Semantic parts of the tasks. They all differ by two small parts:
-* -- how we init the deck;
-* -- how we do the iteration.
+* -- how do we init the deck;
+* -- how do we iterate
 *
 ************************************************************/
 #include "walrus.h"
@@ -31,7 +31,7 @@ void Walrus::ScanKeycards()
       sum.card.jo -= shuf.deck[idxHandStart].card.jo;
       sum.card.jo += shuf.deck[13 + idxHandStart++].card.jo;
 
-      // smart-exit using highBits
+      // smart-exit using highBits placed after shuf.deck
       if (sum.IsEndIter()) {
          break;
       }
@@ -157,3 +157,4 @@ uint WaFilter::Spade4(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits 
 }
 
 #endif // SEMANTIC_SPADE_4_WHEN_1H
+

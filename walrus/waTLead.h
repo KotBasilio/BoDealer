@@ -54,3 +54,12 @@
    #define IO_NEED_FULL_TABLE
 #endif
 
+/// -----------------------------------------------------------------
+/// 4 HAND TASKS
+#ifdef SEMANTIC_SPLINTER_SHAPE
+   #define TITLE_VERSION  "Only bidding is fixed: 1s pass 4c. Responder holds 4441;\nQuestion: how often opener has Ac, depending on responder shape? Ver 3.0 "
+   #define IO_NEED_FULL_TABLE
+   #define ANSWER_ROW_IDX  1
+   #define SINGLE_HAND_TASK
+#endif // SEMANTIC_SPLINTER_SHAPE
+

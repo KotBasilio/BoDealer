@@ -42,10 +42,5 @@ private:
 #define HEART   0x0000000100000000LL
 #define DIAMD   0x0000000000010000LL
 #define CLUBS   0x0000000000000001LL
-#define HIBITS  ((SPADS+HEART+DIAMD+CLUBS) << 1)
 #define ANY_ACE 0x8000800080008000LL
-
-#define SBITS_SEMANTIC_OPS                                              \
-      bool IsBlank() { return (card.jo == 0L); }                        \
-      bool IsEndIter() { return (CountAll() > 13); }
 

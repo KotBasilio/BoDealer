@@ -8,9 +8,10 @@
 #include <stdlib.h>  // RAND_MAX
 #include "walrus.h"
 
+#define HIBITS  ((SPADS+HEART+DIAMD+CLUBS) << 1) // it counts as a hand with two deuces in each suit -- easily detected and doesn't cause an overflow
+
 Walrus::Shuf::Shuf()
-// highBitscounts as many two cards in any suit. easily detected. doesn't cause an overflow
-   : highBits(HIBITS)
+   : highBits(HIBITS) 
    , checkSum(0)
    , oldRand(0)
    , cardsInDeck(0)
