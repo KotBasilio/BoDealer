@@ -155,7 +155,7 @@ u64 Walrus::SumFirstHand()
 
 u64 Walrus::SumSecondHand()
 {
-   // sum up the first 13 cards
+   // sum up next 13 cards
    return (
       shuf.deck[13].card.jo +
       shuf.deck[14].card.jo +
@@ -170,6 +170,26 @@ u64 Walrus::SumSecondHand()
       shuf.deck[23].card.jo +
       shuf.deck[24].card.jo +
       shuf.deck[25].card.jo
+   );
+}
+
+u64 Walrus::Sum3rdHand()
+{
+   // sum up yet next 13 cards
+   return (
+      shuf.deck[26].card.jo +
+      shuf.deck[27].card.jo +
+      shuf.deck[28].card.jo +
+      shuf.deck[29].card.jo +
+      shuf.deck[30].card.jo +
+      shuf.deck[31].card.jo +
+      shuf.deck[32].card.jo +
+      shuf.deck[33].card.jo +
+      shuf.deck[34].card.jo +
+      shuf.deck[35].card.jo +
+      shuf.deck[36].card.jo +
+      shuf.deck[37].card.jo +
+      shuf.deck[38].card.jo
    );
 }
 

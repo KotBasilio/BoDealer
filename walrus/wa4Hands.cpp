@@ -9,49 +9,62 @@
 #include "walrus.h"
 
 #ifdef SEMANTIC_SPLINTER_SHAPE
-// Trivial: one hand only; can be used as a pattern for all scans
-void Walrus::ScanTricolor()
-{
-   // we have some cards starting from each position
-   SplitBits sum(SumFirstHand());
-   SplitBits sec(SumSecondHand());
-   for (int idxHandStart = 0;;) {
-      SplitBits third(shuf.checkSum - sum.card.jo - sec.card.jo);
-      uint bar = 0;
-
-      // account the deal
-      uint foo = (filter.*sem.onFilter)(sum, bar, sec, third);
-      progress.hitsCount[foo][bar]++;
-
-      // flip hands within the same deal, account it too
-      bar = 0;
-      foo = (filter.*sem.onFilter)(sum, bar, third, sec);
-      progress.hitsCount[foo][bar]++;
-
-      // advance to account next hand
-      sum.card.jo -= shuf.deck[idxHandStart].card.jo;
-      u64 flipcd = shuf.deck[13 + idxHandStart].card.jo;
-      sec.card.jo -= flipcd;
-      sum.card.jo += flipcd;
-      sec.card.jo += shuf.deck[26 + idxHandStart++].card.jo;
-
-      // smart-exit using highBits placed after shuf.deck
-      if (sec.IsEndIter()) {
-         break;
-      }
-   }
-}
-
 void Walrus::FillSemantic(void)
 {
    //sem.onInit = &Walrus::WithdrawByInput;
    sem.fillFlipover = &Walrus::FillFO_MaxDeck;
    sem.onScanCenter = &Walrus::ScanTricolor;
-   sem.scanCover = (ACTUAL_CARDS_COUNT - 13) * 2; // since we flip the hands
+   sem.scanCover = 13 * 6; // see permute
    sem.onFilter = &WaFilter::Splinter;
 }
 
-uint WaFilter::Splinter(SplitBits& partner, uint& camp, SplitBits& lho, SplitBits& rho)
+void Walrus::ScanTricolor()
+{
+   // we have some cards starting from each position
+   SplitBits sum(SumFirstHand());
+   SplitBits sec(SumSecondHand());
+   SplitBits third(Sum3rdHand());
+   SplitBits stop(shuf.checkSum - sum.card.jo - sec.card.jo - third.card.jo);
+   for (int idxHandStart = 0;;) {
+      // account the deal several times
+      Permute(sum, sec, third);
+
+      // advance to next hands
+      sum.card.jo -= shuf.deck[idxHandStart].card.jo;
+      u64 flipcd = shuf.deck[13 + idxHandStart].card.jo;
+      sum.card.jo += flipcd;
+      sec.card.jo -= flipcd;
+      flipcd = shuf.deck[26 + idxHandStart].card.jo;
+      sec.card.jo += flipcd;
+      third.card.jo -= flipcd;
+      flipcd = shuf.deck[39 + idxHandStart++].card.jo;
+      third.card.jo += flipcd;
+
+      // smart-exit when last hand meets known
+      if (third.card.jo == stop.card.jo) {
+         break;
+      }
+   }
+}
+
+void Walrus::Permute(SplitBits a, SplitBits b, SplitBits c)
+{
+   uint foo = 0, bar = 0;
+   foo = (filter.*sem.onFilter)(a, bar, b, c);
+   progress.hitsCount[foo][bar]++;
+   foo = (filter.*sem.onFilter)(a, bar, c, b);
+   progress.hitsCount[foo][bar]++;
+   foo = (filter.*sem.onFilter)(b, bar, a, c);
+   progress.hitsCount[foo][bar]++;
+   foo = (filter.*sem.onFilter)(b, bar, c, a);
+   progress.hitsCount[foo][bar]++;
+   foo = (filter.*sem.onFilter)(c, bar, a, b);
+   progress.hitsCount[foo][bar]++;
+   foo = (filter.*sem.onFilter)(c, bar, b, a);
+   progress.hitsCount[foo][bar]++;
+}
+
+uint WaFilter::Splinter(SplitBits& opener, uint& camp, SplitBits& direct, SplitBits& resp)
 {
    const uint PASS_BASE = ANSWER_ROW_IDX;
    const uint ORDER_BASE = 3;

@@ -63,6 +63,7 @@ protected:
     void ScanOrb();
     void ScanKeycards();
     void ScanTricolor();
+    void Permute(SplitBits a, SplitBits b, SplitBits c);
 
     // solving
     void AllocFilteredTasksBuf();
@@ -93,6 +94,7 @@ protected:
     void VoidScoring(DdsTricks &tr) {}
     u64  SumFirstHand();
     u64  SumSecondHand();
+    u64  Sum3rdHand();
     struct Semantics {
        SemFuncType  onInit;
        SemFuncType  onShareStart;

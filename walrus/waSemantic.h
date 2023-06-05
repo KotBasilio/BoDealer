@@ -58,8 +58,9 @@ struct SplitBits {
     };
     SBUnion card;
 
-    SplitBits()                  { card.jo = 0L; }
-    explicit SplitBits(u64 jo)   { card.jo = jo; }
+    SplitBits()                       { card.jo = 0L; }
+    explicit SplitBits(u64 jo)        { card.jo = jo; }
+    SplitBits(const SplitBits &other) { card.jo = other.card.jo; }
     SplitBits(uint hld, uint waPos);
     u16 CountAll();
     bool IsBlank() { return (card.jo == 0L); }
