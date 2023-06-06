@@ -15,27 +15,21 @@ void sample_main_SolveBoard_S1();
 void sample_main_PlayBin();
 void sample_main_JK_Solve();
 
-struct DdsTask 
+typedef SplitBits DTHand;
+struct DdsTask // version when we need to store only two hands
 {
-   union DTUnion {
-      SplitBits hand;
-      DTUnion() {}
-      void Init(SplitBits &sb);
-   };
-   DTUnion partner;
-   DTUnion rho;
+   DTHand partner;
+   DTHand rho;
 
-   void Init(SplitBits &part, SplitBits &nt);
+   DdsTask() {}
+   DdsTask(SplitBits& a, SplitBits& b) : partner(a), rho(b) {}
 };
 
-union DdsPack 
+struct DdsPack
 {
    DdsTask  task;
-   struct {
-      u64 jo1;
-      u64 jo2;
-   };
    DdsPack() {}
+   DdsPack(SplitBits& a, SplitBits& b) : task(a, b) {}
 };
 
 #define NORTH    0

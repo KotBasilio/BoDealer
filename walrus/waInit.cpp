@@ -216,8 +216,7 @@ void Walrus::SolveSavedTasks()
 {
    // a useful sum to reconstruct responder hand
    SplitBits sbSum(shuf.checkSum);
-   DdsTask::DTUnion taskSum;
-   taskSum.Init(sbSum);
+   DTHand taskSum(sbSum);
 
    // how much filtered out
    u64 sum1st = 0, sum2nd = 0;

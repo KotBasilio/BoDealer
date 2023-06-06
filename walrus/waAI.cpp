@@ -13,17 +13,6 @@
 
 extern int SolveAllBoardsN(boards& bds, solvedBoards& solved);
 
-void DdsTask::Init(SplitBits &part, SplitBits &opp)
-{
-   partner.Init(part);
-   rho.Init(opp);
-}
-
-void DdsTask::DTUnion::Init(SplitBits &sb)
-{
-   hand = sb;
-}
-
 void HandleErrorDDS(deal &cards, int res)
 {
    char line[80];
@@ -63,10 +52,10 @@ private:
       dl.remainCards[SOUTH][s] ^ RFULL;
    }
 
-   uint DecryptSpades(DdsTask::DTUnion bits) { return bits.hand.card.w.s.Decrypt(); }
-   uint DecryptHearts(DdsTask::DTUnion bits) { return bits.hand.card.w.h.Decrypt(); }
-   uint DecryptDiamnd(DdsTask::DTUnion bits) { return bits.hand.card.w.d.Decrypt(); }
-   uint DecryptClubs (DdsTask::DTUnion bits) { return bits.hand.card.w.c.Decrypt(); }
+   uint DecryptSpades(DTHand bits) { return bits.card.w.s.Decrypt(); }
+   uint DecryptHearts(DTHand bits) { return bits.card.w.h.Decrypt(); }
+   uint DecryptDiamnd(DTHand bits) { return bits.card.w.d.Decrypt(); }
+   uint DecryptClubs (DTHand bits) { return bits.card.w.c.Decrypt(); }
 
 public:
 
@@ -500,4 +489,3 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
    }
    #endif
 }
-

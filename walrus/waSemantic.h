@@ -142,5 +142,8 @@ public:
    uint LeadFlat(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint LeadMax5D(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
 };
-typedef uint(WaFilter::*SemFilterOut)(SplitBits &part, uint &camp, SplitBits &lho, SplitBits &rho);
+
+// types of filters
+typedef uint(WaFilter::* SemFilterOut)(SplitBits& a, SplitBits& b, SplitBits& c);
+typedef uint(WaFilter::* DepFilterOut)(SplitBits& part, uint& camp, SplitBits& lho, SplitBits& rho);// deprecated in 3.0
 

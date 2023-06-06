@@ -13,12 +13,12 @@ void Walrus::FillSemantic(void)
 {
    //sem.onInit = &Walrus::WithdrawByInput;
    sem.fillFlipover = &Walrus::FillFO_MaxDeck;
-   sem.onScanCenter = &Walrus::ScanTricolor;
-   sem.scanCover = 13 * 6; // see permute
+   sem.onScanCenter = &Walrus::Scan4Hands;
+   sem.scanCover = SYMM * 6; // see permute
    sem.onFilter = &WaFilter::Splinter;
 }
 
-void Walrus::ScanTricolor()
+void Walrus::Scan4Hands()
 {
    // we have some cards starting from each position
    SplitBits sum(SumFirstHand());
@@ -31,13 +31,13 @@ void Walrus::ScanTricolor()
 
       // advance to next hands
       sum.card.jo -= shuf.deck[idxHandStart].card.jo;
-      u64 flipcd = shuf.deck[13 + idxHandStart].card.jo;
+      u64 flipcd = shuf.deck[SYMM + idxHandStart].card.jo;
       sum.card.jo += flipcd;
       sec.card.jo -= flipcd;
-      flipcd = shuf.deck[26 + idxHandStart].card.jo;
+      flipcd = shuf.deck[SYMM2 + idxHandStart].card.jo;
       sec.card.jo += flipcd;
       third.card.jo -= flipcd;
-      flipcd = shuf.deck[39 + idxHandStart++].card.jo;
+      flipcd = shuf.deck[SYMM3 + idxHandStart++].card.jo;
       third.card.jo += flipcd;
 
       // smart-exit when last hand meets known
@@ -49,6 +49,7 @@ void Walrus::ScanTricolor()
 
 void Walrus::Permute(SplitBits a, SplitBits b, SplitBits c)
 {
+   // when the hand D is fixed, we get 6 options to lay A,B,C
    uint foo = 0, bar = 0;
    foo = (filter.*sem.onFilter)(a, bar, b, c);
    progress.hitsCount[foo][bar]++;
@@ -62,6 +63,10 @@ void Walrus::Permute(SplitBits a, SplitBits b, SplitBits c)
    progress.hitsCount[foo][bar]++;
    foo = (filter.*sem.onFilter)(c, bar, b, a);
    progress.hitsCount[foo][bar]++;
+}
+
+void Walrus::ClassifyOnScan(SplitBits a, SplitBits b, SplitBits c)
+{
 }
 
 uint WaFilter::Splinter(SplitBits& opener, uint& camp, SplitBits& direct, SplitBits& resp)

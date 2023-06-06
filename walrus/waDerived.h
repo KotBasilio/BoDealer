@@ -62,11 +62,16 @@
 //#define ACCEPT_INVITE
 
 // -----------------------------------------------------------------
-// --- Derivative constants
-const uint SOURCE_CARDS_COUNT = 52;
+// common constants, biggest symmetry in bridge
+const uint SYMM = 13;
 
+// -----------------------------------------------------------------
+// --- Derivative constants
+const uint SYMM2 = SYMM * 2;
+const uint SYMM3 = SYMM * 3;
+const uint SOURCE_CARDS_COUNT = SYMM * 4;
 #if defined(FIXED_HAND_NORTH) || defined(FIXED_HAND_WEST)
-   const uint REMOVED_CARDS_COUNT = 13;
+   const uint REMOVED_CARDS_COUNT = SYMM;
 #else
    const uint REMOVED_CARDS_COUNT = 0;
 #endif // any FIXED_HAND_...
@@ -102,11 +107,11 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
    //const uint MAX_ITERATION = 4001000000;// 4 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 3001000000;// 3 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 2001000000;// 2 mlrd + 1 millon gratis
-   //const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
+   const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 501000000;// a half of mlrd
    //const uint MAX_ITERATION = 333000000;// a third of mlrd
    //const uint MAX_ITERATION = 251000000;// a quarter of mlrd
-   const uint MAX_ITERATION = 101000000;// 101 mln
+   //const uint MAX_ITERATION = 101000000;// 101 mln
    //const uint MAX_ITERATION = 12000000;// 12 mln
    const uint MAX_TASKS_TO_SOLVE = 4*1000*1000;
 #endif

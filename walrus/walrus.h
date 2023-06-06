@@ -62,8 +62,9 @@ protected:
     void ScanTrivial();
     void ScanOrb();
     void ScanKeycards();
-    void ScanTricolor();
+    void Scan4Hands();
     void Permute(SplitBits a, SplitBits b, SplitBits c);
+    void ClassifyOnScan(SplitBits a, SplitBits b, SplitBits c);
 
     // solving
     void AllocFilteredTasksBuf();
@@ -99,7 +100,7 @@ protected:
        SemFuncType  onInit;
        SemFuncType  onShareStart;
        SemFuncType  onScanCenter;
-       SemFilterOut onFilter;
+       DepFilterOut onFilter;
        SemFuncType  fillFlipover;
        SemScoring   onScoring;
        SemScoring   onSolvedTwice;
@@ -211,9 +212,9 @@ protected:
        const char *     nameHlp;
        uint             countIterations, countShare, countSolo;
        // aftermath double-dummy
-       uint             maxTasksToSolve;
-       DdsPack    *     arrToSolve;
-       uint             countToSolve;
+       uint       maxTasksToSolve;
+       DdsPack *  arrToSolve;
+       uint       countToSolve;
     } mul;
 
     // Shuffling

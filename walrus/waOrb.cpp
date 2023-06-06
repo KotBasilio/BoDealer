@@ -98,8 +98,7 @@ void Walrus::Orb_SaveForSolver(SplitBits &partner, SplitBits &lho, SplitBits &rh
       return;
    }
 
-   DdsPack pack;
-   pack.task.Init(partner, rho);
+   DdsPack pack(partner, rho);
    mul.arrToSolve[mul.countToSolve++] = pack;
 }
 
