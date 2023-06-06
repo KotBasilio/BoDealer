@@ -213,7 +213,7 @@ protected:
        uint             countIterations, countShare, countSolo;
        // aftermath double-dummy
        uint       maxTasksToSolve;
-       DdsPack *  arrToSolve;
+       DdsTask*   arrToSolve;
        uint       countToSolve;
     } mul;
 

@@ -19,7 +19,7 @@
       <DisplayString> Shape {s}-{h}-{d}-{c}</DisplayString>
    </Type>
    <Type Name="DdsTask">
-      <DisplayString>{partner.hand} / {rho.hand}</DisplayString>
+      <DisplayString>{partner} / {rho}</DisplayString>
    </Type>
    <Type Name="DdsPack">
       <DisplayString>{task}</DisplayString>

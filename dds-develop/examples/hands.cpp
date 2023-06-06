@@ -540,7 +540,7 @@ void PrintHand(char title[],
      }
   }
 
-  // start with title
+  // start with title and underline it
   printf("%s", title);
   char dashes[80];
   int l = static_cast<int>(strlen(title)) - 1;

@@ -47,7 +47,7 @@ void Walrus::AllocFilteredTasksBuf()
    size_t bsize = mul.maxTasksToSolve * sizeof(DdsTask);
 
    // alloc
-   mul.arrToSolve = (DdsPack *)malloc(bsize);
+   mul.arrToSolve = (DdsTask *)malloc(bsize);
    if (!mul.arrToSolve) {
       printf("%s: alloc failed\n", mul.nameHlp);
       PLATFORM_GETCH();

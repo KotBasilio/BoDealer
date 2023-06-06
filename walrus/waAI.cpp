@@ -33,7 +33,7 @@ struct DdsDeal
    // viewing
    static bool needInspect;
 
-   DdsDeal(const deal &dlBase, DdsPack &task);
+   DdsDeal(const deal &dlBase, DdsTask &task);
 private:
 
    void ReconsctuctNorth(int s)
@@ -92,20 +92,20 @@ bool DdsDeal::needInspect = true;
 
 //#define  DBG_VIEW_BOARD_ON_CONSTRUCTION
 
-DdsDeal::DdsDeal(const deal &dlBase, DdsPack &t)
+DdsDeal::DdsDeal(const deal &dlBase, DdsTask &task)
 {
    memcpy(&dl, &dlBase, sizeof(dl));
 
 #ifdef FIXED_HAND_NORTH
    // decrypt all cards
-   dl.remainCards[EAST ][SOL_SPADES  ] = DecryptSpades(t.task.rho);
-   dl.remainCards[EAST ][SOL_HEARTS  ] = DecryptHearts(t.task.rho);
-   dl.remainCards[EAST ][SOL_DIAMONDS] = DecryptDiamnd(t.task.rho);
-   dl.remainCards[EAST ][SOL_CLUBS   ] = DecryptClubs(t.task.rho);
-   dl.remainCards[SOUTH][SOL_SPADES  ] = DecryptSpades(t.task.partner);
-   dl.remainCards[SOUTH][SOL_HEARTS  ] = DecryptHearts(t.task.partner);
-   dl.remainCards[SOUTH][SOL_DIAMONDS] = DecryptDiamnd(t.task.partner);
-   dl.remainCards[SOUTH][SOL_CLUBS   ] = DecryptClubs(t.task.partner);
+   dl.remainCards[EAST ][SOL_SPADES  ] = DecryptSpades(task.rho);
+   dl.remainCards[EAST ][SOL_HEARTS  ] = DecryptHearts(task.rho);
+   dl.remainCards[EAST ][SOL_DIAMONDS] = DecryptDiamnd(task.rho);
+   dl.remainCards[EAST ][SOL_CLUBS   ] = DecryptClubs (task.rho);
+   dl.remainCards[SOUTH][SOL_SPADES  ] = DecryptSpades(task.partner);
+   dl.remainCards[SOUTH][SOL_HEARTS  ] = DecryptHearts(task.partner);
+   dl.remainCards[SOUTH][SOL_DIAMONDS] = DecryptDiamnd(task.partner);
+   dl.remainCards[SOUTH][SOL_CLUBS   ] = DecryptClubs (task.partner);
 
    // reconstruct 4th hand
    ReconsctuctWest(SOL_SPADES);
@@ -116,14 +116,14 @@ DdsDeal::DdsDeal(const deal &dlBase, DdsPack &t)
 
 #ifdef FIXED_HAND_WEST
    // decrypt all cards
-   dl.remainCards[SOUTH][SOL_SPADES  ] = DecryptSpades(t.task.rho);
-   dl.remainCards[SOUTH][SOL_HEARTS  ] = DecryptHearts(t.task.rho);
-   dl.remainCards[SOUTH][SOL_DIAMONDS] = DecryptDiamnd(t.task.rho);
-   dl.remainCards[SOUTH][SOL_CLUBS   ] = DecryptClubs (t.task.rho);
-   dl.remainCards[EAST ][SOL_SPADES  ] = DecryptSpades(t.task.partner);
-   dl.remainCards[EAST ][SOL_HEARTS  ] = DecryptHearts(t.task.partner);
-   dl.remainCards[EAST ][SOL_DIAMONDS] = DecryptDiamnd(t.task.partner);
-   dl.remainCards[EAST ][SOL_CLUBS   ] = DecryptClubs (t.task.partner);
+   dl.remainCards[SOUTH][SOL_SPADES  ] = DecryptSpades(task.rho);
+   dl.remainCards[SOUTH][SOL_HEARTS  ] = DecryptHearts(task.rho);
+   dl.remainCards[SOUTH][SOL_DIAMONDS] = DecryptDiamnd(task.rho);
+   dl.remainCards[SOUTH][SOL_CLUBS   ] = DecryptClubs (task.rho);
+   dl.remainCards[EAST ][SOL_SPADES  ] = DecryptSpades(task.partner);
+   dl.remainCards[EAST ][SOL_HEARTS  ] = DecryptHearts(task.partner);
+   dl.remainCards[EAST ][SOL_DIAMONDS] = DecryptDiamnd(task.partner);
+   dl.remainCards[EAST ][SOL_CLUBS   ] = DecryptClubs (task.partner);
 
    // reconstruct 4th hand
    ReconsctuctNorth(SOL_SPADES);
@@ -134,9 +134,7 @@ DdsDeal::DdsDeal(const deal &dlBase, DdsPack &t)
 
    // debug
    #ifdef DBG_VIEW_BOARD_ON_CONSTRUCTION
-      char line[80];
-      sprintf(line, "A board: \n");
-      PrintHand(line, dl.remainCards);
+      PrintHand("A board: \n", dl.remainCards);
       PLATFORM_GETCH();
    #endif 
 }
@@ -489,3 +487,4 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
    }
    #endif
 }
+

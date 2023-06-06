@@ -22,14 +22,7 @@ struct DdsTask // version when we need to store only two hands
    DTHand rho;
 
    DdsTask() {}
-   DdsTask(SplitBits& a, SplitBits& b) : partner(a), rho(b) {}
-};
-
-struct DdsPack
-{
-   DdsTask  task;
-   DdsPack() {}
-   DdsPack(SplitBits& a, SplitBits& b) : task(a, b) {}
+   void Init(SplitBits& a, SplitBits& b) { partner = a; rho = b; }
 };
 
 #define NORTH    0

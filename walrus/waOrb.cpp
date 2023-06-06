@@ -74,9 +74,10 @@ uint Walrus::Orb_ClassifyHands(uint &camp, SplitBits &lho, SplitBits &partner, S
 {
    uint fo = (filter.*sem.onFilter)(partner, camp, lho, rho);
    if (!fo) {
-      // recruit methods
-      camp = fo = 1;
       Orb_SaveForSolver(partner, lho, rho);
+
+      // drop classification
+      camp = fo = 1;
    }
 
    return fo;
@@ -94,12 +95,9 @@ void Walrus::Orb_FillSem(void)
 
 void Walrus::Orb_SaveForSolver(SplitBits &partner, SplitBits &lho, SplitBits &rho)
 {
-   if (mul.countToSolve >= mul.maxTasksToSolve) {
-      return;
+   if (mul.countToSolve < mul.maxTasksToSolve) {
+      mul.arrToSolve[mul.countToSolve++].Init(partner, rho);
    }
-
-   DdsPack pack(partner, rho);
-   mul.arrToSolve[mul.countToSolve++] = pack;
 }
 
 void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)
