@@ -13,7 +13,7 @@
 //#define SEMANTIC_AUG_3NT_ON_44H
 //#define SEMANTIC_AUG_MULTI_VUL
 //#define SEMANTIC_DEC_12_2425
-//#define SEMANTIC_SEPT_INVITE_OR_FG
+#define SEMANTIC_SEPT_INVITE_OR_FG
 //#define SEMANTIC_IMPS_ACCEPT_3NT_ON_SPADE_FIT
 //#define SEMANTIC_JAN_NT_SLAM_ON_DIAMONDS
 //#define SEMANTIC_JAN_SPADES_GAME
@@ -55,7 +55,7 @@
 //#define SEMANTIC_SPADE_4_WHEN_1H
 
 // 4 hands tasks:
-#define SEMANTIC_SPLINTER_SHAPE
+//#define SEMANTIC_SPLINTER_SHAPE
 
 // -----------------------------------------------------------------
 // task descriptions

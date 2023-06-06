@@ -166,27 +166,27 @@ void Walrus::SolveOneByOne(deal &dlBase)
 
 }
 
-Walrus::Progress::Progress()
+Progress::Progress()
    : countExtraMarks(0)
    , delta1(0)
    , delta2(0)
 {
 }
 
-void Walrus::Progress::Init(uint _step)
+void Progress::Init(uint _step)
 {
    step = _step;
    went = 0;
    margin = _step * 4;
 }
 
-bool Walrus::Progress::Step()
+bool Progress::Step()
 {
    went += step;
    return (went > margin);
 }
 
-void Walrus::Progress::Up(uint idx)
+void Progress::Up(uint idx)
 {
    went = 0;
    if (idx > margin * 2) {

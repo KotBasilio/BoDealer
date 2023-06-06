@@ -119,17 +119,8 @@ protected:
     void Score_Opp3NT(DdsTricks& tr);
     void HitByScore(DdsTricks &tr, uint made, uint row = IO_ROW_OUR_DOWN);
 
-    // UI
-    struct Progress {
-       Progress();
-       uint hitsCount[HCP_SIZE][CTRL_SIZE];
-       uint step, went, margin;
-       uint countExtraMarks;
-       u64  delta1, delta2;
-       void Init(uint _step);
-       bool Step();
-       void Up(uint idx);
-    } progress;
+    // UI -- parts will migrate to Oscar project
+    Progress progress;
     struct MiniUI {
        bool  exitRequested;
        bool  firstAutoShow;

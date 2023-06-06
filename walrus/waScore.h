@@ -40,6 +40,17 @@ struct CumulativeScore {
    void OurNV5minor(uint tricks);
 };
 
+struct Progress {
+   Progress();
+   uint hitsCount[HCP_SIZE][CTRL_SIZE];
+   uint step, went, margin;
+   uint countExtraMarks;
+   u64  delta1, delta2;
+   void Init(uint _step);
+   bool Step();
+   void Up(uint idx);
+};
+
 struct Shuffler {
    Shuffler();
    SplitBits deck[DECK_ARR_SIZE];
@@ -60,7 +71,6 @@ struct Shuffler {
 
    // preparations
    void InitDeck(void);
-   int  InitSuit(u64 suit, int idx);
    void WithdrawCard(u64 jo);
    void FillFO_MaxDeck();
    void FillFO_39Single();
@@ -73,8 +83,9 @@ private:
    uint      ridx[RIDX_SIZE];// RandIndices() <-> Shuffle()
    uint      cardsInDeck;
 
-   void Roll(uint i);
+   int  InitSuit(u64 suit, int idx);
    uint Rand();
    void RandIndices();
+   void Roll(uint i);
    u64  CalcCheckSum();
 };
