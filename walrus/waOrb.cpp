@@ -42,8 +42,8 @@ void Walrus::ScanOrb()
    SplitBits sum(SumFirstHand());
    SplitBits sec(SumSecondHand());
    for (int idxHandStart = 0;;) {
-      // small premutaion
-      SplitBits third(shuf.checkSum - sum.card.jo - sec.card.jo);
+      // small permutation
+      SplitBits third(shuf.CheckSum() - sum.card.jo - sec.card.jo);
       Orb_Classify(sum, sec, third);
       Orb_Classify(sum, third, sec);
 
@@ -83,7 +83,7 @@ void Walrus::Orb_FillSem(void)
 {
    sem.onInit = &Walrus::WithdrawByInput;
    sem.onShareStart = &Walrus::AllocFilteredTasksBuf;
-   sem.fillFlipover = &Walrus::FillFO_39Double;
+   sem.fillFlipover = &Shuffler::FillFO_39Double;
    sem.onScanCenter = &Walrus::ScanOrb;
    sem.scanCover = ACTUAL_CARDS_COUNT * 2; // since we flip the hands
    sem.onAfterMath = &Walrus::SolveSavedTasks;

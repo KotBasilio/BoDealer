@@ -667,9 +667,7 @@ void Walrus::WithdrawByInput(void)
       }
    }
 
-   if (shuf.cardsInDeck != 39) {
-      printf("\nERROR: Wrong count of cards discarded: %d is left\n", shuf.cardsInDeck);
-   }
+   shuf.AssertDeckSize(SYMM3);
 }
 
 uint CountBits(uint v)// count bits set in this (32-bit value)
@@ -709,8 +707,8 @@ void Walrus::PrepareBaseDeal(deal& dlBase)
       }
    }
 
-   if (countCards != 13) {
-      printf("\nERROR: Wrong count of cards in hand: %d\n", shuf.cardsInDeck);
+   if (countCards != SYMM) {
+      printf("\nERROR: Wrong count of cards in hand: %d\n", countCards);
    }
 }
 

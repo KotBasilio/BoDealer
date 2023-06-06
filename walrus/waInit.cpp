@@ -36,7 +36,7 @@ bool Walrus::InitByConfig()
    FillSemantic();
    InitDeck();
    memset(progress.hitsCount, 0, sizeof(progress.hitsCount));
-   SeedRand();
+   shuf.SeedRand();
 
    return true;
 }
@@ -78,7 +78,7 @@ Walrus::~Walrus()
 Walrus::Semantics::Semantics()
    : onInit       (&Walrus::NOP)
    , onShareStart (&Walrus::NOP)
-   , fillFlipover (&Walrus::NOP)
+   , fillFlipover (&Shuffler::NOP)
    , onScanCenter (&Walrus::NOP)
    , onAfterMath  (&Walrus::NOP) 
    , onFilter     (&WaFilter::RejectAll) 
@@ -93,44 +93,12 @@ Walrus::Semantics::Semantics()
 
 void Walrus::InitDeck(void)
 {
-   int i = 0;
-   i = InitSuit(CLUBS, i);
-   i = InitSuit(DIAMD, i);
-   i = InitSuit(HEART, i);
-   i = InitSuit(SPADS, i);
-   shuf.cardsInDeck = i;
+   shuf.InitDeck();
 
    (this->*sem.onInit)();
 
-   ClearFlipover();
-
-   shuf.checkSum = CalcCheckSum();
-}
-
-u64 Walrus::CalcCheckSum()
-{
-    u64 jo = 0;
-    for (auto sb : shuf.deck) {
-        jo += sb.card.jo;
-    }
-    return jo;
-}
-
-void Walrus::VerifyCheckSum()
-{
-#ifdef _DEBUG
-    if (CalcCheckSum() != shuf.checkSum) {
-        printf("\nFatal -- checksum failure\n");
-        for(;;) {}
-    }
-#endif
-}
-
-void Walrus::ClearFlipover()
-{
-    for (int i = FLIP_OVER_START_IDX; i < DECK_ARR_SIZE; i++) {
-        shuf.deck[i] = sbBlank;
-    }
+   shuf.ClearFlipover();
+   shuf.StoreCheckSum();
 }
 
 u64 Walrus::SumFirstHand()
@@ -215,7 +183,7 @@ void Walrus::WithdrawHolding(uint hld, uint waPosByDds)
 void Walrus::SolveSavedTasks()
 {
    // a useful sum to reconstruct responder hand
-   SplitBits sbSum(shuf.checkSum);
+   SplitBits sbSum(shuf.CheckSum());
    DTHand taskSum(sbSum);
 
    // how much filtered out

@@ -12,7 +12,7 @@
 void Walrus::FillSemantic(void)
 {
    //sem.onInit = &Walrus::WithdrawByInput;
-   sem.fillFlipover = &Walrus::FillFO_MaxDeck;
+   sem.fillFlipover = &Shuffler::FillFO_MaxDeck;
    sem.onScanCenter = &Walrus::Scan4Hands;
    sem.scanCover = SYMM * 6; // see permute
    sem.onFilter = &WaFilter::Splinter;
@@ -24,7 +24,7 @@ void Walrus::Scan4Hands()
    SplitBits sum(SumFirstHand());
    SplitBits sec(SumSecondHand());
    SplitBits third(Sum3rdHand());
-   SplitBits stop(shuf.checkSum - sum.card.jo - sec.card.jo - third.card.jo);
+   SplitBits stop(shuf.CheckSum() - sum.card.jo - sec.card.jo - third.card.jo);
    for (int idxHandStart = 0;;) {
       // account the deal several times
       Permute(sum, sec, third);

@@ -29,15 +29,15 @@ uint twSuit::Decrypt()
 }
 
 static char ranks[] = { /*'2',*/ '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' }; // only twelve, yes
-int Walrus::InitSuit(u64 suit, int idx)
+int Shuffler::InitSuit(u64 suit, int idx)
 {
    // put deuce 
-   shuf.deck[idx++].card.jo = suit;
+   deck[idx++].card.jo = suit;
 
    // put others
    u64 bitRank = suit << 4;
    for (auto x : ranks) {
-      shuf.deck[idx++].card.jo = bitRank | suit;
+      deck[idx++].card.jo = bitRank | suit;
       bitRank <<= 1;
    }
    return idx;
@@ -109,31 +109,11 @@ uint Walrus::CountKeyCards(SplitBits &hand)
 
 // -----------------------------------------------------------------------
 // input to walrus
-void Walrus::WithdrawCard(u64 jo)
-{
-   int high = SOURCE_CARDS_COUNT;
-   while (shuf.deck[high].IsBlank()) {
-      high--;
-   }
-
-   for (uint i = 0; i < SOURCE_CARDS_COUNT; i++) {
-      if (shuf.deck[i].card.jo == jo) {
-         shuf.deck[i] = shuf.deck[high];
-         shuf.deck[high--] = sbBlank;
-         shuf.cardsInDeck--;
-         return;
-      }
-   }
-
-   DEBUG_UNEXPECTED;
-   printf("card to withdraw is not found.\n");
-}
-
 void Walrus::WithdrawDeuce(uint rankBit, u64 waSuit)
 {
    // deuce has no bit
    if (rankBit) {
-      WithdrawCard(waSuit);
+      shuf.WithdrawCard(waSuit);
    }
 }
 
@@ -142,7 +122,7 @@ void Walrus::WithdrawRank(uint rankBit, u64 waSuit, uint waSuitByDds)
    // other bits positions are 1 pos up from DDS
    if (rankBit) {
       u64 waBit = ((u64)rankBit) << (waSuitByDds + 1);
-      WithdrawCard(waSuit + waBit);
+      shuf.WithdrawCard(waSuit + waBit);
    }
 }
 

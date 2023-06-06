@@ -284,6 +284,9 @@
     <ClInclude Include="..\..\walrus\waTLead.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\walrus\waScore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\dds-develop\src\COMMENT">

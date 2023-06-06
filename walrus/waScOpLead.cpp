@@ -53,7 +53,7 @@ void Walrus::Score_OpLead3Major(DdsTricks &tr)
 #endif // SEEK_OPENING_LEAD
 }
 
-void Walrus::CumulativeScore::OpLead3Major(s64 &sum, uint tricks)
+void CumulativeScore::OpLead3Major(s64 &sum, uint tricks)
 {
    if (tricks > 8) {
       sum += 140 + (tricks - 9) * 30;
@@ -62,7 +62,7 @@ void Walrus::CumulativeScore::OpLead3Major(s64 &sum, uint tricks)
    }
 }
 
-void Walrus::CumulativeScore::OpLead3NT(s64 &sum, uint tricks)
+void CumulativeScore::OpLead3NT(s64 &sum, uint tricks)
 {
    if (tricks > 8) {
       sum += 600 + (tricks - 9) * 30;
@@ -71,7 +71,7 @@ void Walrus::CumulativeScore::OpLead3NT(s64 &sum, uint tricks)
    }
 }
 
-void Walrus::CumulativeScore::OpLead3NTX(s64 &sum, uint tricks)
+void CumulativeScore::OpLead3NTX(s64 &sum, uint tricks)
 {
    switch (tricks) {
       case  9: sum += 750;  return;
@@ -92,7 +92,7 @@ void Walrus::CumulativeScore::OpLead3NTX(s64 &sum, uint tricks)
    }
 }
 
-void Walrus::CumulativeScore::OpLead5minor(s64 &sum, uint tricks)
+void CumulativeScore::OpLead5minor(s64 &sum, uint tricks)
 {
    if (tricks > 10) {
       sum += 600 + (tricks - 11) * 20;
@@ -131,7 +131,7 @@ void Walrus::Score_OpLead5DX(DdsTricks &tr)
 #endif // SEEK_OPENING_LEAD
 }
 
-void Walrus::CumulativeScore::OpLead5mX(s64 &sum, uint tricks)
+void CumulativeScore::OpLead5mX(s64 &sum, uint tricks)
 {
    switch (tricks) {
       case 11: sum += 550; return;
@@ -152,7 +152,7 @@ void Walrus::CumulativeScore::OpLead5mX(s64 &sum, uint tricks)
    }
 }
 
-void Walrus::CumulativeScore::Opp_3MajX(s64 &sum, uint tricks)
+void CumulativeScore::Opp_3MajX(s64 &sum, uint tricks)
 {
   switch (tricks) {
     case  9: sum -= 530; return;
@@ -173,7 +173,7 @@ void Walrus::CumulativeScore::Opp_3MajX(s64 &sum, uint tricks)
   }
 }
 
-void Walrus::CumulativeScore::Opp_NV_4MajX(s64 &sum, uint tricks)
+void CumulativeScore::Opp_NV_4MajX(s64 &sum, uint tricks)
 {
    switch (tricks) {
       case 10: sum -= 590; return;
@@ -194,7 +194,7 @@ void Walrus::CumulativeScore::Opp_NV_4MajX(s64 &sum, uint tricks)
    }
 }
 
-void Walrus::CumulativeScore::Opp_4M(s64 &sum, uint tricks)
+void CumulativeScore::Opp_4M(s64 &sum, uint tricks)
 {
    switch (tricks) {
       case 10: sum -= 620; return;
@@ -215,7 +215,7 @@ void Walrus::CumulativeScore::Opp_4M(s64 &sum, uint tricks)
    }
 }
 
-void Walrus::CumulativeScore::Opp_3Major(s64 &sum, uint tricks)
+void CumulativeScore::Opp_3Major(s64 &sum, uint tricks)
 {
   switch (tricks) {
     case  9: sum -= 140; return;
@@ -236,7 +236,7 @@ void Walrus::CumulativeScore::Opp_3Major(s64 &sum, uint tricks)
   }
 }
 
-void Walrus::CumulativeScore::Opp_3NT(s64 &sum, uint tricks)
+void CumulativeScore::Opp_3NT(s64 &sum, uint tricks)
 {
    switch (tricks) {
       case  9: sum -= 600; return;
@@ -257,7 +257,7 @@ void Walrus::CumulativeScore::Opp_3NT(s64 &sum, uint tricks)
    }
 }
 
-void Walrus::CumulativeScore::Opp_5minor(s64& sum, uint tricks)
+void CumulativeScore::Opp_5minor(s64& sum, uint tricks)
 {
    switch (tricks) {
       case 11: sum -=  600; return;
@@ -279,7 +279,7 @@ void Walrus::CumulativeScore::Opp_5minor(s64& sum, uint tricks)
 }
 
 
-void Walrus::CumulativeScore::Opp_3NTX(s64 &sum, uint tricks)
+void CumulativeScore::Opp_3NTX(s64 &sum, uint tricks)
 {
    switch (tricks) {
       case  9: sum -=  750; return;
@@ -300,7 +300,7 @@ void Walrus::CumulativeScore::Opp_3NTX(s64 &sum, uint tricks)
    }
 }
 
-void Walrus::CumulativeScore::Opp_2m(s64 &sum, uint tricks)
+void CumulativeScore::Opp_2m(s64 &sum, uint tricks)
 {
    switch (tricks) {
       case  8: sum -=  90; return;
@@ -321,7 +321,7 @@ void Walrus::CumulativeScore::Opp_2m(s64 &sum, uint tricks)
    }
 }
 
-void Walrus::CumulativeScore::Opp_2mX(s64 &sum, uint tricks)
+void CumulativeScore::Opp_2mX(s64 &sum, uint tricks)
 {
    switch (tricks) {
       case  8: sum -= 180; return;

@@ -288,3 +288,11 @@ void sample_main_PlayBin()
 
    GetDDSInfo(&info);
 }
+
+void DoSelfTests()
+{
+   //sample_main_PlayBin();
+   //sample_main_SolveBoard();
+   //sample_main_SolveBoard_S1();
+   //sample_main_JK_Solve();
+}

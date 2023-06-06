@@ -7,9 +7,6 @@
 #include "walrus.h"
 #include HEADER_CURSES
 #include <chrono>
-// #include "waCrossPlatform.h"
-// #include <cstring>
-// #include HEADER_SLEEP  
 
 std::chrono::steady_clock::duration timeChronoStart;
 
@@ -46,7 +43,7 @@ bool Walrus::AfterMath()
    return true;
 }
 
-Walrus::CumulativeScore::CumulativeScore()
+CumulativeScore::CumulativeScore()
    : ideal(0L)
    , bidGame(0L)
    , bidSlam(0L)
@@ -69,13 +66,7 @@ void Walrus::CleanupStats()
    }
 }
 
-void DoSelfTests()
-{
-   //sample_main_PlayBin();
-   //sample_main_SolveBoard();
-   //sample_main_SolveBoard_S1();
-   //sample_main_JK_Solve();
-}
+extern void DoSelfTests();
 
 int main(int argc, char *argv[])
 {

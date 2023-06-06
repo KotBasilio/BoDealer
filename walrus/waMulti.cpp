@@ -9,6 +9,8 @@
 #include HEADER_THREADS
 #include "walrus.h"
 
+//#define SHOW_EFFORT_SPLIT
+
 extern u64 ChronoRound();
 
 Walrus::Multi::Multi()
@@ -29,7 +31,7 @@ Walrus::Walrus(Walrus *other, const char *nameH, int ourShare)
    memcpy(this, other, sizeof(*this));
 
    // but take another random seed
-   StepAsideRand(100 * 42);
+   shuf.StepAsideRand(100 * 42);
 
    // get name and appointment
    mul.nameHlp = nameH;
@@ -67,7 +69,6 @@ void Walrus::LaunchHelpers(Walrus &hA, Walrus &hB)
 #endif // SKIP_HELPERS
 }
 
-
 void Walrus::ShowEffortSplit(Walrus &hA, Walrus &hB)
 {
 #ifdef SHOW_EFFORT_SPLIT
@@ -80,9 +81,9 @@ void Walrus::ShowEffortSplit(Walrus &hA, Walrus &hB)
 
    // monitor random in debug
    #ifdef _DEBUG
-      TestSeed();
-      hA.TestSeed();
-      hB.TestSeed();
+      shuf.TestSeed(GetName());
+      hA.shuf.TestSeed(hA.GetName());
+      hB.shuf.TestSeed(hB.GetName());
       printf("-------------------\n");
    #endif // _DEBUG
 #endif // SHOW_EFFORT_SPLIT
@@ -124,15 +125,15 @@ void Walrus::MainScan(void)
 void Walrus::DoIteration()
 {
    // shuffle the deck, add a flip-over
-   Shuffle();
-   (this->*sem.fillFlipover)();
+   shuf.Shuffle();
+   (shuf.*sem.fillFlipover)();
 
    // body of the scan
    (this->*sem.onScanCenter)();
 
    // no flip-over beyond this point
-   ClearFlipover();
-   VerifyCheckSum();
+   shuf.ClearFlipover();
+   shuf.VerifyCheckSum();
 
    // done
    mul.countIterations += sem.scanCover;

@@ -9,7 +9,7 @@
 #include "../dds-develop/include/dll.h"
 #include "../dds-develop/examples/hands.h"
 
-void Walrus::CumulativeScore::Our4M(uint tricks)
+void CumulativeScore::Our4M(uint tricks)
 {
    // "always game" strategy
    switch (tricks) {
@@ -41,7 +41,7 @@ void Walrus::CumulativeScore::Our4M(uint tricks)
    }
 }
 
-void Walrus::CumulativeScore::OurNV4M(uint tricks)
+void CumulativeScore::OurNV4M(uint tricks)
 {
    // "always game" strategy
    switch (tricks) {
@@ -73,7 +73,7 @@ void Walrus::CumulativeScore::OurNV4M(uint tricks)
    }
 }
 
-void Walrus::CumulativeScore::OurNV4MX(uint tricks)
+void CumulativeScore::OurNV4MX(uint tricks)
 {
    // "always game" strategy
    switch (tricks) {
@@ -105,7 +105,7 @@ void Walrus::CumulativeScore::OurNV4MX(uint tricks)
    }
 }
 
-void Walrus::CumulativeScore::Our5M(uint tricks)
+void CumulativeScore::Our5M(uint tricks)
 {
    // "always game" strategy
    switch (tricks) {
@@ -137,7 +137,7 @@ void Walrus::CumulativeScore::Our5M(uint tricks)
    }
 }
 
-void Walrus::CumulativeScore::Our5minor(uint tricks)
+void CumulativeScore::Our5minor(uint tricks)
 {
    // "always game" strategy
    switch (tricks) {
@@ -182,7 +182,7 @@ void Walrus::CumulativeScore::Our5minor(uint tricks)
    }
 }
 
-void Walrus::CumulativeScore::OurNV5minor(uint tricks)
+void CumulativeScore::OurNV5minor(uint tricks)
 {
    // "always game" strategy
    switch (tricks) {
@@ -226,7 +226,7 @@ void Walrus::CumulativeScore::OurNV5minor(uint tricks)
    }
 }
 
-void Walrus::CumulativeScore::OurNV5M(uint tricks)
+void CumulativeScore::OurNV5M(uint tricks)
 {
    // "always game" strategy
    switch (tricks) {
@@ -256,7 +256,7 @@ void Walrus::CumulativeScore::OurNV5M(uint tricks)
    }
 }
 
-void Walrus::CumulativeScore::Our3NT(uint tricks)
+void CumulativeScore::Our3NT(uint tricks)
 {
    // "always game" strategy
    switch (tricks) {
@@ -289,7 +289,7 @@ void Walrus::CumulativeScore::Our3NT(uint tricks)
 }
 
 
-void Walrus::CumulativeScore::OurNV6m(uint tricks)
+void CumulativeScore::OurNV6m(uint tricks)
 {
    // "always slam" strategy
    switch (tricks) {
@@ -321,7 +321,7 @@ void Walrus::CumulativeScore::OurNV6m(uint tricks)
    }
 }
 
-void Walrus::CumulativeScore::OurNV6Maj(uint tricks)
+void CumulativeScore::OurNV6Maj(uint tricks)
 {
    // "always slam" strategy
    switch (tricks) {
@@ -353,7 +353,7 @@ void Walrus::CumulativeScore::OurNV6Maj(uint tricks)
    }
 }
 
-void Walrus::CumulativeScore::OurNV6_No(uint tricks)
+void CumulativeScore::OurNV6_No(uint tricks)
 {
    // "always slam" strategy
    switch (tricks) {

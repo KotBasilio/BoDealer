@@ -7,11 +7,10 @@
 #include "waLayout.h"
 #include "waSemantic.h"
 #include "waAI.h"
+#include "waScore.h"
 
-// The main class -- named after Walter the Walrus, 
-// whose expertise in and devotion to 
-// the Work point count are matched only 
-// by the utter mess he makes of bidding and play (c)
+// The main class -- named after Walter the Walrus, whose expertise in and devotion to 
+// the Work point count are matched only by the utter mess he makes of bidding and play (c)
 class Walrus
 {
 public:
@@ -32,31 +31,13 @@ protected:
     // Start
     void PrepareBaseDeal(struct deal &dlBase);
     void InitDeck(void);
-    int  InitSuit(u64 suit, int idx);
-    u64  CalcCheckSum();
-    void VerifyCheckSum();
     waFileNames namesBase;
-
-    // Flip over
-    void FillFO_MaxDeck();
-    void FillFO_39Single();
-    void FillFO_39Double();
-    void ClearFlipover();
 
     // withdrawals
     void WithdrawByInput();
     void WithdrawHolding(uint hld, uint waSuitByDds);
     void WithdrawDeuce(uint rankBit, u64 waSuit);
     void WithdrawRank(uint rankBit, u64 waSuit, uint waSuitByDds);
-    void WithdrawCard(u64 jo);
-
-    // shuffling
-    void SeedRand();
-    void StepAsideRand(uint stepAside);
-    uint Rand();
-    void RandIndices();
-    void TestSeed(void);
-    void Shuffle();
 
     // scans
     void ScanTrivial();
@@ -89,7 +70,8 @@ protected:
 
     // semantics
     void FillSemantic(void);
-    typedef void (Walrus::*SemFuncType)();
+    typedef void (Walrus::* SemFuncType)();
+    typedef void (Shuffler::* ShufflerFunc)();
     typedef void (Walrus::*SemScoring)(DdsTricks &tr);
     void NOP() {}
     void VoidScoring(DdsTricks &tr) {}
@@ -100,8 +82,8 @@ protected:
        SemFuncType  onInit;
        SemFuncType  onShareStart;
        SemFuncType  onScanCenter;
+       ShufflerFunc fillFlipover;
        DepFilterOut onFilter;
-       SemFuncType  fillFlipover;
        SemScoring   onScoring;
        SemScoring   onSolvedTwice;
        SemFuncType  onAfterMath;
@@ -110,43 +92,7 @@ protected:
     } sem;
 
     // scoring
-    struct CumulativeScore {
-       CumulativeScore();
-       s64    ideal;
-       s64    bidGame, bidSlam;
-       s64    partscore;
-       s64    leadS, leadH, leadD, leadC;
-       s64    oppContract, oppCtrDoubled;
-       s64    ourOther, ourCombo;
-       // -- opening lead
-       void OpLead3NT    (s64 &sum, uint tricks);
-       void OpLead3NTX   (s64 &sum, uint tricks);
-       void OpLead3Major (s64 &sum, uint tricks);
-       void OpLead5minor (s64 &sum, uint tricks);
-       void OpLead5mX    (s64 &sum, uint tricks);
-       // -- opp contract
-       void Opp_3MajX    (s64 &sum, uint tricks);
-       void Opp_3Major   (s64 &sum, uint tricks);
-       void Opp_4M       (s64 &sum, uint tricks);
-       void Opp_NV_4MajX (s64 &sum, uint tricks);
-       void Opp_3NT      (s64 &sum, uint tricks);
-       void Opp_3NTX     (s64 &sum, uint tricks);
-       void Opp_5minor   (s64& sum, uint tricks);
-       void Opp_2m       (s64& sum, uint tricks);
-       void Opp_2mX      (s64 &sum, uint tricks);
-       // -- our contracts
-       void OurNV6m      (uint tricks);
-       void OurNV6Maj    (uint tricks);
-       void OurNV6_No    (uint tricks);
-       void Our3NT       (uint tricks);
-       void Our4M        (uint tricks);
-       void OurNV4M      (uint tricks);
-       void OurNV4MX     (uint tricks);
-       void Our5M        (uint tricks);
-       void OurNV5M      (uint tricks);
-       void Our5minor    (uint tricks);
-       void OurNV5minor  (uint tricks);
-    } cumulScore;
+    CumulativeScore cumulScore;
     void Score_4Major(DdsTricks &tr);
     void Score_NV_4Major(DdsTricks &tr);
     void Score_NV_Doubled4Major(DdsTricks &tr);
@@ -217,19 +163,9 @@ protected:
        uint       countToSolve;
     } mul;
 
-    // Shuffling
-    struct Shuf {
-       Shuf();
-       SplitBits        deck[DECK_ARR_SIZE];
-       SplitBits        highBits; // placed intentionally after deck
-       u64              checkSum;
-       uint             oldRand;
-       uint             ridx[RIDX_SIZE];// RandIndices() <-> Shuffle()
-       uint             cardsInDeck;
-    } shuf;
-
 private:
-   WaFilter         filter;
+   Shuffler shuf;
+   WaFilter filter;
 
    // scan patterns
    // -- 3-hands scan is like orbiting around a hand
@@ -243,4 +179,3 @@ private:
    uint CountKeyCards(SplitBits &hand);
 };
 
-void DoSelfTests();

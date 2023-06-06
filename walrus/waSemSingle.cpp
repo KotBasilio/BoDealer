@@ -10,7 +10,7 @@
 #ifdef SEMANTIC_KEYCARDS_10_12
 void Walrus::FillSemantic(void)
 {
-   sem.fillFlipover = &Walrus::FillFO_MaxDeck;
+   sem.fillFlipover = &Shuffler::FillFO_MaxDeck;
    sem.onScanCenter = &Walrus::ScanKeycards;
    sem.scanCover = ACTUAL_CARDS_COUNT;
 }
@@ -91,7 +91,7 @@ uint Walrus::KeyCards_ClassifyHand(uint &camp, SplitBits &partner)
 void Walrus::FillSemantic(void)
 {
    sem.onInit = &Walrus::WithdrawByInput;
-   sem.fillFlipover = &Walrus::FillFO_39Double;
+   sem.fillFlipover = &Shuffler::FillFO_39Double;
    sem.onScanCenter = &Walrus::ScanOrb;
    sem.scanCover = ACTUAL_CARDS_COUNT * 2; // since we flip the hands
    sem.onFilter = &WaFilter::Spade4;
