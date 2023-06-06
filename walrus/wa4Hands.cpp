@@ -11,11 +11,11 @@
 #ifdef SEMANTIC_SPLINTER_SHAPE
 void Walrus::FillSemantic(void)
 {
-   //sem.onInit = &Walrus::WithdrawByInput;
    sem.fillFlipover = &Shuffler::FillFO_MaxDeck;
    sem.onScanCenter = &Walrus::Scan4Hands;
    sem.scanCover = SYMM * 6; // see permute
-   sem.onFilter = &WaFilter::Splinter;
+   sem.onFilter = &WaFilter::ClassifyOnScan;
+   sem.onDepFilter = &WaFilter::Splinter;
 }
 
 void Walrus::Scan4Hands()
@@ -49,35 +49,42 @@ void Walrus::Scan4Hands()
 
 void Walrus::Permute(SplitBits a, SplitBits b, SplitBits c)
 {
-   // when the hand D is fixed, we get 6 options to lay A,B,C
-   uint foo = 0, bar = 0;
-   foo = (filter.*sem.onFilter)(a, bar, b, c);
-   progress.hitsCount[foo][bar]++;
-   foo = (filter.*sem.onFilter)(a, bar, c, b);
-   progress.hitsCount[foo][bar]++;
-   foo = (filter.*sem.onFilter)(b, bar, a, c);
-   progress.hitsCount[foo][bar]++;
-   foo = (filter.*sem.onFilter)(b, bar, c, a);
-   progress.hitsCount[foo][bar]++;
-   foo = (filter.*sem.onFilter)(c, bar, a, b);
-   progress.hitsCount[foo][bar]++;
-   foo = (filter.*sem.onFilter)(c, bar, b, a);
-   progress.hitsCount[foo][bar]++;
+   // when a hand D is fixed, we get 6 options to lay A,B,C
+   (filter.*sem.onFilter)(a, b, c);
+   (filter.*sem.onFilter)(a, c, b);
+   (filter.*sem.onFilter)(b, a, c);
+   (filter.*sem.onFilter)(b, c, a);
+   (filter.*sem.onFilter)(c, a, b);
+   (filter.*sem.onFilter)(c, b, a);
 }
 
-void Walrus::ClassifyOnScan(SplitBits a, SplitBits b, SplitBits c)
+void WaFilter::ClassifyOnScan(SplitBits a, SplitBits b, SplitBits c)
 {
+   uint camp = 0;
+   uint reason = Splinter(a, camp, b, c);
+   if (reason) {
+      // there's some reason to skip this hand. mark it
+      progress->hitsCount[reason][camp]++;
+   } else {
+      // save all three hands
+      // if (mul.countToSolve < mul.maxTasksToSolve) {
+      //    //mul.arrToSolve[mul.countToSolve++].Init(partner, rho);
+      // }
+
+      // mark all saved together
+      progress->hitsCount[1][1]++;
+   }
 }
 
 uint WaFilter::Splinter(SplitBits& opener, uint& camp, SplitBits& direct, SplitBits& resp)
 {
-   const uint PASS_BASE = ANSWER_ROW_IDX;
    const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_RESP = 2;
    const uint SKIP_BY_OPP = 3;
 
-   return PASS_BASE;
+   // seems it passes
+   return 0;
 }
 
 #endif // SEMANTIC_SPLINTER_SHAPE

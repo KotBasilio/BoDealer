@@ -94,8 +94,9 @@ void Walrus::FillSemantic(void)
    sem.fillFlipover = &Shuffler::FillFO_39Double;
    sem.onScanCenter = &Walrus::ScanOrb;
    sem.scanCover = ACTUAL_CARDS_COUNT * 2; // since we flip the hands
-   sem.onFilter = &WaFilter::Spade4;
+   sem.onDepFilter = &WaFilter::Spade4;
 }
+
 
 uint WaFilter::Spade4(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {

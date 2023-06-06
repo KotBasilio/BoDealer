@@ -64,7 +64,7 @@ void Walrus::ScanOrb()
 void Walrus::Orb_Classify(SplitBits& lho, SplitBits& partner, SplitBits& rho)
 {
    uint camp = 0;
-   uint reason = (filter.*sem.onFilter)(partner, camp, lho, rho);
+   uint reason = (filter.*sem.onDepFilter)(partner, camp, lho, rho);
    if (reason) {
       // there's some reason to skip this hand. mark it
       progress.hitsCount[reason][camp]++;

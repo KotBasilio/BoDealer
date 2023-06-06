@@ -389,7 +389,7 @@ void Walrus::ReportLine(uint sumline, int i)
    }
 
    OUT_BIG_TABLE("%02d: ", i);
-   for (int j = 0; j < ui.farCol; j++) {
+   for (int j = 0; j <= ui.farCol; j++) {
       auto cell = progress.hitsCount[i][j];
       OUT_BIG_TABLE(fmtCell, cell);
    }

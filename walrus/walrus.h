@@ -26,6 +26,7 @@ public:
    bool IsRunning(void) const { return mul.isRunning; }
    const char *GetName() const { return mul.nameHlp; }
    uint NumFiltered() const { return mul.countToSolve; }
+   Progress* GetProgress() { return &progress; }
 
 protected:
     // Start
@@ -44,8 +45,6 @@ protected:
     void ScanOrb();
     void ScanKeycards();
     void Scan4Hands();
-    void Permute(SplitBits a, SplitBits b, SplitBits c);
-    void ClassifyOnScan(SplitBits a, SplitBits b, SplitBits c);
 
     // solving
     void AllocFilteredTasksBuf();
@@ -83,10 +82,11 @@ protected:
        SemFuncType  onShareStart;
        SemFuncType  onScanCenter;
        ShufflerFunc fillFlipover;
-       DepFilterOut onFilter;
+       SemFilterOut onFilter;
        SemScoring   onScoring;
        SemScoring   onSolvedTwice;
        SemFuncType  onAfterMath;
+       DepFilterOut onDepFilter;
        uint scanCover; // how much iterations covers one scan
        Semantics();
     } sem;
@@ -165,7 +165,9 @@ private:
    void Orb_Interrogate(DdsTricks &tr, deal &cards, struct futureTricks &fut);
    bool Orb_ApproveByFly(deal& cards);
    void Orb_ReSolveAndShow(deal &cards);
-   // -- others
+   // -- 4-hands scan
+   void Permute(SplitBits a, SplitBits b, SplitBits c);
+   // -- other scans
    uint KeyCards_ClassifyHand(uint &ba, SplitBits &sum);
    uint CountKeyCards(SplitBits &hand);
 };

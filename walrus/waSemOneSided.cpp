@@ -11,7 +11,7 @@
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::SomeInvite;
+   sem.onDepFilter = &WaFilter::SomeInvite;
    sem.onScoring = &Walrus::Score_3NT;
 }
 

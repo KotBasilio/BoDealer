@@ -24,8 +24,15 @@ Walrus::Walrus()
    , shuf()
    , filter()
 {
+   filter.Bind(this);
    namesBase.Build();
 }
+
+void WaFilter::Bind(class Walrus* _walrus) 
+{ 
+   progress = _walrus->GetProgress(); 
+}
+
 
 bool Walrus::InitByConfig()
 {
@@ -81,6 +88,7 @@ Walrus::Semantics::Semantics()
    , fillFlipover (&Shuffler::NOP)
    , onScanCenter (&Walrus::NOP)
    , onAfterMath  (&Walrus::NOP) 
+   , onDepFilter  (&WaFilter::DepRejectAll) 
    , onFilter     (&WaFilter::RejectAll) 
    , onScoring    (&Walrus::VoidScoring)
    , onSolvedTwice(&Walrus::VoidScoring)

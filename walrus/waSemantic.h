@@ -95,17 +95,32 @@ struct twlControls
    uint s, h, d, c, total;
 };
 
+// hits count and others
+struct Progress {
+   Progress();
+   uint hitsCount[HCP_SIZE][CTRL_SIZE];
+   uint step, went, margin;
+   uint countExtraMarks;
+   u64  delta1, delta2;
+   void Init(uint _step);
+   bool Step();
+   void Up(uint idx);
+};
+
 // Filters
 class WaFilter
 {
-   int dummy;
+   Progress *progress;
 public:
-   WaFilter() : dummy(42) {}
-   uint RejectAll(SplitBits &part, uint &camp, SplitBits &lho, SplitBits &rho) { camp = 2; return 1; }
+   WaFilter() : progress(nullptr) {}
+   void Bind(class Walrus* _walrus);
+   void RejectAll(SplitBits part, SplitBits lho, SplitBits rho);
+   uint DepRejectAll(SplitBits &part, uint &camp, SplitBits &lho, SplitBits &rho) { camp = 2; return 1; }
 
    // One/4 hand tasks:
    uint Spade4(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint Splinter(SplitBits& partner, uint& camp, SplitBits& lho, SplitBits& rho);
+   void ClassifyOnScan(SplitBits a, SplitBits b, SplitBits c);
 
    // Bidding decision one-sided:
    uint R55(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
@@ -144,6 +159,6 @@ public:
 };
 
 // types of filters
-typedef uint(WaFilter::* SemFilterOut)(SplitBits& a, SplitBits& b, SplitBits& c);
+typedef void(WaFilter::* SemFilterOut)(SplitBits a, SplitBits b, SplitBits c);
 typedef uint(WaFilter::* DepFilterOut)(SplitBits& part, uint& camp, SplitBits& lho, SplitBits& rho);// deprecated in 3.0
 

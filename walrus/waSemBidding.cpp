@@ -11,7 +11,7 @@
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::Mixed2DwM;
+   sem.onDepFilter = &WaFilter::Mixed2DwM;
    sem.onScoring = &Walrus::Score_2m;
 }
 
@@ -104,7 +104,7 @@ uint WaFilter::Mixed2DwM(SplitBits &partner, uint &camp, SplitBits &lho, SplitBi
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::NovDbl3NT;
+   sem.onDepFilter = &WaFilter::NovDbl3NT;
    sem.onScoring = &Walrus::Score_Doubled3NT;
 }
 
@@ -249,7 +249,7 @@ uint WaFilter::NovDbl3NT(SplitBits &partner, uint &camp, SplitBits &lho, SplitBi
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::NovSlam;
+   sem.onDepFilter = &WaFilter::NovSlam;
    sem.onScoring = &Walrus::Score_NV6Minor;
    sem.onSolvedTwice = &Walrus::Score_Opp4MajorDoubled;
 }
@@ -341,7 +341,7 @@ uint WaFilter::NovSlam(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::FitoJuly;
+   sem.onDepFilter = &WaFilter::FitoJuly;
    sem.onScoring = &Walrus::Score_4Major;
    sem.onSolvedTwice = &Walrus::Score_Opp3MajorDoubled;
 }
@@ -441,7 +441,7 @@ uint WaFilter::FitoJuly(SplitBits &partner, uint &camp, SplitBits &lho, SplitBit
 void Walrus::FillSemantic(void)
 {
 	Orb_FillSem();
-	sem.onFilter = &WaFilter::AugMultiVul;
+	sem.onDepFilter = &WaFilter::AugMultiVul;
 	sem.onScoring = &Walrus::Score_4Major;
 }
 
@@ -502,7 +502,7 @@ uint WaFilter::AugMultiVul(SplitBits &partner, uint &camp, SplitBits &rho, Split
 void Walrus::FillSemantic(void)
 {
 	Orb_FillSem();
-	sem.onFilter = &WaFilter::AugSplitFit;
+	sem.onDepFilter = &WaFilter::AugSplitFit;
 	sem.onScoring = &Walrus::Score_NV_4Major;
 }
 
@@ -560,7 +560,7 @@ uint WaFilter::AugSplitFit(SplitBits &partner, uint &camp, SplitBits &rho, Split
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::R55;
+   sem.onDepFilter = &WaFilter::R55;
    sem.onScoring = &Walrus::Score_4Major;
 }
 
@@ -612,7 +612,7 @@ uint WaFilter::R55(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rh
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::TriSunday; // Tricolor
+   sem.onDepFilter = &WaFilter::TriSunday; // Tricolor
    sem.onScoring = &Walrus::Score_4Major;
 }
 
@@ -718,7 +718,7 @@ uint WaFilter::TriSunday(SplitBits &partner, uint &camp, SplitBits &lho, SplitBi
 void Walrus::FillSemantic(void)
 {
 	Orb_FillSem();
-	sem.onFilter = &WaFilter::SeptMajors;
+	sem.onDepFilter = &WaFilter::SeptMajors;
 	sem.onScoring = &Walrus::Score_4Major;
 }
 
@@ -772,7 +772,7 @@ uint WaFilter::SeptMajors(SplitBits &partner, uint &camp, SplitBits &rho, SplitB
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::SlamTry;
+   sem.onDepFilter = &WaFilter::SlamTry;
    sem.onScoring = &Walrus::Score_NV6Major;
 }
 
@@ -840,7 +840,7 @@ uint WaFilter::SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::SeptMajors;
+   sem.onDepFilter = &WaFilter::SeptMajors;
    sem.onScoring = &Walrus::Score_4Major;
 }
 
@@ -903,7 +903,7 @@ uint WaFilter::SeptMajors(SplitBits &partner, uint &camp, SplitBits &rho, SplitB
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::Dec12_2425;
+   sem.onDepFilter = &WaFilter::Dec12_2425;
    sem.onScoring = &Walrus::Score_3NT;
 }
 
@@ -963,7 +963,7 @@ uint WaFilter::Dec12_2425(SplitBits &partner, uint &camp, SplitBits &rho, SplitB
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::DecTopHearts;
+   sem.onDepFilter = &WaFilter::DecTopHearts;
    sem.onScoring = &Walrus::Score_NV_5Major;
    sem.onSolvedTwice = &Walrus::Score_Opp4MajorDoubled;
 }
@@ -1033,7 +1033,7 @@ uint WaFilter::DecTopHearts(SplitBits &partner, uint &camp, SplitBits &advancer,
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::DecAcceptTo4S;
+   sem.onDepFilter = &WaFilter::DecAcceptTo4S;
    sem.onScoring = &Walrus::Score_NV_4Major;
 }
 
@@ -1109,7 +1109,7 @@ uint WaFilter::DecAcceptTo4S(SplitBits &partner, uint &camp, SplitBits &advancer
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::DecAcceptTo4S;
+   sem.onDepFilter = &WaFilter::DecAcceptTo4S;
    sem.onScoring = &Walrus::Score_NV_4Major;
 }
 
@@ -1188,7 +1188,7 @@ uint WaFilter::DecAcceptTo4S(SplitBits &partner, uint &camp, SplitBits &firstOpp
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::SlamTry;
+   sem.onDepFilter = &WaFilter::SlamTry;
    sem.onScoring = &Walrus::Score_NV6NoTrump;
    //sem.onScoring = &Walrus::Score_3NT;
 }
@@ -1280,7 +1280,7 @@ uint WaFilter::SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::JanDblThenH;
+   sem.onDepFilter = &WaFilter::JanDblThenH;
    sem.onScoring = &Walrus::Score_4Major;
 }
 
@@ -1346,7 +1346,7 @@ uint WaFilter::JanDblThenH(SplitBits &partner, uint &camp, SplitBits &firstOpp, 
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::FebManyHearts;
+   sem.onDepFilter = &WaFilter::FebManyHearts;
    sem.onScoring = &Walrus::Score_5Major;
    sem.onSolvedTwice = &Walrus::Score_Opp4MajorDoubled;
 }
@@ -1438,7 +1438,7 @@ uint WaFilter::FebManyHearts(SplitBits &partner, uint &camp, SplitBits &doubler,
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::MixedPreventive;
+   sem.onDepFilter = &WaFilter::MixedPreventive;
    sem.onScoring = &Walrus::Score_NV_Doubled4Major;
    sem.onSolvedTwice = &Walrus::Score_Opp4Major;
 }
@@ -1522,7 +1522,7 @@ uint WaFilter::MixedPreventive(SplitBits &partner, uint &camp, SplitBits &lho, S
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::SlamTry;
+   sem.onDepFilter = &WaFilter::SlamTry;
    sem.onScoring = &Walrus::Score_3NT;
 }
 
@@ -1609,7 +1609,7 @@ uint WaFilter::SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::SlamTry;
+   sem.onDepFilter = &WaFilter::SlamTry;
    sem.onScoring = &Walrus::Score_NV_4Major;
 }
 
@@ -1717,7 +1717,7 @@ uint WaFilter::SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::Dec21Dbl3NT;
+   sem.onDepFilter = &WaFilter::Dec21Dbl3NT;
    sem.onScoring = &Walrus::Score_OpLead3NTX;
 }
 
@@ -1880,7 +1880,7 @@ uint WaFilter::Dec21Dbl3NT(SplitBits &partner, uint &camp, SplitBits &lho, Split
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::JanSpadesGame;
+   sem.onDepFilter = &WaFilter::JanSpadesGame;
    sem.onScoring = &Walrus::Score_NV_4Major;
 }
 
@@ -1970,7 +1970,7 @@ uint WaFilter::JanSpadesGame(SplitBits &partner, uint &camp, SplitBits &rho, Spl
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::SlamTry;
+   sem.onDepFilter = &WaFilter::SlamTry;
    //sem.onScoring = &Walrus::Score_NV_5Minor;
    sem.onScoring = &Walrus::Score_NV6Minor;
    //sem.onScoring = &Walrus::Score_3NT;
@@ -2066,7 +2066,7 @@ uint WaFilter::SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::Aug3NTOnFit;
+   sem.onDepFilter = &WaFilter::Aug3NTOnFit;
    sem.onScoring = &Walrus::Score_4Major;
 }
 #endif
@@ -2294,7 +2294,7 @@ uint WaFilter::Aug3NTOnFit(SplitBits& partner, uint& camp, SplitBits& rho, Split
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::Sep10_4252;
+   sem.onDepFilter = &WaFilter::Sep10_4252;
    sem.onScoring = &Walrus::Score_3NT;
 }
 
@@ -2378,7 +2378,7 @@ uint WaFilter::Sep10_4252(SplitBits& partner, uint& camp, SplitBits& rho, SplitB
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::OctWeakGambling;
+   sem.onDepFilter = &WaFilter::OctWeakGambling;
    sem.onScoring = &Walrus::Score_NV_5Minor;
    sem.onSolvedTwice = &Walrus::Score_Opp3Major;
 }
@@ -2451,7 +2451,7 @@ uint WaFilter::OctWeakGambling(SplitBits& partner, uint& camp, SplitBits& rho, S
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::NovInvitePrecision;
+   sem.onDepFilter = &WaFilter::NovInvitePrecision;
    sem.onScoring = &Walrus::Score_4Major;
 }
 
@@ -2518,7 +2518,7 @@ uint WaFilter::NovInvitePrecision(SplitBits& partner, uint& camp, SplitBits& rho
 void Walrus::FillSemantic(void)
 {
    Orb_FillSem();
-   sem.onFilter = &WaFilter::SomeInvite;
+   sem.onDepFilter = &WaFilter::SomeInvite;
    sem.onScoring = &Walrus::Score_5Minor;
    sem.onSolvedTwice = &Walrus::Score_Opp3NT;
 }

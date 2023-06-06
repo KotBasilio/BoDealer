@@ -30,6 +30,9 @@ Walrus::Walrus(Walrus *other, const char *nameH, int ourShare)
    // duplicate fully
    memcpy(this, other, sizeof(*this));
 
+   // rebind
+   filter.Bind(this);
+
    // but take another random seed
    shuf.StepAsideRand(100 * 42);
 
@@ -153,6 +156,11 @@ uint Walrus::DoTheShare()
    // signal
    mul.isRunning = false;
    return mul.countIterations;
+}
+
+void WaFilter::RejectAll(SplitBits part, SplitBits lho, SplitBits rho)
+{
+   progress->hitsCount[1][1]++;
 }
 
 //------------------------------------------------

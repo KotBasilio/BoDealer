@@ -40,17 +40,6 @@ struct CumulativeScore {
    void OurNV5minor(uint tricks);
 };
 
-struct Progress {
-   Progress();
-   uint hitsCount[HCP_SIZE][CTRL_SIZE];
-   uint step, went, margin;
-   uint countExtraMarks;
-   u64  delta1, delta2;
-   void Init(uint _step);
-   bool Step();
-   void Up(uint idx);
-};
-
 struct Shuffler {
    Shuffler();
    SplitBits deck[DECK_ARR_SIZE];
