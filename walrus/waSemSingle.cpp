@@ -22,7 +22,7 @@ void Walrus::ScanKeycards()
    for (int idxHandStart = 0;;) {
       // a dummy part, count nothing, just check total
       uint bar = 0;
-      uint foo = KC_ClassifyHand(bar, sum);
+      uint foo = KeyCards_ClassifyHand(bar, sum);
 
       // account the hand
       progress.hitsCount[foo][bar]++;
@@ -38,7 +38,7 @@ void Walrus::ScanKeycards()
    }
 }
 
-uint Walrus::KC_ClassifyHand(uint &camp, SplitBits &partner)
+uint Walrus::KeyCards_ClassifyHand(uint &camp, SplitBits &partner)
 {
    const uint ORDER_BASE = 4;
    const uint SKIP_BY_PART = 1;

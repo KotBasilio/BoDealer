@@ -232,13 +232,14 @@ private:
    WaFilter         filter;
 
    // scan patterns
+   // -- 3-hands scan is like orbiting around a hand
    void Orb_FillSem(void);
-   uint Orb_ClassifyHands(uint &camp, SplitBits &sum, SplitBits &lho, SplitBits &rho);
-   void Orb_SaveForSolver(SplitBits &partner, SplitBits &resp, SplitBits &notrump);
+   void Orb_Classify(SplitBits& a, SplitBits& b, SplitBits& c);
    void Orb_Interrogate(DdsTricks &tr, deal &cards, struct futureTricks &fut);
    bool Orb_ApproveByFly(deal& cards);
    void Orb_ReSolveAndShow(deal &cards);
-   uint KC_ClassifyHand(uint &ba, SplitBits &sum);
+   // -- others
+   uint KeyCards_ClassifyHand(uint &ba, SplitBits &sum);
    uint CountKeyCards(SplitBits &hand);
 };
 

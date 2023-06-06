@@ -42,17 +42,10 @@ void Walrus::ScanOrb()
    SplitBits sum(SumFirstHand());
    SplitBits sec(SumSecondHand());
    for (int idxHandStart = 0;;) {
+      // small premutaion
       SplitBits third(shuf.checkSum - sum.card.jo - sec.card.jo);
-      uint bar = 0;
-      uint foo = Orb_ClassifyHands(bar, sum, sec, third);
-
-      // account the deal
-      progress.hitsCount[foo][bar]++;
-
-      // flip hands within the same deal, account it too
-      bar = 0;
-      foo = Orb_ClassifyHands(bar, sum, third, sec);
-      progress.hitsCount[foo][bar]++;
+      Orb_Classify(sum, sec, third);
+      Orb_Classify(sum, third, sec);
 
       // advance to account next hand
       sum.card.jo -= shuf.deck[idxHandStart].card.jo;
@@ -68,19 +61,22 @@ void Walrus::ScanOrb()
    }
 }
 
-// RET: foo/bar -- indices for accounting hand
-// OUT: camp
-uint Walrus::Orb_ClassifyHands(uint &camp, SplitBits &lho, SplitBits &partner, SplitBits &rho)
+void Walrus::Orb_Classify(SplitBits& lho, SplitBits& partner, SplitBits& rho)
 {
-   uint fo = (filter.*sem.onFilter)(partner, camp, lho, rho);
-   if (!fo) {
-      Orb_SaveForSolver(partner, lho, rho);
+   uint camp = 0;
+   uint reason = (filter.*sem.onFilter)(partner, camp, lho, rho);
+   if (reason) {
+      // there's some reason to skip this hand. mark it
+      progress.hitsCount[reason][camp]++;
+   } else {
+      // save only two hands
+      if (mul.countToSolve < mul.maxTasksToSolve) {
+         mul.arrToSolve[mul.countToSolve++].Init(partner, rho);
+      }
 
-      // drop classification
-      camp = fo = 1;
+      // mark all saved together
+      progress.hitsCount[1][1]++;
    }
-
-   return fo;
 }
 
 void Walrus::Orb_FillSem(void)
@@ -91,13 +87,6 @@ void Walrus::Orb_FillSem(void)
    sem.onScanCenter = &Walrus::ScanOrb;
    sem.scanCover = ACTUAL_CARDS_COUNT * 2; // since we flip the hands
    sem.onAfterMath = &Walrus::SolveSavedTasks;
-}
-
-void Walrus::Orb_SaveForSolver(SplitBits &partner, SplitBits &lho, SplitBits &rho)
-{
-   if (mul.countToSolve < mul.maxTasksToSolve) {
-      mul.arrToSolve[mul.countToSolve++].Init(partner, rho);
-   }
 }
 
 void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)
