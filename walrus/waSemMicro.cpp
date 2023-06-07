@@ -1,6 +1,20 @@
 #include "walrus.h"
 
-const uint MIC_PASSED = 0;
+#define MIC_PASSED 0
+#define MIC_BLOCK (seat + 1)
+
+#define ACCESS_PARAM_HCP             \
+   auto seat = par[0];               \
+   const auto &hcp(lay[seat].hcp)
+
+#define ACCESS_PARAM_LEN             \
+   auto seat = par[0];               \
+   const auto &len(lay[seat].len)
+
+#define ACCESS_PARAMS_HL             \
+   auto seat = par[0];               \
+   const auto &hcp(lay[seat].hcp);   \
+   const auto &len(lay[seat].len)
 
 MicroFilter::MicroFilter(MicroFunc f, uint p0, uint p1, uint p2, uint p3, uint p4)
    : func(f)
@@ -12,12 +26,6 @@ MicroFilter::MicroFilter(MicroFunc f, uint p0, uint p1, uint p2, uint p3, uint p
    params[4] = p4;
 }
 
-uint WaFilter::OK100(twContext* lay, const uint* par)
-{
-   static uint co = 0;
-   return co++ < 100;
-}
-
 uint WaFilter::OKNum(twContext* lay, const uint* par)
 {
    static uint co = 0;
@@ -26,8 +34,7 @@ uint WaFilter::OKNum(twContext* lay, const uint* par)
 
 uint WaFilter::ExactShape(twContext* lay, const uint* par)
 {
-   auto seat = par[0];
-   const auto &len(lay[seat].len);
+   ACCESS_PARAM_LEN;
 
    // match each length
    if (len.s == par[1] &&
@@ -38,97 +45,89 @@ uint WaFilter::ExactShape(twContext* lay, const uint* par)
    }
 
    // fail
-   return seat + 1;
+   return MIC_BLOCK;
 }
 
 uint WaFilter::SpadesLen(twContext* lay, const uint* par)
 {
-   auto seat = par[0];
-   const auto &len(lay[seat].len);
+   ACCESS_PARAM_LEN;
 
    // require in range
    if (par[1] <= len.s && len.s <= par[2]) {
       return MIC_PASSED;
    }
-   return seat + 1;
+   return MIC_BLOCK;
 }
 
 uint WaFilter::HeartsLen(twContext* lay, const uint* par)
 {
-   auto seat = par[0];
-   const auto &len(lay[seat].len);
+   ACCESS_PARAM_LEN;
 
    // require in range
    if (par[1] <= len.h && len.h <= par[2]) {
       return MIC_PASSED;
    }
-   return seat + 1;
+   return MIC_BLOCK;
 }
 
 uint WaFilter::DiamLen(twContext* lay, const uint* par)
 {
-   auto seat = par[0];
-   const auto &len(lay[seat].len);
+   ACCESS_PARAM_LEN;
 
    // require in range
    if (par[1] <= len.d && len.d <= par[2]) {
       return MIC_PASSED;
    }
-   return seat + 1;
+   return MIC_BLOCK;
 }
 
 uint WaFilter::ClubsLen(twContext* lay, const uint* par)
 {
-   auto seat = par[0];
-   const auto &len(lay[seat].len);
+   ACCESS_PARAM_LEN;
 
    // require in range
    if (par[1] <= len.c && len.c <= par[2]) {
       return MIC_PASSED;
    }
-   return seat + 1;
+   return MIC_BLOCK;
 }
 
 uint WaFilter::PointsRange(twContext* lay, const uint* par)
 {
-   auto seat = par[0];
-   const auto &hcp(lay[seat].hcp);
+   ACCESS_PARAM_HCP;
 
    // require in range
    if (par[1] <= hcp.total && hcp.total <= par[2]) {
       return MIC_PASSED;
    }
-   return seat + 1;
+   return MIC_BLOCK;
 }
 
 uint WaFilter::PointsLimit(twContext* lay, const uint* par)
 {
-   auto seat = par[0];
-   const auto &hcp(lay[seat].hcp);
+   ACCESS_PARAM_HCP;
 
    // only upper limit
    if (hcp.total <= par[1]) {
       return MIC_PASSED;
    }
-   return seat + 1;
+   return MIC_BLOCK;
 }
 
 uint WaFilter::PointsAtLeast(twContext* lay, const uint* par)
 {
-   auto seat = par[0];
-   const auto &hcp(lay[seat].hcp);
+   ACCESS_PARAM_HCP;
 
    // require enough
    if (par[1] <= hcp.total) {
       return MIC_PASSED;
    }
-   return seat + 1;
+   return MIC_BLOCK;
 }
 
 uint WaFilter::SpadesNatural(twContext* lay, const uint* par)
 {
-   auto seat = par[0];
-   const auto &len(lay[seat].len);
+   ACCESS_PARAM_LEN;
 
    // h is same or shorter, minor can be 1 card longer
    if (len.s >= len.h &&
@@ -137,33 +136,77 @@ uint WaFilter::SpadesNatural(twContext* lay, const uint* par)
       return MIC_PASSED;
    }
 
-   return seat + 1;
+   return MIC_BLOCK;
 }
 
 uint WaFilter::NoOvercall(twContext* lay, const uint* par)
 {
-   auto seat = par[0];
-   const auto &hcp(lay[seat].hcp);
-   const auto &len(lay[seat].len);
+   ACCESS_PARAMS_HL;
 
    // many points => fail
    if (hcp.total >= 12) {
-      return seat + 1;
+      return MIC_BLOCK;
    }
 
    // no 7+suit
    if (len.s > 6 || len.h > 6 || len.d > 6 || len.c > 6) {
-      return seat + 1;
+      return MIC_BLOCK;
    }
 
    // no 6 with 10+pts
    if (hcp.total >= 10) {
       if (len.s > 5 || len.h > 5 || len.d > 5 || len.c > 5) {
-         return seat + 1;
+         return MIC_BLOCK;
       }
    }
 
-   // todo: exclude some michaels
+   // ok
+   return MIC_PASSED;
+}
+
+uint WaFilter::No2SuitsAntiSpade(twContext* lay, const uint* par)
+{
+   ACCESS_PARAMS_HL;
+
+   // exclude Michaels
+   if (hcp.total > 6) {
+      if (len.h > 4) {
+         if (len.c > 4 || len.d > 4) {
+            return MIC_BLOCK;
+         }
+      }
+   }
+
+   // relay
+   return No2SuitsMinors(lay, par);
+}
+
+uint WaFilter::No2SuitsAntiHeart(twContext* lay, const uint* par)
+{
+   ACCESS_PARAMS_HL;
+
+   // exclude Michaels
+   if (hcp.total > 6) {
+      if (len.s > 4) {
+         if (len.c > 4 || len.d > 4) {
+            return MIC_BLOCK;
+         }
+      }
+   }
+
+   // relay
+   return No2SuitsMinors(lay, par);
+}
+
+uint WaFilter::No2SuitsMinors(twContext* lay, const uint* par)
+{
+   ACCESS_PARAMS_HL;
+
+   if (hcp.total > 6) {
+      if (len.c > 4 && len.d > 4) {
+         return MIC_BLOCK;
+      }
+   }
 
    // ok
    return MIC_PASSED;

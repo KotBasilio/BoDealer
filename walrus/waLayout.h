@@ -55,6 +55,7 @@ struct SplitBits {
    SplitBits(const SplitBits &other) { card.jo = other.card.jo; }
    SplitBits(uint hld, uint waPos);
    SplitBits(const SplitBits &a, const SplitBits &b, const SplitBits &c);
+   bool operator != (const SplitBits &other) const { return card.jo != other.card.jo; }
    u16 CountAll();
    bool IsBlank() { return (card.jo == 0L); }
    u16 IsEndIter() { return (CountAll() & (u16)(0x10)); }

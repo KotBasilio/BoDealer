@@ -15,14 +15,9 @@
 char tblHat[]        = "    :  HITS COUNT   :\n";
 char tblFiltering[]  = "  (FILTERING)       PARTNER       DIRECT     SANDWICH        TOTAL\n";
 char fmtFiltering[]  = "%12u,";
-#ifdef _DEBUG
-char fmtCell[] = "%6u,";
-char fmtCellFloat[] = "%6.1f,";
-#else
-char fmtCell[] = "%7u,";
-char fmtCellFloat[] = "%7.1f,";
+char fmtCell[]       = "%8u,";
+char fmtCellFloat[]  = "%8.1f,";
 //char tblHat[] =  "    :       let    spade    heart     both     club             sum\n";
-#endif   
 
 const int MAX_CAMPS = 15;
 const int MINI_ROWS = 13;

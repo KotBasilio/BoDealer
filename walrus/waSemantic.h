@@ -137,7 +137,6 @@ public:
 
    // Micro filters
    uint RejectAll(twContext* lay, const uint *par) { return 2; }
-   uint OK100(twContext* lay, const uint *par);
    uint OKNum(twContext* lay, const uint *par);
    uint PointsRange(twContext* lay, const uint *par);
    uint PointsLimit(twContext* lay, const uint *par);
@@ -149,6 +148,9 @@ public:
    uint ClubsLen(twContext* lay, const uint *par);
    uint SpadesNatural(twContext* lay, const uint *par);
    uint NoOvercall(twContext* lay, const uint *par);
+   uint No2SuitsAntiSpade(twContext* lay, const uint *par);
+   uint No2SuitsAntiHeart(twContext* lay, const uint *par);
+   uint No2SuitsMinors(twContext* lay, const uint *par);
 private:
    Progress *progress;
 };

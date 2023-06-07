@@ -14,8 +14,8 @@ void Walrus::Scan4Hands()
    SplitBits sum(SumFirstHand());
    SplitBits sec(SumSecondHand());
    SplitBits third(Sum3rdHand());
-   SplitBits stop(shuf.CheckSum() - sum.card.jo - sec.card.jo - third.card.jo);
-   for (int idxHandStart = 0;;) {
+   SplitBits stop(sum, sec, third);
+   for (int idxHandStart = 0; third != stop;) {
       // account the deal several times
       Permute(sum, sec, third);
 
@@ -29,11 +29,6 @@ void Walrus::Scan4Hands()
       third.card.jo -= flipcd;
       flipcd = shuf.deck[SYMM3 + idxHandStart++].card.jo;
       third.card.jo += flipcd;
-
-      // smart-exit when last hand meets known
-      if (third.card.jo == stop.card.jo) {
-         break;
-      }
    }
 }
 
@@ -106,11 +101,12 @@ void Walrus::FillSemantic(void)
    //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.scanCover = SYMM * 6; // see Permute()
    sem.vecFilters.clear();
-   ADD_4PAR_FILTER( SOUTH, ExactShape, 4, 4, 4, 1);
-   ADD_2PAR_FILTER( NORTH, PointsRange, 11, 16);
-   ADD_2PAR_FILTER( NORTH, SpadesLen, 5, 6);
-   ADD_0PAR_FILTER( EAST,  NoOvercall );
-   ADD_0PAR_FILTER( NORTH, SpadesNatural );
+   ADD_4PAR_FILTER( NORTH, ExactShape, 4, 4, 4, 1);
+   ADD_2PAR_FILTER( SOUTH, PointsRange, 11, 16);
+   ADD_2PAR_FILTER( SOUTH, SpadesLen, 5, 6);
+   ADD_0PAR_FILTER( WEST,  NoOvercall );
+   ADD_0PAR_FILTER( SOUTH, SpadesNatural );
+   ADD_0PAR_FILTER( WEST,  No2SuitsAntiSpade );
 }
 #endif // SEMANTIC_SPLINTER_SHAPE
 
