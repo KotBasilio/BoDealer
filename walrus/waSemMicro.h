@@ -29,3 +29,22 @@ const uint SKIP_BY_SANDWICH = SKIP_BY_OPP;
 #define ADD_3PAR_FILTER(HAND, NAME, P2, P3, P4)       sem.vecFilters.push_back( MicroFilter(&WaFilter::NAME, HAND, P2, P3, P4)      )
 #define ADD_4PAR_FILTER(HAND, NAME, P2, P3, P4, P5)   sem.vecFilters.push_back( MicroFilter(&WaFilter::NAME, HAND, P2, P3, P4, P5)  )
 
+// standard macros for accessing
+#define ACCESS_MICPAR_HCP            \
+   auto seat = par[0];               \
+   const auto &hcp(lay[seat].hcp)
+
+#define ACCESS_MICPAR_LEN            \
+   auto seat = par[0];               \
+   const auto &len(lay[seat].len)
+
+#define ACCESS_MICPAR_CTRL           \
+   auto seat = par[0];               \
+   const auto &ctrl(lay[seat].ctrl)
+
+#define ACCESS_MICPARS_HL            \
+   auto seat = par[0];               \
+   const auto &hcp(lay[seat].hcp);   \
+   const auto &len(lay[seat].len)
+
+

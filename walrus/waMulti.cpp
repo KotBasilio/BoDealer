@@ -177,6 +177,7 @@ void Walrus::MergeResults(Walrus *other)
       }
    }
    mul.countIterations += other->mul.countIterations;
+   progress.countExtraMarks += other->progress.countExtraMarks;
 
    // copy tasks
    if (mul.arrToSolve && other->mul.arrToSolve && other->mul.countToSolve) {

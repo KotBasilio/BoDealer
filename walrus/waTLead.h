@@ -60,6 +60,8 @@
    #define TITLE_VERSION  "Only bidding is fixed: 1s pass 4c. Responder holds 4441;\nQuestion: how often opener has Ac, depending on responder shape? Ver 3.0 "
    #define IO_NEED_FULL_TABLE
    #define ANSWER_ROW_IDX  1
-   #define SINGLE_HAND_TASK
+   #define STUB_DUMMY_HOLDINGS
+   #define IO_ROW_SELECTED  32
+   #define IO_ROW_FILTERING 24
 #endif // SEMANTIC_SPLINTER_SHAPE
 

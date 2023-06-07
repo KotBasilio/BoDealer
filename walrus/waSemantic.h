@@ -138,16 +138,27 @@ public:
    // Micro filters
    uint RejectAll(twContext* lay, const uint *par) { return 2; }
    uint OKNum(twContext* lay, const uint *par);
+   uint ExactShape(twContext* lay, const uint *par);
    uint PointsRange(twContext* lay, const uint *par);
    uint PointsLimit(twContext* lay, const uint *par);
    uint PointsAtLeast(twContext* lay, const uint *par);
-   uint ExactShape(twContext* lay, const uint *par);
+   // -
+   uint ControlsRange(twContext* lay, const uint *par);
+   // -
+   uint ClubPointsLimit(twContext* lay, const uint *par);
+   uint HeartPointsLimit(twContext* lay, const uint *par);
+   uint SpadePointsLimit(twContext* lay, const uint *par);
+   uint DiamPointsLimit(twContext* lay, const uint *par);
+   // -
+   uint SpadesNatural(twContext* lay, const uint *par);
+   // -
    uint SpadesLen(twContext* lay, const uint *par);
    uint HeartsLen(twContext* lay, const uint *par);
    uint DiamLen(twContext* lay, const uint *par);
    uint ClubsLen(twContext* lay, const uint *par);
-   uint SpadesNatural(twContext* lay, const uint *par);
+   // -
    uint NoOvercall(twContext* lay, const uint *par);
+   uint No7Plus(twContext* lay, const uint *par);
    uint No2SuitsAntiSpade(twContext* lay, const uint *par);
    uint No2SuitsAntiHeart(twContext* lay, const uint *par);
    uint No2SuitsMinors(twContext* lay, const uint *par);

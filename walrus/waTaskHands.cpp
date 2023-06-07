@@ -598,7 +598,7 @@ uint dbl_then_hearts[DDS_HANDS][DDS_SUITS] =
    };
 #endif // SEMANTIC_RED55_KINGS_PART_15_16
 
-#ifdef SINGLE_HAND_TASK
+#ifdef STUB_DUMMY_HOLDINGS
    #define INPUT_HOLDINGS  dummy_holdings
    #define INPUT_TRUMPS    SOL_HEARTS
    #define INPUT_ON_LEAD   EAST

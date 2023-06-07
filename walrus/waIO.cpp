@@ -378,8 +378,14 @@ void Walrus::DetectFarColumn()
 
 void Walrus::ReportLine(uint sumline, int i)
 {
+   static bool shownDashes = false;
+
    // skip lines filled with zeros
    if (!sumline) {
+      if (!shownDashes) {
+         OUT_BIG_TABLE("%s", "----\n");
+         shownDashes = true;
+      }
       return;
    }
 
@@ -390,6 +396,7 @@ void Walrus::ReportLine(uint sumline, int i)
    }
 
    OUT_BIG_TABLE("    : %10u\n", sumline);
+   shownDashes = false;
 }
 
 

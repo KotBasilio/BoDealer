@@ -72,7 +72,7 @@ void Walrus::ClassifyOnPermute(twContext* lay)
 {
    // run all micro-filters on this 3-hands layout
    // and mark reason why we skip this board
-   uint camp = ORDER_BASE;
+   uint camp = IO_ROW_FILTERING;
    for (const auto &mic: sem.vecFilters) {
       if (auto reason = (filter.*mic.func)(lay, mic.params)) {
          progress.hitsCount[camp][reason]++; 
@@ -87,7 +87,7 @@ void Walrus::ClassifyOnPermute(twContext* lay)
    }
 
    // mark together all saved boards
-   progress.hitsCount[IO_ROW_THEIRS][0]++;
+   progress.hitsCount[IO_ROW_SELECTED][0]++;
 
    // any extra work
    (this->*sem.onBoardAdded)(lay);
@@ -99,14 +99,35 @@ void Walrus::FillSemantic(void)
    sem.fillFlipover = &Shuffler::FillFO_MaxDeck;
    sem.onScanCenter = &Walrus::Scan4Hands;
    //sem.onBoardAdded = &Walrus::DisplayBoard;
+   sem.onBoardAdded = &Walrus::GrabSplinterVariant;
    sem.scanCover = SYMM * 6; // see Permute()
    sem.vecFilters.clear();
    ADD_4PAR_FILTER( NORTH, ExactShape, 4, 4, 4, 1);
-   ADD_2PAR_FILTER( SOUTH, PointsRange, 11, 16);
    ADD_2PAR_FILTER( SOUTH, SpadesLen, 5, 6);
+   ADD_2PAR_FILTER( SOUTH, PointsRange, 11, 16);
+   ADD_2PAR_FILTER( NORTH, ControlsRange, 4, 4);
+   ADD_1PAR_FILTER( NORTH, PointsAtLeast, 10);
    ADD_0PAR_FILTER( WEST,  NoOvercall );
    ADD_0PAR_FILTER( SOUTH, SpadesNatural );
+   ADD_1PAR_FILTER( NORTH, ClubPointsLimit, 1);
+   ADD_0PAR_FILTER( EAST,  No7Plus );
    ADD_0PAR_FILTER( WEST,  No2SuitsAntiSpade );
+}
+
+void Walrus::GrabSplinterVariant(twContext* lay)
+{
+   const auto &hcp_N(lay[NORTH].hcp);
+   const auto &len_S(lay[SOUTH].len);
+   const auto &ctr_S(lay[SOUTH].ctrl);
+
+   // having the Ac
+   progress.hitsCount[hcp_N.total][(ctr_S.c > 1) ? 1 : 3]++;
+
+   // length of clubs
+   progress.hitsCount[0][len_S.c]++;
+
+   // balance
+   progress.countExtraMarks += 2;
 }
 #endif // SEMANTIC_SPLINTER_SHAPE
 
