@@ -8,16 +8,6 @@
 
 #include "walrus.h"
 
-#ifdef SEMANTIC_SPLINTER_SHAPE
-void Walrus::FillSemantic(void)
-{
-   sem.fillFlipover = &Shuffler::FillFO_MaxDeck;
-   sem.onScanCenter = &Walrus::Scan4Hands;
-   sem.scanCover = SYMM * 6; // see permute
-   sem.onFilter = &WaFilter::ClassifyOnScan;
-   sem.onDepFilter = &WaFilter::Splinter;
-}
-
 void Walrus::Scan4Hands()
 {
    // we have some cards starting from each position
@@ -47,15 +37,61 @@ void Walrus::Scan4Hands()
    }
 }
 
+twPermutedContexts::twPermutedContexts
+   (const SplitBits& a, const SplitBits& b, const SplitBits& c)
+   : xA(a), xB(b), xC(c)
+{
+   // copy to form a certain order:
+   // A-B-C-A-B-A-C-B-A
+   lay[3] = xA;
+   lay[5] = xA;
+   lay[8] = xA;
+   lay[4] = xB;
+   lay[7] = xB;
+   lay[6] = xC;
+}
+
 void Walrus::Permute(SplitBits a, SplitBits b, SplitBits c)
 {
    // when a hand D is fixed, we get 6 options to lay A,B,C
-   (filter.*sem.onFilter)(a, b, c);
-   (filter.*sem.onFilter)(a, c, b);
-   (filter.*sem.onFilter)(b, a, c);
-   (filter.*sem.onFilter)(b, c, a);
-   (filter.*sem.onFilter)(c, a, b);
-   (filter.*sem.onFilter)(c, b, a);
+   twPermutedContexts xArr(a,b,c);
+   ClassifyOnPermute(xArr.lay + 0);// ABC
+   ClassifyOnPermute(xArr.lay + 1);// BCA
+   ClassifyOnPermute(xArr.lay + 2);// CAB
+   ClassifyOnPermute(xArr.lay + 4);// BAC
+   ClassifyOnPermute(xArr.lay + 5);// ACB
+   ClassifyOnPermute(xArr.lay + 6);// CBA
+}
+
+void Walrus::ClassifyOnPermute(twContext* lay)
+{
+   // run all micro-filters on this 3-hands layout
+   uint camp = 0;
+   for (auto mic: sem.vecFilters) {
+      if (auto reason = (filter.*mic)(lay)) {
+         // there's some reason to skip this hand. mark it
+         progress.hitsCount[camp][reason]++;
+         return;
+      } 
+      camp++;
+   }
+
+   // save all three hands
+   if (mul.countToSolve < mul.maxTasksToSolve) {
+      //mul.arrToSolve[mul.countToSolve++].Init(partner, rho);
+   }
+
+   // mark together all saved boards
+   progress.hitsCount[1][1]++;
+}
+
+#ifdef SEMANTIC_SPLINTER_SHAPE
+void Walrus::FillSemantic(void)
+{
+   sem.fillFlipover = &Shuffler::FillFO_MaxDeck;
+   sem.onScanCenter = &Walrus::Scan4Hands;
+   sem.scanCover = SYMM * 6; // see Permute()
+   sem.onDepFilter = &WaFilter::Splinter;
 }
 
 void WaFilter::ClassifyOnScan(SplitBits a, SplitBits b, SplitBits c)

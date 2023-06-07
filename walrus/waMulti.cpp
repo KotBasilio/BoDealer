@@ -25,7 +25,7 @@ Walrus::Multi::Multi()
 {
 }
 
-Walrus::Walrus(Walrus *other, const char *nameH, int ourShare)
+Walrus::Walrus(Walrus *other, const char *nameH, int ourShare) : sem(semShared)
 {
    // duplicate fully
    memcpy(this, other, sizeof(*this));
@@ -156,11 +156,6 @@ uint Walrus::DoTheShare()
    // signal
    mul.isRunning = false;
    return mul.countIterations;
-}
-
-void WaFilter::RejectAll(SplitBits part, SplitBits lho, SplitBits rho)
-{
-   progress->hitsCount[1][1]++;
 }
 
 //------------------------------------------------

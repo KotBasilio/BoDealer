@@ -13,10 +13,11 @@
 #include <memory.h> // memset
 
 SplitBits sbBlank;
+Semantics semShared;
 
 Walrus::Walrus()
    // highBitscounts as many two cards in any suit. easily detected. doesn't cause an overflow
-   : sem()
+   : sem(semShared)
    , cumulScore()
    , progress()
    , ui()
@@ -82,14 +83,13 @@ Walrus::~Walrus()
    }
 }
 
-Walrus::Semantics::Semantics()
+Semantics::Semantics()
    : onInit       (&Walrus::NOP)
    , onShareStart (&Walrus::NOP)
    , fillFlipover (&Shuffler::NOP)
    , onScanCenter (&Walrus::NOP)
    , onAfterMath  (&Walrus::NOP) 
    , onDepFilter  (&WaFilter::DepRejectAll) 
-   , onFilter     (&WaFilter::RejectAll) 
    , onScoring    (&Walrus::VoidScoring)
    , onSolvedTwice(&Walrus::VoidScoring)
    , scanCover(ACTUAL_CARDS_COUNT)
@@ -97,6 +97,8 @@ Walrus::Semantics::Semantics()
 #ifdef SEEK_MAGIC_FLY
    onSolvedTwice = &Walrus::Score_MagicFly;
 #endif // SEEK_MAGIC_FLY
+   vecFilters.reserve(10);
+   vecFilters.push_back(&WaFilter::RejectAll);
 }
 
 void Walrus::InitDeck(void)

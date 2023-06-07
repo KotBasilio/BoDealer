@@ -59,7 +59,7 @@ SplitBits::SplitBits(uint hld, uint waPos)
    card.jo = ((u64)y) << waPos;
 }
 
-twlHCP::twlHCP(SplitBits &hand)
+twlHCP::twlHCP(const SplitBits &hand)
 {
    // take 8 for aces, 4 for kings, 2 for queens, 1 for jacks
    u64 x =  hand.card.jo & 0xF000F000F000F000LL; 
@@ -78,7 +78,7 @@ twlHCP::twlHCP(SplitBits &hand)
 }
 
 
-twlControls::twlControls(SplitBits &hand)
+twlControls::twlControls(const SplitBits &hand)
 {
    // take 2 for aces, 1 for kings
    u64 x = hand.card.jo & 0xC000C000C000C000LL;
@@ -91,7 +91,7 @@ twlControls::twlControls(SplitBits &hand)
    total = s + h + d + c;
 }
 
-twLengths::twLengths(SplitBits &hand)
+twLengths::twLengths(const SplitBits &hand)
 {
    s = (uint)((hand.card.jo & 0x000F000000000000LL) >> 48);
    h = (uint)((hand.card.jo & 0x0000000F00000000LL) >> 32);

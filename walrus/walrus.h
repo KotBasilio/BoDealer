@@ -5,14 +5,15 @@
 #include "waCrossPlatform.h"
 #include "waTasks.h"
 #include "waLayout.h"
-#include "waSemantic.h"
 #include "waAI.h"
 #include "waScore.h"
+#include "waSemantic.h"
 
 // The main class -- named after Walter the Walrus, whose expertise in and devotion to 
 // the Work point count are matched only by the utter mess he makes of bidding and play (c)
 class Walrus
 {
+   friend struct Semantics;
 public:
    Walrus();
    Walrus(Walrus *other, const char *nameH, int ourShare);
@@ -69,27 +70,12 @@ protected:
 
     // semantics
     void FillSemantic(void);
-    typedef void (Walrus::* SemFuncType)();
-    typedef void (Shuffler::* ShufflerFunc)();
-    typedef void (Walrus::*SemScoring)(DdsTricks &tr);
     void NOP() {}
     void VoidScoring(DdsTricks &tr) {}
     u64  SumFirstHand();
     u64  SumSecondHand();
     u64  Sum3rdHand();
-    struct Semantics {
-       SemFuncType  onInit;
-       SemFuncType  onShareStart;
-       SemFuncType  onScanCenter;
-       ShufflerFunc fillFlipover;
-       SemFilterOut onFilter;
-       SemScoring   onScoring;
-       SemScoring   onSolvedTwice;
-       SemFuncType  onAfterMath;
-       DepFilterOut onDepFilter;
-       uint scanCover; // how much iterations covers one scan
-       Semantics();
-    } sem;
+    Semantics &sem;
 
     // scoring
     CumulativeScore cumulScore;
@@ -167,6 +153,7 @@ private:
    void Orb_ReSolveAndShow(deal &cards);
    // -- 4-hands scan
    void Permute(SplitBits a, SplitBits b, SplitBits c);
+   void ClassifyOnPermute(twContext* lay);
    // -- other scans
    uint KeyCards_ClassifyHand(uint &ba, SplitBits &sum);
    uint CountKeyCards(SplitBits &hand);

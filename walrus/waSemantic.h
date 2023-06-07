@@ -3,6 +3,8 @@
  *
  ************************************************************/
 
+#include <vector>
+
 // output rows
 const uint IO_ROW_OUR_DOWN = 0;
 const uint IO_ROW_OUR_MADE = IO_ROW_OUR_DOWN + 1;
@@ -21,14 +23,6 @@ const uint SKIP_BY_RESP = 2;
 const uint SKIP_BY_OPP = 3;
 const uint SKIP_BY_DIRECT = SKIP_BY_RESP;
 const uint SKIP_BY_SANDWICH = SKIP_BY_OPP;
-
-// all cards + flip over 12 cards
-const uint FLIP_OVER_SIZE = 12;
-const uint FLIP_OVER_START_IDX = ACTUAL_CARDS_COUNT;
-const uint DECK_ARR_SIZE = 64;// random does work to this range
-const uint RIDX_SIZE = 4;
-const uint SUPERVISE_CHUNK = 10;
-const uint SUPERVISE_REASONABLE = SUPERVISE_CHUNK * ACTUAL_CARDS_COUNT * 2;
 
 // hitsCount[][]; distribution 
 // -- rows are big factor (aka hcp, 0 - 40)
@@ -50,49 +44,44 @@ struct waFileNames {
     void Build();
 };
 
-// split bits card to operate super-fast
-struct SplitBits {
-    union SBUnion {// low bytes first, so never overflow
-        SBITS_CHARS_LAYOUT;
-        u64 jo;
-    };
-    SBUnion card;
-
-    SplitBits()                       { card.jo = 0L; }
-    explicit SplitBits(u64 jo)        { card.jo = jo; }
-    SplitBits(const SplitBits &other) { card.jo = other.card.jo; }
-    SplitBits(uint hld, uint waPos);
-    u16 CountAll();
-    bool IsBlank() { return (card.jo == 0L); }
-    u16 IsEndIter() { return (CountAll() & (u16)(0x10)); }
-};
-inline u16 SplitBits::CountAll()
-{
-   return card.w.c.Count() + 
-          card.w.d.Count() + 
-          card.w.h.Count() + 
-          card.w.s.Count();
-}
-extern SplitBits sbBlank;
-
 // twelve-layout lets counting some parameters in parallel, then queried
 // -- high-card points
 struct twlHCP 
 {
-   twlHCP(SplitBits &hand);
+   twlHCP() {}
+   twlHCP(const SplitBits &hand);
    uint s, h, d, c, total;
 };
 // -- lengths
 struct twLengths
 {
-   twLengths(SplitBits &hand);
+   twLengths() {}
+   twLengths(const SplitBits &hand);
    uint s, h, d, c;
 };
 // -- controls
 struct twlControls
 {
-   twlControls(SplitBits &hand);
+   twlControls() {}
+   twlControls(const SplitBits &hand);
    uint s, h, d, c, total;
+};
+// -- all combined together
+struct twContext {
+   SplitBits   hand;
+   twLengths   len;
+   twlHCP      hcp;
+   twlControls ctrl;
+   twContext() : hand(0) {}
+   twContext(const SplitBits& h): hand(h), len(h), hcp(h), ctrl(h) {}
+};
+// -- permuted for filtering
+union twPermutedContexts {
+   struct {
+      twContext xA, xB, xC;
+   };
+   twContext lay[9];
+   twPermutedContexts(const SplitBits& a, const SplitBits& b, const SplitBits& c);
 };
 
 // hits count and others
@@ -114,7 +103,7 @@ class WaFilter
 public:
    WaFilter() : progress(nullptr) {}
    void Bind(class Walrus* _walrus);
-   void RejectAll(SplitBits part, SplitBits lho, SplitBits rho);
+   uint RejectAll(twContext* lay) { return 2; }
    uint DepRejectAll(SplitBits &part, uint &camp, SplitBits &lho, SplitBits &rho) { camp = 2; return 1; }
 
    // One/4 hand tasks:
@@ -158,7 +147,26 @@ public:
    uint LeadMax5D(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
 };
 
-// types of filters
-typedef void(WaFilter::* SemFilterOut)(SplitBits a, SplitBits b, SplitBits c);
-typedef uint(WaFilter::* DepFilterOut)(SplitBits& part, uint& camp, SplitBits& lho, SplitBits& rho);// deprecated in 3.0
+// a class to rule task logic. fill them on init. 
+// then values are constant through all solving
+typedef void (Walrus::* SemFuncType)();
+typedef void (Shuffler::* ShufflerFunc)();
+typedef void (Walrus::* SemScoring)(DdsTricks &tr);
+typedef uint (WaFilter::* DepFilterOut)(SplitBits& part, uint& camp, SplitBits& lho, SplitBits& rho);// deprecated since 3.0
+typedef uint (WaFilter::* MicroFilter)(twContext* lay);
+struct Semantics {
+   SemFuncType              onInit;
+   SemFuncType              onShareStart;
+   SemFuncType              onScanCenter;
+   ShufflerFunc             fillFlipover;
+   SemScoring               onScoring;
+   SemScoring               onSolvedTwice;
+   SemFuncType              onAfterMath;
+   DepFilterOut             onDepFilter;
+   std::vector<MicroFilter> vecFilters;
+   uint scanCover; // how much iterations covers one scan
+   Semantics();
+};
+
+extern Semantics semShared;
 
