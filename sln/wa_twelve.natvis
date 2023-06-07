@@ -27,4 +27,8 @@
    <Type Name="DdsTask">
       <DisplayString>{partner} / {rho}</DisplayString>
    </Type>
+   <Type Name="MicroFilter">
+      <DisplayString>({params[0]},{params[1]},{params[2]},{params[3]}) -> {*func}(blah)</DisplayString>
+   </Type>
+
 </AutoVisualizer>

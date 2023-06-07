@@ -66,11 +66,11 @@ void Walrus::Permute(SplitBits a, SplitBits b, SplitBits c)
 void Walrus::ClassifyOnPermute(twContext* lay)
 {
    // run all micro-filters on this 3-hands layout
+   // and mark reason why we skip this board
    uint camp = 0;
    for (auto mic: sem.vecFilters) {
-      if (auto reason = (filter.*mic)(lay)) {
-         // there's some reason to skip this hand. mark it
-         progress.hitsCount[camp][reason]++;
+      if (auto reason = (filter.*mic.func)(lay, mic.params)) {
+         progress.hitsCount[camp][reason]++; 
          return;
       } 
       camp++;
@@ -78,7 +78,7 @@ void Walrus::ClassifyOnPermute(twContext* lay)
 
    // save all three hands
    if (mul.countToSolve < mul.maxTasksToSolve) {
-      //mul.arrToSolve[mul.countToSolve++].Init(partner, rho);
+      //mul.arrToSolve[mul.countToSolve++].Init(lay); TODO
    }
 
    // mark together all saved boards
@@ -91,37 +91,10 @@ void Walrus::FillSemantic(void)
    sem.fillFlipover = &Shuffler::FillFO_MaxDeck;
    sem.onScanCenter = &Walrus::Scan4Hands;
    sem.scanCover = SYMM * 6; // see Permute()
-   sem.onDepFilter = &WaFilter::Splinter;
+   sem.vecFilters.clear();
+   ADD_VOID_FILTER( OK100 );
+   ADD_1PAR_FILTER( OKNum, 50 );
+   ADD_VOID_FILTER( RejectAll );
 }
-
-void WaFilter::ClassifyOnScan(SplitBits a, SplitBits b, SplitBits c)
-{
-   uint camp = 0;
-   uint reason = Splinter(a, camp, b, c);
-   if (reason) {
-      // there's some reason to skip this hand. mark it
-      progress->hitsCount[reason][camp]++;
-   } else {
-      // save all three hands
-      // if (mul.countToSolve < mul.maxTasksToSolve) {
-      //    //mul.arrToSolve[mul.countToSolve++].Init(partner, rho);
-      // }
-
-      // mark all saved together
-      progress->hitsCount[1][1]++;
-   }
-}
-
-uint WaFilter::Splinter(SplitBits& opener, uint& camp, SplitBits& direct, SplitBits& resp)
-{
-   const uint ORDER_BASE = 3;
-   const uint SKIP_BY_PART = 1;
-   const uint SKIP_BY_RESP = 2;
-   const uint SKIP_BY_OPP = 3;
-
-   // seems it passes
-   return 0;
-}
-
 #endif // SEMANTIC_SPLINTER_SHAPE
 

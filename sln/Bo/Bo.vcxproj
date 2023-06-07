@@ -155,6 +155,7 @@
     <ClCompile Include="..\..\walrus\wa4Hands.cpp" />
     <ClCompile Include="..\..\walrus\waSemBidding.cpp" />
     <ClCompile Include="..\..\walrus\waSemLead.cpp" />
+    <ClCompile Include="..\..\walrus\waSemMicro.cpp" />
     <ClCompile Include="..\..\walrus\waSemOneSided.cpp" />
     <ClCompile Include="..\..\walrus\waSemSingle.cpp" />
     <ClCompile Include="..\..\walrus\waShuffle.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="..\..\walrus\walrus.h" />
     <ClInclude Include="..\..\walrus\waScore.h" />
     <ClInclude Include="..\..\walrus\waSemantic.h" />
+    <ClInclude Include="..\..\walrus\waSemMicro.h" />
     <ClInclude Include="..\..\walrus\waTasks.h" />
     <ClInclude Include="..\..\walrus\waTCompetitive.h" />
     <ClInclude Include="..\..\walrus\waTLead.h" />

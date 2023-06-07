@@ -18,11 +18,6 @@ const uint IO_CAMP_OFF = 0;
 const uint IO_CAMP_PREFER_SUIT = 1;
 const uint IO_CAMP_SAME_NT = 2;
 const uint IO_CAMP_MORE_NT = 3;
-const uint SKIP_BY_PART = 1;
-const uint SKIP_BY_RESP = 2;
-const uint SKIP_BY_OPP = 3;
-const uint SKIP_BY_DIRECT = SKIP_BY_RESP;
-const uint SKIP_BY_SANDWICH = SKIP_BY_OPP;
 
 // hitsCount[][]; distribution 
 // -- rows are big factor (aka hcp, 0 - 40)
@@ -99,19 +94,15 @@ struct Progress {
 // Filters
 class WaFilter
 {
-   Progress *progress;
 public:
    WaFilter() : progress(nullptr) {}
    void Bind(class Walrus* _walrus);
-   uint RejectAll(twContext* lay) { return 2; }
    uint DepRejectAll(SplitBits &part, uint &camp, SplitBits &lho, SplitBits &rho) { camp = 2; return 1; }
 
-   // One/4 hand tasks:
+   // ver 2.0 Filters
+   // -- One hand tasks:
    uint Spade4(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint Splinter(SplitBits& partner, uint& camp, SplitBits& lho, SplitBits& rho);
-   void ClassifyOnScan(SplitBits a, SplitBits b, SplitBits c);
-
-   // Bidding decision one-sided:
+   // -- Bidding decision one-sided:
    uint R55(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint AugMultiVul(SplitBits& partner, uint& camp, SplitBits& lho, SplitBits& rho);
    uint Aug3NTOnFit(SplitBits& partner, uint& camp, SplitBits& lho, SplitBits& rho);
@@ -123,8 +114,7 @@ public:
    uint JanDblThenH(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
    uint NovInvitePrecision(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
    uint SomeInvite(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
-
-   // Bidding decision competitive:
+   // -- Bidding decision competitive:
    uint OctWeakGambling(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
    uint FitoJuly(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint AugSplitFit(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
@@ -138,14 +128,23 @@ public:
    uint FebManyHearts(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint MixedPreventive(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint Mixed2DwM(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-
-   // Opening lead:
+   // -- Opening lead:
    uint NovLevk(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint LeadAugVs3H(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint JuneVZ(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint LeadFlat(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint LeadMax5D(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
+
+   // Micro filters
+   uint RejectAll(twContext* lay, const uint *par) { return 2; }
+   uint OK100(twContext* lay, const uint *par);
+   uint OKNum(twContext* lay, const uint *par);
+   uint MicPoints(twContext* lay, const uint *par);
+private:
+   Progress *progress;
 };
+
+#include "WaSemMicro.h"
 
 // a class to rule task logic. fill them on init. 
 // then values are constant through all solving
@@ -153,7 +152,6 @@ typedef void (Walrus::* SemFuncType)();
 typedef void (Shuffler::* ShufflerFunc)();
 typedef void (Walrus::* SemScoring)(DdsTricks &tr);
 typedef uint (WaFilter::* DepFilterOut)(SplitBits& part, uint& camp, SplitBits& lho, SplitBits& rho);// deprecated since 3.0
-typedef uint (WaFilter::* MicroFilter)(twContext* lay);
 struct Semantics {
    SemFuncType              onInit;
    SemFuncType              onShareStart;

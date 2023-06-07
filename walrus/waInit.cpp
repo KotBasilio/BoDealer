@@ -98,7 +98,7 @@ Semantics::Semantics()
    onSolvedTwice = &Walrus::Score_MagicFly;
 #endif // SEEK_MAGIC_FLY
    vecFilters.reserve(10);
-   vecFilters.push_back(&WaFilter::RejectAll);
+   vecFilters.push_back( MicroFilter(&WaFilter::RejectAll) );
 }
 
 void Walrus::InitDeck(void)
