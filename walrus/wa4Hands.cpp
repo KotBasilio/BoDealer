@@ -42,25 +42,35 @@ twPermutedContexts::twPermutedContexts
    : xA(a), xB(b), xC(c)
 {
    // copy to form a certain order:
-   // A-B-C-A-B-A-C-B-A
-   lay[3] = xA;
-   lay[5] = xA;
-   lay[8] = xA;
-   lay[4] = xB;
-   lay[7] = xB;
-   lay[6] = xC;
+   // A-B-C-A-B-A-C-B-A-D
+   // 0 1 2 3 4 5 6 7 8 9
+   lay[ 3] = xA;
+   lay[ 4] = xB;
+   lay[ 5] = xA;
+   lay[ 6] = xC;
+   lay[ 7] = xB;
+   lay[ 8] = xA;
+   lay[ 9] = twContext( SplitBits(a, b, c) );
 }
 
 void Walrus::Permute(SplitBits a, SplitBits b, SplitBits c)
 {
-   // when a hand D is fixed, we get 6 options to lay A,B,C
+   // when a hand D is fixed in the end, we get 6 options to lay A,B,C
    twPermutedContexts xArr(a,b,c);
-   ClassifyOnPermute(xArr.lay + 0);// ABC
-   ClassifyOnPermute(xArr.lay + 1);// BCA
-   ClassifyOnPermute(xArr.lay + 2);// CAB
-   ClassifyOnPermute(xArr.lay + 4);// BAC
-   ClassifyOnPermute(xArr.lay + 5);// ACB
-   ClassifyOnPermute(xArr.lay + 6);// CBA
+   ClassifyAndPull  (xArr.lay + 6);// CBAD
+   ClassifyAndPull  (xArr.lay + 5);// ACBD
+   ClassifyOnPermute(xArr.lay + 4);// BACD
+   xArr.lay[5] = xArr.lay[9];      // pull D with a skip
+   ClassifyAndPull  (xArr.lay + 2);// CABD
+   ClassifyAndPull  (xArr.lay + 1);// BCAD
+   ClassifyAndPull  (xArr.lay + 0);// ABCD
+}
+
+void Walrus::ClassifyAndPull(twContext* lay) 
+{
+   // we pull-back the D hand with each call
+   ClassifyOnPermute(lay);
+   lay[SOUTH] = lay[WEST];
 }
 
 void Walrus::ClassifyOnPermute(twContext* lay)
@@ -68,7 +78,7 @@ void Walrus::ClassifyOnPermute(twContext* lay)
    // run all micro-filters on this 3-hands layout
    // and mark reason why we skip this board
    uint camp = ORDER_BASE;
-   for (auto mic: sem.vecFilters) {
+   for (const auto &mic: sem.vecFilters) {
       if (auto reason = (filter.*mic.func)(lay, mic.params)) {
          progress.hitsCount[camp][reason]++; 
          return;
@@ -93,13 +103,14 @@ void Walrus::FillSemantic(void)
 {
    sem.fillFlipover = &Shuffler::FillFO_MaxDeck;
    sem.onScanCenter = &Walrus::Scan4Hands;
-   sem.onBoardAdded = &Walrus::DisplayBoard;
+   //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.scanCover = SYMM * 6; // see Permute()
    sem.vecFilters.clear();
-   ADD_VOID_FILTER( OK100 );
-   ADD_1PAR_FILTER( OKNum, 50 );
-   ADD_5PAR_FILTER( ExactShape, NORTH, 4, 4, 4, 1);
-   //ADD_VOID_FILTER( RejectAll );
+   ADD_4PAR_FILTER( SOUTH, ExactShape, 4, 4, 4, 1);
+   ADD_2PAR_FILTER( NORTH, PointsRange, 11, 16);
+   ADD_2PAR_FILTER( NORTH, SpadesLen, 5, 6);
+   ADD_0PAR_FILTER( EAST,  NoOvercall );
+   ADD_0PAR_FILTER( NORTH, SpadesNatural );
 }
 #endif // SEMANTIC_SPLINTER_SHAPE
 

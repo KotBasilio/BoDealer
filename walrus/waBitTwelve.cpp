@@ -5,8 +5,6 @@
 ************************************************************/
 #include "walrus.h"
 
-#ifdef SBITS_LAYOUT_TWELVE
-
 inline bool twSuit::HasDeuce()
 {
    // count top 12 bits
@@ -59,6 +57,14 @@ SplitBits::SplitBits(uint hld, uint waPos)
    card.jo = ((u64)y) << waPos;
 }
 
+SplitBits::SplitBits(const SplitBits& a, const SplitBits& b, const SplitBits& c)
+{
+   // build a complement
+   u64 full = 0xFFFDFFFDFFFDFFFDLL; 
+   u64 sum  = a.card.jo + b.card.jo + c.card.jo; 
+   card.jo  = full - sum;
+}
+
 twlHCP::twlHCP(const SplitBits &hand)
 {
    // take 8 for aces, 4 for kings, 2 for queens, 1 for jacks
@@ -103,9 +109,6 @@ uint Walrus::CountKeyCards(SplitBits &hand)
 {
    return 0;
 }
-
-#endif // SBITS_LAYOUT_TWELVE
-
 
 // -----------------------------------------------------------------------
 // input to walrus

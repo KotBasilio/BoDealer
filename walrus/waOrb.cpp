@@ -26,7 +26,7 @@ void Walrus::ScanTrivial()
 
       // advance to account next hand
       sum.card.jo -= shuf.deck[idxHandStart].card.jo;
-      sum.card.jo += shuf.deck[13 + idxHandStart++].card.jo;
+      sum.card.jo += shuf.deck[SYMM + idxHandStart++].card.jo;
 
       // smart-exit using highBits
       if (sum.IsEndIter()) {
@@ -49,10 +49,10 @@ void Walrus::ScanOrb()
 
       // advance to account next hand
       sum.card.jo -= shuf.deck[idxHandStart].card.jo;
-      u64 flipcd = shuf.deck[13 + idxHandStart].card.jo;
+      u64 flipcd = shuf.deck[SYMM + idxHandStart].card.jo;
       sec.card.jo -= flipcd;
       sum.card.jo += flipcd;
-      sec.card.jo += shuf.deck[26 + idxHandStart++].card.jo;
+      sec.card.jo += shuf.deck[SYMM2 + idxHandStart++].card.jo;
 
       // simple exit using count -- it became faster than highBits
       if (idxHandStart >= ACTUAL_CARDS_COUNT) {

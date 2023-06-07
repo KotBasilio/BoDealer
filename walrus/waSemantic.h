@@ -75,7 +75,7 @@ union twPermutedContexts {
    struct {
       twContext xA, xB, xC;
    };
-   twContext lay[9];
+   twContext lay[10];
    twPermutedContexts(const SplitBits& a, const SplitBits& b, const SplitBits& c);
 };
 
@@ -139,8 +139,16 @@ public:
    uint RejectAll(twContext* lay, const uint *par) { return 2; }
    uint OK100(twContext* lay, const uint *par);
    uint OKNum(twContext* lay, const uint *par);
-   uint MicPoints(twContext* lay, const uint *par);
+   uint PointsRange(twContext* lay, const uint *par);
+   uint PointsLimit(twContext* lay, const uint *par);
+   uint PointsAtLeast(twContext* lay, const uint *par);
    uint ExactShape(twContext* lay, const uint *par);
+   uint SpadesLen(twContext* lay, const uint *par);
+   uint HeartsLen(twContext* lay, const uint *par);
+   uint DiamLen(twContext* lay, const uint *par);
+   uint ClubsLen(twContext* lay, const uint *par);
+   uint SpadesNatural(twContext* lay, const uint *par);
+   uint NoOvercall(twContext* lay, const uint *par);
 private:
    Progress *progress;
 };

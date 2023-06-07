@@ -62,8 +62,6 @@ PFM_THREAD_RETTYPE ProcHelper(void *arg)
 void Walrus::LaunchHelpers(Walrus &hA, Walrus &hB)
 {
 #ifdef SKIP_HELPERS
-   hA.mul.countShare = 0;
-   hB.mul.countShare = 0;
    hA.mul.isRunning = false;
    hB.mul.isRunning = false;
 #else
@@ -100,6 +98,9 @@ void Walrus::MainScan(void)
                 + (mul.countShare >> 6)
                 + (mul.countShare >> 8);
    uint effortB = effortA;
+   #ifdef SKIP_HELPERS
+      effortB = effortA = 0;
+   #endif
    mul.countShare -= effortA + effortB;
 
    // split the effort

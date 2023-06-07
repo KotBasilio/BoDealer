@@ -7,8 +7,6 @@
  // NB: low bytes first, so never overflow
  ************************************************************/
 
-#define SBITS_LAYOUT_TWELVE
-
 union twSuit
 {
    struct
@@ -56,6 +54,7 @@ struct SplitBits {
    explicit SplitBits(u64 jo)        { card.jo = jo; }
    SplitBits(const SplitBits &other) { card.jo = other.card.jo; }
    SplitBits(uint hld, uint waPos);
+   SplitBits(const SplitBits &a, const SplitBits &b, const SplitBits &c);
    u16 CountAll();
    bool IsBlank() { return (card.jo == 0L); }
    u16 IsEndIter() { return (CountAll() & (u16)(0x10)); }

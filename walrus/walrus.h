@@ -155,6 +155,7 @@ private:
    void Orb_ReSolveAndShow(deal &cards);
    // -- 4-hands scan
    void Permute(SplitBits a, SplitBits b, SplitBits c);
+   void ClassifyAndPull(twContext* lay);
    void ClassifyOnPermute(twContext* lay);
    // -- other scans
    uint KeyCards_ClassifyHand(uint &ba, SplitBits &sum);
