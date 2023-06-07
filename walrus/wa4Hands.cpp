@@ -67,7 +67,7 @@ void Walrus::ClassifyOnPermute(twContext* lay)
 {
    // run all micro-filters on this 3-hands layout
    // and mark reason why we skip this board
-   uint camp = 0;
+   uint camp = ORDER_BASE;
    for (auto mic: sem.vecFilters) {
       if (auto reason = (filter.*mic.func)(lay, mic.params)) {
          progress.hitsCount[camp][reason]++; 
@@ -82,7 +82,10 @@ void Walrus::ClassifyOnPermute(twContext* lay)
    }
 
    // mark together all saved boards
-   progress.hitsCount[1][1]++;
+   progress.hitsCount[IO_ROW_THEIRS][0]++;
+
+   // any extra work
+   (this->*sem.onBoardAdded)(lay);
 }
 
 #ifdef SEMANTIC_SPLINTER_SHAPE
@@ -90,11 +93,13 @@ void Walrus::FillSemantic(void)
 {
    sem.fillFlipover = &Shuffler::FillFO_MaxDeck;
    sem.onScanCenter = &Walrus::Scan4Hands;
+   sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.scanCover = SYMM * 6; // see Permute()
    sem.vecFilters.clear();
    ADD_VOID_FILTER( OK100 );
    ADD_1PAR_FILTER( OKNum, 50 );
-   ADD_VOID_FILTER( RejectAll );
+   ADD_5PAR_FILTER( ExactShape, NORTH, 4, 4, 4, 1);
+   //ADD_VOID_FILTER( RejectAll );
 }
 #endif // SEMANTIC_SPLINTER_SHAPE
 

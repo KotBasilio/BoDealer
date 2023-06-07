@@ -349,11 +349,6 @@ void Walrus::FillSemantic(void)
 // OUT: camp
 uint WaFilter::FitoJuly(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
-  const uint ORDER_BASE = 3;
-  const uint SKIP_BY_PART = 1;
-  const uint SKIP_BY_OPP = 2;
-  const uint SKIP_BY_RESP = 3;
-
   // LHO: fr-nat 1s, pass
   // partner: 2h overcall, pass
   // RHO: fit 2s, balance 3s

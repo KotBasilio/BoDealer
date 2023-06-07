@@ -140,6 +140,7 @@ public:
    uint OK100(twContext* lay, const uint *par);
    uint OKNum(twContext* lay, const uint *par);
    uint MicPoints(twContext* lay, const uint *par);
+   uint ExactShape(twContext* lay, const uint *par);
 private:
    Progress *progress;
 };
@@ -151,17 +152,19 @@ private:
 typedef void (Walrus::* SemFuncType)();
 typedef void (Shuffler::* ShufflerFunc)();
 typedef void (Walrus::* SemScoring)(DdsTricks &tr);
+typedef void (Walrus::* SemOnBoardAdded)(twContext* lay);
 typedef uint (WaFilter::* DepFilterOut)(SplitBits& part, uint& camp, SplitBits& lho, SplitBits& rho);// deprecated since 3.0
 struct Semantics {
    SemFuncType              onInit;
    SemFuncType              onShareStart;
    SemFuncType              onScanCenter;
    ShufflerFunc             fillFlipover;
+   std::vector<MicroFilter> vecFilters;
+   SemOnBoardAdded          onBoardAdded;
    SemScoring               onScoring;
    SemScoring               onSolvedTwice;
    SemFuncType              onAfterMath;
    DepFilterOut             onDepFilter;
-   std::vector<MicroFilter> vecFilters;
    uint scanCover; // how much iterations covers one scan
    Semantics();
 };

@@ -72,6 +72,8 @@ protected:
     void FillSemantic(void);
     void NOP() {}
     void VoidScoring(DdsTricks &tr) {}
+    void VoidAdded(twContext* lay) {}
+    void DisplayBoard(twContext* lay);
     u64  SumFirstHand();
     u64  SumSecondHand();
     u64  Sum3rdHand();

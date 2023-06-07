@@ -11,16 +11,9 @@
 #include "walrus.h"
 #include HEADER_CURSES
 
-extern int SolveAllBoardsN(boards& bds, solvedBoards& solved);
+ //#define  DBG_SHOW_BOARD_ON_CONSTRUCTION
 
-void HandleErrorDDS(deal &cards, int res)
-{
-   char line[80];
-   sprintf(line, "Problem hand on solve: leads %s, trumps: %s\n", haPlayerToStr(cards.first), haTrumpToStr(cards.trump));
-   PrintHand(line, cards.remainCards);
-   ErrorMessage(res, line);
-   printf("DDS error: %s\n", line);
-}
+extern int SolveAllBoardsN(boards& bds, solvedBoards& solved);
 
 struct DdsDeal 
 {
@@ -34,9 +27,10 @@ struct DdsDeal
    static bool needInspect;
 
    DdsDeal(const deal &dlBase, DdsTask &task);
+   DdsDeal(twContext* lay);
+   void Solve(uint handno);
 private:
-
-   void ReconsctuctNorth(int s)
+   void ReconstructNorth(int s)
    {
       dl.remainCards[NORTH][s] = 
       dl.remainCards[EAST ][s] ^
@@ -44,7 +38,7 @@ private:
       dl.remainCards[SOUTH][s] ^ RFULL;
    }
 
-   void ReconsctuctWest(int s)
+   void ReconstructWest(int s)
    {
       dl.remainCards[WEST ][s] =
       dl.remainCards[EAST ][s] ^
@@ -56,41 +50,18 @@ private:
    uint DecryptHearts(DTHand bits) { return bits.card.w.h.Decrypt(); }
    uint DecryptDiamnd(DTHand bits) { return bits.card.w.d.Decrypt(); }
    uint DecryptClubs (DTHand bits) { return bits.card.w.c.Decrypt(); }
-
-public:
-
-   void Solve(uint handno)
-   {
-      futureTricks fut;
-      int target = -1;
-      int solutions = PARAM_SOLUTIONS_DDS;  
-      int mode = 0;
-      int threadIndex = 0;
-
-      int res = SolveBoard(dl, target, solutions, mode, &fut, threadIndex);
-      if (res != RETURN_NO_FAULT) {
-         HandleErrorDDS(dl, res);
-         PLATFORM_GETCH();
-      }
-
-      // inspect
-      if (needInspect) {
-         PrintHand("ONE-BY-ONE solving\n", dl.remainCards);
-         PrintFut("", &fut);
-         auto inchar = PLATFORM_GETCH();
-         if (inchar != ' ') {
-            needInspect = false;
-         }
-      }
-
-      // fill tricks
-      tr.Init(fut);
-   }
 };
 
 bool DdsDeal::needInspect = true;
 
-//#define  DBG_VIEW_BOARD_ON_CONSTRUCTION
+void HandleErrorDDS(deal &cards, int res)
+{
+   char line[80];
+   sprintf(line, "Problem hand on solve: leads %s, trumps: %s\n", haPlayerToStr(cards.first), haTrumpToStr(cards.trump));
+   PrintHand(line, cards.remainCards);
+   ErrorMessage(res, line);
+   printf("DDS error: %s\n", line);
+}
 
 DdsDeal::DdsDeal(const deal &dlBase, DdsTask &task)
 {
@@ -108,10 +79,10 @@ DdsDeal::DdsDeal(const deal &dlBase, DdsTask &task)
    dl.remainCards[SOUTH][SOL_CLUBS   ] = DecryptClubs (task.partner);
 
    // reconstruct 4th hand
-   ReconsctuctWest(SOL_SPADES);
-   ReconsctuctWest(SOL_HEARTS);
-   ReconsctuctWest(SOL_DIAMONDS);
-   ReconsctuctWest(SOL_CLUBS);
+   ReconstructWest(SOL_SPADES);
+   ReconstructWest(SOL_HEARTS);
+   ReconstructWest(SOL_DIAMONDS);
+   ReconstructWest(SOL_CLUBS);
 #endif // FIXED_HAND_NORTH
 
 #ifdef FIXED_HAND_WEST
@@ -126,17 +97,91 @@ DdsDeal::DdsDeal(const deal &dlBase, DdsTask &task)
    dl.remainCards[EAST ][SOL_CLUBS   ] = DecryptClubs (task.partner);
 
    // reconstruct 4th hand
-   ReconsctuctNorth(SOL_SPADES);
-   ReconsctuctNorth(SOL_HEARTS);
-   ReconsctuctNorth(SOL_DIAMONDS);
-   ReconsctuctNorth(SOL_CLUBS);
+   ReconstructNorth(SOL_SPADES);
+   ReconstructNorth(SOL_HEARTS);
+   ReconstructNorth(SOL_DIAMONDS);
+   ReconstructNorth(SOL_CLUBS);
 #endif // FIXED_HAND_WEST
 
    // debug
-   #ifdef DBG_VIEW_BOARD_ON_CONSTRUCTION
+   #ifdef DBG_SHOW_BOARD_ON_CONSTRUCTION
       PrintHand("A board: \n", dl.remainCards);
       PLATFORM_GETCH();
    #endif 
+}
+
+void DdsDeal::Solve(uint handno)
+{
+   futureTricks fut;
+   int target = -1;
+   int solutions = PARAM_SOLUTIONS_DDS;
+   int mode = 0;
+   int threadIndex = 0;
+
+   int res = SolveBoard(dl, target, solutions, mode, &fut, threadIndex);
+   if (res != RETURN_NO_FAULT) {
+      HandleErrorDDS(dl, res);
+      PLATFORM_GETCH();
+   }
+
+   // inspect
+   if (needInspect) {
+      PrintHand("ONE-BY-ONE solving\n", dl.remainCards);
+      PrintFut("", &fut);
+      auto inchar = PLATFORM_GETCH();
+      if (inchar != ' ') {
+         needInspect = false;
+      }
+   }
+
+   // fill tricks
+   tr.Init(fut);
+}
+
+DdsDeal::DdsDeal(twContext* lay)
+{
+   dl.trump = SOL_NOTRUMP;
+   dl.first = WEST;
+
+   dl.currentTrickSuit[0] = 0;
+   dl.currentTrickSuit[1] = 0;
+   dl.currentTrickSuit[2] = 0;
+
+   dl.currentTrickRank[0] = 0;
+   dl.currentTrickRank[1] = 0;
+   dl.currentTrickRank[2] = 0;
+
+   for (int h = 0; h < DDS_HANDS; h++) {
+      for (int s = 0; s < DDS_SUITS; s++) {
+         dl.remainCards[h][s] = 0;
+      }
+   }
+
+   // decrypt all cards
+   dl.remainCards[NORTH][SOL_SPADES  ] = DecryptSpades(lay[NORTH].hand);
+   dl.remainCards[NORTH][SOL_HEARTS  ] = DecryptHearts(lay[NORTH].hand);
+   dl.remainCards[NORTH][SOL_DIAMONDS] = DecryptDiamnd(lay[NORTH].hand);
+   dl.remainCards[NORTH][SOL_CLUBS   ] = DecryptClubs (lay[NORTH].hand);
+   dl.remainCards[EAST ][SOL_SPADES  ] = DecryptSpades(lay[EAST ].hand);
+   dl.remainCards[EAST ][SOL_HEARTS  ] = DecryptHearts(lay[EAST ].hand);
+   dl.remainCards[EAST ][SOL_DIAMONDS] = DecryptDiamnd(lay[EAST ].hand);
+   dl.remainCards[EAST ][SOL_CLUBS   ] = DecryptClubs (lay[EAST ].hand);
+   dl.remainCards[SOUTH][SOL_SPADES  ] = DecryptSpades(lay[SOUTH].hand);
+   dl.remainCards[SOUTH][SOL_HEARTS  ] = DecryptHearts(lay[SOUTH].hand);
+   dl.remainCards[SOUTH][SOL_DIAMONDS] = DecryptDiamnd(lay[SOUTH].hand);
+   dl.remainCards[SOUTH][SOL_CLUBS   ] = DecryptClubs (lay[SOUTH].hand);
+   ReconstructWest(SOL_SPADES);
+   ReconstructWest(SOL_HEARTS);
+   ReconstructWest(SOL_DIAMONDS);
+   ReconstructWest(SOL_CLUBS);
+}
+
+void Walrus::DisplayBoard(twContext* lay)
+{
+   DdsDeal wad(lay);
+
+   PrintHand("A board: \n", wad.dl.remainCards);
+   PLATFORM_GETCH();
 }
 
 void Walrus::SolveOneByOne(deal &dlBase)
