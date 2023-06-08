@@ -12,6 +12,8 @@
 #include HEADER_CURSES
 #include <memory.h> // memset
 
+#define DBG_SHOW_ALLOCS
+
 SplitBits sbBlank;
 Semantics semShared;
 
@@ -67,10 +69,10 @@ void Walrus::AllocFilteredTasksBuf()
       const size_t oneK = 1024;
       const size_t oneM = 1024 * oneK;
       if (bsize > oneM) {
-         printf("Memory %lluM in %s\n", bsize / oneM, nameHlp);
+         printf("Memory %lluM in %s\n", bsize / oneM, mul.nameHlp);
       }
       else {
-         printf("Memory %lluK in %s\n", bsize / oneK, nameHlp);
+         printf("Memory %lluK in %s\n", bsize / oneK, mul.nameHlp);
       }
    #endif
 }

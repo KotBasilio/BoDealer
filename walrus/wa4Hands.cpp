@@ -97,21 +97,26 @@ void Walrus::ClassifyOnPermute(twContext* lay)
 void Walrus::FillSemantic(void)
 {
    sem.fillFlipover = &Shuffler::FillFO_MaxDeck;
+   sem.onShareStart = &Walrus::AllocFilteredTasksBuf;
    sem.onScanCenter = &Walrus::Scan4Hands;
    //sem.onBoardAdded = &Walrus::DisplayBoard;
-   sem.onBoardAdded = &Walrus::GrabSplinterVariant;
+   //sem.onBoardAdded = &Walrus::GrabSplinterVariant;
    sem.scanCover = SYMM * 6; // see Permute()
    sem.vecFilters.clear();
    ADD_4PAR_FILTER( NORTH, ExactShape, 4, 4, 4, 1);
    ADD_2PAR_FILTER( SOUTH, SpadesLen, 5, 6);
    ADD_2PAR_FILTER( SOUTH, PointsRange, 11, 16);
-   ADD_2PAR_FILTER( NORTH, ControlsRange, 4, 4);
    ADD_1PAR_FILTER( NORTH, PointsAtLeast, 10);
+   ADD_3PAR_FILTER( NORTH, LineControlsRange, SOUTH, 10, 10);
+   ADD_1PAR_FILTER( NORTH, ClubPointsLimit, 2);
    ADD_0PAR_FILTER( WEST,  NoOvercall );
    ADD_0PAR_FILTER( SOUTH, SpadesNatural );
-   ADD_1PAR_FILTER( NORTH, ClubPointsLimit, 1);
    ADD_0PAR_FILTER( EAST,  No7Plus );
    ADD_0PAR_FILTER( WEST,  No2SuitsAntiSpade );
+
+   // used previously
+   // ADD_2PAR_FILTER( SOUTH, ControlsRange, 4, 4);
+   // ADD_2PAR_FILTER( NORTH, ControlsRange, 5, 5);
 }
 
 void Walrus::GrabSplinterVariant(twContext* lay)

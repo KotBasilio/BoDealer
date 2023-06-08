@@ -25,6 +25,11 @@ struct DdsTask // version when we need to store only two hands
    void Init(SplitBits& a, SplitBits& b) { partner = a; rho = b; }
 };
 
+// #ifdef FOUR_HANDS_TASK
+// #else
+//    typedef DdsTask2 DdsTask;
+// #endif
+
 #define NORTH    0
 #define EAST     1
 #define SOUTH    2

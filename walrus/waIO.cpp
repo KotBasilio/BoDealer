@@ -397,6 +397,21 @@ void Walrus::ReportLine(uint sumline, int i)
 
    OUT_BIG_TABLE("    : %10u\n", sumline);
    shownDashes = false;
+
+   // may add percentages
+   #ifdef PERCENTAGES_IN_ANSWER_ROW
+   if (i < 20) {
+      if (!sumline) {
+         sumline = 1;
+      }
+      printf(" %%:  ");
+      for (int j = 0; j < ui.farCol; j++) {
+         float percent = progress.hitsCount[i][j] * 100.f / sumline;
+         printf(fmtCellFloat, percent);
+      }
+      printf("\n");
+   }
+   #endif
 }
 
 

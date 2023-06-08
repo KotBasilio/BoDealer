@@ -53,6 +53,10 @@
    #define STUB_DUMMY_HOLDINGS
 #endif
 
+#ifdef FOUR_HANDS_TASK
+   #define STUB_DUMMY_HOLDINGS
+#endif
+
 #ifdef PARTNER_HAND_TASK
    #define FIXED_HAND_NORTH
 #endif
@@ -97,8 +101,8 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
 // -----------------------------------------------------------------
 // --- Iterations count
 #ifdef _DEBUG
-   //const uint MAX_ITERATION = 20*1000000;// 20 mln 
-   const uint MAX_ITERATION = 5000000;// 5 mln 
+   const uint MAX_ITERATION = 20*1000000;// 20 mln 
+   //const uint MAX_ITERATION = 5000000;// 5 mln 
    //const uint MAX_ITERATION = 1000000;// 1 mln 
    //const uint MAX_ITERATION = 100000;// 0.1 mln
    //const uint MAX_ITERATION = 3000;
@@ -106,7 +110,8 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
    #define SKIP_HELPERS
    //#define SOLVE_ONE_BY_ONE
 #else
-   const uint MAX_ITERATION = 4001000000;// 4 mlrd + 1 millon gratis
+   const uint MAX_ITERATION = 4051000000;// 4 mlrd + 1 millon gratis
+   //const uint MAX_ITERATION = 4001000000;// 4 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 3001000000;// 3 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 2001000000;// 2 mlrd + 1 millon gratis
    //const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis

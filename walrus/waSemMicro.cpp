@@ -101,6 +101,21 @@ uint WaFilter::ControlsRange(twContext* lay, const uint* par)
    return MIC_BLOCK;
 }
 
+uint WaFilter::LineControlsRange(twContext* lay, const uint* par)
+{
+   ACCESS_MICPAR_CTRL;
+   auto seatPart = par[1];
+   const auto& ctrlPart(lay[seatPart].ctrl);
+
+   // require in range
+   auto sum = ctrl.total + ctrlPart.total;
+   if (par[2] <= sum && sum <= par[3]) {
+      return MIC_PASSED;
+   }
+
+   return MIC_BLOCK;
+}
+
 uint WaFilter::PointsLimit(twContext* lay, const uint* par)
 {
    ACCESS_MICPAR_HCP;
