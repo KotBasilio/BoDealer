@@ -8,6 +8,14 @@
 
 #include "walrus.h"
 
+#ifndef IO_ROW_SELECTED 
+   #define IO_ROW_SELECTED  10
+#endif
+
+#ifndef IO_ROW_FILTERING
+   #define IO_ROW_FILTERING 3
+#endif
+
 void Walrus::Scan4Hands()
 {
    // we have some cards starting from each position
@@ -83,7 +91,7 @@ void Walrus::ClassifyOnPermute(twContext* lay)
 
    // save all three hands
    if (mul.countToSolve < mul.maxTasksToSolve) {
-      //mul.arrToSolve[mul.countToSolve++].Init(lay); TODO
+      mul.arrToSolve[mul.countToSolve++].Init(lay);
    }
 
    // mark together all saved boards
@@ -91,6 +99,13 @@ void Walrus::ClassifyOnPermute(twContext* lay)
 
    // any extra work
    (this->*sem.onBoardAdded)(lay);
+}
+
+void DdsTask3::Init(twContext* lay) 
+{ 
+   north = lay[NORTH].hand; 
+   east  = lay[EAST].hand; 
+   south = lay[SOUTH].hand; 
 }
 
 #ifdef SEMANTIC_SPLINTER_SHAPE
@@ -101,22 +116,24 @@ void Walrus::FillSemantic(void)
    sem.onScanCenter = &Walrus::Scan4Hands;
    //sem.onBoardAdded = &Walrus::DisplayBoard;
    //sem.onBoardAdded = &Walrus::GrabSplinterVariant;
+   sem.onScoring = &Walrus::Score_NV6Major;
+   sem.onAfterMath = &Walrus::SolveSavedTasks;
    sem.scanCover = SYMM * 6; // see Permute()
    sem.vecFilters.clear();
    ADD_4PAR_FILTER( NORTH, ExactShape, 4, 4, 4, 1);
    ADD_2PAR_FILTER( SOUTH, SpadesLen, 5, 6);
    ADD_2PAR_FILTER( SOUTH, PointsRange, 11, 16);
    ADD_1PAR_FILTER( NORTH, PointsAtLeast, 10);
-   ADD_3PAR_FILTER( NORTH, LineControlsRange, SOUTH, 10, 10);
-   ADD_1PAR_FILTER( NORTH, ClubPointsLimit, 2);
+   //ADD_3PAR_FILTER( NORTH, LineControlsRange, SOUTH, 10, 10);
+   ADD_1PAR_FILTER( NORTH, ClubPointsLimit, 1);
    ADD_0PAR_FILTER( WEST,  NoOvercall );
    ADD_0PAR_FILTER( SOUTH, SpadesNatural );
    ADD_0PAR_FILTER( EAST,  No7Plus );
    ADD_0PAR_FILTER( WEST,  No2SuitsAntiSpade );
 
    // used previously
-   // ADD_2PAR_FILTER( SOUTH, ControlsRange, 4, 4);
-   // ADD_2PAR_FILTER( NORTH, ControlsRange, 5, 5);
+   // ADD_2PAR_FILTER( SOUTH, ControlsRange, 4, 10);
+   // ADD_2PAR_FILTER( NORTH, ControlsRange, 4, 10);
 }
 
 void Walrus::GrabSplinterVariant(twContext* lay)

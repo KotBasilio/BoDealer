@@ -15,25 +15,36 @@ void sample_main_SolveBoard_S1();
 void sample_main_PlayBin();
 void sample_main_JK_Solve();
 
-typedef SplitBits DTHand;
-struct DdsTask // version when we need to store only two hands
-{
-   DTHand partner;
-   DTHand rho;
-
-   DdsTask() {}
-   void Init(SplitBits& a, SplitBits& b) { partner = a; rho = b; }
-};
-
-// #ifdef FOUR_HANDS_TASK
-// #else
-//    typedef DdsTask2 DdsTask;
-// #endif
-
 #define NORTH    0
 #define EAST     1
 #define SOUTH    2
 #define WEST     3
+
+// version when we need to store only two hands
+struct DdsTask2 
+{
+   SplitBits partner;
+   SplitBits rho;
+
+   DdsTask2() {}
+   void Init(SplitBits& a, SplitBits& b) { partner = a; rho = b; }
+};
+
+// version with 3 hands stored
+struct DdsTask3
+{
+   SplitBits north, east, south;
+
+   DdsTask3() {}
+   void Init(SplitBits& a, SplitBits& b) { DEBUG_UNEXPECTED; }
+   void Init(twContext* lay);
+};
+
+#ifdef FOUR_HANDS_TASK
+   typedef DdsTask3 DdsTask;
+#else
+   typedef DdsTask2 DdsTask;
+#endif
 
 #define SOL_SPADES   0
 #define SOL_HEARTS   1

@@ -40,6 +40,15 @@ struct CumulativeScore {
    void OurNV5minor(uint tricks);
 };
 
+// ------------------------------------------------------------------- SHUFFLER part
+// all cards + flip over 12 cards
+const uint FLIP_OVER_SIZE = 12;
+const uint FLIP_OVER_START_IDX = ACTUAL_CARDS_COUNT;
+const uint DECK_ARR_SIZE = 64;// random does work to this range
+const uint RIDX_SIZE = 4;
+const uint SUPERVISE_CHUNK = 10;
+const uint SUPERVISE_REASONABLE = SUPERVISE_CHUNK * ACTUAL_CARDS_COUNT * 2;
+
 struct Shuffler {
    Shuffler();
    SplitBits deck[DECK_ARR_SIZE];

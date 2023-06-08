@@ -69,11 +69,45 @@ inline u16 SplitBits::CountAll()
 }
 extern SplitBits sbBlank;
 
-// all cards + flip over 12 cards
-const uint FLIP_OVER_SIZE = 12;
-const uint FLIP_OVER_START_IDX = ACTUAL_CARDS_COUNT;
-const uint DECK_ARR_SIZE = 64;// random does work to this range
-const uint RIDX_SIZE = 4;
-const uint SUPERVISE_CHUNK = 10;
-const uint SUPERVISE_REASONABLE = SUPERVISE_CHUNK * ACTUAL_CARDS_COUNT * 2;
+// twelve-layout lets counting some parameters in parallel, then queried
+// -- high-card points
+struct twlHCP 
+{
+   twlHCP() {}
+   twlHCP(const SplitBits &hand);
+   uint s, h, d, c, total;
+};
+// -- lengths
+struct twLengths
+{
+   twLengths() {}
+   twLengths(const SplitBits &hand);
+   uint s, h, d, c;
+};
+// -- controls
+struct twlControls
+{
+   twlControls() {}
+   twlControls(const SplitBits &hand);
+   uint s, h, d, c, total;
+};
+// -- all combined together
+struct twContext {
+   SplitBits   hand;
+   twLengths   len;
+   twlHCP      hcp;
+   twlControls ctrl;
+   twContext() : hand(0) {}
+   twContext(const SplitBits& h): hand(h), len(h), hcp(h), ctrl(h) {}
+};
+// -- permuted for filtering
+union twPermutedContexts {
+   struct {
+      twContext xA, xB, xC;
+   };
+   twContext lay[10];
+   twPermutedContexts(const SplitBits& a, const SplitBits& b, const SplitBits& c);
+};
+
+
 

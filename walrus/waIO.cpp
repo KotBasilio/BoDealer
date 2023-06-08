@@ -116,7 +116,7 @@ static bool IsRowSkippable(int i)
 }
 
 // OUT: hitsRow[], hitsCamp[]
-void Walrus::ReportFilteringResults()
+void Walrus::ReportDepFilteringResults()
 {
    // hat
    printf(tblFiltering);
@@ -141,6 +141,11 @@ void Walrus::ReportFilteringResults()
 
    // repeat in case it scrolls
    printf(tblFiltering);
+}
+
+void Walrus::ReportMiniFilteringResults()
+{
+   ReportState("", progress.delta1);
 }
 
 // OUT: hitsRow[], hitsCamp[]
@@ -210,7 +215,11 @@ void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
 void Walrus::MiniReport(uint toGo)
 {
    if (mul.countToSolve && (toGo == mul.countToSolve)) {
-      ReportFilteringResults();
+      #ifdef FOUR_HANDS_TASK
+         ReportMiniFilteringResults();
+      #else
+         ReportDepFilteringResults();
+      #endif
       printf("Solving started: ");
       return;
    }
@@ -227,7 +236,7 @@ void Walrus::MiniReport(uint toGo)
    float percMake = hitsRow[IO_ROW_OUR_MADE] * 100.f / sumRows;
    printf("Processed: %u total. %s is on lead. Goal is %d tricks in %s.\n", sumRows, ui.seatOnLead, ui.irBase, ui.declTrump);
 
-#ifdef SEEK_BIDDING_LEVEL
+#if defined(SEEK_BIDDING_LEVEL) || defined(FOUR_HANDS_TASK)
    // slam/game/partscore
    if (ui.irBase < 12) {
       printf("Averages: ideal = %lld, bidGame = %lld",
@@ -311,14 +320,16 @@ void Walrus::MiniReport(uint toGo)
 void Walrus::ReportState()
 {
    if (progress.delta2 > 0) {
-      ReportState("\nFinal result:\n", progress.delta1, progress.delta2);
+      ReportState("\nFinal result:\n");
    } else {
-      ReportState("\nEnding with:\n", progress.delta1);
+      ReportState("\nEnding with:\n");
    }
 }
 
-void Walrus::ReportState(char* header, u64 delta1, u64 delta2)
+void Walrus::ReportState(char* header, bool needTail)
 {
+   u64 delta1 = progress.delta1;
+   u64 delta2 = progress.delta2;
    DetectFarColumn();
 
    // always act as if printing big table as we do bookman calc
@@ -335,7 +346,7 @@ void Walrus::ReportState(char* header, u64 delta1, u64 delta2)
    }
 
    // self-control
-   printf("\n\nTotal iterations = %u, balance ", mul.countIterations);
+   printf("Total iterations = %u, balance ", mul.countIterations);
    if (bookman) {
       printf("is broken: ");
       if (bookman < mul.countIterations) {

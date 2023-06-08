@@ -600,7 +600,6 @@ uint dbl_then_hearts[DDS_HANDS][DDS_SUITS] =
 
 #ifdef STUB_DUMMY_HOLDINGS
    #define INPUT_HOLDINGS  dummy_holdings
-   #define INPUT_TRUMPS    SOL_HEARTS
    #define INPUT_ON_LEAD   EAST
    uint dummy_holdings[DDS_HANDS][DDS_SUITS] =
    { // North                    East        South       West
@@ -609,6 +608,9 @@ uint dbl_then_hearts[DDS_HANDS][DDS_SUITS] =
       { RK | R8 | R7 | R6 | R5,   0,          0,         0  } , // diamonds
       { R6 ,                      0,          0,         0  }   // clubs
    };
+   #ifndef INPUT_TRUMPS
+      #define INPUT_TRUMPS    SOL_HEARTS
+   #endif
 #endif // SINGLE_HAND_TASK
 
 #ifdef SEMANTIC_SPADE_4_WHEN_1H

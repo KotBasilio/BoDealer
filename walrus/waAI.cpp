@@ -11,7 +11,7 @@
 #include "walrus.h"
 #include HEADER_CURSES
 
- //#define  DBG_SHOW_BOARD_ON_CONSTRUCTION
+ #define  DBG_SHOW_BOARD_ON_CONSTRUCTION
 
 extern int SolveAllBoardsN(boards& bds, solvedBoards& solved);
 
@@ -26,7 +26,8 @@ struct DdsDeal
    // viewing
    static bool needInspect;
 
-   DdsDeal(const deal &dlBase, DdsTask &task);
+   DdsDeal(const deal &dlBase, DdsTask2 &task);
+   DdsDeal(const deal &dlBase, DdsTask3 &task);
    DdsDeal(twContext* lay);
    void Solve(uint handno);
 private:
@@ -46,10 +47,10 @@ private:
       dl.remainCards[SOUTH][s] ^ RFULL;
    }
 
-   uint DecryptSpades(DTHand bits) { return bits.card.w.s.Decrypt(); }
-   uint DecryptHearts(DTHand bits) { return bits.card.w.h.Decrypt(); }
-   uint DecryptDiamnd(DTHand bits) { return bits.card.w.d.Decrypt(); }
-   uint DecryptClubs (DTHand bits) { return bits.card.w.c.Decrypt(); }
+   uint DecryptSpades(SplitBits bits) { return bits.card.w.s.Decrypt(); }
+   uint DecryptHearts(SplitBits bits) { return bits.card.w.h.Decrypt(); }
+   uint DecryptDiamnd(SplitBits bits) { return bits.card.w.d.Decrypt(); }
+   uint DecryptClubs (SplitBits bits) { return bits.card.w.c.Decrypt(); }
 };
 
 bool DdsDeal::needInspect = true;
@@ -63,7 +64,7 @@ void HandleErrorDDS(deal &cards, int res)
    printf("DDS error: %s\n", line);
 }
 
-DdsDeal::DdsDeal(const deal &dlBase, DdsTask &task)
+DdsDeal::DdsDeal(const deal &dlBase, DdsTask2 &task)
 {
    memcpy(&dl, &dlBase, sizeof(dl));
 
@@ -108,6 +109,29 @@ DdsDeal::DdsDeal(const deal &dlBase, DdsTask &task)
       PrintHand("A board: \n", dl.remainCards);
       PLATFORM_GETCH();
    #endif 
+}
+
+DdsDeal::DdsDeal(const deal& dlBase, DdsTask3& task)
+{
+   memcpy(&dl, &dlBase, sizeof(dl));
+
+   // decrypt all cards
+   dl.remainCards[NORTH][SOL_SPADES  ] = DecryptSpades(task.north);
+   dl.remainCards[NORTH][SOL_HEARTS  ] = DecryptHearts(task.north);
+   dl.remainCards[NORTH][SOL_DIAMONDS] = DecryptDiamnd(task.north);
+   dl.remainCards[NORTH][SOL_CLUBS   ] = DecryptClubs (task.north);
+   dl.remainCards[EAST ][SOL_SPADES  ] = DecryptSpades(task.east);
+   dl.remainCards[EAST ][SOL_HEARTS  ] = DecryptHearts(task.east);
+   dl.remainCards[EAST ][SOL_DIAMONDS] = DecryptDiamnd(task.east);
+   dl.remainCards[EAST ][SOL_CLUBS   ] = DecryptClubs (task.east);
+   dl.remainCards[SOUTH][SOL_SPADES  ] = DecryptSpades(task.south);
+   dl.remainCards[SOUTH][SOL_HEARTS  ] = DecryptHearts(task.south);
+   dl.remainCards[SOUTH][SOL_DIAMONDS] = DecryptDiamnd(task.south);
+   dl.remainCards[SOUTH][SOL_CLUBS   ] = DecryptClubs (task.south);
+   ReconstructWest(SOL_SPADES);
+   ReconstructWest(SOL_HEARTS);
+   ReconstructWest(SOL_DIAMONDS);
+   ReconstructWest(SOL_CLUBS);
 }
 
 void DdsDeal::Solve(uint handno)

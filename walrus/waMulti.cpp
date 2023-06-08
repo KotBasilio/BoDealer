@@ -22,6 +22,7 @@ Walrus::Multi::Multi()
    , maxTasksToSolve(MAX_TASKS_TO_SOLVE)
    , arrToSolve(nullptr)
    , countToSolve(0)
+   , countShowLiveSign(0)
 {
 }
 
@@ -90,6 +91,8 @@ void Walrus::ShowEffortSplit(Walrus &hA, Walrus &hB)
 #endif // SHOW_EFFORT_SPLIT
 }
 
+static uint LIVE_SIGN = 101000000;// 101 mln
+
 void Walrus::MainScan(void)
 {
    // decide how to split effort as the main thread is faster a bit
@@ -110,6 +113,7 @@ void Walrus::MainScan(void)
 
    // do the parallel work
    LaunchHelpers(hA, hB);
+   mul.countShowLiveSign = LIVE_SIGN;
    DoTheShare();
    Supervise(&hA, &hB);
 
@@ -141,6 +145,16 @@ void Walrus::DoIteration()
 
    // done
    mul.countIterations += sem.scanCover;
+
+   // may show live signs
+   if (mul.countShowLiveSign > 0) {
+      if (mul.countShowLiveSign <= sem.scanCover) {
+         printf(".");
+         mul.countShowLiveSign = LIVE_SIGN;
+      } else {
+         mul.countShowLiveSign -= sem.scanCover;
+      }
+   }
 }
 
 

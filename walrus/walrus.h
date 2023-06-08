@@ -121,10 +121,11 @@ protected:
     } ui;
     void InitMiniUI(int trump, int first);
     void DetectFarColumn();
-    void ReportState(char* header, u64 delta1, u64 delta2 = 0);
+    void ReportState(char* header, bool needTail = true);
     void ReportLine(uint sumline, int i);
     void MiniReport(uint toGo);
-    void ReportFilteringResults();
+    void ReportDepFilteringResults();
+    void ReportMiniFilteringResults();
     void CalcHitsForMiniReport(uint* hitsRow, uint* hitsCamp);
     int  PokeScorerForTricks();
     void CleanupStats();
@@ -136,7 +137,7 @@ protected:
        // main scan part
        bool             isRunning;
        const char *     nameHlp;
-       uint             countIterations, countShare, countSolo;
+       uint             countIterations, countShare, countSolo, countShowLiveSign;
        // aftermath double-dummy
        uint       maxTasksToSolve;
        DdsTask*   arrToSolve;

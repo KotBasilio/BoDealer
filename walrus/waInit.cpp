@@ -12,7 +12,7 @@
 #include HEADER_CURSES
 #include <memory.h> // memset
 
-#define DBG_SHOW_ALLOCS
+//#define DBG_SHOW_ALLOCS
 
 SplitBits sbBlank;
 Semantics semShared;
@@ -35,7 +35,6 @@ void WaFilter::Bind(class Walrus* _walrus)
 { 
    progress = _walrus->GetProgress(); 
 }
-
 
 bool Walrus::InitByConfig()
 {
@@ -196,8 +195,7 @@ void Walrus::WithdrawHolding(uint hld, uint waPosByDds)
 void Walrus::SolveSavedTasks()
 {
    // a useful sum to reconstruct responder hand
-   SplitBits sbSum(shuf.CheckSum());
-   DTHand taskSum(sbSum);
+   SplitBits taskSum(shuf.CheckSum());
 
    // how much filtered out
    u64 sum1st = 0, sum2nd = 0;
