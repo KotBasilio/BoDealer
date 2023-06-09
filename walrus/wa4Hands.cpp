@@ -117,12 +117,12 @@ void Walrus::FillSemantic(void)
    //sem.onBoardAdded = &Walrus::DisplayBoard;
    //sem.onBoardAdded = &Walrus::GrabSplinterVariant;
    sem.onScoring = &Walrus::Score_NV6Major;
-   sem.onAfterMath = &Walrus::SolveSavedTasks;
+   //sem.onAfterMath = &Walrus::SolveSavedTasks;
    sem.scanCover = SYMM * 6; // see Permute()
    sem.vecFilters.clear();
    ADD_4PAR_FILTER( NORTH, ExactShape, 4, 4, 4, 1);
    ADD_2PAR_FILTER( SOUTH, SpadesLen, 5, 6);
-   ADD_2PAR_FILTER( SOUTH, PointsRange, 11, 16);
+   ADD_2PAR_FILTER( SOUTH, PointsRange, 11, 12);
    ADD_1PAR_FILTER( NORTH, PointsAtLeast, 10);
    ADD_3PAR_FILTER( NORTH, LineControlsRange, SOUTH, 9, 9);
    ADD_1PAR_FILTER( NORTH, ClubPointsLimit, 1);

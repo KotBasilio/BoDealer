@@ -404,14 +404,18 @@ void Walrus::ReportLine(ucell sumline, int i)
    OUT_BIG_TABLE("%02d: ", i);
    for (int j = 0; j <= ui.farCol; j++) {
       auto cell = progress.hitsCount[i][j];
-      if        (cell <= 10000000) {
+      if        (cell <= 1000000) {
          OUT_BIG_TABLE(fmtCell, cell);
-      } else if (cell <= 200000000) {
-         OUT_BIG_TABLE(fmtCellStr, ">10M");
+      } else if (cell <= 10000000) {
+         OUT_BIG_TABLE(fmtCellStr, ">MLN");
+      } else if (cell <= 100000000) {
+         OUT_BIG_TABLE(fmtCellStr, ">XM");
       } else if (cell <= 1000000000) {
-         OUT_BIG_TABLE(fmtCellStr, ">200M");
-      } else {
+         OUT_BIG_TABLE(fmtCellStr, ">XXM");
+      } else if (cell <= 10000000000) {
          OUT_BIG_TABLE(fmtCellStr, ">MLRD");
+      } else {
+         OUT_BIG_TABLE(fmtCellStr, ">XR");
       }
    }
 

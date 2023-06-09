@@ -58,8 +58,8 @@ Walrus::Walrus(Walrus *other, const char *nameH, ucell ourShare) : sem(semShared
 PFM_THREAD_RETTYPE ProcHelper(void *arg)
 {
    Walrus *helper = (Walrus *)(arg);
-   printf("%s: %10llu done", helper->GetName(), helper->DoTheShare());
-   printf("---> %llu\n", helper->NumFiltered());
+   printf("\n%s: %10llu done ", helper->GetName(), helper->DoTheShare());
+   printf("---> %llu", helper->NumFiltered());
 
    return PFM_THREAD_RETVAL;
 }
@@ -76,6 +76,10 @@ void Walrus::LaunchHelpers(Walrus &hA, Walrus &hB)
    PLATFORM_BEGIN_THREAD(ProcHelper, mul.hB);
    mul.countShowLiveSign = LIVE_SIGN;
 #endif // SKIP_HELPERS
+
+   if (mul.countShare > ADDITION_STEP_ITERATIONS) {
+      printf("A progress in finding %dK boards: ", AIM_TASKS_COUNT / 1000);
+   }
 }
 
 void Walrus::ShowEffortSplit(Walrus &hA, Walrus &hB)
@@ -130,7 +134,7 @@ void Walrus::MainScan(void)
 
    // don't work all day! have a dinner break ;-)
    PLATFORM_SLEEP(20);
-   printf("   main: %-10llu done\n", mul.countSolo);
+   printf("\n   main: %-10llu done\n", mul.countSolo);
 
    // perf
    progress.delta1 = ChronoRound();
@@ -237,18 +241,13 @@ void Walrus::Supervise()
    }
 }
 
-void Walrus::ShowLiveSigns()
-{
-   if (mul.ShowLiveSigns(sem.scanCover)) {
-      // show accumulation progress
-      uint acc = Gathered() + mul.hA->Gathered() + mul.hB->Gathered();
-      printf("%d", acc / 1000);
-   }
-}
-
 bool WaMulti::ShowLiveSigns(uint oneCover)
 {
    if (!hA) {
+      return false;
+   }
+
+   if (!isRunning) {
       return false;
    }
 
@@ -262,4 +261,32 @@ bool WaMulti::ShowLiveSigns(uint oneCover)
    return true;
 }
 
+#define SLACK_HELPERS  ADDITION_STEP_ITERATIONS * 64 / 70
+
+void Walrus::ShowLiveSigns()
+{
+   if (mul.ShowLiveSigns(sem.scanCover)) {
+      // got enough => sign out to stop
+      uint acc = Gathered() + mul.hA->Gathered() + mul.hB->Gathered();
+      if (acc > AIM_TASKS_COUNT) {
+         mul.countShare = mul.countIterations;
+         printf("!");
+         return;
+      }
+
+      // show accumulation progress
+      printf("%d", acc / 1000);
+
+      // consider extension of the search unless we're 95% close
+      if (mul.countIterations + ADDITION_STEP_ITERATIONS > mul.countShare) {
+         if (acc < (AIM_TASKS_COUNT * 95) / 100) {
+            mul.countShare         += ADDITION_STEP_ITERATIONS;
+            mul.hA->mul.countShare += SLACK_HELPERS;
+            mul.hB->mul.countShare += SLACK_HELPERS;
+            printf("x");
+         }
+      }
+      
+   }
+}
 

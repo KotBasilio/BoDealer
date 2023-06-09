@@ -57,15 +57,15 @@
 /// -----------------------------------------------------------------
 /// 4 HAND TASKS
 #ifdef SEMANTIC_SPLINTER_SHAPE
-   #define TITLE_VERSION  "Only bidding is fixed: 1s pass 4c. Responder holds 4441;\nQuestion: how often opener has Ac, depending on responder shape? Ver 3.0 "
+   //#define TITLE_VERSION  "Only bidding is fixed: 1s pass 4c. Responder holds 4441;\nQuestion: how often opener has Ac, depending on responder shape? Ver 3.0 "
+   #define TITLE_VERSION  "Only bidding is fixed: 1s pass 4c. Responder holds 4441; and some other filters\nQuestion: how often a slam makes? Ver 3.0 "
    #define IO_NEED_FULL_TABLE
    #define FOUR_HANDS_TASK
    #define STUB_DUMMY_HOLDINGS
    #define INPUT_TRUMPS    SOL_SPADES
-   #define IO_SHIFT_FOR_EXTRA_MARKS  0
+   #define IO_SHIFT_FOR_EXTRA_MARKS  21
    #define IO_ROW_SELECTED  (11 + IO_SHIFT_FOR_EXTRA_MARKS)
    #define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
    //#define PERCENTAGES_IN_ANSWER_ROW
-   //#define IO_SHIFT_FOR_EXTRA_MARKS  21
 #endif // SEMANTIC_SPLINTER_SHAPE
 
