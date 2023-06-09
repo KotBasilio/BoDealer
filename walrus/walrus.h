@@ -125,7 +125,7 @@ protected:
     } ui;
     void InitMiniUI(int trump, int first);
     void DetectFarColumn();
-    void ReportState(char* header, bool needTail = true);
+    void ReportState(char* header);
     void ReportLine(ucell sumline, int i);
     void MiniReport(ucell toGo);
     void ReportDepFilteringResults();

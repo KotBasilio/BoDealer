@@ -197,6 +197,7 @@
     <ClInclude Include="..\..\walrus\waDerived.h" />
     <ClInclude Include="..\..\walrus\waLayout.h" />
     <ClInclude Include="..\..\walrus\walrus.h" />
+    <ClInclude Include="..\..\walrus\waMulti.h" />
     <ClInclude Include="..\..\walrus\waScore.h" />
     <ClInclude Include="..\..\walrus\waSemantic.h" />
     <ClInclude Include="..\..\walrus\waSemMicro.h" />

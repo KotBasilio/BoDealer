@@ -146,7 +146,7 @@ void Walrus::ReportDepFilteringResults()
 
 void Walrus::ReportMiniFilteringResults()
 {
-   ReportState("", progress.delta1);
+   ReportState("");
 }
 
 // OUT: hitsRow[], hitsCamp[]
@@ -327,7 +327,7 @@ void Walrus::ReportState()
    }
 }
 
-void Walrus::ReportState(char* header, bool needTail)
+void Walrus::ReportState(char* header)
 {
    u64 delta1 = progress.delta1;
    u64 delta2 = progress.delta2;
@@ -412,7 +412,7 @@ void Walrus::ReportLine(ucell sumline, int i)
          OUT_BIG_TABLE(fmtCellStr, ">XM");
       } else if (cell <= 1000000000) {
          OUT_BIG_TABLE(fmtCellStr, ">XXM");
-      } else if (cell <= 10000000000) {
+      } else if (cell <= 10000000000LL) {
          OUT_BIG_TABLE(fmtCellStr, ">MLRD");
       } else {
          OUT_BIG_TABLE(fmtCellStr, ">XR");
