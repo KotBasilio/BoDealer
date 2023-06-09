@@ -150,7 +150,9 @@ private:
    bool Orb_ApproveByFly(deal& cards);
    void Orb_ReSolveAndShow(deal &cards);
    // -- 4-hands scan
-   void Permute(SplitBits a, SplitBits b, SplitBits c);
+   void Permute6(SplitBits a, SplitBits b, SplitBits c);
+   void Permute24(SplitBits a, SplitBits b, SplitBits c);
+   void Classify6(twContext *lay);
    void ClassifyAndPull(twContext* lay);
    void ClassifyOnPermute(twContext* lay);
    // -- other scans

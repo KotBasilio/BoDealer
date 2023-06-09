@@ -100,14 +100,21 @@ struct twContext {
    twContext() : hand(0) {}
    twContext(const SplitBits& h): hand(h), len(h), hcp(h), ctrl(h) {}
 };
-// -- permuted for filtering
+// -- permuted for filtering with one hand fixed
+#define SIZE_PERMUTE_PATTERN 10
 union twPermutedContexts {
    struct {
       twContext xA, xB, xC;
    };
-   twContext lay[10];
+   twContext lay[SIZE_PERMUTE_PATTERN];
    twPermutedContexts(const SplitBits& a, const SplitBits& b, const SplitBits& c);
 };
-
+// -- permuted for filtering, full transposition
+union twPermutedFullFlip {
+   twPermutedContexts p6;
+   twContext lay[SIZE_PERMUTE_PATTERN * 4];
+   twPermutedFullFlip(const SplitBits& a, const SplitBits& b, const SplitBits& c);
+   void LayPattern(uint dest, uint iNewD);
+};
 
 

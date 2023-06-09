@@ -199,14 +199,14 @@ void Walrus::SolveSavedTasks()
 
    // how much filtered out
    u64 sum1st = 0, sum2nd = 0;
-   for (int i = 0; i < 20 ; i++) {
-      sum1st += progress.hitsCount[i][1];
-      sum2nd += progress.hitsCount[i][2];
+   for (int i = 0; i < 40 ; i++) {
+      sum1st += progress.hitsCount[i][1] + progress.hitsCount[i][2] + progress.hitsCount[i][3];
+      sum2nd += progress.hitsCount[i][4] + progress.hitsCount[i][5] + progress.hitsCount[i][6];
    }
    u64 sum = sum1st + sum2nd;
 
    // show filtration results
-   int dvs = mul.countToSolve ? mul.countToSolve : 1;
+   u64 dvs = mul.countToSolve ? mul.countToSolve : 1;
    printf("Passing %u for double-dummy inspection: roughly each 1 of %llu; %llu skipped\n", mul.countToSolve, sum / dvs, sum);
    MiniReport(mul.countToSolve);
 

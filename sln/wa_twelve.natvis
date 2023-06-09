@@ -22,7 +22,7 @@
       <DisplayString>CTR {total}: {s}-{h}-{d}-{c}</DisplayString>
    </Type>
    <Type Name="twContext">
-      <DisplayString>{len}, {hcp.total}/{ctrl.total}</DisplayString>
+      <DisplayString>{len}, p {hcp.total}, con {ctrl.total}</DisplayString>
    </Type>
    <Type Name="DdsTask">
       <DisplayString>{partner} / {rho}</DisplayString>

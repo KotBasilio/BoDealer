@@ -561,3 +561,38 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
    #endif
 }
 
+void Walrus::ShowLiveSigns()
+{
+   if (mul.ShowLiveSigns(sem.scanCover)) {
+      // got enough => sign out to stop
+      uint acc = Gathered() + mul.hA->Gathered() + mul.hB->Gathered();
+      if (acc > AIM_TASKS_COUNT) {
+         mul.countShare = mul.countIterations;
+         printf("found.");
+         return;
+      }
+
+      // show accumulation progress
+      printf("%d", acc / 1000);
+
+      // consider extension of the search unless we're 95% close
+      if (mul.countIterations + ADDITION_STEP_ITERATIONS > mul.countShare &&
+         acc < (AIM_TASKS_COUNT * 95) / 100) {
+         mul.countShare         += ADDITION_STEP_ITERATIONS;
+         mul.hA->mul.countShare += ADDITION_STEP_ITERATIONS;
+         mul.hB->mul.countShare += ADDITION_STEP_ITERATIONS;
+         printf(",");
+      } else {
+         printf(".");
+      }
+
+      // allow interruption
+      if (PLATFORM_KBHIT()) {
+         auto inchar = PLATFORM_GETCH();
+         printf("X");
+         mul.hA->mul.countShare = mul.hA->mul.countIterations + 1000;
+         mul.hB->mul.countShare = mul.hB->mul.countIterations + 1000;
+         mul.countShare = mul.countIterations;
+      }
+   }
+}
