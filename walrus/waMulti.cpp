@@ -26,7 +26,7 @@ Walrus::Multi::Multi()
 {
 }
 
-Walrus::Walrus(Walrus *other, const char *nameH, int ourShare) : sem(semShared)
+Walrus::Walrus(Walrus *other, const char *nameH, ucell ourShare) : sem(semShared)
 {
    // duplicate fully
    memcpy(this, other, sizeof(*this));
@@ -54,8 +54,8 @@ Walrus::Walrus(Walrus *other, const char *nameH, int ourShare) : sem(semShared)
 PFM_THREAD_RETTYPE ProcHelper(void *arg)
 {
    Walrus *helper = (Walrus *)(arg);
-   printf("%s: %10u done", helper->GetName(), helper->DoTheShare());
-   printf("---> %u\n", helper->NumFiltered());
+   printf("%s: %10llu done", helper->GetName(), helper->DoTheShare());
+   printf("---> %llu\n", helper->NumFiltered());
 
    return PFM_THREAD_RETVAL;
 }
@@ -96,11 +96,11 @@ static uint LIVE_SIGN = 101000000;// 101 mln
 void Walrus::MainScan(void)
 {
    // decide how to split effort as the main thread is faster a bit
-   uint effortA = (mul.countShare >> 2)
+   ucell effortA = (mul.countShare >> 2)
                 + (mul.countShare >> 4)
                 + (mul.countShare >> 6)
                 + (mul.countShare >> 8);
-   uint effortB = effortA;
+   ucell effortB = effortA;
    #ifdef SKIP_HELPERS
       effortB = effortA = 0;
    #endif
@@ -124,7 +124,7 @@ void Walrus::MainScan(void)
 
    // don't work all day! have a dinner break ;-)
    PLATFORM_SLEEP(20);
-   printf("   main: %10u done\n", mul.countSolo);
+   printf("   main: %-10llu done\n", mul.countSolo);
 
    // perf
    progress.delta1 = ChronoRound();
@@ -158,7 +158,7 @@ void Walrus::DoIteration()
 }
 
 
-uint Walrus::DoTheShare()
+ucell Walrus::DoTheShare()
 {
    // any last-train init
    (this->*sem.onShareStart)();
@@ -215,8 +215,8 @@ void Walrus::Supervise(Walrus *helperA, Walrus *helperB)
 {
    // while it makes any sense
    for (;;) {
-      uint cA = helperA->Remains();
-      uint cB = helperB->Remains();
+      ucell cA = helperA->Remains();
+      ucell cB = helperB->Remains();
       if (cA + cB < SUPERVISE_REASONABLE) {
          return;
       }

@@ -14,8 +14,8 @@
 // output alignments
 char tblHat[]        = "    :  HITS COUNT   :\n";
 char tblFiltering[]  = "  (FILTERING)       PARTNER       DIRECT     SANDWICH        TOTAL\n";
-char fmtFiltering[]  = "%12u,";
-char fmtCell[]       = "%8u,";
+char fmtFiltering[]  = "%12llu,";
+char fmtCell[]       = "%8llu,";
 char fmtCellStr[]    = "%8s,";
 char fmtCellFloat[]  = "%8.1f,";
 //char tblHat[] =  "    :       let    spade    heart     both     club             sum\n";
@@ -131,13 +131,13 @@ void Walrus::ReportDepFilteringResults()
 
       // calc and print one line
       // -- its body
-      uint sumline = 0;
+      ucell sumline = 0;
       for (int j = 1; j < miniCamps; j++) {
          printf(fmtFiltering, progress.hitsCount[i][j]);
          sumline += progress.hitsCount[i][j];
       }
       // -- its sum
-      printf("%12u\n", sumline);
+      printf("%12llu\n", sumline);
    }
 
    // repeat in case it scrolls
@@ -150,7 +150,7 @@ void Walrus::ReportMiniFilteringResults()
 }
 
 // OUT: hitsRow[], hitsCamp[]
-void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
+void Walrus::CalcHitsForMiniReport(ucell * hitsRow, ucell * hitsCamp)
 {
    // zero hit sums
    for (int i = 0; i < MINI_ROWS; i++) {
@@ -185,7 +185,7 @@ void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
 
       // calc and print one line
       // -- its body
-      uint sumline = 0;
+      u64 sumline = 0;
       int j = 0;
       for (; j < miniCamps; j++) {
          if (showRow) printf(fmt, progress.hitsCount[i][j]);
@@ -193,7 +193,7 @@ void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
          hitsCamp[j] += progress.hitsCount[i][j];
       }
       // -- its sum
-      if (showRow) printf("%12u\n", sumline);
+      if (showRow) printf("%12llu\n", sumline);
       hitsRow[i] = sumline;
 
       // may add percentages
@@ -213,7 +213,7 @@ void Walrus::CalcHitsForMiniReport(uint * hitsRow, uint * hitsCamp)
    }
 }
 
-void Walrus::MiniReport(uint toGo)
+void Walrus::MiniReport(ucell toGo)
 {
    if (mul.countToSolve && (toGo == mul.countToSolve)) {
       #ifdef FOUR_HANDS_TASK
@@ -226,16 +226,16 @@ void Walrus::MiniReport(uint toGo)
    }
 
    // small tables
-   uint hitsRow[MINI_ROWS];
-   uint hitsCamp[MAX_CAMPS];
+   ucell hitsRow[MINI_ROWS];
+   ucell hitsCamp[MAX_CAMPS];
    CalcHitsForMiniReport(hitsRow, hitsCamp);
 
    // percentages
-   uint sumCamps = __max( hitsCamp[0]+ hitsCamp[1]+ hitsCamp[2]+ hitsCamp[3]+ hitsCamp[4], 1);
-   uint sumRows  = __max( hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE], 1);
+   ucell sumCamps = __max( hitsCamp[0]+ hitsCamp[1]+ hitsCamp[2]+ hitsCamp[3]+ hitsCamp[4], 1);
+   ucell sumRows  = __max( hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE], 1);
    float percGoDown = hitsRow[IO_ROW_OUR_DOWN] * 100.f / sumRows;
    float percMake = hitsRow[IO_ROW_OUR_MADE] * 100.f / sumRows;
-   printf("Processed: %u total. %s is on lead. Goal is %d tricks in %s.\n", sumRows, ui.seatOnLead, ui.irBase, ui.declTrump);
+   printf("Processed: %llu total. %s is on lead. Goal is %d tricks in %s.\n", sumRows, ui.seatOnLead, ui.irBase, ui.declTrump);
 
 #if defined(SEEK_BIDDING_LEVEL) || defined(FOUR_HANDS_TASK)
    // slam/game/partscore
@@ -259,7 +259,7 @@ void Walrus::MiniReport(uint toGo)
    printf("Chances: %3.1f%% down some + %3.1f%% make\n", percGoDown, percMake);
 
 #ifdef SHOW_OPP_RESULTS
-   uint sumOppRows = __max(hitsRow[IO_ROW_THEIRS] + hitsRow[IO_ROW_THEIRS + 1], 1);
+   ucell sumOppRows = __max(hitsRow[IO_ROW_THEIRS] + hitsRow[IO_ROW_THEIRS + 1], 1);
    #ifdef SHOW_OPPS_ON_PASS
       printf("Their contract expectation average: passed = %lld, doubled = %lld.",
          cumulScore.oppContract / sumOppRows, 
@@ -272,7 +272,7 @@ void Walrus::MiniReport(uint toGo)
 #endif 
 
 #ifdef SHOW_OUR_OTHER
-   uint sumOppRows = __max(hitsRow[IO_ROW_THEIRS] + hitsRow[IO_ROW_THEIRS + 1], 1);
+   ucell sumOppRows = __max(hitsRow[IO_ROW_THEIRS] + hitsRow[IO_ROW_THEIRS + 1], 1);
    printf("The other contract expectation average = %lld.", cumulScore.ourOther / sumOppRows);
    printf(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows);
    //printf("Combo-score average for our two contracts = %lld.\n", cumulScore.ourCombo / sumOppRows);
@@ -298,16 +298,16 @@ void Walrus::MiniReport(uint toGo)
 
    // magic fly
 #ifdef SHOW_MY_FLY_RESULTS
-   uint sumNT   = progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_MORE_NT] +
+   ucell sumNT   = progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_MORE_NT] +
                   progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_SAME_NT];
-   uint sumSuit = progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_PREFER_SUIT];
+   ucell sumSuit = progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_PREFER_SUIT];
    sumRows = __max(sumNT + sumSuit, 1);
    float percBetterNT = sumNT * 100.f / sumRows;
    printf("NT is better in: %3.1f%% cases\n", percBetterNT);
 #endif // SHOW_MY_FLY_RESULTS
 
    if (toGo) {
-      printf("Yet more %u to go:", toGo);
+      printf("Yet more %llu to go:", toGo);
    }
 
 }
@@ -335,9 +335,9 @@ void Walrus::ReportState(char* header, bool needTail)
 
    // always act as if printing big table as we do bookman calc
    OUT_BIG_TABLE("%s", header);
-   uint bookman = mul.countIterations + progress.countExtraMarks;
+   ucell bookman = mul.countIterations + progress.countExtraMarks;
    for (int i = 0; i < HCP_SIZE; i++) {
-      uint sumline = 0;
+      ucell sumline = 0;
       for (int j = 0; j < CTRL_SIZE; j++) {
          auto cell = progress.hitsCount[i][j];
          bookman -= cell;
@@ -347,13 +347,13 @@ void Walrus::ReportState(char* header, bool needTail)
    }
 
    // self-control
-   printf("Total iterations = %u, balance ", mul.countIterations);
+   printf("Total iterations = %llu, balance ", mul.countIterations);
    if (bookman) {
       printf("is broken: ");
       if (bookman < mul.countIterations) {
-         printf("%u iterations left no mark\n", bookman);
+         printf("%llu iterations left no mark\n", bookman);
       } else {
-         printf("%u more marks than expected\n", MAXUINT32 - bookman + 1);
+         printf("%llu more marks than expected\n", MAXUINT64 - bookman + 1);
       }
    } else {
       printf("is fine\n");
@@ -388,7 +388,7 @@ void Walrus::DetectFarColumn()
    }
 }
 
-void Walrus::ReportLine(uint sumline, int i)
+void Walrus::ReportLine(ucell sumline, int i)
 {
    static bool shownDashes = false;
 
@@ -415,7 +415,7 @@ void Walrus::ReportLine(uint sumline, int i)
       }
    }
 
-   OUT_BIG_TABLE("    : %-14u\n", sumline);
+   OUT_BIG_TABLE("    : %-14llu\n", sumline);
    shownDashes = false;
 
    // may add percentages

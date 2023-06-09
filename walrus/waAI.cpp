@@ -246,7 +246,7 @@ Progress::Progress()
 {
 }
 
-void Progress::Init(uint _step)
+void Progress::Init(ucell _step)
 {
    step = _step;
    went = 0;
@@ -259,7 +259,7 @@ bool Progress::Step()
    return (went > margin);
 }
 
-void Progress::Up(uint idx)
+void Progress::Up(ucell idx)
 {
    went = 0;
    if (idx > margin * 2) {
@@ -267,7 +267,7 @@ void Progress::Up(uint idx)
    }
 }
 
-void Walrus::ShowProgress(uint idx)
+void Walrus::ShowProgress(ucell idx)
 {
    // do reports
    if (progress.Step()) {

@@ -42,13 +42,13 @@ struct waFileNames {
 // hits count and others
 struct Progress {
    Progress();
-   uint hitsCount[HCP_SIZE][CTRL_SIZE];
-   uint step, went, margin;
-   uint countExtraMarks;
+   ucell hitsCount[HCP_SIZE][CTRL_SIZE];
+   ucell step, went, margin;
+   ucell countExtraMarks;
    u64  delta1, delta2;
-   void Init(uint _step);
+   void Init(ucell _step);
    bool Step();
-   void Up(uint idx);
+   void Up(ucell idx);
 };
 
 // Filters

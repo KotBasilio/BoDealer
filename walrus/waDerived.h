@@ -100,27 +100,28 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
 
 // -----------------------------------------------------------------
 // --- Iterations count
+typedef u64 ucell;
 #ifdef _DEBUG
-   const uint MAX_ITERATION = 20*1000000;// 20 mln 
-   //const uint MAX_ITERATION = 5000000;// 5 mln 
-   //const uint MAX_ITERATION = 1000000;// 1 mln 
-   //const uint MAX_ITERATION = 100000;// 0.1 mln
-   //const uint MAX_ITERATION = 3000;
-   const uint MAX_TASKS_TO_SOLVE = 10240;
+   const ucell MAX_ITERATION = 20*1000000;// 20 mln 
+   //const ucell MAX_ITERATION = 5000000;// 5 mln 
+   //const ucell MAX_ITERATION = 1000000;// 1 mln 
+   //const ucell MAX_ITERATION = 100000;// 0.1 mln
+   //const ucell MAX_ITERATION = 3000;
+   const ucell MAX_TASKS_TO_SOLVE = 10240;
    #define SKIP_HELPERS
    //#define SOLVE_ONE_BY_ONE
 #else
-   //const uint MAX_ITERATION = 4051000000;// 4 mlrd + 1 millon gratis
-   //const uint MAX_ITERATION = 4001000000;// 4 mlrd + 1 millon gratis
-   //const uint MAX_ITERATION = 3001000000;// 3 mlrd + 1 millon gratis
-   //const uint MAX_ITERATION = 2001000000;// 2 mlrd + 1 millon gratis
-   //const uint MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
-   //const uint MAX_ITERATION = 501000000;// a half of mlrd
-   //const uint MAX_ITERATION = 333000000;// a third of mlrd
-   const uint MAX_ITERATION = 251000000;// a quarter of mlrd
-   //const uint MAX_ITERATION = 101000000;// 101 mln
-   //const uint MAX_ITERATION = 12000000;// 12 mln
-   const uint MAX_TASKS_TO_SOLVE = 4*1000*1000;
+   const ucell MAX_ITERATION = 4051000000;// 4 mlrd + 1 millon gratis
+   //const ucell MAX_ITERATION = 4001000000;// 4 mlrd + 1 millon gratis
+   //const ucell MAX_ITERATION = 3001000000;// 3 mlrd + 1 millon gratis
+   //const ucell MAX_ITERATION = 2001000000;// 2 mlrd + 1 millon gratis
+   //const ucell MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
+   //const ucell MAX_ITERATION = 501000000;// a half of mlrd
+   //const ucell MAX_ITERATION = 333000000;// a third of mlrd
+   //const ucell MAX_ITERATION = 251000000;// a quarter of mlrd
+   //const ucell MAX_ITERATION = 101000000;// 101 mln
+   //const ucell MAX_ITERATION = 12000000;// 12 mln
+   const ucell MAX_TASKS_TO_SOLVE = 4*1000*1000;
 #endif
 
 

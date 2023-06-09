@@ -16,17 +16,17 @@ class Walrus
    friend struct Semantics;
 public:
    Walrus();
-   Walrus(Walrus *other, const char *nameH, int ourShare);
+   Walrus(Walrus *other, const char *nameH, ucell ourShare);
    ~Walrus();
 
    bool InitByConfig();
    void MainScan(void);
-   uint DoTheShare();
+   ucell DoTheShare();
    void ReportState();
    bool AfterMath();
    bool IsRunning(void) const { return mul.isRunning; }
    const char *GetName() const { return mul.nameHlp; }
-   uint NumFiltered() const { return mul.countToSolve; }
+   ucell NumFiltered() const { return mul.countToSolve; }
    Progress* GetProgress() { return &progress; }
 
 protected:
@@ -63,7 +63,7 @@ protected:
     void LaunchHelpers(Walrus &hA, Walrus &hB);
     void ShowEffortSplit(Walrus &hA, Walrus &hB);
     void DoIteration();
-    uint Remains() const { return (mul.countIterations < mul.countShare) ? mul.countShare - mul.countIterations : 0; }
+    ucell Remains() const { return (mul.countIterations < mul.countShare) ? mul.countShare - mul.countIterations : 0; }
     void CoWork(Walrus * other);
     void Supervise(Walrus *helperA, Walrus *helperB);
     void MergeResults(Walrus *other);
@@ -122,14 +122,14 @@ protected:
     void InitMiniUI(int trump, int first);
     void DetectFarColumn();
     void ReportState(char* header, bool needTail = true);
-    void ReportLine(uint sumline, int i);
-    void MiniReport(uint toGo);
+    void ReportLine(ucell sumline, int i);
+    void MiniReport(ucell toGo);
     void ReportDepFilteringResults();
     void ReportMiniFilteringResults();
-    void CalcHitsForMiniReport(uint* hitsRow, uint* hitsCamp);
+    void CalcHitsForMiniReport(ucell* hitsRow, ucell* hitsCamp);
     int  PokeScorerForTricks();
     void CleanupStats();
-    void ShowProgress(uint idx);
+    void ShowProgress(ucell idx);
 
     // Multi-thread
     struct Multi {
@@ -137,7 +137,7 @@ protected:
        // main scan part
        bool             isRunning;
        const char *     nameHlp;
-       uint             countIterations, countShare, countSolo, countShowLiveSign;
+       ucell            countIterations, countShare, countSolo, countShowLiveSign;
        // aftermath double-dummy
        uint       maxTasksToSolve;
        DdsTask*   arrToSolve;
