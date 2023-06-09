@@ -11,7 +11,11 @@
 #include "walrus.h"
 #include HEADER_CURSES
 
- #define  DBG_SHOW_BOARD_ON_CONSTRUCTION
+#define  DBG_SHOW_BOARD_ON_CONSTRUCTION
+
+#ifndef IO_ROW_SELECTED
+   #define IO_ROW_SELECTED 3
+#endif 
 
 extern int SolveAllBoardsN(boards& bds, solvedBoards& solved);
 
@@ -445,7 +449,7 @@ void Walrus::SolveInChunks(deal &dlBase)
 
       // keep balance on abort
       if (ui.exitRequested) {
-         progress.hitsCount[3][0] = mul.countToSolve - i - step;
+         progress.hitsCount[IO_ROW_SELECTED][0] = mul.countToSolve - i - step;
          i += mul.countToSolve;
       }
    }

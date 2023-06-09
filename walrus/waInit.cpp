@@ -208,8 +208,11 @@ void Walrus::SolveSavedTasks()
    // show filtration results
    int dvs = mul.countToSolve ? mul.countToSolve : 1;
    printf("Passing %u for double-dummy inspection: roughly each 1 of %llu; %llu skipped\n", mul.countToSolve, sum / dvs, sum);
-   progress.hitsCount[1][1] = 0;
    MiniReport(mul.countToSolve);
+
+   // some hit counts are going to appear again as solved tasks
+   progress.hitsCount[1][1] = 0;
+   progress.hitsCount[IO_ROW_SELECTED][0] = 0;
 
    // do inits for Bo-Analyzer
    deal dlBase;

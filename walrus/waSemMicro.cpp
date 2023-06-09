@@ -229,7 +229,7 @@ uint WaFilter::No7Plus(twContext* lay, const uint* par)
    return MIC_PASSED;
 }
 
-uint WaFilter::No2SuitsAntiSpade(twContext* lay, const uint* par)
+uint WaFilter::No2SuiterAntiSpade(twContext* lay, const uint* par)
 {
    ACCESS_MICPARS_HL;
 

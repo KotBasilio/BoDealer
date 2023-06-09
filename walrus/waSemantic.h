@@ -120,7 +120,7 @@ public:
    // -
    uint NoOvercall(twContext* lay, const uint *par);
    uint No7Plus(twContext* lay, const uint *par);
-   uint No2SuitsAntiSpade(twContext* lay, const uint *par);
+   uint No2SuiterAntiSpade(twContext* lay, const uint *par);
    uint No2SuitsAntiHeart(twContext* lay, const uint *par);
    uint No2SuitsMinors(twContext* lay, const uint *par);
 private:

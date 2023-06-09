@@ -16,6 +16,7 @@ char tblHat[]        = "    :  HITS COUNT   :\n";
 char tblFiltering[]  = "  (FILTERING)       PARTNER       DIRECT     SANDWICH        TOTAL\n";
 char fmtFiltering[]  = "%12u,";
 char fmtCell[]       = "%8u,";
+char fmtCellStr[]    = "%8s,";
 char fmtCellFloat[]  = "%8.1f,";
 //char tblHat[] =  "    :       let    spade    heart     both     club             sum\n";
 
@@ -403,10 +404,18 @@ void Walrus::ReportLine(uint sumline, int i)
    OUT_BIG_TABLE("%02d: ", i);
    for (int j = 0; j <= ui.farCol; j++) {
       auto cell = progress.hitsCount[i][j];
-      OUT_BIG_TABLE(fmtCell, cell);
+      if        (cell <= 10000000) {
+         OUT_BIG_TABLE(fmtCell, cell);
+      } else if (cell <= 200000000) {
+         OUT_BIG_TABLE(fmtCellStr, ">10M");
+      } else if (cell <= 1000000000) {
+         OUT_BIG_TABLE(fmtCellStr, ">200M");
+      } else {
+         OUT_BIG_TABLE(fmtCellStr, ">MLRD");
+      }
    }
 
-   OUT_BIG_TABLE("    : %10u\n", sumline);
+   OUT_BIG_TABLE("    : %-14u\n", sumline);
    shownDashes = false;
 
    // may add percentages

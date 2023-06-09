@@ -124,12 +124,12 @@ void Walrus::FillSemantic(void)
    ADD_2PAR_FILTER( SOUTH, SpadesLen, 5, 6);
    ADD_2PAR_FILTER( SOUTH, PointsRange, 11, 16);
    ADD_1PAR_FILTER( NORTH, PointsAtLeast, 10);
-   //ADD_3PAR_FILTER( NORTH, LineControlsRange, SOUTH, 10, 10);
+   ADD_3PAR_FILTER( NORTH, LineControlsRange, SOUTH, 9, 9);
    ADD_1PAR_FILTER( NORTH, ClubPointsLimit, 1);
    ADD_0PAR_FILTER( WEST,  NoOvercall );
    ADD_0PAR_FILTER( SOUTH, SpadesNatural );
    ADD_0PAR_FILTER( EAST,  No7Plus );
-   ADD_0PAR_FILTER( WEST,  No2SuitsAntiSpade );
+   ADD_0PAR_FILTER( WEST,  No2SuiterAntiSpade );
 
    // used previously
    // ADD_2PAR_FILTER( SOUTH, ControlsRange, 4, 10);
