@@ -8,12 +8,14 @@
 #include "waAI.h"
 #include "waScore.h"
 #include "waSemantic.h"
+#include "waMulti.h"
 
 // The main class -- named after Walter the Walrus, whose expertise in and devotion to 
 // the Work point count are matched only by the utter mess he makes of bidding and play (c)
 class Walrus
 {
    friend struct Semantics;
+   friend struct WaMulti;
 public:
    Walrus();
    Walrus(Walrus *other, const char *nameH, ucell ourShare);
@@ -63,9 +65,11 @@ protected:
     void LaunchHelpers(Walrus &hA, Walrus &hB);
     void ShowEffortSplit(Walrus &hA, Walrus &hB);
     void DoIteration();
+    void ShowLiveSigns();
     ucell Remains() const { return (mul.countIterations < mul.countShare) ? mul.countShare - mul.countIterations : 0; }
+    uint Gathered() const { return mul.countToSolve; }
     void CoWork(Walrus * other);
-    void Supervise(Walrus *helperA, Walrus *helperB);
+    void Supervise(void);
     void MergeResults(Walrus *other);
 
     // semantics
@@ -132,17 +136,7 @@ protected:
     void ShowProgress(ucell idx);
 
     // Multi-thread
-    struct Multi {
-       Multi();
-       // main scan part
-       bool             isRunning;
-       const char *     nameHlp;
-       ucell            countIterations, countShare, countSolo, countShowLiveSign;
-       // aftermath double-dummy
-       uint       maxTasksToSolve;
-       DdsTask*   arrToSolve;
-       uint       countToSolve;
-    } mul;
+    WaMulti mul;
 
 private:
    Shuffler shuf;

@@ -13,7 +13,9 @@
 
 extern u64 ChronoRound();
 
-Walrus::Multi::Multi()
+static uint LIVE_SIGN = 301000000;// 301 mln
+
+WaMulti::WaMulti()
    : isRunning(true)
    , nameHlp("main")
    , countIterations(0)
@@ -23,6 +25,8 @@ Walrus::Multi::Multi()
    , arrToSolve(nullptr)
    , countToSolve(0)
    , countShowLiveSign(0)
+   , hA(nullptr)
+   , hB(nullptr)
 {
 }
 
@@ -66,8 +70,11 @@ void Walrus::LaunchHelpers(Walrus &hA, Walrus &hB)
    hA.mul.isRunning = false;
    hB.mul.isRunning = false;
 #else
-   PLATFORM_BEGIN_THREAD(ProcHelper, &hA);
-   PLATFORM_BEGIN_THREAD(ProcHelper, &hB);
+   mul.hA = &hA;
+   mul.hB = &hB;
+   PLATFORM_BEGIN_THREAD(ProcHelper, mul.hA);
+   PLATFORM_BEGIN_THREAD(ProcHelper, mul.hB);
+   mul.countShowLiveSign = LIVE_SIGN;
 #endif // SKIP_HELPERS
 }
 
@@ -91,8 +98,6 @@ void Walrus::ShowEffortSplit(Walrus &hA, Walrus &hB)
 #endif // SHOW_EFFORT_SPLIT
 }
 
-static uint LIVE_SIGN = 101000000;// 101 mln
-
 void Walrus::MainScan(void)
 {
    // decide how to split effort as the main thread is faster a bit
@@ -111,16 +116,17 @@ void Walrus::MainScan(void)
    Walrus hB(&hA , "helperB", effortB);
    ShowEffortSplit(hA, hB);
 
-   // do the parallel work
+   // setup the parallel work
    LaunchHelpers(hA, hB);
-   mul.countShowLiveSign = LIVE_SIGN;
+
+   // start ours
    DoTheShare();
-   Supervise(&hA, &hB);
+   Supervise();
 
    // merge all
    mul.countSolo = mul.countIterations;
-   MergeResults(&hA);
-   MergeResults(&hB);
+   MergeResults(mul.hA);
+   MergeResults(mul.hB);
 
    // don't work all day! have a dinner break ;-)
    PLATFORM_SLEEP(20);
@@ -143,20 +149,12 @@ void Walrus::DoIteration()
    shuf.ClearFlipover();
    shuf.VerifyCheckSum();
 
-   // done
+   // done the chunk
    mul.countIterations += sem.scanCover;
 
    // may show live signs
-   if (mul.countShowLiveSign > 0) {
-      if (mul.countShowLiveSign <= sem.scanCover) {
-         printf(".");
-         mul.countShowLiveSign = LIVE_SIGN;
-      } else {
-         mul.countShowLiveSign -= sem.scanCover;
-      }
-   }
+   ShowLiveSigns();
 }
-
 
 ucell Walrus::DoTheShare()
 {
@@ -178,6 +176,10 @@ ucell Walrus::DoTheShare()
 //
 void Walrus::MergeResults(Walrus *other)
 {
+   if (!other) {
+      return;
+   }
+
    // helper is busy => do some of its work
    while (other->IsRunning()) {
       CoWork(other);
@@ -211,8 +213,14 @@ void Walrus::CoWork(Walrus *slowHelper)
    DoIteration();
 }
 
-void Walrus::Supervise(Walrus *helperA, Walrus *helperB)
+void Walrus::Supervise()
 {
+   Walrus* helperA = mul.hA;
+   Walrus* helperB = mul.hB;
+   if (!helperA) {
+      return;
+   }
+
    // while it makes any sense
    for (;;) {
       ucell cA = helperA->Remains();
@@ -227,6 +235,31 @@ void Walrus::Supervise(Walrus *helperA, Walrus *helperB)
          CoWork(needy);
       }
    }
+}
+
+void Walrus::ShowLiveSigns()
+{
+   if (mul.ShowLiveSigns(sem.scanCover)) {
+      // show accumulation progress
+      uint acc = Gathered() + mul.hA->Gathered() + mul.hB->Gathered();
+      printf("%d", acc / 1000);
+   }
+}
+
+bool WaMulti::ShowLiveSigns(uint oneCover)
+{
+   if (!hA) {
+      return false;
+   }
+
+   if (countShowLiveSign > oneCover) {
+      countShowLiveSign -= oneCover;
+      return false;
+   }
+
+   printf(".");
+   countShowLiveSign = LIVE_SIGN;
+   return true;
 }
 
 

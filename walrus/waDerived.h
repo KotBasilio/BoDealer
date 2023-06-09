@@ -111,7 +111,7 @@ typedef u64 ucell;
    #define SKIP_HELPERS
    //#define SOLVE_ONE_BY_ONE
 #else
-   const ucell MAX_ITERATION = 4051000000;// 4 mlrd + 1 millon gratis
+   const ucell MAX_ITERATION   = 8001000000LL;// 8 mlrd (u64)
    //const ucell MAX_ITERATION = 4001000000;// 4 mlrd + 1 millon gratis
    //const ucell MAX_ITERATION = 3001000000;// 3 mlrd + 1 millon gratis
    //const ucell MAX_ITERATION = 2001000000;// 2 mlrd + 1 millon gratis
@@ -121,7 +121,10 @@ typedef u64 ucell;
    //const ucell MAX_ITERATION = 251000000;// a quarter of mlrd
    //const ucell MAX_ITERATION = 101000000;// 101 mln
    //const ucell MAX_ITERATION = 12000000;// 12 mln
-   const ucell MAX_TASKS_TO_SOLVE = 4*1000*1000;
+
+   //const ucell MAX_TASKS_TO_SOLVE = 4*1000*1000;
+   const ucell MAX_TASKS_TO_SOLVE = 100*1000;
+   const ucell AIM_TASKS_COUNT = 50*1000;
 #endif
 
 

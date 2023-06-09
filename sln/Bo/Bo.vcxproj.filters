@@ -293,6 +293,9 @@
     <ClInclude Include="..\..\walrus\waSemMicro.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\walrus\waMulti.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\dds-develop\src\COMMENT">
