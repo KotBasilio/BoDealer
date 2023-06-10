@@ -214,6 +214,7 @@ void Walrus::FillSemantic(void)
    ADD_2PAR_FILTER( SOUTH, SpadesLen, 5, 6);
    ADD_2PAR_FILTER( SOUTH, PointsRange, 11, 15);
    ADD_1PAR_FILTER( NORTH, PointsAtLeast, 10);
+   ADD_3PAR_FILTER( NORTH, LineKeyCardsSpade, SOUTH, 4, 5);
    ADD_3PAR_FILTER( NORTH, LineControlsRange, SOUTH, 9, 9);
    ADD_1PAR_FILTER( NORTH, ClubPointsLimit, 1);
    ADD_0PAR_FILTER( WEST,  NoOvercall );

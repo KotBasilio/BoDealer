@@ -116,6 +116,37 @@ uint WaFilter::LineControlsRange(twContext* lay, const uint* par)
    return MIC_BLOCK;
 }
 
+uint WaFilter::LineKeyCardsSpade(twContext* lay, const uint* par)
+{
+   auto seat     = par[0];
+   auto seatPart = par[1];
+
+   // which king do we need
+   u64 king    = 0x4000000000000000LL;
+   u64 kc_mask = 0x8000800080008000LL | king;
+
+   // combine the line
+   u64 line = lay[seat    ].hand.card.jo +
+              lay[seatPart].hand.card.jo;
+
+   // get keycards
+   u64 keycards = line & kc_mask;
+
+   // sum bits
+   auto x =  (keycards & 0xF000000000000000LL) >> (16*3 + 12 + 2);
+   auto y = ((keycards & 0x0000F00000000000LL) >> (16*2 + 12 + 3)) +
+            ((keycards & 0x00000000F0000000LL) >> (16   + 12 + 3)) +
+            ((keycards & 0x000000000000F000LL) >> (       12 + 3));
+
+   // require in range
+   auto sum = (x & 0x1) + ((x & 0x2) >> 1) + y;
+   if (par[2] <= sum && sum <= par[3]) {
+      return MIC_PASSED;
+   }
+
+   return MIC_BLOCK;
+}
+
 uint WaFilter::PointsLimit(twContext* lay, const uint* par)
 {
    ACCESS_MICPAR_HCP;
