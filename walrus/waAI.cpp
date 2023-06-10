@@ -68,6 +68,25 @@ void HandleErrorDDS(deal &cards, int res)
    printf("DDS error: %s\n", line);
 }
 
+uint CalcHCP(const deal& dl)
+{
+   // not a complex task, knowing that
+   // #define RJ     0x0800
+   // #define RQ     0x1000
+   // #define RK     0x2000
+   // #define RA     0x4000
+   const auto &cards = dl.remainCards;
+   u64 facecards (RA | RK | RQ | RJ);
+   SplitBits reducedHand (
+      (((cards[SOUTH][SOL_SPADES  ] | cards[NORTH][SOL_SPADES  ]) & facecards) << (1)) |
+      (((cards[SOUTH][SOL_HEARTS  ] | cards[NORTH][SOL_HEARTS  ]) & facecards) << (1)) |
+      (((cards[SOUTH][SOL_DIAMONDS] | cards[NORTH][SOL_DIAMONDS]) & facecards) << (1)) |
+      (((cards[SOUTH][SOL_CLUBS   ] | cards[NORTH][SOL_CLUBS   ]) & facecards) << (1))
+   );
+   twlHCP hcp(reducedHand);
+   return hcp.total;
+}
+
 DdsDeal::DdsDeal(const deal &dlBase, DdsTask2 &task)
 {
    memcpy(&dl, &dlBase, sizeof(dl));
@@ -471,28 +490,35 @@ void Walrus::HandleDDSFail(int res)
   PLATFORM_GETCH();
 }
 
-void Walrus::HandleSolvedBoard(DdsTricks &tr, deal &cards, futureTricks &fut)
+bool Walrus::HandleSolvedBoard(DdsTricks &tr, deal &cards)
 {
    // cater for unplayable boards -- we change board result on some percentage boards
-   bool isDecimated = false;
    #ifdef UNPLAYABLE_ONE_OF
-   if (tr.plainScore == ui.irBase) {
-      static int cycleCatering = UNPLAYABLE_ONE_OF;
-      if (0 == --cycleCatering) {
-         tr.plainScore--;
-         isDecimated = true;
-         cycleCatering = UNPLAYABLE_ONE_OF;
+      bool isDecimated = false;
+      if (tr.plainScore == ui.irBase) {
+         static int cycleCatering = UNPLAYABLE_ONE_OF;
+         if (0 == --cycleCatering) {
+            tr.plainScore--;
+            isDecimated = true;
+            cycleCatering = UNPLAYABLE_ONE_OF;
+         }
       }
-   }
    #endif // UNPLAYABLE_ONE_OF
 
-   // score and add to statistic
+   // add to basic statistics
    (this->*sem.onScoring)(tr);
 
-   // results are intact => run mini-UI to show boards on console
-   if (!isDecimated) {
-      Orb_Interrogate(tr, cards, fut);
-   }
+   // results are a fake => forget the board asap
+   #ifdef UNPLAYABLE_ONE_OF
+      if (isDecimated) {
+         return false;
+      }
+   #endif
+
+   // some detailed postmortem is possible
+   (this->*sem.onPostmortem)(tr, cards);
+
+   return true;
 }
 
 void Walrus::SolveOneChunk(deal& dlBase, boards& bo, uint ofs, uint step)
@@ -526,7 +552,10 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
    for (int handno = 0; handno < solved.noOfBoards; handno++) {
       futureTricks &fut = solved.solvedBoard[handno];
       DdsTricks tr; tr.Init(fut);
-      HandleSolvedBoard(tr, bo.deals[handno], fut);
+      deal& cards(bo.deals[handno]);
+      if (HandleSolvedBoard(tr, cards)) {
+         Orb_Interrogate(tr, cards, fut);
+      }
    }
 
    // ensure we do something else with the same set of boards

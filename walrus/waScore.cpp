@@ -23,7 +23,6 @@ void Walrus::HitByScore(DdsTricks &tr, uint made, uint row /*= IO_ROW_OUR_DOWN*/
    progress.hitsCount[row][camp]++;
 }
 
-
 void Walrus::Score_4Major(DdsTricks& tr)
 {
    // hits
@@ -181,6 +180,10 @@ void Walrus::Score_NV6Major(DdsTricks& tr)
 {
    HitByScore(tr, 12);
    cumulScore.OurNV6Maj(tr.plainScore);
+}
+
+void Walrus::PostmortemHCP(DdsTricks& tr, deal& cards)
+{
 }
 
 void Walrus::Score_NV6Minor(DdsTricks& tr)

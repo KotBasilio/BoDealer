@@ -56,7 +56,7 @@ protected:
     void SolveInChunks(struct deal &dlBase);
     void SolveOneChunk(struct deal &dlBase, struct boards &bo, uint i, uint step);
     void HandleSolvedChunk(struct boards& bo, struct solvedBoards& chunk);
-    void HandleSolvedBoard(DdsTricks &tr, deal &cards, futureTricks &fut);
+    bool HandleSolvedBoard(DdsTricks &tr, deal &cards);
     void NoticeMagicFly(uint trickSuit, uint tricksNT);
     void CountComboScore(uint trickSuit, uint tricksNT);
     void HandleDDSFail(int res);
@@ -76,6 +76,7 @@ protected:
     void FillSemantic(void);
     void NOP() {}
     void VoidScoring(DdsTricks &tr) {}
+    void VoidPostmortem(DdsTricks& tr, deal& cards) {}
     void VoidAdded(twContext* lay) {}
     void DisplayBoard(twContext* lay);
     void GrabSplinterVariant(twContext* lay);
@@ -111,6 +112,7 @@ protected:
     void Score_Opp4Major(DdsTricks& tr);
     void Score_Opp3NT(DdsTricks& tr);
     void HitByScore(DdsTricks &tr, uint made, uint row = IO_ROW_OUR_DOWN);
+    void PostmortemHCP(DdsTricks& tr, deal& cards);
 
     // UI -- parts will migrate to Oscar project
     Progress progress;

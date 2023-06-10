@@ -135,6 +135,7 @@ private:
 typedef void (Walrus::* SemFuncType)();
 typedef void (Shuffler::* ShufflerFunc)();
 typedef void (Walrus::* SemScoring)(DdsTricks &tr);
+typedef void (Walrus::* SemPostMortem)(DdsTricks& tr, deal& cards);
 typedef void (Walrus::* SemOnBoardAdded)(twContext* lay);
 typedef uint (WaFilter::* DepFilterOut)(SplitBits& part, uint& camp, SplitBits& lho, SplitBits& rho);// deprecated since 3.0
 struct Semantics {
@@ -145,6 +146,7 @@ struct Semantics {
    std::vector<MicroFilter> vecFilters;
    SemOnBoardAdded          onBoardAdded;
    SemScoring               onScoring;
+   SemPostMortem            onPostmortem;
    SemScoring               onSolvedTwice;
    SemFuncType              onAfterMath;
    DepFilterOut             onDepFilter;

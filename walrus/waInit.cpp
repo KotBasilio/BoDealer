@@ -93,6 +93,7 @@ Semantics::Semantics()
    , onAfterMath  (&Walrus::NOP) 
    , onDepFilter  (&WaFilter::DepRejectAll) 
    , onScoring    (&Walrus::VoidScoring)
+   , onPostmortem (&Walrus::VoidPostmortem)
    , onSolvedTwice(&Walrus::VoidScoring)
    , scanCover(ACTUAL_CARDS_COUNT)
 {
