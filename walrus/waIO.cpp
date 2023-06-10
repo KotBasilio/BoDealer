@@ -314,30 +314,7 @@ void Walrus::ShowOptionalReports(void)
    printf("NT is better in: %3.1f%% cases\n", percBetterNT);
 #endif // SHOW_MY_FLY_RESULTS
 
-   // a user request
-   if (ui.reportRequested) {
-      ui.reportRequested = false;
-      DetectFarColumn();
-
-      // for mid-rows
-      for (int i = 3; i < IO_ROW_FILTERING; i++) {
-         // ok start printing, row = 3 + (hcp - 21) * 2;
-         auto h = (i - 3) / 2 + 21;
-         printf((i & 1) ? "(p %2d down): " : "(p %2d make): ", h);
-
-         // calc and print one line
-         // -- its body
-         u64 sumline = 0;
-         int j = 0;
-         for (; j <= ui.farCol; j++) {
-            printf(fmtCell, progress.hitsCount[i][j]);
-            sumline += progress.hitsCount[i][j];
-         }
-         // -- its sum
-         printf("   : ");
-         printf(fmtCell, sumline);
-      }
-   }
+   ShowRequestedReport();
 }
 
 #ifdef IO_NEED_FULL_TABLE
@@ -466,5 +443,37 @@ void Walrus::ReportLine(ucell sumline, int i)
    #endif
 }
 
+void Walrus::ShowRequestedReport()
+{
+   // a user request
+   if (!ui.reportRequested) {
+      return;
+   }
+
+   ui.reportRequested = false;
+   DetectFarColumn();
+
+   // for mid-rows
+   for (int i = 3; i < IO_ROW_FILTERING - 1; i++) {
+      // ok start printing, row = 3 + (hcp - 21) * 2;
+      auto h = (i - 3) / 2 + 21;
+      printf((i & 1) ? "(p %2d down): " : "(p %2d make): ", h);
+
+      // calc and print one line
+      // -- its body
+      u64 sumline = 0;
+      int j = 0;
+      for (; j <= ui.farCol; j++) {
+         printf(fmtCell, progress.hitsCount[i][j]);
+         sumline += progress.hitsCount[i][j];
+      }
+      // -- its sum
+      printf("   : ");
+      printf(fmtCell, sumline);
+      printf("\n");
+   }
+
+   PLATFORM_GETCH();
+}
 
 

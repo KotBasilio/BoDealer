@@ -134,6 +134,7 @@ protected:
     void ShowPercentages(ucell sumRows);
     void ShowBiddingLevel(ucell sumRows);
     void ShowOptionalReports();
+    void ShowRequestedReport();
     void ReportDepFilteringResults();
     void ReportMiniFilteringResults();
     void CalcHitsForMiniReport(ucell* hitsRow, ucell* hitsCamp);
