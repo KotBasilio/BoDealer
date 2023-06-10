@@ -99,6 +99,6 @@ struct DdsTricks
    void Init(struct futureTricks &fut);
 };
 
-void HandleErrorDDS(struct deal &cards, int res);
-
+void HandleErrorDDS(struct deal &dl, int res);
+uint WaCalcHCP(const deal& dl);
 

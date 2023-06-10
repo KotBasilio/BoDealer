@@ -184,6 +184,12 @@ void Walrus::Score_NV6Major(DdsTricks& tr)
 
 void Walrus::PostmortemHCP(DdsTricks& tr, deal& cards)
 {
+   auto hcp = WaCalcHCP(cards);
+   auto row = 3 + (hcp - 21) * 2;
+   if (row < IO_ROW_FILTERING - 1) {
+      HitByScore(tr, ui.irBase, row);
+      progress.countExtraMarks ++;
+   }
 }
 
 void Walrus::Score_NV6Minor(DdsTricks& tr)

@@ -207,9 +207,16 @@ void Walrus::SolveSavedTasks()
    u64 sum = sum1st + sum2nd;
 
    // show filtration results
-   u64 dvs = mul.countToSolve ? mul.countToSolve : 1;
-   printf("Passing %u for double-dummy inspection: roughly each 1 of %llu; %llu skipped\n", mul.countToSolve, sum / dvs, sum);
-   MiniReport(mul.countToSolve);
+   if (mul.countToSolve) {
+      auto dvs = mul.countToSolve;
+      printf("Passing %u for double-dummy inspection: roughly each 1 of %llu; %llu skipped\n", dvs, sum / dvs, sum);
+      #ifdef FOUR_HANDS_TASK
+         ReportMiniFilteringResults();
+      #else
+         ReportDepFilteringResults();
+      #endif
+      printf("Solving started: ");
+   }
 
    // some hit counts are going to appear again as solved tasks
    progress.hitsCount[1][1] = 0;

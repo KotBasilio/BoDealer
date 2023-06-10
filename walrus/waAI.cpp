@@ -68,7 +68,7 @@ void HandleErrorDDS(deal &cards, int res)
    printf("DDS error: %s\n", line);
 }
 
-uint CalcHCP(const deal& dl)
+uint WaCalcHCP(const deal& dl)
 {
    // not a complex task, knowing that
    // #define RJ     0x0800
@@ -78,9 +78,9 @@ uint CalcHCP(const deal& dl)
    const auto &cards = dl.remainCards;
    u64 facecards (RA | RK | RQ | RJ);
    SplitBits reducedHand (
-      (((cards[SOUTH][SOL_SPADES  ] | cards[NORTH][SOL_SPADES  ]) & facecards) << (1)) |
-      (((cards[SOUTH][SOL_HEARTS  ] | cards[NORTH][SOL_HEARTS  ]) & facecards) << (1)) |
-      (((cards[SOUTH][SOL_DIAMONDS] | cards[NORTH][SOL_DIAMONDS]) & facecards) << (1)) |
+      (((cards[SOUTH][SOL_SPADES  ] | cards[NORTH][SOL_SPADES  ]) & facecards) << (1 + 16*3)) |
+      (((cards[SOUTH][SOL_HEARTS  ] | cards[NORTH][SOL_HEARTS  ]) & facecards) << (1 + 16*2)) |
+      (((cards[SOUTH][SOL_DIAMONDS] | cards[NORTH][SOL_DIAMONDS]) & facecards) << (1 + 16*1)) |
       (((cards[SOUTH][SOL_CLUBS   ] | cards[NORTH][SOL_CLUBS   ]) & facecards) << (1))
    );
    twlHCP hcp(reducedHand);
@@ -416,6 +416,11 @@ void Walrus::MiniUI::Run()
             case ']': irGoal = irBase; irFly = IO_CAMP_MORE_NT; break;
          #endif 
 
+         // report hits
+         case 'h': 
+            reportRequested = true; 
+            break;
+
          // exit
          case 'x':
             exitRequested = true;
@@ -436,7 +441,7 @@ void Walrus::MiniUI::Run()
                break;
          }
          printf("... ");
-      } else if (!exitRequested) {
+      } else if (!(exitRequested || reportRequested)) {
          printf("\nCommand '%c' is ignored...", inchar);
       }
    }
@@ -464,18 +469,23 @@ void Walrus::SolveInChunks(deal &dlBase)
    for (; i+step < mul.countToSolve ; i+=step ) {
       // main work
       SolveOneChunk(dlBase, bo, i, step);
+
+      // always be ready to show progress
+      progress.hitsCount[IO_ROW_SELECTED][0] = mul.countToSolve - i - step;
       ShowProgress(i);
 
-      // keep balance on abort
+      // fast exit
       if (ui.exitRequested) {
-         progress.hitsCount[IO_ROW_SELECTED][0] = mul.countToSolve - i - step;
-         i += mul.countToSolve;
+         return;
       }
    }
+
+   // tail work
    if ( i < mul.countToSolve ) {
       step = mul.countToSolve - i;
       SolveOneChunk(dlBase, bo, i, step);
    }
+   progress.hitsCount[IO_ROW_SELECTED][0] = 0;
 }
 
 void Walrus::HandleDDSFail(int res)

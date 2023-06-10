@@ -118,6 +118,7 @@ protected:
     Progress progress;
     struct MiniUI {
        bool  exitRequested;
+       bool  reportRequested;
        bool  firstAutoShow;
        int   irGoal, irBase, irFly;
        int   farCol;
@@ -130,6 +131,9 @@ protected:
     void ReportState(char* header);
     void ReportLine(ucell sumline, int i);
     void MiniReport(ucell toGo);
+    void ShowPercentages(ucell sumRows);
+    void ShowBiddingLevel(ucell sumRows);
+    void ShowOptionalReports();
     void ReportDepFilteringResults();
     void ReportMiniFilteringResults();
     void CalcHitsForMiniReport(ucell* hitsRow, ucell* hitsCamp);

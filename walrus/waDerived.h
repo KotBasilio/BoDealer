@@ -108,6 +108,7 @@ typedef u64 ucell;
    //const ucell MAX_ITERATION = 100000;// 0.1 mln
    //const ucell MAX_ITERATION = 3000;
    const ucell MAX_TASKS_TO_SOLVE = 10240;
+   //const ucell MAX_TASKS_TO_SOLVE = 20240;
    #define SKIP_HELPERS
    //#define SOLVE_ONE_BY_ONE
 #else
@@ -125,6 +126,6 @@ typedef u64 ucell;
    const uint MAX_TASKS_TO_SOLVE = 100*1000;
 #endif
 const ucell ADDITION_STEP_ITERATIONS   =  501000000;// a half of mlrd
-//const uint AIM_TASKS_COUNT = 80*1000;
-const uint AIM_TASKS_COUNT = 20*1000;
+const uint AIM_TASKS_COUNT = 80*1000;
+//const uint AIM_TASKS_COUNT = 20*1000;
 

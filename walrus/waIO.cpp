@@ -28,6 +28,7 @@ char miniRowStart[MINI_ROWS][PREFIX_LEN];
 
 Walrus::MiniUI::MiniUI()
    : exitRequested(false)
+   , reportRequested(false)
    , firstAutoShow(true)
    , irGoal(0)
    , irBase(0)
@@ -213,61 +214,68 @@ void Walrus::CalcHitsForMiniReport(ucell * hitsRow, ucell * hitsCamp)
    }
 }
 
+static ucell hitsRow[MINI_ROWS];
+static ucell hitsCamp[MAX_CAMPS];
+
 void Walrus::MiniReport(ucell toGo)
 {
-   if (mul.countToSolve && (toGo == mul.countToSolve)) {
-      #ifdef FOUR_HANDS_TASK
-         ReportMiniFilteringResults();
-      #else
-         ReportDepFilteringResults();
-      #endif
-      printf("Solving started: ");
-      return;
-   }
-
    // small tables
-   ucell hitsRow[MINI_ROWS];
-   ucell hitsCamp[MAX_CAMPS];
    CalcHitsForMiniReport(hitsRow, hitsCamp);
 
-   // percentages
-   ucell sumCamps = __max( hitsCamp[0]+ hitsCamp[1]+ hitsCamp[2]+ hitsCamp[3]+ hitsCamp[4], 1);
-   ucell sumRows  = __max( hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE], 1);
-   float percGoDown = hitsRow[IO_ROW_OUR_DOWN] * 100.f / sumRows;
-   float percMake = hitsRow[IO_ROW_OUR_MADE] * 100.f / sumRows;
+   // signature
+   ucell sumRows = __max( hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE], 1);
    printf("Processed: %llu total. %s is on lead. Goal is %d tricks in %s.\n", sumRows, ui.seatOnLead, ui.irBase, ui.declTrump);
 
-#if defined(SEEK_BIDDING_LEVEL) || defined(FOUR_HANDS_TASK)
-   // slam/game/partscore
-   if (ui.irBase < 12) {
-      printf("Averages: ideal = %lld, bidGame = %lld",
-         cumulScore.ideal / sumRows,
-         cumulScore.bidGame / sumRows);
-      #ifdef SHOW_PARTSCORE_STATLINE
-         printf(", partscore=%lld.   ", cumulScore.partscore / sumRows);
-      #else
-         printf(".   ");
-      #endif 
-   } else {
-      printf("Averages: ideal = %lld, bidGame = %lld, slam=%lld\n",
-         cumulScore.ideal / sumRows,
-         cumulScore.bidGame / sumRows,
-         cumulScore.bidSlam / sumRows);
+   // other stuff
+   ShowBiddingLevel(sumRows);
+   ShowPercentages(sumRows);
+   ShowOptionalReports();
+   if (toGo) {
+      printf("Yet more %llu to go:", toGo);
    }
-#endif // SEEK_BIDDING_LEVEL
+}
 
+void Walrus::ShowPercentages(ucell sumRows)
+{
+   float percGoDown = hitsRow[IO_ROW_OUR_DOWN] * 100.f / sumRows;
+   float percMake = hitsRow[IO_ROW_OUR_MADE] * 100.f / sumRows;
    printf("Chances: %3.1f%% down some + %3.1f%% make\n", percGoDown, percMake);
+}
 
+void Walrus::ShowBiddingLevel(ucell sumRows)
+{
+   #if defined(SEEK_BIDDING_LEVEL) || defined(FOUR_HANDS_TASK)
+      // slam/game/partscore
+      if (ui.irBase < 12) {
+         printf("Averages: ideal = %lld, bidGame = %lld",
+            cumulScore.ideal / sumRows,
+            cumulScore.bidGame / sumRows);
+         #ifdef SHOW_PARTSCORE_STATLINE
+            printf(", partscore=%lld.   ", cumulScore.partscore / sumRows);
+         #else
+            printf(".   ");
+         #endif 
+      } else {
+         printf("Averages: ideal = %lld, bidGame = %lld, slam=%lld\n",
+            cumulScore.ideal / sumRows,
+            cumulScore.bidGame / sumRows,
+            cumulScore.bidSlam / sumRows);
+      }
+   #endif // SEEK_BIDDING_LEVEL
+}
+
+void Walrus::ShowOptionalReports(void)
+{
 #ifdef SHOW_OPP_RESULTS
    ucell sumOppRows = __max(hitsRow[IO_ROW_THEIRS] + hitsRow[IO_ROW_THEIRS + 1], 1);
-   #ifdef SHOW_OPPS_ON_PASS
-      printf("Their contract expectation average: passed = %lld, doubled = %lld.",
-         cumulScore.oppContract / sumOppRows, 
-         cumulScore.oppCtrDoubled / sumOppRows);
-   #else
-      printf("Their contract doubled, expectation average: %lld.",
-         cumulScore.oppCtrDoubled / sumOppRows);
-   #endif // SHOW_OPPS_ON_PASS
+#ifdef SHOW_OPPS_ON_PASS
+   printf("Their contract expectation average: passed = %lld, doubled = %lld.",
+      cumulScore.oppContract / sumOppRows,
+      cumulScore.oppCtrDoubled / sumOppRows);
+#else
+   printf("Their contract doubled, expectation average: %lld.",
+      cumulScore.oppCtrDoubled / sumOppRows);
+#endif // SHOW_OPPS_ON_PASS
    printf(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows);
 #endif 
 
@@ -298,18 +306,38 @@ void Walrus::MiniReport(ucell toGo)
 
    // magic fly
 #ifdef SHOW_MY_FLY_RESULTS
-   ucell sumNT   = progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_MORE_NT] +
-                  progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_SAME_NT];
+   ucell sumNT = progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_MORE_NT] +
+      progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_SAME_NT];
    ucell sumSuit = progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_PREFER_SUIT];
    sumRows = __max(sumNT + sumSuit, 1);
    float percBetterNT = sumNT * 100.f / sumRows;
    printf("NT is better in: %3.1f%% cases\n", percBetterNT);
 #endif // SHOW_MY_FLY_RESULTS
 
-   if (toGo) {
-      printf("Yet more %llu to go:", toGo);
-   }
+   // a user request
+   if (ui.reportRequested) {
+      ui.reportRequested = false;
+      DetectFarColumn();
 
+      // for mid-rows
+      for (int i = 3; i < IO_ROW_FILTERING; i++) {
+         // ok start printing, row = 3 + (hcp - 21) * 2;
+         auto h = (i - 3) / 2 + 21;
+         printf((i & 1) ? "(p %2d down): " : "(p %2d make): ", h);
+
+         // calc and print one line
+         // -- its body
+         u64 sumline = 0;
+         int j = 0;
+         for (; j <= ui.farCol; j++) {
+            printf(fmtCell, progress.hitsCount[i][j]);
+            sumline += progress.hitsCount[i][j];
+         }
+         // -- its sum
+         printf("   : ");
+         printf(fmtCell, sumline);
+      }
+   }
 }
 
 #ifdef IO_NEED_FULL_TABLE
