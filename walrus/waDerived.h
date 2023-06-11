@@ -114,8 +114,8 @@ typedef u64 ucell;
 #else
    //const ucell MAX_ITERATION              = 6001000000LL;// 6 mlrd (u64)
    //const ucell MAX_ITERATION = 4001000000;// 4 mlrd + 1 millon gratis
-   const ucell MAX_ITERATION = 3001000000;// 3 mlrd + 1 millon gratis
-   //const ucell MAX_ITERATION = 2001000000;// 2 mlrd + 1 millon gratis
+   //const ucell MAX_ITERATION = 3001000000;// 3 mlrd + 1 millon gratis
+   const ucell MAX_ITERATION = 2001000000;// 2 mlrd + 1 millon gratis
    //const ucell MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
    //const ucell MAX_ITERATION = 501000000;// a half of mlrd
    //const ucell MAX_ITERATION = 333000000;// a third of mlrd
@@ -128,4 +128,5 @@ typedef u64 ucell;
 const ucell ADDITION_STEP_ITERATIONS   =  501000000;// a half of mlrd
 const uint AIM_TASKS_COUNT = 80*1000;
 //const uint AIM_TASKS_COUNT = 20*1000;
+//const uint AIM_TASKS_COUNT = 2*1000;
 

@@ -204,8 +204,6 @@ void Walrus::FillSemantic(void)
    sem.fillFlipover = &Shuffler::FillFO_MaxDeck;
    sem.onShareStart = &Walrus::AllocFilteredTasksBuf;
    sem.onScanCenter = &Walrus::Scan4Hands;
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
-   //sem.onBoardAdded = &Walrus::GrabSplinterVariant;
    sem.onScoring = &Walrus::Score_NV6Major;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.onAfterMath = &Walrus::SolveSavedTasks;
@@ -214,9 +212,9 @@ void Walrus::FillSemantic(void)
    ADD_4PAR_FILTER( NORTH, ExactShape, 4, 4, 4, 1);
    ADD_2PAR_FILTER( SOUTH, SpadesLen, 5, 6);
    ADD_2PAR_FILTER( SOUTH, PointsRange, 11, 16);
-   ADD_1PAR_FILTER( NORTH, PointsAtLeast, 10);
+   ADD_3PAR_FILTER( NORTH, LinePointsRange, SOUTH, IO_HCP_MIN, IO_HCP_MAX);
+   ADD_3PAR_FILTER( NORTH, LineControlsRange, SOUTH, 8, 8);
    ADD_3PAR_FILTER( NORTH, LineKeyCardsSpade, SOUTH, 4, 5);
-   ADD_3PAR_FILTER( NORTH, LineControlsRange, SOUTH, 10, 10);
    ADD_1PAR_FILTER( NORTH, ClubPointsLimit, 1);
    ADD_0PAR_FILTER( WEST,  NoOvercall );
    ADD_0PAR_FILTER( SOUTH, SpadesNatural );
@@ -224,8 +222,11 @@ void Walrus::FillSemantic(void)
    ADD_0PAR_FILTER( WEST,  No2SuiterAntiSpade );
 
    // used previously
+   // ADD_1PAR_FILTER( NORTH, PointsAtLeast, 10);
    // ADD_2PAR_FILTER( SOUTH, ControlsRange, 4, 10);
    // ADD_2PAR_FILTER( NORTH, ControlsRange, 4, 10);
+   // sem.onBoardAdded = &Walrus::DisplayBoard;
+   // sem.onBoardAdded = &Walrus::GrabSplinterVariant;
 }
 
 #endif // SEMANTIC_SPLINTER_SHAPE

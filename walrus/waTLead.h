@@ -66,6 +66,11 @@
    #define IO_SHIFT_FOR_EXTRA_MARKS  21
    #define IO_ROW_SELECTED  (11 + IO_SHIFT_FOR_EXTRA_MARKS)
    #define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
+   #define IO_ROW_HCP_START 3
+   #define IO_HCP_MIN  26
+   #define IO_HCP_MAX  30
    //#define PERCENTAGES_IN_ANSWER_ROW
+   // #define IO_HCP_MIN  24
+   // #define IO_HCP_MAX  27
 #endif // SEMANTIC_SPLINTER_SHAPE
 

@@ -314,7 +314,11 @@ void Walrus::ShowOptionalReports(void)
    printf("NT is better in: %3.1f%% cases\n", percBetterNT);
 #endif // SHOW_MY_FLY_RESULTS
 
-   ShowRequestedReport();
+#ifdef IO_ROW_HCP_START
+   if (ui.reportRequested) {
+      ShowHichcardsDetailedReport();
+   }
+#endif // IO_ROW_HCP_START
 }
 
 #ifdef IO_NEED_FULL_TABLE
@@ -366,7 +370,8 @@ void Walrus::ReportState(char* header)
 
    // tailing report
    if (delta2 > 0) {
-      printf("\n--------------------------------\n%s", header);
+      printf("\n--------------------------------\n");
+      ui.reportRequested = true;
       MiniReport(0);
       printf("The search took %llu.%llu + an aftermath %llu.%llu sec.\n"
          , delta1 / 1000, (delta1 % 1000) / 100
@@ -443,21 +448,23 @@ void Walrus::ReportLine(ucell sumline, int i)
    #endif
 }
 
-void Walrus::ShowRequestedReport()
+void Walrus::ShowHichcardsDetailedReport()
 {
-   // a user request
-   if (!ui.reportRequested) {
-      return;
-   }
-
    ui.reportRequested = false;
    DetectFarColumn();
 
    // for mid-rows
-   for (int i = 3; i < IO_ROW_FILTERING - 1; i++) {
-      // ok start printing, row = 3 + (hcp - 21) * 2;
-      auto h = (i - 3) / 2 + 21;
-      printf((i & 1) ? "(p %2d down): " : "(p %2d make): ", h);
+   u64 prevSum = 0;
+   for (int i = IO_ROW_HCP_START; i < IO_ROW_FILTERING - 1; i++) {
+      // calc hcp for this row (row = 3 + (hcp - 21) * 2)
+      auto h = (i - IO_ROW_HCP_START) / 2 + IO_HCP_MIN;
+      if (h > IO_HCP_MAX) {
+         break;
+      }
+
+      // ok start printing
+      bool down = (bool)(i & 1);
+      printf(down ? "(p %2d down): " : "(p %2d make): ", h);
 
       // calc and print one line
       // -- its body
@@ -470,10 +477,16 @@ void Walrus::ShowRequestedReport()
       // -- its sum
       printf("   : ");
       printf(fmtCell, sumline);
+      // -- percentage
+      if (sumline && !down) {
+         printf("  --> %2llu %%", sumline * 100 / (sumline + prevSum));
+      }
       printf("\n");
+
+      prevSum = sumline;
    }
 
-   PLATFORM_GETCH();
+   //PLATFORM_GETCH();
 }
 
 

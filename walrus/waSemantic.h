@@ -106,6 +106,7 @@ public:
    uint ControlsRange(twContext* lay, const uint *par);
    uint LineControlsRange(twContext* lay, const uint *par);
    uint LineKeyCardsSpade(twContext* lay, const uint *par);
+   uint LinePointsRange(twContext* lay, const uint *par);
    // -
    uint ClubPointsLimit(twContext* lay, const uint *par);
    uint HeartPointsLimit(twContext* lay, const uint *par);

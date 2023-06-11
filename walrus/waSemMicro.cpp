@@ -147,6 +147,21 @@ uint WaFilter::LineKeyCardsSpade(twContext* lay, const uint* par)
    return MIC_BLOCK;
 }
 
+uint WaFilter::LinePointsRange(twContext* lay, const uint* par)
+{
+   ACCESS_MICPAR_HCP;
+   auto seatPart = par[1];
+   const auto& hcpPart(lay[seatPart].hcp);
+
+   // require in range
+   auto sum = hcp.total + hcpPart.total;
+   if (par[2] <= sum && sum <= par[3]) {
+      return MIC_PASSED;
+   }
+
+   return MIC_BLOCK;
+}
+
 uint WaFilter::PointsLimit(twContext* lay, const uint* par)
 {
    ACCESS_MICPAR_HCP;
