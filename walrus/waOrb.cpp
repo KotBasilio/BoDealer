@@ -128,7 +128,7 @@ void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)
 void Walrus::Orb_ReSolveAndShow(deal &cards)
 {
    // board first 
-   PrintHand("example:\n", cards.remainCards);
+   PrintHand("example:\n", cards);
 
    // auto show may be very short
    if (ui.firstAutoShow) {

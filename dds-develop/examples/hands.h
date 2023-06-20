@@ -7,6 +7,7 @@
    See LICENSE and README.
 */
 
+typedef unsigned int uint;
 
 // General initialization of three hands to be used in examples.
 
@@ -45,7 +46,8 @@ void PrintBinPlay(playTraceBin * play, solvedPlay * solved);
 void PrintPBNPlay(playTracePBN * play, solvedPlay * solved);
 
 
-void PrintHand(char title[], unsigned int rankInSuit[DDS_HANDS][DDS_SUITS]);
+void PrintHand(char title[], const deal& dl);
+uint WaCalcHCP(const deal& dl, uint* ctrl = nullptr);
 
 void PrintPBNHand(char title[], char remainCards[]);
 

@@ -55,7 +55,8 @@
 //#define SEMANTIC_SPADE_4_WHEN_1H
 
 // 4 hands tasks:
-#define SEMANTIC_SPLINTER_SHAPE
+//#define SEMANTIC_SPLINTER_SHAPE
+#define SEMANTIC_CONFIG_BASED
 
 // -----------------------------------------------------------------
 // task descriptions

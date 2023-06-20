@@ -162,6 +162,7 @@ private:
    void Classify6(twContext *lay);
    void ClassifyAndPull(twContext* lay);
    void ClassifyOnPermute(twContext* lay);
+   void SignOutChunk();
    // -- other scans
    uint KeyCards_ClassifyHand(uint &ba, SplitBits &sum);
    uint CountKeyCards(SplitBits &hand);

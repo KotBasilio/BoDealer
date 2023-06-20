@@ -35,6 +35,40 @@ uint WaFilter::ExactShape(twContext* lay, const uint* par)
    return MIC_BLOCK;
 }
 
+inline bool AddCloseDist(uint from, uint to, uint &dist)
+{
+   if (from < to - 1 || to + 1 < from) {
+      return false;
+   }
+
+   if (from == to) {
+      return true;
+   }
+
+   dist++;
+   return true;
+}
+
+
+uint WaFilter::ModelShape(twContext* lay, const uint* par)
+{
+   #define PASS_DIST(SUIT, IDX) if (!AddCloseDist(len.SUIT, par[IDX], dist)) { return MIC_BLOCK; }
+   ACCESS_MICPAR_LEN;
+   uint dist = 0;
+
+   // match each length
+   PASS_DIST(s, 1);
+   PASS_DIST(h, 2);
+   PASS_DIST(d, 3);
+   PASS_DIST(c, 4);
+   if (dist < 3) {
+      return MIC_PASSED;
+   }
+
+   // fail
+   return MIC_BLOCK;
+}
+
 uint WaFilter::SpadesLen(twContext* lay, const uint* par)
 {
    ACCESS_MICPAR_LEN;
@@ -237,6 +271,24 @@ uint WaFilter::SpadesNatural(twContext* lay, const uint* par)
        len.s >= len.d + 1 &&
        len.s >= len.c + 1) {
       return MIC_PASSED;
+   }
+
+   return MIC_BLOCK;
+}
+
+uint WaFilter::NoMajorFit(twContext* lay, const uint* par)
+{
+   ACCESS_MICPAR_LEN;
+   auto seatPart = par[1];
+   const auto& lenPart(lay[seatPart].len);
+
+   // require in range
+   auto sumS = len.s + lenPart.s;
+   if (sumS < 8) {
+      auto sumH = len.h + lenPart.h;
+      if (sumH < 8) {
+         return MIC_PASSED;
+      }
    }
 
    return MIC_BLOCK;

@@ -482,18 +482,18 @@ void PrintPBNPlay(playTracePBN * playp, solvedPlay * solved)
 
 
 
-////////////////////////////////////////////////
-// From here on it is code borrowed from DDS. //
-////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+// From here forth, the code originated from DDS, with our additions //
 
 
-#define DDS_FULL_LINE 80
+#define DDS_FULL_LINE 76
 #define DDS_HAND_OFFSET 12
 #define DDS_HAND_LINES 12
 #define DDS_OPLEAD_LINES 15
+#define DDS_STATS_LINE 0
+#define DDS_STATS_OFFSET (2 * DDS_HAND_OFFSET)
 
-void PrintHand(char title[],
-               unsigned int remainCards[DDS_HANDS][DDS_SUITS])
+void PrintHand(char title[], const deal& dl)
 {
   int c, h, s, r;
   char text[DDS_HAND_LINES][DDS_FULL_LINE];
@@ -528,17 +528,22 @@ void PrintHand(char title[],
      for (s = 0; s < DDS_SUITS; s++) {
        c = offset;
        for (r = 14; r >= 2; r--) {
-         if ((remainCards[h][s] >> 2) & dbitMapRank[r])
+         if ((dl.remainCards[h][s] >> 2) & dbitMapRank[r])
            text[line + s][c++] = static_cast<char>(dcardRank[r]);
        }
  
        if (c == offset)
          text[line + s][c++] = '-';
  
-       if (h != 3)
+       if (h == SOUTH || h == EAST)
          text[line + s][c] = '\0';
      }
   }
+
+  // print HCP and controls
+  uint ctrl;
+  sprintf(text[DDS_STATS_LINE  ] + DDS_STATS_OFFSET, "HCP : %d", WaCalcHCP(dl, &ctrl));
+  sprintf(text[DDS_STATS_LINE+1] + DDS_STATS_OFFSET, "CTRL: %d", ctrl);
 
   // start with title and underline it
   printf("%s", title);
@@ -599,7 +604,7 @@ void PrintPBNHand(char title[], char remainCardsPBN[])
 {
   unsigned int remainCards[DDS_HANDS][DDS_SUITS];
   ConvertPBN(remainCardsPBN, remainCards);
-  PrintHand(title, remainCards);
+  //PrintHand(title, remainCards); @_@ todo
 }
 
 int ConvertPBN(char * dealBuff,

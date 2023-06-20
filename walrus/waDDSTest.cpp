@@ -66,7 +66,7 @@ void sample_main_JK_Solve()
 
    sprintf(line, "SolveBoard, hand %d: leads %s, trumps: %s\n", handno,
       haPlayerToStr(dl.first), haTrumpToStr(dl.trump) );
-   PrintHand(line, dl.remainCards);
+   PrintHand(line, dl);
 
    target = -1;
    solutions = 3;
@@ -115,7 +115,7 @@ void sample_main_SolveBoard_S1()
 
       sprintf(line, "SolveBoard, hand %d: leads %s, trumps: %s\n", handno,
          haPlayerToStr(dl.first), haTrumpToStr(dl.trump) );
-      PrintHand(line, dl.remainCards);
+      PrintHand(line, dl);
 
       target = -1;
       solutions = 1;
@@ -135,7 +135,7 @@ void sample_main_SolveBoard_S1()
       dl.first = NORTH;
       sprintf(line, "SolveBoard, hand %d: leads %s, trumps: %s\n", handno,
          haPlayerToStr(dl.first), haTrumpToStr(dl.trump) );
-      PrintHand(line, dl.remainCards);
+      PrintHand(line, dl);
 
       target = -1;
       solutions = 1;
@@ -217,7 +217,7 @@ void sample_main_SolveBoard()
          (match3 ? "OK" : "ERROR"),
          (match2 ? "OK" : "ERROR"));
 
-      PrintHand(line, dl.remainCards);
+      PrintHand(line, dl);
 
       sprintf(line, "solutions == 3 leads %s, trumps: %s\n",  haPlayerToStr(dl.first), haTrumpToStr(dl.trump) );
       PrintFut(line, &fut3);
@@ -281,7 +281,7 @@ void sample_main_PlayBin()
       sprintf(line, "AnalysePlayBin, hand %d: %s\n",
          handno + 1, (match ? "OK" : "ERROR"));
 
-      PrintHand(line, dl.remainCards);
+      PrintHand(line, dl);
 
       PrintBinPlay(&DDplay, &solved);
    }

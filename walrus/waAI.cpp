@@ -63,12 +63,12 @@ void HandleErrorDDS(deal &cards, int res)
 {
    char line[80];
    sprintf(line, "Problem hand on solve: leads %s, trumps: %s\n", haPlayerToStr(cards.first), haTrumpToStr(cards.trump));
-   PrintHand(line, cards.remainCards);
+   PrintHand(line, cards);
    ErrorMessage(res, line);
    printf("DDS error: %s\n", line);
 }
 
-uint WaCalcHCP(const deal& dl)
+uint WaCalcHCP(const deal& dl, uint* ctrl /*= nullptr*/)
 {
    // not a complex task, knowing that
    // #define RJ     0x0800
@@ -84,6 +84,12 @@ uint WaCalcHCP(const deal& dl)
       (((cards[SOUTH][SOL_CLUBS   ] | cards[NORTH][SOL_CLUBS   ]) & facecards) << (1))
    );
    twlHCP hcp(reducedHand);
+
+   if (ctrl) {
+      twlControls onRed(reducedHand);
+      *ctrl = onRed.total;
+   }
+
    return hcp.total;
 }
 
@@ -129,7 +135,7 @@ DdsDeal::DdsDeal(const deal &dlBase, DdsTask2 &task)
 
    // debug
    #ifdef DBG_SHOW_BOARD_ON_CONSTRUCTION
-      PrintHand("A board: \n", dl.remainCards);
+      PrintHand("A board: \n", dl);
       PLATFORM_GETCH();
    #endif 
 }
@@ -173,7 +179,7 @@ void DdsDeal::Solve(uint handno)
 
    // inspect
    if (needInspect) {
-      PrintHand("ONE-BY-ONE solving\n", dl.remainCards);
+      PrintHand("ONE-BY-ONE solving\n", dl);
       PrintFut("", &fut);
       auto inchar = PLATFORM_GETCH();
       if (inchar != ' ') {
@@ -227,7 +233,7 @@ void Walrus::DisplayBoard(twContext* lay)
 {
    DdsDeal wad(lay);
 
-   PrintHand("A board: \n", wad.dl.remainCards);
+   PrintHand("A board: \n", wad.dl);
    PLATFORM_GETCH();
 }
 

@@ -100,5 +100,4 @@ struct DdsTricks
 };
 
 void HandleErrorDDS(struct deal &dl, int res);
-uint WaCalcHCP(const deal& dl);
 
