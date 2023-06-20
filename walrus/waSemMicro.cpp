@@ -375,3 +375,36 @@ uint WaFilter::No2SuitsMinors(twContext* lay, const uint* par)
    return MIC_PASSED;
 }
 
+uint WaFilter::LineAcesRange(twContext* lay, const uint* par)
+{
+   // aces only
+   u64 kc_mask = 0x8000800080008000LL;
+   return LineKeyCardsRange(lay, par, kc_mask);
+}
+
+uint WaFilter::LineKeyCardsRange(twContext* lay, const uint* par, u64 kc_mask)
+{
+   auto seat     = par[0];
+   auto seatPart = par[1];
+
+   // combine the line keycards
+   u64 line = lay[seat    ].hand.card.jo +
+              lay[seatPart].hand.card.jo;
+   u64 keycards = (line & kc_mask) >> (12 + 2);
+
+   // sum bits
+   auto keysum =  (keycards & 0x0001000100010001LL) + 
+                 ((keycards & 0x0002000200020002LL) >> 1);
+   auto sum = ((keysum & 0x000F000000000000LL) >> (16*3)) +
+              ((keysum & 0x0000000F00000000LL) >> (16*2)) +
+              ((keysum & 0x00000000000F0000LL) >> (16  )) +
+              ((keysum & 0x000000000000000FLL));
+
+   // require in range
+   if (par[2] <= sum && sum <= par[3]) {
+      return MIC_PASSED;
+   }
+
+   return MIC_BLOCK;
+}
+

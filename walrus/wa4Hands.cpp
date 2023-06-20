@@ -237,6 +237,51 @@ void Walrus::FillSemantic(void)
 }
 #endif // SEMANTIC_SPLINTER_SHAPE
 
+#ifdef SEMANTIC_STANDARD_3NT
+void Walrus::FillSemantic(void)
+{
+   sem.fillFlipover = &Shuffler::FillFO_MaxDeck;
+   sem.onShareStart = &Walrus::AllocFilteredTasksBuf;
+   sem.onScanCenter = &Walrus::Scan4Hands;
+   sem.onScoring = &Walrus::Score_3NT;
+   sem.onPostmortem = &Walrus::PostmortemHCP;
+   sem.onAfterMath = &Walrus::SolveSavedTasks;
+   sem.scanCover = SYMM * PERMUTE_FACTOR;
+   sem.vecFilters.clear();
+   ADD_4PAR_FILTER(NORTH, ModelShape, 3, 3, 3, 4);
+   ADD_4PAR_FILTER(SOUTH, ModelShape, 3, 3, 4, 3);
+   ADD_3PAR_FILTER(NORTH, LinePointsRange, SOUTH, IO_HCP_MIN, IO_HCP_MAX);
+   ADD_1PAR_FILTER(NORTH, PointsAtLeast, 10);
+   ADD_1PAR_FILTER(SOUTH, PointsAtLeast, 10);
+   ADD_1PAR_FILTER(NORTH, NoMajorFit, SOUTH);
+
+   //sem.onBoardAdded = &Walrus::DisplayBoard;
+}
+#endif // SEMANTIC_STANDARD_3NT
+
+#ifdef SEMANTIC_STANDARD_6NT
+void Walrus::FillSemantic(void)
+{
+   sem.fillFlipover = &Shuffler::FillFO_MaxDeck;
+   sem.onShareStart = &Walrus::AllocFilteredTasksBuf;
+   sem.onScanCenter = &Walrus::Scan4Hands;
+   sem.onScoring = &Walrus::Score_NV6NoTrump;
+   sem.onPostmortem = &Walrus::PostmortemHCP;
+   sem.onAfterMath = &Walrus::SolveSavedTasks;
+   sem.scanCover = SYMM * PERMUTE_FACTOR;
+   sem.vecFilters.clear();
+   ADD_4PAR_FILTER(NORTH, ModelShape, 3, 3, 3, 4);
+   ADD_4PAR_FILTER(SOUTH, ModelShape, 3, 3, 4, 3);
+   ADD_3PAR_FILTER(NORTH, LinePointsRange, SOUTH, IO_HCP_MIN, IO_HCP_MAX);
+   ADD_1PAR_FILTER(NORTH, PointsAtLeast, 10);
+   ADD_1PAR_FILTER(SOUTH, PointsAtLeast, 10);
+   ADD_1PAR_FILTER(NORTH, NoMajorFit, SOUTH);
+   ADD_3PAR_FILTER(NORTH, LineAcesRange, SOUTH, 3, 4);
+
+   //sem.onBoardAdded = &Walrus::DisplayBoard;
+}
+#endif // SEMANTIC_STANDARD_6NT
+
 #ifdef SEMANTIC_CONFIG_BASED
 void Walrus::FillSemantic(void)
 {

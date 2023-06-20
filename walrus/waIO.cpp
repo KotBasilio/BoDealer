@@ -30,6 +30,7 @@ Walrus::MiniUI::MiniUI()
    : exitRequested(false)
    , reportRequested(false)
    , firstAutoShow(true)
+   , minControls(0)
    , irGoal(0)
    , irBase(0)
    , irFly(0)
@@ -72,6 +73,10 @@ Walrus::MiniUI::MiniUI()
       sprintf(miniRowStart[IO_ROW_THEIRS + 2], "less, =, more: ");
    }
    #endif // SHOW_MY_FLY_RESULTS
+
+   #ifdef IO_DISPLAY_CONTROLS_SPLIT
+      minControls = (IO_HCP_MIN * 4) / 10 - 5;
+   #endif
 }
 
 void waFileNames::Build()
@@ -316,7 +321,12 @@ void Walrus::ShowOptionalReports(void)
 
 #ifdef IO_ROW_HCP_START
    if (ui.reportRequested) {
-      ShowHichcardsDetailedReport();
+      ui.reportRequested = false;
+      if (ui.minControls) {
+         ShowDetailedReportControls();
+      } else {
+         ShowDetailedReportHighcards();
+      }
    }
 #endif // IO_ROW_HCP_START
 }
@@ -448,9 +458,8 @@ void Walrus::ReportLine(ucell sumline, int i)
    #endif
 }
 
-void Walrus::ShowHichcardsDetailedReport()
+void Walrus::ShowDetailedReportHighcards()
 {
-   ui.reportRequested = false;
    DetectFarColumn();
 
    // for mid-rows
@@ -487,6 +496,44 @@ void Walrus::ShowHichcardsDetailedReport()
    }
 
    //PLATFORM_GETCH();
+}
+
+void Walrus::ShowDetailedReportControls()
+{
+   DetectFarColumn();
+
+   // for mid-rows
+   u64 prevSum = 0;
+   for (int i = IO_ROW_HCP_START; i < IO_ROW_FILTERING - 1; i++) {
+      // calc ctrl for this row (row = start + (ctr - min) * 2)
+      auto ctr = (i - IO_ROW_HCP_START) / 2 + ui.minControls;
+      if (ctr > 12) {
+         break;
+      }
+
+      // ok start printing
+      bool down = (bool)(i & 1);
+      printf(down ? "(c %2d down): " : "(c %2d make): ", ctr);
+
+      // calc and print one line
+      // -- its body
+      u64 sumline = 0;
+      int j = 0;
+      for (; j <= ui.farCol; j++) {
+         printf(fmtCell, progress.hitsCount[i][j]);
+         sumline += progress.hitsCount[i][j];
+      }
+      // -- its sum
+      printf("   : ");
+      printf(fmtCell, sumline);
+      // -- percentage
+      if (sumline && !down) {
+         printf("  --> %2llu %%", sumline * 100 / (sumline + prevSum));
+      }
+      printf("\n");
+
+      prevSum = sumline;
+   }
 }
 
 

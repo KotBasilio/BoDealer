@@ -56,7 +56,9 @@
 
 // 4 hands tasks:
 //#define SEMANTIC_SPLINTER_SHAPE
-#define SEMANTIC_CONFIG_BASED
+//#define SEMANTIC_STANDARD_3NT
+#define SEMANTIC_STANDARD_6NT
+//#define SEMANTIC_CONFIG_BASED
 
 // -----------------------------------------------------------------
 // task descriptions

@@ -196,12 +196,22 @@ void Walrus::Score_NV6NoTrump(DdsTricks &tr)
 
 void Walrus::PostmortemHCP(DdsTricks& tr, deal& cards)
 {
-   auto hcp = WaCalcHCP(cards);
-   if (hcp < IO_HCP_MIN || IO_HCP_MAX < hcp) {
+   // ensure we include this in stat
+   uint row = 0;
+   uint ctrl;
+   auto hcp = WaCalcHCP(cards, ctrl);
+   if (ui.minControls) {
+      if (ctrl < (uint)ui.minControls) {
+         row = IO_ROW_HCP_START;
+      } else {
+         row = IO_ROW_HCP_START + (ctrl - ui.minControls) * 2;
+      }
+   } else if (hcp < IO_HCP_MIN || IO_HCP_MAX < hcp) {
       return;
+   } else {
+      row = IO_ROW_HCP_START + (hcp - IO_HCP_MIN) * 2;
    }
 
-   auto row = IO_ROW_HCP_START + (hcp - IO_HCP_MIN) * 2;
    if (row < IO_ROW_FILTERING - 1) {
       HitByScore(tr, ui.irBase, row);
       progress.countExtraMarks++;

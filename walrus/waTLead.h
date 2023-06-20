@@ -74,6 +74,36 @@
    // #define IO_HCP_MAX  27
 #endif // SEMANTIC_SPLINTER_SHAPE
 
+#ifdef SEMANTIC_STANDARD_3NT
+   #define TITLE_VERSION  "No bidding. 3NT on points. Ver 3.0 "
+   #define IO_NEED_FULL_TABLE
+   #define FOUR_HANDS_TASK
+   #define STUB_DUMMY_HOLDINGS
+   #define INPUT_TRUMPS    SOL_NOTRUMP
+   #define IO_SHIFT_FOR_EXTRA_MARKS  21
+   #define IO_ROW_SELECTED  (11 + IO_SHIFT_FOR_EXTRA_MARKS)
+   #define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
+   #define IO_ROW_HCP_START 3
+   #define IO_HCP_MIN  23
+   #define IO_HCP_MAX  32
+#endif // SEMANTIC_STANDARD_3NT
+
+#ifdef SEMANTIC_STANDARD_6NT
+   #define TITLE_VERSION  "No bidding. 6NT on points. Ver 3.0 "
+   #define IO_NEED_FULL_TABLE
+   #define FOUR_HANDS_TASK
+   #define STUB_DUMMY_HOLDINGS
+   #define INPUT_TRUMPS    SOL_NOTRUMP
+   #define IO_SHIFT_FOR_EXTRA_MARKS  21
+   #define IO_ROW_SELECTED  (11 + IO_SHIFT_FOR_EXTRA_MARKS)
+   #define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
+   #define IO_ROW_HCP_START 3
+   #define IO_HCP_MIN  31
+   #define IO_HCP_MAX  33
+#endif // SEMANTIC_STANDARD_6NT
+
+
+
 #ifdef SEMANTIC_CONFIG_BASED
    #define TITLE_VERSION  "Config-based task. Ver 3.0 "
    #define IO_NEED_FULL_TABLE

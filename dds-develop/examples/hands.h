@@ -47,7 +47,7 @@ void PrintPBNPlay(playTracePBN * play, solvedPlay * solved);
 
 
 void PrintHand(char title[], const deal& dl);
-uint WaCalcHCP(const deal& dl, uint* ctrl = nullptr);
+uint WaCalcHCP(const deal& dl, uint &ctrl);
 
 void PrintPBNHand(char title[], char remainCards[]);
 

@@ -105,8 +105,9 @@ public:
    uint PointsAtLeast(twContext* lay, const uint *par);
    // -
    uint ControlsRange(twContext* lay, const uint *par);
-   uint LineControlsRange(twContext* lay, const uint *par);
-   uint LineKeyCardsSpade(twContext* lay, const uint *par);
+   uint LineControlsRange(twContext* lay, const uint* par);
+   uint LineAcesRange(twContext* lay, const uint* par);
+   uint LineKeyCardsSpade(twContext* lay, const uint* par);
    uint LinePointsRange(twContext* lay, const uint *par);
    // -
    uint ClubPointsLimit(twContext* lay, const uint *par);
@@ -129,6 +130,7 @@ public:
    uint No2SuitsMinors(twContext* lay, const uint *par);
 private:
    Progress *progress;
+   uint LineKeyCardsRange(twContext* lay, const uint* par, u64 kc_mask);
 };
 
 #include "WaSemMicro.h"

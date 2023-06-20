@@ -67,7 +67,7 @@ protected:
     void DoIteration();
     void ShowLiveSigns();
     ucell Remains() const { return (mul.countIterations < mul.countShare) ? mul.countShare - mul.countIterations : 0; }
-    uint Gathered() const { return mul.countToSolve; }
+    uint Gathered() const { return mul.Gathered(); }
     void CoWork(Walrus * other);
     void Supervise(void);
     void MergeResults(Walrus *other);
@@ -120,6 +120,7 @@ protected:
        bool  exitRequested;
        bool  reportRequested;
        bool  firstAutoShow;
+       int   minControls;
        int   irGoal, irBase, irFly;
        int   farCol;
        char  declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10];
@@ -134,7 +135,8 @@ protected:
     void ShowPercentages(ucell sumRows);
     void ShowBiddingLevel(ucell sumRows);
     void ShowOptionalReports();
-    void ShowHichcardsDetailedReport();
+    void ShowDetailedReportHighcards();
+    void ShowDetailedReportControls();
     void ReportDepFilteringResults();
     void ReportMiniFilteringResults();
     void CalcHitsForMiniReport(ucell* hitsRow, ucell* hitsCamp);

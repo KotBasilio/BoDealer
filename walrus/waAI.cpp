@@ -68,7 +68,7 @@ void HandleErrorDDS(deal &cards, int res)
    printf("DDS error: %s\n", line);
 }
 
-uint WaCalcHCP(const deal& dl, uint* ctrl /*= nullptr*/)
+uint WaCalcHCP(const deal& dl, uint& ctrl)
 {
    // not a complex task, knowing that
    // #define RJ     0x0800
@@ -84,11 +84,8 @@ uint WaCalcHCP(const deal& dl, uint* ctrl /*= nullptr*/)
       (((cards[SOUTH][SOL_CLUBS   ] | cards[NORTH][SOL_CLUBS   ]) & facecards) << (1))
    );
    twlHCP hcp(reducedHand);
-
-   if (ctrl) {
-      twlControls onRed(reducedHand);
-      *ctrl = onRed.total;
-   }
+   twlControls onRed(reducedHand);
+   ctrl = onRed.total;
 
    return hcp.total;
 }
@@ -295,7 +292,7 @@ void Progress::Up(ucell idx)
 void Walrus::ShowProgress(ucell idx)
 {
    // do reports
-   if (progress.Step()) {
+   if (progress.Step() || ui.reportRequested) {
       MiniReport(mul.countToSolve - idx);
       progress.Up(idx);
    } else {
@@ -609,15 +606,8 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
 void Walrus::ShowLiveSigns()
 {
    if (mul.ShowLiveSigns(sem.scanCover)) {
-      // got enough => sign out to stop
-      uint acc = Gathered() + mul.hA->Gathered() + mul.hB->Gathered();
-      if (acc > AIM_TASKS_COUNT) {
-         mul.countShare = mul.countIterations;
-         printf("found.");
-         return;
-      }
-
       // show accumulation progress
+      uint acc = Gathered() + mul.hA->Gathered() + mul.hB->Gathered();
       printf("%d", acc / 1000);
 
       // consider extension of the search unless we're 95% close

@@ -252,11 +252,27 @@ bool WaMulti::ShowLiveSigns(uint oneCover)
       return false;
    }
 
+   // got enough => sign out to stop
+   uint acc = Gathered() + hA->Gathered() + hB->Gathered();
+   if (acc > AIM_TASKS_COUNT) {
+      printf("found.");
+      countShare = countIterations;
+      if (hA->mul.isRunning) {
+         hA->SignOutChunk();
+      }
+      if (hB->mul.isRunning) {
+         hB->SignOutChunk();
+      }
+      return false;
+   }
+
+   // wait
    if (countShowLiveSign > oneCover) {
       countShowLiveSign -= oneCover;
       return false;
    }
 
+   // reset and show
    countShowLiveSign = LIVE_SIGN;
    return true;
 }

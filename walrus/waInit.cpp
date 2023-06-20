@@ -200,7 +200,7 @@ void Walrus::SolveSavedTasks()
 
    // how much filtered out
    u64 sum = 0;
-   for (int i = 0; i < 40 ; i++) {
+   for (int i = 0; i < HCP_SIZE; i++) {
       sum += progress.hitsCount[i][1] + progress.hitsCount[i][2] + progress.hitsCount[i][3];
       sum += progress.hitsCount[i][4] + progress.hitsCount[i][5] + progress.hitsCount[i][6];
    }

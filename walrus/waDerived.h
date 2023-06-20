@@ -61,6 +61,12 @@
    #define FIXED_HAND_NORTH
 #endif
 
+#ifdef IO_HCP_MIN
+   #if IO_HCP_MIN == IO_HCP_MAX
+      #define  IO_DISPLAY_CONTROLS_SPLIT
+   #endif
+#endif
+
 // -----------------------------------------------------------------
 // how to filter (personal opinions)
 //#define OPINION_BASHA
@@ -101,38 +107,35 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
 // -----------------------------------------------------------------
 // --- Iterations count
 typedef u64 ucell;
-constexpr ucell ClipByTenPercent(ucell lim, ucell a)
-{
-   return (a < lim / 10) ? a : lim / 10;
-}
-
-#ifdef _DE__BUG
-   const ucell MAX_ITERATION = 20*1000000;// 20 mln 
-   //const ucell MAX_ITERATION = 5000000;// 5 mln 
-   //const ucell MAX_ITERATION = 1000000;// 1 mln 
-   //const ucell MAX_ITERATION = 100000;// 0.1 mln
-   //const ucell MAX_ITERATION = 3000;
-   const ucell MAX_TASKS_TO_SOLVE = 10240;
-   //const ucell MAX_TASKS_TO_SOLVE = 20240;
-   #define SKIP_HELPERS
+#ifdef _DEBUG
+   const ucell WALRUS_PERF_FRACTION = 2000;
+   //#define SKIP_HELPERS
    //#define SOLVE_ONE_BY_ONE
 #else
-   //const ucell MAX_ITERATION              = 6001000000LL;// 6 mlrd (u64)
-   //const ucell MAX_ITERATION = 4001000000;// 4 mlrd + 1 millon gratis
-   //const ucell MAX_ITERATION = 3001000000;// 3 mlrd + 1 millon gratis
-   const ucell MAX_ITERATION = 2001000000;// 2 mlrd + 1 millon gratis
-   //const ucell MAX_ITERATION = 1001000000;// 1 mlrd + 1 millon gratis
-   //const ucell MAX_ITERATION = 501000000;// a half of mlrd
-   //const ucell MAX_ITERATION = 333000000;// a third of mlrd
-   //const ucell MAX_ITERATION = 251000000;// a quarter of mlrd
-   //const ucell MAX_ITERATION = 101000000;// 101 mln
-   //const ucell MAX_ITERATION = 12000000;// 12 mln
-
-   const uint MAX_TASKS_TO_SOLVE = 200*1000;
+   const ucell WALRUS_PERF_FRACTION = 10;
 #endif
-const uint AIM_TASKS_COUNT = 100*1000;
+
+//const ucell MAX_ITERATION = 6001000000LL;// 6 mlrd (u64)
+const ucell MAX_ITERATION = 3001000000;// 3 mlrd 
+//const ucell MAX_ITERATION = 501000000;// a half of mlrd
+//const ucell MAX_ITERATION = 333000000;// a third of mlrd
+//const ucell MAX_ITERATION = 251000000;// a quarter of mlrd
+//const ucell MAX_ITERATION = 101000000;// 101 mln
+//const ucell MAX_ITERATION = 20 * 1000000;// 20 mln 
+//const ucell MAX_ITERATION = 5000000;// 5 mln 
+//const ucell MAX_ITERATION = 1000000;// 1 mln 
+//const ucell MAX_ITERATION = 100000;// 0.1 mln
+//const ucell MAX_ITERATION = 3000;
+
+const uint MAX_TASKS_TO_SOLVE = 200 * 1000;
+const uint AIM_TASKS_COUNT = MAX_TASKS_TO_SOLVE / 2;
+//const uint AIM_TASKS_COUNT = 40 * 1000;
 //const uint AIM_TASKS_COUNT = 20*1000;
 //const uint AIM_TASKS_COUNT = 5*1000;
 //const uint AIM_TASKS_COUNT = 2*1000;
 
-const ucell ADDITION_STEP_ITERATIONS = ClipByTenPercent(MAX_ITERATION, 501000000);// a half of mlrd
+constexpr ucell ClipByPerformance(ucell lim, ucell a)
+{
+   return (a < lim / WALRUS_PERF_FRACTION) ? a : lim / WALRUS_PERF_FRACTION;
+}
+const ucell ADDITION_STEP_ITERATIONS = ClipByPerformance(MAX_ITERATION, 501000000);
