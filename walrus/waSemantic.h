@@ -120,7 +120,7 @@ public:
    // -
    uint SpadesLen(twContext* lay, const uint *par);
    uint HeartsLen(twContext* lay, const uint *par);
-   uint DiamLen(twContext* lay, const uint *par);
+   uint DiamondsLen(twContext* lay, const uint *par);
    uint ClubsLen(twContext* lay, const uint *par);
    // -
    uint NoOvercall(twContext* lay, const uint *par);

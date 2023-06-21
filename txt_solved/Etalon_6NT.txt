@@ -1,0 +1,150 @@
+   ADD_4PAR_FILTER(NORTH, ModelShape, 3, 3, 3, 4);
+   ADD_4PAR_FILTER(SOUTH, ModelShape, 3, 3, 4, 3);
+   ADD_3PAR_FILTER(NORTH, LinePointsRange, SOUTH, 31, 33);
+   ADD_1PAR_FILTER(NORTH, NoMajorFit, SOUTH);
+   ADD_1PAR_FILTER(NORTH, PointsAtLeast, 10);
+   ADD_1PAR_FILTER(SOUTH, PointsAtLeast, 10);
+   ADD_3PAR_FILTER(NORTH, LineAcesRange, SOUTH, 3, 4);
+
+    :  HITS COUNT   :
+       (down):    33540,    5758,     690,     343,      84,      20,       4,       0,       40439
+       (make):    49666,    9903,       0,       0,       0,       0,       0,       0,       59569
+Processed: 100008 total. East is on lead. Goal is 12 tricks in notrump.
+Averages: ideal = 774, bidGame = 476, slam=568
+Chances: 40.4% down some + 59.6% make
+(p 31 down):    21661,    4730,     579,     294,      62,      16,       4,   :    27346,
+(p 31 make):    20939,    2653,       0,       0,       0,       0,       0,   :    23592,  --> 46 %
+(p 32 down):     9258,     933,      98,      39,      20,       4,       0,   :    10352,
+(p 32 make):    17296,    3406,       0,       0,       0,       0,       0,   :    20702,  --> 66 %
+(p 33 down):     2621,      95,      13,      10,       2,       0,       0,   :     2741,
+(p 33 make):    11431,    3844,       0,       0,       0,       0,       0,   :    15275,  --> 84 %
+The search took 1.5 + an aftermath 1453.7 sec.
+----------------------------------------------------------------------------------
+
+   ADD_4PAR_FILTER(NORTH, ModelShape, 3, 3, 3, 4);
+   ADD_4PAR_FILTER(SOUTH, ModelShape, 3, 3, 4, 3);
+   ADD_3PAR_FILTER(NORTH, LinePointsRange, SOUTH, 31, 31);
+   ADD_1PAR_FILTER(NORTH, NoMajorFit, SOUTH);
+   ADD_1PAR_FILTER(NORTH, PointsAtLeast, 10);
+   ADD_1PAR_FILTER(SOUTH, PointsAtLeast, 10);
+   ADD_2PAR_FILTER(SOUTH, DiamondsLen, 5, 5);
+
+    :  HITS COUNT   :
+       (down):    31177,    5054,     997,     773,     248,      60,       2,       0,       38311
+       (make):    50870,   10823,       0,       0,       0,       0,       0,       0,       61693
+Processed: 100004 total. East is on lead. Goal is 12 tricks in notrump.
+Averages: ideal = 782, bidGame = 473, slam=589
+Chances: 38.3% down some + 61.7% make
+(c  7 down):        0,       0,       0,       0,       0,       0,       0,   :        0,
+(c  7 make):        0,       0,       0,       0,       0,       0,       0,   :        0,
+(c  8 down):        0,       0,       0,       0,       0,       0,       0,   :        0,
+(c  8 make):        0,       0,       0,       0,       0,       0,       0,   :        0,
+(c  9 down):     9475,    1582,     578,     564,     171,      40,       2,   :    12412,
+(c  9 make):     6514,      62,       0,       0,       0,       0,       0,   :     6576,  --> 34 %
+(c 10 down):    12588,    2169,     317,     207,      77,      20,       0,   :    15378,
+(c 10 make):    24675,    2731,       0,       0,       0,       0,       0,   :    27406,  --> 64 %
+(c 11 down):     8139,    1188,      99,       2,       0,       0,       0,   :     9428,
+(c 11 make):    16911,    6883,       0,       0,       0,       0,       0,   :    23794,  --> 71 %
+(c 12 down):      975,     115,       3,       0,       0,       0,       0,   :     1093,
+(c 12 make):     2770,    1147,       0,       0,       0,       0,       0,   :     3917,  --> 78 %
+The search took 17.2 + an aftermath 1049.5 sec.
+
+----------------------------------------------------------------------------------
+no 5 minor, 31 HCP
+
+    :  HITS COUNT   :
+       (down):    47349,   11646,    1201,     470,     122,      41,       2,       0,       60831
+       (make):    36277,    2896,       0,       0,       0,       0,       0,       0,       39173
+Processed: 100004 total. East is on lead. Goal is 12 tricks in notrump.
+Averages: ideal = 660, bidGame = 465, slam=350
+Chances: 60.8% down some + 39.2% make
+(c  8 down):        0,       0,       0,       0,       0,       0,       0,   :        0,
+(c  8 make):        0,       0,       0,       0,       0,       0,       0,   :        0,
+(c  9 down):    11405,    2389,     624,     342,      79,      37,       0,   :    14876,
+(c  9 make):     4164,      22,       0,       0,       0,       0,       0,   :     4186,  --> 21 %
+(c 10 down):    19021,    4936,     411,     123,      43,       4,       2,   :    24540,
+(c 10 make):    17037,     845,       0,       0,       0,       0,       0,   :    17882,  --> 42 %
+(c 11 down):    14634,    3777,     150,       5,       0,       0,       0,   :    18566,
+(c 11 make):    13052,    1752,       0,       0,       0,       0,       0,   :    14804,  --> 44 %
+(c 12 down):     2289,     544,      16,       0,       0,       0,       0,   :     2849,
+(c 12 make):     2024,     277,       0,       0,       0,       0,       0,   :     2301,  --> 44 %
+The search took 4.3 sec + an aftermath 30 min 3 sec.
+
+----------------------------------------------------------------------------------
+no 5 minor, 32 HCP
+
+    :  HITS COUNT   :
+       (down):    35412,    3606,     284,     166,      60,      19,       0,       39547
+       (make):    53434,    7021,       0,       0,       0,       0,       0,       60455
+Processed: 100002 total. East is on lead. Goal is 12 tricks in notrump.
+Averages: ideal = 779, bidGame = 477, slam=578
+Chances: 39.5% down some + 60.5% make
+(c  8 down):        0,       0,       0,       0,       0,       0,   :        0,
+(c  8 make):        0,       0,       0,       0,       0,       0,   :        0,
+(c  9 down):     5546,     383,     117,     100,      37,      10,   :     6193,
+(c  9 make):     2889,       0,       0,       0,       0,       0,   :     2889,  --> 31 %
+(c 10 down):    13570,    1420,     144,      66,      23,       9,   :    15232,
+(c 10 make):    21828,    1128,       0,       0,       0,       0,   :    22956,  --> 60 %
+(c 11 down):    13138,    1522,      23,       0,       0,       0,   :    14683,
+(c 11 make):    22523,    4370,       0,       0,       0,       0,   :    26893,  --> 64 %
+(c 12 down):     3158,     281,       0,       0,       0,       0,   :     3439,
+(c 12 make):     6194,    1523,       0,       0,       0,       0,   :     7717,  --> 69 %
+The search took 6.9 sec + an aftermath 25 min 42 sec.
+-----------------------------------------------------------------------
+have 5minor, 32HCP
+
+    :  HITS COUNT   :
+       (down):    17762,    1557,     269,     267,     129,      29,       8,       0,       20021
+       (make):    59557,   20424,       0,       0,       0,       0,       0,       0,       79981
+Processed: 100002 total. East is on lead. Goal is 12 tricks in notrump.
+Averages: ideal = 887, bidGame = 487, slam=786
+Chances: 20.0% down some + 80.0% make
+(c  8 down):        0,       0,       0,       0,       0,       0,       0,   :        0,
+(c  8 make):        0,       0,       0,       0,       0,       0,       0,   :        0,
+(c  9 down):     4355,     330,     128,     156,      75,      18,       6,   :     5068,
+(c  9 make):     4172,       0,       0,       0,       0,       0,       0,   :     4172,  --> 45 %
+(c 10 down):     6907,     695,     115,     110,      54,      11,       2,   :     7894,
+(c 10 make):    27676,    2720,       0,       0,       0,       0,       0,   :    30396,  --> 79 %
+(c 11 down):     5431,     470,      24,       1,       0,       0,       0,   :     5926,
+(c 11 make):    22353,   13617,       0,       0,       0,       0,       0,   :    35970,  --> 85 %
+(c 12 down):     1069,      62,       2,       0,       0,       0,       0,   :     1133,
+(c 12 make):     5356,    4087,       0,       0,       0,       0,       0,   :     9443,  --> 89 %
+The search took 27.4 sec + an aftermath 13 min 48 sec.
+
+-----------------------------------------------------------------------
+have 5minor, 33HCP
+
+    :  HITS COUNT   :
+       (down):     6944,     319,      52,      84,      42,       7,       1,       0,        7449
+       (make):    57630,   34923,       0,       0,       0,       0,       0,       0,       92553
+Processed: 100002 total. East is on lead. Goal is 12 tricks in notrump.
+Averages: ideal = 960, bidGame = 497, slam=922
+Chances: 7.4% down some + 92.6% make
+(c  9 down):      990,      25,      10,      29,      22,       4,       0,   :     1080,
+(c  9 make):     1259,       1,       0,       0,       0,       0,       0,   :     1260,  --> 53 %
+(c 10 down):     2600,     125,      36,      55,      20,       3,       1,   :     2840,
+(c 10 make):    24545,    2143,       0,       0,       0,       0,       0,   :    26688,  --> 90 %
+(c 11 down):     2659,     153,       4,       0,       0,       0,       0,   :     2816,
+(c 11 make):    22884,   21198,       0,       0,       0,       0,       0,   :    44082,  --> 93 %
+(c 12 down):      695,      16,       2,       0,       0,       0,       0,   :      713,
+(c 12 make):     8942,   11581,       0,       0,       0,       0,       0,   :    20523,  --> 96 %
+The search took 49.6 sec + an aftermath 11 min 59 sec.
+
+-----------------------------------------------------------------------
+no 5minor, 33HCP
+
+    :  HITS COUNT   :
+       (down):    18722,     736,      42,      40,      22,       0,       0,       19562
+       (make):    64652,   15790,       0,       0,       0,       0,       0,       80442
+Processed: 100004 total. East is on lead. Goal is 12 tricks in notrump.
+Averages: ideal = 890, bidGame = 488, slam=790
+Chances: 19.6% down some + 80.4% make
+(c  9 down):     1432,      15,      11,      16,      10,   :     1484,
+(c  9 make):     1024,       0,       0,       0,       0,   :     1024,  --> 40 %
+(c 10 down):     6360,     276,      28,      24,      12,   :     6700,
+(c 10 make):    22220,    1072,       0,       0,       0,   :    23292,  --> 77 %
+(c 11 down):     7830,     369,       2,       0,       0,   :     8201,
+(c 11 make):    28619,    8736,       0,       0,       0,   :    37355,  --> 81 %
+(c 12 down):     3100,      76,       1,       0,       0,   :     3177,
+(c 12 make):    12789,    5982,       0,       0,       0,   :    18771,  --> 85 %
+The search took 11.8 sec + an aftermath 20 min 55 sec.

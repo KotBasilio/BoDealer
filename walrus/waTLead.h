@@ -98,7 +98,7 @@
    #define IO_ROW_SELECTED  (11 + IO_SHIFT_FOR_EXTRA_MARKS)
    #define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
    #define IO_ROW_HCP_START 3
-   #define IO_HCP_MIN  31
+   #define IO_HCP_MIN  33
    #define IO_HCP_MAX  33
 #endif // SEMANTIC_STANDARD_6NT
 

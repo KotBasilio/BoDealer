@@ -195,6 +195,7 @@
     <ClInclude Include="..\..\walrus\waAI.h" />
     <ClInclude Include="..\..\walrus\waCrossPlatform.h" />
     <ClInclude Include="..\..\walrus\waDerived.h" />
+    <ClInclude Include="..\..\walrus\waIO.h" />
     <ClInclude Include="..\..\walrus\waLayout.h" />
     <ClInclude Include="..\..\walrus\walrus.h" />
     <ClInclude Include="..\..\walrus\waMulti.h" />

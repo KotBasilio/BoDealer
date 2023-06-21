@@ -9,6 +9,7 @@
 #include "waScore.h"
 #include "waSemantic.h"
 #include "waMulti.h"
+#include "waIO.h"
 
 // The main class -- named after Walter the Walrus, whose expertise in and devotion to 
 // the Work point count are matched only by the utter mess he makes of bidding and play (c)

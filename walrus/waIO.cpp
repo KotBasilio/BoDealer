@@ -75,7 +75,7 @@ Walrus::MiniUI::MiniUI()
    #endif // SHOW_MY_FLY_RESULTS
 
    #ifdef IO_DISPLAY_CONTROLS_SPLIT
-      minControls = (IO_HCP_MIN * 4) / 10 - 5;
+      minControls = (IO_HCP_MIN * 4) / 10 - 4;
    #endif
 }
 
@@ -337,6 +337,28 @@ void Walrus::ShowOptionalReports(void)
    #define OUT_BIG_TABLE(fmt, par)   
 #endif // IO_NEED_FULL_TABLE
 
+static void ReportTime(u64 delta1, u64 delta2)
+{
+   if (!delta2) {
+      printf("The search is done in %llu.%llu sec.\n"
+         , delta1 / 1000, (delta1 % 1000) / 100);
+      return;
+   }
+
+   u64 seconds = delta2 / 1000;
+   if (seconds < 100) {
+      printf("The search took %llu.%llu sec + an aftermath %llu.%llu sec.\n"
+         , delta1 / 1000, (delta1 % 1000) / 100
+         , seconds, (delta2 % 1000) / 100);
+      return;
+   }
+
+   u64 minutes = seconds / 60;
+   printf("The search took %llu.%llu sec + an aftermath %llu min %llu sec.\n"
+      , delta1 / 1000, (delta1 % 1000) / 100
+      , minutes, seconds - minutes * 60);
+}
+
 void Walrus::ReportState()
 {
    if (progress.delta2 > 0) {
@@ -383,13 +405,9 @@ void Walrus::ReportState(char* header)
       printf("\n--------------------------------\n");
       ui.reportRequested = true;
       MiniReport(0);
-      printf("The search took %llu.%llu + an aftermath %llu.%llu sec.\n"
-         , delta1 / 1000, (delta1 % 1000) / 100
-         , delta2 / 1000, (delta2 % 1000) / 100);
    } else {
-      printf("The search is done in %llu.%llu sec.\n"
-         , delta1 / 1000, (delta1 % 1000) / 100);
    }
+   ReportTime(delta1, delta2);
 }
 
 void Walrus::DetectFarColumn()

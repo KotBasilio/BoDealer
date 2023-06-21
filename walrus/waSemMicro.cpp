@@ -91,7 +91,7 @@ uint WaFilter::HeartsLen(twContext* lay, const uint* par)
    return MIC_BLOCK;
 }
 
-uint WaFilter::DiamLen(twContext* lay, const uint* par)
+uint WaFilter::DiamondsLen(twContext* lay, const uint* par)
 {
    ACCESS_MICPAR_LEN;
 
