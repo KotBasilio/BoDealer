@@ -247,8 +247,9 @@ void Walrus::ShowPercentages(ucell sumRows)
    printf("Chances: %3.1f%% down some + %3.1f%% make\n", percGoDown, percMake);
 }
 
-void Walrus::ShowBiddingLevel(ucell sumRows)
+void Walrus::ShowBiddingLevel(ucell sumRowsUns)
 {
+   s64 sumRows = (s64)(sumRowsUns);
    #if defined(SEEK_BIDDING_LEVEL) || defined(FOUR_HANDS_TASK)
       // slam/game/partscore
       if (ui.irBase < 12) {
@@ -553,5 +554,4 @@ void Walrus::ShowDetailedReportControls()
       prevSum = sumline;
    }
 }
-
 

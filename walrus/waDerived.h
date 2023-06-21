@@ -128,10 +128,10 @@ const ucell MAX_ITERATION = 3001000000;// 3 mlrd
 //const ucell MAX_ITERATION = 3000;
 
 const uint MAX_TASKS_TO_SOLVE = 200 * 1000;
-const uint AIM_TASKS_COUNT = MAX_TASKS_TO_SOLVE / 2;
+//const uint AIM_TASKS_COUNT = MAX_TASKS_TO_SOLVE / 2;
 //const uint AIM_TASKS_COUNT = 40 * 1000;
 //const uint AIM_TASKS_COUNT = 20*1000;
-//const uint AIM_TASKS_COUNT = 5*1000;
+const uint AIM_TASKS_COUNT = 5*1000;
 //const uint AIM_TASKS_COUNT = 2*1000;
 
 constexpr ucell ClipByPerformance(ucell lim, ucell a)

@@ -13,9 +13,6 @@
 
 extern u64 ChronoRound();
 
-#define SLACK_HELPERS  ADDITION_STEP_ITERATIONS * 64 / 70
-static uint LIVE_SIGN = SLACK_HELPERS;
-
 WaMulti::WaMulti()
    : isRunning(true)
    , nameHlp("main")
@@ -75,7 +72,7 @@ void Walrus::LaunchHelpers(Walrus &hA, Walrus &hB)
    mul.hB = &hB;
    PLATFORM_BEGIN_THREAD(ProcHelper, mul.hA);
    PLATFORM_BEGIN_THREAD(ProcHelper, mul.hB);
-   mul.countShowLiveSign = LIVE_SIGN;
+   mul.countShowLiveSign = ADDITION_STEP_ITERATIONS;
 #endif // SKIP_HELPERS
 
    if (mul.countShare > ADDITION_STEP_ITERATIONS) {
@@ -156,9 +153,6 @@ void Walrus::DoIteration()
 
    // done the chunk
    mul.countIterations += sem.scanCover;
-
-   // may show live signs
-   ShowLiveSigns();
 }
 
 ucell Walrus::DoTheShare()
@@ -169,6 +163,7 @@ ucell Walrus::DoTheShare()
    // iterate until stopped
    while (mul.countIterations < mul.countShare) {
       DoIteration();
+      mul.ShowLiveSigns(sem.scanCover);
    }
 
    // signal
@@ -214,7 +209,12 @@ void Walrus::MergeResults(Walrus *other)
 
 void Walrus::CoWork(Walrus *slowHelper)
 {
-   slowHelper->mul.countShare -= sem.scanCover;
+   // byte a bit, but not the last chunk
+   if (slowHelper->mul.countShare > sem.scanCover) {
+      slowHelper->mul.countShare -= sem.scanCover;
+   }
+
+   // work it here
    DoIteration();
 }
 
@@ -242,38 +242,4 @@ void Walrus::Supervise()
    }
 }
 
-bool WaMulti::ShowLiveSigns(uint oneCover)
-{
-   if (!hA) {
-      return false;
-   }
-
-   if (!isRunning) {
-      return false;
-   }
-
-   // got enough => sign out to stop
-   uint acc = Gathered() + hA->Gathered() + hB->Gathered();
-   if (acc > AIM_TASKS_COUNT) {
-      printf("found.");
-      countShare = countIterations;
-      if (hA->mul.isRunning) {
-         hA->SignOutChunk();
-      }
-      if (hB->mul.isRunning) {
-         hB->SignOutChunk();
-      }
-      return false;
-   }
-
-   // wait
-   if (countShowLiveSign > oneCover) {
-      countShowLiveSign -= oneCover;
-      return false;
-   }
-
-   // reset and show
-   countShowLiveSign = LIVE_SIGN;
-   return true;
-}
 

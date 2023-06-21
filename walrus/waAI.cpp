@@ -603,31 +603,64 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
    #endif
 }
 
-void Walrus::ShowLiveSigns()
+bool WaMulti::ShowLiveSigns(uint oneCover)
 {
-   if (mul.ShowLiveSigns(sem.scanCover)) {
-      // show accumulation progress
-      uint acc = Gathered() + mul.hA->Gathered() + mul.hB->Gathered();
-      printf("%d", acc / 1000);
+   const uint LIVE_SIGN = ADDITION_STEP_ITERATIONS * 64 / 70;
 
-      // consider extension of the search unless we're 95% close
-      if (mul.countIterations + ADDITION_STEP_ITERATIONS > mul.countShare &&
-         acc < (AIM_TASKS_COUNT * 95) / 100) {
-         mul.countShare         += ADDITION_STEP_ITERATIONS;
-         mul.hA->mul.countShare += ADDITION_STEP_ITERATIONS;
-         mul.hB->mul.countShare += ADDITION_STEP_ITERATIONS;
-         printf(",");
-      } else {
-         printf(".");
-      }
-
-      // allow interruption
-      if (PLATFORM_KBHIT()) {
-         auto inchar = PLATFORM_GETCH();
-         printf("X");
-         mul.hA->mul.countShare = mul.hA->mul.countIterations + 1000;
-         mul.hB->mul.countShare = mul.hB->mul.countIterations + 1000;
-         mul.countShare = mul.countIterations;
-      }
+   if (!hA) {
+      return false;
    }
+
+   if (!isRunning) {
+      return false;
+   }
+
+   // got enough => sign out to stop
+   uint acc = Gathered() + hA->Gathered() + hB->Gathered();
+   if (acc > AIM_TASKS_COUNT) {
+      printf("found.");
+      countShare = countIterations;
+      if (hA->mul.isRunning) {
+         hA->SignOutChunk();
+      }
+      if (hB->mul.isRunning) {
+         hB->SignOutChunk();
+      }
+      return false;
+   }
+
+   // wait / reset
+   if (countShowLiveSign > oneCover) {
+      countShowLiveSign -= oneCover;
+      return false;
+   }
+   countShowLiveSign = LIVE_SIGN;
+
+   // show accumulation progress
+   printf("%d", acc / 1000);
+
+   // consider extension of the search unless we're 95% close
+   if (countIterations + ADDITION_STEP_ITERATIONS > countShare &&
+      acc < (AIM_TASKS_COUNT * 95) / 100) {
+      countShare += ADDITION_STEP_ITERATIONS;
+      hA->mul.countShare += ADDITION_STEP_ITERATIONS;
+      hB->mul.countShare += ADDITION_STEP_ITERATIONS;
+      printf(",");
+   }
+   else {
+      printf(".");
+   }
+
+   // allow interruption
+   if (PLATFORM_KBHIT()) {
+      auto inchar = PLATFORM_GETCH();
+      printf("X");
+      hA->mul.countShare = hA->mul.countIterations + 1000;
+      hB->mul.countShare = hB->mul.countIterations + 1000;
+      countShare = countIterations;
+   }
+
+   return true;
 }
+
+

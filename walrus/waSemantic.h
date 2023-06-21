@@ -25,20 +25,6 @@ const uint IO_CAMP_MORE_NT = 3;
 const int HCP_SIZE = 40 + 1;// to address 0 - 40
 const int CTRL_SIZE = 12 + 4;// to get 16 as padding
 
-// file names
-#define START_FROM_FNAME "start_from.txt"
-#define COMMAND_FNAME    "in_cmd.txt"
-#define OUT_FNAME        "stm%d%d%d%d%d%d%d%d%d%d.txt"
-#define PROGRESS_FNAME   "waProgress.txt"
-const int FNAME_SIZE = 128 + 64;
-struct waFileNames {
-    char StartFrom[FNAME_SIZE];
-    char Command[FNAME_SIZE];
-    char Progress[FNAME_SIZE];
-    char Solution[FNAME_SIZE];
-    void Build();
-};
-
 // hits count and others
 struct Progress {
    Progress();

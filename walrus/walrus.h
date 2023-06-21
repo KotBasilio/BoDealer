@@ -36,7 +36,6 @@ protected:
     // Start
     void PrepareBaseDeal(struct deal &dlBase);
     void InitDeck(void);
-    waFileNames namesBase;
 
     // withdrawals
     void WithdrawByInput();
@@ -66,7 +65,6 @@ protected:
     void LaunchHelpers(Walrus &hA, Walrus &hB);
     void ShowEffortSplit(Walrus &hA, Walrus &hB);
     void DoIteration();
-    void ShowLiveSigns();
     ucell Remains() const { return (mul.countIterations < mul.countShare) ? mul.countShare - mul.countIterations : 0; }
     uint Gathered() const { return mul.Gathered(); }
     void CoWork(Walrus * other);

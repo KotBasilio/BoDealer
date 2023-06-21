@@ -273,12 +273,12 @@ void Walrus::FillSemantic(void)
    ADD_4PAR_FILTER(NORTH, ModelShape, 3, 3, 3, 4);
    ADD_4PAR_FILTER(SOUTH, ModelShape, 3, 3, 4, 3);
    ADD_3PAR_FILTER(NORTH, LinePointsRange, SOUTH, IO_HCP_MIN, IO_HCP_MAX);
+   ADD_2PAR_FILTER(SOUTH, DiamondsLen, 3, 4);
+   ADD_2PAR_FILTER(NORTH, ClubsLen, 3, 4);
    ADD_1PAR_FILTER(NORTH, NoMajorFit, SOUTH);
    ADD_1PAR_FILTER(NORTH, PointsAtLeast, 10);
    ADD_1PAR_FILTER(SOUTH, PointsAtLeast, 10);
    ADD_3PAR_FILTER(NORTH, LineAcesRange, SOUTH, 3, 4);
-   ADD_2PAR_FILTER(SOUTH, DiamondsLen, 3, 4);
-   ADD_2PAR_FILTER(NORTH, ClubsLen, 3, 4);
 
    //sem.onBoardAdded = &Walrus::DisplayBoard;
    //ADD_2PAR_FILTER(SOUTH, DiamondsLen, 5, 5);

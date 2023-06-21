@@ -16,6 +16,7 @@
 
 SplitBits sbBlank;
 Semantics semShared;
+WaConfig cfgTask;
 
 Walrus::Walrus()
    // highBitscounts as many two cards in any suit. easily detected. doesn't cause an overflow
@@ -28,7 +29,7 @@ Walrus::Walrus()
    , filter()
 {
    filter.Bind(this);
-   namesBase.Build();
+   cfgTask.namesBase.Build();
 }
 
 void WaFilter::Bind(class Walrus* _walrus) 
@@ -36,10 +37,16 @@ void WaFilter::Bind(class Walrus* _walrus)
    progress = _walrus->GetProgress(); 
 }
 
+WaConfig::WaConfig()
+{
+   titleOurContract [0] = 0;
+   titleTheirContract[0] = 0;
+}
+
 bool Walrus::InitByConfig()
 {
    // may read something
-   const char* fname = namesBase.StartFrom; //printf("\nNo initial stats needed\n");
+   const char* fname = cfgTask.namesBase.StartFrom; //printf("\nNo initial stats needed\n");
 
    // prepare basing on config
    FillSemantic();
