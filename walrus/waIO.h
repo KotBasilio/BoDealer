@@ -22,6 +22,8 @@ struct WaConfig {
    char titleTheirContract[WA_CONTR_TITLE_LEN]; // kind of "2Sx", "PASS" 
 
    WaConfig();
+
+   void ReadStart();
 };
 
 extern WaConfig cfgTask;

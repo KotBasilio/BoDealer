@@ -43,20 +43,6 @@ WaConfig::WaConfig()
    titleTheirContract[0] = 0;
 }
 
-bool Walrus::InitByConfig()
-{
-   // may read something
-   const char* fname = cfgTask.namesBase.StartFrom; //printf("\nNo initial stats needed\n");
-
-   // prepare basing on config
-   FillSemantic();
-   InitDeck();
-   memset(progress.hitsCount, 0, sizeof(progress.hitsCount));
-   shuf.SeedRand();
-
-   return true;
-}
-
 void Walrus::AllocFilteredTasksBuf()
 {
    // determine size

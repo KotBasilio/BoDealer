@@ -42,3 +42,39 @@ void waFileNames::Build()
    strcat(Solution, OUT_FNAME);
 }
 
+void WaConfig::ReadStart()
+{
+   const char* fname = namesBase.StartFrom;
+
+   FILE* stream;
+   char line[100];
+
+   if (!fopen_s(&stream, fname, "r") == 0) {
+      return;
+   }
+
+   while (!feof(stream))
+   {
+      if (!fgets(line, sizeof(line), stream)) {
+         break;
+      }
+      printf("%s", line);
+   }
+
+   fclose(stream);
+}
+
+bool Walrus::InitByConfig()
+{
+   // may read something
+   cfgTask.ReadStart();
+
+   // prepare basing on config
+   FillSemantic();
+   InitDeck();
+   memset(progress.hitsCount, 0, sizeof(progress.hitsCount));
+   shuf.SeedRand();
+
+   return true;
+}
+
