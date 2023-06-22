@@ -600,13 +600,6 @@ void PrintTwoFutures(char title[], futureTricks * fut1, futureTricks * fut2)
    }
 }
 
-void PrintPBNHand(char title[], char remainCardsPBN[])
-{
-  unsigned int remainCards[DDS_HANDS][DDS_SUITS];
-  ConvertPBN(remainCardsPBN, remainCards);
-  //PrintHand(title, remainCards); @_@ todo
-}
-
 int ConvertPBN(char * dealBuff,
                unsigned int remainCards[DDS_HANDS][DDS_SUITS])
 {
@@ -762,5 +755,20 @@ const char * haTrumpToStr(int trump)
 
    return "WTF";
 }
+
+const char * haTrumpToShort(int trump)
+{
+   switch (trump)
+   {
+      case SPADES  : return "S";
+      case HEARTS  : return "H";
+      case DIAMONDS: return "D";
+      case CLUBS   : return "C";   
+      case NOTRUMP : return "NT"; 
+   }
+
+   return "WTF";
+}
+
 
 

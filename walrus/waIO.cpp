@@ -79,38 +79,6 @@ Walrus::MiniUI::MiniUI()
    #endif
 }
 
-void waFileNames::Build()
-{
-   // make path
-   char *buf = StartFrom;
-   size_t size = sizeof(StartFrom);
-   #ifdef WIN_DETECT_PATH
-      int rl = GetModuleFileName(NULL, buf, (DWORD)size);
-      int slashToDel = 2;
-      for (int i = rl; --i >= 0;) {
-         if (buf[i] == '\\') {
-            if (--slashToDel == 0) {
-               break;
-            }
-         }
-         buf[i] = 0;
-      }
-   #else
-      buf[0] = 0;
-   #endif // WIN_DETECT_PATH
-
-   // duplicate
-   memcpy(Command, buf, size);
-   memcpy(Progress, buf, size);
-   memcpy(Solution, buf, size);
-
-   // make real names
-   strcat(StartFrom, START_FROM_FNAME);
-   strcat(Command, COMMAND_FNAME);
-   strcat(Progress, PROGRESS_FNAME);
-   strcat(Solution, OUT_FNAME);
-}
-
 static bool IsRowSkippable(int i)
 {
    // opp res => only middle is skippable

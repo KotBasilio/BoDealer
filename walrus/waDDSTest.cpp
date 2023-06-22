@@ -289,6 +289,13 @@ void sample_main_PlayBin()
    GetDDSInfo(&info);
 }
 
+void PrintPBNHand(char title[], char remainCardsPBN[])
+{
+   deal dl;
+   ConvertPBN(remainCardsPBN, dl.remainCards);
+   PrintHand(title, dl);
+}
+
 void TestHeap(void)
 {
    // Check heap status, source:

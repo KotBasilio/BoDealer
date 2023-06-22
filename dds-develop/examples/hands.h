@@ -56,6 +56,7 @@ int ConvertPBN(char * dealBuff,
 
 const char *haPlayerToStr(int first);
 const char *haTrumpToStr(int trump);
+const char* haTrumpToShort(int trump);
 
 int IsACard(char cardChar);
 
