@@ -102,8 +102,6 @@
    #define IO_HCP_MAX  31
 #endif // SEMANTIC_STANDARD_6NT
 
-
-
 #ifdef SEMANTIC_CONFIG_BASED
    #define TITLE_VERSION  "Config-based task. Ver 3.0 "
    #define IO_NEED_FULL_TABLE
@@ -114,7 +112,7 @@
    #define IO_ROW_SELECTED  (11 + IO_SHIFT_FOR_EXTRA_MARKS)
    #define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
    #define IO_ROW_HCP_START 3
-   #define IO_HCP_MIN  23
-   #define IO_HCP_MAX  32
+   #define IO_HCP_MIN  25
+   #define IO_HCP_MAX  25
 #endif // SEMANTIC_CONFIG_BASED
 

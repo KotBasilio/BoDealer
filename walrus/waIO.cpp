@@ -75,7 +75,7 @@ Walrus::MiniUI::MiniUI()
    #endif // SHOW_MY_FLY_RESULTS
 
    #ifdef IO_DISPLAY_CONTROLS_SPLIT
-      minControls = (IO_HCP_MIN * 4) / 10 - 4;
+      minControls = (IO_HCP_MIN * 4) / 10 - 6;
    #endif
 }
 
