@@ -17,14 +17,11 @@ void waFileNames::Build()
    size_t size = sizeof(StartFrom);
    #ifdef WIN_DETECT_PATH
       int rl = GetModuleFileName(NULL, buf, (DWORD)size);
-      int slashToDel = 2;
-      for (int i = rl; --i >= 0;) {
-         if (buf[i] == '\\') {
-            if (--slashToDel == 0) {
-               break;
-            }
-         }
-         buf[i] = 0;
+      const char *key = "Dealer";
+      char* in = strstr(buf, key);
+      if (in) {
+         in += strlen(key);
+         in[1] = 0;
       }
    #else
       buf[0] = 0;
@@ -45,16 +42,16 @@ void waFileNames::Build()
 void WaConfig::ReadStart()
 {
    const char* fname = namesBase.StartFrom;
+//    printf("Reading config from: %s\n", fname);
+//    PLATFORM_GETCH();
 
    FILE* stream;
-   char line[100];
-
    if (!fopen_s(&stream, fname, "r") == 0) {
       return;
    }
 
-   while (!feof(stream))
-   {
+   while (!feof(stream)) {
+      char line[100];
       if (!fgets(line, sizeof(line), stream)) {
          break;
       }
@@ -62,6 +59,8 @@ void WaConfig::ReadStart()
    }
 
    fclose(stream);
+
+//   PLATFORM_GETCH();
 }
 
 bool Walrus::InitByConfig()
