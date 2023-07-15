@@ -133,7 +133,7 @@ protected:
     void MiniReport(ucell toGo);
     void ShowPercentages(ucell sumRows);
     void ShowBiddingLevel(ucell sumRows);
-    void ShowOptionalReports();
+    void ShowOptionalReports(ucell sumRows);
     void ShowDetailedReportHighcards();
     void ShowDetailedReportControls();
     void ReportDepFilteringResults();

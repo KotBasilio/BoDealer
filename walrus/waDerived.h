@@ -67,6 +67,25 @@
    #endif
 #endif
 
+#ifndef IO_SHIFT_FOR_EXTRA_MARKS
+   #define IO_SHIFT_FOR_EXTRA_MARKS  21
+   #define IO_ROW_SELECTED  (11 + IO_SHIFT_FOR_EXTRA_MARKS)
+   #define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
+#endif
+
+#ifndef IO_ROW_SELECTED 
+   #define IO_ROW_SELECTED  10
+#endif
+
+#ifndef IO_ROW_HCP_START
+   #define IO_ROW_HCP_START 3
+#endif
+
+#ifndef IO_HCP_MIN
+   #define IO_HCP_MIN  25
+   #define IO_HCP_MAX  25
+#endif
+
 // -----------------------------------------------------------------
 // how to filter (personal opinions)
 //#define OPINION_BASHA

@@ -38,7 +38,7 @@
 //#define SEMANTIC_MIXED_PREVENTIVE_4S
 //#define SEMANTIC_NOV_BID_6C_OR_DBL_4S
 //#define SEMANTIC_NOV_DBL_ON_3NT
-//#define SEMANTIC_DEC21_DBL_ON_3NT
+#define SEMANTIC_DEC21_DBL_ON_3NT
 //#define SEMANTIC_TRICOLOR_STRONG
 
 // Opening lead:
@@ -58,7 +58,7 @@
 //#define SEMANTIC_SPLINTER_SHAPE
 //#define SEMANTIC_STANDARD_3NT
 //#define SEMANTIC_STANDARD_6NT
-#define SEMANTIC_CONFIG_BASED
+//#define SEMANTIC_CONFIG_BASED
 
 // -----------------------------------------------------------------
 // task descriptions

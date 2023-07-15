@@ -8,10 +8,6 @@
 
 #include "walrus.h"
 
-#ifndef IO_ROW_SELECTED 
-   #define IO_ROW_SELECTED  10
-#endif
-
 #ifndef IO_ROW_FILTERING
    #define IO_ROW_FILTERING 3
 #endif

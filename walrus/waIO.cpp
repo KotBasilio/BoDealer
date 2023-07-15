@@ -202,7 +202,7 @@ void Walrus::MiniReport(ucell toGo)
    // other stuff
    ShowBiddingLevel(sumRows);
    ShowPercentages(sumRows);
-   ShowOptionalReports();
+   ShowOptionalReports(sumRows);
    if (toGo) {
       printf("Yet more %llu to go:", toGo);
    }
@@ -238,7 +238,7 @@ void Walrus::ShowBiddingLevel(ucell sumRowsUns)
    #endif // SEEK_BIDDING_LEVEL
 }
 
-void Walrus::ShowOptionalReports(void)
+void Walrus::ShowOptionalReports(ucell sumRows)
 {
 #ifdef SHOW_OPP_RESULTS
    ucell sumOppRows = __max(hitsRow[IO_ROW_THEIRS] + hitsRow[IO_ROW_THEIRS + 1], 1);
