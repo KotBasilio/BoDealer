@@ -238,23 +238,25 @@ void Walrus::ShowBiddingLevel(ucell sumRowsUns)
    #endif // SEEK_BIDDING_LEVEL
 }
 
-void Walrus::ShowOptionalReports(ucell sumRows)
+void Walrus::ShowOptionalReports(ucell sumRowsUns)
 {
-#ifdef SHOW_OPP_RESULTS
-   ucell sumOppRows = __max(hitsRow[IO_ROW_THEIRS] + hitsRow[IO_ROW_THEIRS + 1], 1);
-#ifdef SHOW_OPPS_ON_PASS
-   printf("Their contract expectation average: passed = %lld, doubled = %lld.",
-      cumulScore.oppContract / sumOppRows,
-      cumulScore.oppCtrDoubled / sumOppRows);
-#else
-   printf("Their contract doubled, expectation average: %lld.",
-      cumulScore.oppCtrDoubled / sumOppRows);
-#endif // SHOW_OPPS_ON_PASS
-   printf(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows);
-#endif 
+   s64 sumRows = (s64)(sumRowsUns);
+   s64 sumOppRows = (s64)( __max(hitsRow[IO_ROW_THEIRS] + hitsRow[IO_ROW_THEIRS + 1], 1));
+
+   #ifdef SHOW_OPP_RESULTS
+      #ifdef SHOW_OPPS_ON_PASS_ONLY
+         printf("Their contract expectation average: %lld.", cumulScore.oppContract / sumOppRows);
+      #elif defined(SHOW_OPPS_ON_DOUBLE_ONLY)
+         printf("Their contract doubled, expectation average: %lld.", cumulScore.oppCtrDoubled / sumOppRows);
+      #else
+         printf("Their contract expectation average: passed = %lld, doubled = %lld.",
+            cumulScore.oppContract / sumOppRows,
+            cumulScore.oppCtrDoubled / sumOppRows);
+      #endif 
+      printf(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows);
+   #endif 
 
 #ifdef SHOW_OUR_OTHER
-   ucell sumOppRows = __max(hitsRow[IO_ROW_THEIRS] + hitsRow[IO_ROW_THEIRS + 1], 1);
    printf("The other contract expectation average = %lld.", cumulScore.ourOther / sumOppRows);
    printf(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows);
    //printf("Combo-score average for our two contracts = %lld.\n", cumulScore.ourCombo / sumOppRows);
@@ -288,7 +290,7 @@ void Walrus::ShowOptionalReports(ucell sumRows)
    printf("NT is better in: %3.1f%% cases\n", percBetterNT);
 #endif // SHOW_MY_FLY_RESULTS
 
-#ifdef IO_ROW_HCP_START
+#ifdef IO_DETAILED_REPORT_ON_END
    if (ui.reportRequested) {
       ui.reportRequested = false;
       if (ui.minControls) {

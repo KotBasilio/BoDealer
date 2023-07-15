@@ -11,11 +11,7 @@
 #include "walrus.h"
 #include HEADER_CURSES
 
-#define  DBG_SHOW_BOARD_ON_CONSTRUCTION
-
-#ifndef IO_ROW_SELECTED
-   #define IO_ROW_SELECTED 3
-#endif 
+//#define  DBG_SHOW_BOARD_ON_CONSTRUCTION
 
 extern int SolveAllBoardsN(boards& bds, solvedBoards& solved);
 
