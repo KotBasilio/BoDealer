@@ -2634,7 +2634,15 @@ void Walrus::FillSemantic(void)
    OrbNorthFillSem();
    //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.onScoring = &Walrus::Score_NV_Doubled5Minor;
-   sem.onSolvedTwice = &Walrus::Score_Opp4MajorDoubled;
+   sem.onSolvedTwice = &Walrus::Score_Opp4Major;
    sem.vecFilters.clear();
+   ADD_2PAR_FILTER( SOUTH, PointsRange,   11, 16);
+   ADD_2PAR_FILTER( EAST,  PointsRange,   11, 16);
+   ADD_1PAR_FILTER( WEST,  PointsAtLeast, 7);
+   ADD_2PAR_FILTER( EAST,  SpadesLen,   5, 6);
+   ADD_2PAR_FILTER( WEST,  HeartsLen,   5, 7);
+   ADD_2PAR_FILTER( WEST,  SpadesLen,   0, 2);
+   ADD_2PAR_FILTER( SOUTH, DiamondsLen, 5, 6);
+   ADD_2PAR_FILTER( SOUTH, ClubsLen,    4, 5);
 }
 #endif // SEMANTIC_JUN_MINORS_VS_MAJORS

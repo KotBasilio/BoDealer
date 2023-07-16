@@ -195,7 +195,7 @@ void DdsTask3::Init(twContext* lay)
 void DdsTask2::Init(twContext* lay) 
 { 
    partner = lay[SOUTH].hand; 
-   rho     = lay[WEST].hand; 
+   rho     = lay[EAST].hand; 
 }
 
 #ifdef SEMANTIC_SPLINTER_SHAPE

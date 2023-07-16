@@ -81,7 +81,7 @@ public:
    uint LeadFlat(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
    uint LeadMax5D(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
 
-   // Micro filters
+   // ver 3.0 -- Micro filters
    uint RejectAll(twContext* lay, const uint *par) { return 2; }
    uint OKNum(twContext* lay, const uint *par);
    uint ExactShape(twContext* lay, const uint* par);

@@ -6,6 +6,7 @@
    #define INPUT_AS_PBN 
    #define SEEK_BIDDING_LEVEL
    #define SCORE_THE_OTHER_CONTRACT
+   #define SHOW_OPPS_ON_PASS_ONLY
    #define OC_TRUMPS       SOL_HEARTS
    #define OC_ON_LEAD      NORTH
 #endif
