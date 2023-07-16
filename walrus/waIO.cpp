@@ -196,28 +196,29 @@ void Walrus::MiniReport(ucell toGo)
    CalcHitsForMiniReport(hitsRow, hitsCamp);
 
    // signature
-   ucell sumRows = __max( hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE], 1);
-   printf("Processed: %llu total. %s is on lead. Goal is %d tricks in %s.\n", sumRows, ui.seatOnLead, ui.irBase, ui.declTrump);
+   s64 doneOurs   = (s64)(__max( hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE  ], 1));
+   s64 doneTheirs = (s64)( __max(hitsRow[IO_ROW_THEIRS  ] + hitsRow[IO_ROW_THEIRS + 1], 1));
+   printf("Processed: %lld total. %s is on lead. Goal is %d tricks in %s.\n", doneOurs, ui.seatOnLead, ui.irBase, ui.declTrump);
 
    // other stuff
-   ShowBiddingLevel(sumRows);
-   ShowPercentages(sumRows);
-   ShowOptionalReports(sumRows);
+   ShowBiddingLevel(doneOurs);
+   ShowPercentages(doneOurs);
+   ShowTheirScore(doneTheirs);
+   ShowOptionalReports(doneOurs, doneTheirs);
    if (toGo) {
       printf("Yet more %llu to go:", toGo);
    }
 }
 
-void Walrus::ShowPercentages(ucell sumRows)
+void Walrus::ShowPercentages(s64 sumRows)
 {
    float percGoDown = hitsRow[IO_ROW_OUR_DOWN] * 100.f / sumRows;
    float percMake = hitsRow[IO_ROW_OUR_MADE] * 100.f / sumRows;
    printf("Chances: %3.1f%% down some + %3.1f%% make\n", percGoDown, percMake);
 }
 
-void Walrus::ShowBiddingLevel(ucell sumRowsUns)
+void Walrus::ShowBiddingLevel(s64 sumRows)
 {
-   s64 sumRows = (s64)(sumRowsUns);
    #if defined(SEEK_BIDDING_LEVEL) || defined(FOUR_HANDS_TASK)
       // slam/game/partscore
       if (ui.irBase < 12) {
@@ -238,24 +239,24 @@ void Walrus::ShowBiddingLevel(ucell sumRowsUns)
    #endif // SEEK_BIDDING_LEVEL
 }
 
-void Walrus::ShowOptionalReports(ucell sumRowsUns)
+void Walrus::ShowTheirScore(s64 doneTheirs)
 {
-   s64 sumRows = (s64)(sumRowsUns);
-   s64 sumOppRows = (s64)( __max(hitsRow[IO_ROW_THEIRS] + hitsRow[IO_ROW_THEIRS + 1], 1));
-
    #ifdef SHOW_OPP_RESULTS
       #ifdef SHOW_OPPS_ON_PASS_ONLY
-         printf("Their contract expectation average: %lld.", cumulScore.oppContract / sumOppRows);
+         printf("Their contract expectation average: %lld.", cumulScore.oppContract / doneTheirs);
       #elif defined(SHOW_OPPS_ON_DOUBLE_ONLY)
-         printf("Their contract doubled, expectation average: %lld.", cumulScore.oppCtrDoubled / sumOppRows);
+         printf("Their contract doubled, expectation average: %lld.", cumulScore.oppCtrDoubled / doneTheirs);
       #else
          printf("Their contract expectation average: passed = %lld, doubled = %lld.",
-            cumulScore.oppContract / sumOppRows,
-            cumulScore.oppCtrDoubled / sumOppRows);
+            cumulScore.oppContract / doneTheirs,
+            cumulScore.oppCtrDoubled / doneTheirs);
       #endif 
-      printf(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows);
+      printf(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / doneTheirs);
    #endif 
+}
 
+void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
+{
 #ifdef SHOW_OUR_OTHER
    printf("The other contract expectation average = %lld.", cumulScore.ourOther / sumOppRows);
    printf(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows);
@@ -299,7 +300,7 @@ void Walrus::ShowOptionalReports(ucell sumRowsUns)
          ShowDetailedReportHighcards();
       }
    }
-#endif // IO_ROW_HCP_START
+#endif
 }
 
 #ifdef IO_NEED_FULL_TABLE

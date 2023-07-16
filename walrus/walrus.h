@@ -131,9 +131,10 @@ protected:
     void ReportState(char* header);
     void ReportLine(ucell sumline, int i);
     void MiniReport(ucell toGo);
-    void ShowPercentages(ucell sumRows);
-    void ShowBiddingLevel(ucell sumRows);
-    void ShowOptionalReports(ucell sumRows);
+    void ShowPercentages(s64 sumRows);
+    void ShowBiddingLevel(s64 sumRows);
+    void ShowTheirScore(s64 doneTheirs);
+    void ShowOptionalReports(s64 doneOurs, s64 doneTheirs);
     void ShowDetailedReportHighcards();
     void ShowDetailedReportControls();
     void ReportDepFilteringResults();
