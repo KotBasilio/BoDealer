@@ -11,8 +11,8 @@ union twSuit
 {
    struct
    {
-      UCHAR s543_count;
-      UCHAR Ato7;
+      UCHAR s543_count;         // four  bits for (6543), then four bits for count
+      UCHAR Ato7;               // eight bits for (AKQJT987)
    };
    struct
    {
@@ -55,6 +55,7 @@ struct SplitBits {
    SplitBits(const SplitBits &other) { card.jo = other.card.jo; }
    SplitBits(uint hld, uint waPos);
    SplitBits(const SplitBits &a, const SplitBits &b, const SplitBits &c);
+   void AsComplement(u64 jo);
    bool operator != (const SplitBits &other) const { return card.jo != other.card.jo; }
    u16 CountAll();
    bool IsBlank() { return (card.jo == 0L); }
@@ -108,6 +109,7 @@ union twPermutedContexts {
    };
    twContext lay[SIZE_PERMUTE_PATTERN];
    twPermutedContexts(const SplitBits& a, const SplitBits& b, const SplitBits& c);
+   twPermutedContexts(const SplitBits& a, const SplitBits& b, const SplitBits& c, uint hand);
 };
 // -- permuted for filtering, full transposition
 union twPermutedFullFlip {

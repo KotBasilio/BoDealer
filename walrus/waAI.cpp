@@ -318,9 +318,14 @@ int Walrus::PokeScorerForTricks()
       return 12;
    } 
 
-   // 890 is NV 4M doubled +2
+   // 890 is NV 4M doubled +3
    if (cumulScore.ideal == 890) {
       return 10;
+   }
+
+   // 750 is NV 5m doubled +2
+   if (cumulScore.ideal == 750) {
+      return 11;
    }
 
    // take 9 and analyze sum
@@ -658,5 +663,4 @@ bool WaMulti::ShowLiveSigns(uint oneCover)
 
    return true;
 }
-
 

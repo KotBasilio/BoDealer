@@ -26,9 +26,7 @@
    #endif
 #endif
 
-#ifdef SHOW_OPP_RESULTS
-
-#else
+#ifndef SHOW_OPP_RESULTS
    #define SHOW_PARTSCORE_STATLINE
 #endif
 
@@ -63,12 +61,6 @@
    #define FIXED_HAND_NORTH
 #endif
 
-#ifdef IO_HCP_MIN
-   #if IO_HCP_MIN == IO_HCP_MAX
-      #define  IO_DISPLAY_CONTROLS_SPLIT
-   #endif
-#endif
-
 #ifndef IO_SHIFT_FOR_EXTRA_MARKS
    #define IO_SHIFT_FOR_EXTRA_MARKS  21
    #define IO_ROW_SELECTED  (11 + IO_SHIFT_FOR_EXTRA_MARKS)
@@ -83,7 +75,11 @@
    #define IO_ROW_HCP_START 3
 #endif
 
-#ifndef IO_HCP_MIN
+#ifdef IO_HCP_MIN
+   #if IO_HCP_MIN == IO_HCP_MAX
+      #define  IO_DISPLAY_CONTROLS_SPLIT
+   #endif
+#else
    #define IO_HCP_MIN  25
    #define IO_HCP_MAX  25
 #endif

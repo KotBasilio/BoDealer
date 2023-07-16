@@ -10,7 +10,7 @@
 #ifdef SEMANTIC_FEB_3NT_REBID
 void Walrus::FillSemantic(void)
 {
-   Orb_FillSem();
+   Orb_DepFillSem();
    sem.onDepFilter = &WaFilter::SomeInvite;
    sem.onScoring = &Walrus::Score_3NT;
 }

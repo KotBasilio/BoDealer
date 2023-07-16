@@ -16,10 +16,17 @@
  // input
 //char const taskHandPBN[] = "[N:...]";
 
+#ifdef SEMANTIC_JUN_MINORS_VS_MAJORS
+// origin: Partizan, July 2023
+#define INPUT_TRUMPS    SOL_DIAMONDS
+#define INPUT_ON_LEAD   WEST
+char const taskHandPBN[] = "[N:JT4.Q93.AT63.Q92]";
+#endif
+
 #ifdef SEMANTIC_FEB_3NT_REBID
-char const taskHandPBN[] = "[N:94.A9.AQJ763.KT9]";
 #define INPUT_TRUMPS    SOL_NOTRUMP
 #define INPUT_ON_LEAD   WEST
+char const taskHandPBN[] = "[N:94.A9.AQJ763.KT9]";
 #endif 
 
 #ifdef SEMANTIC_JAN_INVITE_MINORS

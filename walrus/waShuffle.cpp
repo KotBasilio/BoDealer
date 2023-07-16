@@ -12,6 +12,7 @@
 
 Shuffler::Shuffler()
    : highBits(HIBITS) 
+   , thrownOut(0)
    , checkSum(0)
    , oldRand(0)
    , cardsInDeck(0)
@@ -44,6 +45,7 @@ u64 Shuffler::CalcCheckSum()
 void Shuffler::StoreCheckSum()
 {
    checkSum = CalcCheckSum();
+   thrownOut.AsComplement(checkSum);
 }
 
 void Shuffler::VerifyCheckSum()

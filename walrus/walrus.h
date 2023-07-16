@@ -48,6 +48,8 @@ protected:
     void ScanOrb();
     void ScanKeycards();
     void Scan4Hands();
+    void Scan3FixedWest();
+    void Scan3FixedNorth();
 
     // solving
     void AllocFilteredTasksBuf();
@@ -93,6 +95,7 @@ protected:
     void Score_NV_5Major(DdsTricks &tr);
     void Score_5Minor(DdsTricks& tr);
     void Score_NV_5Minor(DdsTricks &tr);
+    void Score_NV_Doubled5Minor(DdsTricks &tr);
     void Score_3NT(DdsTricks &tr);
     void Score_MagicFly(DdsTricks& tr);
     void Score_2m(DdsTricks &tr);
@@ -152,18 +155,22 @@ private:
    WaFilter filter;
 
    // scan patterns
+   // -- common parts of scans
+   void ClassifyAndPull(twContext* lay);
+   void ClassifyAndPush(twContext* lay);
+   void ClassifyOnPermute(twContext* lay);
    // -- 3-hands scan is like orbiting around a hand
-   void Orb_FillSem(void);
-   void Orb_Classify(SplitBits& a, SplitBits& b, SplitBits& c);
+   void OrbNorthFillSem(void);
+   void Orb_DepFillSem(void);
+   void Orb_DepClassify(SplitBits& a, SplitBits& b, SplitBits& c);
    void Orb_Interrogate(DdsTricks &tr, deal &cards, struct futureTricks &fut);
    bool Orb_ApproveByFly(deal& cards);
    void Orb_ReSolveAndShow(deal &cards);
+   void OrbNorthClassify(twContext *lay);
    // -- 4-hands scan
    void Permute6(SplitBits a, SplitBits b, SplitBits c);
    void Permute24(SplitBits a, SplitBits b, SplitBits c);
    void Classify6(twContext *lay);
-   void ClassifyAndPull(twContext* lay);
-   void ClassifyOnPermute(twContext* lay);
    void SignOutChunk();
    // -- other scans
    uint KeyCards_ClassifyHand(uint &ba, SplitBits &sum);

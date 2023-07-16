@@ -10,7 +10,7 @@
 #ifdef SEMANTIC_JUNE_MAX_5D_LEAD
 void Walrus::FillSemantic(void)
 {
-	Orb_FillSem();
+	Orb_DepFillSem();
 	sem.onDepFilter = &WaFilter::LeadMax5D;
 	sem.onScoring = &Walrus::Score_OpLead5DX;
 }
@@ -107,7 +107,7 @@ uint WaFilter::LeadMax5D(SplitBits &partner, uint &camp, SplitBits &lho, SplitBi
 #ifdef SEMANTIC_AUG_LEAD_VS_3H
 void Walrus::FillSemantic(void)
 {
-	Orb_FillSem();
+	Orb_DepFillSem();
 	sem.onDepFilter = &WaFilter::LeadAugVs3H;
 	sem.onScoring = &Walrus::Score_OpLead3Major;
 }
@@ -172,7 +172,7 @@ uint WaFilter::LeadAugVs3H(SplitBits &partner, uint &camp, SplitBits &lho, Split
 #ifdef SEMANTIC_JUNE_LEAD_3343
 void Walrus::FillSemantic(void)
 {
-   Orb_FillSem();
+   Orb_DepFillSem();
    sem.onDepFilter = &WaFilter::LeadFlat;
    sem.onScoring = &Walrus::Score_OpLead3NT;
 }
@@ -251,7 +251,7 @@ uint WaFilter::LeadFlat(SplitBits &partner, uint &camp, SplitBits &lho, SplitBit
 #ifdef SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
 void Walrus::FillSemantic(void)
 {
-   Orb_FillSem();
+   Orb_DepFillSem();
    sem.onDepFilter = &WaFilter::JuneVZ;
    sem.onScoring = &Walrus::Score_OpLead3NT;
 }
@@ -332,7 +332,7 @@ uint WaFilter::JuneVZ(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits 
 #ifdef SEMANTIC_IMPS_LEAD_LEVKOVICH
 void Walrus::FillSemantic(void)
 {
-   Orb_FillSem();
+   Orb_DepFillSem();
    sem.onDepFilter = &WaFilter::NovLevk;
    sem.onScoring = &Walrus::Score_OpLead3NT;
 }
@@ -393,7 +393,7 @@ uint WaFilter::NovLevk(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits
 #ifdef SEMANTIC_JAN_PETYA_VS_3NT
 void Walrus::FillSemantic(void)
 {
-   Orb_FillSem();
+   Orb_DepFillSem();
    sem.onDepFilter = &WaFilter::NovLevk;
    sem.onScoring = &Walrus::Score_OpLead3NT;
 }

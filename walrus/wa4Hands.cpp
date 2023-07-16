@@ -45,6 +45,12 @@ void Walrus::Scan4Hands()
    }
 }
 
+void Walrus::Permute6(SplitBits a, SplitBits b, SplitBits c)
+{
+   twPermutedContexts xArr(a,b,c);
+   Classify6(xArr.lay);
+}
+
 // a chunk for watching permutations in debugger
 // xA.hand.card.jo = 0xaaaaaaaaaaaaaaaaLL;
 // xB.hand.card.jo = 0xbbbbbbbbbbbbbbbbLL;
@@ -54,8 +60,8 @@ twPermutedContexts::twPermutedContexts
    (const SplitBits& a, const SplitBits& b, const SplitBits& c)
    : xA(a), xB(b), xC(c)
 {
-   // (A,B,C) is in place
-   // copy to form a certain order:
+   // after constructors above work, we have lay[0..2] in place
+   // let's copy to form a certain order:
    // A-B-C-A-B-A-C-B-A-D
    // 0 1 2 3 4 5 6 7 8 9
    lay[ 3] = xA;
@@ -67,19 +73,13 @@ twPermutedContexts::twPermutedContexts
    lay[ 9] = twContext( SplitBits(a, b, c) );
 }
 
-void Walrus::Permute6(SplitBits a, SplitBits b, SplitBits c)
-{
-   twPermutedContexts xArr(a,b,c);
-   Classify6(xArr.lay);
-}
-
 void Walrus::Classify6(twContext *lay)
 {
    // when a hand D is fixed in the end, we get 6 options to lay A,B,C
    ClassifyAndPull  (lay + 6);// CBAD
    ClassifyAndPull  (lay + 5);// ACBD
    ClassifyOnPermute(lay + 4);// BACD
-   lay[5] = lay[9];      // pull D with a skip
+   lay[5] = lay[9];           // double-pull D
    ClassifyAndPull  (lay + 2);// CABD
    ClassifyAndPull  (lay + 1);// BCAD
    ClassifyOnPermute(lay + 0);// ABCD
@@ -146,9 +146,16 @@ void Walrus::ClassifyAndPull(twContext* lay)
    lay[SOUTH] = lay[WEST];
 }
 
+void Walrus::ClassifyAndPush(twContext* lay) 
+{
+   // we push forward the A hand with each call
+   ClassifyOnPermute(lay);
+   lay[EAST] = lay[NORTH];
+}
+
 void Walrus::ClassifyOnPermute(twContext* lay)
 {
-   // run all micro-filters on this 3-hands layout
+   // run all micro-filters on this 4-hands layout
    // and mark reason why we skip this board
    uint camp = IO_ROW_FILTERING;
    for (const auto &mic: sem.vecFilters) {
@@ -183,6 +190,12 @@ void DdsTask3::Init(twContext* lay)
    north = lay[NORTH].hand; 
    east  = lay[EAST].hand; 
    south = lay[SOUTH].hand; 
+}
+
+void DdsTask2::Init(twContext* lay) 
+{ 
+   partner = lay[SOUTH].hand; 
+   rho     = lay[WEST].hand; 
 }
 
 #ifdef SEMANTIC_SPLINTER_SHAPE

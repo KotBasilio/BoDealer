@@ -226,6 +226,38 @@ void CumulativeScore::OurNV5minor(uint tricks)
    }
 }
 
+void CumulativeScore::OurNV5mX(uint tricks)
+{
+   // "always game" strategy
+   switch (tricks) {
+      case 2:  bidGame -= 2300; break;
+      case 3:  bidGame -= 2000; break;
+      case 4:  bidGame -= 1700; break;
+      case 5:  bidGame -= 1400; break;
+      case 6:  bidGame -= 1100; break;
+      case 7:  bidGame -= 800;  break;
+      case 8:  bidGame -= 500;  break;
+      case 9:  bidGame -= 300;  break;
+      case 10: bidGame -= 100;  break;
+      case 11: bidGame += 550;  break;
+      case 12: bidGame += 650;  break;
+      case 13: bidGame += 750;  break;
+   }
+
+   // "always partscore" strategy
+   int partdelta = tricks > 6 ?
+      50 + (tricks - 6) * 20 :
+      -50 * (7 - tricks);
+   partscore += partdelta;
+
+   // "ideal"
+   if (tricks < 11) {
+      ideal += partdelta;
+   } else {
+      ideal += 550 + (tricks - 11) * 100;
+   }
+}
+
 void CumulativeScore::OurNV5M(uint tricks)
 {
    // "always game" strategy

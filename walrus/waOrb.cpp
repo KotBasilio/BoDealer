@@ -11,6 +11,8 @@
 #include "walrus.h"
 #include HEADER_CURSES
 
+#define ORBIT_PERMUTE_FACTOR 6
+
 // Trivial: one hand only; can be used as a pattern for all scans
 void Walrus::ScanTrivial()
 {
@@ -35,17 +37,15 @@ void Walrus::ScanTrivial()
    }
 }
 
-// Orb: three other hands for later double-dummy solving
-void Walrus::ScanOrb()
+void Walrus::Scan3FixedWest()
 {
    // we have some cards starting from each position
    SplitBits sum(SumFirstHand());
    SplitBits sec(SumSecondHand());
    for (int idxHandStart = 0;;) {
-      // small permutation
+      // full permutation
       SplitBits third(shuf.CheckSum() - sum.card.jo - sec.card.jo);
-      Orb_Classify(sum, sec, third);
-      Orb_Classify(sum, third, sec);
+      Permute6(sum, sec, third);
 
       // advance to account next hand
       sum.card.jo -= shuf.deck[idxHandStart].card.jo;
@@ -61,7 +61,35 @@ void Walrus::ScanOrb()
    }
 }
 
-void Walrus::Orb_Classify(SplitBits& lho, SplitBits& partner, SplitBits& rho)
+// Orb: three other hands for later double-dummy solving
+// using 2.0 filtering -- now deprecated
+void Walrus::ScanOrb()
+{
+   // we have some cards starting from each position
+   SplitBits sum(SumFirstHand());
+   SplitBits sec(SumSecondHand());
+   for (int idxHandStart = 0;;) {
+      // small permutation
+      SplitBits third(shuf.CheckSum() - sum.card.jo - sec.card.jo);
+      Orb_DepClassify(sum, sec, third);
+      Orb_DepClassify(sum, third, sec);
+
+      // advance to account next hand
+      sum.card.jo -= shuf.deck[idxHandStart].card.jo;
+      u64 flipcd = shuf.deck[SYMM + idxHandStart].card.jo;
+      sec.card.jo -= flipcd;
+      sum.card.jo += flipcd;
+      sec.card.jo += shuf.deck[SYMM2 + idxHandStart++].card.jo;
+
+      // simple exit using count -- it became faster than highBits
+      if (idxHandStart >= ACTUAL_CARDS_COUNT) {
+         break;
+      }
+   }
+}
+
+// using 2.0 filtering -- now deprecated
+void Walrus::Orb_DepClassify(SplitBits& lho, SplitBits& partner, SplitBits& rho)
 {
    uint camp = 0;
    uint reason = (filter.*sem.onDepFilter)(partner, camp, lho, rho);
@@ -79,7 +107,7 @@ void Walrus::Orb_Classify(SplitBits& lho, SplitBits& partner, SplitBits& rho)
    }
 }
 
-void Walrus::Orb_FillSem(void)
+void Walrus::Orb_DepFillSem(void)
 {
    sem.onInit = &Walrus::WithdrawByInput;
    sem.onShareStart = &Walrus::AllocFilteredTasksBuf;
@@ -87,6 +115,13 @@ void Walrus::Orb_FillSem(void)
    sem.onScanCenter = &Walrus::ScanOrb;
    sem.scanCover = ACTUAL_CARDS_COUNT * 2; // since we flip the hands
    sem.onAfterMath = &Walrus::SolveSavedTasks;
+}
+
+void Walrus::OrbNorthFillSem(void)
+{
+   Orb_DepFillSem();
+   sem.onScanCenter = &Walrus::Scan3FixedNorth;
+   sem.scanCover = SYMM * ORBIT_PERMUTE_FACTOR;
 }
 
 void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)
@@ -221,4 +256,68 @@ bool Walrus::Orb_ApproveByFly(deal& cards)
    return false;
 }
 
+void Walrus::Scan3FixedNorth()
+{
+   // we have some cards starting from each position
+   SplitBits fixedN(shuf.thrownOut);
+   SplitBits sum(SumFirstHand());
+   SplitBits sec(SumSecondHand());
+   for (int idxHandStart = 0;;) {
+      // full permutation
+      twPermutedContexts xArr(fixedN, sum, sec, NORTH);
+      OrbNorthClassify(xArr.lay);
+
+      // advance to account next hand
+      sum.card.jo -= shuf.deck[idxHandStart].card.jo;
+      u64 flipcd = shuf.deck[SYMM + idxHandStart].card.jo;
+      sec.card.jo -= flipcd;
+      sum.card.jo += flipcd;
+      sec.card.jo += shuf.deck[SYMM2 + idxHandStart++].card.jo;
+
+      // simple exit using count -- it became faster than highBits
+      if (idxHandStart >= ACTUAL_CARDS_COUNT) {
+         break;
+      }
+   }
+}
+
+// a chunk for watching permutations in debugger
+// xA.hand.card.jo = 0xaaaaaaaaaaaaaaaaLL;
+// xB.hand.card.jo = 0xbbbbbbbbbbbbbbbbLL;
+// xC.hand.card.jo = 0xccccccccccccccccLL;
+
+twPermutedContexts::twPermutedContexts
+(const SplitBits& a, const SplitBits& b, const SplitBits& c, uint fixed)
+   : xA(a), xB(b), xC(c)
+{
+   // after constructors above work, we have lay[0..2] in place
+
+   if (fixed == NORTH) {
+      // let's copy to form a certain order:
+      // A-B-C-D-B-C-B-D-C-B
+      // 0 1 2 3 4 5 6 7 8 9
+      lay[ 3] = twContext( SplitBits(a, b, c) );
+      lay[ 4] = xB;
+      lay[ 5] = xC;
+      lay[ 6] = xB;
+      lay[ 7] = lay[3];
+      lay[ 8] = xC;
+      lay[ 9] = xB;
+   } else {
+      DEBUG_UNEXPECTED;
+   }
+}
+
+
+void Walrus::OrbNorthClassify(twContext * lay)
+{
+   // when a hand A is fixed in the start, we get 6 options to lay B,C,D
+   ClassifyAndPush  (lay + 0);// ABCD
+   ClassifyAndPush  (lay + 1);// ACDB
+   ClassifyOnPermute(lay + 2);// ADBC
+   lay[4] = lay[0];           // double-push A
+   ClassifyAndPush  (lay + 4);// ACBD
+   ClassifyAndPush  (lay + 5);// ABDC
+   ClassifyOnPermute(lay + 6);// ADCB
+}
 

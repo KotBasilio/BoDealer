@@ -38,6 +38,7 @@ struct CumulativeScore {
    void OurNV5M(uint tricks);
    void Our5minor(uint tricks);
    void OurNV5minor(uint tricks);
+   void OurNV5mX(uint tricks);
 };
 
 // ------------------------------------------------------------------- SHUFFLER part
@@ -52,7 +53,8 @@ const uint SUPERVISE_REASONABLE = SUPERVISE_CHUNK * ACTUAL_CARDS_COUNT * 2;
 struct Shuffler {
    Shuffler();
    SplitBits deck[DECK_ARR_SIZE];
-   SplitBits highBits; // placed intentionally after deck
+   SplitBits highBits;  // placed intentionally after deck
+   SplitBits thrownOut; // cards that are not for shuffle
 
    // rand work
    void SeedRand();

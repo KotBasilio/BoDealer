@@ -68,6 +68,12 @@ void Walrus::Score_NV_5Minor(DdsTricks &tr)
    cumulScore.OurNV5minor(tr.plainScore);
 }
 
+void Walrus::Score_NV_Doubled5Minor(DdsTricks& tr)
+{
+   HitByScore(tr, 11);
+   cumulScore.OurNV5mX(tr.plainScore);
+}
+
 void Walrus::Score_3NT(DdsTricks& tr)
 {
    // hits

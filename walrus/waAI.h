@@ -28,7 +28,7 @@ struct DdsTask2
 
    DdsTask2() {}
    void Init(SplitBits& a, SplitBits& b) { partner = a; rho = b; }
-   void Init(twContext* lay)  { DEBUG_UNEXPECTED; }
+   void Init(twContext* lay);
 };
 
 // version with 3 hands stored

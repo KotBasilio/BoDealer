@@ -60,9 +60,14 @@ SplitBits::SplitBits(uint hld, uint waPos)
 SplitBits::SplitBits(const SplitBits& a, const SplitBits& b, const SplitBits& c)
 {
    // build a complement
-   u64 full = 0xFFFDFFFDFFFDFFFDLL; 
    u64 sum  = a.card.jo + b.card.jo + c.card.jo; 
-   card.jo  = full - sum;
+   AsComplement(sum);
+}
+
+void SplitBits::AsComplement(u64 jo)
+{
+   u64 full = 0xFFFDFFFDFFFDFFFDLL; 
+   card.jo  = full - jo;
 }
 
 twlHCP::twlHCP(const SplitBits &hand)

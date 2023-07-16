@@ -214,7 +214,8 @@ void Walrus::ShowPercentages(s64 sumRows)
 {
    float percGoDown = hitsRow[IO_ROW_OUR_DOWN] * 100.f / sumRows;
    float percMake = hitsRow[IO_ROW_OUR_MADE] * 100.f / sumRows;
-   printf("Chances: %3.1f%% down some + %3.1f%% make\n", percGoDown, percMake);
+   //printf("Chances: %3.1f%% down some + %3.1f%% make\n", percGoDown, percMake);
+   printf("Chance to make = %3.1f%%\n", percMake);
 }
 
 void Walrus::ShowBiddingLevel(s64 sumRows)
@@ -225,9 +226,9 @@ void Walrus::ShowBiddingLevel(s64 sumRows)
          printf("Averages: ideal = %lld, bidGame = %lld",
             cumulScore.ideal / sumRows,
             cumulScore.bidGame / sumRows);
-         #ifdef SHOW_PARTSCORE_STATLINE
-            printf(", partscore=%lld.   ", cumulScore.partscore / sumRows);
-         #else
+            #ifdef SHOW_PARTSCORE_STATLINE
+               printf(", partscore=%lld.   ", cumulScore.partscore / sumRows);
+            #else
             printf(".   ");
          #endif 
       } else {
@@ -303,12 +304,6 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
 #endif
 }
 
-#ifdef IO_NEED_FULL_TABLE
-   #define OUT_BIG_TABLE(fmt, par)   printf(fmt, par)
-#else
-   #define OUT_BIG_TABLE(fmt, par)   
-#endif // IO_NEED_FULL_TABLE
-
 static void ReportTime(u64 delta1, u64 delta2)
 {
    if (!delta2) {
@@ -339,6 +334,12 @@ void Walrus::ReportState()
       ReportState("\nEnding with:\n");
    }
 }
+
+#ifdef IO_NEED_FULL_TABLE
+   #define OUT_BIG_TABLE(fmt, par)   printf(fmt, par)
+#else
+   #define OUT_BIG_TABLE(fmt, par)   
+#endif // IO_NEED_FULL_TABLE
 
 void Walrus::ReportState(char* header)
 {
@@ -377,7 +378,6 @@ void Walrus::ReportState(char* header)
       printf("\n--------------------------------\n");
       ui.reportRequested = true;
       MiniReport(0);
-   } else {
    }
    ReportTime(delta1, delta2);
 }
