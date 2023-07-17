@@ -4,6 +4,7 @@
 #ifdef SEMANTIC_JUN_MINORS_VS_MAJORS
    #define TITLE_VERSION  "Fix 3343 9hcp, fav vul;\npass-(1s)-2d-(2h)\n3d-(3h)-4c-(4h)-??\nQuestion: dbl, pass or 5c? Ver 2.0 "
    #define INPUT_AS_PBN 
+   #define IO_SHOW_MINI_FILTERING
    #define SEEK_BIDDING_LEVEL
    #define SCORE_THE_OTHER_CONTRACT
    #define SHOW_OPPS_ON_PASS_ONLY

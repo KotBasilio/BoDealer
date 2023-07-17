@@ -202,7 +202,7 @@ void Walrus::SolveSavedTasks()
    if (mul.countToSolve) {
       auto dvs = mul.countToSolve;
       printf("Passing %u for double-dummy inspection: roughly each 1 of %llu; %llu skipped\n", dvs, sum / dvs, sum);
-      #ifdef FOUR_HANDS_TASK
+      #ifdef IO_SHOW_MINI_FILTERING
          ReportMiniFilteringResults();
       #else
          ReportDepFilteringResults();

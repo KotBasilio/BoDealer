@@ -55,6 +55,8 @@
 
 #ifdef FOUR_HANDS_TASK
    #define STUB_DUMMY_HOLDINGS
+   #define IO_DETAILED_REPORT_ON_END
+   #define IO_SHOW_MINI_FILTERING
 #endif
 
 #ifdef PARTNER_HAND_TASK
@@ -83,10 +85,6 @@
    #define IO_HCP_MIN  25
    #define IO_HCP_MAX  25
 #endif
-
-#ifdef FOUR_HANDS_TASK
-   #define IO_DETAILED_REPORT_ON_END
-#endif 
 
 // -----------------------------------------------------------------
 // how to filter (personal opinions)
@@ -151,8 +149,8 @@ const ucell MAX_ITERATION = 3001000000;// 3 mlrd
 const uint MAX_TASKS_TO_SOLVE = 200 * 1000;
 //const uint AIM_TASKS_COUNT = MAX_TASKS_TO_SOLVE / 2;
 //const uint AIM_TASKS_COUNT = 40 * 1000;
-const uint AIM_TASKS_COUNT = 20*1000;
-//const uint AIM_TASKS_COUNT = 5*1000;
+//const uint AIM_TASKS_COUNT = 20*1000;
+const uint AIM_TASKS_COUNT = 5*1000;
 //const uint AIM_TASKS_COUNT = 2*1000;
 
 constexpr ucell ClipByPerformance(ucell lim, ucell a)

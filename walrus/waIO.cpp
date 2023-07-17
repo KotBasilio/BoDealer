@@ -121,6 +121,7 @@ void Walrus::ReportDepFilteringResults()
 void Walrus::ReportMiniFilteringResults()
 {
    ReportState("");
+   PLATFORM_GETCH();
 }
 
 // OUT: hitsRow[], hitsCamp[]
@@ -335,11 +336,11 @@ void Walrus::ReportState()
    }
 }
 
-#ifdef IO_NEED_FULL_TABLE
+#if defined(IO_NEED_FULL_TABLE) || defined (IO_SHOW_MINI_FILTERING)
    #define OUT_BIG_TABLE(fmt, par)   printf(fmt, par)
 #else
    #define OUT_BIG_TABLE(fmt, par)   
-#endif // IO_NEED_FULL_TABLE
+#endif
 
 void Walrus::ReportState(char* header)
 {

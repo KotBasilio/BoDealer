@@ -59,9 +59,7 @@
 #ifdef SEMANTIC_SPLINTER_SHAPE
    //#define TITLE_VERSION  "Only bidding is fixed: 1s pass 4c. Responder holds 4441;\nQuestion: how often opener has Ac, depending on responder shape? Ver 3.0 "
    #define TITLE_VERSION  "Only bidding is fixed: 1s pass 4c. Responder holds 4441; and some other filters\nQuestion: how often a slam makes? Ver 3.0 "
-   #define IO_NEED_FULL_TABLE
    #define FOUR_HANDS_TASK
-   #define STUB_DUMMY_HOLDINGS
    #define INPUT_TRUMPS    SOL_SPADES
    #define IO_HCP_MIN  26
    #define IO_HCP_MAX  30
@@ -72,9 +70,7 @@
 
 #ifdef SEMANTIC_STANDARD_3NT
    #define TITLE_VERSION  "No bidding. 3NT on points. Ver 3.0 "
-   #define IO_NEED_FULL_TABLE
    #define FOUR_HANDS_TASK
-   #define STUB_DUMMY_HOLDINGS
    #define INPUT_TRUMPS    SOL_NOTRUMP
    #define IO_HCP_MIN  23
    #define IO_HCP_MAX  32
@@ -82,9 +78,7 @@
 
 #ifdef SEMANTIC_STANDARD_6NT
    #define TITLE_VERSION  "No bidding. 6NT on points. Ver 3.0 "
-   #define IO_NEED_FULL_TABLE
    #define FOUR_HANDS_TASK
-   #define STUB_DUMMY_HOLDINGS
    #define INPUT_TRUMPS    SOL_NOTRUMP
    #define IO_HCP_MIN  23
    #define IO_HCP_MAX  31
@@ -92,9 +86,7 @@
 
 #ifdef SEMANTIC_CONFIG_BASED
    #define TITLE_VERSION  "Config-based task. Ver 3.0 "
-   #define IO_NEED_FULL_TABLE
    #define FOUR_HANDS_TASK
-   #define STUB_DUMMY_HOLDINGS
    #define INPUT_TRUMPS    SOL_NOTRUMP
 #endif // SEMANTIC_CONFIG_BASED
 

@@ -121,7 +121,7 @@ void Walrus::OrbNorthFillSem(void)
 {
    Orb_DepFillSem();
    sem.onScanCenter = &Walrus::Scan3FixedNorth;
-   sem.scanCover = SYMM * ORBIT_PERMUTE_FACTOR;
+   sem.scanCover = SYMM * ORBIT_PERMUTE_FACTOR * 3;
 }
 
 void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)
