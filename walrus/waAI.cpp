@@ -285,6 +285,11 @@ void Progress::Up(ucell idx)
    }
 }
 
+void Progress::StoreCountToGo(ucell count)
+{
+   hitsCount[IO_ROW_SELECTED][0] = count;
+}
+
 void Walrus::ShowProgress(ucell idx)
 {
    // do reports
@@ -475,7 +480,7 @@ void Walrus::SolveInChunks(deal &dlBase)
       SolveOneChunk(dlBase, bo, i, step);
 
       // always be ready to show progress
-      progress.hitsCount[IO_ROW_SELECTED][0] = mul.countToSolve - i - step;
+      progress.StoreCountToGo(mul.countToSolve - i - step);
       ShowProgress(i);
 
       // fast exit
@@ -489,7 +494,7 @@ void Walrus::SolveInChunks(deal &dlBase)
       step = mul.countToSolve - i;
       SolveOneChunk(dlBase, bo, i, step);
    }
-   progress.hitsCount[IO_ROW_SELECTED][0] = 0;
+   progress.StoreCountToGo(0);
 }
 
 void Walrus::HandleDDSFail(int res)
@@ -609,6 +614,12 @@ bool WaMulti::ShowLiveSigns(uint oneCover)
    const uint LIVE_SIGN = ADDITION_STEP_ITERATIONS * 64 / 70;
 
    if (!hA) {
+      #ifdef SKIP_HELPERS
+         if ( Gathered() > AIM_TASKS_COUNT) {
+            printf("found.");
+            countShare = countIterations;
+         }
+      #endif 
       return false;
    }
 

@@ -65,16 +65,18 @@
 
 #ifndef IO_SHIFT_FOR_EXTRA_MARKS
    #define IO_SHIFT_FOR_EXTRA_MARKS  21
-   #define IO_ROW_SELECTED  (11 + IO_SHIFT_FOR_EXTRA_MARKS)
-   #define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
 #endif
 
-#ifndef IO_ROW_SELECTED 
-   #define IO_ROW_SELECTED  10
-#endif
-
-#ifndef IO_ROW_HCP_START
-   #define IO_ROW_HCP_START 3
+#ifndef IO_ROW_SELECTED
+   #ifdef FOUR_HANDS_TASK
+      #define IO_ROW_HCP_START 3
+      #define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
+      #define IO_ROW_SELECTED  (11 + IO_SHIFT_FOR_EXTRA_MARKS)
+   #else 
+      #define IO_ROW_HCP_START (IO_ROW_THEIRS + 3)
+      #define IO_ROW_FILTERING (IO_ROW_HCP_START + 2)
+      #define IO_ROW_SELECTED  IO_ROW_FILTERING
+   #endif
 #endif
 
 #ifdef IO_HCP_MIN
@@ -128,7 +130,7 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
 typedef u64 ucell;
 #ifdef _DEBUG
    const ucell WALRUS_PERF_FRACTION = 2000;
-   //#define SKIP_HELPERS
+   #define SKIP_HELPERS
    //#define SOLVE_ONE_BY_ONE
 #else
    const ucell WALRUS_PERF_FRACTION = 10;

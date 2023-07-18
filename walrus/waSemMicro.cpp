@@ -23,11 +23,10 @@ uint WaFilter::ExactShape(twContext* lay, const uint* par)
 {
    ACCESS_MICPAR_LEN;
 
-   // match each length
+   // match 3 lengths -- no need to check 4th
    if (len.s == par[1] &&
        len.h == par[2] &&
-       len.d == par[3] &&
-       len.c == par[4]) {
+       len.d == par[3]) {
       return MIC_PASSED;
    }
 
@@ -408,3 +407,13 @@ uint WaFilter::LineKeyCardsRange(twContext* lay, const uint* par, u64 kc_mask)
    return MIC_BLOCK;
 }
 
+uint WaFilter::AnyInListBelow(twContext* lay, const uint* par)
+{
+   return MIC_PASSED;
+}
+
+uint WaFilter::EndList(twContext* lay, const uint* par)
+{
+   auto seat = par[0];
+   return MIC_BLOCK;
+}

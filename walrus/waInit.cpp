@@ -188,9 +188,6 @@ void Walrus::WithdrawHolding(uint hld, uint waPosByDds)
 
 void Walrus::SolveSavedTasks()
 {
-   // a useful sum to reconstruct responder hand
-   SplitBits taskSum(shuf.CheckSum());
-
    // how much filtered out
    u64 sum = 0;
    for (int i = 0; i < HCP_SIZE; i++) {
@@ -200,8 +197,8 @@ void Walrus::SolveSavedTasks()
 
    // show filtration results
    if (mul.countToSolve) {
-      auto dvs = mul.countToSolve;
-      printf("Passing %u for double-dummy inspection: roughly each 1 of %llu; %llu skipped\n", dvs, sum / dvs, sum);
+      printf("Passing %u for double-dummy inspection: roughly each 1 of %llu; %llu skipped\n"
+         , mul.countToSolve, sum / mul.countToSolve, sum);
       #ifdef IO_SHOW_MINI_FILTERING
          ReportMiniFilteringResults();
       #else
@@ -211,8 +208,8 @@ void Walrus::SolveSavedTasks()
    }
 
    // some hit counts are going to appear again as solved tasks
-   progress.hitsCount[1][1] = 0;
-   progress.hitsCount[IO_ROW_SELECTED][0] = 0;
+   progress.hitsCount[1][1] = 0; // ver 2.0
+   progress.StoreCountToGo(0);   // ver 3.0
 
    // do inits for Bo-Analyzer
    deal dlBase;

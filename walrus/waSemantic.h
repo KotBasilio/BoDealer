@@ -35,6 +35,7 @@ struct Progress {
    void Init(ucell _step);
    bool Step();
    void Up(ucell idx);
+   void StoreCountToGo(ucell count);
 };
 
 // Filters
@@ -114,6 +115,9 @@ public:
    uint No2SuiterAntiSpade(twContext* lay, const uint *par);
    uint No2SuitsAntiHeart(twContext* lay, const uint *par);
    uint No2SuitsMinors(twContext* lay, const uint *par);
+   // -- branching
+   uint AnyInListBelow(twContext* lay, const uint *par);
+   uint EndList(twContext* lay, const uint *par);
 private:
    Progress *progress;
    uint LineKeyCardsRange(twContext* lay, const uint* par, u64 kc_mask);

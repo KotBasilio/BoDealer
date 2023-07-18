@@ -121,7 +121,7 @@ void Walrus::OrbNorthFillSem(void)
 {
    Orb_DepFillSem();
    sem.onScanCenter = &Walrus::Scan3FixedNorth;
-   sem.scanCover = SYMM * ORBIT_PERMUTE_FACTOR * 3;
+   sem.scanCover = SYMM * ORBIT_PERMUTE_FACTOR;
 }
 
 void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)
@@ -256,14 +256,28 @@ bool Walrus::Orb_ApproveByFly(deal& cards)
    return false;
 }
 
+union mutedContexts {
+   struct {
+      twContext xA, xB, xC;
+   };
+   twContext lay[SIZE_PERMUTE_PATTERN];
+
+   template <int fixed = 5> 
+   mutedContexts(const SplitBits& a, const SplitBits& b, const SplitBits& c)
+   {
+      printf("fixed %d. ", fixed);
+   }
+};
+
 void Walrus::Scan3FixedNorth()
 {
    // we have some cards starting from each position
    SplitBits fixedN(shuf.thrownOut);
    SplitBits sum(SumFirstHand());
    SplitBits sec(SumSecondHand());
-   for (int idxHandStart = 0;;) {
-      // full permutation
+   SplitBits stop(sec);
+   for (int idxHandStart = 0; sum != stop;) {
+      // do all permutation of 3 hands around N
       twPermutedContexts xArr(fixedN, sum, sec, NORTH);
       OrbNorthClassify(xArr.lay);
 
@@ -273,11 +287,6 @@ void Walrus::Scan3FixedNorth()
       sec.card.jo -= flipcd;
       sum.card.jo += flipcd;
       sec.card.jo += shuf.deck[SYMM2 + idxHandStart++].card.jo;
-
-      // simple exit using count -- it became faster than highBits
-      if (idxHandStart >= ACTUAL_CARDS_COUNT) {
-         break;
-      }
    }
 }
 
@@ -308,6 +317,23 @@ twPermutedContexts::twPermutedContexts
    }
 }
 
+twPermutedContexts::twPermutedContexts
+(const SplitBits& a, const SplitBits& b, const SplitBits& c)
+   : xA(a), xB(b), xC(c)
+{
+   // after constructors above work, we have lay[0..2] in place
+   // (fixed == WEST)
+   // let's copy to form a certain order:
+   // A-B-C-A-B-A-C-B-A-D
+   // 0 1 2 3 4 5 6 7 8 9
+   lay[ 3] = xA;
+   lay[ 4] = xB;
+   lay[ 5] = xA;
+   lay[ 6] = xC;
+   lay[ 7] = xB;
+   lay[ 8] = xA;
+   lay[ 9] = twContext( SplitBits(a, b, c) );
+}
 
 void Walrus::OrbNorthClassify(twContext * lay)
 {
