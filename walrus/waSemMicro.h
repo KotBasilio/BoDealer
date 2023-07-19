@@ -48,3 +48,30 @@ const uint SKIP_BY_SANDWICH = SKIP_BY_OPP;
    const auto &len(lay[seat].len)
 
 
+// a class to rule task logic. fill them on init. 
+// then values are constant through all solving
+typedef void (Walrus::* SemFuncType)();
+typedef void (Shuffler::* ShufflerFunc)();
+typedef void (Walrus::* SemScoring)(DdsTricks &tr);
+typedef void (Walrus::* SemPostMortem)(DdsTricks& tr, deal& cards);
+typedef void (Walrus::* SemOnBoardAdded)(twContext* lay);
+typedef uint (WaFilter::* DepFilterOut)(SplitBits& part, uint& camp, SplitBits& lho, SplitBits& rho);// deprecated since 3.0
+struct Semantics {
+   SemFuncType              onInit;
+   SemFuncType              onShareStart;
+   SemFuncType              onScanCenter;
+   ShufflerFunc             fillFlipover;
+   std::vector<MicroFilter> vecFilters;
+   SemOnBoardAdded          onBoardAdded;
+   SemScoring               onScoring;
+   SemPostMortem            onPostmortem;
+   SemScoring               onSolvedTwice;
+   SemFuncType              onAfterMath;
+   DepFilterOut             onDepFilter;
+   uint scanCover; // how much iterations covers one scan
+   Semantics();
+   void MiniLink();
+};
+
+extern Semantics semShared;
+

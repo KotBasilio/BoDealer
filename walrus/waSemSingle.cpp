@@ -40,7 +40,6 @@ void Walrus::ScanKeycards()
 
 uint Walrus::KeyCards_ClassifyHand(uint &camp, SplitBits &partner)
 {
-   const uint ORDER_BASE = 4;
    const uint SKIP_BY_PART = 1;
 
    // ----------- filter out
@@ -101,7 +100,6 @@ void Walrus::FillSemantic(void)
 uint WaFilter::Spade4(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
    const uint PASS_BASE = ANSWER_ROW_IDX;
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_RESP = 2;
    const uint SKIP_BY_OPP = 3;

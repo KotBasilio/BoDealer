@@ -31,6 +31,7 @@ public:
    const char *GetName() const { return mul.nameHlp; }
    ucell NumFiltered() const { return mul.countToSolve; }
    Progress* GetProgress() { return &progress; }
+   Semantics* GetSemantics() { return &sem; }
 
 protected:
     // Start

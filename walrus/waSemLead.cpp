@@ -17,7 +17,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::LeadMax5D(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
-	const uint ORDER_BASE = 3;
 	const uint SKIP_BY_PART = 1;
 	const uint SKIP_BY_OPP = 2;
 	const uint SKIP_BY_DECL = 3;
@@ -114,7 +113,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::LeadAugVs3H(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
    const uint SKIP_BY_DECL = 3;
@@ -179,7 +177,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::LeadFlat(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
-   const uint ORDER_BASE = 5;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
    const uint SKIP_BY_DECL = 3;
@@ -258,7 +255,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::JuneVZ(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
-   const uint ORDER_BASE = 5;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
    const uint SKIP_BY_DECL = 3;
@@ -339,7 +335,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::NovLevk(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
-   const uint ORDER_BASE = 5;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
    const uint SKIP_BY_DECL = 3;
@@ -400,7 +395,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::NovLevk(SplitBits& partner, uint& camp, SplitBits& dummy, SplitBits& decl)
 {
-   const uint ORDER_BASE = 5;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
    const uint SKIP_BY_DECL = 3;

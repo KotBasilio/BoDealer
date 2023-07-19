@@ -4,10 +4,11 @@
  *
  ************************************************************/
 #include "waCrossPlatform.h"
-#include <cstring>
+//#include <cstring>
 #include HEADER_SLEEP  
 #include HEADER_THREADS
 #include "walrus.h"
+#include HEADER_CURSES
 
 //#define SHOW_EFFORT_SPLIT
 
@@ -240,6 +241,72 @@ void Walrus::Supervise()
          CoWork(needy);
       }
    }
+}
+
+bool WaMulti::ShowLiveSigns(uint oneCover)
+{
+   const uint LIVE_SIGN = ADDITION_STEP_ITERATIONS * 64 / 70;
+
+   if (!hA) {
+      #ifdef SKIP_HELPERS
+         if ( Gathered() > AIM_TASKS_COUNT) {
+            printf("found.");
+            countShare = countIterations;
+         }
+      #endif 
+      return false;
+   }
+
+   if (!isRunning) {
+      return false;
+   }
+
+   // got enough => sign out to stop
+   uint acc = Gathered() + hA->Gathered() + hB->Gathered();
+   if (acc > AIM_TASKS_COUNT) {
+      printf("found.");
+      countShare = countIterations;
+      if (hA->mul.isRunning) {
+         hA->SignOutChunk();
+      }
+      if (hB->mul.isRunning) {
+         hB->SignOutChunk();
+      }
+      return false;
+   }
+
+   // wait / reset
+   if (countShowLiveSign > oneCover) {
+      countShowLiveSign -= oneCover;
+      return false;
+   }
+   countShowLiveSign = LIVE_SIGN;
+
+   // show accumulation progress
+   printf("%d", acc / 1000);
+
+   // consider extension of the search unless we're 95% close
+   if (countIterations + ADDITION_STEP_ITERATIONS > countShare &&
+      acc < (AIM_TASKS_COUNT * 95) / 100) {
+      countShare += ADDITION_STEP_ITERATIONS;
+      hA->mul.countShare += ADDITION_STEP_ITERATIONS;
+      hB->mul.countShare += ADDITION_STEP_ITERATIONS;
+      printf(",");
+   }
+   else {
+      printf(".");
+   }
+
+   // allow interruption
+   if (PLATFORM_KBHIT()) {
+      auto inchar = PLATFORM_GETCH();
+      printf("X");
+      hA->mul.countShare = hA->mul.countIterations + 1000;
+      hB->mul.countShare = hB->mul.countIterations + 1000;
+      countShare = countIterations;
+   }
+
+   return true;
 }
 
 

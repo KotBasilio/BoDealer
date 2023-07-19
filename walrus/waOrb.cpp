@@ -103,7 +103,7 @@ void Walrus::Orb_DepClassify(SplitBits& lho, SplitBits& partner, SplitBits& rho)
       }
 
       // mark all saved together
-      progress.hitsCount[1][1]++;
+      progress.hitsCount[IO_ROW_SELECTED][0]++;
    }
 }
 

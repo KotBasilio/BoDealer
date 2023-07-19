@@ -18,7 +18,6 @@ void Walrus::FillSemantic(void)
 // OUT: camp
 uint WaFilter::Mixed2DwM(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
    const uint SKIP_BY_RESP = 3;
@@ -111,7 +110,6 @@ void Walrus::FillSemantic(void)
 // OUT: camp
 uint WaFilter::NovDbl3NT(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
    const uint SKIP_BY_RESP = 3;
@@ -257,7 +255,6 @@ void Walrus::FillSemantic(void)
 // OUT: camp
 uint WaFilter::NovSlam(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
    const uint SKIP_BY_RESP = 3;
@@ -442,7 +439,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::AugMultiVul(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
 {
-	const uint ORDER_BASE = 3;
 	const uint SKIP_BY_PART = 1;
 	const uint SKIP_BY_RESP = 2;
 	const uint SKIP_BY_OPP = 3;
@@ -503,7 +499,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::AugSplitFit(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
 {
-	const uint ORDER_BASE = 3;
 	const uint SKIP_BY_PART = 1;
 	const uint SKIP_BY_RESP = 2;
 	const uint SKIP_BY_OPP  = 3;
@@ -564,7 +559,6 @@ uint WaFilter::R55(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rh
 {
    // checks are intermixed according to profiler results
    // partner: 15-16 balanced. exactly 4 hearts. exactly 2 diamonds
-   const uint ORDER_BASE = 2;
    const uint SKIP_BY_PART = 1;
 
    twlHCP hcpPart(partner);
@@ -614,7 +608,6 @@ void Walrus::FillSemantic(void)
 // OUT: camp
 uint WaFilter::Tricolor(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
-   const uint ORDER_BASE = 5;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP  = 2;
 
@@ -670,7 +663,6 @@ uint WaFilter::Tricolor(SplitBits &partner, uint &camp, SplitBits &lho, SplitBit
 
 uint WaFilter::TriSunday(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
-   const uint ORDER_BASE = 5;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
 
@@ -719,7 +711,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::SeptMajors(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
 {
-	const uint ORDER_BASE = 3;
 	const uint SKIP_BY_PART = 1;
 	const uint SKIP_BY_RESP = 2;
 	const uint SKIP_BY_OPP = 3;
@@ -773,7 +764,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_RHO = 2;
    const uint SKIP_BY_LHO = 3;
@@ -841,7 +831,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::SeptMajors(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_RESP = 2;
    const uint SKIP_BY_OPP = 3;
@@ -904,7 +893,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::Dec12_2425(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_RESP = 2;
    const uint SKIP_BY_OPP = 3;
@@ -966,7 +954,6 @@ void Walrus::FillSemantic(void)
 // OUT: camp
 uint WaFilter::DecTopHearts(SplitBits &partner, uint &camp, SplitBits &advancer, SplitBits &firstOpp)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
    const uint SKIP_BY_RESP = 3;
@@ -1034,7 +1021,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::DecAcceptTo4S(SplitBits &partner, uint &camp, SplitBits &advancer, SplitBits &firstOpp)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
    const uint SKIP_BY_RESP = 3;
@@ -1110,7 +1096,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::DecAcceptTo4S(SplitBits &partner, uint &camp, SplitBits &firstOpp, SplitBits &advancer)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
    const uint SKIP_BY_RESP = 3;
@@ -1190,7 +1175,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
    const uint SKIP_BY_RESP = 3;
@@ -1281,7 +1265,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::JanDblThenH(SplitBits &partner, uint &camp, SplitBits &firstOpp, SplitBits &resp)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_RESP = 2;
    const uint SKIP_BY_OPP = 3;
@@ -1349,7 +1332,6 @@ void Walrus::FillSemantic(void)
 // OUT: camp
 uint WaFilter::FebManyHearts(SplitBits &partner, uint &camp, SplitBits &doubler, SplitBits &advancer)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_ADVANCER = 2;
    const uint SKIP_BY_DOUBLER = 3;
@@ -1441,7 +1423,6 @@ void Walrus::FillSemantic(void)
 // OUT: camp
 uint WaFilter::MixedPreventive(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
    const uint SKIP_BY_RESP = 3;
@@ -1523,7 +1504,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
    const uint SKIP_BY_RESP = 3;
@@ -1610,7 +1590,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
    const uint SKIP_BY_RESP = 3;
@@ -1719,7 +1698,6 @@ void Walrus::FillSemantic(void)
 // OUT: camp
 uint WaFilter::Dec21Dbl3NT(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
    const uint SKIP_BY_RESP = 3;
@@ -1881,7 +1859,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::JanSpadesGame(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_RESP = 2;
    const uint SKIP_BY_OPP = 3;
@@ -1973,7 +1950,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
    const uint SKIP_BY_RESP = 3;
@@ -2069,7 +2045,6 @@ void Walrus::FillSemantic(void)
 #ifdef SEMANTIC_AUG_3NT_ON_SPADE_FIT
 uint WaFilter::Aug3NTOnFit(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
    const uint SKIP_BY_RESP = 3;
@@ -2140,7 +2115,6 @@ uint WaFilter::Aug3NTOnFit(SplitBits& partner, uint& camp, SplitBits& rho, Split
 #ifdef SEMANTIC_AUG_3NT2_ON_SPADE_FIT
 uint WaFilter::Aug3NTOnFit(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
    const uint SKIP_BY_RESP = 3;
@@ -2216,7 +2190,6 @@ uint WaFilter::Aug3NTOnFit(SplitBits& partner, uint& camp, SplitBits& rho, Split
 #ifdef SEMANTIC_AUG_3NT_ON_44H
 uint WaFilter::Aug3NTOnFit(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_OPP = 2;
    const uint SKIP_BY_RESP = 3;
@@ -2295,7 +2268,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::Sep10_4252(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_RESP = 2;
    const uint SKIP_BY_OPP = 3;
@@ -2380,7 +2352,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::OctWeakGambling(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_RESP = 2;
    const uint SKIP_BY_OPP = 3;
@@ -2452,7 +2423,6 @@ void Walrus::FillSemantic(void)
 
 uint WaFilter::NovInvitePrecision(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho)
 {
-   const uint ORDER_BASE = 3;
    const uint SKIP_BY_PART = 1;
    const uint SKIP_BY_RESP = 2;
    const uint SKIP_BY_OPP = 3;

@@ -53,7 +53,6 @@ Walrus::MiniUI::MiniUI()
       sprintf(miniRowStart[IO_ROW_OUR_MADE], "    (we make): ");
       sprintf(miniRowStart[IO_ROW_THEIRS+0], "   (opp down): ");
       sprintf(miniRowStart[IO_ROW_THEIRS+1], "   (opp make): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS+2], "   (--------): ");
    }
    #endif
    #ifdef SHOW_OUR_OTHER
@@ -62,7 +61,6 @@ Walrus::MiniUI::MiniUI()
       sprintf(miniRowStart[IO_ROW_OUR_MADE], "    (5d make): ");
       sprintf(miniRowStart[IO_ROW_THEIRS+0], "   (3NT down): ");
       sprintf(miniRowStart[IO_ROW_THEIRS+1], "   (3NT make): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS+2], "   (--------): ");
    }
    #endif
 
@@ -81,9 +79,14 @@ Walrus::MiniUI::MiniUI()
 
 static bool IsRowSkippable(int i)
 {
-   // opp res => only middle is skippable
+   // fly => biggest result
+   #if defined (SHOW_MY_FLY_RESULTS)
+      return i > IO_ROW_MYFLY;
+   #endif
+
+   // opp res => show theirs
    #if defined(SHOW_OPP_RESULTS) || defined (SHOW_MY_FLY_RESULTS) || defined(SHOW_OUR_OTHER)
-      return IO_ROW_OUR_MADE + 1 < i && i < IO_ROW_THEIRS;
+      return i > IO_ROW_THEIRS + 1;
    #endif
 
    // only our results => many are skippable

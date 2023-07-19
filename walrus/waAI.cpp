@@ -609,69 +609,40 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
    #endif
 }
 
-bool WaMulti::ShowLiveSigns(uint oneCover)
+void Walrus::SolveSavedTasks()
 {
-   const uint LIVE_SIGN = ADDITION_STEP_ITERATIONS * 64 / 70;
-
-   if (!hA) {
-      #ifdef SKIP_HELPERS
-         if ( Gathered() > AIM_TASKS_COUNT) {
-            printf("found.");
-            countShare = countIterations;
-         }
-      #endif 
-      return false;
+   // how much filtered out
+   u64 sum = 0;
+   for (int i = 0; i < HCP_SIZE; i++) {
+      sum += progress.hitsCount[i][1] + progress.hitsCount[i][2] + progress.hitsCount[i][3];
+      sum += progress.hitsCount[i][4] + progress.hitsCount[i][5] + progress.hitsCount[i][6];
    }
 
-   if (!isRunning) {
-      return false;
+   // show filtration results
+   if (mul.countToSolve) {
+      printf("Passing %u for double-dummy inspection: roughly each 1 of %llu; %llu skipped\n"
+         , mul.countToSolve, sum / mul.countToSolve, sum);
+      #ifdef IO_SHOW_MINI_FILTERING
+         ReportMiniFilteringResults();
+      #else
+         ReportDepFilteringResults();
+      #endif
+      printf("Solving started: ");
    }
 
-   // got enough => sign out to stop
-   uint acc = Gathered() + hA->Gathered() + hB->Gathered();
-   if (acc > AIM_TASKS_COUNT) {
-      printf("found.");
-      countShare = countIterations;
-      if (hA->mul.isRunning) {
-         hA->SignOutChunk();
-      }
-      if (hB->mul.isRunning) {
-         hB->SignOutChunk();
-      }
-      return false;
-   }
+   // some hit counts are going to appear again as solved tasks
+   progress.StoreCountToGo(0);
 
-   // wait / reset
-   if (countShowLiveSign > oneCover) {
-      countShowLiveSign -= oneCover;
-      return false;
-   }
-   countShowLiveSign = LIVE_SIGN;
+   // do inits for Bo-Analyzer
+   deal dlBase;
+   PrepareBaseDeal(dlBase);
+   InitMiniUI(dlBase.trump, dlBase.first);
+   SetMaxThreads(0);
 
-   // show accumulation progress
-   printf("%d", acc / 1000);
-
-   // consider extension of the search unless we're 95% close
-   if (countIterations + ADDITION_STEP_ITERATIONS > countShare &&
-      acc < (AIM_TASKS_COUNT * 95) / 100) {
-      countShare += ADDITION_STEP_ITERATIONS;
-      hA->mul.countShare += ADDITION_STEP_ITERATIONS;
-      hB->mul.countShare += ADDITION_STEP_ITERATIONS;
-      printf(",");
-   }
-   else {
-      printf(".");
-   }
-
-   // allow interruption
-   if (PLATFORM_KBHIT()) {
-      auto inchar = PLATFORM_GETCH();
-      printf("X");
-      hA->mul.countShare = hA->mul.countIterations + 1000;
-      hB->mul.countShare = hB->mul.countIterations + 1000;
-      countShare = countIterations;
-   }
-
-   return true;
+   // decide how to solve
+   #ifdef SOLVE_ONE_BY_ONE
+      SolveOneByOne(dlBase);
+   #else
+      SolveInChunks(dlBase);
+   #endif
 }
-

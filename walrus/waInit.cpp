@@ -35,6 +35,7 @@ Walrus::Walrus()
 void WaFilter::Bind(class Walrus* _walrus) 
 { 
    progress = _walrus->GetProgress(); 
+   sem = _walrus->GetSemantics();
 }
 
 WaConfig::WaConfig()
@@ -92,9 +93,13 @@ Semantics::Semantics()
 {
 #ifdef SEEK_MAGIC_FLY
    onSolvedTwice = &Walrus::Score_MagicFly;
-#endif // SEEK_MAGIC_FLY
+#endif
    vecFilters.reserve(10);
    vecFilters.push_back( MicroFilter(&WaFilter::RejectAll) );
+}
+
+void Semantics::MiniLink()
+{
 }
 
 void Walrus::InitDeck(void)
@@ -186,41 +191,3 @@ void Walrus::WithdrawHolding(uint hld, uint waPosByDds)
    WithdrawRank (hld & RA, waSuit, waPosByDds);
 }
 
-void Walrus::SolveSavedTasks()
-{
-   // how much filtered out
-   u64 sum = 0;
-   for (int i = 0; i < HCP_SIZE; i++) {
-      sum += progress.hitsCount[i][1] + progress.hitsCount[i][2] + progress.hitsCount[i][3];
-      sum += progress.hitsCount[i][4] + progress.hitsCount[i][5] + progress.hitsCount[i][6];
-   }
-
-   // show filtration results
-   if (mul.countToSolve) {
-      printf("Passing %u for double-dummy inspection: roughly each 1 of %llu; %llu skipped\n"
-         , mul.countToSolve, sum / mul.countToSolve, sum);
-      #ifdef IO_SHOW_MINI_FILTERING
-         ReportMiniFilteringResults();
-      #else
-         ReportDepFilteringResults();
-      #endif
-      printf("Solving started: ");
-   }
-
-   // some hit counts are going to appear again as solved tasks
-   progress.hitsCount[1][1] = 0; // ver 2.0
-   progress.StoreCountToGo(0);   // ver 3.0
-
-   // do inits for Bo-Analyzer
-   deal dlBase;
-   PrepareBaseDeal(dlBase);
-   InitMiniUI(dlBase.trump, dlBase.first);
-   SetMaxThreads(0);
-
-   // decide how to solve
-   #ifdef SOLVE_ONE_BY_ONE
-      SolveOneByOne(dlBase);
-   #else
-      SolveInChunks(dlBase);
-   #endif
-}

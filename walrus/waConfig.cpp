@@ -70,6 +70,7 @@ bool Walrus::InitByConfig()
 
    // prepare basing on config
    FillSemantic();
+   sem.MiniLink();
    InitDeck();
    memset(progress.hitsCount, 0, sizeof(progress.hitsCount));
    shuf.SeedRand();

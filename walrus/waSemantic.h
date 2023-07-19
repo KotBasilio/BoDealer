@@ -9,9 +9,9 @@
 const uint IO_ROW_OUR_DOWN = 0;
 const uint IO_ROW_OUR_MADE = IO_ROW_OUR_DOWN + 1;
 const uint IO_ROW_ZEROES = IO_ROW_OUR_DOWN + 2;
-const uint ORDER_BASE = 3;
-const uint IO_ROW_THEIRS = 10;
-const uint IO_ROW_MYFLY = 12;
+const uint IO_ROW_THEIRS = IO_ROW_ZEROES + 1;
+const uint IO_ROW_MYFLY = IO_ROW_THEIRS + 2;
+const uint ORDER_BASE = 7;
 
 // output columns
 const uint IO_CAMP_OFF = 0;
@@ -42,7 +42,7 @@ struct Progress {
 class WaFilter
 {
 public:
-   WaFilter() : progress(nullptr) {}
+   WaFilter() : progress(nullptr), sem(nullptr) {}
    void Bind(class Walrus* _walrus);
    uint DepRejectAll(SplitBits &part, uint &camp, SplitBits &lho, SplitBits &rho) { camp = 2; return 1; }
 
@@ -120,34 +120,8 @@ public:
    uint EndList(twContext* lay, const uint *par);
 private:
    Progress *progress;
+   struct Semantics* sem;
    uint LineKeyCardsRange(twContext* lay, const uint* par, u64 kc_mask);
 };
 
 #include "WaSemMicro.h"
-
-// a class to rule task logic. fill them on init. 
-// then values are constant through all solving
-typedef void (Walrus::* SemFuncType)();
-typedef void (Shuffler::* ShufflerFunc)();
-typedef void (Walrus::* SemScoring)(DdsTricks &tr);
-typedef void (Walrus::* SemPostMortem)(DdsTricks& tr, deal& cards);
-typedef void (Walrus::* SemOnBoardAdded)(twContext* lay);
-typedef uint (WaFilter::* DepFilterOut)(SplitBits& part, uint& camp, SplitBits& lho, SplitBits& rho);// deprecated since 3.0
-struct Semantics {
-   SemFuncType              onInit;
-   SemFuncType              onShareStart;
-   SemFuncType              onScanCenter;
-   ShufflerFunc             fillFlipover;
-   std::vector<MicroFilter> vecFilters;
-   SemOnBoardAdded          onBoardAdded;
-   SemScoring               onScoring;
-   SemPostMortem            onPostmortem;
-   SemScoring               onSolvedTwice;
-   SemFuncType              onAfterMath;
-   DepFilterOut             onDepFilter;
-   uint scanCover; // how much iterations covers one scan
-   Semantics();
-};
-
-extern Semantics semShared;
-
