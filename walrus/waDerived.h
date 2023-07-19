@@ -130,7 +130,7 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
 typedef u64 ucell;
 #ifdef _DEBUG
    const ucell WALRUS_PERF_FRACTION = 2000;
-   #define SKIP_HELPERS
+   //#define SKIP_HELPERS
    //#define SOLVE_ONE_BY_ONE
 #else
    const ucell WALRUS_PERF_FRACTION = 10;

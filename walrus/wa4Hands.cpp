@@ -133,15 +133,9 @@ void Walrus::ClassifyAndPush(twContext* lay)
 
 void Walrus::ClassifyOnPermute(twContext* lay)
 {
-   // run all micro-filters on this 4-hands layout
-   // and mark reason why we skip this board
-   uint camp = IO_ROW_FILTERING;
-   for (const auto &mic: sem.vecFilters) {
-      if (auto reason = (filter.*mic.func)(lay, mic.params)) {
-         progress.hitsCount[camp][reason]++; 
-         return;
-      } 
-      camp++;
+   // board out => goodbye
+   if (filter.ScanOut(lay)) {
+      return;
    }
 
    // save all three hands

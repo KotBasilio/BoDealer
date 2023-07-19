@@ -100,6 +100,31 @@ Semantics::Semantics()
 
 void Semantics::MiniLink()
 {
+   // resolve any-in-list-below block
+   uint retAddr;
+   for (uint ip = 0; ip < vecFilters.size(); ip++) {
+      // notice one
+      auto& mic = vecFilters[ip];
+      if (mic.func != &WaFilter::AnyInListBelow) {
+         continue;
+      }
+
+      // detect return address, done on zero depth or array end
+      int depth = 1;
+      for (retAddr = ip+1; retAddr < vecFilters.size() && depth; retAddr++) {
+         // notice nested blocks 
+         const auto& scanRet = vecFilters[retAddr];
+         if (scanRet.func == &WaFilter::AnyInListBelow) {
+            depth++;
+         }
+         if (scanRet.func == &WaFilter::EndList) {
+            depth--;
+         }
+      }
+
+      // place it in the instruction
+      mic.params[1] = retAddr - 1;
+   }
 }
 
 void Walrus::InitDeck(void)

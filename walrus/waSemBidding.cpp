@@ -2611,13 +2611,13 @@ void Walrus::FillSemantic(void)
    ADD_1PAR_FILTER( WEST,  PointsAtLeast, 7);
    ADD_2PAR_FILTER( EAST,  SpadesLen,   5, 6);
    ADD_2PAR_FILTER( WEST,  HeartsLen,   5, 7);
-   ADD_2PAR_FILTER( WEST,  SpadesLen,   0, 2);
    ADD_2PAR_FILTER( SOUTH, DiamondsLen, 5, 6);
+   ADD_2PAR_FILTER( WEST,  SpadesLen,   0, 2);
    ADD_2PAR_FILTER( SOUTH, ClubsLen,    4, 5);
-   //ADD_0PAR_FILTER( SOUTH, AnyInListBelow );
-   //   ADD_4PAR_FILTER( SOUTH, ExactShape, 3, 0, 6, 4);
-   //   ADD_4PAR_FILTER( SOUTH, ExactShape, 3, 0, 4, 6);
-   //ADD_0PAR_FILTER( SOUTH, EndList );
-
+   ADD_0PAR_FILTER( SOUTH, AnyInListBelow );
+      ADD_4PAR_FILTER( SOUTH, ExactShape, 3, 0, 6, 4);
+      ADD_4PAR_FILTER( SOUTH, ExactShape, 3, 0, 5, 5);
+   ADD_0PAR_FILTER( SOUTH, EndList );
+   ADD_2PAR_FILTER( SOUTH, ClubsLen,    4, 5);
 }
 #endif // SEMANTIC_JUN_MINORS_VS_MAJORS

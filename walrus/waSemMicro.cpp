@@ -407,13 +407,56 @@ uint WaFilter::LineKeyCardsRange(twContext* lay, const uint* par, u64 kc_mask)
    return MIC_BLOCK;
 }
 
+bool WaFilter::ScanOut(twContext* lay)
+{
+   // run all micro-filters on this 4-hands layout
+   // and mark reason why we skip this board
+   exec.Reset();
+   for (auto &ip = exec.ip; ip < sem->vecFilters.size(); ip++) {
+      const auto& mic = sem->vecFilters[ip];
+      if (auto reason = (this->*mic.func)(lay, mic.params)) {
+         progress->hitsCount[IO_ROW_FILTERING + ip][reason]++; 
+         return true;
+      } 
+   }
+
+   // not scanned out
+   return false;
+}
+
 uint WaFilter::AnyInListBelow(twContext* lay, const uint* par)
 {
-   return MIC_PASSED;
+   // init
+   uint reason = MIC_PASSED;
+   exec.depth++;
+   auto &ip = exec.ip;
+   auto last = par[1] - 1;
+
+   // know when to stop
+   for (ip++; ip <= last; ip++) {
+      // try each filter
+      const auto& mic = sem->vecFilters[ip];
+      reason = (this->*mic.func)(lay, mic.params);
+      if (reason) {
+         // not a problem, just imprint middle checks it in the main table
+         if (ip < last) {
+            progress->hitsCount[IO_ROW_FILTERING + ip][reason]++; 
+            progress->countExtraMarks++;
+         }
+      } else {
+         // entire block is accepted
+         exec.depth--;
+         ip = last;
+      }
+   }
+
+   // pass or fail by the last filter
+   return reason;
 }
 
 uint WaFilter::EndList(twContext* lay, const uint* par)
 {
-   auto seat = par[0];
-   return MIC_BLOCK;
+   // should not really execute this filter
+   DEBUG_UNEXPECTED;
+   return MIC_PASSED;
 }

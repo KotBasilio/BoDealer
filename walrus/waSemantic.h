@@ -44,6 +44,7 @@ class WaFilter
 public:
    WaFilter() : progress(nullptr), sem(nullptr) {}
    void Bind(class Walrus* _walrus);
+   bool ScanOut(twContext* lay);
    uint DepRejectAll(SplitBits &part, uint &camp, SplitBits &lho, SplitBits &rho) { camp = 2; return 1; }
 
    // ver 2.0 Filters
@@ -122,6 +123,12 @@ private:
    Progress *progress;
    struct Semantics* sem;
    uint LineKeyCardsRange(twContext* lay, const uint* par, u64 kc_mask);
+
+   struct semExec {
+      uint ip;     // instruction pointer
+      uint depth;  // how much are we within nested condition
+      void Reset() { ip = 0; depth = 0; }
+   } exec;
 };
 
 #include "WaSemMicro.h"
