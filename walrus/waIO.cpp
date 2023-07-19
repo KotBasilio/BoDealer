@@ -433,7 +433,14 @@ void Walrus::ReportLine(ucell sumline, int i)
       }
    }
 
-   OUT_BIG_TABLE("    : %-14llu\n", sumline);
+   OUT_BIG_TABLE("    : %-14llu", sumline);
+   if (i >= IO_ROW_FILTERING) {
+      uint fidx = i - IO_ROW_FILTERING;
+      if (fidx < sem.vecFilters.size()) {
+         OUT_BIG_TABLE("  %s", sem.vecFilters[fidx].name);
+      }
+   }
+   OUT_BIG_TABLE("%s", "\n");
    shownDashes = false;
 
    // may add percentages

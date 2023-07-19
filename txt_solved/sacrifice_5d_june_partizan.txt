@@ -1,0 +1,61 @@
+Fix 3343 9hcp, fav vul;
+pass-(1s)-2d-(2h)
+3d-(3h)-4c-(4h)-
+??
+Question: dbl, pass or 5c? Ver 2.0  started.
+Dummy config is read. finding 100K boards.
+
+   sem.onScoring = &Walrus::Score_NV_Doubled5Minor;
+   sem.onSolvedTwice = &Walrus::Score_Opp4Major;
+   ADD_2PAR_FILTER( SOUTH, PointsRange,   11, 16);
+   ADD_2PAR_FILTER( EAST,  PointsRange,   11, 16);
+   ADD_1PAR_FILTER( WEST,  PointsAtLeast, 7);
+   ADD_2PAR_FILTER( EAST,  SpadesLen,   5, 6);
+   ADD_2PAR_FILTER( WEST,  HeartsLen,   5, 7);
+   ADD_2PAR_FILTER( EAST,  HeartsLen,   3, 4);
+   ADD_2PAR_FILTER( SOUTH, DiamondsLen, 5, 6);
+   ADD_2PAR_FILTER( WEST,  SpadesLen,   0, 2);
+   ADD_2PAR_FILTER( SOUTH, ClubsLen,    4, 5);
+   ADD_0PAR_FILTER( SOUTH, AnyInListBelow );
+      ADD_2PAR_FILTER( SOUTH, DiamondsLen, 6, 6);
+      ADD_2PAR_FILTER( SOUTH, ClubsLen,    5, 5);
+   ADD_0PAR_FILTER( SOUTH, EndList );
+   ADD_0PAR_FILTER( EAST,  AnyInListBelow );
+      ADD_1PAR_FILTER( EAST,  PointsAtLeast, 15);
+      ADD_2PAR_FILTER( EAST,  SpadesLen,   6, 6);
+      ADD_2PAR_FILTER( EAST,  HeartsLen,   4, 4);
+   ADD_0PAR_FILTER( EAST,  EndList );
+
+
+----
+08:        0,       0,       0,   >MLRD,       0,    : 5060600764      PointsRange
+09:        0,       0,   >MLRD,       0,       0,    : 2356689132      PointsRange
+10:        0,       0,       0,       0,    >XXM,    : 662616050       PointsAtLeast
+11:        0,       0,    >XXM,       0,       0,    : 366607733       SpadesLen
+12:        0,       0,       0,       0,     >XM,    : 59704166        HeartsLen
+13:        0,       0,     >XM,       0,       0,    : 14196368        HeartsLen
+14:        0,       0,       0,    >MLN,       0,    : 3995118         DiamondsLen
+15:        0,       0,       0,       0,  753981,    : 753981          SpadesLen
+16:        0,       0,       0,  707059,       0,    : 707059          ClubsLen
+----
+18:        0,       0,       0,  385109,       0,    : 385109          DiamondsLen
+19:        0,       0,       0,  315115,       0,    : 315115          ClubsLen
+----
+22:        0,       0,  110500,       0,       0,    : 110500          PointsAtLeast
+23:        0,       0,   28744,       0,       0,    : 28744           SpadesLen
+24:        0,       0,   10498,       0,       0,    : 10498           HeartsLen
+----
+Total iterations = 8526295986, balance is fine
+
+--------------------------------
+
+    :  HITS COUNT   :
+    (we down):    39179,   35633,    9745,    2730,      89,       0,       0,       87376
+    (we make):    10827,    1647,     152,       0,       0,       0,       0,       12626
+       (----):        0,       0,       0,       0,       0,       0,       0,           0
+   (opp down):    31521,   12506,     881,       7,       0,       0,       0,       44915
+   (opp make):    35810,   15131,    3983,     163,       0,       0,       0,       55087
+Processed: 100002 total. West is on lead. Goal is 11 tricks in diamonds.
+Averages: ideal = 172, bidGame = -146.   Chance to make = 12.6%
+Their contract expectation average: -289. Chance to make = 55.1%
+The search took 28.2 sec + an aftermath 26 min 20 sec.

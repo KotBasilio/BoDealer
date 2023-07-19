@@ -3,7 +3,7 @@
 #define MIC_PASSED 0
 #define MIC_BLOCK (seat + 1)
 
-MicroFilter::MicroFilter(MicroFunc f, uint p0, uint p1, uint p2, uint p3, uint p4)
+MicroFilter::MicroFilter(MicroFunc f, const char *_name, uint p0, uint p1, uint p2, uint p3, uint p4)
    : func(f)
 {
    params[0] = p0;
@@ -11,6 +11,7 @@ MicroFilter::MicroFilter(MicroFunc f, uint p0, uint p1, uint p2, uint p3, uint p
    params[2] = p2;
    params[3] = p3;
    params[4] = p4;
+   strcpy_s(name, _name);
 }
 
 uint WaFilter::OKNum(twContext* lay, const uint* par)
@@ -438,10 +439,13 @@ uint WaFilter::AnyInListBelow(twContext* lay, const uint* par)
       const auto& mic = sem->vecFilters[ip];
       reason = (this->*mic.func)(lay, mic.params);
       if (reason) {
-         // not a problem, just imprint middle checks it in the main table
+         // not a problem, just imprint it in the main table
+         auto row = IO_ROW_FILTERING + ip;
+         progress->hitsCount[row][reason]++; 
          if (ip < last) {
-            progress->hitsCount[IO_ROW_FILTERING + ip][reason]++; 
             progress->countExtraMarks++;
+         } else {
+            progress->hitsCount[row + 1][reason]--; 
          }
       } else {
          // entire block is accepted

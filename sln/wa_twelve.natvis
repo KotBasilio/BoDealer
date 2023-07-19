@@ -28,7 +28,7 @@
       <DisplayString>{partner} / {rho}</DisplayString>
    </Type>
    <Type Name="MicroFilter">
-      <DisplayString>({params[0]},{params[1]},{params[2]},{params[3]}) -> {**func}(blah)</DisplayString>
+      <DisplayString>({params[0]},{params[1]},{params[2]},{params[3]}) -> {name,s}</DisplayString>
    </Type>
 
 </AutoVisualizer>

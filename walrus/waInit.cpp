@@ -95,7 +95,7 @@ Semantics::Semantics()
    onSolvedTwice = &Walrus::Score_MagicFly;
 #endif
    vecFilters.reserve(10);
-   vecFilters.push_back( MicroFilter(&WaFilter::RejectAll) );
+   vecFilters.push_back( MicroFilter(&WaFilter::RejectAll, "RejectAll"));
 }
 
 void Semantics::MiniLink()
