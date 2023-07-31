@@ -14,6 +14,12 @@
    #define SHOW_MY_FLY_RESULTS
 #endif
 
+#ifdef SEEK_SACRIFICE_DECISION
+   #define SEEK_BIDDING_LEVEL
+   #define SCORE_THE_OTHER_CONTRACT
+   #define SHOW_SACRIFICE_RESULTS
+#endif
+
 #ifdef SCORE_THE_OTHER_CONTRACT
    #define SOLVE_TWICE_HANDLED_CHUNK
    #define TWICE_TRUMPS            OC_TRUMPS
@@ -149,8 +155,8 @@ const ucell MAX_ITERATION = 3001000000;// 3 mlrd
 //const ucell MAX_ITERATION = 3000;
 
 const uint MAX_TASKS_TO_SOLVE = 200 * 1000;
-const uint AIM_TASKS_COUNT = MAX_TASKS_TO_SOLVE / 2;
-//const uint AIM_TASKS_COUNT = 40 * 1000;
+//const uint AIM_TASKS_COUNT = MAX_TASKS_TO_SOLVE / 2;
+const uint AIM_TASKS_COUNT = 50 * 1000;
 //const uint AIM_TASKS_COUNT = 20*1000;
 //const uint AIM_TASKS_COUNT = 5*1000;
 //const uint AIM_TASKS_COUNT = 2*1000;

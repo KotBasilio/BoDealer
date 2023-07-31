@@ -595,6 +595,11 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
          trTw.Init(twice.solvedBoard[handno]);
          (this->*sem.onSolvedTwice)(trTw);
 
+         #ifdef SEEK_SACRIFICE_DECISION
+            //DdsTricks tr; tr.Init(solved.solvedBoard[handno]);
+            //NoticeSacrificePossible(tr.plainScore, trTw.plainScore);
+         #endif
+
          #ifdef SEEK_MAGIC_FLY
             DdsTricks tr; tr.Init(solved.solvedBoard[handno]);
             NoticeMagicFly(tr.plainScore, trTw.plainScore);

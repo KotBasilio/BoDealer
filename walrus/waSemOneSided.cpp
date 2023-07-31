@@ -140,3 +140,22 @@ uint WaFilter::SomeInvite(SplitBits& partner, uint& camp, SplitBits& sand, Split
 
 #endif // SEMANTIC_FEB_3NT_REBID
 
+// ------------------------------------------------------------------------
+// 3.0 micro-filters
+#ifdef SEMANTIC_JULY_MOROZOV_HAND_EVAL
+void Walrus::FillSemantic(void)
+{
+   OrbNorthFillSem();
+   //sem.onBoardAdded = &Walrus::DisplayBoard;
+   //sem.onScoring = &Walrus::Score_3NT;
+   sem.onScoring = &Walrus::Score_6NT;
+   sem.vecFilters.clear();
+   //ADD_2PAR_FILTER( SOUTH, PointsRange, 15, 17);
+   ADD_2PAR_FILTER( SOUTH, PointsRange, 16, 17);
+   ADD_2PAR_FILTER( SOUTH, SpadesLen,   2, 3);
+   ADD_2PAR_FILTER( SOUTH, HeartsLen,   2, 3);
+   ADD_2PAR_FILTER( SOUTH, DiamondsLen, 2, 5);
+   ADD_2PAR_FILTER( SOUTH, ClubsLen,    2, 5);
+}
+#endif // SEMANTIC_JULY_MOROZOV_HAND_EVAL
+

@@ -1,6 +1,12 @@
 // -----------------------------------------------------------------
 // --- DESCRIPTIONS
 
+#ifdef SEMANTIC_JULY_MOROZOV_HAND_EVAL
+   #define TITLE_VERSION  "Morozov's lecture hand evaluation in NT. Task"
+   #define SEEK_BIDDING_LEVEL
+   #define INPUT_AS_PBN 
+#endif 
+
 #ifdef SEMANTIC_FEB_3NT_REBID
    #define TITLE_VERSION  "Fix a 14 hcp 6 diamonds;\n1d 1NT\nQuestion: Should we invite bid 3NT? Task"
    #define SEEK_BIDDING_LEVEL

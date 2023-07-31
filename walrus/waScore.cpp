@@ -200,6 +200,12 @@ void Walrus::Score_NV6NoTrump(DdsTricks &tr)
    cumulScore.OurNV6_No(tr.plainScore);
 }
 
+void Walrus::Score_6NT(DdsTricks &tr)
+{
+   HitByScore(tr, 12);
+   cumulScore.Our6_No(tr.plainScore);
+}
+
 void Walrus::PostmortemHCP(DdsTricks& tr, deal& cards)
 {
    // ensure we include this in stat

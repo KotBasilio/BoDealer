@@ -61,6 +61,7 @@ protected:
     void HandleSolvedChunk(struct boards& bo, struct solvedBoards& chunk);
     bool HandleSolvedBoard(DdsTricks &tr, deal &cards);
     void NoticeMagicFly(uint trickSuit, uint tricksNT);
+    void NoticeMagicFlyNoticeSacrificePossible(uint trickSuit, uint tricksNT);
     void CountComboScore(uint trickSuit, uint tricksNT);
     void HandleDDSFail(int res);
 
@@ -104,6 +105,7 @@ protected:
     void Score_NV6Major(DdsTricks &tr);
     void Score_NV6Minor(DdsTricks &tr);
     void Score_NV6NoTrump(DdsTricks &tr);
+    void Score_6NT(DdsTricks &tr);
     void Score_OpLead3Major(DdsTricks &tr);
     void Score_OpLead3NT(DdsTricks &tr);
     void Score_OpLead3NTX(DdsTricks &tr);

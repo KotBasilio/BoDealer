@@ -11,6 +11,7 @@ const uint IO_ROW_OUR_MADE = IO_ROW_OUR_DOWN + 1;
 const uint IO_ROW_ZEROES = IO_ROW_OUR_DOWN + 2;
 const uint IO_ROW_THEIRS = IO_ROW_ZEROES + 1;
 const uint IO_ROW_MYFLY = IO_ROW_THEIRS + 2;
+const uint IO_ROW_SACRIFICE = IO_ROW_MYFLY;
 const uint ORDER_BASE = 7;
 
 // output columns
@@ -18,6 +19,8 @@ const uint IO_CAMP_OFF = 0;
 const uint IO_CAMP_PREFER_SUIT = 1;
 const uint IO_CAMP_SAME_NT = 2;
 const uint IO_CAMP_MORE_NT = 3;
+const uint IO_CAMP_PREFER_TO_BID = 1;
+const uint IO_CAMP_REFRAIN_BIDDING = 3;
 
 // hitsCount[][]; distribution 
 // -- rows are big factor (aka hcp, 0 - 40)

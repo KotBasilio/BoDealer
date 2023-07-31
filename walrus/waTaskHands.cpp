@@ -15,6 +15,12 @@
  // --------------------------------------------------------------------------------
  // input
 //char const taskHandPBN[] = "[N:...]";
+#ifdef SEMANTIC_JULY_MOROZOV_HAND_EVAL
+#define INPUT_TRUMPS    SOL_NOTRUMP
+#define INPUT_ON_LEAD   WEST
+//char const taskHandPBN[] = "[N:AQJ.KJT5.A763.95]";
+char const taskHandPBN[] = "[N:A95.KJT5.A763.QJ]";
+#endif 
 
 #ifdef SEMANTIC_JUN_MINORS_VS_MAJORS
 // origin: Partizan, July 2023

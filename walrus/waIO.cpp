@@ -55,6 +55,13 @@ Walrus::MiniUI::MiniUI()
       sprintf(miniRowStart[IO_ROW_THEIRS+1], "   (opp make): ");
    }
    #endif
+
+   #ifdef SHOW_SACRIFICE_RESULTS
+   {
+      sprintf(miniRowStart[IO_ROW_THEIRS+2], "(bid/refrain): ");
+   }
+   #endif 
+
    #ifdef SHOW_OUR_OTHER
    {
       sprintf(miniRowStart[IO_ROW_OUR_DOWN], "    (5d down): ");
@@ -70,7 +77,7 @@ Walrus::MiniUI::MiniUI()
       sprintf(miniRowStart[IO_ROW_THEIRS + 1], "   (3NT make): ");
       sprintf(miniRowStart[IO_ROW_THEIRS + 2], "less, =, more: ");
    }
-   #endif // SHOW_MY_FLY_RESULTS
+   #endif
 
    #ifdef IO_DISPLAY_CONTROLS_SPLIT
       minControls = (IO_HCP_MIN * 4) / 10 - 6;
@@ -80,12 +87,12 @@ Walrus::MiniUI::MiniUI()
 static bool IsRowSkippable(int i)
 {
    // fly => biggest result
-   #if defined (SHOW_MY_FLY_RESULTS)
+   #if defined(SHOW_MY_FLY_RESULTS) || defined(SHOW_SACRIFICE_RESULTS)
       return i > IO_ROW_MYFLY;
    #endif
 
    // opp res => show theirs
-   #if defined(SHOW_OPP_RESULTS) || defined (SHOW_MY_FLY_RESULTS) || defined(SHOW_OUR_OTHER)
+   #if defined(SHOW_OPP_RESULTS) || defined(SHOW_OUR_OTHER)
       return i > IO_ROW_THEIRS + 1;
    #endif
 
@@ -124,7 +131,7 @@ void Walrus::ReportDepFilteringResults()
 void Walrus::ReportMiniFilteringResults()
 {
    ReportState("");
-   PLATFORM_GETCH();
+   //PLATFORM_GETCH();
 }
 
 // OUT: hitsRow[], hitsCamp[]
@@ -288,13 +295,22 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
 
    // magic fly
 #ifdef SHOW_MY_FLY_RESULTS
-   ucell sumNT = progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_MORE_NT] +
-      progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_SAME_NT];
+   ucell sumNT =   progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_MORE_NT] +
+                   progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_SAME_NT];
    ucell sumSuit = progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_PREFER_SUIT];
    sumRows = __max(sumNT + sumSuit, 1);
    float percBetterNT = sumNT * 100.f / sumRows;
    printf("NT is better in: %3.1f%% cases\n", percBetterNT);
-#endif // SHOW_MY_FLY_RESULTS
+#endif
+
+   // sacrifice
+#ifdef SHOW_SACRIFICE_RESULTS
+   s64 sumSacr = (s64)progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_PREFER_TO_BID];
+   s64 sumDefd = (s64)progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_REFRAIN_BIDDING];
+   sumRows = __max(sumSacr + sumDefd, 1);
+   float percBetterBid = sumDefd * 100.f / sumRows;
+   printf("To bid is better in: %3.1f%% cases\n", percBetterBid);
+#endif
 
 #ifdef IO_DETAILED_REPORT_ON_END
    if (ui.reportRequested) {

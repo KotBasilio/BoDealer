@@ -4,6 +4,7 @@
  ************************************************************/
 
 // Bidding decision one-sided:
+#define SEMANTIC_JULY_MOROZOV_HAND_EVAL
 //#define SEMANTIC_FEB_3NT_REBID
 //#define SEMANTIC_JAN_INVITE_MINORS
 //#define SEMANTIC_NOV_INVITE_PRECISION
@@ -25,7 +26,7 @@
 //#define SEMANTIC_SEPT_MANTICORA_14_16
 
 // Bidding decision competitive:
-#define SEMANTIC_JUN_MINORS_VS_MAJORS
+//#define SEMANTIC_JUN_MINORS_VS_MAJORS
 //#define SEMANTIC_OCT_WEAK_GAMBLING
 //#define SEMANTIC_AUG_SPLIT_FIT
 //#define SEMANTIC_DEC_ACCEPT_TO_4S
