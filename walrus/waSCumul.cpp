@@ -353,6 +353,38 @@ void CumulativeScore::OurNV6m(uint tricks)
    }
 }
 
+void CumulativeScore::OurNV7m(uint tricks)
+{
+   // "always slam" strategy
+   switch (tricks) {
+      case 2:  bidSlam -= 500; break;
+      case 3:  bidSlam -= 450; break;
+      case 4:  bidSlam -= 350; break;
+      case 5:  bidSlam -= 400; break;
+      case 6:  bidSlam -= 350; break;
+      case 7:  bidSlam -= 300; break;
+      case 8:  bidSlam -= 250; break;
+      case 9:  bidSlam -= 200; break;
+      case 10: bidSlam -= 150; break;
+      case 11: bidSlam -= 100; break;
+      case 12: bidSlam -= 50;  break;
+      case 13: bidSlam += 1440; break;
+   }
+
+   // "always game" strategy
+   int gameDelta = tricks > 11 ?
+      500 + 300 + (tricks - 6) * 20 :
+      -50 * (12 - tricks);
+   bidGame += gameDelta;
+
+   // "ideal"
+   if (tricks < 13) {
+      ideal += gameDelta;
+   } else {
+      ideal += 1440;
+   }
+}
+
 void CumulativeScore::OurNV6Maj(uint tricks)
 {
    // "always slam" strategy

@@ -318,6 +318,11 @@ int Walrus::PokeScorerForTricks()
       return 9;
    }
 
+   // grand slams
+   if (cumulScore.ideal >= 1440) {
+      return 13;
+   }
+
    // 920 etc => at least a small slam
    if (cumulScore.ideal > 900) {
       return 12;

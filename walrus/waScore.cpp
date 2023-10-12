@@ -194,6 +194,12 @@ void Walrus::Score_NV6Minor(DdsTricks& tr)
    cumulScore.OurNV6m(tr.plainScore);
 }
 
+void Walrus::Score_NV7Minor(DdsTricks& tr)
+{
+   HitByScore(tr, 13);
+   cumulScore.OurNV7m(tr.plainScore);
+}
+
 void Walrus::Score_NV6NoTrump(DdsTricks &tr)
 {
    HitByScore(tr, 12);
