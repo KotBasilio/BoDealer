@@ -163,15 +163,16 @@ void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
    //sem.onBoardAdded = &Walrus::DisplayBoard;
-   sem.onScoring = &Walrus::Score_NV7Minor;
+   sem.onScoring = &Walrus::Score_NV6Minor;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
    ADD_4PAR_FILTER(SOUTH, ExactShape, 3, 2, 5, 3);
-   ADD_2PAR_FILTER(SOUTH, PointsRange, 14, 16);
+   ADD_2PAR_FILTER(SOUTH, PointsRange, 10, 10);
    ADD_0PAR_FILTER(EAST, NoOvercall);
    ADD_0PAR_FILTER(WEST, NoOvercall);
-   ADD_3PAR_FILTER(SOUTH, KeyCardsRange, SOL_DIAMONDS, 2, 2);
-   //ADD_3PAR_FILTER(SOUTH, KeyCardsRange, SOL_DIAMONDS, 1, 2);
+   ADD_3PAR_FILTER(SOUTH, KeyCardsRange, SOL_DIAMONDS, 1, 2);
+
+   //ADD_3PAR_FILTER(SOUTH, KeyCardsRange, SOL_DIAMONDS, 2, 2);
 }
 #endif // SEMANTIC_OCT_SEEK_6D
 
