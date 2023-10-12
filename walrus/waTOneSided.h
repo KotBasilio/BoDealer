@@ -1,6 +1,15 @@
 // -----------------------------------------------------------------
 // --- DESCRIPTIONS
 
+#ifdef SEMANTIC_OCT_SEEK_6D
+   #define TITLE_VERSION  "Fix a 19 hcp 2434;\n1d 1h 1NT 2d 2s\nQuestion: How often 6d makes? Task"
+   #define INPUT_AS_PBN 
+   #define SEEK_BIDDING_LEVEL
+   #define IO_LAYOUT_3_0
+   #define IO_HCP_MIN  29
+   #define IO_HCP_MAX  35
+#endif 
+
 #ifdef SEMANTIC_JULY_MOROZOV_HAND_EVAL
    #define TITLE_VERSION  "Morozov's lecture hand evaluation in NT. Task"
    #define SEEK_BIDDING_LEVEL

@@ -70,7 +70,7 @@ uint Walrus::KeyCards_ClassifyHand(uint &camp, SplitBits &partner)
       : 0x0000400000000000LL;
 
    // get keycards
-   u64 kc_mask = 0x8000800080008000LL | king;
+   u64 kc_mask = ANY_ACE | king;
    u64 keycards = partner.card.jo & kc_mask;
 
    // sum bits

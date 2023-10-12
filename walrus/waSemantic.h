@@ -94,6 +94,7 @@ public:
    uint PointsRange(twContext* lay, const uint *par);
    uint PointsLimit(twContext* lay, const uint *par);
    uint PointsAtLeast(twContext* lay, const uint *par);
+   uint KeyCardsRange(twContext* lay, const uint* par);
    // -
    uint ControlsRange(twContext* lay, const uint *par);
    uint LineControlsRange(twContext* lay, const uint* par);
@@ -126,6 +127,7 @@ private:
    Progress *progress;
    struct Semantics* sem;
    uint LineKeyCardsRange(twContext* lay, const uint* par, u64 kc_mask);
+   bool KeyCardsRange(u64 jo, u64 kc_mask, uint from, uint to);
 
    struct semExec {
       uint ip;     // instruction pointer

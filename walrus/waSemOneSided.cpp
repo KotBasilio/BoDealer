@@ -137,7 +137,6 @@ uint WaFilter::SomeInvite(SplitBits& partner, uint& camp, SplitBits& sand, Split
    // seems it passes
    return 0;
 }
-
 #endif // SEMANTIC_FEB_3NT_REBID
 
 // ------------------------------------------------------------------------
@@ -158,4 +157,21 @@ void Walrus::FillSemantic(void)
    ADD_2PAR_FILTER( SOUTH, ClubsLen,    2, 5);
 }
 #endif // SEMANTIC_JULY_MOROZOV_HAND_EVAL
+
+#ifdef SEMANTIC_OCT_SEEK_6D
+void Walrus::FillSemantic(void)
+{
+   OrbNorthFillSem();
+   //sem.onBoardAdded = &Walrus::DisplayBoard;
+   sem.onScoring = &Walrus::Score_NV6Minor;
+   sem.onPostmortem = &Walrus::PostmortemHCP;
+   sem.vecFilters.clear();
+   ADD_4PAR_FILTER(SOUTH, ExactShape, 3, 2, 5, 3);
+   ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 16);
+   ADD_0PAR_FILTER(EAST, NoOvercall);
+   ADD_0PAR_FILTER(WEST, NoOvercall);
+   ADD_3PAR_FILTER(SOUTH, KeyCardsRange, SOL_DIAMONDS, 2, 2);
+   //ADD_3PAR_FILTER(SOUTH, KeyCardsRange, SOL_DIAMONDS, 1, 2);
+}
+#endif // SEMANTIC_OCT_SEEK_6D
 

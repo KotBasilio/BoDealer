@@ -150,14 +150,35 @@ uint WaFilter::LineControlsRange(twContext* lay, const uint* par)
    return MIC_BLOCK;
 }
 
-uint WaFilter::LineKeyCardsSpade(twContext* lay, const uint* par)
+static u64 sKingBit[] =
 {
+   0x4000000000000000LL, // SOL_SPADES
+   0x0000400000000000LL, // SOL_HEARTS  
+   0x0000000040000000LL, // SOL_DIAMONDS
+   0x0000000000004000LL, // SOL_CLUBS
+   0LL                   // SOL_NOTRUMP
+};
+
+uint WaFilter::KeyCardsRange(twContext* lay, const uint* par)
+{
+   ACCESS_MICPAR_JO;
+
+   // which king do we need
+   auto sol_suit = par[1];
+   u64 kc_mask = ANY_ACE | sKingBit[sol_suit];
+
+   // relay
+   return KeyCardsRange(jo, kc_mask, par[2], par[3]) ? MIC_PASSED : MIC_BLOCK;
+}
+
+
+uint WaFilter::LineKeyCardsSpade(twContext* lay, const uint* par)
+{// obsolete and early version. see more generic
    auto seat     = par[0];
    auto seatPart = par[1];
 
    // which king do we need
-   u64 king    = 0x4000000000000000LL;
-   u64 kc_mask = 0x8000800080008000LL | king;
+   u64 kc_mask = ANY_ACE | sKingBit[SOL_SPADES];
 
    // combine the line
    u64 line = lay[seat    ].hand.card.jo +
@@ -378,7 +399,7 @@ uint WaFilter::No2SuitsMinors(twContext* lay, const uint* par)
 uint WaFilter::LineAcesRange(twContext* lay, const uint* par)
 {
    // aces only
-   u64 kc_mask = 0x8000800080008000LL;
+   u64 kc_mask = ANY_ACE;
    return LineKeyCardsRange(lay, par, kc_mask);
 }
 
@@ -390,7 +411,15 @@ uint WaFilter::LineKeyCardsRange(twContext* lay, const uint* par, u64 kc_mask)
    // combine the line keycards
    u64 line = lay[seat    ].hand.card.jo +
               lay[seatPart].hand.card.jo;
-   u64 keycards = (line & kc_mask) >> (12 + 2);
+
+   // relay
+   return KeyCardsRange(line, kc_mask, par[2], par[3]) ? MIC_PASSED : MIC_BLOCK;
+}
+
+bool WaFilter::KeyCardsRange(u64 jo, u64 kc_mask, uint from, uint to)
+{
+   // combine the keycards
+   u64 keycards = (jo & kc_mask) >> (12 + 2);
 
    // sum bits
    auto keysum =  (keycards & 0x0001000100010001LL) + 
@@ -401,12 +430,9 @@ uint WaFilter::LineKeyCardsRange(twContext* lay, const uint* par, u64 kc_mask)
               ((keysum & 0x000000000000000FLL));
 
    // require in range
-   if (par[2] <= sum && sum <= par[3]) {
-      return MIC_PASSED;
-   }
-
-   return MIC_BLOCK;
+   return (from <= sum && sum <= to);
 }
+
 
 bool WaFilter::ScanOut(twContext* lay)
 {

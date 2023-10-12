@@ -22,6 +22,12 @@
 char const taskHandPBN[] = "[N:A95.KJT5.A763.QJ]";
 #endif 
 
+#ifdef SEMANTIC_OCT_SEEK_6D
+#define INPUT_TRUMPS    SOL_DIAMONDS
+#define INPUT_ON_LEAD   WEST
+char const taskHandPBN[] = "[N:K5.AQ96.K93.AK43]";
+#endif 
+
 #ifdef SEMANTIC_JUN_MINORS_VS_MAJORS
 // origin: Partizan, July 2023
 #define INPUT_TRUMPS    SOL_DIAMONDS

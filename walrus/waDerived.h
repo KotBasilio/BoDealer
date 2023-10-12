@@ -2,9 +2,7 @@
  * Walrus project -- derived definitions and constants   13.08.2022
  ************************************************************/
 
-// -----------------------------------------------------------------
-// --- how to solve and display; what to seek
-// algorithm details and output may also depend on that
+// Algorithm details --- how to solve and what to seek
 #ifdef SEEK_MAGIC_FLY
    #define FIXED_HAND_NORTH
    #define SOLVE_TWICE_HANDLED_CHUNK
@@ -32,10 +30,7 @@
    #endif
 #endif
 
-#ifndef SHOW_OPP_RESULTS
-   #define SHOW_PARTSCORE_STATLINE
-#endif
-
+// what hand is fixed? (if any)
 #ifdef SEEK_DECISION_OVER_DOUBLE
    #define FIXED_HAND_WEST
 #endif
@@ -48,41 +43,44 @@
    #define FIXED_HAND_NORTH
 #endif
 
+#ifdef PARTNER_HAND_TASK
+   #define FIXED_HAND_NORTH
+#endif
+
 #ifdef SEEK_OPENING_LEAD
    #define DETAILED_LEADS
    #define FIXED_HAND_WEST
 #endif
 
+// tasks without a fixed hand
 #ifdef SINGLE_HAND_TASK
-   // no lead definition
-   // no fixed hand definition
    #define STUB_DUMMY_HOLDINGS
 #endif
 
 #ifdef FOUR_HANDS_TASK
    #define STUB_DUMMY_HOLDINGS
-   #define IO_DETAILED_REPORT_ON_END
-   #define IO_SHOW_MINI_FILTERING
+   #define IO_LAYOUT_3_0
 #endif
 
-#ifdef PARTNER_HAND_TASK
-   #define FIXED_HAND_NORTH
+// User interface --- how to display
+#ifndef SHOW_OPP_RESULTS
+   #define SHOW_PARTSCORE_STATLINE
 #endif
 
 #ifndef IO_SHIFT_FOR_EXTRA_MARKS
    #define IO_SHIFT_FOR_EXTRA_MARKS  21
 #endif
 
-#ifndef IO_ROW_SELECTED
-   #ifdef FOUR_HANDS_TASK
-      #define IO_ROW_HCP_START 3
-      #define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
-      #define IO_ROW_SELECTED  (11 + IO_SHIFT_FOR_EXTRA_MARKS)
-   #else 
-      #define IO_ROW_HCP_START (IO_ROW_THEIRS + 3)
-      #define IO_ROW_FILTERING (IO_ROW_HCP_START + 2)
-      #define IO_ROW_SELECTED  IO_ROW_FILTERING
-   #endif
+#ifdef IO_LAYOUT_3_0
+   #define IO_ROW_HCP_START 3
+   #define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
+   #define IO_ROW_SELECTED  (11 + IO_SHIFT_FOR_EXTRA_MARKS)
+   #define IO_SHOW_MINI_FILTERING
+   #define IO_DETAILED_REPORT_ON_END
+#else 
+   #define IO_ROW_HCP_START (IO_ROW_THEIRS + 3)
+   #define IO_ROW_FILTERING (IO_ROW_HCP_START + 2)
+   #define IO_ROW_SELECTED  IO_ROW_FILTERING
 #endif
 
 #ifdef IO_HCP_MIN

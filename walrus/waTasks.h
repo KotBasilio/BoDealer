@@ -4,7 +4,8 @@
  ************************************************************/
 
 // Bidding decision one-sided:
-#define SEMANTIC_JULY_MOROZOV_HAND_EVAL
+//#define SEMANTIC_JULY_MOROZOV_HAND_EVAL
+#define SEMANTIC_OCT_SEEK_6D
 //#define SEMANTIC_FEB_3NT_REBID
 //#define SEMANTIC_JAN_INVITE_MINORS
 //#define SEMANTIC_NOV_INVITE_PRECISION

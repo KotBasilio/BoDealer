@@ -43,6 +43,10 @@ const uint SKIP_BY_SANDWICH = SKIP_BY_OPP;
    auto seat = par[0];               \
    const auto &ctrl(lay[seat].ctrl)
 
+#define ACCESS_MICPAR_JO             \
+   auto seat = par[0];               \
+   u64 jo(lay[seat].hand.card.jo)
+
 #define ACCESS_MICPARS_HL            \
    auto seat = par[0];               \
    const auto &hcp(lay[seat].hcp);   \
