@@ -1,4 +1,5 @@
 taskHandPBN[] = "[N:AQJ.KJT5.A763.95]";
+game:
 Processed: 50096 total. West is on lead. Goal is 9 tricks in notrump.
 Averages: bidGame = 664
 The search took 0.0 sec + an aftermath 4 min 54 sec.
@@ -13,6 +14,15 @@ Chance to make = 56.9%
 The search took 0.0 sec + an aftermath 4 min 29 sec.
 Press any key.
 
+VUL slam
+       (down):    17632,    3291,     265,     130,      53,      22,       0,       21393
+       (make):    22024,    6691,       0,       0,       0,       0,       0,       28715
+Processed: 50108 total. West is on lead. Goal is 12 tricks in notrump.
+Averages: ideal = 1105, bidGame = 675, slam=777
+Chance to make = 57.3%
+The search took 0.0 sec + an aftermath 4 min 31 sec.
+
+
 -------------------------------------------
 
 taskHandPBN[] = "[N:A95.KJT5.A763.QJ]";
@@ -21,3 +31,11 @@ Averages: bidGame = 669
 The search took 0.0 sec + an aftermath 6 min 22 sec.
 Press any key.
 
+VUL slam
+       (down):    12906,    1544,     245,     158,      64,      22,       0,       14939
+       (make):    26870,    8257,       0,       0,       0,       0,       0,       35127
+Processed: 50066 total. West is on lead. Goal is 12 tricks in notrump.
+Averages: ideal = 1207, bidGame = 680, slam=979
+Chance to make = 70.2%
+The search took 0.0 sec + an aftermath 5 min 41 sec.
+Press any key.
