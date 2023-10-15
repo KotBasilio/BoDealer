@@ -1,6 +1,9 @@
 /************************************************************
  * Walrus project -- tasks definitions only        29.11.2020
  * --- TASKS, pick only one define of the list below
+ * The branch archive_2.0 is to keep a lot of previous tasks
+ * Their total is 51
+ * They gonna be deleted in main branch
  ************************************************************/
 
 // Bidding decision one-sided:
