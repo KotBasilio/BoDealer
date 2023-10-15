@@ -4,7 +4,6 @@
  *
  ************************************************************/
 #include "waCrossPlatform.h"
-//#include <cstring>
 #include HEADER_SLEEP  
 #include HEADER_THREADS
 #include "walrus.h"

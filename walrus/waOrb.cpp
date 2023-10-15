@@ -61,67 +61,14 @@ void Walrus::Scan3FixedWest()
    }
 }
 
-// Orb: three other hands for later double-dummy solving
-// using 2.0 filtering -- now deprecated
-void Walrus::ScanOrb()
-{
-   // we have some cards starting from each position
-   SplitBits sum(SumFirstHand());
-   SplitBits sec(SumSecondHand());
-   for (int idxHandStart = 0;;) {
-      // small permutation
-      SplitBits third(shuf.CheckSum() - sum.card.jo - sec.card.jo);
-      Orb_DepClassify(sum, sec, third);
-      Orb_DepClassify(sum, third, sec);
-
-      // advance to account next hand
-      sum.card.jo -= shuf.deck[idxHandStart].card.jo;
-      u64 flipcd = shuf.deck[SYMM + idxHandStart].card.jo;
-      sec.card.jo -= flipcd;
-      sum.card.jo += flipcd;
-      sec.card.jo += shuf.deck[SYMM2 + idxHandStart++].card.jo;
-
-      // simple exit using count -- it became faster than highBits
-      if (idxHandStart >= ACTUAL_CARDS_COUNT) {
-         break;
-      }
-   }
-}
-
-// using 2.0 filtering -- now deprecated
-void Walrus::Orb_DepClassify(SplitBits& lho, SplitBits& partner, SplitBits& rho)
-{
-   uint camp = 0;
-   uint reason = (filter.*sem.onDepFilter)(partner, camp, lho, rho);
-   if (reason) {
-      // there's some reason to skip this hand. mark it
-      progress.hitsCount[reason][camp]++;
-   } else {
-      // save only two hands
-      if (mul.countToSolve < mul.maxTasksToSolve) {
-         mul.arrToSolve[mul.countToSolve++].Init(partner, rho);
-      }
-
-      // mark all saved together
-      progress.hitsCount[IO_ROW_SELECTED][0]++;
-   }
-}
-
-void Walrus::Orb_DepFillSem(void)
+void Walrus::OrbNorthFillSem(void)
 {
    sem.onInit = &Walrus::WithdrawByInput;
    sem.onShareStart = &Walrus::AllocFilteredTasksBuf;
    sem.fillFlipover = &Shuffler::FillFO_39Double;
-   sem.onScanCenter = &Walrus::ScanOrb;
-   sem.scanCover = ACTUAL_CARDS_COUNT * 2; // since we flip the hands
-   sem.onAfterMath = &Walrus::SolveSavedTasks;
-}
-
-void Walrus::OrbNorthFillSem(void)
-{
-   Orb_DepFillSem();
    sem.onScanCenter = &Walrus::Scan3FixedNorth;
    sem.scanCover = SYMM * ORBIT_PERMUTE_FACTOR;
+   sem.onAfterMath = &Walrus::SolveSavedTasks;
 }
 
 void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)

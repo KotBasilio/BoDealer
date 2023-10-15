@@ -69,7 +69,7 @@ struct Shuffler {
    void StoreCheckSum();
    void VerifyCheckSum();
    u64  CheckSum() { return checkSum; }
-   void AssertDeckSize(uint wish);
+   void AssertDeckSize(uint wish, char const* hint);
 
    // preparations
    void InitDeck(void);

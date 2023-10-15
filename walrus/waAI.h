@@ -53,6 +53,11 @@ struct DdsTask3
 #define SOL_CLUBS    3
 #define SOL_NOTRUMP  4
 
+#define SPD SOL_SPADES
+#define HRT SOL_HEARTS
+#define DMD SOL_DIAMONDS
+#define CLB SOL_CLUBS
+
 #define R2     0x0004
 #define R3     0x0008
 #define R4     0x0010

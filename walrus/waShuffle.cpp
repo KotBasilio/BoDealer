@@ -7,8 +7,9 @@
 #include <ctime>
 #include <stdlib.h>  // RAND_MAX
 #include "walrus.h"
+#include HEADER_CURSES
 
-#define HIBITS  ((SPADS+HEART+DIAMD+CLUBS) << 1) // it counts as a hand with two deuces in each suit -- easily detected and doesn't cause an overflow
+#define HIBITS  ((BO_SPADS+BO_HEART+BO_DIAMD+BO_CLUBS) << 1) // it counts as a hand with two deuces in each suit -- easily detected and doesn't cause an overflow
 
 Shuffler::Shuffler()
    : highBits(HIBITS) 
@@ -52,16 +53,17 @@ void Shuffler::VerifyCheckSum()
 {
 #ifdef _DEBUG
    if (CalcCheckSum() != checkSum) {
-      printf("\nFatal -- checksum failure\n");
-      for (;;) {}
+      printf("\nERROR: checksum failure\n");
+      PLATFORM_GETCH();
    }
 #endif
 }
 
-void Shuffler::AssertDeckSize(uint wish)
+void Shuffler::AssertDeckSize(uint wish, char const* hint)
 {
    if (cardsInDeck != wish) {
-      printf("\nERROR: Wrong count of cards discarded: %d is left\n", cardsInDeck);
+      printf("\nERROR: Wrong count of cards discarded: %d is left.\nHint: %s\n", cardsInDeck, hint);
+      PLATFORM_GETCH();
    }
 }
 
@@ -168,10 +170,10 @@ void Shuffler::Shuffle()
 void Shuffler::InitDeck(void)
 {
    int i = 0;
-   i = InitSuit(CLUBS, i);
-   i = InitSuit(DIAMD, i);
-   i = InitSuit(HEART, i);
-   i = InitSuit(SPADS, i);
+   i = InitSuit(BO_CLUBS, i);
+   i = InitSuit(BO_DIAMD, i);
+   i = InitSuit(BO_HEART, i);
+   i = InitSuit(BO_SPADS, i);
    cardsInDeck = i;
 }
 

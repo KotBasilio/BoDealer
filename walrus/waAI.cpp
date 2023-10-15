@@ -632,11 +632,7 @@ void Walrus::SolveSavedTasks()
    if (mul.countToSolve) {
       printf("Passing %u for double-dummy inspection: roughly each 1 of %llu; %llu skipped\n"
          , mul.countToSolve, sum / mul.countToSolve, sum);
-      #ifdef IO_SHOW_MINI_FILTERING
-         ReportMiniFilteringResults();
-      #else
-         ReportDepFilteringResults();
-      #endif
+      ReportMiniFilteringResults();
       printf("Solving started: ");
    }
 

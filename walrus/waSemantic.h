@@ -48,45 +48,8 @@ public:
    WaFilter() : progress(nullptr), sem(nullptr) {}
    void Bind(class Walrus* _walrus);
    bool ScanOut(twContext* lay);
-   uint DepRejectAll(SplitBits &part, uint &camp, SplitBits &lho, SplitBits &rho) { camp = 2; return 1; }
 
-   // ver 2.0 Filters
-   // -- One hand tasks:
-   uint Spade4(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   // -- Bidding decision one-sided:
-   uint R55(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint AugMultiVul(SplitBits& partner, uint& camp, SplitBits& lho, SplitBits& rho);
-   uint Aug3NTOnFit(SplitBits& partner, uint& camp, SplitBits& lho, SplitBits& rho);
-   uint JanSpadesGame(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint SeptMajors(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint SlamTry(SplitBits &partner, uint &camp, SplitBits &rho, SplitBits &lho);
-   uint Dec12_2425(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
-   uint Sep10_4252(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
-   uint JanDblThenH(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
-   uint NovInvitePrecision(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
-   uint SomeInvite(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
-   // -- Bidding decision competitive:
-   uint OctWeakGambling(SplitBits& partner, uint& camp, SplitBits& rho, SplitBits& lho);
-   uint FitoJuly(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint AugSplitFit(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint NovSlam(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint DecTopHearts(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint NovDbl3NT(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint Dec21Dbl3NT(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint Tricolor(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint TriSunday(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint DecAcceptTo4S(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint FebManyHearts(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint MixedPreventive(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint Mixed2DwM(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   // -- Opening lead:
-   uint NovLevk(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint LeadAugVs3H(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint JuneVZ(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint LeadFlat(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-   uint LeadMax5D(SplitBits &partner, uint &camp, SplitBits &lho, SplitBits &rho);
-
-   // ver 3.0 -- Micro filters
+   // Micro filters
    uint RejectAll(twContext* lay, const uint *par) { return 2; }
    uint OKNum(twContext* lay, const uint *par);
    uint ExactShape(twContext* lay, const uint* par);

@@ -52,36 +52,19 @@
    #define FIXED_HAND_WEST
 #endif
 
-// tasks without a fixed hand
-#ifdef SINGLE_HAND_TASK
-   #define STUB_DUMMY_HOLDINGS
-#endif
-
-#ifdef FOUR_HANDS_TASK
-   #define STUB_DUMMY_HOLDINGS
-   #define IO_LAYOUT_3_0
-#endif
+// tasks without a fixed hand (no specifics)
 
 // User interface --- how to display
-#ifndef SHOW_OPP_RESULTS
-   #define SHOW_PARTSCORE_STATLINE
-#endif
-
 #ifndef IO_SHIFT_FOR_EXTRA_MARKS
    #define IO_SHIFT_FOR_EXTRA_MARKS  21
 #endif
 
-#ifdef IO_LAYOUT_3_0
-   #define IO_ROW_HCP_START 3
-   #define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
-   #define IO_ROW_SELECTED  (11 + IO_SHIFT_FOR_EXTRA_MARKS)
-   #define IO_SHOW_MINI_FILTERING
-   #define IO_DETAILED_REPORT_ON_END
-#else 
-   #define IO_ROW_HCP_START (IO_ROW_THEIRS + 3)
-   #define IO_ROW_FILTERING (IO_ROW_HCP_START + 2)
-   #define IO_ROW_SELECTED  IO_ROW_FILTERING
-#endif
+#define IO_LAYOUT_3_0
+#define IO_ROW_HCP_START 3
+#define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
+#define IO_ROW_SELECTED  (11 + IO_SHIFT_FOR_EXTRA_MARKS)
+#define IO_SHOW_MINI_FILTERING
+#define IO_DETAILED_REPORT_ON_END
 
 #ifdef IO_HCP_MIN
    #if IO_HCP_MIN == IO_HCP_MAX
@@ -92,10 +75,12 @@
    #define IO_HCP_MAX  25
 #endif
 
+#ifndef SHOW_OPP_RESULTS
+   #define SHOW_PARTSCORE_STATLINE
+#endif
+
 // -----------------------------------------------------------------
-// how to filter (personal opinions)
-//#define OPINION_BASHA
-//#define ACCEPT_INVITE
+// personal opinions on how to filter
 
 // -----------------------------------------------------------------
 // common constants, biggest symmetry in bridge

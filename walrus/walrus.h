@@ -46,7 +46,6 @@ protected:
 
     // scans
     void ScanTrivial();
-    void ScanOrb();
     void ScanKeycards();
     void Scan4Hands();
     void Scan3FixedWest();
@@ -165,8 +164,6 @@ private:
    void ClassifyOnPermute(twContext* lay);
    // -- 3-hands scan is like orbiting around a hand
    void OrbNorthFillSem(void);
-   void Orb_DepFillSem(void);
-   void Orb_DepClassify(SplitBits& a, SplitBits& b, SplitBits& c);
    void Orb_Interrogate(DdsTricks &tr, deal &cards, struct futureTricks &fut);
    bool Orb_ApproveByFly(deal& cards);
    void Orb_ReSolveAndShow(deal &cards);
