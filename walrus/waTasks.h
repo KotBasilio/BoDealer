@@ -7,10 +7,11 @@
 
 // Bidding decision one-sided:
 //#define SEMANTIC_JULY_MOROZOV_HAND_EVAL
-#define SEMANTIC_OCT_SEEK_6D
+//#define SEMANTIC_OCT_SEEK_6D
 
 // Bidding decision competitive:
 //#define SEMANTIC_JUN_MINORS_VS_MAJORS
+#define SEMANTIC_OCT_INDIAN_5C
 
 // Opening lead:
 

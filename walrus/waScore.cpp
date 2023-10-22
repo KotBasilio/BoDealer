@@ -143,6 +143,16 @@ void Walrus::Score_Opp3Major(DdsTricks& tr)
    Score_Opp3MajorDoubled(tr);
 }
 
+void Walrus::Score_Opp5MinorDoubled(DdsTricks& tr)
+{
+   // store their hits
+   HitByScore(tr, 11, IO_ROW_THEIRS);
+   progress.countExtraMarks++;
+
+   // store their cumulative score
+   cumulScore.Opp_5minorX(cumulScore.oppCtrDoubled, tr.plainScore);
+}
+
 void Walrus::Score_Opp4MajorDoubled(DdsTricks& tr)
 {
    // store their hits

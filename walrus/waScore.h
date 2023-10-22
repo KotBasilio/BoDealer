@@ -24,6 +24,7 @@ struct CumulativeScore {
    void Opp_3NT(s64& sum, uint tricks);
    void Opp_3NTX(s64& sum, uint tricks);
    void Opp_5minor(s64& sum, uint tricks);
+   void Opp_5minorX(s64& sum, uint tricks);
    void Opp_2m(s64& sum, uint tricks);
    void Opp_2mX(s64& sum, uint tricks);
    // -- our contracts
