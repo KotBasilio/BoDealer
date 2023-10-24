@@ -269,59 +269,63 @@ void Walrus::ShowTheirScore(s64 doneTheirs)
 
 void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
 {
-#ifdef SHOW_OUR_OTHER
-   printf("The other contract expectation average = %lld.", cumulScore.ourOther / sumOppRows);
-   printf(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows);
-   //printf("Combo-score average for our two contracts = %lld.\n", cumulScore.ourCombo / sumOppRows);
-#endif // SHOW_OUR_OTHER
+   // our other contract
+   #ifdef SHOW_OUR_OTHER
+      printf("The other contract expectation average = %lld.", cumulScore.ourOther / sumOppRows);
+      printf(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows);
+      //printf("Combo-score average for our two contracts = %lld.\n", cumulScore.ourCombo / sumOppRows);
+   #endif
 
-#ifdef SEEK_OPENING_LEAD
-   printf("Averages: ideal = %lld, lead Spade = %lld, lead Hearts = %lld, lead Diamonds = %lld, lead Clubs = %lld\n",
-      cumulScore.ideal / sumRows,
-      cumulScore.leadS / sumRows,
-      cumulScore.leadH / sumRows,
-      cumulScore.leadD / sumRows,
-      cumulScore.leadC / sumRows);
-#endif // SEEK_OPENING_LEAD
+   // averages for opening lead
+   #ifdef SEEK_OPENING_LEAD
+      printf("Averages: ideal = %lld, lead Spade = %lld, lead Hearts = %lld, lead Diamonds = %lld, lead Clubs = %lld\n",
+         cumulScore.ideal / sumRows,
+         cumulScore.leadS / sumRows,
+         cumulScore.leadH / sumRows,
+         cumulScore.leadD / sumRows,
+         cumulScore.leadC / sumRows);
+   #endif // SEEK_OPENING_LEAD
 
-#ifdef SEMANTIC_KEYCARDS_10_12
-   float key0 = progress.hitsCount[0][0] * 100.f / sumRows;
-   float key1 = progress.hitsCount[0][1] * 100.f / sumRows;
-   float key2 = progress.hitsCount[0][2] * 100.f / sumRows;
-   float key3 = progress.hitsCount[0][3] * 100.f / sumRows;
-   printf("Keycards: 0->%3.1f%%  1->%3.1f%%  2->%3.1f%%  3->%3.1f%%\n",
-      key0, key1, key2, key3);
-#endif // SEMANTIC_KEYCARDS_10_12
+   // keycards split
+   #ifdef SEMANTIC_KEYCARDS_10_12
+      float key0 = progress.hitsCount[0][0] * 100.f / sumRows;
+      float key1 = progress.hitsCount[0][1] * 100.f / sumRows;
+      float key2 = progress.hitsCount[0][2] * 100.f / sumRows;
+      float key3 = progress.hitsCount[0][3] * 100.f / sumRows;
+      printf("Keycards: 0->%3.1f%%  1->%3.1f%%  2->%3.1f%%  3->%3.1f%%\n",
+         key0, key1, key2, key3);
+   #endif
 
-   // magic fly
-#ifdef SHOW_MY_FLY_RESULTS
-   ucell sumNT =   progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_MORE_NT] +
-                   progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_SAME_NT];
-   ucell sumSuit = progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_PREFER_SUIT];
-   sumRows = __max(sumNT + sumSuit, 1);
-   float percBetterNT = sumNT * 100.f / sumRows;
-   printf("NT is better in: %3.1f%% cases\n", percBetterNT);
-#endif
+   // a magic fly
+   #ifdef SHOW_MY_FLY_RESULTS
+      ucell sumNT =   progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_MORE_NT] +
+                      progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_SAME_NT];
+      ucell sumSuit = progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_PREFER_SUIT];
+      sumRows = __max(sumNT + sumSuit, 1);
+      float percBetterNT = sumNT * 100.f / sumRows;
+      printf("NT is better in: %3.1f%% cases\n", percBetterNT);
+   #endif
 
-   // sacrifice
-#ifdef SHOW_SACRIFICE_RESULTS
-   s64 sumSacr = (s64)progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_PREFER_TO_BID];
-   s64 sumDefd = (s64)progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_REFRAIN_BIDDING];
-   sumRows = __max(sumSacr + sumDefd, 1);
-   float percBetterBid = sumDefd * 100.f / sumRows;
-   printf("To bid is better in: %3.1f%% cases\n", percBetterBid);
-#endif
+   // a sacrifice
+   #ifdef SHOW_SACRIFICE_RESULTS
+      s64 sumSacr = (s64)progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_PREFER_TO_BID];
+      s64 sumDefd = (s64)progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_REFRAIN_BIDDING];
+      sumRows = __max(sumSacr + sumDefd, 1);
+      float percBetterBid = sumDefd * 100.f / sumRows;
+      printf("To bid is better in: %3.1f%% cases\n", percBetterBid);
+   #endif
 
-#ifdef IO_DETAILED_REPORT_ON_END
-   if (ui.reportRequested) {
-      ui.reportRequested = false;
-      if (ui.minControls) {
-         ShowDetailedReportControls();
-      } else {
-         ShowDetailedReportHighcards();
+   // list by hcp or list by controls
+   #ifdef IO_SHOW_HCP_CTRL_SPLIT
+      if (ui.reportRequested) {
+         ui.reportRequested = false;
+         if (ui.minControls) {
+            ShowDetailedReportControls();
+         } else {
+            ShowDetailedReportHighcards();
+         }
       }
-   }
-#endif
+   #endif
 }
 
 static void ReportTime(u64 delta1, u64 delta2)

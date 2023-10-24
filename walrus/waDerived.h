@@ -69,7 +69,6 @@
 #define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
 #define IO_ROW_SELECTED  (11 + IO_SHIFT_FOR_EXTRA_MARKS)
 #define IO_SHOW_MINI_FILTERING
-#define IO_DETAILED_REPORT_ON_END
 
 #ifdef IO_HCP_MIN
    #if IO_HCP_MIN == IO_HCP_MAX
@@ -82,6 +81,7 @@
 
 #ifndef SHOW_OPP_RESULTS
    #define SHOW_PARTSCORE_STATLINE
+   #define IO_SHOW_HCP_CTRL_SPLIT
 #endif
 
 // -----------------------------------------------------------------

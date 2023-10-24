@@ -6,15 +6,13 @@
    #define SEEK_DECISION_OVER_DOUBLE
    #define SEEK_OPENING_LEAD
    #define SEEK_SACRIFICE_DECISION
-
-   #define SCORE_THE_OTHER_CONTRACT
-   #define THE_OTHER_IS_OURS
-   #define OC_TRUMPS       SOL_NOTRUMP
-   #define OC_ON_LEAD      WEST
-
    #define UNPLAYABLE_ONE_OF  6
 
-   #define SHOW_OPP_RESULTS
+   #define SCORE_THE_OTHER_CONTRACT
+   #define OC_TRUMPS       SOL_NOTRUMP
+   #define OC_ON_LEAD      WEST
+   #define THE_OTHER_IS_OURS
+
    #define SHOW_OPPS_ON_PASS_ONLY
    #define SHOW_OPPS_ON_DOUBLE_ONLY
    #define SHOW_PARTSCORE_STATLINE
@@ -28,10 +26,9 @@
    #define SEEK_BIDDING_LEVEL
    #define IO_SHOW_MINI_FILTERING
    #define SCORE_THE_OTHER_CONTRACT
-   #define SHOW_OPP_RESULTS
-   #define SHOW_OPPS_ON_DOUBLE_ONLY
    #define OC_TRUMPS       SOL_CLUBS
    #define OC_ON_LEAD      NORTH
+   #define SHOW_OPPS_ON_DOUBLE_ONLY
 #endif 
 
 #ifdef SEMANTIC_JUN_MINORS_VS_MAJORS
