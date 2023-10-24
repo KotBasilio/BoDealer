@@ -91,17 +91,21 @@ void Walrus::Score_MagicFly(DdsTricks& tr)
 void Walrus::NoticeMagicFly(uint trickSuit, uint tricksNT)
 {
    if (tricksNT > trickSuit) {
-      progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_MORE_NT]++;
+      progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_MORE_NT]++;
    }
    else if (tricksNT == trickSuit) {
-      progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_SAME_NT]++;
+      progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_SAME_NT]++;
    }
    else {
-      progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_PREFER_SUIT]++;
+      progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_PREFER_SUIT]++;
    }
 
    // extra marks: one for 3NT result, and one for the fly
    progress.countExtraMarks += 2;
+}
+
+void Walrus::NoticeSacrificePossible(uint trickSuit, uint tricksNT)
+{
 }
 
 void Walrus::Score_Doubled3NT(DdsTricks &tr)
@@ -109,10 +113,10 @@ void Walrus::Score_Doubled3NT(DdsTricks &tr)
    // hits
    HitByScore(tr, 9);
 
-#ifdef SEEK_DECISION_OVER_DOUBLE
+#ifdef SEEK_DECISION_WHETHER_DOUBLE
    cumulScore.Opp_3NT (cumulScore.oppContract, tr.plainScore);
    cumulScore.Opp_3NTX(cumulScore.oppCtrDoubled, tr.plainScore);
-#endif // SEEK_DECISION_OVER_DOUBLE
+#endif // SEEK_DECISION_WHETHER_DOUBLE
 }
 
 void Walrus::Score_2m(DdsTricks &tr)

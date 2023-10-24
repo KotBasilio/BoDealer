@@ -79,16 +79,17 @@ Walrus::~Walrus()
 }
 
 Semantics::Semantics()
-   : onInit          (&Walrus::NOP)
-   , onShareStart    (&Walrus::NOP)
-   , fillFlipover    (&Shuffler::NOP)
-   , onBoardAdded    (&Walrus::VoidAdded)
-   , onScanCenter    (&Walrus::NOP)
-   , onAfterMath     (&Walrus::NOP) 
-   , onScoring       (&Walrus::VoidScoring)
-   , onPostmortem    (&Walrus::VoidPostmortem)
-   , solveSecondTime (&Walrus::VoidSecondSolve)
-   , onSolvedTwice   (&Walrus::VoidScoring)
+   : onInit              (&Walrus::NOP)
+   , onShareStart        (&Walrus::NOP)
+   , fillFlipover        (&Shuffler::NOP)
+   , onBoardAdded        (&Walrus::VoidAdded)
+   , onScanCenter        (&Walrus::NOP)
+   , onAfterMath         (&Walrus::NOP) 
+   , onScoring           (&Walrus::VoidScoring)
+   , onPostmortem        (&Walrus::VoidPostmortem)
+   , solveSecondTime     (&Walrus::VoidSecondSolve)
+   , onCompareContracts  (&Walrus::VoidCompare)
+   , onSolvedTwice       (&Walrus::VoidScoring)
    , scanCover(ACTUAL_CARDS_COUNT)
 {
    // reject all. should analyze config later and fill 
@@ -96,12 +97,19 @@ Semantics::Semantics()
    vecFilters.push_back( MicroFilter(&WaFilter::RejectAll, "RejectAll"));
 
    // to move to config analisys
-   #ifdef SEEK_MAGIC_FLY
-      onSolvedTwice = &Walrus::Score_MagicFly;
-   #endif
    #ifdef SOLVE_TWICE_HANDLED_CHUNK
       solveSecondTime = &Walrus::SolveSecondTime;
    #endif
+
+   #ifdef SEEK_SACRIFICE_DECISION
+      onCompareContracts = NoticeSacrificePossible;
+   #elif defined(SEEK_MAGIC_FLY)
+      onSolvedTwice = &Walrus::Score_MagicFly;
+      onCompareContracts = NoticeMagicFly;
+   #elif defined(THE_OTHER_IS_OURS)
+      onCompareContracts = CountComboScore;
+   #endif
+
 }
 
 void Semantics::MiniLink()

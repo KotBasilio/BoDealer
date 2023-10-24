@@ -35,8 +35,12 @@
    #define TWICE_ON_LEAD_CHUNK     NORTH
 #endif
 
+#ifdef SEEK_DECISION_BID_OR_DOUBLE
+   #define SEEK_BIDDING_LEVEL
+#endif
+
 // what hand is fixed? (if any)
-#ifdef SEEK_DECISION_OVER_DOUBLE
+#ifdef SEEK_DECISION_WHETHER_DOUBLE
    #define FIXED_HAND_WEST
 #endif
 

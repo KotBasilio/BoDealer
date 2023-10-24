@@ -474,7 +474,7 @@ void Walrus::SolveInChunks(deal &dlBase)
 #ifdef _DEBUG
    uint step = 20;
 #else
-   uint step = 100;
+   uint step = 200;
 #endif // _DEBUG
 
    // do big chunks, then a tail
@@ -565,9 +565,6 @@ void Walrus::SolveOneChunk(deal& dlBase, boards& bo, uint ofs, uint step)
    int res = SolveAllBoardsN(bo, solved);
    HandleDDSFail(res);
 
-   // read user commands
-   ui.Run();
-
    // relay
    HandleSolvedChunk(bo, solved);
 
@@ -577,6 +574,9 @@ void Walrus::SolveOneChunk(deal& dlBase, boards& bo, uint ofs, uint step)
 
 void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
 {
+   // read user commands
+   ui.Run();
+
    // pass to statistics and/or UI
    for (int handno = 0; handno < solved.noOfBoards; handno++) {
       futureTricks &fut = solved.solvedBoard[handno];
@@ -601,26 +601,15 @@ void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
    int res = SolveAllBoardsN(bo, twice);
    HandleDDSFail(res);
 
-   // score their contract or seek magic fly 
+   // score the other contract and maybe compare them
    for (int handno = 0; handno < twice.noOfBoards; handno++) {
-      DdsTricks trTw;
-      trTw.Init(twice.solvedBoard[handno]);
-      (this->*sem.onSolvedTwice)(trTw);
+      DdsTricks trSecond;
+      trSecond.Init(twice.solvedBoard[handno]);
+      (this->*sem.onSolvedTwice)(trSecond);
 
-      #ifdef SEEK_SACRIFICE_DECISION
-         //DdsTricks tr; tr.Init(solved.solvedBoard[handno]);
-         //NoticeSacrificePossible(tr.plainScore, trTw.plainScore);
-      #endif
-
-      #ifdef SEEK_MAGIC_FLY
-         DdsTricks tr; tr.Init(solved.solvedBoard[handno]);
-         NoticeMagicFly(tr.plainScore, trTw.plainScore);
-      #endif // SEEK_MAGIC_FLY
-
-      #ifdef THE_OTHER_IS_OURS
-         DdsTricks tr; tr.Init(solved.solvedBoard[handno]);
-         CountComboScore(tr.plainScore, trTw.plainScore);
-      #endif // THE_OTHER_IS_OURS
+      DdsTricks trFirst; 
+      trFirst.Init(chunk.solvedBoard[handno]);
+      (this->*sem.onCompareContracts)(trFirst.plainScore, trSecond.plainScore);
    }
 }
 

@@ -3,7 +3,8 @@
    #define SEEK_BIDDING_LEVEL
    #define SEEK_MAGIC_FLY
    #define SEEK_DENOMINATION
-   #define SEEK_DECISION_OVER_DOUBLE
+   #define SEEK_DECISION_BID_OR_DOUBLE
+   #define SEEK_DECISION_WHETHER_DOUBLE
    #define SEEK_OPENING_LEAD
    #define SEEK_SACRIFICE_DECISION
    #define UNPLAYABLE_ONE_OF  6
@@ -22,8 +23,8 @@
 */
 
 #ifdef SEMANTIC_OCT_INDIAN_5C
-   #define TITLE_VERSION  "Fix 5530 9hcp, all vul;\n: ... pass or 5s? Task "
-   #define SEEK_BIDDING_LEVEL
+   #define TITLE_VERSION  "Fix 5530 9hcp, all vul;\n  1ñ (2ñ) 2s two suiter spade and a red suit (4c)\n  4s (pass) pass (5c)\n  dbl pass or 5s? Task "
+   #define SEEK_DECISION_BID_OR_DOUBLE
    #define IO_SHOW_MINI_FILTERING
    #define SCORE_THE_OTHER_CONTRACT
    #define OC_TRUMPS       SOL_CLUBS

@@ -88,7 +88,7 @@ static bool IsRowSkippable(int i)
 {
    // fly => biggest result
    #if defined(SHOW_MY_FLY_RESULTS) || defined(SHOW_SACRIFICE_RESULTS)
-      return i > IO_ROW_MYFLY;
+      return i > IO_ROW_MAGIC_FLY;
    #endif
 
    // opp res => show theirs
@@ -298,9 +298,9 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
 
    // a magic fly
    #ifdef SHOW_MY_FLY_RESULTS
-      ucell sumNT =   progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_MORE_NT] +
-                      progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_SAME_NT];
-      ucell sumSuit = progress.hitsCount[IO_ROW_MYFLY][IO_CAMP_PREFER_SUIT];
+      ucell sumNT =   progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_MORE_NT] +
+                      progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_SAME_NT];
+      ucell sumSuit = progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_PREFER_SUIT];
       sumRows = __max(sumNT + sumSuit, 1);
       float percBetterNT = sumNT * 100.f / sumRows;
       printf("NT is better in: %3.1f%% cases\n", percBetterNT);

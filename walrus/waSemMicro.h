@@ -57,7 +57,8 @@ const uint SKIP_BY_SANDWICH = SKIP_BY_OPP;
 // then values are constant through all solving
 typedef void (Shuffler::* SemShufflerFunc)();
 typedef void (Walrus::*   SemFuncType)();
-typedef void (Walrus::*   SemScoring)(DdsTricks &tr);
+typedef void (Walrus::*   SemScoring)(DdsTricks& tr);
+typedef void (Walrus::*   SemComparing)(uint trickSuit, uint tricksNT);
 typedef void (Walrus::*   SemPostMortem)(DdsTricks& tr, deal& cards);
 typedef void (Walrus::*   SemOnBoardAdded)(twContext* lay);
 typedef void (Walrus::*   SemSecondSolver)(struct boards& bo, struct solvedBoards& solved);
@@ -72,6 +73,7 @@ struct Semantics {
    SemPostMortem            onPostmortem;
    SemSecondSolver          solveSecondTime;
    SemScoring               onSolvedTwice;
+   SemComparing             onCompareContracts;
    SemFuncType              onAfterMath;
    uint scanCover; // how much iterations covers one scan
    Semantics();

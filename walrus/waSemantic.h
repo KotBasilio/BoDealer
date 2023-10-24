@@ -5,13 +5,13 @@
 
 #include <vector>
 
-// output rows
+// output rows: we down, we make, a blank line, they down, they make, comparison
 const uint IO_ROW_OUR_DOWN = 0;
 const uint IO_ROW_OUR_MADE = IO_ROW_OUR_DOWN + 1;
 const uint IO_ROW_ZEROES = IO_ROW_OUR_DOWN + 2;
 const uint IO_ROW_THEIRS = IO_ROW_ZEROES + 1;
-const uint IO_ROW_MYFLY = IO_ROW_THEIRS + 2;
-const uint IO_ROW_SACRIFICE = IO_ROW_MYFLY;
+const uint IO_ROW_MAGIC_FLY = IO_ROW_THEIRS + 2;
+const uint IO_ROW_SACRIFICE = IO_ROW_MAGIC_FLY;
 const uint ORDER_BASE = 7;
 
 // output columns
