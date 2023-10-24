@@ -134,9 +134,11 @@ protected:
        int   farCol;
        char  declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10];
        MiniUI();
+       void FillMiniRows();
        void Run();
     } ui;
     void InitMiniUI(int trump, int first);
+    void AnnounceSolving();
     void DetectFarColumn();
     void ReportState(char* header);
     void ReportLine(ucell sumline, int i);
@@ -147,8 +149,6 @@ protected:
     void ShowOptionalReports(s64 doneOurs, s64 doneTheirs);
     void ShowDetailedReportHighcards();
     void ShowDetailedReportControls();
-    void ReportDepFilteringResults();
-    void ReportMiniFilteringResults();
     void CalcHitsForMiniReport(ucell* hitsRow, ucell* hitsCamp);
     int  PokeScorerForTricks();
     void CleanupStats();

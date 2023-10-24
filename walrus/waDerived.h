@@ -127,10 +127,12 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
 // --- Iterations count
 typedef u64 ucell;
 #ifdef _DEBUG
+   const uint WALRUS_CHUNK_SIZE = 20;
    const ucell WALRUS_PERF_FRACTION = 2000;
    //#define SKIP_HELPERS
    //#define SOLVE_ONE_BY_ONE
 #else
+   const uint WALRUS_CHUNK_SIZE = 100;
    const ucell WALRUS_PERF_FRACTION = 10;
 #endif
 

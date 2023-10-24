@@ -257,50 +257,6 @@ void Walrus::SolveOneByOne(deal &dlBase)
 
 }
 
-Progress::Progress()
-   : countExtraMarks(0)
-   , delta1(0)
-   , delta2(0)
-{
-}
-
-void Progress::Init(ucell _step)
-{
-   step = _step;
-   went = 0;
-   margin = _step * 4;
-}
-
-bool Progress::Step()
-{
-   went += step;
-   return (went > margin);
-}
-
-void Progress::Up(ucell idx)
-{
-   went = 0;
-   if (idx > margin * 2) {
-      margin = step * 9;
-   }
-}
-
-void Progress::StoreCountToGo(ucell count)
-{
-   hitsCount[IO_ROW_SELECTED][0] = count;
-}
-
-void Walrus::ShowProgress(ucell idx)
-{
-   // do reports
-   if (progress.Step() || ui.reportRequested) {
-      MiniReport(mul.countToSolve - idx);
-      progress.Up(idx);
-   } else {
-      printf(".");
-   }
-}
-
 int Walrus::PokeScorerForTricks()
 {
    // take 13 tricks 
@@ -470,23 +426,18 @@ void Walrus::MiniUI::Run()
 
 void Walrus::SolveInChunks(deal &dlBase)
 {
+   // do big chunks
    boards bo;
-#ifdef _DEBUG
-   uint step = 20;
-#else
-   uint step = 200;
-#endif // _DEBUG
-
-   // do big chunks, then a tail
-   uint i = 0;
+   uint step = WALRUS_CHUNK_SIZE;
    progress.Init(step);
-   for (; i+step < mul.countToSolve ; i+=step ) {
+   uint chunkStart = 0;
+   for (; chunkStart+step < mul.countToSolve ; chunkStart+=step ) {
       // main work
-      SolveOneChunk(dlBase, bo, i, step);
+      SolveOneChunk(dlBase, bo, chunkStart, step);
 
-      // always be ready to show progress
-      progress.StoreCountToGo(mul.countToSolve - i - step);
-      ShowProgress(i);
+      // show some progress or just a dot
+      progress.StoreCountToGo(mul.countToSolve - chunkStart - step);
+      ShowProgress(chunkStart);
 
       // fast exit
       if (ui.exitRequested) {
@@ -494,10 +445,10 @@ void Walrus::SolveInChunks(deal &dlBase)
       }
    }
 
-   // tail work
-   if ( i < mul.countToSolve ) {
-      step = mul.countToSolve - i;
-      SolveOneChunk(dlBase, bo, i, step);
+   // do a tail work
+   if ( chunkStart < mul.countToSolve ) {
+      step = mul.countToSolve - chunkStart;
+      SolveOneChunk(dlBase, bo, chunkStart, step);
    }
    progress.StoreCountToGo(0);
 }
@@ -613,7 +564,7 @@ void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
    }
 }
 
-void Walrus::SolveSavedTasks()
+void Walrus::AnnounceSolving()
 {
    // how much filtered out
    u64 sum = 0;
@@ -626,20 +577,25 @@ void Walrus::SolveSavedTasks()
    if (mul.countToSolve) {
       printf("Passing %u for double-dummy inspection: roughly each 1 of %llu; %llu skipped\n"
          , mul.countToSolve, sum / mul.countToSolve, sum);
-      ReportMiniFilteringResults();
+      ReportState("");
+      //PLATFORM_GETCH();
       printf("Solving started: ");
    }
+}
 
-   // some hit counts are going to appear again as solved tasks
-   progress.StoreCountToGo(0);
+void Walrus::SolveSavedTasks()
+{
+   // say
+   AnnounceSolving();
 
-   // do inits for Bo-Analyzer
+   // finalize preparations
    deal dlBase;
    PrepareBaseDeal(dlBase);
    InitMiniUI(dlBase.trump, dlBase.first);
    SetMaxThreads(0);
+   progress.StoreCountToGo(0);
 
-   // decide how to solve
+   // fork performance 
    #ifdef SOLVE_ONE_BY_ONE
       SolveOneByOne(dlBase);
    #else
