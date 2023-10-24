@@ -514,6 +514,8 @@ void Walrus::HandleDDSFail(int res)
   PLATFORM_GETCH();
 }
 
+// RET: true -- normal solved board
+// false -- was decimated, not for UI
 bool Walrus::HandleSolvedBoard(DdsTricks &tr, deal &cards)
 {
    // cater for unplayable boards -- we change board result on some percentage boards
@@ -529,7 +531,7 @@ bool Walrus::HandleSolvedBoard(DdsTricks &tr, deal &cards)
       }
    #endif // UNPLAYABLE_ONE_OF
 
-   // add to basic statistics
+   // pass to basic statistics
    (this->*sem.onScoring)(tr);
 
    // results are a fake => forget the board asap
@@ -568,11 +570,14 @@ void Walrus::SolveOneChunk(deal& dlBase, boards& bo, uint ofs, uint step)
 
    // relay
    HandleSolvedChunk(bo, solved);
+
+   // sometimes we solve the same chunk in a different suit and/or declared
+   (this->*sem.solveSecondTime)(bo, solved);
 }
 
 void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
 {
-   // pass to statistics
+   // pass to statistics and/or UI
    for (int handno = 0; handno < solved.noOfBoards; handno++) {
       futureTricks &fut = solved.solvedBoard[handno];
       DdsTricks tr; tr.Init(fut);
@@ -581,42 +586,42 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
          Orb_Interrogate(tr, cards, fut);
       }
    }
+}
 
-   // ensure we do something else with the same set of boards
-   #ifdef SOLVE_TWICE_HANDLED_CHUNK
-   {
-      // solve second time
-      solvedBoards twice;
-      for (int i = 0; i < bo.noOfBoards; i++) {
-         bo.deals[i].trump = TWICE_TRUMPS;
-         bo.deals[i].first = TWICE_ON_LEAD_CHUNK;
-      }
-      int res = SolveAllBoardsN(bo, twice);
-      HandleDDSFail(res);
-
-      // score their contract or seek magic fly 
-      for (int handno = 0; handno < twice.noOfBoards; handno++) {
-         DdsTricks trTw;
-         trTw.Init(twice.solvedBoard[handno]);
-         (this->*sem.onSolvedTwice)(trTw);
-
-         #ifdef SEEK_SACRIFICE_DECISION
-            //DdsTricks tr; tr.Init(solved.solvedBoard[handno]);
-            //NoticeSacrificePossible(tr.plainScore, trTw.plainScore);
-         #endif
-
-         #ifdef SEEK_MAGIC_FLY
-            DdsTricks tr; tr.Init(solved.solvedBoard[handno]);
-            NoticeMagicFly(tr.plainScore, trTw.plainScore);
-         #endif // SEEK_MAGIC_FLY
-
-         #ifdef THE_OTHER_IS_OURS
-            // DdsTricks tr; tr.Init(solved.solvedBoard[handno]);
-            // CountComboScore(tr.plainScore, trTw.plainScore);
-         #endif // THE_OTHER_IS_OURS
-      }
+void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
+{
+   // overwrite trumps and lead
+   for (int i = 0; i < bo.noOfBoards; i++) {
+      bo.deals[i].trump = TWICE_TRUMPS;
+      bo.deals[i].first = TWICE_ON_LEAD_CHUNK;
    }
-   #endif
+
+   // solve second time
+   solvedBoards twice;
+   int res = SolveAllBoardsN(bo, twice);
+   HandleDDSFail(res);
+
+   // score their contract or seek magic fly 
+   for (int handno = 0; handno < twice.noOfBoards; handno++) {
+      DdsTricks trTw;
+      trTw.Init(twice.solvedBoard[handno]);
+      (this->*sem.onSolvedTwice)(trTw);
+
+      #ifdef SEEK_SACRIFICE_DECISION
+         //DdsTricks tr; tr.Init(solved.solvedBoard[handno]);
+         //NoticeSacrificePossible(tr.plainScore, trTw.plainScore);
+      #endif
+
+      #ifdef SEEK_MAGIC_FLY
+         DdsTricks tr; tr.Init(solved.solvedBoard[handno]);
+         NoticeMagicFly(tr.plainScore, trTw.plainScore);
+      #endif // SEEK_MAGIC_FLY
+
+      #ifdef THE_OTHER_IS_OURS
+         DdsTricks tr; tr.Init(solved.solvedBoard[handno]);
+         CountComboScore(tr.plainScore, trTw.plainScore);
+      #endif // THE_OTHER_IS_OURS
+   }
 }
 
 void Walrus::SolveSavedTasks()

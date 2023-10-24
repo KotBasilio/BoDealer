@@ -58,9 +58,10 @@ protected:
     void SolveInChunks(struct deal &dlBase);
     void SolveOneChunk(struct deal &dlBase, struct boards &bo, uint i, uint step);
     void HandleSolvedChunk(struct boards& bo, struct solvedBoards& chunk);
+    void SolveSecondTime(struct boards& bo, struct solvedBoards& chunk);
     bool HandleSolvedBoard(DdsTricks &tr, deal &cards);
     void NoticeMagicFly(uint trickSuit, uint tricksNT);
-    void NoticeMagicFlyNoticeSacrificePossible(uint trickSuit, uint tricksNT);
+    void NoticeSacrificePossible(uint trickSuit, uint tricksNT);
     void CountComboScore(uint trickSuit, uint tricksNT);
     void HandleDDSFail(int res);
 
@@ -80,6 +81,7 @@ protected:
     void VoidScoring(DdsTricks &tr) {}
     void VoidPostmortem(DdsTricks& tr, deal& cards) {}
     void VoidAdded(twContext* lay) {}
+    void VoidSecondSolve(boards& bo, solvedBoards& solved) {}
     void DisplayBoard(twContext* lay);
     void GrabSplinterVariant(twContext* lay);
     u64  SumFirstHand();

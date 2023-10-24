@@ -123,7 +123,7 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
    // -- params for re-solving
    futureTricks futUs;
    int target = -1;
-   int solutions = 3; // 3 -- Return all cards that can be legally played, with their scores in descending order.
+   int solutions = 3; // DOC: 3 -- Return all cards that can be legally played, with their scores in descending order.
    int mode = 0;
    int threadIndex = 0;
    // -- re-solve & show

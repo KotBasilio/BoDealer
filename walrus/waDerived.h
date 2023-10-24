@@ -30,6 +30,11 @@
    #endif
 #endif
 
+#ifndef TWICE_ON_LEAD_INSPECT
+   #define TWICE_ON_LEAD_INSPECT   SOL_CLUBS
+   #define TWICE_ON_LEAD_CHUNK     NORTH
+#endif
+
 // what hand is fixed? (if any)
 #ifdef SEEK_DECISION_OVER_DOUBLE
    #define FIXED_HAND_WEST
@@ -139,9 +144,9 @@ const ucell MAX_ITERATION = 3001000000;// 3 mlrd
 
 const uint MAX_TASKS_TO_SOLVE = 200 * 1000;
 //const uint AIM_TASKS_COUNT = MAX_TASKS_TO_SOLVE / 2;
-const uint AIM_TASKS_COUNT = 50 * 1000;
+//const uint AIM_TASKS_COUNT = 50 * 1000;
 //const uint AIM_TASKS_COUNT = 20*1000;
-//const uint AIM_TASKS_COUNT = 5*1000;
+const uint AIM_TASKS_COUNT = 5*1000;
 //const uint AIM_TASKS_COUNT = 2*1000;
 
 constexpr ucell ClipByPerformance(ucell lim, ucell a)

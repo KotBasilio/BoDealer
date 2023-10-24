@@ -1,0 +1,48 @@
+Processed: 49000 total. East is on lead. Goal is 11 tricks in spades.
+Averages: ideal = 523, bidGame = 484.   Chance to make = 71.8%
+Their contract doubled, expectation average: 817. Chance to make = 1.5%
+Yet more 1121 to go:.........
+    :  HITS COUNT   :
+    (we down):    10782,    2699,     453,     135,       9,       0,       0,       0,       0,       14078
+    (we make):    19818,   14284,    1820,       0,       0,       0,       0,       0,       0,       35922
+       (----):        0,       0,       0,       0,       0,       0,       0,       0,       0,           0
+   (opp down):     3429,    9992,   17517,   13564,    4118,     565,      67,       4,       0,       49256
+   (opp make):      668,      75,       1,       0,       0,       0,       0,       0,       0,         744
+Processed: 50000 total. East is on lead. Goal is 11 tricks in spades.
+Averages: ideal = 523, bidGame = 484.   Chance to make = 71.8%
+Their contract doubled, expectation average: 818. Chance to make = 1.5%
+Yet more 121 to go:
+Final result:
+00:    10786,    2700,     453,     135,      10,       0,       0,       0,    : 14084
+01:    19824,   14293,    1820,       0,       0,       0,       0,       0,    : 35937
+----
+03:     3431,   10001,   17523,   13566,    4120,     565,      67,       4,    : 49277
+04:      668,      75,       1,       0,       0,       0,       0,       0,    : 744
+----
+24:        0,       0,       0,     >XM,       0,       0,       0,       0,    : 30344026        PointsRange 17 19 SOUTH
+25:        0,       0,       0,    >MLN,       0,       0,       0,       0,    : 1029756         SpadesLen 3 4 SOUTH
+26:        0,       0,       0,       0,  739835,       0,       0,       0,    : 739835          PointsRange 9 16 WEST
+27:        0,       0,       0,       0,  211966,       0,       0,       0,    : 211966          ClubsLen 5 6 WEST
+----
+29:        0,       0,   62754,       0,       0,       0,       0,       0,    : 62754           ClubsLen 4 5 EAST
+----
+31:        0,       0,   52123,       0,       0,       0,       0,       0,    : 52123           ClubsLen 5 5 EAST
+32:        0,       0,   44295,       0,       0,       0,       0,       0,    : 44295           SpadesLen 0 1 EAST
+33:        0,       0,   43194,       0,       0,       0,       0,       0,    : 43194           HeartsLen 0 1 EAST
+34:        0,       0,   38190,       0,       0,       0,       0,       0,    : 38190           DiamondsLen 0 1 EAST
+----
+Total iterations = 32476548, balance is fine
+
+--------------------------------
+
+    :  HITS COUNT   :
+    (we down):    10786,    2700,     453,     135,      10,       0,       0,       0,       0,       14084
+    (we make):    19824,   14293,    1820,       0,       0,       0,       0,       0,       0,       35937
+       (----):        0,       0,       0,       0,       0,       0,       0,       0,       0,           0
+   (opp down):     3431,   10001,   17523,   13566,    4120,     565,      67,       4,       0,       49277
+   (opp make):      668,      75,       1,       0,       0,       0,       0,       0,       0,         744
+Processed: 50021 total. East is on lead. Goal is 11 tricks in spades.
+Averages: ideal = 523, bidGame = 484.   Chance to make = 71.8%
+Their contract doubled, expectation average: 818. Chance to make = 1.5%
+The search took 0.2 sec + an aftermath 53 min 18 sec.
+Press any key.
