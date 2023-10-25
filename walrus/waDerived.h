@@ -37,6 +37,7 @@
 
 #ifdef SEEK_DECISION_BID_OR_DOUBLE
    #define SEEK_BIDDING_LEVEL
+   #define SHOW_SACRIFICE_RESULTS
 #endif
 
 // what hand is fixed? (if any)

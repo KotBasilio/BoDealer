@@ -17,7 +17,7 @@ void Walrus::SolveSavedTasks()
    SetMaxThreads(0);
    progress.StoreCountToGo(0);
 
-   // fork performance 
+   // solve in some manner
    #ifdef SOLVE_ONE_BY_ONE
       SolveOneByOne(dlBase);
    #else
@@ -123,7 +123,6 @@ if (isDecimated) {
 #define UNPLAYABLE_ONE_OF  6
 #endif
 
-
 void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
 {
    // overwrite trumps and lead
@@ -154,13 +153,11 @@ void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
    }
 }
 
+// a mode only for sessions to debug solver integration. 
+// the mode doesn't support a lot of new features.
 void Walrus::SolveOneByOne(deal& dlBase)
 {
-   #ifdef _DEBUG
-      uint freqMiniReport = 0x3f;
-   #else
-      uint freqMiniReport = 0xff;
-   #endif // _DEBUG
+   uint freqMiniReport = 0x3f; // 0xff to make rare
 
    for (uint i = 0; i < mul.countToSolve; i++) {
       // refill & solve the next deal
@@ -177,7 +174,6 @@ void Walrus::SolveOneByOne(deal& dlBase)
             MiniReport(mul.countToSolve - i);
          }
       }
-   } // boards
-
+   }
 }
 

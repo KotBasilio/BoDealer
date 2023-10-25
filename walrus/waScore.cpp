@@ -91,7 +91,30 @@ void Walrus::NoticeSacrificePossible(uint trickSuit, uint tricksNT)
 
 void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs)
 {
-   DEBUG_UNEXPECTED;
+   // implementation of scorers is to change cumulative score
+   // so we make a first version to go on with it
+   // but it's not great. we'd better rework scorers
+   CumulativeScore backup = cumulScore;
+
+   // detect score
+   cumulScore.bidGame = 0;
+   cumulScore.oppCtrDoubled = 0;
+   DdsTricks tester;
+   tester.plainScore = tOurs;
+   (this->*sem.onScoring)(tester);
+   tester.plainScore = tTheirs;
+   (this->*sem.onSolvedTwice)(tester);
+
+   // mark
+   if (cumulScore.bidGame > cumulScore.oppCtrDoubled) {
+      progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_PREFER_TO_BID]++;
+   } else {
+      progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_REFRAIN_BIDDING]++;
+   }
+   progress.countExtraMarks++;
+
+   // step back
+   cumulScore = backup;
 }
 
 void Walrus::Score_Doubled3NT(DdsTricks &tr)
