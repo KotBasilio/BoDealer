@@ -59,9 +59,9 @@ protected:
     void SolveOneChunk(struct deal &dlBase, struct boards &bo, uint i, uint step);
     void HandleSolvedChunk(struct boards& bo, struct solvedBoards& chunk);
     void SolveSecondTime(struct boards& bo, struct solvedBoards& chunk);
-    bool HandleSolvedBoard(DdsTricks &tr, deal &cards);
     void NoticeMagicFly(uint trickSuit, uint tricksNT);
-    void NoticeSacrificePossible(uint trickSuit, uint tricksNT);
+    void NoticeSacrificePossible(uint tOurs, uint tTheirs);
+    void NoticeBidProfit(uint tOurs, uint tTheirs);
     void CountComboScore(uint trickSuit, uint tricksNT);
     void HandleDDSFail(int res);
 

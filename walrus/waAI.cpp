@@ -89,45 +89,40 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
       futureTricks& fut = solved.solvedBoard[handno];
       DdsTricks tr; tr.Init(fut);
       deal& cards(bo.deals[handno]);
-      if (HandleSolvedBoard(tr, cards)) {
-         Orb_Interrogate(tr, cards, fut);
-      }
+
+      // pass to basic statistics
+      HitByScore(tr, ui.irBase);
+      (this->*sem.onScoring)(tr);
+
+      // some detailed postmortem is possible
+      (this->*sem.onPostmortem)(tr, cards);
+
+      // ui
+      Orb_Interrogate(tr, cards, fut);
    }
 }
 
-// RET: true -- normal solved board
-// false -- was decimated, not for UI
-bool Walrus::HandleSolvedBoard(DdsTricks &tr, deal &cards)
-{
-   // cater for unplayable boards -- we change board result on some percentage boards
-   #ifdef UNPLAYABLE_ONE_OF
-      bool isDecimated = false;
-      if (tr.plainScore == ui.irBase) {
-         static int cycleCatering = UNPLAYABLE_ONE_OF;
-         if (0 == --cycleCatering) {
-            tr.plainScore--;
-            isDecimated = true;
-            cycleCatering = UNPLAYABLE_ONE_OF;
-         }
-      }
-   #endif // UNPLAYABLE_ONE_OF
-
-   // pass to basic statistics
-   HitByScore(tr, ui.irBase);
-   (this->*sem.onScoring)(tr);
-
-   // results are a fake => forget the board asap
-   #ifdef UNPLAYABLE_ONE_OF
-      if (isDecimated) {
-         return false;
-      }
-   #endif
-
-   // some detailed postmortem is possible
-   (this->*sem.onPostmortem)(tr, cards);
-
-   return true;
+// unused chunk to cater for unplayable boards -- we change board result on some percentage boards
+#ifdef UNPLAYABLE_ONE_OF
+bool isDecimated = false;
+if (tr.plainScore == ui.irBase) {
+   static int cycleCatering = UNPLAYABLE_ONE_OF;
+   if (0 == --cycleCatering) {
+      tr.plainScore--;
+      isDecimated = true;
+      cycleCatering = UNPLAYABLE_ONE_OF;
+   }
 }
+
+// results are a fake => forget the board asap
+if (isDecimated) {
+   continue;
+}
+
+// example
+#define UNPLAYABLE_ONE_OF  6
+#endif
+
 
 void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
 {

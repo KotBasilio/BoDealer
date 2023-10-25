@@ -13,8 +13,6 @@
    #define OC_TRUMPS       SOL_NOTRUMP
    #define OC_ON_LEAD      WEST
 
-   #define UNPLAYABLE_ONE_OF  6
-
    #define SHOW_OPP_RESULTS
    #define SHOW_OPPS_ON_PASS_ONLY
    #define SHOW_OPPS_ON_DOUBLE_ONLY

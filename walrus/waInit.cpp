@@ -102,11 +102,13 @@ Semantics::Semantics()
    #endif
 
    #ifdef SEEK_SACRIFICE_DECISION
-      onCompareContracts = NoticeSacrificePossible;
+      onCompareContracts = &Walrus::NoticeSacrificePossible;
+   #elif defined(SEEK_DECISION_BID_OR_DOUBLE)
+      onCompareContracts = &Walrus::NoticeBidProfit;
    #elif defined(SEEK_MAGIC_FLY)
-      onCompareContracts = NoticeMagicFly;
+      onCompareContracts = &Walrus::NoticeMagicFly;
    #elif defined(THE_OTHER_IS_OURS)
-      onCompareContracts = CountComboScore;
+      onCompareContracts = &Walrus::CountComboScore;
    #endif
 
 }

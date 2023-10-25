@@ -86,6 +86,12 @@ void Walrus::NoticeMagicFly(uint trickSuit, uint tricksNT)
 
 void Walrus::NoticeSacrificePossible(uint trickSuit, uint tricksNT)
 {
+   DEBUG_UNEXPECTED;
+}
+
+void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs)
+{
+   DEBUG_UNEXPECTED;
 }
 
 void Walrus::Score_Doubled3NT(DdsTricks &tr)
