@@ -3,6 +3,7 @@
 * Integration with Bo Haglund's double-dummy solver
 *
 ************************************************************/
+#include "../dds-develop/include/dll.h"
 #include "walrus.h"
 
 // data conversion class

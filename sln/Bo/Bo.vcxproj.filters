@@ -177,6 +177,9 @@
     <ClCompile Include="..\..\walrus\waDoubleDeal.cpp">
       <Filter>Source Files\walrus</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\walrus\waMiniUI.cpp">
+      <Filter>Source Files\walrus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\walrus\waAI.h">
@@ -308,7 +311,7 @@
     <ClInclude Include="..\..\walrus\waIO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\walrus\double-deal.h">
+    <ClInclude Include="..\..\walrus\waDoubleDeal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

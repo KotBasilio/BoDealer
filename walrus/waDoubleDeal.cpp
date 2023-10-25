@@ -6,9 +6,8 @@
 
 #define  _CRT_SECURE_NO_WARNINGS
 #include <string.h>
-#include "../dds-develop/include/dll.h"
+#include "waDoubleDeal.h"
 #include "../dds-develop/examples/hands.h"
-#include "double-deal.h"
 #include HEADER_CURSES
 
 //#define  DBG_SHOW_BOARD_ON_CONSTRUCTION

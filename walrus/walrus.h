@@ -83,7 +83,6 @@ protected:
     void VoidAdded(twContext* lay) {}
     void VoidSecondSolve(boards& bo, solvedBoards& solved) {}
     void VoidCompare(uint trickSuit, uint tricksNT) {}
-    void DisplayBoard(twContext* lay);
     void GrabSplinterVariant(twContext* lay);
     u64  SumFirstHand();
     u64  SumSecondHand();
@@ -134,11 +133,13 @@ protected:
        int   farCol;
        char  declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10];
        MiniUI();
+       void DisplayBoard(twContext* lay);
        void FillMiniRows();
        void Run();
     } ui;
     void InitMiniUI(int trump, int first);
     void AnnounceSolving();
+    void DisplayBoard(twContext* lay) { ui.DisplayBoard(lay); }
     void DetectFarColumn();
     void ReportState(char* header);
     void ReportLine(ucell sumline, int i);

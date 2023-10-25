@@ -14,23 +14,6 @@
 extern char fmtCell[];
 extern char fmtCellStr[];
 
-Walrus::MiniUI::MiniUI()
-   : exitRequested(false)
-   , reportRequested(false)
-   , firstAutoShow(true)
-   , minControls(0)
-   , irGoal(0)
-   , irBase(0)
-   , irFly(0)
-   , farCol(CTRL_SIZE)
-{
-   FillMiniRows();
-
-   #ifdef IO_DISPLAY_CONTROLS_SPLIT
-      minControls = (IO_HCP_MIN * 4) / 10 - 6;
-   #endif
-}
-
 static void ReportTime(u64 delta1, u64 delta2)
 {
    if (!delta2) {
