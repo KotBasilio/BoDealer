@@ -145,6 +145,7 @@
     <ClCompile Include="..\..\walrus\waBitTwelve.cpp" />
     <ClCompile Include="..\..\walrus\waConfig.cpp" />
     <ClCompile Include="..\..\walrus\waDDSTest.cpp" />
+    <ClCompile Include="..\..\walrus\waDoubleDeal.cpp" />
     <ClCompile Include="..\..\walrus\waInit.cpp" />
     <ClCompile Include="..\..\walrus\waIO.cpp" />
     <ClCompile Include="..\..\walrus\walrus.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="..\..\dds-develop\src\TransTable.h" />
     <ClInclude Include="..\..\dds-develop\src\TransTableL.h" />
     <ClInclude Include="..\..\dds-develop\src\TransTableS.h" />
+    <ClInclude Include="..\..\walrus\double-deal.h" />
     <ClInclude Include="..\..\walrus\waAI.h" />
     <ClInclude Include="..\..\walrus\waCrossPlatform.h" />
     <ClInclude Include="..\..\walrus\waDerived.h" />
