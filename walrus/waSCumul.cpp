@@ -117,7 +117,7 @@ void CumulativeScore::Our5M(uint tricks)
       case 7:  bidGame -= 400; break;
       case 8:  bidGame -= 300; break;
       case 9:  bidGame -= 200; break;
-      case 10: bidGame += 100; break;
+      case 10: bidGame -= 100; break;
       case 11: bidGame += 650; break;
       case 12: bidGame += 680; break;
       case 13: bidGame += 710; break;

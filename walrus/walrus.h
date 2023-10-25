@@ -128,10 +128,13 @@ protected:
        int   minControls;
        int   irGoal, irBase, irFly;
        int   otherGoal;
+       s64   biddingBetterBy;
        int   farCol;
+       int   soTrump, soFirst;
        char  declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10];
        MiniUI();
        void DisplayBoard(twContext* lay);
+       void WaitAnyKey();
        void FillMiniRows();
        void Run();
     } ui;

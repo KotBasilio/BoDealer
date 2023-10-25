@@ -21,7 +21,7 @@
 */
 
 #ifdef SEMANTIC_OCT_INDIAN_5C
-   #define TITLE_VERSION  "Fix 5530 9hcp, all vul;\n  1ñ (2ñ) 2s two suiter spade and a red suit (4c)\n  4s (pass) pass (5c)\n  dbl pass or 5s? Task "
+   #define TITLE_VERSION  "Fix 5530 9hcp, all vul;\n  1c (2c) 2s two suiter spade and a red suit (4c)\n  4s (pass) pass (5c)\n  dbl pass or 5s? Task "
    #define SEEK_DECISION_BID_OR_DOUBLE
    #define IO_SHOW_MINI_FILTERING
    #define SCORE_THE_OTHER_CONTRACT

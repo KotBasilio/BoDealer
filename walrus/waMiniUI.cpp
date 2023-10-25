@@ -33,6 +33,7 @@ Walrus::MiniUI::MiniUI()
    , irBase(0)
    , irFly(0)
    , otherGoal(0)
+   , biddingBetterBy(0)
    , farCol(CTRL_SIZE)
 {
    FillMiniRows();
@@ -73,6 +74,13 @@ void Walrus::MiniUI::DisplayBoard(twContext* lay)
 
    PrintHand("A board: \n", wad.dl);
    PLATFORM_GETCH();
+}
+
+void Walrus::MiniUI::WaitAnyKey()
+{
+   printf("Any key to continue...");
+   PLATFORM_GETCH();
+   printf("ok");
 }
 
 int Walrus::PokeScorerForTricks()

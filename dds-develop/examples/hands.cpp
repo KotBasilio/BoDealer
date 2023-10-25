@@ -565,11 +565,12 @@ void PrintTwoFutures(char title[], futureTricks * fut1, futureTricks * fut2)
    char text[DDS_OPLEAD_LINES][DDS_FULL_LINE];
 
    // clear virtual screen
-   for (int l = 0; l < DDS_OPLEAD_LINES; l++) {
-      memset(text[l], ' ', DDS_FULL_LINE);
-      text[l][DDS_FULL_LINE - 1] = '\0';
+   for (int lidx = 0; lidx < DDS_OPLEAD_LINES; lidx++) {
+      memset(text[lidx], ' ', DDS_FULL_LINE);
+      text[lidx][DDS_FULL_LINE - 1] = '\0';
    }
 
+   // fill it with text info
    int off2 = 35;
    sprintf(text[0] + off2, "%s", title);
 
@@ -594,8 +595,8 @@ void PrintTwoFutures(char title[], futureTricks * fut1, futureTricks * fut2)
    }
 
    // print the v-screen
-   auto maxlne = __max(fut1->cards, fut2->cards) + 2;
-   for (int i = 0; i < maxlne; i++) {
+   auto maxline = __max(fut1->cards, fut2->cards) + 2;
+   for (int i = 0; i < maxline; i++) {
       printf("   %s\n", text[i]);
    }
 }

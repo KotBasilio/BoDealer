@@ -98,9 +98,7 @@ void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)
    if (ui.firstAutoShow) {
       ui.firstAutoShow = false;
    } else {
-      printf("Any key to continue...");
-      PLATFORM_GETCH();
-      printf("ok");
+      ui.WaitAnyKey();
    }
 
    // interrogation is over
@@ -165,7 +163,7 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
          sprintf(header, "<not filled title>");
       #endif 
 
-      // output
+      // tricks for all possible leads
       PrintTwoFutures(header, &futUs, &futTheirs);
    #endif // SOLVE_TWICE_HANDLED_CHUNK
 }

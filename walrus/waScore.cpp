@@ -112,6 +112,18 @@ void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs)
       progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_REFRAIN_BIDDING]++;
    }
    progress.countExtraMarks++;
+   ui.biddingBetterBy = cumulScore.bidGame - cumulScore.oppCtrDoubled;
+
+   // debug
+   #ifdef SHOW_EACH_COMPARISON
+      char *action = "Bidding   ";
+      auto amount = ui.biddingBetterBy;
+      if (amount < 0) {
+         action = "Refraining";
+         amount = -amount;
+      }
+      printf("   %4lld; %4lld. %s is better by %lld points\n", cumulScore.bidGame, cumulScore.oppCtrDoubled, action, amount);
+   #endif 
 
    // step back
    cumulScore = backup;

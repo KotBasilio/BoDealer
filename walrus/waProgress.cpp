@@ -307,10 +307,10 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
 
    // a sacrifice
    #ifdef SHOW_SACRIFICE_RESULTS
-      s64 sumSacr = (s64)progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_PREFER_TO_BID];
+      s64 sumBid  = (s64)progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_PREFER_TO_BID];
       s64 sumDefd = (s64)progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_REFRAIN_BIDDING];
-      sumRows = __max(sumSacr + sumDefd, 1);
-      float percBetterBid = sumDefd * 100.f / sumRows;
+      sumRows = __max(sumBid + sumDefd, 1);
+      float percBetterBid = sumBid * 100.f / sumRows;
       printf("To bid is better in: %3.1f%% cases\n", percBetterBid);
    #endif
 

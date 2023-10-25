@@ -71,3 +71,17 @@ Averages: ideal = 523, bidGame = 484.   Chance to make = 71.8%
 Their contract doubled, expectation average: 818. Chance to make = 1.5%
 The search took 0.2 sec + an aftermath 53 min 18 sec.
 Press any key.
+
+    :  HITS COUNT   :
+    (we down):    15184,    4099,     591,     179,      11,       0,       0,       0,       0,       0,       20064
+    (we make):    27412,   19903,    2640,       0,       0,       0,       0,       0,       0,       0,       49955
+       (----):        0,       0,       0,       0,       0,       0,       0,       0,       0,       0,           0
+   (opp down):     4877,   13962,   24718,   18941,    5708,     710,      81,       8,       1,       0,       69006
+   (opp make):      914,      92,       7,       0,       0,       0,       0,       0,       0,       0,        1013
+(bid/refrain):        0,   12454,       0,   57565,       0,       0,       0,       0,       0,       0,       70019
+Processed: 70019 total. East is on lead. Goal is 11 tricks in spades.
+Averages: ideal = 520, bidGame = 480.   Chance to make = 71.3%
+Their contract doubled, expectation average: 816. Chance to make = 1.4%
+To bid is better in: 17.8% cases
+The search took 0.4 sec + an aftermath 73 min 31 sec.
+

@@ -102,33 +102,12 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
    }
 }
 
-// unused chunk to cater for unplayable boards -- we change board result on some percentage boards
-#ifdef UNPLAYABLE_ONE_OF
-bool isDecimated = false;
-if (tr.plainScore == ui.irBase) {
-   static int cycleCatering = UNPLAYABLE_ONE_OF;
-   if (0 == --cycleCatering) {
-      tr.plainScore--;
-      isDecimated = true;
-      cycleCatering = UNPLAYABLE_ONE_OF;
-   }
-}
-
-// results are a fake => forget the board asap
-if (isDecimated) {
-   continue;
-}
-
-// example
-#define UNPLAYABLE_ONE_OF  6
-#endif
-
 void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
 {
    // overwrite trumps and lead
    for (int i = 0; i < bo.noOfBoards; i++) {
-      bo.deals[i].trump = TWICE_TRUMPS;
-      bo.deals[i].first = TWICE_ON_LEAD_CHUNK;
+      bo.deals[i].trump = OC_TRUMPS;
+      bo.deals[i].first = OC_ON_LEAD;
    }
 
    // solve second time
@@ -150,6 +129,16 @@ void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
       DdsTricks trFirst;
       trFirst.Init(chunk.solvedBoard[handno]);
       (this->*sem.onCompareContracts)(trFirst.plainScore, trSecond.plainScore);
+
+      // may monitor TNT
+      deal& cards(bo.deals[handno]);
+      //(this->*sem.onMonitorTNT)(cards, trFirst.plainScore + trSecond.plainScore);
+
+      // may debug each board
+      // cards.trump = ui.soTrump;
+      // cards.first = ui.soFirst;
+      // Orb_ReSolveAndShow(cards);
+      // ui.WaitAnyKey();
    }
 }
 
@@ -176,4 +165,25 @@ void Walrus::SolveOneByOne(deal& dlBase)
       }
    }
 }
+
+// unused chunk to cater for unplayable boards -- we change board result on some percentage boards
+#ifdef UNPLAYABLE_ONE_OF
+bool isDecimated = false;
+if (tr.plainScore == ui.irBase) {
+   static int cycleCatering = UNPLAYABLE_ONE_OF;
+   if (0 == --cycleCatering) {
+      tr.plainScore--;
+      isDecimated = true;
+      cycleCatering = UNPLAYABLE_ONE_OF;
+   }
+}
+
+// results are a fake => forget the board asap
+if (isDecimated) {
+   continue;
+}
+
+// example
+#define UNPLAYABLE_ONE_OF  6
+#endif
 
