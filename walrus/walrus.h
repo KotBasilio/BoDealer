@@ -100,7 +100,6 @@ protected:
     void Score_NV_5Minor(DdsTricks &tr);
     void Score_NV_Doubled5Minor(DdsTricks &tr);
     void Score_3NT(DdsTricks &tr);
-    void Score_MagicFly(DdsTricks& tr);
     void Score_2m(DdsTricks &tr);
     void Score_Doubled3NT(DdsTricks &tr);
     void Score_NV6Major(DdsTricks &tr);
@@ -113,9 +112,7 @@ protected:
     void Score_OpLead3NTX(DdsTricks &tr);
     void Score_OpLead5D(DdsTricks &tr);
     void Score_OpLead5DX(DdsTricks &tr);
-    void Score_Opp3MajorDoubled(DdsTricks& tr);
     void Score_Opp3Major(DdsTricks& tr);
-    void Score_Opp4MajorDoubled(DdsTricks &tr);
     void Score_Opp4Major(DdsTricks& tr);
     void Score_Opp5MinorDoubled(DdsTricks& tr);
     void Score_Opp3NT(DdsTricks& tr);
@@ -130,6 +127,7 @@ protected:
        bool  firstAutoShow;
        int   minControls;
        int   irGoal, irBase, irFly;
+       int   otherGoal;
        int   farCol;
        char  declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10];
        MiniUI();
@@ -152,6 +150,7 @@ protected:
     void ShowDetailedReportControls();
     void CalcHitsForMiniReport(ucell* hitsRow, ucell* hitsCamp);
     int  PokeScorerForTricks();
+    int  PokeOtherScorerForGoal();
     void CleanupStats();
     void ShowProgress(ucell idx);
 

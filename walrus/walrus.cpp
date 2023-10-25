@@ -60,10 +60,6 @@ void Walrus::CleanupStats()
 {
    CumulativeScore zeroes;
    cumulScore = zeroes;
-   for (int i = 0; i < CTRL_SIZE; i++) {
-      progress.hitsCount[0][i] = 0;
-      progress.hitsCount[1][i] = 0;
-   }
 }
 
 extern void DoSelfTests();

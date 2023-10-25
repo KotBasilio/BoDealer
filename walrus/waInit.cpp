@@ -104,7 +104,6 @@ Semantics::Semantics()
    #ifdef SEEK_SACRIFICE_DECISION
       onCompareContracts = NoticeSacrificePossible;
    #elif defined(SEEK_MAGIC_FLY)
-      onSolvedTwice = &Walrus::Score_MagicFly;
       onCompareContracts = NoticeMagicFly;
    #elif defined(THE_OTHER_IS_OURS)
       onCompareContracts = CountComboScore;

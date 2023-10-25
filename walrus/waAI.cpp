@@ -113,6 +113,7 @@ bool Walrus::HandleSolvedBoard(DdsTricks &tr, deal &cards)
    #endif // UNPLAYABLE_ONE_OF
 
    // pass to basic statistics
+   HitByScore(tr, ui.irBase);
    (this->*sem.onScoring)(tr);
 
    // results are a fake => forget the board asap
@@ -145,9 +146,14 @@ void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
    for (int handno = 0; handno < twice.noOfBoards; handno++) {
       DdsTricks trSecond;
       trSecond.Init(twice.solvedBoard[handno]);
-      (this->*sem.onSolvedTwice)(trSecond);
 
-      DdsTricks trFirst; 
+      // pass to basic statistics
+      HitByScore(trSecond, ui.otherGoal, IO_ROW_THEIRS);
+      (this->*sem.onSolvedTwice)(trSecond);
+      progress.countExtraMarks++;
+
+      // pass to comparison
+      DdsTricks trFirst;
       trFirst.Init(chunk.solvedBoard[handno]);
       (this->*sem.onCompareContracts)(trFirst.plainScore, trSecond.plainScore);
    }

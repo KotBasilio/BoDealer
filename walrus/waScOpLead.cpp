@@ -11,9 +11,6 @@
 void Walrus::Score_OpLead3NT(DdsTricks &tr)
 {
 #ifdef SEEK_OPENING_LEAD
-   // hits
-   HitByScore(tr, 9);
-
    // cumulative for each lead
    cumulScore.OpLead3NT(cumulScore.ideal, tr.plainScore);
    cumulScore.OpLead3NT(cumulScore.leadS, tr.lead.S);
@@ -26,9 +23,6 @@ void Walrus::Score_OpLead3NT(DdsTricks &tr)
 void Walrus::Score_OpLead3NTX(DdsTricks &tr)
 {
 #ifdef SEEK_OPENING_LEAD
-   // hits
-   HitByScore(tr, 9);
-
    // cumulative for each lead
    cumulScore.OpLead3NTX(cumulScore.ideal, tr.plainScore);
    cumulScore.OpLead3NTX(cumulScore.leadS, tr.lead.S);
@@ -41,9 +35,6 @@ void Walrus::Score_OpLead3NTX(DdsTricks &tr)
 void Walrus::Score_OpLead3Major(DdsTricks &tr)
 {
 #ifdef SEEK_OPENING_LEAD
-   // hits
-   HitByScore(tr, 9);
-
    // cumulative for each lead
    cumulScore.OpLead3Major(cumulScore.ideal, tr.plainScore);
    cumulScore.OpLead3Major(cumulScore.leadS, tr.lead.S);
@@ -104,9 +95,6 @@ void CumulativeScore::OpLead5minor(s64 &sum, uint tricks)
 void Walrus::Score_OpLead5D(DdsTricks &tr)
 {
 #ifdef SEEK_OPENING_LEAD
-   // hits
-   HitByScore(tr, 11);
-
    // cumulative for ideal and for each lead
    cumulScore.OpLead5minor(cumulScore.ideal, tr.plainScore);
    cumulScore.OpLead5minor(cumulScore.leadS, tr.lead.S);
@@ -119,9 +107,6 @@ void Walrus::Score_OpLead5D(DdsTricks &tr)
 void Walrus::Score_OpLead5DX(DdsTricks &tr)
 {
 #ifdef SEEK_OPENING_LEAD
-   // hits
-   HitByScore(tr, 11);
-
    // cumulative for ideal and for each lead
    cumulScore.OpLead5mX(cumulScore.ideal, tr.plainScore);
    cumulScore.OpLead5mX(cumulScore.leadS, tr.lead.S);

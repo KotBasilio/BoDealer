@@ -33,6 +33,31 @@ Final result:
 ----
 Total iterations = 32476548, balance is fine
 
+
+
+
+
+Final result:
+00:      492,     119,      22,      11,       3,       0,       0,    : 647
+01:      994,     698,      61,       0,       0,       0,       0,    : 1753
+----
+03:      174,     483,     811,     644,     207,      37,       3,    : 2359
+04:       36,       5,       0,       0,       0,       0,       0,    : 41
+----
+24:        0,       0,       0,    >MLN,       0,       0,       0,    : 3006506         PointsRange 17 19 SOUTH
+25:        0,       0,       0,  101574,       0,       0,       0,    : 101574          SpadesLen 3 4 SOUTH
+26:        0,       0,       0,       0,   72806,       0,       0,    : 72806           PointsRange 9 16 WEST
+27:        0,       0,       0,       0,   21037,       0,       0,    : 21037           ClubsLen 5 6 WEST
+----
+29:        0,       0,    6167,       0,       0,       0,       0,    : 6167            ClubsLen 4 5 EAST
+----
+31:        0,       0,    5156,       0,       0,       0,       0,    : 5156            ClubsLen 5 5 EAST
+32:     2615,       0,    4359,       0,       0,       0,       0,    : 6974            SpadesLen 0 1 EAST
+33:        0,       0,    4239,       0,       0,       0,       0,    : 4239            HeartsLen 0 1 EAST
+34:        0,       0,    3771,       0,       0,       0,       0,    : 3771            DiamondsLen 0 1 EAST
+----
+Total iterations = 3216876, balance is fine
+
 --------------------------------
 
     :  HITS COUNT   :

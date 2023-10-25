@@ -73,6 +73,35 @@ uint WaCalcHCP(const deal& dl, uint& ctrl)
    return hcp.total;
 }
 
+void Walrus::PostmortemHCP(DdsTricks& tr, deal& cards)
+{
+   // detect row and column
+   uint row = 0;
+   uint ctrl;
+   auto hcp = WaCalcHCP(cards, ctrl);
+   if (ui.minControls) {
+      if (ctrl < (uint)ui.minControls) {
+         row = IO_ROW_HCP_START;
+      }
+      else {
+         row = IO_ROW_HCP_START + (ctrl - ui.minControls) * 2;
+      }
+   }
+   else if (hcp < IO_HCP_MIN || IO_HCP_MAX < hcp) {
+      return;
+   }
+   else {
+      row = IO_ROW_HCP_START + (hcp - IO_HCP_MIN) * 2;
+   }
+
+   //  proper row => add a mark in stat
+   if (row < IO_ROW_FILTERING - 1) {
+      HitByScore(tr, ui.irBase, row);
+      progress.countExtraMarks++;
+   }
+}
+
+
 DdsDeal::DdsDeal(const deal &dlBase, DdsTask2 &task)
 {
    memcpy(&dl, &dlBase, sizeof(dl));

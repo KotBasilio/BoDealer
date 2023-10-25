@@ -32,6 +32,7 @@ Walrus::MiniUI::MiniUI()
    , irGoal(0)
    , irBase(0)
    , irFly(0)
+   , otherGoal(0)
    , farCol(CTRL_SIZE)
 {
    FillMiniRows();
@@ -43,8 +44,13 @@ Walrus::MiniUI::MiniUI()
 
 void Walrus::InitMiniUI(int trump, int first)
 {
-   // how many tricks is the base?
+   // how many tricks is the base goal?
    ui.irBase = PokeScorerForTricks();
+
+   // how many tricks is the goal of another contract?
+   if (sem.solveSecondTime == &Walrus::SolveSecondTime) {
+      ui.otherGoal = PokeOtherScorerForGoal();
+   }
 
    // that poking has left some marks in stats
    CleanupStats();
@@ -52,9 +58,9 @@ void Walrus::InitMiniUI(int trump, int first)
    // fill names
    strcpy(ui.declTrump, s_TrumpNames[trump]);
    strcpy(ui.seatOnLead, s_SeatNames[first]);
-   #ifdef SCORE_THE_OTHER_CONTRACT
+   if (ui.otherGoal > 0) {
       strcpy(ui.theirTrump, s_TrumpNames[OC_TRUMPS]);
-   #endif
+   }
 
    // decl is anti-ccw from leader
    int declSeat = (first + 3) % 4;
@@ -128,6 +134,35 @@ int Walrus::PokeScorerForTricks()
    
    // so far one case 450 for 5dX+2(750) and 5dX-2(-300)
    return 11;
+}
+
+int Walrus::PokeOtherScorerForGoal()
+{
+   #ifdef SEEK_MAGIC_FLY
+      return 9;
+   #endif
+
+   // take 13 tricks 
+   DdsTricks tr;
+   tr.plainScore = 13;
+   (this->*sem.onSolvedTwice)(tr);
+
+   switch (cumulScore.oppContract) {
+      case -260: return 9;  // 3M
+      case -510: return 10; // 4M NV
+      case -640: return 11; // 5m VUL
+      case -710: return 10; // 4M VUL
+      case -720: return 9;  // 3NT VUL
+   }
+
+   switch (cumulScore.oppCtrDoubled) {
+      case -930: return 9;   // 3MX
+      case -690: return 10;  // 4M NV
+      case -890: return 10;  // 4M VUL
+      case -1150: return 11; // 5mX
+   }
+
+   return 0;
 }
 
 void Walrus::MiniUI::Run()
