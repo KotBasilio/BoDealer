@@ -30,9 +30,7 @@ Walrus::MiniUI::MiniUI()
    , firstAutoShow(true)
    , minControls(0)
    , irGoal(0)
-   , irBase(0)
    , irFly(0)
-   , otherGoal(0)
    , biddingBetterBy(0)
    , farCol(CTRL_SIZE)
 {
@@ -45,21 +43,10 @@ Walrus::MiniUI::MiniUI()
 
 void Walrus::InitMiniUI(int trump, int first)
 {
-   // how many tricks is the base goal?
-   ui.irBase = PokeScorerForTricks();
-
-   // how many tricks is the goal of another contract?
-   if (sem.solveSecondTime == &Walrus::SolveSecondTime) {
-      ui.otherGoal = PokeOtherScorerForGoal();
-   }
-
-   // that poking has left some marks in stats
-   CleanupStats();
-
    // fill names
    strcpy(ui.declTrump, s_TrumpNames[trump]);
    strcpy(ui.seatOnLead, s_SeatNames[first]);
-   if (ui.otherGoal > 0) {
+   if (cfgTask.otherGoal > 0) {
       strcpy(ui.theirTrump, s_TrumpNames[OC_TRUMPS]);
    }
 
@@ -144,7 +131,7 @@ int Walrus::PokeScorerForTricks()
    return 11;
 }
 
-int Walrus::PokeOtherScorerForGoal()
+int Walrus::PokeOtherScorer()
 {
    #ifdef SEEK_MAGIC_FLY
       return 9;
@@ -182,29 +169,29 @@ void Walrus::MiniUI::Run()
       auto inchar = PLATFORM_GETCH();
       switch (inchar) {
          // just made
-         case ' ': irGoal = irBase; break;
+         case ' ': irGoal = cfgTask.primGoal; break;
 
-         // overs
-         case '1': irGoal = irBase + 1; break;
-         case '2': irGoal = irBase + 2; break;
-         case '3': irGoal = irBase + 3; break;
-         case '4': irGoal = irBase + 4; break;
+         // overtricks
+         case '1': irGoal = cfgTask.primGoal + 1; break;
+         case '2': irGoal = cfgTask.primGoal + 2; break;
+         case '3': irGoal = cfgTask.primGoal + 3; break;
+         case '4': irGoal = cfgTask.primGoal + 4; break;
 
          // down some
-         case 'q': irGoal = irBase - 1;  break;
-         case 'w': irGoal = irBase - 2;  break;
-         case 'e': irGoal = irBase - 3;  break;
-         case 'r': irGoal = irBase - 4;  break;
-         case 't': irGoal = irBase - 5;  break;
-         case 'y': irGoal = irBase - 6;  break;
-         case 'u': irGoal = irBase - 7;  break;
-         case 'i': irGoal = irBase - 8;  break;
+         case 'q': irGoal = cfgTask.primGoal - 1;  break;
+         case 'w': irGoal = cfgTask.primGoal - 2;  break;
+         case 'e': irGoal = cfgTask.primGoal - 3;  break;
+         case 'r': irGoal = cfgTask.primGoal - 4;  break;
+         case 't': irGoal = cfgTask.primGoal - 5;  break;
+         case 'y': irGoal = cfgTask.primGoal - 6;  break;
+         case 'u': irGoal = cfgTask.primGoal - 7;  break;
+         case 'i': irGoal = cfgTask.primGoal - 8;  break;
 
          // comparison
          #ifdef SEEK_MAGIC_FLY
-            case '=': irGoal = irBase; irFly = IO_CAMP_SAME_NT; break;
-            case '[': irGoal = irBase; irFly = IO_CAMP_PREFER_SUIT; break;
-            case ']': irGoal = irBase; irFly = IO_CAMP_MORE_NT; break;
+            case '=': irGoal = cfgTask.primGoal; irFly = IO_CAMP_SAME_NT; break;
+            case '[': irGoal = cfgTask.primGoal; irFly = IO_CAMP_PREFER_SUIT; break;
+            case ']': irGoal = cfgTask.primGoal; irFly = IO_CAMP_MORE_NT; break;
          #endif 
 
          // report hits
@@ -239,7 +226,7 @@ void Walrus::MiniUI::Run()
 
    // auto-command
    if (firstAutoShow && !irGoal) {
-      irGoal = irBase;
+      irGoal = cfgTask.primGoal;
       printf(" %d tricks board by %s in %s ", irGoal, declSeat, declTrump);
    }
 }

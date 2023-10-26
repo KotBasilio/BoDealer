@@ -39,6 +39,9 @@ void WaFilter::Bind(class Walrus* _walrus)
 }
 
 WaConfig::WaConfig()
+   : namesBase()
+   , primGoal(0)
+   , otherGoal(0)
 {
    titleOurContract [0] = 0;
    titleTheirContract[0] = 0;

@@ -208,7 +208,7 @@ void Walrus::MiniReport(ucell toGo)
    // signature
    s64 doneOurs   = (s64)(__max( hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE  ], 1));
    s64 doneTheirs = (s64)( __max(hitsRow[IO_ROW_THEIRS  ] + hitsRow[IO_ROW_THEIRS + 1], 1));
-   printf("Processed: %lld total. %s is on lead. Goal is %d tricks in %s.\n", doneOurs, ui.seatOnLead, ui.irBase, ui.declTrump);
+   printf("Processed: %lld total. %s is on lead. Goal is %d tricks in %s.\n", doneOurs, ui.seatOnLead, cfgTask.primGoal, ui.declTrump);
 
    // other stuff
    ShowBiddingLevel(doneOurs);
@@ -232,7 +232,7 @@ void Walrus::ShowBiddingLevel(s64 sumRows)
 {
    #if defined(SEEK_BIDDING_LEVEL) || defined(FOUR_HANDS_TASK)
       // slam/game/partscore
-      if (ui.irBase < 12) {
+      if (cfgTask.primGoal < 12) {
          printf("Averages: ideal = %lld, bidGame = %lld",
             cumulScore.ideal / sumRows,
             cumulScore.bidGame / sumRows);

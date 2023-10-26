@@ -109,8 +109,8 @@ uint CountBits(uint v)// count bits set in this (32-bit value)
 void Walrus::PrepareBaseDeal(deal& dlBase)
 {
    // common fields
-   dlBase.trump = ui.soTrump = INPUT_TRUMPS;
-   dlBase.first = ui.soFirst = INPUT_ON_LEAD;
+   dlBase.trump = cfgTask.soTrump = INPUT_TRUMPS;
+   dlBase.first = cfgTask.soFirst = INPUT_ON_LEAD;
 
    dlBase.currentTrickSuit[0] = 0;
    dlBase.currentTrickSuit[1] = 0;

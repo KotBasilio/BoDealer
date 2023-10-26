@@ -96,7 +96,7 @@ void Walrus::PostmortemHCP(DdsTricks& tr, deal& cards)
 
    //  proper row => add a mark in stat
    if (row < IO_ROW_FILTERING - 1) {
-      HitByScore(tr, ui.irBase, row);
+      HitByScore(tr, cfgTask.primGoal, row);
       progress.countExtraMarks++;
    }
 }

@@ -56,12 +56,6 @@ CumulativeScore::CumulativeScore()
    leadS = leadH = leadD = leadC = 0L;
 }
 
-void Walrus::CleanupStats()
-{
-   CumulativeScore zeroes;
-   cumulScore = zeroes;
-}
-
 extern void DoSelfTests();
 
 int main(int argc, char *argv[])

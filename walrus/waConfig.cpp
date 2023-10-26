@@ -41,9 +41,13 @@ void waFileNames::Build()
 
 void WaConfig::ReadStart()
 {
+   // goals
+   primGoal = 0;
+   otherGoal = 0;
+
    const char* fname = namesBase.StartFrom;
-//    printf("Reading config from: %s\n", fname);
-//    PLATFORM_GETCH();
+   //printf("Reading config from: %s\n", fname);
+   //PLATFORM_GETCH();
 
    FILE* stream;
    if (!fopen_s(&stream, fname, "r") == 0) {
@@ -60,20 +64,62 @@ void WaConfig::ReadStart()
 
    fclose(stream);
 
-//   PLATFORM_GETCH();
+   //PLATFORM_GETCH();
 }
+
+void Walrus::DetectGoals()
+{
+   DdsTricks tr;
+
+   // primary
+   cfgTask.primGoal = PokeScorerForTricks();
+   printf("Primary scorer:  ");
+   for (tr.plainScore = 7; tr.plainScore <= 13 ; tr.plainScore++) {
+      cumulScore.bidGame = 0;
+      cumulScore.partscore = 0;
+      (this->*sem.onScoring)(tr);
+      printf(" %lld", cumulScore.bidGame);
+      if (cumulScore.partscore) {
+         printf("/%lld", cumulScore.partscore);
+      }
+   }
+   printf("\n");
+
+   // secondary
+   if (sem.solveSecondTime == &Walrus::SolveSecondTime) {
+      cfgTask.otherGoal = PokeOtherScorer();
+      printf("Secondary scorer:");
+      for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
+         cumulScore.oppContract = 0;
+         cumulScore.oppCtrDoubled = 0;
+         (this->*sem.onSolvedTwice)(tr);
+         printf(" %lld", - cumulScore.oppContract);
+         if (cumulScore.oppCtrDoubled) {
+            printf("/%lld", - cumulScore.oppCtrDoubled);
+         }
+      }
+      printf("\n");
+   }
+
+   // all this poking left some score
+   CumulativeScore zeroes;
+   cumulScore = zeroes;
+   //PLATFORM_GETCH();
+}
+
 
 bool Walrus::InitByConfig()
 {
    // may read something
    cfgTask.ReadStart();
 
-   // prepare basing on config
+   // prepare, basing on config
    FillSemantic();
    sem.MiniLink();
    InitDeck();
    memset(progress.hitsCount, 0, sizeof(progress.hitsCount));
    shuf.SeedRand();
+   DetectGoals();
 
    return true;
 }

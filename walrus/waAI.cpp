@@ -91,7 +91,7 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
       deal& cards(bo.deals[handno]);
 
       // pass to basic statistics
-      HitByScore(tr, ui.irBase);
+      HitByScore(tr, cfgTask.primGoal);
       (this->*sem.onScoring)(tr);
 
       // some detailed postmortem is possible
@@ -128,7 +128,7 @@ void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
       trSecond.Init(twice.solvedBoard[handno]);
 
       // pass to basic statistics
-      HitByScore(trSecond, ui.otherGoal, IO_ROW_THEIRS);
+      HitByScore(trSecond, cfgTask.otherGoal, IO_ROW_THEIRS);
       (this->*sem.onSolvedTwice)(trSecond);
       progress.countExtraMarks++;
 
@@ -142,8 +142,8 @@ void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
       //(this->*sem.onMonitorTNT)(cards, trFirst.plainScore + trSecond.plainScore);
 
       // may debug each board
-      // cards.trump = ui.soTrump;
-      // cards.first = ui.soFirst;
+      // cards.trump = cfgTask.soTrump;
+      // cards.first = cfgTask.soFirst;
       // Orb_ReSolveAndShow(cards);
       // ui.WaitAnyKey();
    }
@@ -176,7 +176,7 @@ void Walrus::SolveOneByOne(deal& dlBase)
 // unused chunk to cater for unplayable boards -- we change board result on some percentage boards
 #ifdef UNPLAYABLE_ONE_OF
 bool isDecimated = false;
-if (tr.plainScore == ui.irBase) {
+if (tr.plainScore == cfgTask.primGoal) {
    static int cycleCatering = UNPLAYABLE_ONE_OF;
    if (0 == --cycleCatering) {
       tr.plainScore--;

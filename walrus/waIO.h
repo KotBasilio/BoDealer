@@ -23,6 +23,12 @@ struct WaConfig {
 
    WaConfig();
 
+   int   primGoal;  // goal tricks in our primary contract
+   int   soTrump, soFirst;
+
+   int   otherGoal; // goal tricks either in our secondary contract or in their contract
+
+
    void ReadStart();
 };
 
