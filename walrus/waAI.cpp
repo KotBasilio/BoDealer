@@ -72,7 +72,10 @@ void Walrus::SolveOneChunk(deal& dlBase, boards& bo, uint ofs, uint step)
    int res = SolveAllBoardsN(bo, solved);
    HandleDDSFail(res);
 
-   // relay
+   // read user commands
+   ui.Run();
+
+   // relay the chunk
    HandleSolvedChunk(bo, solved);
 
    // sometimes we solve the same chunk in a different suit and/or declared
@@ -81,9 +84,6 @@ void Walrus::SolveOneChunk(deal& dlBase, boards& bo, uint ofs, uint step)
 
 void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
 {
-   // read user commands
-   ui.Run();
-
    // pass to statistics and/or UI
    for (int handno = 0; handno < solved.noOfBoards; handno++) {
       futureTricks& fut = solved.solvedBoard[handno];
@@ -104,6 +104,13 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
 
 void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
 {
+   // show a life sign and allow early quit
+   printf(".");
+   ui.Run();
+   if (ui.exitRequested) {
+      return;
+   }
+
    // overwrite trumps and lead
    for (int i = 0; i < bo.noOfBoards; i++) {
       bo.deals[i].trump = OC_TRUMPS;
@@ -130,7 +137,7 @@ void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
       trFirst.Init(chunk.solvedBoard[handno]);
       (this->*sem.onCompareContracts)(trFirst.plainScore, trSecond.plainScore);
 
-      // may monitor TNT
+      // may monitor TNT -- TODO
       deal& cards(bo.deals[handno]);
       //(this->*sem.onMonitorTNT)(cards, trFirst.plainScore + trSecond.plainScore);
 
