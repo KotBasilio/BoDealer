@@ -82,7 +82,8 @@ public:
    uint No7Plus(twContext* lay, const uint *par);
    uint No2SuiterAntiSpade(twContext* lay, const uint *par);
    uint No2SuitsAntiHeart(twContext* lay, const uint *par);
-   uint No2SuitsMinors(twContext* lay, const uint *par);
+   uint No2SuitsMinors(twContext* lay, const uint* par);
+   uint TakeoutOfClubs(twContext* lay, const uint* par);
    // -- branching
    uint AnyInListBelow(twContext* lay, const uint *par);
    uint EndList(twContext* lay, const uint *par);

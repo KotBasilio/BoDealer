@@ -18,6 +18,11 @@
    #define SHOW_SACRIFICE_RESULTS
 #endif
 
+#ifndef OC_TRUMPS
+   #define OC_TRUMPS       SOL_NOTRUMP
+   #define OC_ON_LEAD      WEST
+#endif
+
 #ifdef SCORE_THE_OTHER_CONTRACT
    #define SOLVE_TWICE_HANDLED_CHUNK
    #define TWICE_TRUMPS            OC_TRUMPS

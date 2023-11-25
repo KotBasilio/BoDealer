@@ -396,6 +396,29 @@ uint WaFilter::No2SuitsMinors(twContext* lay, const uint* par)
    return MIC_PASSED;
 }
 
+uint WaFilter::TakeoutOfClubs(twContext* lay, const uint* par)
+{
+   ACCESS_MICPARS_HL;
+
+   if (hcp.total < 11) {
+      return MIC_BLOCK;
+   }
+
+   if (len.s > 4 || len.h > 4 || len.d > 4) {
+      return MIC_BLOCK;
+   }
+
+   if (len.s < 3|| len.h < 3 || len.d < 3) {
+      return MIC_BLOCK;
+   }
+
+   if (len.c > 3) {
+      return MIC_BLOCK;
+   }
+
+   return MIC_PASSED;
+}
+
 uint WaFilter::LineAcesRange(twContext* lay, const uint* par)
 {
    // aces only

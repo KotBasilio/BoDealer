@@ -15,6 +15,11 @@
 // --------------------------------------------------------------------------------
 // input
 //char const taskHandPBN[] = "[N:...]";
+#ifdef SEMANTIC_BASHA_NOV_NT
+   #define INPUT_TRUMPS    SOL_NOTRUMP
+   #define INPUT_ON_LEAD   EAST
+   char const taskHandPBN[] = "[N:85.A7.A63.KJT853.]";
+#endif 
 
 #ifdef SEMANTIC_OCT_INDIAN_5C
    #define INPUT_TRUMPS    SOL_SPADES
