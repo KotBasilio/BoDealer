@@ -137,6 +137,28 @@ void CumulativeScore::Our5M(uint tricks)
    }
 }
 
+void CumulativeScore::Our4minor(uint tricks)
+{
+   // both strategies
+   switch (tricks) {
+      case 2:  bidGame -= 800; partscore -= 800; break;
+      case 3:  bidGame -= 700; partscore -= 700; break;
+      case 4:  bidGame -= 600; partscore -= 600; break;
+      case 5:  bidGame -= 500; partscore -= 500; break;
+      case 6:  bidGame -= 400; partscore -= 400; break;
+      case 7:  bidGame -= 300; partscore -= 300; break;
+      case 8:  bidGame -= 200; partscore -= 200; break;
+      case 9:  bidGame -= 100; partscore -= 100; break;
+      case 10: bidGame += 130; partscore += 130; break;
+      case 11: bidGame += 150; partscore += 150; break;
+      case 12: bidGame += 170; partscore += 170; break;
+      case 13: bidGame += 190; partscore += 190; break;
+   }
+
+   // "ideal"
+   ideal += 50;
+}
+
 void CumulativeScore::Our5minor(uint tricks)
 {
    // "always game" strategy

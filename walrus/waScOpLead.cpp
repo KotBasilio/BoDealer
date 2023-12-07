@@ -158,6 +158,27 @@ void CumulativeScore::Opp_3MajX(s64 &sum, uint tricks)
   }
 }
 
+void CumulativeScore::Opp_4MajX(s64& sum, uint tricks)
+{
+   switch (tricks) {
+      case 10: sum -= 790; return;
+      case 11: sum -= 990; return;
+      case 12: sum -= 1190; return;
+      case 13: sum -= 1390; return;
+
+      case  9: sum += 200; return;
+      case  8: sum += 500; return;
+      case  7: sum += 800; return;
+      case  6: sum += 1100; return;
+      case  5: sum += 1400; return;
+      case  4: sum += 1700; return;
+      case  3: sum += 2000; return;
+      case  2: sum += 2300; return;
+      case  1: sum += 2600; return;
+      case  0: sum += 2900; return;
+   }
+}
+
 void CumulativeScore::Opp_NV_4MajX(s64 &sum, uint tricks)
 {
    switch (tricks) {

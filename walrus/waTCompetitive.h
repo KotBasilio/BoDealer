@@ -39,3 +39,13 @@
    #define OC_ON_LEAD      NORTH
 #endif
 
+
+#ifdef SEMANTIC_MORO_4C
+   #define TITLE_VERSION  "Fix 0346 9hcp, unfav vul;\n(1s)-pass-(3s inv)-??\nQuestion: pass or 4c? Task "
+   #define SEEK_SACRIFICE_DECISION
+   #define IO_SHOW_MINI_FILTERING
+   #define SHOW_OPPS_ON_PASS_ONLY
+   #define OC_TRUMPS       SOL_SPADES
+   #define OC_ON_LEAD      NORTH
+#endif // SEMANTIC_MORO_4C
+

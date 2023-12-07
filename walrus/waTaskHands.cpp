@@ -48,6 +48,14 @@
    char const taskHandPBN[] = "[N:JT4.Q93.AT63.Q92]";
 #endif
 
+
+#ifdef SEMANTIC_MORO_4C
+   // origin: Morozevic, Dec 2023
+   #define INPUT_TRUMPS    SOL_CLUBS
+   #define INPUT_ON_LEAD   EAST
+   char const taskHandPBN[] = "[N:.KJ5.T763.KQ9873]";
+#endif // SEMANTIC_MORO_4C
+
 #ifdef FOUR_HANDS_TASK
    char const taskHandPBN[] = "[N:234.567.AKQT.J98]";// just a dummy
    #ifndef INPUT_TRUMPS

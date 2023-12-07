@@ -48,6 +48,11 @@ void Walrus::Score_NV_5Major(DdsTricks &tr)
    cumulScore.OurNV5M(tr.plainScore);
 }
 
+void Walrus::Score_4Minor(DdsTricks& tr)
+{
+   cumulScore.Our4minor(tr.plainScore);
+}
+
 void Walrus::Score_5Minor(DdsTricks& tr)
 {
    cumulScore.Our5minor(tr.plainScore);
@@ -160,7 +165,7 @@ void Walrus::Score_Opp4Major(DdsTricks &tr)
 {
    // both contracts
    cumulScore.Opp_4M(cumulScore.oppContract, tr.plainScore);
-   cumulScore.Opp_NV_4MajX(cumulScore.oppCtrDoubled, tr.plainScore);
+   cumulScore.Opp_4MajX(cumulScore.oppCtrDoubled, tr.plainScore);
 }
 
 void Walrus::Score_Opp3NT(DdsTricks& tr)

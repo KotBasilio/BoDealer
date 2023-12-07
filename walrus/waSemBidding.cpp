@@ -67,4 +67,24 @@ void Walrus::FillSemantic(void)
 }
 #endif // SEMANTIC_OCT_INDIAN_5C
 
+#ifdef SEMANTIC_MORO_4C
+void Walrus::FillSemantic(void)
+{
+   OrbNorthFillSem();
+   //sem.onBoardAdded = &Walrus::DisplayBoard;
+   sem.onScoring = &Walrus::Score_4Minor;
+   sem.onSolvedTwice = &Walrus::Score_Opp4Major;
+   sem.vecFilters.clear();
+   ADD_2PAR_FILTER(EAST,  PointsRange, 12, 13);
+   ADD_2PAR_FILTER(WEST,  PointsRange, 9, 11);
+   ADD_2PAR_FILTER(WEST,  SpadesLen, 3, 4);
+   ADD_2PAR_FILTER(EAST,  SpadesLen, 6, 6);
+   ADD_0PAR_FILTER(EAST,  SpadesNatural);
+   ADD_2PAR_FILTER(WEST,  HeartsLen, 1, 4);
+   ADD_0PAR_FILTER(SOUTH, NoOvercall);
+   ADD_2PAR_FILTER(WEST,  DiamondsLen, 0, 5);
+   ADD_2PAR_FILTER(WEST,  ClubsLen, 0, 5);
+}
+#endif // SEMANTIC_MORO_4C
+
 

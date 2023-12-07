@@ -97,6 +97,7 @@ protected:
     void Score_4Major(DdsTricks &tr);
     void Score_NV_4Major(DdsTricks &tr);
     void Score_NV_Doubled4Major(DdsTricks &tr);
+    void Score_4Minor(DdsTricks& tr);
     void Score_5Major(DdsTricks &tr);
     void Score_NV_5Major(DdsTricks &tr);
     void Score_5Minor(DdsTricks& tr);

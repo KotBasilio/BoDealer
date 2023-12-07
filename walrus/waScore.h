@@ -20,6 +20,7 @@ struct CumulativeScore {
    void Opp_3MajX(s64& sum, uint tricks);
    void Opp_3Major(s64& sum, uint tricks);
    void Opp_4M(s64& sum, uint tricks);
+   void Opp_4MajX(s64& sum, uint tricks);
    void Opp_NV_4MajX(s64& sum, uint tricks);
    void Opp_3NT(s64& sum, uint tricks);
    void Opp_3NTX(s64& sum, uint tricks);
@@ -35,6 +36,7 @@ struct CumulativeScore {
    void OurNV7m(uint tricks);
    void Our3NT(uint tricks);
    void Our4M(uint tricks);
+   void Our4minor(uint tricks);
    void OurNV4M(uint tricks);
    void OurNV4MX(uint tricks);
    void Our5M(uint tricks);
