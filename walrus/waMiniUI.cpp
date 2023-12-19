@@ -79,6 +79,9 @@ int Walrus::PokeScorerForTricks()
 
    // not a game => some partscore
    if (cumulScore.ideal < 300) {
+      if (cumulScore.partscore == 270) {
+         return 7; // NT, 1NT for example
+      }
       if (cumulScore.partscore == 190) {
          return 10; // minor, 4m for example
       }

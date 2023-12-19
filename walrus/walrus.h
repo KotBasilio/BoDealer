@@ -104,8 +104,10 @@ protected:
     void Score_NV_5Minor(DdsTricks &tr);
     void Score_NV_Doubled5Minor(DdsTricks &tr);
     void Score_3NT(DdsTricks &tr);
-    void Score_2m(DdsTricks &tr);
     void Score_Doubled3NT(DdsTricks &tr);
+    void Score_2m(DdsTricks &tr);
+    void Score_2M(DdsTricks &tr);
+    void Score_1NT(DdsTricks &tr);
     void Score_NV6Major(DdsTricks &tr);
     void Score_NV6Minor(DdsTricks &tr);
     void Score_NV6NoTrump(DdsTricks &tr);

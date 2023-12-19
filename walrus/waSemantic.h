@@ -78,6 +78,7 @@ public:
    uint DiamondsLen(twContext* lay, const uint *par);
    uint ClubsLen(twContext* lay, const uint *par);
    // -
+   uint NoOvcOn1LevOpen(twContext* lay, const uint *par);
    uint NoOvercall(twContext* lay, const uint *par);
    uint No7Plus(twContext* lay, const uint *par);
    uint No2SuiterAntiSpade(twContext* lay, const uint *par);

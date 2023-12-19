@@ -292,3 +292,27 @@ void Walrus::FillSemantic(void)
 }
 #endif // SEMANTIC_CONFIG_BASED
 
+#ifdef SEMANTIC_1NT_OR_SIGN_OFF
+void Walrus::FillSemantic(void)
+{
+   sem.fillFlipover = &Shuffler::FillFO_MaxDeck;
+   sem.onShareStart = &Walrus::AllocFilteredTasksBuf;
+   sem.onScanCenter = &Walrus::Scan4Hands;
+   sem.onScoring = &Walrus::Score_1NT;
+   sem.onPostmortem = &Walrus::PostmortemHCP;
+   sem.onAfterMath = &Walrus::SolveSavedTasks;
+   sem.scanCover = SYMM * PERMUTE_FACTOR;
+   sem.vecFilters.clear();
+   ADD_4PAR_FILTER(NORTH, ExactShape, 5, 3, 3, 2);
+   ADD_2PAR_FILTER(NORTH, PointsRange, 9, 9);
+   ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 13);
+   ADD_2PAR_FILTER(SOUTH, SpadesLen, 2, 3);
+   ADD_0PAR_FILTER(WEST, NoOvcOn1LevOpen);
+   ADD_0PAR_FILTER(EAST, NoOvercall);
+   ADD_2PAR_FILTER(SOUTH, HeartsLen, 2, 4);
+   ADD_2PAR_FILTER(SOUTH, DiamondsLen, 2, 5);
+   ADD_2PAR_FILTER(SOUTH, ClubsLen, 2, 5);
+
+   //sem.onBoardAdded = &Walrus::DisplayBoard;
+}
+#endif // SEMANTIC_1NT_OR_SIGN_OFF

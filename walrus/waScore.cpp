@@ -73,6 +73,21 @@ void Walrus::Score_3NT(DdsTricks& tr)
    cumulScore.Our3NT(tr.plainScore);
 }
 
+void Walrus::Score_2m(DdsTricks &tr)
+{
+   DEBUG_UNEXPECTED;
+}
+
+void Walrus::Score_2M(DdsTricks& tr)
+{
+   DEBUG_UNEXPECTED;
+}
+
+void Walrus::Score_1NT(DdsTricks &tr)
+{
+   cumulScore.Our1NT(tr.plainScore);
+}
+
 void Walrus::NoticeMagicFly(uint trickSuit, uint tricksNT)
 {
    if (tricksNT > trickSuit) {
@@ -140,11 +155,6 @@ void Walrus::Score_Doubled3NT(DdsTricks &tr)
    cumulScore.Opp_3NT (cumulScore.oppContract, tr.plainScore);
    cumulScore.Opp_3NTX(cumulScore.oppCtrDoubled, tr.plainScore);
 #endif // SEEK_DECISION_WHETHER_DOUBLE
-}
-
-void Walrus::Score_2m(DdsTricks &tr)
-{
-   DEBUG_UNEXPECTED;
 }
 
 void Walrus::Score_Opp3Major(DdsTricks& tr)

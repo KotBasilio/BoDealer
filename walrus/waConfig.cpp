@@ -69,36 +69,41 @@ void WaConfig::ReadStart()
 
 void Walrus::DetectGoals()
 {
+   char tail[128], chunk[20];
    DdsTricks tr;
 
    // primary
    cfgTask.primGoal = PokeScorerForTricks();
    printf("Primary scorer:  ");
+   strcpy(tail, "  / ");
    for (tr.plainScore = 7; tr.plainScore <= 13 ; tr.plainScore++) {
       cumulScore.bidGame = 0;
       cumulScore.partscore = 0;
       (this->*sem.onScoring)(tr);
       printf(" %lld", cumulScore.bidGame);
       if (cumulScore.partscore) {
-         printf("/%lld", cumulScore.partscore);
+         sprintf(chunk, " %lld", cumulScore.partscore);
+         strcat(tail, chunk);
       }
    }
-   printf("\n");
+   printf("%s\n", tail);
 
    // secondary
    if (sem.solveSecondTime == &Walrus::SolveSecondTime) {
       cfgTask.otherGoal = PokeOtherScorer();
       printf("Secondary scorer:");
+      strcpy(tail, "  / ");
       for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
          cumulScore.oppContract = 0;
          cumulScore.oppCtrDoubled = 0;
          (this->*sem.onSolvedTwice)(tr);
          printf(" %lld", - cumulScore.oppContract);
          if (cumulScore.oppCtrDoubled) {
-            printf("/%lld", - cumulScore.oppCtrDoubled);
+            sprintf(chunk, " %lld", - cumulScore.oppCtrDoubled);
+            strcat(tail, chunk);
          }
       }
-      printf("\n");
+      printf("%s\n", tail);
    }
 
    // all this poking left some score

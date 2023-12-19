@@ -13,7 +13,7 @@
 // Bidding decision competitive:
 //#define SEMANTIC_JUN_MINORS_VS_MAJORS
 //#define SEMANTIC_OCT_INDIAN_5C
-#define SEMANTIC_MORO_4C
+//#define SEMANTIC_MORO_4C
 
 // Opening lead:
 
@@ -26,6 +26,7 @@
 //#define SEMANTIC_STANDARD_3NT
 //#define SEMANTIC_STANDARD_6NT
 //#define SEMANTIC_CONFIG_BASED
+#define SEMANTIC_1NT_OR_SIGN_OFF
 
 // -----------------------------------------------------------------
 // task descriptions

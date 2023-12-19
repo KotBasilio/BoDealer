@@ -315,6 +315,32 @@ uint WaFilter::NoMajorFit(twContext* lay, const uint* par)
    return MIC_BLOCK;
 }
 
+// "no overcall on 1st level opening"
+uint WaFilter::NoOvcOn1LevOpen(twContext* lay, const uint* par)
+{
+   ACCESS_MICPARS_HL;
+
+   // many points => fail
+   if (hcp.total >= 12) {
+      return MIC_BLOCK;
+   }
+
+   // no 6 with 10+pts
+   if (hcp.total >= 10) {
+      if (len.s > 5 || len.h > 5 || len.d > 5 || len.c > 5) {
+         return MIC_BLOCK;
+      }
+   } else if (hcp.total >= 7) {// no half-preempts (6M with 7+pts)
+      if (len.s > 5 || len.h > 5) {
+         return MIC_BLOCK;
+      }
+   }
+
+   // relay
+   return No7Plus(lay, par);
+}
+
+
 uint WaFilter::NoOvercall(twContext* lay, const uint* par)
 {
    ACCESS_MICPARS_HL;
@@ -329,6 +355,8 @@ uint WaFilter::NoOvercall(twContext* lay, const uint* par)
       if (len.s > 5 || len.h > 5 || len.d > 5 || len.c > 5) {
          return MIC_BLOCK;
       }
+   } else if (hcp.total >= 7) {
+
    }
 
    // relay
