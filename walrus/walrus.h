@@ -143,6 +143,7 @@ protected:
        void Run();
     } ui;
     void InitMiniUI(int trump, int first);
+    void InitMiniUI();
     void AnnounceSolving();
     void DisplayBoard(twContext* lay) { ui.DisplayBoard(lay); }
     void DetectFarColumn();

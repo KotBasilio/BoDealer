@@ -5,6 +5,13 @@
  ************************************************************/
 #include "waDoubleDeal.h"
 
+void Walrus::InitMiniUI()
+{
+   deal dlBase;
+   PrepareBaseDeal(dlBase);
+   InitMiniUI(dlBase.trump, dlBase.first);
+}
+
 void Walrus::SolveSavedTasks()
 {
    // say
@@ -13,7 +20,6 @@ void Walrus::SolveSavedTasks()
    // finalize preparations
    deal dlBase;
    PrepareBaseDeal(dlBase);
-   InitMiniUI(dlBase.trump, dlBase.first);
    SetMaxThreads(0);
    progress.StoreCountToGo(0);
 

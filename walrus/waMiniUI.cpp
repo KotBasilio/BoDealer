@@ -79,13 +79,22 @@ int Walrus::PokeScorerForTricks()
 
    // not a game => some partscore
    if (cumulScore.ideal < 300) {
-      if (cumulScore.partscore == 270) {
-         return 7; // NT, 1NT for example
+      if (cumulScore.partscore == 270) {// NT, 1NT for example
+         return 7; 
       }
-      if (cumulScore.partscore == 190) {
-         return 10; // minor, 4m for example
+
+      if (cumulScore.partscore == 190) {// a minor, 4m for example
+         return 10; 
       }
-      return 9; // major, 3M for example
+
+      // a major, tell 3M from 2M
+      tr.plainScore = 8;
+      (this->*sem.onScoring)(tr);
+      if (cumulScore.partscore == 370) {
+         return 8; 
+      }
+
+      return 9; 
    }
 
    // exactly 1550 => 3NT doubled

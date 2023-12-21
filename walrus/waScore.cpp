@@ -80,7 +80,7 @@ void Walrus::Score_2m(DdsTricks &tr)
 
 void Walrus::Score_2M(DdsTricks& tr)
 {
-   DEBUG_UNEXPECTED;
+   cumulScore.Our2M(tr.plainScore);
 }
 
 void Walrus::Score_1NT(DdsTricks &tr)

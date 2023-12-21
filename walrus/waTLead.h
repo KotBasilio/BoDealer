@@ -93,8 +93,9 @@
 #ifdef SEMANTIC_1NT_OR_SIGN_OFF
    #define TITLE_VERSION  "1c 1s\n1NT ?? Pass or a spade sign-off. Ver 3.0 "
    #define FOUR_HANDS_TASK
+   //#define INPUT_TRUMPS    SOL_SPADES
    #define INPUT_TRUMPS    SOL_NOTRUMP
-   #define IO_HCP_MIN  18
-   #define IO_HCP_MAX  23
+   #define IO_HCP_MIN  19
+   #define IO_HCP_MAX  24
 #endif // SEMANTIC_CONFIG_BASED
 

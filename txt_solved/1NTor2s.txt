@@ -1,0 +1,143 @@
+(NORTH, ExactShape, 5, 3, 3, 2);
+(NORTH, PointsRange, 9, 9);
+(SOUTH, PointsRange, 11, 13);
+(SOUTH, SpadesLen, 2, 3);
+(WEST, NoOvcOn1LevOpen);
+(EAST, NoOvercall);
+(SOUTH, HeartsLen, 2, 4);
+(SOUTH, DiamondsLen, 2, 5);
+(SOUTH, ClubsLen, 2, 5);
+
+
+contract 2S
+
+    :  HITS COUNT   :
+       (down):    14912,    4775,     640,      29,       1,       0,       0,       20357
+       (make):    19033,    8691,    1790,     133,       1,       0,       0,       29648
+Processed: 50005 total. East is on lead. Goal is 8 tricks in spades.
+Averages: ideal = 19, bidGame = 19, partscore=19.   Chance to make = 59.3%
+(p 20 down):     5485,    2332,     385,      17,       1,   :     8220,
+(p 20 make):     4437,    1131,     136,       9,       0,   :     5713,  --> 41 %
+(p 21 down):     5354,    1613,     182,       8,       0,   :     7157,
+(p 21 make):     6910,    2715,     441,      33,       0,   :    10099,  --> 58 %
+(p 22 down):     4073,     830,      73,       4,       0,   :     4980,
+(p 22 make):     7686,    4845,    1213,      91,       1,   :    13836,  --> 73 %
+
+Processed: 50002 total. East is on lead. Goal is 8 tricks in spades.
+(p 20 down):     5169,    2359,     347,      27,       0,   :     7902,
+(p 20 make):     4227,    1155,     139,      10,       0,   :     5531,  --> 41 %
+(p 21 down):     5388,    1622,     199,      15,       0,   :     7224,
+(p 21 make):     6883,    2759,     485,      22,       1,   :    10150,  --> 58 %
+(p 22 down):     4038,     825,      63,       2,       0,   :     4928,
+(p 22 make):     7891,    5016,    1251,     107,       2,   :    14267,  --> 74 %
+
+
+contract 1NT
+
+       (down):    15086,    5376,    1109,     183,      32,       2,       0,       21788
+       (make):    16223,    9456,    2288,     227,      21,       1,       0,       28216
+Processed: 50004 total. East is on lead. Goal is 7 tricks in notrump.
+Averages: ideal = 0, bidGame = 0, partscore=0.   Chance to make = 56.4%
+(p 20 down):     5451,    2701,     655,      98,      18,       2,   :     8925,
+(p 20 make):     3530,    1121,     149,       2,       1,       0,   :     4803,  --> 34 %
+(p 21 down):     5586,    1777,     334,      59,      13,       0,   :     7769,
+(p 21 make):     5974,    2951,     577,      43,       4,       0,   :     9549,  --> 55 %
+(p 22 down):     4049,     898,     120,      26,       1,       0,   :     5094,
+(p 22 make):     6719,    5384,    1562,     182,      16,       1,   :    13864,  --> 73 %
+
+       (down):    14737,    5341,    1132,     173,      27,       1,       0,       21411
+       (make):    16533,    9619,    2205,     221,      15,       0,       0,       28593
+Processed: 50004 total. East is on lead. Goal is 7 tricks in notrump.
+Averages: ideal = 1, bidGame = 1, partscore=1.   Chance to make = 57.2%
+(p 20 down):     5422,    2758,     659,     101,      12,       0,   :     8952,
+(p 20 make):     3609,    1094,     115,       4,       0,       0,   :     4822,  --> 35 %
+(p 21 down):     5464,    1752,     328,      50,      11,       0,   :     7605,
+(p 21 make):     6087,    2959,     568,      50,       3,       0,   :     9667,  --> 55 %
+(p 22 down):     3851,     831,     145,      22,       4,       1,   :     4854,
+(p 22 make):     6837,    5566,    1522,     167,      12,       0,   :    14104,  --> 74 %
+(p 23 down):        0,       0,       0,       0
+==========================================
+
+   ADD_2PAR_FILTER(NORTH, PointsRange, 10, 10);
+
+contract 1NT
+
+       (down):     6608,    1726,     275,      64,      13,       0,       0,        8686
+       (make):    10720,    9405,    3299,     527,      62,       1,       0,       24014
+Processed: 32700 total. East is on lead. Goal is 7 tricks in notrump.
+Averages: ideal = 48, bidGame = 48, partscore=48.   Chance to make = 73.4%
+(p 21 down):     3180,    1037,     166,      39,       9,       0,   :     4431,
+(p 21 make):     3501,    1748,     324,      27,       1,       0,   :     5601,  --> 55 %
+(p 22 down):     2229,     508,      75,      18,       2,       0,   :     2832,
+(p 22 make):     4030,    3294,     983,     100,      14,       1,   :     8422,  --> 74 %
+(p 23 down):     1199,     181,      34,       7,       2,       0,   :     1423,
+(p 23 make):     3189,    4363,    1992,     400,      47,       0,   :     9991,  --> 87 %
+
+contract 2S
+
+       (down):    10324,    2395,     231,      13,       0,       0,       0,       12963
+       (make):    19081,   13561,    4019,     357,      20,       0,       0,       37038
+Processed: 50001 total. East is on lead. Goal is 8 tricks in spades.
+Averages: ideal = 63, bidGame = 63, partscore=63.   Chance to make = 74.1%
+(p 21 down):     4701,    1369,     145,       8,       0,   :     6223,
+(p 21 make):     6018,    2477,     381,      29,       0,   :     8905,  --> 58 %
+(p 22 down):     3625,     716,      68,       5,       0,   :     4414,
+(p 22 make):     6955,    4590,    1166,      73,       5,   :    12789,  --> 74 %
+(p 23 down):     1998,     310,      18,       0,       0,   :     2326,
+(p 23 make):     6108,    6494,    2472,     255,      15,   :    15344,  --> 86 %
+
+
+=======================================
+   ADD_2PAR_FILTER(NORTH, PointsRange, 11, 11);
+
+       (down):     6379,    1073,      90,       4,       0,       0,       0,        7546
+       (make):    16583,   17296,    7438,    1095,      45,       0,       0,       42457
+Processed: 50003 total. East is on lead. Goal is 8 tricks in spades.
+Averages: ideal = 97, bidGame = 97, partscore=97.   Chance to make = 84.9%
+(p 22 down):     3396,     663,      60,       3,       0,   :     4122,
+(p 22 make):     6548,    4321,    1164,      96,       2,   :    12131,  --> 74 %
+(p 23 down):     1988,     309,      20,       1,       0,   :     2318,
+(p 23 make):     6032,    6246,    2260,     266,       8,   :    14812,  --> 86 %
+       (down):     4875,     858,      75,       1,       0,       0,       0,        5809
+       (make):    12466,   12964,    5736,     778,      47,       0,       0,       31991
+Processed: 37800 total. East is on lead. Goal is 8 tricks in spades.
+Averages: ideal = 96, bidGame = 96, partscore=96.   Chance to make = 84.6%
+(p 22 down):     2614,     558,      44,       1,       0,   :     3217,
+(p 22 make):     5078,    3238,     821,      55,       2,   :     9194,  --> 74 %
+(p 23 down):     1545,     219,      24,       0,       0,   :     1788,
+(p 23 make):     4490,    4622,    1775,     191,       7,   :    11085,  --> 86 %
+(p 24 down):      716,      81,       7,       0,       0,   :      804,
+(p 24 make):     2898,    5104,    3140,     532,      38,   :    11712,  --> 93 %
+
+
+===================================
+
+misfit
+
+       (down):     3033,    1046,     194,      11,       2,       0,       0,        4286
+       (make):     3503,    1942,     421,      46,       2,       0,       0,        5914
+Processed: 10200 total. East is on lead. Goal is 7 tricks in notrump.
+Averages: ideal = 4, bidGame = 4, partscore=4.   Chance to make = 58.0%
+(p 20 down):     1091,     545,     119,       8,       1,   :     1764,
+(p 20 make):      770,     203,      19,       3,       0,   :      995,  --> 36 %
+(p 21 down):     1095,     339,      49,       3,       1,   :     1487,
+(p 21 make):     1254,     598,      93,       3,       1,   :     1949,  --> 56 %
+(p 22 down):      847,     162,      26,       0,       0,   :     1035,
+(p 22 make):     1479,    1141,     309,      40,       1,   :     2970,  --> 74 %
+
+ :  HITS COUNT   :
+       (down):    10759,    4360,     690,      41,       1,       1,       0,       15852
+       (make):     9643,    2818,     358,      29,       0,       0,       0,       12848
+Processed: 28700 total. East is on lead. Goal is 8 tricks in spades.
+Averages: ideal = -22, bidGame = -22, partscore=-22.   Chance to make = 44.8%
+(p 18 down):        0,       0,       0,       0,       0,       0,   :        0,
+(p 18 make):        0,       0,       0,       0,       0,       0,   :        0,
+(p 19 down):        0,       0,       0,       0,       0,       0,   :        0,
+(p 19 make):        0,       0,       0,       0,       0,       0,   :        0,
+(p 20 down):     3331,    2067,     412,      25,       0,       0,   :     5835,
+(p 20 make):     1650,     250,      20,       0,       0,       0,   :     1920,  --> 24 %
+(p 21 down):     4030,    1470,     186,      10,       1,       1,   :     5698,
+(p 21 make):     3357,     763,      82,       5,       0,       0,   :     4207,  --> 42 %
+(p 22 down):     3398,     823,      92,       6,       0,       0,   :     4319,
+(p 22 make):     4636,    1805,     256,      24,       0,       0,   :     6721,  --> 60 %
+(p 23 down):        0,       0,       0,       0,       0,       0,   :        0,

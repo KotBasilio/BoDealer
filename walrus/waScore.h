@@ -37,6 +37,7 @@ struct CumulativeScore {
    void Our3NT(uint tricks);
    void Our4M(uint tricks);
    void Our1NT(uint tricks);
+   void Our2M(uint tricks);
    void Our4minor(uint tricks);
    void OurNV4M(uint tricks);
    void OurNV4MX(uint tricks);

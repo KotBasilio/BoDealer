@@ -353,6 +353,17 @@ void CumulativeScore::Our1NT(uint tricks)
    ideal += partdelta;
 }
 
+void CumulativeScore::Our2M(uint tricks)
+{
+   // "always partscore" strategy
+   int partdelta = tricks > 7 ? 
+      80 + (tricks - 7) * 30 : 
+      -100 * (8 - tricks);
+   partscore += partdelta;
+   bidGame += partdelta;
+   ideal += partdelta;
+}
+
 void CumulativeScore::OurNV6m(uint tricks)
 {
    // "always slam" strategy

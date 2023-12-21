@@ -74,7 +74,7 @@ void Walrus::DetectGoals()
 
    // primary
    cfgTask.primGoal = PokeScorerForTricks();
-   printf("Primary scorer:  ");
+   printf("Primary scorer (%s, %d tr):", ui.declTrump, cfgTask.primGoal);
    strcpy(tail, "  / ");
    for (tr.plainScore = 7; tr.plainScore <= 13 ; tr.plainScore++) {
       cumulScore.bidGame = 0;
@@ -91,7 +91,7 @@ void Walrus::DetectGoals()
    // secondary
    if (sem.solveSecondTime == &Walrus::SolveSecondTime) {
       cfgTask.otherGoal = PokeOtherScorer();
-      printf("Secondary scorer:");
+      printf("Secondary scorer (%s, %d tr):", ui.theirTrump, cfgTask.otherGoal);
       strcpy(tail, "  / ");
       for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
          cumulScore.oppContract = 0;
@@ -124,6 +124,7 @@ bool Walrus::InitByConfig()
    InitDeck();
    memset(progress.hitsCount, 0, sizeof(progress.hitsCount));
    shuf.SeedRand();
+   InitMiniUI();
    DetectGoals();
 
    return true;
