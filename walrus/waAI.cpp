@@ -5,11 +5,16 @@
  ************************************************************/
 #include "waDoubleDeal.h"
 
+static boards _chunkBoards;
+static solvedBoards _solved;
+static solvedBoards _twiceSolved;
+
 void Walrus::InitMiniUI()
 {
-   deal dlBase;
+   static deal dlBase;
    PrepareBaseDeal(dlBase);
-   InitMiniUI(dlBase.trump, dlBase.first);
+   ui.Init(dlBase.trump, dlBase.first);
+   sem.dlBase = &dlBase;
 }
 
 void Walrus::SolveSavedTasks()
@@ -18,29 +23,26 @@ void Walrus::SolveSavedTasks()
    AnnounceSolving();
 
    // finalize preparations
-   deal dlBase;
-   PrepareBaseDeal(dlBase);
    SetMaxThreads(0);
    progress.StoreCountToGo(0);
 
    // solve in some manner
    #ifdef SOLVE_ONE_BY_ONE
-      SolveOneByOne(dlBase);
+      SolveOneByOne(*sem.dlBase);
    #else
-      SolveInChunks(dlBase);
+      SolveInChunks();
    #endif
 }
 
-void Walrus::SolveInChunks(deal &dlBase)
+void Walrus::SolveInChunks()
 {
    // do big chunks
-   boards bo;
    uint step = WALRUS_CHUNK_SIZE;
    progress.Init(step);
    uint chunkStart = 0;
    for (; chunkStart+step < mul.countToSolve ; chunkStart+=step ) {
       // main work
-      SolveOneChunk(dlBase, bo, chunkStart, step);
+      SolveOneChunk(_chunkBoards, chunkStart, step);
 
       // show some progress or just a dot
       progress.StoreCountToGo(mul.countToSolve - chunkStart - step);
@@ -55,18 +57,18 @@ void Walrus::SolveInChunks(deal &dlBase)
    // do a tail work
    if ( chunkStart < mul.countToSolve ) {
       step = mul.countToSolve - chunkStart;
-      SolveOneChunk(dlBase, bo, chunkStart, step);
+      SolveOneChunk(_chunkBoards, chunkStart, step);
    }
    progress.StoreCountToGo(0);
 }
 
-void Walrus::SolveOneChunk(deal& dlBase, boards& bo, uint ofs, uint step)
+void Walrus::SolveOneChunk(boards& bo, uint ofs, uint step)
 {
    bo.noOfBoards = (int)step;
 
    // refill & copy all deals
    for (int i = 0; i < bo.noOfBoards; i++) {
-      DdsDeal dl(dlBase, mul.arrToSolve[ofs + i]);
+      DdsDeal dl(*sem.dlBase, mul.arrToSolve[ofs + i]);
       bo.deals[i] = dl.dl;
       bo.target[i] = -1;
       bo.solutions[i] = PARAM_SOLUTIONS_DDS;
@@ -74,18 +76,17 @@ void Walrus::SolveOneChunk(deal& dlBase, boards& bo, uint ofs, uint step)
    }
 
    // solve in parallel
-   solvedBoards solved;
-   int res = SolveAllBoardsN(bo, solved);
+   int res = SolveAllBoardsN(bo, _solved);
    HandleDDSFail(res);
 
    // read user commands
    ui.Run();
 
    // relay the chunk
-   HandleSolvedChunk(bo, solved);
+   HandleSolvedChunk(bo, _solved);
 
    // sometimes we solve the same chunk in a different suit and/or declared
-   (this->*sem.solveSecondTime)(bo, solved);
+   (this->*sem.solveSecondTime)(bo, _solved);
 }
 
 void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
@@ -124,14 +125,13 @@ void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
    }
 
    // solve second time
-   solvedBoards twice;
-   int res = SolveAllBoardsN(bo, twice);
+   int res = SolveAllBoardsN(bo, _twiceSolved);
    HandleDDSFail(res);
 
    // score the other contract and maybe compare them
-   for (int handno = 0; handno < twice.noOfBoards; handno++) {
+   for (int handno = 0; handno < _twiceSolved.noOfBoards; handno++) {
       DdsTricks trSecond;
-      trSecond.Init(twice.solvedBoard[handno]);
+      trSecond.Init(_twiceSolved.solvedBoard[handno]);
 
       // pass to basic statistics
       HitByScore(trSecond, cfgTask.otherGoal, IO_ROW_THEIRS);

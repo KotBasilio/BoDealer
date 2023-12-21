@@ -46,7 +46,7 @@ void Walrus::ReportState()
 }
 
 #if defined(IO_NEED_FULL_TABLE) || defined (IO_SHOW_MINI_FILTERING)
-   #define OUT_BIG_TABLE(fmt, par)   printf(fmt, par)
+   #define OUT_BIG_TABLE(fmt, par)   owl.Show(fmt, par)
 #else
    #define OUT_BIG_TABLE(fmt, par)   
 #endif
@@ -71,21 +71,21 @@ void Walrus::ReportState(char* header)
    }
 
    // self-control
-   printf("Total iterations = %llu, balance ", mul.countIterations);
+   owl.Show("Total iterations = %llu, balance ", mul.countIterations);
    if (bookman) {
-      printf("is broken: ");
+      owl.Show("is broken: ");
       if (bookman < mul.countIterations) {
-         printf("%llu iterations left no mark\n", bookman);
+         owl.Show("%llu iterations left no mark\n", bookman);
       } else {
-         printf("%llu more marks than expected\n", MAXUINT64 - bookman + 1);
+         owl.Show("%llu more marks than expected\n", MAXUINT64 - bookman + 1);
       }
    } else {
-      printf("is fine\n");
+      owl.Show("is fine\n");
    }
 
    // tailing report
    if (delta2 > 0) {
-      printf("\n--------------------------------\n");
+      owl.Show("\n--------------------------------\n");
       ui.reportRequested = true;
       MiniReport(0);
    }

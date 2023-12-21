@@ -23,9 +23,7 @@ public:
    ~Walrus();
 
    bool InitByConfig();
-
    void DetectGoals();
-
    void MainScan(void);
    ucell DoTheShare();
    void ReportState();
@@ -39,6 +37,7 @@ public:
 protected:
     // Start
     void PrepareBaseDeal(struct deal &dlBase);
+    bool StartOscar();
     void InitDeck(void);
 
     // withdrawals
@@ -58,8 +57,8 @@ protected:
     void AllocFilteredTasksBuf();
     void SolveSavedTasks();
     void SolveOneByOne(struct deal &dlBase);
-    void SolveInChunks(struct deal &dlBase);
-    void SolveOneChunk(struct deal &dlBase, struct boards &bo, uint i, uint step);
+    void SolveInChunks();
+    void SolveOneChunk(struct boards &bo, uint i, uint step);
     void HandleSolvedChunk(struct boards& bo, struct solvedBoards& chunk);
     void SolveSecondTime(struct boards& bo, struct solvedBoards& chunk);
     void NoticeMagicFly(uint trickSuit, uint tricksNT);
@@ -137,12 +136,12 @@ protected:
        int   farCol;
        char  declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10];
        MiniUI();
+       void Init(int trump, int first);
        void DisplayBoard(twContext* lay);
        void WaitAnyKey();
        void FillMiniRows();
        void Run();
     } ui;
-    void InitMiniUI(int trump, int first);
     void InitMiniUI();
     void AnnounceSolving();
     void DisplayBoard(twContext* lay) { ui.DisplayBoard(lay); }

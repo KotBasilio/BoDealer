@@ -41,18 +41,18 @@ Walrus::MiniUI::MiniUI()
    #endif
 }
 
-void Walrus::InitMiniUI(int trump, int first)
+void Walrus::MiniUI::Init(int trump, int first)
 {
    // fill names
-   strcpy(ui.declTrump, s_TrumpNames[trump]);
-   strcpy(ui.seatOnLead, s_SeatNames[first]);
+   strcpy(declTrump, s_TrumpNames[trump]);
+   strcpy(seatOnLead, s_SeatNames[first]);
    if (cfgTask.otherGoal > 0) {
-      strcpy(ui.theirTrump, s_TrumpNames[OC_TRUMPS]);
+      strcpy(theirTrump, s_TrumpNames[OC_TRUMPS]);
    }
 
-   // decl is anti-ccw from leader
-   int declSeat = (first + 3) % 4;
-   strcpy(ui.declSeat, s_SeatNames[declSeat]);
+   // declarer is anti-ccw from leader
+   int ds = (first + 3) % 4;
+   strcpy(declSeat, s_SeatNames[ds]);
 }
 
 void Walrus::MiniUI::DisplayBoard(twContext* lay)

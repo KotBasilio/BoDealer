@@ -28,7 +28,9 @@ extern int playRank[3][52];
 
 
 void PrintFut(char title[], futureTricks * fut);
+void OwlOneFut(char title[], futureTricks * fut);
 void PrintTwoFutures(char title[], futureTricks * fut1, futureTricks * fut2);
+void OwlTwoFut(char title[], futureTricks * fut1, futureTricks * fut2);
 void equals_to_string(int equals, char * res);
 bool CompareFut(futureTricks * fut, int handno, int solutions);
 
@@ -47,6 +49,7 @@ void PrintPBNPlay(playTracePBN * play, solvedPlay * solved);
 
 
 void PrintHand(char title[], const deal& dl);
+void OwlOutHand(char title[], const deal& dl);
 uint WaCalcHCP(const deal& dl, uint &ctrl);
 
 void PrintPBNHand(char title[], char remainCards[]);

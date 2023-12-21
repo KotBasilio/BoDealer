@@ -76,5 +76,7 @@ int main(int argc, char *argv[])
    printf("Press any key.\n");
    DoSelfTests();
    PLATFORM_GETCH();
+   owl.Goodbye();
+
    return 0;
 }

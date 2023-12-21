@@ -94,6 +94,7 @@ Semantics::Semantics()
    , onCompareContracts  (&Walrus::VoidCompare)
    , onSolvedTwice       (&Walrus::VoidScoring)
    , scanCover(ACTUAL_CARDS_COUNT)
+   , dlBase(nullptr)
 {
    // reject all. should analyze config later and fill 
    vecFilters.reserve(10);

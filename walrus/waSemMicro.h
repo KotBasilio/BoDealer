@@ -75,7 +75,9 @@ struct Semantics {
    SemScoring               onSolvedTwice;
    SemComparing             onCompareContracts;
    SemFuncType              onAfterMath;
+
    uint scanCover; // how much iterations covers one scan
+   struct deal* dlBase;
    Semantics();
    void MiniLink();
 };

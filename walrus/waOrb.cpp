@@ -98,7 +98,7 @@ void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)
    if (ui.firstAutoShow) {
       ui.firstAutoShow = false;
    } else {
-      ui.WaitAnyKey();
+      //ui.WaitAnyKey();
    }
 
    // interrogation is over
