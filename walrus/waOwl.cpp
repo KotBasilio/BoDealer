@@ -106,7 +106,8 @@ bool Walrus::StartOscar()
    }
    printf("%s", buffer);
 
-   owl.Show("message %d %s\n", 10, "xxx");
+   // Test variable parameters
+   // owl.Show("message %d %s\n", 10, "xxx");
 
    return true;
 }
