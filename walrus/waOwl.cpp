@@ -15,6 +15,34 @@ static HANDLE g_PipeFromOwl = NULL;
 OscarTheOwl owl;
 char OscarTheOwl::buffer[OscarTheOwl::bufferSize];
 
+#ifdef _DEBUG
+   #define OWL_CONFIG_SUFFIX  "\\x64\\Debug"
+#else
+   #define OWL_CONFIG_SUFFIX  "\\x64\\Release"
+#endif
+
+
+static BOOL _AttemptStartOscar(CHAR *workDirPath, CHAR* suffix, STARTUPINFO& siStartInfo, PROCESS_INFORMATION& piProcInfo)
+{
+   CHAR oscarPath[MAX_PATH];
+   strcpy(oscarPath, workDirPath);
+   strcat(oscarPath, suffix);
+
+   printf("Attempt path to Oscar: %s\n", oscarPath);
+
+   // Create the child process.
+   return CreateProcess(oscarPath,
+      NULL,     // Command line
+      NULL,     // Process handle not inheritable
+      NULL,     // Thread handle not inheritable
+      TRUE,     // Set handle inheritance to TRUE
+      NORMAL_PRIORITY_CLASS | CREATE_NEW_CONSOLE /*| CREATE_NEW_PROCESS_GROUP*/,  // creation flags
+      NULL,     // Use parent's environment block
+      NULL,     // Use parent's starting directory
+      &siStartInfo,  // Pointer to STARTUPINFO structure
+      &piProcInfo); // Pointer to PROCESS_INFORMATION structure
+}
+
 bool Walrus::StartOscar()
 {
    const DWORD bufferSize = MAX_PATH;
@@ -24,9 +52,6 @@ bool Walrus::StartOscar()
    if (dwRet == 0) {
       return false;
    }
-
-   strcat(oscarPath, "\\x64\\Debug\\Oscar.exe");
-   //printf("Path to Oscar: %s\n", oscarPath);
 
    HANDLE g_hChildStd_IN_Rd = NULL;
    HANDLE g_hChildStd_OUT_Wr = NULL;
@@ -60,7 +85,6 @@ bool Walrus::StartOscar()
 
    PROCESS_INFORMATION piProcInfo;
    STARTUPINFO siStartInfo;
-   BOOL bSuccess = FALSE;
 
    ZeroMemory(&piProcInfo, sizeof(PROCESS_INFORMATION));
    ZeroMemory(&siStartInfo, sizeof(STARTUPINFO));
@@ -69,26 +93,15 @@ bool Walrus::StartOscar()
    siStartInfo.hStdError = g_hChildStd_OUT_Wr;
    siStartInfo.dwFlags |= STARTF_USESTDHANDLES;
 
-   // Create the child process.
-   bSuccess = CreateProcess( oscarPath,
-      NULL,     // Command line
-      NULL,     // Process handle not inheritable
-      NULL,     // Thread handle not inheritable
-      TRUE,     // Set handle inheritance to TRUE
-      NORMAL_PRIORITY_CLASS | CREATE_NEW_CONSOLE /*| CREATE_NEW_PROCESS_GROUP*/,  // creation flags
-      NULL,     // Use parent's environment block
-      NULL,     // Use parent's starting directory
-      &siStartInfo,  // Pointer to STARTUPINFO structure
-      &piProcInfo); // Pointer to PROCESS_INFORMATION structure
-
-   if (!bSuccess) {
-      //std::cerr << "CreateProcess failed";
-      return false;
-   } else {
-      // Close handles to the child process and its primary thread.
-      CloseHandle(piProcInfo.hProcess);
-      CloseHandle(piProcInfo.hThread);
+   if (   !_AttemptStartOscar(oscarPath,                   "\\Oscar.exe", siStartInfo, piProcInfo)) {
+      if (!_AttemptStartOscar(oscarPath, OWL_CONFIG_SUFFIX "\\Oscar.exe", siStartInfo, piProcInfo)) {
+         return false;
+      }
    }
+
+   // Close handles to the child process and its primary thread.
+   CloseHandle(piProcInfo.hProcess);
+   CloseHandle(piProcInfo.hThread);
 
    // Now, in this process we can write to g_PipeOut and the child process will be able to read from it.
    char *message = "Senior kibitzer Oscar is observing a task:\n" TITLE_VERSION "\n";
@@ -147,7 +160,7 @@ void OscarTheOwl::Send(char* message)
 
 void OscarTheOwl::Goodbye()
 {
-   Show(GRIFFINS_CLUB_IS_CLOSING);
+   Silent(GRIFFINS_CLUB_IS_CLOSING);
    PLATFORM_SLEEP(100);
    CloseHandle(g_PipeOut);
    g_PipeOut = NULL;
