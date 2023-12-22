@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.32630.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bo", "Bo.vcxproj", "{C57E3FAE-DCC2-4036-9DA4-82E92A126DF3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F8BED00D-12C5-47F4-B02E-6C4DC4D4A0AD} = {F8BED00D-12C5-47F4-B02E-6C4DC4D4A0AD}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Oscar", "..\Oscar\Oscar.vcxproj", "{F8BED00D-12C5-47F4-B02E-6C4DC4D4A0AD}"
 EndProject
