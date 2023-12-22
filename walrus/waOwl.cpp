@@ -148,6 +148,7 @@ void OscarTheOwl::Send(char* message)
 void OscarTheOwl::Goodbye()
 {
    Show(GRIFFINS_CLUB_IS_CLOSING);
+   PLATFORM_SLEEP(100);
    CloseHandle(g_PipeOut);
    g_PipeOut = NULL;
 }

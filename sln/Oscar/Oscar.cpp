@@ -8,28 +8,60 @@
 #include "walrus.h"
 #include HEADER_CURSES
 
+struct OscarEcho {
+   OscarEcho() : gossip() {
+      fprintf(stderr, "%s", "Oscar is watching\n");
+   }
+
+   bool Retell();
+
+private:
+   bool NewsAre(const char *test);
+   bool IsFeelingLost();
+
+   int countEmpty = 0;
+   char gossip[256];
+};
+
+bool OscarEcho::IsFeelingLost()
+{
+   if (gossip[0] == '\n' || gossip[0] == 0) {
+      if (++countEmpty > 10) {
+         return true;
+      }
+   } else {
+      countEmpty = 0;
+   }
+
+   // something happens, Oscar is not lonely
+   return false;
+}
+
+bool OscarEcho::NewsAre(const char *test)
+{
+   return strncmp(gossip, test, sizeof(gossip)) == 0;
+}
+
+bool OscarEcho::Retell()
+{
+   // echo from incoming pipe
+   gets_s(gossip, sizeof(gossip));
+   printf("%s\n", gossip);
+
+   // watch for exit signals
+   if (NewsAre(GRIFFINS_CLUB_IS_CLOSING) || IsFeelingLost()) {
+      return false;
+   }
+
+   // TODO: recoginze other commands
+
+   // stay content
+   return true;
+}
+
 int main()
 {
-   fprintf(stderr, "%s", "Oscar is watching\n");
-   int countEmpty = 0;
-
-   char str[256];
-   for (;;) {
-      gets_s(str, sizeof(str));
-      printf("%s\n", str);
-
-      // variants of exits
-      if (strncmp(str, GRIFFINS_CLUB_IS_CLOSING, sizeof(str)) == 0) {
-         break;
-      }
-
-      // lonely
-      if (str[0] == '\n' || str[0] == 0) {
-         if (++countEmpty > 10) {
-            break;
-         }
-      }
-   }
-   //PLATFORM_GETCH();
+   OscarEcho owl;
+   while (owl.Retell()) {}
 }
 
