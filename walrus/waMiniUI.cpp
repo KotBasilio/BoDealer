@@ -221,19 +221,19 @@ void Walrus::MiniUI::Run()
       }
 
       if (irGoal) {
-         printf("\nSeek %d tricks board by %s in %s ", irGoal, declSeat, declTrump);
+         owl.Show("\nSeek %d tricks board by %s in %s ", irGoal, declSeat, declTrump);
          switch (irFly) {
             case IO_CAMP_MORE_NT:
-               printf("where NT gives more tricks ");
+               owl.Show("where NT gives more tricks ");
                break;
             case IO_CAMP_SAME_NT:
-               printf("where NT gives the same number of tricks ");
+               owl.Show("where NT gives the same number of tricks ");
                break;
             case IO_CAMP_PREFER_SUIT:
-               printf("where NT gives less tricks ");
+               owl.Show("where NT gives less tricks ");
                break;
          }
-         printf("... ");
+         owl.Show("... ");
       } else if (!(exitRequested || reportRequested)) {
          printf("\nCommand '%c' is ignored...", inchar);
       }

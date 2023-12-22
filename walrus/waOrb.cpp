@@ -108,7 +108,7 @@ void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)
 void Walrus::Orb_ReSolveAndShow(deal &cards)
 {
    // board first 
-   PrintHand("example:\n", cards);
+   OwlOutHand("example:\n", cards);
 
    // auto show may be very short
    if (ui.firstAutoShow) {
@@ -134,7 +134,7 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
    // single side solution => ok print
    #ifndef SOLVE_TWICE_HANDLED_CHUNK
       char lead[] = "";
-      PrintFut(lead, &futUs);
+      OwlOneFut(lead, &futUs);
    #else 
       // score alternative contract
       futureTricks futTheirs;
@@ -164,7 +164,7 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
       #endif 
 
       // tricks for all possible leads
-      PrintTwoFutures(header, &futUs, &futTheirs);
+      OwlTwoFut(header, &futUs, &futTheirs);
    #endif // SOLVE_TWICE_HANDLED_CHUNK
 }
 

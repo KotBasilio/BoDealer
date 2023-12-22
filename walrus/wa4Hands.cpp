@@ -308,9 +308,9 @@ void Walrus::FillSemantic(void)
    sem.vecFilters.clear();
    ADD_4PAR_FILTER(NORTH, ExactShape, 5, 3, 3, 2);
    //ADD_2PAR_FILTER(NORTH, PointsRange, 9, 9);
-   ADD_2PAR_FILTER(NORTH, PointsRange, 12, 12);
+   ADD_2PAR_FILTER(NORTH, PointsRange, 10, 12);
    //ADD_2PAR_FILTER(NORTH, ControlsRange, 4, 6);
-   ADD_2PAR_FILTER(NORTH, ControlsRange, 3, 3);
+   //ADD_2PAR_FILTER(NORTH, ControlsRange, 3, 3);
    ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 13);
    ADD_2PAR_FILTER(SOUTH, SpadesLen, 2, 3);
    ADD_0PAR_FILTER(WEST, NoOvcOn1LevOpen);

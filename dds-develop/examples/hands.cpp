@@ -254,56 +254,6 @@ char dealerContract[3][4][10] = {
 //                 Useful constants                     //
 //////////////////////////////////////////////////////////
 
-unsigned short int dbitMapRank[16] =
-{
-  0x0000, 0x0000, 0x0001, 0x0002, 0x0004, 0x0008, 0x0010, 0x0020,
-  0x0040, 0x0080, 0x0100, 0x0200, 0x0400, 0x0800, 0x1000, 0x2000
-};
-
-unsigned char dcardRank[16] =
-{ 
-  'x', 'x', '2', '3', '4', '5', '6', '7',
-  '8', '9', 'T', 'J', 'Q', 'K', 'A', '-'
-};
-
-unsigned char dcardSuit[5] = { 'S', 'H', 'D', 'C', 'N' };
-unsigned char dcardHand[4] = { 'N', 'E', 'S', 'W' };
-
-
-
-void PrintFut(char title[], futureTricks * fut)
-{
-  printf("%s\n", title);
-
-  printf("%6s %-6s %-6s %-6s %-6s\n",
-         "card", "suit", "rank", "equals", "score");
-
-  for (int i = 0; i < fut->cards; i++)
-  {
-    char res[15] = "";
-    equals_to_string(fut->equals[i], res);
-    printf("%6d %-6c %-6c %-6s %-6d\n",
-           i,
-           dcardSuit[ fut->suit[i] ],
-           dcardRank[ fut->rank[i] ],
-           res,
-           fut->score[i]);
-  }
-  printf("\n");
-}
-
-
-void equals_to_string(int equals, char * res)
-{
-  int p = 0;
-  int m = equals >> 2;
-  for (int i = 15; i >= 2; i--)
-  {
-    if (m & static_cast<int>(dbitMapRank[i]))
-      res[p++] = static_cast<char>(dcardRank[i]);
-  }
-  res[p] = 0;
-}
 
 
 bool CompareFut(futureTricks * fut, int handno, int solutions)
@@ -346,31 +296,6 @@ bool CompareTable(ddTableResults * table, int handno)
     }
   }
   return true;
-}
-
-
-void PrintTable(ddTableResults * table)
-{
-  printf("%5s %-5s %-5s %-5s %-5s\n",
-         "", "North", "South", "East", "West");
-
-  printf("%5s %5d %5d %5d %5d\n",
-         "NT",
-         table->resTable[4][0],
-         table->resTable[4][2],
-         table->resTable[4][1],
-         table->resTable[4][3]);
-
-  for (int suit = 0; suit < DDS_SUITS; suit++)
-  {
-    printf("%5c %5d %5d %5d %5d\n",
-           dcardSuit[suit],
-           table->resTable[suit][0],
-           table->resTable[suit][2],
-           table->resTable[suit][1],
-           table->resTable[suit][3]);
-  }
-  printf("\n");
 }
 
 
@@ -442,26 +367,6 @@ bool ComparePlay(solvedPlay * solved, int handno)
   return true;
 }
 
-
-void PrintBinPlay(playTraceBin * playp, solvedPlay * solved)
-{
-  printf("Number : %d\n", solved->number);
-
-  printf("Play %2d: %s %d\n",
-         0, "--", solved->tricks[0]);
-
-  for (int i = 1; i < solved->number; i++)
-  {
-    printf("Play %2d: %c%c %d\n",
-           i,
-           dcardSuit[playp->suit[i - 1]],
-           dcardRank[playp->rank[i - 1]],
-           solved->tricks[i]);
-  }
-  printf("\n");
-}
-
-
 void PrintPBNPlay(playTracePBN * playp, solvedPlay * solved)
 {
   printf("Number : %d\n", solved->number);
@@ -480,126 +385,74 @@ void PrintPBNPlay(playTracePBN * playp, solvedPlay * solved)
   printf("\n");
 }
 
-
-
-///////////////////////////////////////////////////////////////////////
-// From here forth, the code originated from DDS, with our additions //
-
-
-#define DDS_FULL_LINE 76
-#define DDS_HAND_OFFSET 12
-#define DDS_HAND_LINES 12
-#define DDS_OPLEAD_LINES 15
-#define DDS_STATS_LINE 0
-#define DDS_STATS_OFFSET (2 * DDS_HAND_OFFSET)
-
-void PrintHand(char title[], const deal& dl)
+unsigned short int dbitMapRank[16] =
 {
-  int c, h, s, r;
-  char text[DDS_HAND_LINES][DDS_FULL_LINE];
+   0x0000, 0x0000, 0x0001, 0x0002, 0x0004, 0x0008, 0x0010, 0x0020,
+   0x0040, 0x0080, 0x0100, 0x0200, 0x0400, 0x0800, 0x1000, 0x2000
+};
 
-  // clear virtual screen
-  for (int l = 0; l < DDS_HAND_LINES; l++)
-  {
-    memset(text[l], ' ', DDS_FULL_LINE);
-    text[l][DDS_FULL_LINE - 1] = '\0';
-  }
+unsigned char dcardRank[16] =
+{ 
+   'x', 'x', '2', '3', '4', '5', '6', '7',
+   '8', '9', 'T', 'J', 'Q', 'K', 'A', '-'
+};
 
-  // for each hand
-  for (h = 0; h < DDS_HANDS; h++)
-  {
-     // detect location
-     int offset, line;
-     if (h == 0) {
-       offset = DDS_HAND_OFFSET;
-       line = 0;
-     } else if (h == 1) {
-       offset = 2 * DDS_HAND_OFFSET;
-       line = 4;
-     } else if (h == 2) {
-       offset = DDS_HAND_OFFSET;
-       line = 8;
-     } else {
-       offset = 0;
-       line = 4;
-     }
- 
-     // print hand to v-screen
-     for (s = 0; s < DDS_SUITS; s++) {
-       c = offset;
-       for (r = 14; r >= 2; r--) {
-         if ((dl.remainCards[h][s] >> 2) & dbitMapRank[r])
-           text[line + s][c++] = static_cast<char>(dcardRank[r]);
-       }
- 
-       if (c == offset)
-         text[line + s][c++] = '-';
- 
-       if (h == SOUTH || h == EAST)
-         text[line + s][c] = '\0';
-     }
-  }
+unsigned char dcardSuit[5] = { 'S', 'H', 'D', 'C', 'N' };
+unsigned char dcardHand[4] = { 'N', 'E', 'S', 'W' };
 
-  // print HCP and controls
-  uint ctrl;
-  sprintf(text[DDS_STATS_LINE  ] + DDS_STATS_OFFSET, "HCP : %d", WaCalcHCP(dl, ctrl));
-  sprintf(text[DDS_STATS_LINE+1] + DDS_STATS_OFFSET, "CTRL: %d", ctrl);
-
-  // start with title and underline it
-  printf("%s", title);
-  char dashes[80];
-  int l = static_cast<int>(strlen(title)) - 1;
-  for (int i = 0; i < l; i++)
-    dashes[i] = '-';
-  dashes[l] = '\0';
-  printf("%s\n", dashes);
-
-  // print the v-screen
-  for (int i = 0; i < DDS_HAND_LINES; i++)
-    printf("   %s\n", text[i]);
-  //printf("\n\n");
+void equals_to_string(int equals, char * res)
+{
+   int p = 0;
+   int m = equals >> 2;
+   for (int i = 15; i >= 2; i--) {
+      if (m & static_cast<int>(dbitMapRank[i]))
+         res[p++] = static_cast<char>(dcardRank[i]);
+   }
+   res[p] = 0;
 }
 
-void PrintTwoFutures(char title[], futureTricks * fut1, futureTricks * fut2)
+void PrintBinPlay(playTraceBin * playp, solvedPlay * solved)
 {
-   char text[DDS_OPLEAD_LINES][DDS_FULL_LINE];
+   printf("Number : %d\n", solved->number);
 
-   // clear virtual screen
-   for (int lidx = 0; lidx < DDS_OPLEAD_LINES; lidx++) {
-      memset(text[lidx], ' ', DDS_FULL_LINE);
-      text[lidx][DDS_FULL_LINE - 1] = '\0';
+   printf("Play %2d: %s %d\n",
+      0, "--", solved->tricks[0]);
+
+   for (int i = 1; i < solved->number; i++)
+   {
+      printf("Play %2d: %c%c %d\n",
+         i,
+         dcardSuit[playp->suit[i - 1]],
+         dcardRank[playp->rank[i - 1]],
+         solved->tricks[i]);
    }
-
-   // fill it with text info
-   int off2 = 35;
-   sprintf(text[0] + off2, "%s", title);
-
-   sprintf(text[1], " %-6s %-6s %-6s              %-6s %-6s %-6s",
-      "suit", "rank", "score",
-      "suit", "rank", "score"
-   );
-
-   for (int i = 0; i < fut1->cards; i++) {
-      sprintf(text[2+i], "   %-6c %-6c %-6d",
-         dcardSuit[fut1->suit[i]],
-         dcardRank[fut1->rank[i]],
-         fut1->score[i]);
-      text[2+i][23] = ' ';
-   }
-
-   for (int i = 0; i < fut2->cards; i++) {
-      sprintf(text[2 + i] + off2, "  %-6c %-6c %-6d",
-         dcardSuit[fut2->suit[i]],
-         dcardRank[fut2->rank[i]],
-         fut2->score[i]);
-   }
-
-   // print the v-screen
-   auto maxline = __max(fut1->cards, fut2->cards) + 2;
-   for (int i = 0; i < maxline; i++) {
-      printf("   %s\n", text[i]);
-   }
+   printf("\n");
 }
+
+void PrintTable(ddTableResults * table)
+{
+   printf("%5s %-5s %-5s %-5s %-5s\n",
+      "", "North", "South", "East", "West");
+
+   printf("%5s %5d %5d %5d %5d\n",
+      "NT",
+      table->resTable[4][0],
+      table->resTable[4][2],
+      table->resTable[4][1],
+      table->resTable[4][3]);
+
+   for (int suit = 0; suit < DDS_SUITS; suit++)
+   {
+      printf("%5c %5d %5d %5d %5d\n",
+         dcardSuit[suit],
+         table->resTable[suit][0],
+         table->resTable[suit][2],
+         table->resTable[suit][1],
+         table->resTable[suit][3]);
+   }
+   printf("\n");
+}
+
 
 int ConvertPBN(char * dealBuff,
                unsigned int remainCards[DDS_HANDS][DDS_SUITS])

@@ -1,0 +1,421 @@
+/************************************************************
+* Walrus project                                        2023
+* Configuration
+*
+************************************************************/
+#define  _CRT_SECURE_NO_WARNINGS
+#include "waCrossPlatform.h"
+#include HEADER_SLEEP
+#include HEADER_CURSES
+#include "waDoubleDeal.h"
+#include "../dds-develop/examples/hands.h"
+
+static HANDLE g_PipeOut = NULL;
+static HANDLE g_PipeFromOwl = NULL;
+OscarTheOwl owl;
+char OscarTheOwl::buffer[OscarTheOwl::bufferSize];
+
+bool Walrus::StartOscar()
+{
+   const DWORD bufferSize = MAX_PATH;
+   CHAR oscarPath[bufferSize];
+
+   DWORD dwRet = GetCurrentDirectory(bufferSize, oscarPath);
+   if (dwRet == 0) {
+      return false;
+   }
+
+   strcat(oscarPath, "\\x64\\Debug\\Oscar.exe");
+   //printf("Path to Oscar: %s\n", oscarPath);
+
+   HANDLE g_hChildStd_IN_Rd = NULL;
+   HANDLE g_hChildStd_OUT_Wr = NULL;
+
+   SECURITY_ATTRIBUTES saAttr;
+   saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
+   saAttr.bInheritHandle = TRUE;
+   saAttr.lpSecurityDescriptor = NULL;
+
+   // Create the input pipe for sending data from parent to child
+   if (!CreatePipe(&g_hChildStd_IN_Rd, &g_PipeOut, &saAttr, 0)) {
+      //std::cerr << "CreatePipe failed";
+      return false;
+   }
+
+   if (!SetHandleInformation(g_PipeOut, HANDLE_FLAG_INHERIT, 0)) {
+      //std::cerr << "SetHandleInformation failed";
+      return false;
+   }
+
+   // Create the output pipe for receiving data from child to parent
+   if (!CreatePipe(&g_PipeFromOwl, &g_hChildStd_OUT_Wr, &saAttr, 0)) {
+      //std::cerr << "CreatePipe failed";
+      return false;
+   }
+
+   if (!SetHandleInformation(g_PipeFromOwl, HANDLE_FLAG_INHERIT, 0)) {
+      //std::cerr << "SetHandleInformation failed";
+      return false;
+   }
+
+   PROCESS_INFORMATION piProcInfo;
+   STARTUPINFO siStartInfo;
+   BOOL bSuccess = FALSE;
+
+   ZeroMemory(&piProcInfo, sizeof(PROCESS_INFORMATION));
+   ZeroMemory(&siStartInfo, sizeof(STARTUPINFO));
+   siStartInfo.cb = sizeof(STARTUPINFO);
+   siStartInfo.hStdInput = g_hChildStd_IN_Rd;
+   siStartInfo.hStdError = g_hChildStd_OUT_Wr;
+   siStartInfo.dwFlags |= STARTF_USESTDHANDLES;
+
+   // Create the child process.
+   bSuccess = CreateProcess( oscarPath,
+      NULL,     // Command line
+      NULL,     // Process handle not inheritable
+      NULL,     // Thread handle not inheritable
+      TRUE,     // Set handle inheritance to TRUE
+      NORMAL_PRIORITY_CLASS | CREATE_NEW_CONSOLE /*| CREATE_NEW_PROCESS_GROUP*/,  // creation flags
+      NULL,     // Use parent's environment block
+      NULL,     // Use parent's starting directory
+      &siStartInfo,  // Pointer to STARTUPINFO structure
+      &piProcInfo); // Pointer to PROCESS_INFORMATION structure
+
+   if (!bSuccess) {
+      //std::cerr << "CreateProcess failed";
+      return false;
+   } else {
+      // Close handles to the child process and its primary thread.
+      CloseHandle(piProcInfo.hProcess);
+      CloseHandle(piProcInfo.hThread);
+   }
+
+   // Now, in this process we can write to g_PipeOut and the child process will be able to read from it.
+   char *message = "Senior kibitzer Oscar is observing a task:\n" TITLE_VERSION "\n";
+   owl.Send(message);
+
+   // Receive data from the child process
+   char buffer[256];
+   DWORD bytesRead = 0;
+   if (!ReadFile(g_PipeFromOwl, buffer, sizeof(buffer), &bytesRead, NULL)) {
+      //std::cerr << "Read from output pipe failed";
+      return false;
+   }
+   if (bytesRead < sizeof(buffer)) {
+      buffer[bytesRead] = 0;
+   }
+   printf("%s", buffer);
+
+   owl.Show("message %d %s\n", 10, "xxx");
+
+   return true;
+}
+
+void OscarTheOwl::Show(const char* format, ...)
+{
+   va_list args;
+   va_start(args, format);
+
+   std::vsnprintf(buffer, bufferSize, format, args);
+
+   va_end(args);
+
+   printf(buffer);
+   Send(buffer);
+}
+
+void OscarTheOwl::Silent(const char* format, ...)
+{
+   va_list args;
+   va_start(args, format);
+
+   std::vsnprintf(buffer, bufferSize, format, args);
+
+   va_end(args);
+
+   Send(buffer);
+}
+
+void OscarTheOwl::Send(char* message)
+{
+   if (g_PipeOut) {
+      DWORD bytesWritten;
+      WriteFile(g_PipeOut, message, (DWORD)strlen(message), &bytesWritten, NULL);
+   }
+}
+
+void OscarTheOwl::Goodbye()
+{
+   Show(GRIFFINS_CLUB_IS_CLOSING);
+   CloseHandle(g_PipeOut);
+   g_PipeOut = NULL;
+}
+
+///////////////////////////////////////////////////////////////////////
+// From here forth, the code originated from DDS, with our additions //
+
+extern unsigned short int dbitMapRank[16];
+extern unsigned char dcardSuit[5];
+extern unsigned char dcardHand[4];
+extern unsigned char dcardRank[16];
+
+void equals_to_string(int equals, char* res);
+
+void PrintFut(char title[], futureTricks * fut)
+{
+   printf("%s\n", title);
+
+   printf("%6s %-6s %-6s %-6s %-6s\n",
+      "card", "suit", "rank", "equals", "score");
+
+   for (int i = 0; i < fut->cards; i++)
+   {
+      char res[15] = "";
+      equals_to_string(fut->equals[i], res);
+      printf("%6d %-6c %-6c %-6s %-6d\n",
+         i,
+         dcardSuit[ fut->suit[i] ],
+         dcardRank[ fut->rank[i] ],
+         res,
+         fut->score[i]);
+   }
+   printf("\n");
+}
+
+void OwlOneFut(char title[], futureTricks * fut)
+{
+   owl.Silent("%s\n", title);
+
+   owl.Silent("%6s %-6s %-6s %-6s %-6s\n",
+      "card", "suit", "rank", "equals", "score");
+
+   for (int i = 0; i < fut->cards; i++)
+   {
+      char res[15] = "";
+      equals_to_string(fut->equals[i], res);
+      owl.Silent("%6d %-6c %-6c %-6s %-6d\n",
+         i,
+         dcardSuit[ fut->suit[i] ],
+         dcardRank[ fut->rank[i] ],
+         res,
+         fut->score[i]);
+   }
+   owl.Silent("\n");
+}
+
+void PrintHand(char title[], const deal& dl)
+{
+   int c, h, s, r;
+   char text[DDS_HAND_LINES][DDS_FULL_LINE];
+
+   // clear virtual screen
+   for (int l = 0; l < DDS_HAND_LINES; l++)
+   {
+      memset(text[l], ' ', DDS_FULL_LINE);
+      text[l][DDS_FULL_LINE - 1] = '\0';
+   }
+
+   // for each hand
+   for (h = 0; h < DDS_HANDS; h++)
+   {
+      // detect location
+      int offset, line;
+      if (h == 0) {
+         offset = DDS_HAND_OFFSET;
+         line = 0;
+      } else if (h == 1) {
+         offset = 2 * DDS_HAND_OFFSET;
+         line = 4;
+      } else if (h == 2) {
+         offset = DDS_HAND_OFFSET;
+         line = 8;
+      } else {
+         offset = 0;
+         line = 4;
+      }
+
+      // print hand to v-screen
+      for (s = 0; s < DDS_SUITS; s++) {
+         c = offset;
+         for (r = 14; r >= 2; r--) {
+            if ((dl.remainCards[h][s] >> 2) & dbitMapRank[r])
+               text[line + s][c++] = static_cast<char>(dcardRank[r]);
+         }
+
+         if (c == offset)
+            text[line + s][c++] = '-';
+
+         if (h == SOUTH || h == EAST)
+            text[line + s][c] = '\0';
+      }
+   }
+
+   // print HCP and controls
+   uint ctrl;
+   sprintf(text[DDS_STATS_LINE  ] + DDS_STATS_OFFSET, "HCP : %d", WaCalcHCP(dl, ctrl));
+   sprintf(text[DDS_STATS_LINE+1] + DDS_STATS_OFFSET, "CTRL: %d", ctrl);
+
+   // start with title and underline it
+   printf("%s", title);
+   char dashes[80];
+   int l = static_cast<int>(strlen(title)) - 1;
+   for (int i = 0; i < l; i++)
+      dashes[i] = '-';
+   dashes[l] = '\0';
+   printf("%s\n", dashes);
+
+   // print the v-screen
+   for (int i = 0; i < DDS_HAND_LINES; i++)
+      printf("   %s\n", text[i]);
+   //printf("\n\n");
+}
+
+void OwlOutHand(char title[], const deal& dl)
+{
+   int c, h, s, r;
+   char text[DDS_HAND_LINES][DDS_FULL_LINE];
+
+   // clear virtual screen
+   for (int l = 0; l < DDS_HAND_LINES; l++)
+   {
+      memset(text[l], ' ', DDS_FULL_LINE);
+      text[l][DDS_FULL_LINE - 1] = '\0';
+   }
+
+   // for each hand
+   for (h = 0; h < DDS_HANDS; h++)
+   {
+      // detect location
+      int offset, line;
+      if (h == 0) {
+         offset = DDS_HAND_OFFSET;
+         line = 0;
+      } else if (h == 1) {
+         offset = 2 * DDS_HAND_OFFSET;
+         line = 4;
+      } else if (h == 2) {
+         offset = DDS_HAND_OFFSET;
+         line = 8;
+      } else {
+         offset = 0;
+         line = 4;
+      }
+
+      // print hand to v-screen
+      for (s = 0; s < DDS_SUITS; s++) {
+         c = offset;
+         for (r = 14; r >= 2; r--) {
+            if ((dl.remainCards[h][s] >> 2) & dbitMapRank[r])
+               text[line + s][c++] = static_cast<char>(dcardRank[r]);
+         }
+
+         if (c == offset)
+            text[line + s][c++] = '-';
+
+         if (h == SOUTH || h == EAST)
+            text[line + s][c] = '\0';
+      }
+   }
+
+   // print HCP and controls
+   uint ctrl;
+   sprintf(text[DDS_STATS_LINE  ] + DDS_STATS_OFFSET, "HCP : %d", WaCalcHCP(dl, ctrl));
+   sprintf(text[DDS_STATS_LINE+1] + DDS_STATS_OFFSET, "CTRL: %d", ctrl);
+
+   // start with title and underline it
+   owl.Silent("%s", title);
+   char dashes[80];
+   int l = static_cast<int>(strlen(title)) - 1;
+   for (int i = 0; i < l; i++)
+      dashes[i] = '-';
+   dashes[l] = '\0';
+   owl.Silent("%s\n", dashes);
+
+   // print the v-screen
+   for (int i = 0; i < DDS_HAND_LINES; i++)
+      owl.Silent("   %s\n", text[i]);
+   //printf("\n\n");
+}
+
+void PrintTwoFutures(char title[], futureTricks * fut1, futureTricks * fut2)
+{
+   char text[DDS_OPLEAD_LINES][DDS_FULL_LINE];
+
+   // clear virtual screen
+   for (int lidx = 0; lidx < DDS_OPLEAD_LINES; lidx++) {
+      memset(text[lidx], ' ', DDS_FULL_LINE);
+      text[lidx][DDS_FULL_LINE - 1] = '\0';
+   }
+
+   // fill it with text info
+   int off2 = 35;
+   sprintf(text[0] + off2, "%s", title);
+
+   sprintf(text[1], " %-6s %-6s %-6s              %-6s %-6s %-6s",
+      "suit", "rank", "score",
+      "suit", "rank", "score"
+   );
+
+   for (int i = 0; i < fut1->cards; i++) {
+      sprintf(text[2+i], "   %-6c %-6c %-6d",
+         dcardSuit[fut1->suit[i]],
+         dcardRank[fut1->rank[i]],
+         fut1->score[i]);
+      text[2+i][23] = ' ';
+   }
+
+   for (int i = 0; i < fut2->cards; i++) {
+      sprintf(text[2 + i] + off2, "  %-6c %-6c %-6d",
+         dcardSuit[fut2->suit[i]],
+         dcardRank[fut2->rank[i]],
+         fut2->score[i]);
+   }
+
+   // print the v-screen
+   auto maxline = __max(fut1->cards, fut2->cards) + 2;
+   for (int i = 0; i < maxline; i++) {
+      printf("   %s\n", text[i]);
+   }
+}
+
+void OwlTwoFut(char title[], futureTricks * fut1, futureTricks * fut2)
+{
+   char text[DDS_OPLEAD_LINES][DDS_FULL_LINE];
+
+   // clear virtual screen
+   for (int lidx = 0; lidx < DDS_OPLEAD_LINES; lidx++) {
+      memset(text[lidx], ' ', DDS_FULL_LINE);
+      text[lidx][DDS_FULL_LINE - 1] = '\0';
+   }
+
+   // fill it with text info
+   int off2 = 35;
+   sprintf(text[0] + off2, "%s", title);
+
+   sprintf(text[1], " %-6s %-6s %-6s              %-6s %-6s %-6s",
+      "suit", "rank", "score",
+      "suit", "rank", "score"
+   );
+
+   for (int i = 0; i < fut1->cards; i++) {
+      sprintf(text[2+i], "   %-6c %-6c %-6d",
+         dcardSuit[fut1->suit[i]],
+         dcardRank[fut1->rank[i]],
+         fut1->score[i]);
+      text[2+i][23] = ' ';
+   }
+
+   for (int i = 0; i < fut2->cards; i++) {
+      sprintf(text[2 + i] + off2, "  %-6c %-6c %-6d",
+         dcardSuit[fut2->suit[i]],
+         dcardRank[fut2->rank[i]],
+         fut2->score[i]);
+   }
+
+   // print the v-screen
+   auto maxline = __max(fut1->cards, fut2->cards) + 2;
+   for (int i = 0; i < maxline; i++) {
+      owl.Silent("   %s\n", text[i]);
+   }
+}
+
