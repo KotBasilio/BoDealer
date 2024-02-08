@@ -14,7 +14,13 @@
 
 // --------------------------------------------------------------------------------
 // input
-//char const taskHandPBN[] = "[N:...]";
+
+#ifdef SEMANTIC_TANJA_FEB_LONG_H
+   #define INPUT_TRUMPS    SOL_HEARTS
+   #define INPUT_ON_LEAD   EAST
+   char const taskHandPBN[] = "[N:AT.JT987532.K6.5.]";
+#endif 
+
 #ifdef SEMANTIC_BASHA_NOV_NT
    #define INPUT_TRUMPS    SOL_NOTRUMP
    #define INPUT_ON_LEAD   EAST

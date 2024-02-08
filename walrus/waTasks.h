@@ -9,6 +9,7 @@
 //#define SEMANTIC_JULY_MOROZOV_HAND_EVAL
 //#define SEMANTIC_OCT_SEEK_6D
 //#define SEMANTIC_BASHA_NOV_NT
+#define SEMANTIC_TANJA_FEB_LONG_H
 
 // Bidding decision competitive:
 //#define SEMANTIC_JUN_MINORS_VS_MAJORS
@@ -26,7 +27,7 @@
 //#define SEMANTIC_STANDARD_3NT
 //#define SEMANTIC_STANDARD_6NT
 //#define SEMANTIC_CONFIG_BASED
-#define SEMANTIC_1NT_OR_SIGN_OFF
+//#define SEMANTIC_1NT_OR_SIGN_OFF
 
 // -----------------------------------------------------------------
 // task descriptions

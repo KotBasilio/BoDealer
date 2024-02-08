@@ -40,7 +40,7 @@ void Walrus::FillSemantic(void)
 
    //ADD_3PAR_FILTER(SOUTH, KeyCardsRange, DMD, 2, 2);
 }
-#endif // SEMANTIC_OCT_SEEK_6D
+#endif
 
 #ifdef SEMANTIC_BASHA_NOV_NT
 void Walrus::FillSemantic(void)
@@ -60,4 +60,21 @@ void Walrus::FillSemantic(void)
 
    //ADD_3PAR_FILTER(SOUTH, KeyCardsRange, DMD, 2, 2);
 }
-#endif // SEMANTIC_BASHA_NOV_NT
+#endif
+
+#ifdef SEMANTIC_TANJA_FEB_LONG_H
+void Walrus::FillSemantic(void)
+{
+   OrbNorthFillSem();
+   //sem.onBoardAdded = &Walrus::DisplayBoard;
+   sem.onScoring = &Walrus::Score_4Major;
+   sem.onPostmortem = &Walrus::PostmortemHCP;
+   sem.vecFilters.clear();
+   ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 12);
+   ADD_0PAR_FILTER(EAST, NoOvercall);
+   ADD_0PAR_FILTER(WEST, NoOvercall);
+   ADD_2PAR_FILTER(SOUTH, SpadesLen, 5, 5);
+   ADD_2PAR_FILTER(SOUTH, DiamondsLen, 4, 5);
+   ADD_2PAR_FILTER(SOUTH, ClubsLen, 0, 3);
+}
+#endif

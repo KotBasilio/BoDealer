@@ -1,0 +1,39 @@
+Senior kibitzer Oscar is observing a task:
+Fix a 8 hcp 2821;
+1s 1NT(?!) 
+2d ??
+Question: How often 4h makes? Task
+----
+24:        0,       0,       0,     >XM,       0,    : 33655388        PointsRange 11 12 SOUTH
+25:        0,       0,    >MLN,       0,       0,    : 3632960         NoOvercall EAST
+26:        0,       0,       0,       0,    >MLN,    : 3017832         NoOvercall WEST
+27:        0,       0,       0,    >MLN,       0,    : 1015962         SpadesLen 5 5 SOUTH
+28:        0,       0,       0,  134798,       0,    : 134798          DiamondsLen 4 5 SOUTH
+29:        0,       0,       0,   12600,       0,    : 12600           ClubsLen 0 3 SOUTH
+----
+32:    50016,       0,       0,       0,       0,    : 50016
+----
+ 10 tricks board by North in hearts example:
+--------
+               AT          HCP : 20
+               JT987532    CTRL: 7
+               K6
+               5
+   98                      Q653
+   64                      KQ
+   A9743                   QT
+   AQ93                    J8742
+               KJ742
+               A
+               J852
+               KT6
+   :  HITS COUNT   :
+       (down):    18101,    3921,     289,       3,       0,       0,       0,       22314
+       (make):    21364,    6174,     164,       0,       0,       0,       0,       27702
+Processed: 50016 total. East is on lead. Goal is 10 tricks in hearts.
+Averages: ideal = 407, bidGame = 293, partscore=157.   Chance to make = 55.4%
+(p 19 down):     7442,    2059,     186,       1,       0,   :     9688,
+(p 19 make):     6913,    1296,       7,       0,       0,   :     8216,  --> 45 %
+(p 20 down):    10659,    1862,     103,       2,       0,   :    12626,
+(p 20 make):    14451,    4878,     157,       0,       0,   :    19486,  --> 60 %
+The search took 0.5 sec + an aftermath 2 min 41 sec.
