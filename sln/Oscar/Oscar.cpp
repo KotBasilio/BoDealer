@@ -10,6 +10,15 @@
 
 struct OscarEcho {
    OscarEcho() : gossip() {
+      // stdout is a way to display
+      printf("\n\n%s", 
+         "      |\\_______/|      \n"
+         "    / | [o] [o] | \\     \n"
+         "   / /|    V    |\\ \\   \n"
+         "      |         |      \n"
+         "      -ooo---ooo-      \n\n");
+
+      // stderr is a pipe back to Walrus
       fprintf(stderr, "%s", "Oscar is watching\n");
    }
 

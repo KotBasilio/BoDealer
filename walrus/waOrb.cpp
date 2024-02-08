@@ -166,6 +166,7 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
       // tricks for all possible leads
       OwlTwoFut(header, &futUs, &futTheirs);
    #endif // SOLVE_TWICE_HANDLED_CHUNK
+   printf("shown to Oscar.");
 }
 
 bool Walrus::Orb_ApproveByFly(deal& cards)

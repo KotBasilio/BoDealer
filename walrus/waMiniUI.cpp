@@ -242,7 +242,7 @@ void Walrus::MiniUI::Run()
    // auto-command
    if (firstAutoShow && !irGoal) {
       irGoal = cfgTask.primGoal;
-      printf(" %d tricks board by %s in %s ", irGoal, declSeat, declTrump);
+      owl.Show(" %d tricks board by %s in %s ", irGoal, declSeat, declTrump);
    }
 }
 
