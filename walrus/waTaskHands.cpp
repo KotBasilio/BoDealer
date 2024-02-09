@@ -15,6 +15,14 @@
 // --------------------------------------------------------------------------------
 // input
 
+#ifdef SEMANTIC_54M_FEB_PARTIZAN
+//#define INPUT_TRUMPS    SOL_HEARTS
+//   #define INPUT_TRUMPS    SOL_SPADES
+   #define INPUT_TRUMPS    SOL_NOTRUMP
+   #define INPUT_ON_LEAD   WEST
+   char const taskHandPBN[] = "[N:J532.AQ843.65.A5.]";
+#endif 
+
 #ifdef SEMANTIC_TANJA_FEB_LONG_H
    #define INPUT_TRUMPS    SOL_HEARTS
    #define INPUT_ON_LEAD   EAST

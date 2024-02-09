@@ -78,3 +78,24 @@ void Walrus::FillSemantic(void)
    ADD_2PAR_FILTER(SOUTH, ClubsLen, 0, 3);
 }
 #endif
+
+#ifdef SEMANTIC_54M_FEB_PARTIZAN
+void Walrus::FillSemantic(void)
+{
+   OrbNorthFillSem();
+   //sem.onBoardAdded = &Walrus::DisplayBoard;
+   //sem.onScoring = &Walrus::Score_4Major;
+   sem.onScoring = &Walrus::Score_3NT;
+   sem.onPostmortem = &Walrus::PostmortemHCP;
+   sem.vecFilters.clear();
+   ADD_2PAR_FILTER(SOUTH, PointsRange, 12, 13);
+   ADD_0PAR_FILTER(EAST, NoOvercall);
+   ADD_0PAR_FILTER(WEST, NoOvercall);
+   ADD_2PAR_FILTER(SOUTH, SpadesLen, 2, 3);
+   ADD_2PAR_FILTER(SOUTH, HeartsLen, 2, 2);
+   ADD_2PAR_FILTER(SOUTH, DiamondsLen, 2, 5);
+   ADD_2PAR_FILTER(SOUTH, ClubsLen, 2, 5);
+
+   //ADD_3PAR_FILTER(SOUTH, KeyCardsRange, DMD, 2, 2);
+}
+#endif

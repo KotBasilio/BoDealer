@@ -1,0 +1,172 @@
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+Fix a 11 hcp 4522;
+1NT(10-13) 2d
+2h ??
+Question: Is the hand worth invit? Task
+----
+24:        0,       0,       0,    >MLN,       0,    : 3079320         PointsRange 12 13 SOUTH
+25:        0,       0,  120425,       0,       0,    : 120425          NoOvercall EAST
+26:        0,       0,       0,       0,  112079,    : 112079          NoOvercall WEST
+27:        0,       0,       0,  142356,       0,    : 142356          SpadesLen 2 3 SOUTH
+28:        0,       0,       0,  120600,       0,    : 120600          HeartsLen 3 3 SOUTH
+29:        0,       0,       0,    3940,       0,    : 3940            DiamondsLen 2 5 SOUTH
+30:        0,       0,       0,    1480,       0,    : 1480            ClubsLen 2 5 SOUTH
+Seek 10 tricks board by South in hearts ... example:
+--------
+               J532        HCP : 23
+               AQ843       CTRL: 7
+               65
+               A5
+   K8                      AT764
+   K762                    9
+   K943                    QT2
+   874                     QT62
+               Q9
+               JT5
+               AJ87
+               KJ93
+
+    :  HITS COUNT   :
+       (down):    22145,    7331,     737,      30,       0,       0,       0,       30243
+       (make):    17469,    3580,     187,       1,       0,       0,       0,       21237
+Processed: 51480 total. West is on lead. Goal is 10 tricks in hearts.
+Averages: ideal = 335, bidGame = 182, partscore=149.   Chance to make = 41.3%
+(p 23 down):    12294,    5028,     570,      22,       0,   :    17914,
+(p 23 make):     7071,    1054,      35,       0,       0,   :     8160,  --> 31 %
+(p 24 down):     9851,    2303,     167,       8,       0,   :    12329,
+(p 24 make):    10398,    2526,     152,       1,       0,   :    13077,  --> 51 %
+The search took 0.2 sec + an aftermath 30 min 38 sec.
+
+
+
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+Fix a 11 hcp 4522;
+1NT(10-13) 2d
+2h ??
+Question: Is the hand worth invit? Task
+----
+24:        0,       0,       0,    >MLN,       0,    : 3602974         PointsRange 12 13 SOUTH
+25:        0,       0,  140673,       0,       0,    : 140673          NoOvercall EAST
+26:        0,       0,       0,       0,  130943,    : 130943          NoOvercall WEST
+27:        0,       0,       0,  289492,       0,    : 289492          SpadesLen 4 4 SOUTH
+28:        0,       0,       0,   31986,       0,    : 31986           HeartsLen 2 3 SOUTH
+29:        0,       0,       0,    2758,       0,    : 2758            DiamondsLen 2 5 SOUTH
+30:        0,       0,       0,    1472,       0,    : 1472            ClubsLen 2 5 SOUTH
+-
+
+Seek 10 tricks board by South in spades ... example:
+--------
+               J532        HCP : 24
+               AQ843       CTRL: 8
+               65
+               A5
+   87                      A64
+   K96                     T7
+   KQT8                    J7432
+   QJT2                    943
+               KQT9
+               J52
+               A9
+               K876
+
+  card suit   rank   equals score
+     0 D      K      Q      3
+     1 D      8             3
+     2 D      T             3
+     3 S      8      7      3
+     4 C      2             3
+     5 C      Q      JT     3
+     6 H      6             1
+     7 H      9             1
+     8 H      K             1
+
+    :  HITS COUNT   :
+       (down):    18082,    5885,     624,      22,       0,       1,       0,       24614
+       (make):    17974,    6757,     702,      31,       0,       0,       0,       25464
+Processed: 50078 total. West is on lead. Goal is 10 tricks in spades.
+Averages: ideal = 384, bidGame = 256, partscore=155.   Chance to make = 50.8%
+(p 23 down):    10108,    3959,     451,      20,       0,       0,   :    14538,
+(p 23 make):     8141,    2431,     154,       4,       0,       0,   :    10730,  --> 42 %
+(p 24 down):     7974,    1926,     173,       2,       0,       1,   :    10076,
+(p 24 make):     9833,    4326,     548,      27,       0,       0,   :    14734,  --> 59 %
+The search took 0.2 sec + an aftermath 18 min 17 sec.
+
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+Fix a 11 hcp 4522;
+1NT(10-13) 2d
+2h ??
+Question: Is the hand worth invit? Task
+----
+24:        0,       0,       0,    >MLN,       0,    : 3824542         PointsRange 12 13 SOUTH
+25:        0,       0,  149577,       0,       0,    : 149577          NoOvercall EAST
+26:        0,       0,       0,       0,  138977,    : 138977          NoOvercall WEST
+27:        0,       0,       0,  180140,       0,    : 180140          SpadesLen 2 3 SOUTH
+28:        0,       0,       0,  154362,       0,    : 154362          HeartsLen 2 2 SOUTH
+29:        0,       0,       0,    9298,       0,    : 9298            DiamondsLen 2 5 SOUTH
+30:        0,       0,       0,    6664,       0,    : 6664            ClubsLen 2 5 SOUTH
+----
+32:    50066,       0,       0,       0,       0,    : 50066
+-
+
+
+Seek 8 tricks board by South in notrump ... example:
+--------
+               J532        HCP : 23
+               AQ843       CTRL: 8
+               65
+               A5
+   QT9                     A864
+   KT75                    J6
+   Q942                    T87
+   Q8                      K764
+               K7
+               92
+               AKJ3
+               JT932
+
+  card suit   rank   equals score
+     0 S      T      9      5
+     1 S      Q             5
+     2 H      5             5
+     3 H      7             5
+     4 H      T             5
+     5 H      K             5
+     6 C      8             4
+     7 C      Q             4
+     8 D      2             4
+
+    :  HITS COUNT   :
+       (down):    17275,   11603,    2783,     225,       2,       1,       0,       31889
+       (make):    10956,    1886,     164,       5,       0,       0,       0,       13011
+Processed: 44900 total. West is on lead. Goal is 9 tricks in notrump.
+Averages: ideal = 237, bidGame = 64, partscore=107.   Chance to make = 29.0%
+(p 23 down):     8883,    7321,    2115,     198,       2,       1,   :    18520,
+(p 23 make):     4148,     467,      23,       0,       0,       0,   :     4638,  --> 20 %
+(p 24 down):     8392,    4282,     668,      27,       0,       0,   :    13369,
+(p 24 make):     6808,    1419,     141,       5,       0,       0,   :     8373,  --> 38 %
+The search took 0.2 sec + an aftermath 39 min 26 sec.
+
+
+
+
