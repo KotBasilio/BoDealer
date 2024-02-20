@@ -95,7 +95,25 @@ void Walrus::FillSemantic(void)
    ADD_2PAR_FILTER(SOUTH, HeartsLen, 2, 2);
    ADD_2PAR_FILTER(SOUTH, DiamondsLen, 2, 5);
    ADD_2PAR_FILTER(SOUTH, ClubsLen, 2, 5);
+}
+#endif
 
-   //ADD_3PAR_FILTER(SOUTH, KeyCardsRange, DMD, 2, 2);
+#ifdef SEMANTIC_4M_ON54_FEB_PATTON
+void Walrus::FillSemantic(void)
+{
+   OrbNorthFillSem();
+   //sem.onBoardAdded = &Walrus::DisplayBoard;
+   sem.onScoring = &Walrus::Score_4Major;
+   sem.onPostmortem = &Walrus::PostmortemHCP;
+   sem.vecFilters.clear();
+   ADD_2PAR_FILTER(SOUTH, PointsRange, 12, 13);
+   ADD_0PAR_FILTER(EAST, NoOvercall);
+   ADD_0PAR_FILTER(WEST, NoOvercall);
+   //ADD_2PAR_FILTER(NORTH, ControlsRange, 3, 6);
+
+   ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
+      ADD_4PAR_FILTER(SOUTH, ExactShape, 4, 4, 2, 3);
+      ADD_4PAR_FILTER(SOUTH, ExactShape, 4, 3, 2, 4);
+   ADD_0PAR_FILTER(SOUTH, EndList);
 }
 #endif

@@ -115,8 +115,13 @@ void Walrus::ReportLine(ucell sumline, int i)
    // skip lines filled with zeros
    if (!sumline) {
       if (!shownDashes) {
-         OUT_BIG_TABLE("%s", "----\n");
          shownDashes = true;
+         uint fidx = i - IO_ROW_FILTERING;
+         if (fidx < sem.vecFilters.size()) {
+            OUT_BIG_TABLE("----\t\t\t\t\t\t\t\t    %s\n", sem.vecFilters[fidx].name);
+         } else {
+            OUT_BIG_TABLE("%s", "----\n");
+         }
       }
       return;
    }

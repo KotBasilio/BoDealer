@@ -21,6 +21,14 @@
    #define FOUR_HANDS_TASK
 */
 
+#ifdef SEMANTIC_4M_ON54_FEB_PATTON
+   #define TITLE_VERSION  "Fix a 10 hcp 5332;\n1NT(10-13) 2h\n2NT ??\nQuestion: How often 4s makes? Task"
+   #define SEEK_BIDDING_LEVEL
+   #define IO_LAYOUT_3_0
+   #define IO_HCP_MIN  22
+   #define IO_HCP_MAX  23
+#endif
+
 #ifdef SEMANTIC_54M_FEB_PARTIZAN
    #define TITLE_VERSION  "Fix a 11 hcp 4522;\n1NT(10-13) 2d\n2h ??\nQuestion: Is the hand worth invit? Task"
    #define SEEK_BIDDING_LEVEL
