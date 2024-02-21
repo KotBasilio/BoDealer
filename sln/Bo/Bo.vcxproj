@@ -158,6 +158,7 @@
     <ClCompile Include="..\..\walrus\waScore.cpp" />
     <ClCompile Include="..\..\walrus\waSCumul.cpp" />
     <ClCompile Include="..\..\walrus\wa4Hands.cpp" />
+    <ClCompile Include="..\..\walrus\waSemAllFour.cpp" />
     <ClCompile Include="..\..\walrus\waSemBidding.cpp" />
     <ClCompile Include="..\..\walrus\waSemLead.cpp" />
     <ClCompile Include="..\..\walrus\waSemMicro.cpp" />

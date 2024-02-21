@@ -510,13 +510,15 @@ uint WaFilter::AnyInListBelow(twContext* lay, const uint* par)
    auto &ip = exec.ip;
    auto last = par[1] - 1;
 
-   // know when to stop
+   // for all filters in this block
    for (ip++; ip <= last; ip++) {
-      // try each filter
+      // try current filter
       const auto& mic = sem->vecFilters[ip];
       reason = (this->*mic.func)(lay, mic.params);
+
+      // when the filter rejects this layout
       if (reason) {
-         // not a problem, just imprint it in the main table
+         // we just imprint that rejection in the main table
          auto row = IO_ROW_FILTERING + ip;
          progress->hitsCount[row][reason]++; 
          if (ip < last) {
@@ -524,14 +526,17 @@ uint WaFilter::AnyInListBelow(twContext* lay, const uint* par)
          } else {
             progress->hitsCount[row + 1][reason]--; 
          }
-      } else {
-         // entire block is accepted
-         exec.depth--;
-         ip = last;
-      }
+
+         // continue checks since some other filter can accept this layout
+         continue;
+      } 
+      
+      // current filter says ok, so entire block is accepted
+      exec.depth--;
+      ip = last;
    }
 
-   // pass or fail by the last filter
+   // pass or fail by the last checked filter
    return reason;
 }
 
@@ -541,3 +546,26 @@ uint WaFilter::EndList(twContext* lay, const uint* par)
    DEBUG_UNEXPECTED;
    return MIC_PASSED;
 }
+
+uint WaFilter::SuitPointsLessSuit(twContext* lay, const uint* par)
+{
+   ACCESS_MICPAR_HCP;
+
+   if (hcp.arr[par[1]] < hcp.arr[par[2]]) {
+      return MIC_PASSED;
+   }
+
+   return MIC_BLOCK;
+}
+
+uint WaFilter::SuitPointsLEqSuit(twContext* lay, const uint* par)
+{
+   ACCESS_MICPAR_HCP;
+
+   if (hcp.arr[par[1]] <= hcp.arr[par[2]]) {
+      return MIC_PASSED;
+   }
+
+   return MIC_BLOCK;
+}
+

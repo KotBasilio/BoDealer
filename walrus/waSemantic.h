@@ -57,13 +57,16 @@ public:
    uint PointsRange(twContext* lay, const uint *par);
    uint PointsLimit(twContext* lay, const uint *par);
    uint PointsAtLeast(twContext* lay, const uint *par);
+   uint ControlsRange(twContext* lay, const uint* par);
    uint KeyCardsRange(twContext* lay, const uint* par);
    // -
-   uint ControlsRange(twContext* lay, const uint *par);
    uint LineControlsRange(twContext* lay, const uint* par);
    uint LineAcesRange(twContext* lay, const uint* par);
    uint LineKeyCardsSpade(twContext* lay, const uint* par);
    uint LinePointsRange(twContext* lay, const uint *par);
+   // -
+   uint SuitPointsLessSuit(twContext* lay, const uint* par);
+   uint SuitPointsLEqSuit(twContext* lay, const uint* par);
    // -
    uint ClubPointsLimit(twContext* lay, const uint *par);
    uint HeartPointsLimit(twContext* lay, const uint *par);

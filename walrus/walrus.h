@@ -179,6 +179,7 @@ private:
    void Orb_ReSolveAndShow(deal &cards);
    void OrbNorthClassify(twContext *lay);
    // -- 4-hands scan
+   void FourHandsFillSem(void);
    void Permute6(SplitBits a, SplitBits b, SplitBits c);
    void Permute24(SplitBits a, SplitBits b, SplitBits c);
    void Classify6(twContext *lay);

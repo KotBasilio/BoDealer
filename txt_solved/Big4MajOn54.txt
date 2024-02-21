@@ -1,0 +1,221 @@
+
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+Weak nt 4333 vs 5332, 54 fit.
+----
+24:        0,       0,       0,   >MLRD,       0,    : 7424844834      ExactShape 4 3 3 3 SOUTH
+25:        0,    >XXM,       0,       0,       0,    : 198824234       ExactShape 5 3 3 2 NORTH
+26:        0,       0,       0,    >MLN,       0,    : 1722620         PointsRange 12 13 SOUTH
+27:        0,  188114,       0,       0,       0,    : 188114          PointsRange 10 14 NORTH
+28:        0,       0,   19653,       0,       0,    : 19653           NoOvercall EAST
+29:        0,       0,       0,       0,   18639,    : 18639           NoOvercall WEST
+
+
+    :  HITS COUNT   :
+       (down):    29361,   12503,    1941,      98,       3,       0,       0,       43906
+       (make):    21224,    4679,     191,       2,       0,       0,       0,       26096
+Processed: 70002 total. East is on lead. Goal is 10 tricks in spades.
+Averages: ideal = 313, bidGame = 146, partscore=145.   Chance to make = 37.3%
+(p 23 down):     7479,    4862,     779,      26,       0,   :    13146,
+(p 23 make):     2073,     107,       0,       0,       0,   :     2180,  --> 14 %
+(p 24 down):     8336,    2849,     251,      13,       1,   :    11450,
+(p 24 make):     3994,     352,       6,       0,       0,   :     4352,  --> 27 %
+(p 25 down):     6565,    1153,      54,       3,       0,   :     7775,
+(p 25 make):     5788,     914,      15,       0,       0,   :     6717,  --> 46 %
+(p 26 down):     3604,     301,      22,       5,       0,   :     3932,
+(p 26 make):     6278,    1818,      74,       0,       0,   :     8170,  --> 67 %
+(p 27 down):      791,      30,       5,       0,       0,   :      826,
+(p 27 make):     2693,    1481,      96,       2,       0,   :     4272,  --> 83 %
+The search took 37.0 sec + an aftermath 22 min 24 sec.
+
+
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+Weak nt, 54 fit, mirror shape 5332 vs 4432.
+----
+24:        0,       0,       0,     >XR,       0,    : 21984189996     ExactShape 4 4 3 2 SOUTH
+25:        0,    >XXM,       0,       0,       0,    : 398713906       ExactShape 5 3 3 2 NORTH
+26:        0,       0,       0,    >MLN,       0,    : 2946988         PointsRange 12 13 SOUTH
+27:        0,  374586,       0,       0,       0,    : 374586          PointsRange 10 12 NORTH
+28:        0,       0,   32846,       0,       0,    : 32846           NoOvercall EAST
+29:        0,       0,       0,       0,   30164,    : 30164           NoOvercall WEST
+ 10 tricks board by South in spades example:
+--------
+               KQJ95       HCP : 24
+               QT5         CTRL: 7
+               KT8
+               82
+   T63                     8
+   J87                     A64
+   754                     QJ92
+   AJT9                    K6543
+               A742
+               K932
+               A63
+               Q7
+
+    :  HITS COUNT   :
+       (down):    26000,   15155,    2485,     175,      14,       0,       0,       43829
+       (make):    21934,    4049,     188,       2,       0,       0,       0,       26173
+Processed: 70002 total. West is on lead. Goal is 10 tricks in spades.
+Averages: ideal = 312, bidGame = 141, partscore=143.   Chance to make = 37.4%
+(p 22 down):     3829,    4291,    1118,      88,       2,   :     9328,
+(p 22 make):     1751,     115,       2,       0,       0,   :     1868,  --> 16 %
+(p 23 down):     9435,    6239,     969,      56,       7,   :    16706,
+(p 23 make):     5981,     679,      14,       0,       0,   :     6674,  --> 28 %
+(p 24 down):     9358,    3827,     351,      28,       5,   :    13569,
+(p 24 make):     8968,    1588,      71,       0,       0,   :    10627,  --> 43 %
+(p 25 down):     3378,     798,      47,       3,       0,   :     4226,
+(p 25 make):     5234,    1667,     101,       2,       0,   :     7004,  --> 62 %
+The search took 108.6 sec + an aftermath 16 min 17 sec.
+
+Just 24 pts  :  HITS COUNT   :
+       (down):     7585,    3051,     319,      18,       2,       0,       0,       10975
+       (make):     7494,    1341,      46,       0,       0,       0,       0,        8881
+Processed: 19856 total. West is on lead. Goal is 10 tricks in spades.
+Averages: ideal = 351, bidGame = 205, partscore=149.   Chance to make = 44.7%
+(p 22 down):        0,       0,       0,       0,       0,   :        0,
+(p 22 make):        0,       0,       0,       0,       0,   :        0,
+(p 23 down):        0,       0,       0,       0,       0,   :        0,
+(p 23 make):        0,       0,       0,       0,       0,   :        0,
+(p 24 down):     7585,    3051,     319,      18,       2,   :    10975,
+(p 24 make):     7494,    1341,      46,       0,       0,   :     8881,  --> 44 %
+(p 25 down):        0,       0,       0,       0,       0,   :        0,
+(p 25 make):        0,       0,       0,       0,       0,   :        0,
+
+
+Check-up for NV game. Just 24 pts.    :  HITS COUNT   :
+       (down):     7602,    3054,     268,      25,       0,       0,       0,       10949
+       (make):     7336,    1284,      41,       0,       0,       0,       0,        8661
+Processed: 19610 total. West is on lead. Goal is 10 tricks in spades.
+Averages: ideal = 260, bidGame = 150, partscore=149.   Chance to make = 44.2%
+(p 22 down):        0,       0,       0,       0,       0,   :        0,
+(p 22 make):        0,       0,       0,       0,       0,   :        0,
+(p 23 down):        0,       0,       0,       0,       0,   :        0,
+(p 23 make):        0,       0,       0,       0,       0,   :        0,
+(p 24 down):     7602,    3054,     268,      25,       0,   :    10949,
+(p 24 make):     7336,    1284,      41,       0,       0,   :     8661,  --> 44 %
+(p 25 down):        0,       0,       0,       0,       0,   :        0,
+(p 25 make):        0,       0,       0,       0,       0,   :        0,
+
+====================================
+
+23 points study 5332 to 4234/4243:
+
+
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+Weak nt, 54 fit, 5332 to hearts doubleton 4234/4243.
+----
+24:        0,   >MLRD,       0,       0,       0,    : 7063176606   ExactShape 5 3 3 2 NORTH
+25:        0,       0,       0,     >XM,       0,    : 78746256     PointsRange 12 13 SOUTH
+26:        0,     >XM,       0,       0,       0,    : 10216140     PointsRange 10 12 NORTH
+27:        0,    >MLN,       0,       0,       0,    : 2316726      LinePointsRange SOUTH 23 23 NORTH
+----                                                                AnyInListBelow SOUTH
+29:        0,       0,       0,    >MLN,       0,    : 1272104         ExactShape 4 2 4 3 SOUTH
+30:        0,       0,       0,    >MLN,       0,    : 1252562         ExactShape 4 2 3 4 SOUTH
+----                                                                EndList SOUTH
+32:    20002,       0,    8582,       0,       0,    : 28584        NoOvercall EAST
+33:        0,       0,       0,       0,    8086,    : 8086         NoOvercall WEST
+----
+ 10 tricks board by South in spades example:
+--------
+               AJT43       HCP : 23
+               AJ6         CTRL: 7
+               T54
+               64
+   -                       K875
+   K5432                   T97
+   J987                    A63
+   K973                    QJT
+               Q962
+               Q8
+               KQ2
+               A852
+
+
+    :  HITS COUNT   :
+       (down):     8739,    2537,     187,       9,       0,       0,       0,       11472
+       (make):     7338,    1153,      39,       0,       0,       0,       0,        8530
+Processed: 20002 total. West is on lead. Goal is 10 tricks in spades.
+Averages: ideal = 342, bidGame = 194, partscore=150.   Chance to make = 42.6%
+(p 22 down):        0,       0,       0,       0,       0,   :        0,
+(p 22 make):        0,       0,       0,       0,       0,   :        0,
+(p 23 down):     8739,    2537,     187,       9,       0,   :    11472,
+(p 23 make):     7338,    1153,      39,       0,       0,   :     8530,  --> 42 %
+(p 24 down):        0,       0,       0,       0,       0,   :        0,
+(p 24 make):        0,       0,       0,       0,       0,   :        0,
+The search took 33.7 sec + an aftermath 5 min 1 sec.
+
+
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+Weak nt, 54 fit, 5332 to hearts doubleton 4234/4243.
+----
+24:        0,     >XR,       0,       0,       0,    : 11586193986  ExactShape 5 3 3 2 NORTH
+25:        0,       0,       0,    >XXM,       0,    : 129120708    PointsRange 12 13 SOUTH
+26:        0,     >XM,       0,       0,       0,    : 16752056     PointsRange 10 12 NORTH
+27:        0,    >MLN,       0,       0,       0,    : 3794166      LinePointsRange SOUTH 23 23 NORTH
+----                                                                AnyInListBelow SOUTH
+29:        0,       0,       0,    >MLN,       0,    : 2084238         ExactShape 4 2 4 3 SOUTH
+30:        0,       0,       0,    >MLN,       0,    : 2052142         ExactShape 4 2 3 4 SOUTH
+----                                                                EndList SOUTH
+32:    20002,       0,   13902,       0,       0,    : 33904        NoOvercall EAST
+33:        0,       0,       0,       0,   13060,    : 13060        NoOvercall WEST
+34:        0,       0,       0,   13186,       0,    : 13186        SuitPointsLessSuit HRT DMD SOUTH
+----
+ 10 tricks board by South in spades example:
+--------
+               A9743       HCP : 23
+               643         CTRL: 7
+               KT7
+               K2
+   5                       862
+   AJ952                   K87
+   853                     Q92
+   AQ97                    JT84
+               KQJT
+               QT
+               AJ64
+               653
+
+    :  HITS COUNT   :
+       (down):     8433,    2135,     155,       1,       0,       0,       0,       10724
+       (make):     7874,    1354,      50,       0,       0,       0,       0,        9278
+Processed: 20002 total. West is on lead. Goal is 10 tricks in spades.
+Averages: ideal = 361, bidGame = 223, partscore=152.   Chance to make = 46.4%
+(p 22 down):        0,       0,       0,       0,       0,   :        0,
+(p 22 make):        0,       0,       0,       0,       0,   :        0,
+(p 23 down):     8433,    2135,     155,       1,       0,   :    10724,
+(p 23 make):     7874,    1354,      50,       0,       0,   :     9278,  --> 46 %
+(p 24 down):        0,       0,       0,       0,       0,   :        0,
+(p 24 make):        0,       0,       0,       0,       0,   :        0,
+(p 25 down):        0,       0,       0,       0,       0,   :        0,
+(p 25 make):        0,       0,       0,       0,       0,   :        0,
+The search took 53.4 sec + an aftermath 5 min 2 sec.
+
+

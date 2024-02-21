@@ -76,21 +76,36 @@ struct twlHCP
 {
    twlHCP() {}
    twlHCP(const SplitBits &hand);
-   uint s, h, d, c, total;
+   union {
+      struct {
+         uint s, h, d, c, total;
+      };
+      uint arr[5];
+   };
 };
 // -- lengths
 struct twLengths
 {
    twLengths() {}
    twLengths(const SplitBits &hand);
-   uint s, h, d, c;
+   union {
+      struct {
+         uint s, h, d, c;
+      };
+      uint arr[4];
+   };
 };
 // -- controls
 struct twlControls
 {
    twlControls() {}
    twlControls(const SplitBits &hand);
-   uint s, h, d, c, total;
+   union {
+      struct {
+         uint s, h, d, c, total;
+      };
+      uint arr[5];
+   };
 };
 // -- all combined together
 struct twContext {
