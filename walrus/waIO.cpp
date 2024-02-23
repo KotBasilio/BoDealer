@@ -17,48 +17,38 @@ extern char fmtCellStr[];
 static void ReportTime(u64 delta1, u64 delta2)
 {
    if (!delta2) {
-      printf("The search is done in %llu.%llu sec.\n"
+      owl.OnDone("The search is done in %llu.%llu sec.\n"
          , delta1 / 1000, (delta1 % 1000) / 100);
       return;
    }
 
    u64 seconds = delta2 / 1000;
    if (seconds < 100) {
-      printf("The search took %llu.%llu sec + an aftermath %llu.%llu sec.\n"
+      owl.OnDone("The search took %llu.%llu sec + an aftermath %llu.%llu sec.\n"
          , delta1 / 1000, (delta1 % 1000) / 100
          , seconds, (delta2 % 1000) / 100);
       return;
    }
 
    u64 minutes = seconds / 60;
-   printf("The search took %llu.%llu sec + an aftermath %llu min %llu sec.\n"
+   owl.OnDone("The search took %llu.%llu sec + an aftermath %llu min %llu sec.\n"
       , delta1 / 1000, (delta1 % 1000) / 100
       , minutes, seconds - minutes * 60);
 }
 
-void Walrus::ReportState()
-{
-   if (progress.delta2 > 0) {
-      ReportState("\nFinal result:\n");
-   } else {
-      ReportState("\nEnding with:\n");
-   }
-}
-
-#if defined(IO_NEED_FULL_TABLE) || defined (IO_SHOW_MINI_FILTERING)
-   #define OUT_BIG_TABLE(fmt, par)   owl.Silent(fmt, par)
-#else
-   #define OUT_BIG_TABLE(fmt, par)   
-#endif
-
 void Walrus::ReportState(char* header)
 {
+   if (!header) {
+      owl.Show("\nEnding with:\n");
+   } else {
+      printf(header);
+   }
+
    u64 delta1 = progress.delta1;
    u64 delta2 = progress.delta2;
    DetectFarColumn();
 
    // always act as if printing big table as we do bookman calc
-   OUT_BIG_TABLE("%s", header);
    ucell bookman = mul.countIterations + progress.countExtraMarks;
    for (int i = 0; i < HCP_SIZE; i++) {
       ucell sumline = 0;
@@ -84,8 +74,8 @@ void Walrus::ReportState(char* header)
    }
 
    // tailing report
-   if (delta2 > 0) {
-      owl.Show("\n--------------------------------\n");
+   if (progress.isDoneAll) {
+      owl.OnProgress("\n--------------------------------\n");
       ui.reportRequested = true;
       MiniReport(0);
    }
@@ -118,40 +108,40 @@ void Walrus::ReportLine(ucell sumline, int i)
          shownDashes = true;
          uint fidx = i - IO_ROW_FILTERING;
          if (fidx < sem.vecFilters.size()) {
-            OUT_BIG_TABLE("----\t\t\t\t\t\t\t\t    %s\n", sem.vecFilters[fidx].name);
+            owl.OnProgress("----\t\t\t\t\t\t\t\t    %s\n", sem.vecFilters[fidx].name);
          } else {
-            OUT_BIG_TABLE("%s", "----\n");
+            owl.OnProgress("%s", "----\n");
          }
       }
       return;
    }
 
-   OUT_BIG_TABLE("%02d: ", i);
+   owl.OnProgress("%02d: ", i);
    for (int j = 0; j <= ui.farCol; j++) {
       auto cell = progress.hitsCount[i][j];
       if        (cell <= 1000000) {
-         OUT_BIG_TABLE(fmtCell, cell);
+         owl.OnProgress(fmtCell, cell);
       } else if (cell <= 10000000) {
-         OUT_BIG_TABLE(fmtCellStr, ">MLN");
+         owl.OnProgress(fmtCellStr, ">MLN");
       } else if (cell <= 100000000) {
-         OUT_BIG_TABLE(fmtCellStr, ">XM");
+         owl.OnProgress(fmtCellStr, ">XM");
       } else if (cell <= 1000000000) {
-         OUT_BIG_TABLE(fmtCellStr, ">XXM");
+         owl.OnProgress(fmtCellStr, ">XXM");
       } else if (cell <= 10000000000LL) {
-         OUT_BIG_TABLE(fmtCellStr, ">MLRD");
+         owl.OnProgress(fmtCellStr, ">MLRD");
       } else {
-         OUT_BIG_TABLE(fmtCellStr, ">XR");
+         owl.OnProgress(fmtCellStr, ">XR");
       }
    }
 
-   OUT_BIG_TABLE("    : %-14llu", sumline);
+   owl.OnProgress("    : %-11llu", sumline);
    if (i >= IO_ROW_FILTERING) {
       uint fidx = i - IO_ROW_FILTERING;
       if (fidx < sem.vecFilters.size()) {
-         OUT_BIG_TABLE("  %s", sem.vecFilters[fidx].name);
+         owl.OnProgress("  %s", sem.vecFilters[fidx].name);
       }
    }
-   OUT_BIG_TABLE("%s", "\n");
+   owl.OnProgress("%s", "\n");
    shownDashes = false;
 
    // may add percentages
@@ -160,12 +150,12 @@ void Walrus::ReportLine(ucell sumline, int i)
       if (!sumline) {
          sumline = 1;
       }
-      printf(" %%:  ");
+      owl.OnProgress("%s", " %%:  ");
       for (int j = 0; j < ui.farCol; j++) {
          float percent = progress.hitsCount[i][j] * 100.f / sumline;
-         printf(fmtCellFloat, percent);
+         owl.OnProgress(fmtCellFloat, percent);
       }
-      printf("\n");
+      owl.OnProgress("%s", "\n");
    }
    #endif
 }
@@ -185,24 +175,24 @@ void Walrus::ShowDetailedReportHighcards()
 
       // ok start printing
       bool down = (bool)(i & 1);
-      printf(down ? "(p %2d down): " : "(p %2d make): ", h);
+      owl.Silent(down ? "(p %2d down): " : "(p %2d make): ", h);
 
       // calc and print one line
       // -- its body
       u64 sumline = 0;
       int j = 0;
       for (; j <= ui.farCol; j++) {
-         printf(fmtCell, progress.hitsCount[i][j]);
+         owl.Silent(fmtCell, progress.hitsCount[i][j]);
          sumline += progress.hitsCount[i][j];
       }
       // -- its sum
-      printf("   : ");
-      printf(fmtCell, sumline);
+      owl.Silent("   : ");
+      owl.Silent(fmtCell, sumline);
       // -- percentage
       if (sumline && !down) {
-         printf("  --> %2llu %%", sumline * 100 / (sumline + prevSum));
+         owl.Silent("  --> %2llu %%", sumline * 100 / (sumline + prevSum));
       }
-      printf("\n");
+      owl.Silent("\n");
 
       prevSum = sumline;
    }
@@ -225,26 +215,63 @@ void Walrus::ShowDetailedReportControls()
 
       // ok start printing
       bool down = (bool)(i & 1);
-      printf(down ? "(c %2d down): " : "(c %2d make): ", ctr);
+      owl.Silent(down ? "(c %2d down): " : "(c %2d make): ", ctr);
 
       // calc and print one line
       // -- its body
       u64 sumline = 0;
       int j = 0;
       for (; j <= ui.farCol; j++) {
-         printf(fmtCell, progress.hitsCount[i][j]);
+         owl.Silent(fmtCell, progress.hitsCount[i][j]);
          sumline += progress.hitsCount[i][j];
       }
       // -- its sum
-      printf("   : ");
-      printf(fmtCell, sumline);
+      owl.Silent("   : ");
+      owl.Silent(fmtCell, sumline);
       // -- percentage
       if (sumline && !down) {
-         printf("  --> %2llu %%", sumline * 100 / (sumline + prevSum));
+         owl.Silent("  --> %2llu %%", sumline * 100 / (sumline + prevSum));
       }
-      printf("\n");
+      owl.Silent("\n");
 
       prevSum = sumline;
    }
 }
 
+void Walrus::ShowDetailedReportSuit()
+{
+   DetectFarColumn();
+
+   // for mid-rows
+   u64 prevSum = 0;
+   for (int i = IO_ROW_HCP_START; i < IO_ROW_FILTERING - 1; i++) {
+      // calc suit hcp for this row (row = start + (hcp) * 2)
+      auto hcp = (i - IO_ROW_HCP_START) / 2;
+      if (hcp > 10) {
+         break;
+      }
+
+      // ok start printing
+      bool down = (bool)(i & 1);
+      owl.OnDone(down ? "(p %2d down): " : "(p %2d make): ", hcp);
+
+      // calc and print one line
+      // -- its body
+      u64 sumline = 0;
+      int j = 0;
+      for (; j <= ui.farCol; j++) {
+         owl.OnDone(fmtCell, progress.hitsCount[i][j]);
+         sumline += progress.hitsCount[i][j];
+      }
+      // -- its sum
+      owl.OnDone("   : ");
+      owl.OnDone(fmtCell, sumline);
+      // -- percentage
+      if (sumline && !down) {
+         owl.OnDone("  --> %2llu %%", sumline * 100 / (sumline + prevSum));
+      }
+      owl.OnDone("\n");
+
+      prevSum = sumline;
+   }
+}

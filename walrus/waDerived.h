@@ -70,21 +70,12 @@
 // tasks without a fixed hand (no specifics)
 
 // User interface --- how to display
-#ifndef IO_SHIFT_FOR_EXTRA_MARKS
-   #define IO_SHIFT_FOR_EXTRA_MARKS  21
-#endif
-
-#define IO_LAYOUT_3_0
 #define IO_ROW_HCP_START 3
+#define IO_SHIFT_FOR_EXTRA_MARKS  23
 #define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
 #define IO_ROW_SELECTED  (11 + IO_SHIFT_FOR_EXTRA_MARKS)
-#define IO_SHOW_MINI_FILTERING
 
-#ifdef IO_HCP_MIN
-   #if IO_HCP_MIN == IO_HCP_MAX
-      #define  IO_DISPLAY_CONTROLS_SPLIT
-   #endif
-#else
+#ifndef IO_HCP_MIN
    #define IO_HCP_MIN  25
    #define IO_HCP_MAX  25
 #endif
@@ -158,9 +149,9 @@ const uint MAX_TASKS_TO_SOLVE = 200 * 1000;
 //const uint AIM_TASKS_COUNT = MAX_TASKS_TO_SOLVE / 2;
 //const uint AIM_TASKS_COUNT = 70 * 1000;
 //const uint AIM_TASKS_COUNT = 50 * 1000;
-const uint AIM_TASKS_COUNT = 20*1000;
+//const uint AIM_TASKS_COUNT = 20*1000;
 //const uint AIM_TASKS_COUNT = 5*1000;
-//const uint AIM_TASKS_COUNT = 2*1000;
+const uint AIM_TASKS_COUNT = 2*1000;
 
 constexpr ucell ClipByPerformance(ucell lim, ucell a)
 {

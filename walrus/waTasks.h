@@ -37,6 +37,7 @@
 #include "waTOneSided.h"
 #include "waTCompetitive.h"
 #include "waTLead.h"
+#include "waTFour.h"
 
 // other parameters for solving
 #include "waDerived.h"

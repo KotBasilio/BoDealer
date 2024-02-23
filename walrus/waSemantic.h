@@ -5,28 +5,29 @@
 
 #include <vector>
 
+ // hitsCount[][]; distribution 
+ // -- rows are big factor (aka hcp, 0 - 40)
+ // -- columns are smaller factor (aka controls, 0 - 12)
+constexpr int EXTRA_FILTER_SIZE = 0; // may reserve for big filters
+constexpr int HCP_SIZE = 40 + 1 + EXTRA_FILTER_SIZE;// to address 0 - 40
+constexpr int CTRL_SIZE = 12 + 4;// to get 16 as padding
+
 // output rows: we down, we make, a blank line, they down, they make, comparison
-const uint IO_ROW_OUR_DOWN = 0;
-const uint IO_ROW_OUR_MADE = IO_ROW_OUR_DOWN + 1;
-const uint IO_ROW_ZEROES = IO_ROW_OUR_DOWN + 2;
-const uint IO_ROW_THEIRS = IO_ROW_ZEROES + 1;
-const uint IO_ROW_MAGIC_FLY = IO_ROW_THEIRS + 2;
-const uint IO_ROW_SACRIFICE = IO_ROW_MAGIC_FLY;
-const uint ORDER_BASE = 7;
+constexpr uint IO_ROW_OUR_DOWN = 0;
+constexpr uint IO_ROW_OUR_MADE = IO_ROW_OUR_DOWN + 1;
+constexpr uint IO_ROW_ZEROES = IO_ROW_OUR_DOWN + 2;
+constexpr uint IO_ROW_THEIRS = IO_ROW_ZEROES + 1;
+constexpr uint IO_ROW_MAGIC_FLY = IO_ROW_THEIRS + 2;
+constexpr uint IO_ROW_SACRIFICE = IO_ROW_MAGIC_FLY;
+constexpr uint ORDER_BASE = 7;
 
 // output columns
-const uint IO_CAMP_OFF = 0;
-const uint IO_CAMP_PREFER_SUIT = 1;
-const uint IO_CAMP_SAME_NT = 2;
-const uint IO_CAMP_MORE_NT = 3;
-const uint IO_CAMP_PREFER_TO_BID = 1;
-const uint IO_CAMP_REFRAIN_BIDDING = 3;
-
-// hitsCount[][]; distribution 
-// -- rows are big factor (aka hcp, 0 - 40)
-// -- columns are smaller factor (aka controls, 0 - 12)
-const int HCP_SIZE = 40 + 1;// to address 0 - 40
-const int CTRL_SIZE = 12 + 4;// to get 16 as padding
+constexpr uint IO_CAMP_OFF = 0;
+constexpr uint IO_CAMP_PREFER_SUIT = 1;
+constexpr uint IO_CAMP_SAME_NT = 2;
+constexpr uint IO_CAMP_MORE_NT = 3;
+constexpr uint IO_CAMP_PREFER_TO_BID = 1;
+constexpr uint IO_CAMP_REFRAIN_BIDDING = 3;
 
 // hits count and others
 struct Progress {
@@ -34,12 +35,13 @@ struct Progress {
    ucell hitsCount[HCP_SIZE][CTRL_SIZE];
    ucell step, went, margin;
    ucell countExtraMarks;
-   u64  delta1, delta2;
+   u64  delta1, delta2, isDoneAll;
    void Init(ucell _step);
    bool Step();
    void Up(ucell idx);
    void StoreCountToGo(ucell count);
 };
+extern Progress *mainProgress;
 
 // Filters
 class WaFilter
@@ -65,8 +67,8 @@ public:
    uint LineKeyCardsSpade(twContext* lay, const uint* par);
    uint LinePointsRange(twContext* lay, const uint *par);
    // -
-   uint SuitPointsLessSuit(twContext* lay, const uint* par);
-   uint SuitPointsLEqSuit(twContext* lay, const uint* par);
+   uint PointsSuitLessSuit(twContext* lay, const uint* par);
+   uint PointsSuitLEqSuit(twContext* lay, const uint* par);
    // -
    uint ClubPointsLimit(twContext* lay, const uint *par);
    uint HeartPointsLimit(twContext* lay, const uint *par);

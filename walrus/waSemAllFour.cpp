@@ -144,23 +144,35 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    FourHandsFillSem();
-   //sem.onScoring = &Walrus::Score_NV_4Major;
-   sem.onScoring = &Walrus::Score_4Major;
+   sem.onScoring = &Walrus::Score_NV_4Major;
+   //sem.onScoring = &Walrus::Score_4Major;
    sem.onPostmortem = &Walrus::PostmortemHCP;
+   //sem.onPostmortem = &Walrus::PostmortemSuit;
    sem.vecFilters.clear();
-   //ADD_4PAR_FILTER(SOUTH, ExactShape, 4, 4, 3, 2);
-   ADD_4PAR_FILTER(NORTH, ExactShape, 5, 3, 3, 2);
+   ADD_4PAR_FILTER(SOUTH, ExactShape, 4, 4, 3, 2);
+
+   //ADD_4PAR_FILTER(NORTH, ExactShape, 5, 3, 3, 2);
+   ADD_0PAR_FILTER(NORTH, AnyInListBelow);
+      ADD_4PAR_FILTER(NORTH, ExactShape, 5, 4, 2, 2);
+      ADD_4PAR_FILTER(NORTH, ExactShape, 5, 2, 4, 2);
+      //ADD_4PAR_FILTER(NORTH, ExactShape, 5, 2, 2, 4);
+   ADD_0PAR_FILTER(NORTH, EndList);
+
    ADD_2PAR_FILTER(SOUTH, PointsRange, 12, 13);
    ADD_2PAR_FILTER(NORTH, PointsRange, 10, 12);
    ADD_3PAR_FILTER(NORTH, LinePointsRange, SOUTH, 23, 23);
-   ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
-      ADD_4PAR_FILTER(SOUTH, ExactShape, 4, 2, 4, 3);
-      ADD_4PAR_FILTER(SOUTH, ExactShape, 4, 2, 3, 4);
-   ADD_0PAR_FILTER(SOUTH, EndList);
+//    ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
+//       ADD_4PAR_FILTER(SOUTH, ExactShape, 4, 2, 4, 3);
+//       ADD_4PAR_FILTER(SOUTH, ExactShape, 4, 2, 3, 4);
+//    ADD_0PAR_FILTER(SOUTH, EndList);
    ADD_0PAR_FILTER(EAST, NoOvercall);
    ADD_0PAR_FILTER(WEST, NoOvercall);
-   ADD_2PAR_FILTER(NORTH, SuitPointsLessSuit, HRT, DMD);
-   //ADD_2PAR_FILTER(NORTH, SuitPointsLEqSuit, DMD, HRT);
+
+   //ADD_2PAR_FILTER(NORTH, PointsSuitLessSuit, HRT, DMD);
+   //ADD_2PAR_FILTER(NORTH, PointsSuitLEqSuit, DMD, HRT);
+
+   cfgTask.postmSuit = SOL_HEARTS;
+   //cfgTask.detailedReportType = WREPORT_SUIT;
 
    //sem.onBoardAdded = &Walrus::DisplayBoard;
 }

@@ -36,7 +36,7 @@ Walrus::MiniUI::MiniUI()
 {
    FillMiniRows();
 
-   #ifdef IO_DISPLAY_CONTROLS_SPLIT
+   #if IO_HCP_MIN == IO_HCP_MAX
       minControls = (IO_HCP_MIN * 4) / 10 - 6;
    #endif
 }

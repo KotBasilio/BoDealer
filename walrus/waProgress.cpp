@@ -11,11 +11,13 @@
 #include "walrus.h"
 #include HEADER_CURSES
 
+Progress *mainProgress;
 
 Progress::Progress()
    : countExtraMarks(0)
    , delta1(0)
    , delta2(0)
+   , isDoneAll(0)
 {
 }
 
@@ -64,8 +66,6 @@ char miniRowStart[MINI_ROWS][PREFIX_LEN];
 
 // output alignments
 char tblHat[]       = "    :  HITS COUNT   :\n";
-char tblFiltering[] = "  (FILTERING)       PARTNER       DIRECT     SANDWICH        TOTAL\n";
-char fmtFiltering[] = "%12llu,";
 char fmtCell[]      = "%8llu,";
 char fmtCellStr[]   = "%8s,";
 char fmtCellFloat[] = "%8.1f,";
@@ -134,7 +134,7 @@ static bool IsRowSkippable(int i)
 }
 
 
-void Walrus::CalcHitsForMiniReport(ucell * hitsRow, ucell * hitsCamp) // OUT: hitsRow[], hitsCamp[]
+void Walrus::ShowMiniHits(ucell * hitsRow, ucell * hitsCamp) // OUT: hitsRow[], hitsCamp[]
 {
    // zero hit sums
    for (int i = 0; i < MINI_ROWS; i++) {
@@ -156,7 +156,9 @@ void Walrus::CalcHitsForMiniReport(ucell * hitsRow, ucell * hitsCamp) // OUT: hi
    }
 
    // hat
-   printf("\n%s", tblHat);
+   if (!progress.isDoneAll) {
+      printf("\n%s", tblHat);
+   }
 
    // for all rows
    for (int i = 0; i < MINI_ROWS; i++) {
@@ -164,7 +166,7 @@ void Walrus::CalcHitsForMiniReport(ucell * hitsRow, ucell * hitsCamp) // OUT: hi
       bool showRow = !IsRowSkippable(i);
 
       // ok start printing
-      if (showRow) printf( miniRowStart[i] );
+      if (showRow) owl.OnDone( miniRowStart[i] );
       char *fmt = fmtCell;
 
       // calc and print one line
@@ -172,12 +174,12 @@ void Walrus::CalcHitsForMiniReport(ucell * hitsRow, ucell * hitsCamp) // OUT: hi
       u64 sumline = 0;
       int j = 0;
       for (; j < miniCamps; j++) {
-         if (showRow) printf(fmt, progress.hitsCount[i][j]);
+         if (showRow) owl.OnDone(fmt, progress.hitsCount[i][j]);
          sumline     += progress.hitsCount[i][j];
          hitsCamp[j] += progress.hitsCount[i][j];
       }
       // -- its sum
-      if (showRow) printf("%12llu\n", sumline);
+      if (showRow) owl.OnDone("%12llu\n", sumline);
       hitsRow[i] = sumline;
 
       // may add percentages
@@ -186,12 +188,12 @@ void Walrus::CalcHitsForMiniReport(ucell * hitsRow, ucell * hitsCamp) // OUT: hi
             if (!sumline) {
                sumline = 1;
             }
-            printf("(  %% ):  ");
+            owl.OnDone("(  %% ):  ");
             for (int j = 0; j < miniCamps; j++) {
                float percent = progress.hitsCount[i][j] * 100.f / sumline;
-               printf(fmtCellFloat, percent);
+               owl.OnDone(fmtCellFloat, percent);
             }
-            printf("\n");
+            owl.OnDone("\n");
          }
       #endif // PERCENTAGES_IN_ANSWER_ROW
    }
@@ -203,12 +205,12 @@ static ucell hitsCamp[MAX_CAMPS];
 void Walrus::MiniReport(ucell toGo)
 {
    // small tables
-   CalcHitsForMiniReport(hitsRow, hitsCamp);
+   ShowMiniHits(hitsRow, hitsCamp);
 
    // signature
    s64 doneOurs   = (s64)(__max( hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE  ], 1));
    s64 doneTheirs = (s64)( __max(hitsRow[IO_ROW_THEIRS  ] + hitsRow[IO_ROW_THEIRS + 1], 1));
-   printf("Processed: %lld total. %s is on lead. Goal is %d tricks in %s.\n", doneOurs, ui.seatOnLead, cfgTask.primGoal, ui.declTrump);
+   owl.OnDone("Processed: %lld total. %s is on lead. Goal is %d tricks in %s.\n", doneOurs, ui.seatOnLead, cfgTask.primGoal, ui.declTrump);
 
    // other stuff
    ShowBiddingLevel(doneOurs);
@@ -224,8 +226,8 @@ void Walrus::ShowPercentages(s64 sumRows)
 {
    float percGoDown = hitsRow[IO_ROW_OUR_DOWN] * 100.f / sumRows;
    float percMake = hitsRow[IO_ROW_OUR_MADE] * 100.f / sumRows;
-   //printf("Chances: %3.1f%% down some + %3.1f%% make\n", percGoDown, percMake);
-   printf("Chance to make = %3.1f%%\n", percMake);
+   //owl.OnDone("Chances: %3.1f%% down some + %3.1f%% make\n", percGoDown, percMake);
+   owl.OnDone("Chance to make = %3.1f%%\n", percMake);
 }
 
 void Walrus::ShowBiddingLevel(s64 sumRows)
@@ -233,16 +235,16 @@ void Walrus::ShowBiddingLevel(s64 sumRows)
    #if defined(SEEK_BIDDING_LEVEL) || defined(FOUR_HANDS_TASK)
       // slam/game/partscore
       if (cfgTask.primGoal < 12) {
-         printf("Averages: ideal = %lld, bidGame = %lld",
+         owl.OnDone("Averages: ideal = %lld, bidGame = %lld",
             cumulScore.ideal / sumRows,
             cumulScore.bidGame / sumRows);
             #ifdef SHOW_PARTSCORE_STATLINE
-               printf(", partscore=%lld.   ", cumulScore.partscore / sumRows);
+               owl.OnDone(", partscore=%lld.   ", cumulScore.partscore / sumRows);
             #else
-            printf(".   ");
+         owl.OnDone(".   ");
          #endif 
       } else {
-         printf("Averages: ideal = %lld, bidGame = %lld, slam=%lld\n",
+         owl.OnDone("Averages: ideal = %lld, bidGame = %lld, slam=%lld\n",
             cumulScore.ideal / sumRows,
             cumulScore.bidGame / sumRows,
             cumulScore.bidSlam / sumRows);
@@ -254,15 +256,15 @@ void Walrus::ShowTheirScore(s64 doneTheirs)
 {
    #ifdef SHOW_OPP_RESULTS
       #ifdef SHOW_OPPS_ON_PASS_ONLY
-         printf("Their contract expectation average: %lld.", cumulScore.oppContract / doneTheirs);
+         owl.OnDone("Their contract expectation average: %lld.", cumulScore.oppContract / doneTheirs);
       #elif defined(SHOW_OPPS_ON_DOUBLE_ONLY)
-         printf("Their contract doubled, expectation average: %lld.", cumulScore.oppCtrDoubled / doneTheirs);
+         owl.OnDone("Their contract doubled, expectation average: %lld.", cumulScore.oppCtrDoubled / doneTheirs);
       #else
-         printf("Their contract expectation average: passed = %lld, doubled = %lld.",
+         owl.OnDone("Their contract expectation average: passed = %lld, doubled = %lld.",
             cumulScore.oppContract / doneTheirs,
             cumulScore.oppCtrDoubled / doneTheirs);
       #endif 
-      printf(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / doneTheirs);
+         owl.OnDone(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / doneTheirs);
    #endif 
 }
 
@@ -270,14 +272,14 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
 {
    // our other contract
    #ifdef SHOW_OUR_OTHER
-      printf("The other contract expectation average = %lld.", cumulScore.ourOther / sumOppRows);
-      printf(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows);
-      //printf("Combo-score average for our two contracts = %lld.\n", cumulScore.ourCombo / sumOppRows);
+      owl.OnDone("The other contract expectation average = %lld.", cumulScore.ourOther / sumOppRows);
+      owl.OnDone(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows);
+      //owl.OnDone("Combo-score average for our two contracts = %lld.\n", cumulScore.ourCombo / sumOppRows);
    #endif
 
    // averages for opening lead
    #ifdef SEEK_OPENING_LEAD
-      printf("Averages: ideal = %lld, lead Spade = %lld, lead Hearts = %lld, lead Diamonds = %lld, lead Clubs = %lld\n",
+      owl.OnDone("Averages: ideal = %lld, lead Spade = %lld, lead Hearts = %lld, lead Diamonds = %lld, lead Clubs = %lld\n",
          cumulScore.ideal / sumRows,
          cumulScore.leadS / sumRows,
          cumulScore.leadH / sumRows,
@@ -291,7 +293,7 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
       float key1 = progress.hitsCount[0][1] * 100.f / sumRows;
       float key2 = progress.hitsCount[0][2] * 100.f / sumRows;
       float key3 = progress.hitsCount[0][3] * 100.f / sumRows;
-      printf("Keycards: 0->%3.1f%%  1->%3.1f%%  2->%3.1f%%  3->%3.1f%%\n",
+      owl.OnDone("Keycards: 0->%3.1f%%  1->%3.1f%%  2->%3.1f%%  3->%3.1f%%\n",
          key0, key1, key2, key3);
    #endif
 
@@ -302,7 +304,7 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
       ucell sumSuit = progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_PREFER_SUIT];
       sumRows = __max(sumNT + sumSuit, 1);
       float percBetterNT = sumNT * 100.f / sumRows;
-      printf("NT is better in: %3.1f%% cases\n", percBetterNT);
+      owl.OnDone("NT is better in: %3.1f%% cases\n", percBetterNT);
    #endif
 
    // a sacrifice
@@ -311,18 +313,28 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
       s64 sumDefd = (s64)progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_REFRAIN_BIDDING];
       sumRows = __max(sumBid + sumDefd, 1);
       float percBetterBid = sumBid * 100.f / sumRows;
-      printf("To bid is better in: %3.1f%% cases\n", percBetterBid);
+      owl.OnDone("To bid is better in: %3.1f%% cases\n", percBetterBid);
    #endif
 
-   // list by hcp or list by controls
-   #ifdef IO_SHOW_HCP_CTRL_SPLIT
-      if (ui.reportRequested) {
-         ui.reportRequested = false;
-         if (ui.minControls) {
-            ShowDetailedReportControls();
-         } else {
-            ShowDetailedReportHighcards();
-         }
+   // list by hcp, controls, etc
+   if (ui.reportRequested) {
+      ui.reportRequested = false;
+      switch (cfgTask.detailedReportType)
+      {
+         case WREPORT_NONE:
+            break;
+         case WREPORT_HCP:
+         case WREPORT_CONTROLS:
+            if (ui.minControls) {
+               ShowDetailedReportControls();
+            }
+            else {
+               ShowDetailedReportHighcards();
+            }
+            break;
+         case WREPORT_SUIT:
+            ShowDetailedReportSuit();
+            break;
       }
-   #endif
+   }
 }

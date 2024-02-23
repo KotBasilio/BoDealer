@@ -26,7 +26,7 @@ public:
    void DetectGoals();
    void MainScan(void);
    ucell DoTheShare();
-   void ReportState();
+   void ReportState(char* header = nullptr);
    bool AfterMath();
    bool IsRunning(void) const { return mul.isRunning; }
    const char *GetName() const { return mul.nameHlp; }
@@ -123,6 +123,7 @@ protected:
     void Score_Opp3NT(DdsTricks& tr);
     void HitByScore(DdsTricks &tr, uint made, uint row = IO_ROW_OUR_DOWN);
     void PostmortemHCP(DdsTricks& tr, deal& cards);
+    void PostmortemSuit(DdsTricks& tr, deal& cards);
 
     // UI -- parts will migrate to Oscar project
     Progress progress;
@@ -146,7 +147,6 @@ protected:
     void AnnounceSolving();
     void DisplayBoard(twContext* lay) { ui.DisplayBoard(lay); }
     void DetectFarColumn();
-    void ReportState(char* header);
     void ReportLine(ucell sumline, int i);
     void MiniReport(ucell toGo);
     void ShowPercentages(s64 sumRows);
@@ -155,7 +155,8 @@ protected:
     void ShowOptionalReports(s64 doneOurs, s64 doneTheirs);
     void ShowDetailedReportHighcards();
     void ShowDetailedReportControls();
-    void CalcHitsForMiniReport(ucell* hitsRow, ucell* hitsCamp);
+    void ShowDetailedReportSuit();
+    void ShowMiniHits(ucell* hitsRow, ucell* hitsCamp);
     int  PokeScorerForTricks();
     int  PokeOtherScorer();
     void ShowProgress(ucell idx);

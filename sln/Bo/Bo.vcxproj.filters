@@ -320,6 +320,9 @@
     <ClInclude Include="..\..\walrus\waDoubleDeal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\walrus\waTFour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\dds-develop\src\COMMENT">

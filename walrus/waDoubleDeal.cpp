@@ -101,6 +101,32 @@ void Walrus::PostmortemHCP(DdsTricks& tr, deal& cards)
    }
 }
 
+static uint CalcSuitHCP(deal& cards, uint seat)
+{
+   const auto& remain = cards.remainCards;
+   u64 facecards(RA | RK | RQ | RJ);
+   SplitBits reducedHand(
+      ((remain[seat][SOL_SPADES]   & facecards) << (1 + 16 * 3)) |
+      ((remain[seat][SOL_HEARTS]   & facecards) << (1 + 16 * 2)) |
+      ((remain[seat][SOL_DIAMONDS] & facecards) << (1 + 16 * 1)) |
+      ((remain[seat][SOL_CLUBS]    & facecards) << (1))
+   );
+   twlHCP hcp(reducedHand);
+   return hcp.arr[cfgTask.postmSuit];
+}
+
+void Walrus::PostmortemSuit(DdsTricks& tr, deal& cards)
+{
+   // calc
+   auto suitHCP = CalcSuitHCP(cards, NORTH);
+   uint row = IO_ROW_HCP_START + suitHCP*2;
+
+   // proper row => add a mark in stat
+   if (row < IO_ROW_FILTERING - 1) {
+      HitByScore(tr, cfgTask.primGoal, row);
+      progress.countExtraMarks++;
+   }
+}
 
 DdsDeal::DdsDeal(const deal &dlBase, DdsTask2 &task)
 {

@@ -14,6 +14,13 @@ struct waFileNames {
    void Build();
 };
 
+enum WE_REPORT_TYPE {
+   WREPORT_NONE = 0,
+   WREPORT_HCP,
+   WREPORT_CONTROLS,
+   WREPORT_SUIT,
+};
+
 constexpr uint WA_CONTR_TITLE_LEN = 5;
 struct WaConfig {
    waFileNames namesBase;
@@ -28,6 +35,9 @@ struct WaConfig {
 
    int   otherGoal; // goal tricks either in our secondary contract or in their contract
 
+   int   postmSuit; // for post-mortem
+
+   WE_REPORT_TYPE detailedReportType;
 
    void ReadStart();
 };
@@ -41,6 +51,8 @@ extern WaConfig cfgTask;
 struct OscarTheOwl {
    void Show(const char* format, ...);
    void Silent(const char* format, ...);
+   void OnProgress(const char* format, ...);
+   void OnDone(const char* format, ...);
    void Send(char* msg);
    void Goodbye();
 private:

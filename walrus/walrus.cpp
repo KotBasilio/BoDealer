@@ -39,6 +39,7 @@ bool Walrus::AfterMath()
 
    // perf
    progress.delta2 = ChronoRound();
+   progress.isDoneAll = 42;
 
    return true;
 }

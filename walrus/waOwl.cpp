@@ -139,6 +139,38 @@ void OscarTheOwl::Show(const char* format, ...)
    Send(buffer);
 }
 
+void OscarTheOwl::OnProgress(const char* format, ...)
+{
+   va_list args;
+   va_start(args, format);
+
+   std::vsnprintf(buffer, bufferSize, format, args);
+
+   va_end(args);
+
+   if (mainProgress->isDoneAll) {
+      printf(buffer);
+   } else {
+      Send(buffer);
+   }
+}
+
+void OscarTheOwl::OnDone(const char* format, ...)
+{
+   va_list args;
+   va_start(args, format);
+
+   std::vsnprintf(buffer, bufferSize, format, args);
+
+   va_end(args);
+
+   if (mainProgress->isDoneAll) {
+      Send(buffer);
+   } else {
+      printf(buffer);
+   }
+}
+
 void OscarTheOwl::Silent(const char* format, ...)
 {
    va_list args;

@@ -24,7 +24,6 @@
 #ifdef SEMANTIC_4M_ON54_FEB_PATTON
    #define TITLE_VERSION  "Fix a 10 hcp 5332;\n1NT(10-13) 2h\n2NT ??\nQuestion: How often 4s makes? Task"
    #define SEEK_BIDDING_LEVEL
-   #define IO_LAYOUT_3_0
    #define IO_HCP_MIN  22
    #define IO_HCP_MAX  23
 #endif
@@ -32,7 +31,6 @@
 #ifdef SEMANTIC_54M_FEB_PARTIZAN
    #define TITLE_VERSION  "Fix a 11 hcp 4522;\n1NT(10-13) 2d\n2h ??\nQuestion: Is the hand worth invit? Task"
    #define SEEK_BIDDING_LEVEL
-   #define IO_LAYOUT_3_0
    #define IO_HCP_MIN  23
    #define IO_HCP_MAX  24
 #endif
@@ -40,7 +38,6 @@
 #ifdef SEMANTIC_TANJA_FEB_LONG_H
    #define TITLE_VERSION  "Fix a 8 hcp 2821;\n1s 1NT(?!) 2d ??\nQuestion: How often 4h makes? Task"
    #define SEEK_BIDDING_LEVEL
-   #define IO_LAYOUT_3_0
    #define IO_HCP_MIN  19
    #define IO_HCP_MAX  20
 #endif
@@ -48,7 +45,6 @@
 #ifdef SEMANTIC_BASHA_NOV_NT
    #define TITLE_VERSION  "Fix a 19 hcp 2434;\n1d 1h 1NT 2d 2s\nQuestion: How often 6d makes? Task"
    #define SEEK_BIDDING_LEVEL
-   #define IO_LAYOUT_3_0
    #define IO_HCP_MIN  22
    #define IO_HCP_MAX  25
 #endif
@@ -56,7 +52,6 @@
 #ifdef SEMANTIC_OCT_SEEK_6D
    #define TITLE_VERSION  "Fix a 19 hcp 2434;\n1d 1h 1NT 2d 2s\nQuestion: How often 6d makes? Task"
    #define SEEK_BIDDING_LEVEL
-   #define IO_LAYOUT_3_0
    #define IO_HCP_MIN  29
    #define IO_HCP_MAX  35
 #endif 

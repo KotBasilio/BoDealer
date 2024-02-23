@@ -547,7 +547,7 @@ uint WaFilter::EndList(twContext* lay, const uint* par)
    return MIC_PASSED;
 }
 
-uint WaFilter::SuitPointsLessSuit(twContext* lay, const uint* par)
+uint WaFilter::PointsSuitLessSuit(twContext* lay, const uint* par)
 {
    ACCESS_MICPAR_HCP;
 
@@ -558,7 +558,7 @@ uint WaFilter::SuitPointsLessSuit(twContext* lay, const uint* par)
    return MIC_BLOCK;
 }
 
-uint WaFilter::SuitPointsLEqSuit(twContext* lay, const uint* par)
+uint WaFilter::PointsSuitLEqSuit(twContext* lay, const uint* par)
 {
    ACCESS_MICPAR_HCP;
 

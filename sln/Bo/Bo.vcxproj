@@ -211,6 +211,7 @@
     <ClInclude Include="..\..\walrus\waSemMicro.h" />
     <ClInclude Include="..\..\walrus\waTasks.h" />
     <ClInclude Include="..\..\walrus\waTCompetitive.h" />
+    <ClInclude Include="..\..\walrus\waTFour.h" />
     <ClInclude Include="..\..\walrus\waTLead.h" />
     <ClInclude Include="..\..\walrus\waTOneSided.h" />
   </ItemGroup>
