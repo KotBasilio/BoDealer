@@ -73,36 +73,36 @@ void Walrus::DetectGoals()
 
    // primary
    cfgTask.primGoal = PokeScorerForTricks();
-   printf("Primary scorer (%s, %d tr):", ui.declTrump, cfgTask.primGoal);
+   owl.Show("Primary scorer (%s, %d tr):", ui.declTrump, cfgTask.primGoal);
    strcpy(tail, "  / ");
    for (tr.plainScore = 7; tr.plainScore <= 13 ; tr.plainScore++) {
       cumulScore.bidGame = 0;
       cumulScore.partscore = 0;
       (this->*sem.onScoring)(tr);
-      printf(" %lld", cumulScore.bidGame);
+      owl.Show(" %lld", cumulScore.bidGame);
       if (cumulScore.partscore) {
          sprintf(chunk, " %lld", cumulScore.partscore);
          strcat(tail, chunk);
       }
    }
-   printf("%s\n", tail);
+   owl.Show("%s\n", tail);
 
    // secondary
    if (sem.solveSecondTime == &Walrus::SolveSecondTime) {
       cfgTask.otherGoal = PokeOtherScorer();
-      printf("Secondary scorer (%s, %d tr):", ui.theirTrump, cfgTask.otherGoal);
+      owl.Show("Secondary scorer (%s, %d tr):", ui.theirTrump, cfgTask.otherGoal);
       strcpy(tail, "  / ");
       for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
          cumulScore.oppContract = 0;
          cumulScore.oppCtrDoubled = 0;
          (this->*sem.onSolvedTwice)(tr);
-         printf(" %lld", - cumulScore.oppContract);
+         owl.Show(" %lld", - cumulScore.oppContract);
          if (cumulScore.oppCtrDoubled) {
             sprintf(chunk, " %lld", - cumulScore.oppCtrDoubled);
             strcat(tail, chunk);
          }
       }
-      printf("%s\n", tail);
+      owl.Show("%s\n", tail);
    }
 
    // all this poking left some score

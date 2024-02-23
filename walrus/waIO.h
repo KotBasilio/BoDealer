@@ -67,15 +67,18 @@ extern WaConfig cfgTask;
 #define GRIFFINS_CLUB_IS_CLOSING "Shutdown"
 
 struct OscarTheOwl {
+   OscarTheOwl();
    void Show(const char* format, ...);
    void Silent(const char* format, ...);
    void OnProgress(const char* format, ...);
    void OnDone(const char* format, ...);
    void Send(char* msg);
+   void Flush();
    void Goodbye();
 private:
    static const size_t bufferSize = 512;
    static char buffer[bufferSize];
+   static char earlyLine[bufferSize];
 };
 
 extern OscarTheOwl owl;

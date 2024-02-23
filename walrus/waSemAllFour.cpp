@@ -160,7 +160,7 @@ void Walrus::FillSemantic(void)
 
    ADD_2PAR_FILTER(SOUTH, PointsRange, 12, 13);
    ADD_2PAR_FILTER(NORTH, PointsRange, 10, 12);
-   ADD_3PAR_FILTER(NORTH, LinePointsRange, SOUTH, 23, 23);
+   ADD_3PAR_FILTER(NORTH, LinePointsRange, SOUTH, 23, 25);
 //    ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
 //       ADD_4PAR_FILTER(SOUTH, ExactShape, 4, 2, 4, 3);
 //       ADD_4PAR_FILTER(SOUTH, ExactShape, 4, 2, 3, 4);

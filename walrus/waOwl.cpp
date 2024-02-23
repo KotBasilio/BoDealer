@@ -13,7 +13,8 @@
 static HANDLE g_PipeOut = NULL;
 static HANDLE g_PipeFromOwl = NULL;
 OscarTheOwl owl;
-char OscarTheOwl::buffer[OscarTheOwl::bufferSize];
+char OscarTheOwl::buffer   [OscarTheOwl::bufferSize];
+char OscarTheOwl::earlyLine[OscarTheOwl::bufferSize];
 
 #ifdef _DEBUG
    #define OWL_CONFIG_SUFFIX  "\\x64\\Debug"
@@ -21,6 +22,11 @@ char OscarTheOwl::buffer[OscarTheOwl::bufferSize];
    #define OWL_CONFIG_SUFFIX  "\\x64\\Release"
 #endif
 
+OscarTheOwl::OscarTheOwl()
+{
+   buffer[0] = 0;
+   earlyLine[0] = 0;
+}
 
 static BOOL _AttemptStartOscar(CHAR *workDirPath, CHAR* suffix, STARTUPINFO& siStartInfo, PROCESS_INFORMATION& piProcInfo)
 {
@@ -120,6 +126,9 @@ bool Walrus::StartOscar()
    }
    printf(buffer);
 
+   // follow with early line
+   owl.Flush();
+
    // Test variable parameters
    // owl.Show("message %d %s\n", 10, "xxx");
 
@@ -188,6 +197,16 @@ void OscarTheOwl::Send(char* message)
    if (g_PipeOut) {
       DWORD bytesWritten;
       WriteFile(g_PipeOut, message, (DWORD)strlen(message), &bytesWritten, NULL);
+   } else {
+      strcat(earlyLine, message);
+   }
+}
+
+void OscarTheOwl::Flush()
+{
+   if (earlyLine[0]) {
+      Send(earlyLine);
+      earlyLine[0] = 0;
    }
 }
 

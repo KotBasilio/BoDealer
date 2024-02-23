@@ -366,13 +366,12 @@ The search took 108.1 sec + an aftermath 15 min 7 sec.
       -ooo---ooo-
 
 Senior kibitzer Oscar is observing a task:
-Weak nt, 54 fit, 5332 to hearts doubleton 4234/4243.
+Weak nt, 54 fit, 5332 to clubs doubleton.
 ----
 26:        0,       0,       0,     >XR,       0,    : 48037777224  ExactShape 4 4 3 2 SOUTH
 ----                                                                AnyInListBelow NORTH
 28:        0,    >XXM,       0,       0,       0,    : 874276576      ExactShape 5 4 2 2 NORTH
 29:        0,    >XXM,       0,       0,       0,    : 868612556      ExactShape 5 2 4 2 NORTH
-----                                                                EndList NORTH
 31:        0,       0,       0,    >MLN,       0,    : 8451454      PointsRange 12 13 SOUTH
 32:        0,    >MLN,       0,       0,       0,    : 1076986      PointsRange 10 12 NORTH
 33:        0,  245710,       0,       0,       0,    : 245710       LinePointsRange SOUTH 23 23 NORTH
@@ -405,6 +404,135 @@ check NV:
 
 
 
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+Weak nt, 54 fit, 5332 to clubs doubleton.
+Primary scorer (spades, 10 tr): -150 -100 -50 420 450 480 510  /  80 110 140 170 200 230 260
+----
+26:        0,       0,       0,     >XR,       0,  : 35659946898   ExactShape 4 4 3 2 SOUTH
+27:                                                                AnyInListBelow NORTH
+28:        0,    >XXM,       0,       0,       0,  : 649001314       ExactShape 5 4 2 2 NORTH
+29:        0,    >XXM,       0,       0,       0,  : 644789508       ExactShape 5 2 4 2 NORTH
+31:        0,       0,       0,    >MLN,       0,  : 6281722       PointsRange 12 13 SOUTH
+32:        0,  798512,       0,       0,       0,  : 798512        PointsRange 10 12 NORTH
+33:        0,  183414,       0,       0,       0,  : 183414        LinePointsRange SOUTH 23 23 NORTH
+34:    49122,       0,   27736,       0,       0,  : 76858         NoOvercall EAST
+35:        0,       0,       0,       0,   24992,  : 24992         NoOvercall WEST
+----
+ 10 tricks board by South in spades example:
+--------
+               KQT85       HCP : 23
+               Q532        CTRL: 6
+               KT
+               J3
+   64                      J3
+   A4                      T76
+   AQ943                   852
+   9864                    AQT52
+               A972
+               KJ98
+               J76
+               K7
+
+Ending with:
+       (down):    20746,    6258,     865,      68,       1,       0,       0,       27938
+       (make):    18562,    2509,     112,       1,       0,       0,       0,       21184
+Processed: 49122 total. West is on lead. Goal is 10 tricks in spades.
+Averages: ideal = 257, bidGame = 146, partscore=149.   Chance to make = 43.1%
+(p 22 down):        0,       0,       0,       0,       0,   :        0,
+(p 22 make):        0,       0,       0,       0,       0,   :        0,
+(p 23 down):    20746,    6258,     865,      68,       1,   :    27938,
+(p 23 make):    18562,    2509,     112,       1,       0,   :    21184,  --> 43 %
+(p 24 down):        0,       0,       0,       0,       0,   :        0,
+(p 24 make):        0,       0,       0,       0,       0,   :        0,
+(p 25 down):        0,       0,       0,       0,       0,   :        0,
+(p 25 make):        0,       0,       0,       0,       0,   :        0,
+The search took 148.4 sec + an aftermath 10 min 9 sec.
+
+
+NV more points:
+
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+Weak nt, 54 fit, 5332 to hearts doubleton 4234/4243.
+Primary scorer (spades, 10 tr): -150 -100 -50 420 450 480 510  /  80 110 140 170 200 230 260
+----
+26:        0,       0,       0,     >XR,       0,  : 14256820236   ExactShape 4 4 3 2 SOUTH
+27:                                                                AnyInListBelow NORTH
+28:        0,    >XXM,       0,       0,       0,  : 259450460       ExactShape 5 4 2 2 NORTH
+29:        0,    >XXM,       0,       0,       0,  : 257766128       ExactShape 5 2 4 2 NORTH
+31:        0,       0,       0,    >MLN,       0,  : 2513218       PointsRange 12 13 SOUTH
+32:        0,  319748,       0,       0,       0,  : 319748        PointsRange 10 12 NORTH
+33:        0,   23470,       0,       0,       0,  : 23470         LinePointsRange SOUTH 23 25 NORTH
+34:    50002,       0,   21537,       0,       0,  : 71539         NoOvercall EAST
+35:        0,       0,       0,       0,   19445,  : 19445         NoOvercall WEST
+----
+ 10 tricks board by South in spades example:
+--------
+               AQJ42       HCP : 24
+               AT32        CTRL: 7
+               97
+               73
+   63                      97
+   K6                      854
+   K652                    AT83
+   J6542                   KQT8
+               KT85
+               QJ97
+               QJ4
+               A9
+
+Seek 10 tricks board by South in spades ... example:
+--------
+               QJT52       HCP : 24
+               KQJT        CTRL: 6
+               K4
+               97
+   843                     9
+   A7                      984
+   9873                    AJT6
+   J543                    AQT86
+               AK76
+               6532
+               Q52
+               K2
+
+  card suit   rank   equals score
+     0 D      3             3
+     1 C      5      43     3
+     2 D      9      87     3
+     3 C      J             3
+     4 H      A             3
+     5 H      7             3
+     6 S      4      3      3
+     7 S      8             3
+
+
+Ending with:
+       (down):    17080,    4109,     467,      45,       1,       0,       0,       21702
+       (make):    22190,    5686,     411,      13,       0,       0,       0,       28300
+Processed: 50002 total. West is on lead. Goal is 10 tricks in spades.
+Averages: ideal = 299, bidGame = 214, partscore=157.   Chance to make = 56.6%
+(p 22 down):        0,       0,       0,       0,       0,   :        0,
+(p 22 make):        0,       0,       0,       0,       0,   :        0,
+(p 23 down):     8568,    2506,     320,      26,       0,   :    11420,
+(p 23 make):     7405,    1120,      33,       0,       0,   :     8558,  --> 42 %
+(p 24 down):     6537,    1317,     125,      16,       1,   :     7996,
+(p 24 make):     9807,    2401,     168,       2,       0,   :    12378,  --> 60 %
+(p 25 down):     1975,     286,      22,       3,       0,   :     2286,
+(p 25 make):     4978,    2165,     210,      11,       0,   :     7364,  --> 76 %
+The search took 59.0 sec + an aftermath 9 min 30 sec.
 
 
 
