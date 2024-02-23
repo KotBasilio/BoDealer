@@ -58,7 +58,7 @@ void WaConfig::ReadStart()
       if (!fgets(line, sizeof(line), stream)) {
          break;
       }
-      //printf("%s", line);
+      //printf(line);
    }
 
    fclose(stream);

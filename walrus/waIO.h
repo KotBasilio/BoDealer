@@ -14,6 +14,24 @@ struct waFileNames {
    void Build();
 };
 
+struct MiniUI {
+   bool  exitRequested;
+   bool  reportRequested;
+   bool  firstAutoShow;
+   int   minControls;
+   int   irGoal, irFly;
+   s64   biddingBetterBy;
+   int   farCol;
+   char  declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10];
+   MiniUI();
+   void Init(int trump, int first);
+   void DisplayBoard(twContext* lay);
+   void WaitAnyKey();
+   void FillMiniRows();
+   void Run();
+};
+
+
 enum WE_REPORT_TYPE {
    WREPORT_NONE = 0,
    WREPORT_HCP,

@@ -48,19 +48,11 @@ void Walrus::ReportState(char* header)
    u64 delta2 = progress.delta2;
    DetectFarColumn();
 
-   // always act as if printing big table as we do bookman calc
+   // calc bookman
    ucell bookman = mul.countIterations + progress.countExtraMarks;
-   for (int i = 0; i < HCP_SIZE; i++) {
-      ucell sumline = 0;
-      for (int j = 0; j < CTRL_SIZE; j++) {
-         auto cell = progress.hitsCount[i][j];
-         bookman -= cell;
-         sumline += cell;
-      }
-      ReportLine(sumline, i);
-   }
+   ReportAllLines(bookman);
 
-   // self-control
+   // control him
    printf("Total iterations = %llu, balance ", mul.countIterations);
    if (bookman) {
       printf("is broken: ");
@@ -98,66 +90,124 @@ void Walrus::DetectFarColumn()
    }
 }
 
-void Walrus::ReportLine(ucell sumline, int i)
+static bool DetectKeyword(char* name, int key)
 {
-   static bool shownDashes = false;
+   return key == *(int *)(name);
+}
 
-   // skip lines filled with zeros
-   if (!sumline) {
-      if (!shownDashes) {
-         shownDashes = true;
-         uint fidx = i - IO_ROW_FILTERING;
-         if (fidx < sem.vecFilters.size()) {
-            owl.OnProgress("----\t\t\t\t\t\t\t\t    %s\n", sem.vecFilters[fidx].name);
-         } else {
-            owl.OnProgress("%s", "----\n");
-         }
+static char *IndentName(const char *start, const char* name, int indent)
+{
+   static char tail[40];
+
+   strcpy(tail, start);
+   for (int d = 0; d < indent; d++) {
+      strcat(tail, "  ");
+   }
+   strcat(tail, name);
+
+   return tail;
+}
+
+constexpr int SIGN_INDENT_PLUS = 'IynA';
+constexpr int SIGN_INDENT_MINUS = 'LdnE';
+
+void Walrus::HandleFilterLine(int i, ucell sumline, int& indent)
+{
+   // normal line => may write dashes
+   if (i < IO_ROW_FILTERING || IO_ROW_FILTERING + sem.vecFilters.size() <= i) {
+      if (!sumline) {
+         owl.OnProgress("----\n");
       }
       return;
    }
 
-   owl.OnProgress("%02d: ", i);
-   for (int j = 0; j <= ui.farCol; j++) {
-      auto cell = progress.hitsCount[i][j];
-      if        (cell <= 1000000) {
-         owl.OnProgress(fmtCell, cell);
-      } else if (cell <= 10000000) {
-         owl.OnProgress(fmtCellStr, ">MLN");
-      } else if (cell <= 100000000) {
-         owl.OnProgress(fmtCellStr, ">XM");
-      } else if (cell <= 1000000000) {
-         owl.OnProgress(fmtCellStr, ">XXM");
-      } else if (cell <= 10000000000LL) {
-         owl.OnProgress(fmtCellStr, ">MLRD");
-      } else {
-         owl.OnProgress(fmtCellStr, ">XR");
-      }
+   // access name
+   uint fidx = i - IO_ROW_FILTERING;
+   char* name = sem.vecFilters[fidx].name;
+
+   // filled filter line - show with indent
+   if (sumline) {
+      owl.OnProgress(IndentName("  ", name, indent));
+      return;
    }
 
-   owl.OnProgress("    : %-11llu", sumline);
-   if (i >= IO_ROW_FILTERING) {
-      uint fidx = i - IO_ROW_FILTERING;
-      if (fidx < sem.vecFilters.size()) {
-         owl.OnProgress("  %s", sem.vecFilters[fidx].name);
-      }
+   // empty line with filter -- may change indent
+   if (DetectKeyword(name, SIGN_INDENT_MINUS)) {
+      indent--;
+      return;
    }
-   owl.OnProgress("%s", "\n");
-   shownDashes = false;
+   if (DetectKeyword(name, SIGN_INDENT_PLUS)) {
+      indent++;
+   }
 
-   // may add percentages
-   #ifdef PERCENTAGES_IN_ANSWER_ROW
-   if (i < 20) {
+   // out neutral or indent-adding
+   owl.OnProgress("%02d:\t\t\t\t\t\t\t\t%s\n", i, IndentName(" ", name, indent));
+}
+
+
+void Walrus::ReportAllLines(ucell& bookman)
+{
+   bool shownDashes = false;
+   int  indent = 0;
+
+   for (int i = 0; i < HCP_SIZE; i++) {
+      // calc bookman 
+      ucell sumline = 0;
+      for (int j = 0; j < CTRL_SIZE; j++) {
+         auto cell = progress.hitsCount[i][j];
+         bookman -= cell;
+         sumline += cell;
+      }
+
+      // skip lines filled with zeros
       if (!sumline) {
-         sumline = 1;
+         if (!shownDashes) {
+            HandleFilterLine(i, sumline, indent);
+            shownDashes = true;
+         }
+         continue;
       }
-      owl.OnProgress("%s", " %%:  ");
-      for (int j = 0; j < ui.farCol; j++) {
-         float percent = progress.hitsCount[i][j] * 100.f / sumline;
-         owl.OnProgress(fmtCellFloat, percent);
+
+      // show numbers in line
+      owl.OnProgress("%02d: ", i);
+      for (int j = 0; j <= ui.farCol; j++) {
+         auto cell = progress.hitsCount[i][j];
+         if (cell <= 1000000) {
+            owl.OnProgress(fmtCell, cell);
+         } else if (cell <= 10000000) {
+            owl.OnProgress(fmtCellStr, ">MLN");
+         } else if (cell <= 100000000) {
+            owl.OnProgress(fmtCellStr, ">XM");
+         } else if (cell <= 1000000000) {
+            owl.OnProgress(fmtCellStr, ">XXM");
+         } else if (cell <= 10000000000LL) {
+            owl.OnProgress(fmtCellStr, ">MLRD");
+         } else {
+            owl.OnProgress(fmtCellStr, ">XR");
+         }
       }
-      owl.OnProgress("%s", "\n");
+
+      // show summary
+      owl.OnProgress("  : %-12llu", sumline);
+      HandleFilterLine(i, sumline, indent);
+      owl.OnProgress("\n");
+      shownDashes = false;
+
+      // may add percentages
+      #ifdef PERCENTAGES_IN_ANSWER_ROW
+         if (i < 20) {
+            if (!sumline) {
+               sumline = 1;
+            }
+            owl.OnProgress(" %%:  ");
+            for (int j = 0; j < ui.farCol; j++) {
+               float percent = progress.hitsCount[i][j] * 100.f / sumline;
+               owl.OnProgress(fmtCellFloat, percent);
+            }
+            owl.OnProgress("\n");
+         }
+      #endif
    }
-   #endif
 }
 
 void Walrus::ShowDetailedReportHighcards()

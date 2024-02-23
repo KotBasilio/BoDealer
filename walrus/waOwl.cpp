@@ -118,7 +118,7 @@ bool Walrus::StartOscar()
    if (bytesRead < sizeof(buffer)) {
       buffer[bytesRead] = 0;
    }
-   printf("%s", buffer);
+   printf(buffer);
 
    // Test variable parameters
    // owl.Show("message %d %s\n", 10, "xxx");
@@ -304,7 +304,7 @@ void PrintHand(char title[], const deal& dl)
    sprintf(text[DDS_STATS_LINE+1] + DDS_STATS_OFFSET, "CTRL: %d", ctrl);
 
    // start with title and underline it
-   printf("%s", title);
+   printf(title);
    char dashes[80];
    int l = static_cast<int>(strlen(title)) - 1;
    for (int i = 0; i < l; i++)
@@ -371,7 +371,7 @@ void OwlOutHand(char title[], const deal& dl)
    sprintf(text[DDS_STATS_LINE+1] + DDS_STATS_OFFSET, "CTRL: %d", ctrl);
 
    // start with title and underline it
-   owl.Silent("%s", title);
+   owl.Silent(title);
    char dashes[80];
    int l = static_cast<int>(strlen(title)) - 1;
    for (int i = 0; i < l; i++)

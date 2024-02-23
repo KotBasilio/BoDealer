@@ -92,11 +92,9 @@ void Walrus::NoticeMagicFly(uint trickSuit, uint tricksNT)
 {
    if (tricksNT > trickSuit) {
       progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_MORE_NT]++;
-   }
-   else if (tricksNT == trickSuit) {
+   } else if (tricksNT == trickSuit) {
       progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_SAME_NT]++;
-   }
-   else {
+   } else {
       progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_PREFER_SUIT]++;
    }
 

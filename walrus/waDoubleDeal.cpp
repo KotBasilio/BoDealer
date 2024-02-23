@@ -82,15 +82,13 @@ void Walrus::PostmortemHCP(DdsTricks& tr, deal& cards)
    if (ui.minControls) {
       if (ctrl < (uint)ui.minControls) {
          row = IO_ROW_HCP_START;
-      }
-      else {
+      } else {
          row = IO_ROW_HCP_START + (ctrl - ui.minControls) * 2;
       }
    }
    else if (hcp < IO_HCP_MIN || IO_HCP_MAX < hcp) {
       return;
-   }
-   else {
+   } else {
       row = IO_ROW_HCP_START + (hcp - IO_HCP_MIN) * 2;
    }
 

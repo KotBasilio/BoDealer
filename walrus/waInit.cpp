@@ -73,8 +73,7 @@ void Walrus::AllocFilteredTasksBuf()
       const size_t oneM = 1024 * oneK;
       if (bsize > oneM) {
          printf("Memory %lluM in %s\n", bsize / oneM, mul.nameHlp);
-      }
-      else {
+      } else {
          printf("Memory %lluK in %s\n", bsize / oneK, mul.nameHlp);
       }
    #endif

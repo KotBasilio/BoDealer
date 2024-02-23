@@ -24,7 +24,7 @@ static const char *s_SeatNames[] = {
    "West"
 };
 
-Walrus::MiniUI::MiniUI()
+MiniUI::MiniUI()
    : exitRequested(false)
    , reportRequested(false)
    , firstAutoShow(true)
@@ -41,7 +41,7 @@ Walrus::MiniUI::MiniUI()
    #endif
 }
 
-void Walrus::MiniUI::Init(int trump, int first)
+void MiniUI::Init(int trump, int first)
 {
    // fill names
    strcpy(declTrump, s_TrumpNames[trump]);
@@ -55,7 +55,7 @@ void Walrus::MiniUI::Init(int trump, int first)
    strcpy(declSeat, s_SeatNames[ds]);
 }
 
-void Walrus::MiniUI::DisplayBoard(twContext* lay)
+void MiniUI::DisplayBoard(twContext* lay)
 {
    DdsDeal wad(lay);
 
@@ -63,7 +63,7 @@ void Walrus::MiniUI::DisplayBoard(twContext* lay)
    PLATFORM_GETCH();
 }
 
-void Walrus::MiniUI::WaitAnyKey()
+void MiniUI::WaitAnyKey()
 {
    printf("Any key to continue...");
    PLATFORM_GETCH();
@@ -175,7 +175,7 @@ int Walrus::PokeOtherScorer()
    return 0;
 }
 
-void Walrus::MiniUI::Run()
+void MiniUI::Run()
 {
    // see interrogation command
    if (PLATFORM_KBHIT()) {

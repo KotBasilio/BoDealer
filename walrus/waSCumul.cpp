@@ -198,8 +198,7 @@ void CumulativeScore::Our5minor(uint tricks)
    // "ideal"
    if (tricks < 10) {
       ideal += partdelta;
-   }
-   else {
+   } else {
       ideal += 600 + (tricks - 11) * 20;
    }
 }

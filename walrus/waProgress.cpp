@@ -71,7 +71,7 @@ char fmtCellStr[]   = "%8s,";
 char fmtCellFloat[] = "%8.1f,";
 //char tblHat[] =  "    :       let    spade    heart     both     club             sum\n";
 
-void Walrus::MiniUI::FillMiniRows()
+void MiniUI::FillMiniRows()
 {
    // init lines in mini-report
    {
@@ -327,8 +327,7 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
          case WREPORT_CONTROLS:
             if (ui.minControls) {
                ShowDetailedReportControls();
-            }
-            else {
+            } else {
                ShowDetailedReportHighcards();
             }
             break;

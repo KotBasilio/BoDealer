@@ -291,8 +291,7 @@ bool WaMulti::ShowLiveSigns(uint oneCover)
       hA->mul.countShare += ADDITION_STEP_ITERATIONS;
       hB->mul.countShare += ADDITION_STEP_ITERATIONS;
       printf(",");
-   }
-   else {
+   } else {
       printf(".");
    }
 

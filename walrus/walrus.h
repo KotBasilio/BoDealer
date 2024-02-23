@@ -125,30 +125,14 @@ protected:
     void PostmortemHCP(DdsTricks& tr, deal& cards);
     void PostmortemSuit(DdsTricks& tr, deal& cards);
 
-    // UI -- parts will migrate to Oscar project
+    // progress and reports
     Progress progress;
-    struct MiniUI {
-       bool  exitRequested;
-       bool  reportRequested;
-       bool  firstAutoShow;
-       int   minControls;
-       int   irGoal, irFly;
-       s64   biddingBetterBy;
-       int   farCol;
-       char  declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10];
-       MiniUI();
-       void Init(int trump, int first);
-       void DisplayBoard(twContext* lay);
-       void WaitAnyKey();
-       void FillMiniRows();
-       void Run();
-    } ui;
-    void InitMiniUI();
     void AnnounceSolving();
-    void DisplayBoard(twContext* lay) { ui.DisplayBoard(lay); }
-    void DetectFarColumn();
-    void ReportLine(ucell sumline, int i);
+    void ReportAllLines(ucell& bookman);
+    void HandleFilterLine(int i, ucell sumline, int &indent);
     void MiniReport(ucell toGo);
+    void ShowProgress(ucell idx);
+    void DetectFarColumn();
     void ShowPercentages(s64 sumRows);
     void ShowBiddingLevel(s64 sumRows);
     void ShowTheirScore(s64 doneTheirs);
@@ -157,9 +141,13 @@ protected:
     void ShowDetailedReportControls();
     void ShowDetailedReportSuit();
     void ShowMiniHits(ucell* hitsRow, ucell* hitsCamp);
+
+    // UI
+    MiniUI ui;
+    void InitMiniUI();
+    void DisplayBoard(twContext* lay) { ui.DisplayBoard(lay); }
     int  PokeScorerForTricks();
     int  PokeOtherScorer();
-    void ShowProgress(ucell idx);
 
     // Multi-thread
     WaMulti mul;
