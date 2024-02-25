@@ -58,7 +58,6 @@ const uint SKIP_BY_SANDWICH = SKIP_BY_OPP;
 typedef void (Shuffler::*        SemShufflerFunc)();
 typedef void (Walrus::*          SemFuncType)();
 typedef void (CumulativeScore::* SemScoring)(uint tricks);
-typedef void (Walrus::*          SecondScoring)(DdsTricks& tr);
 typedef void (Walrus::*          SemComparing)(uint trickSuit, uint tricksNT);
 typedef void (Walrus::*          SemPostMortem)(DdsTricks& tr, deal& cards);
 typedef void (Walrus::*          SemOnBoardAdded)(twContext* lay);
@@ -70,12 +69,12 @@ struct Semantics {
    SemShufflerFunc          fillFlipover;
    std::vector<MicroFilter> vecFilters;
    SemOnBoardAdded          onBoardAdded;
-   SemScoring               onScoring;
-   SemPostMortem            onPostmortem;
-   SemSecondSolver          solveSecondTime;
-   SecondScoring            onSolvedTwice;
-   SemComparing             onCompareContracts;
    SemFuncType              onAfterMath;
+   SemScoring               onScoring;
+   SemSecondSolver          solveSecondTime;
+   SemScoring               onSolvedTwice;
+   SemComparing             onCompareContracts;
+   SemPostMortem            onPostmortem;
 
    uint scanCover; // how much iterations covers one scan
    struct deal* dlBase;

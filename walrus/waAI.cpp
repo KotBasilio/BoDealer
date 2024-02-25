@@ -129,17 +129,15 @@ void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
    HandleDDSFail(res);
 
    // score the other contract and maybe compare them
+   DdsTricks trFirst, trSecond;
    for (int handno = 0; handno < _twiceSolved.noOfBoards; handno++) {
-      DdsTricks trSecond;
-      trSecond.Init(_twiceSolved.solvedBoard[handno]);
-
       // pass to basic statistics
+      trSecond.Init(_twiceSolved.solvedBoard[handno]);
       HitByTricks(trSecond, config.otherGoal, IO_ROW_THEIRS);
-      (this->*sem.onSolvedTwice)(trSecond);
+      (cumulScore.*sem.onSolvedTwice)(trSecond.plainScore);
       progress.countExtraMarks++;
 
       // pass to comparison
-      DdsTricks trFirst;
       trFirst.Init(chunk.solvedBoard[handno]);
       (this->*sem.onCompareContracts)(trFirst.plainScore, trSecond.plainScore);
 

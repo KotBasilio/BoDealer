@@ -12,14 +12,17 @@ constexpr int EXTRA_FILTER_SIZE = 0; // may reserve for big filters
 constexpr int HCP_SIZE = 40 + 1 + EXTRA_FILTER_SIZE;// to address 0 - 40
 constexpr int CTRL_SIZE = 12 + 4;// to get 16 as padding
 
-// output rows: we down, we make, a blank line, they down, they make, comparison
-constexpr uint IO_ROW_OUR_DOWN = 0;
-constexpr uint IO_ROW_OUR_MADE = IO_ROW_OUR_DOWN + 1;
-constexpr uint IO_ROW_ZEROES = IO_ROW_OUR_DOWN + 2;
-constexpr uint IO_ROW_THEIRS = IO_ROW_ZEROES + 1;
-constexpr uint IO_ROW_MAGIC_FLY = IO_ROW_THEIRS + 2;
-constexpr uint IO_ROW_SACRIFICE = IO_ROW_MAGIC_FLY;
-constexpr uint ORDER_BASE = 7;
+// output rows: 
+// -- we down, we make, a blank line
+constexpr uint IO_ROW_OUR_DOWN   = 0;
+constexpr uint IO_ROW_OUR_MADE   = IO_ROW_OUR_DOWN + 1;
+// -- they down, they make
+constexpr uint IO_ROW_CONTRACT_B = IO_ROW_OUR_MADE + 2;
+constexpr uint IO_ROW_THEIRS     = IO_ROW_CONTRACT_B;
+// -- comparison
+constexpr uint IO_ROW_COMPARISON = IO_ROW_CONTRACT_B + 2;
+constexpr uint IO_ROW_MAGIC_FLY  = IO_ROW_COMPARISON;
+constexpr uint IO_ROW_SACRIFICE  = IO_ROW_COMPARISON;
 
 // output columns
 constexpr uint IO_CAMP_OFF = 0;

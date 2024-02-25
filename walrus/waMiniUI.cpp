@@ -77,18 +77,18 @@ int Walrus::PokeScorerForTricks()
 
    // not a game => some partscore
    if (cumulScore.ideal < 300) {
-      if (cumulScore.partscore == 270) {// NT, 1NT for example
+      if (cumulScore.bidPartscore == 270) {// NT, 1NT for example
          return 7; 
       }
 
-      if (cumulScore.partscore == 190) {// a minor, 4m for example
+      if (cumulScore.bidPartscore == 190) {// a minor, 4m for example
          return 10; 
       }
 
       // a major, tell 3M from 2M
       plainScore = 8;
       (cumulScore.*sem.onScoring)(plainScore);
-      if (cumulScore.partscore == 370) {
+      if (cumulScore.bidPartscore == 370) {
          return 8; 
       }
 
@@ -156,7 +156,7 @@ int Walrus::PokeOtherScorer()
    // take 13 tricks 
    DdsTricks tr;
    tr.plainScore = 13;
-   (this->*sem.onSolvedTwice)(tr);
+   (cumulScore.*sem.onSolvedTwice)(tr.plainScore);
 
    switch (cumulScore.oppContract) {
       case -260: return 9;  // 3M
@@ -173,14 +173,13 @@ int Walrus::PokeOtherScorer()
       case -1150: return 11; // 5mX
    }
 
-   switch (cumulScore.bidSlam) {
+   switch (cumulScore.ourOther) {
       case 1510: // 7M  NV
       case 1520: // 7NT NV
       case 2210: // 7M  V
       case 2220: // 7NT V
          return 13;
    }
-
 
    return 0;
 }

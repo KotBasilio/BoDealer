@@ -103,7 +103,7 @@ Semantics::Semantics()
    , onPostmortem        (&Walrus::VoidPostmortem)
    , solveSecondTime     (&Walrus::VoidSecondSolve)
    , onCompareContracts  (&Walrus::VoidCompare)
-   , onSolvedTwice       (&Walrus::VoidScoring)
+   , onSolvedTwice       (&CumulativeScore::VoidScoring)
    , scanCover(ACTUAL_CARDS_COUNT)
    , dlBase(nullptr)
 {
@@ -123,7 +123,7 @@ Semantics::Semantics()
    #elif defined(SEEK_MAGIC_FLY)
       onCompareContracts = &Walrus::NoticeMagicFly;
    #elif defined(THE_OTHER_IS_OURS)
-      onCompareContracts = &Walrus::CountComboScore;
+      onCompareContracts = &Walrus::CompareOurContracts;
    #endif
 
 }

@@ -41,6 +41,7 @@ void Walrus::ScanKeycards()
 uint Walrus::KeyCards_ClassifyHand(uint &camp, SplitBits &partner)
 {
    const uint SKIP_BY_PART = 1;
+   constexpr uint ORDER_BASE = 7;
 
    // ----------- filter out
    twlHCP hcpPart(partner);

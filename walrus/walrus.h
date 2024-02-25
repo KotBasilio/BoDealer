@@ -64,7 +64,7 @@ protected:
     void NoticeMagicFly(uint trickSuit, uint tricksNT);
     void NoticeSacrificePossible(uint tOurs, uint tTheirs);
     void NoticeBidProfit(uint tOurs, uint tTheirs);
-    void CountComboScore(uint trickSuit, uint tricksNT);
+    void CompareOurContracts(uint tricksA, uint tricksB);
     void HandleDDSFail(int res);
 
     // multi-thread
@@ -93,17 +93,11 @@ protected:
 
     // scoring
     CumulativeScore cumulScore;
-    void Score_Doubled3NT(DdsTricks &tr);
-    void Score_NV7NT(DdsTricks& tr);
     void Score_OpLead3Major(DdsTricks &tr);
     void Score_OpLead3NT(DdsTricks &tr);
     void Score_OpLead3NTX(DdsTricks &tr);
     void Score_OpLead5D(DdsTricks &tr);
     void Score_OpLead5DX(DdsTricks &tr);
-    void Score_Opp3Major(DdsTricks& tr);
-    void Score_Opp4Major(DdsTricks& tr);
-    void Score_Opp5MinorDoubled(DdsTricks& tr);
-    void Score_Opp3NT(DdsTricks& tr);
     void AddScorerValues(char* tail);
     void HitByTricks(DdsTricks &tr, uint made, uint row = IO_ROW_OUR_DOWN);
     void PostmortemHCP(DdsTricks& tr, deal& cards);

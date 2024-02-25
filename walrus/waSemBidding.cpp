@@ -42,7 +42,7 @@ void Walrus::FillSemantic(void)
    OrbNorthFillSem();
    //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.onScoring = &Walrus::Score_5Major;
-   sem.onSolvedTwice = &Walrus::Score_Opp5MinorDoubled;
+   sem.onSolvedTwice = &Walrus::Score_Opp5Minor;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 17, 19);
    ADD_2PAR_FILTER(SOUTH, SpadesLen, 3, 4);

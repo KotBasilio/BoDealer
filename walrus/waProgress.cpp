@@ -239,7 +239,7 @@ void Walrus::ShowBiddingLevel(s64 sumRows)
             cumulScore.ideal / sumRows,
             cumulScore.bidGame / sumRows);
             #ifdef SHOW_PARTSCORE_STATLINE
-               owl.OnDone(", partscore=%lld.   ", cumulScore.partscore / sumRows);
+               owl.OnDone(", partscore=%lld.   ", cumulScore.bidPartscore / sumRows);
             #else
          owl.OnDone(".   ");
          #endif 
@@ -274,7 +274,6 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
    #ifdef SHOW_OUR_OTHER
       owl.OnDone("The other contract expectation average = %lld.", cumulScore.ourOther / sumOppRows);
       owl.OnDone(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows);
-      //owl.OnDone("Combo-score average for our two contracts = %lld.\n", cumulScore.ourCombo / sumOppRows);
    #endif
 
    // averages for opening lead

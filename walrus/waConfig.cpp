@@ -94,7 +94,7 @@ void Walrus::DetectGoals()
       strcpy(tail, "  / ");
       for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
          cumulScore = zeroes;
-         (this->*sem.onSolvedTwice)(tr);
+         (cumulScore.*sem.onSolvedTwice)(tr.plainScore);
          AddScorerValues(tail);
       }
       owl.Show("%s\n", tail);
@@ -118,12 +118,21 @@ void Walrus::AddScorerValues(char *tail)
       return;
    }
 
-   owl.Show(" %lld", cumulScore.bidGame);
-   if (cumulScore.partscore) {
-      sprintf(chunk, " %lld", cumulScore.partscore);
-      strcat(tail, chunk);
-   } else if (cumulScore.bidSlam) {
-      sprintf(chunk, " %lld", cumulScore.bidSlam);
+   if (cumulScore.bidGame) {
+      owl.Show(" %lld", cumulScore.bidGame);
+      if (cumulScore.bidPartscore) {
+         sprintf(chunk, " %lld", cumulScore.bidPartscore);
+         strcat(tail, chunk);
+      } else if (cumulScore.bidSlam) {
+         sprintf(chunk, " %lld", cumulScore.bidSlam);
+         strcat(tail, chunk);
+      }
+      return;
+   }
+
+   if (cumulScore.ourOther) {
+      owl.Show("    ");
+      sprintf(chunk, " %lld", cumulScore.ourOther);
       strcat(tail, chunk);
    }
 }

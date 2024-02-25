@@ -32,28 +32,19 @@ void Walrus::NoticeSacrificePossible(uint tOurs, uint tTheirs)
 
 void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs)
 {
-   // implementation of scorers is to change cumulative score
-   // so we make a first version to go on with it
-   // but it's not great. we'd better rework scorers
-   CumulativeScore backup = cumulScore;
-
    // detect score
-   cumulScore.bidGame = 0;
-   cumulScore.oppCtrDoubled = 0;
-   DdsTricks tester;
-   tester.plainScore = tOurs;
-   (cumulScore.*sem.onScoring)(tester.plainScore);
-   tester.plainScore = tTheirs;
-   (this->*sem.onSolvedTwice)(tester);
+   CumulativeScore tester;
+   (tester.*sem.onScoring)(tOurs);
+   (tester.*sem.onSolvedTwice)(tTheirs);
 
    // mark
-   if (cumulScore.bidGame > cumulScore.oppCtrDoubled) {
+   if (tester.bidGame > tester.oppCtrDoubled) {
       progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_PREFER_TO_BID]++;
    } else {
       progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_REFRAIN_BIDDING]++;
    }
    progress.countExtraMarks++;
-   ui.biddingBetterBy = cumulScore.bidGame - cumulScore.oppCtrDoubled;
+   ui.biddingBetterBy = tester.bidGame - tester.oppCtrDoubled;
 
    // debug
    #ifdef SHOW_EACH_COMPARISON
@@ -63,25 +54,29 @@ void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs)
          action = "Refraining";
          amount = -amount;
       }
-      printf("   %4lld; %4lld. %s is better by %lld points\n", cumulScore.bidGame, cumulScore.oppCtrDoubled, action, amount);
+      printf("   %4lld; %4lld. %s is better by %lld points\n", tester.bidGame, tester.oppCtrDoubled, action, amount);
    #endif 
-
-   // step back
-   cumulScore = backup;
 }
 
-void Walrus::CountComboScore(uint trickSuit, uint tricksNT)
+void Walrus::CompareOurContracts(uint tricksA, uint tricksB)
 {
-   s64    deltaCombo = 0L;
-   if (tricksNT > 8) {
-      cumulScore.Opp_3NT(deltaCombo, tricksNT);
-   } else if (trickSuit > 10) {
-      cumulScore.Opp_5minor(deltaCombo, trickSuit);
-   } else {
-      uint tricksSet = min(9-tricksNT, 11-trickSuit);
-      deltaCombo = 100 * tricksSet;
-   }
-   cumulScore.ourCombo -= deltaCombo;
 }
+
+// OBSOLETE
+// void Walrus::CountComboScore(uint trickSuit, uint tricksNT)
+// {
+//    s64    deltaCombo = 0L;
+//    if (tricksNT > 8) {
+//       cumulScore.Opp_3NT(deltaCombo, tricksNT);
+//    } else if (trickSuit > 10) {
+//       cumulScore.Opp_5minor(deltaCombo, trickSuit);
+//    } else {
+//       uint tricksSet = min(9-tricksNT, 11-trickSuit);
+//       deltaCombo = 100 * tricksSet;
+//    }
+//    cumulScore.ourCombo -= deltaCombo;
+// ...
+//    owl.OnDone("Combo-score average for our two contracts = %lld.\n", cumulScore.ourCombo / sumOppRows);
+// }
 
 

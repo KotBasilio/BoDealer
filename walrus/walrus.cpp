@@ -48,13 +48,13 @@ CumulativeScore::CumulativeScore()
    : ideal(0L)
    , bidGame(0L)
    , bidSlam(0L)
-   , partscore(0L)
+   , bidPartscore(0L)
    , oppContract(0L)
    , oppCtrDoubled(0L)
    , ourOther(0L)
-   , ourCombo(0L)
+   , ourHedging(0L)
 {
-   leadS = leadH = leadD = leadC = 0L;
+   //leadS = leadH = leadD = leadC = 0L;
 }
 
 extern void DoSelfTests();

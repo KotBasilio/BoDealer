@@ -32,7 +32,7 @@ void CumulativeScore::Our4M(uint tricks)
    int partdelta = tricks > 6 ? 
       50 + (tricks - 6) * 30 : 
       -100 * (7 - tricks);
-   partscore += partdelta;
+   bidPartscore += partdelta;
 
    // "ideal"
    if (tricks < 10) {
@@ -65,7 +65,7 @@ void CumulativeScore::OurNV4M(uint tricks)
    int partdelta = tricks > 6 ?
       50 + (tricks - 6) * 30 :
       -50 * (7 - tricks);
-   partscore += partdelta;
+   bidPartscore += partdelta;
 
    // "ideal"
    if (tricks < 10) {
@@ -98,7 +98,7 @@ void CumulativeScore::OurNV4MX(uint tricks)
    int partdelta = tricks > 6 ?
       50 + (tricks - 6) * 30 :
       -50 * (7 - tricks);
-   partscore += partdelta;
+   bidPartscore += partdelta;
 
    // "ideal"
    if (tricks < 10) {
@@ -130,7 +130,7 @@ void CumulativeScore::Our5M(uint tricks)
    int partdelta = tricks > 6 ? 
       50 + (tricks - 6) * 30 : 
       -100 * (7 - tricks);
-   partscore += partdelta;
+   bidPartscore += partdelta;
 
    // "ideal"
    if (tricks < 11) {
@@ -144,18 +144,18 @@ void CumulativeScore::Our4minor(uint tricks)
 {
    // both strategies
    switch (tricks) {
-      case 2:  bidGame -= 800; partscore -= 800; break;
-      case 3:  bidGame -= 700; partscore -= 700; break;
-      case 4:  bidGame -= 600; partscore -= 600; break;
-      case 5:  bidGame -= 500; partscore -= 500; break;
-      case 6:  bidGame -= 400; partscore -= 400; break;
-      case 7:  bidGame -= 300; partscore -= 300; break;
-      case 8:  bidGame -= 200; partscore -= 200; break;
-      case 9:  bidGame -= 100; partscore -= 100; break;
-      case 10: bidGame += 130; partscore += 130; break;
-      case 11: bidGame += 150; partscore += 150; break;
-      case 12: bidGame += 170; partscore += 170; break;
-      case 13: bidGame += 190; partscore += 190; break;
+      case 2:  bidGame -= 800; bidPartscore -= 800; break;
+      case 3:  bidGame -= 700; bidPartscore -= 700; break;
+      case 4:  bidGame -= 600; bidPartscore -= 600; break;
+      case 5:  bidGame -= 500; bidPartscore -= 500; break;
+      case 6:  bidGame -= 400; bidPartscore -= 400; break;
+      case 7:  bidGame -= 300; bidPartscore -= 300; break;
+      case 8:  bidGame -= 200; bidPartscore -= 200; break;
+      case 9:  bidGame -= 100; bidPartscore -= 100; break;
+      case 10: bidGame += 130; bidPartscore += 130; break;
+      case 11: bidGame += 150; bidPartscore += 150; break;
+      case 12: bidGame += 170; bidPartscore += 170; break;
+      case 13: bidGame += 190; bidPartscore += 190; break;
    }
 
    // "ideal"
@@ -196,7 +196,7 @@ void CumulativeScore::Our5minor(uint tricks)
       case 12: partdelta += 170; break;
       case 13: partdelta += 190; break;
    }
-   partscore += partdelta;
+   bidPartscore += partdelta;
 
    // "ideal"
    if (tricks < 10) {
@@ -240,7 +240,7 @@ void CumulativeScore::OurNV5minor(uint tricks)
       case 12: partdelta += 170; break;
       case 13: partdelta += 190; break;
    }
-   partscore += partdelta;
+   bidPartscore += partdelta;
 
    // "ideal"
    if (tricks < 10) {
@@ -272,7 +272,7 @@ void CumulativeScore::OurNV5mX(uint tricks)
    int partdelta = tricks > 6 ?
       50 + (tricks - 6) * 20 :
       -50 * (7 - tricks);
-   partscore += partdelta;
+   bidPartscore += partdelta;
 
    // "ideal"
    if (tricks < 11) {
@@ -302,7 +302,7 @@ void CumulativeScore::OurNV5M(uint tricks)
 
    // "always partscore" strategy -- not applicable
    int partdelta = 0;
-   partscore += partdelta;
+   bidPartscore += partdelta;
 
    // "ideal"
    if (tricks < 10) {
@@ -334,7 +334,7 @@ void CumulativeScore::Our3NT(uint tricks)
    int partdelta = tricks > 6 ? 
       90 + (tricks - 7) * 30 : 
       -100 * (7 - tricks);
-   partscore += partdelta;
+   bidPartscore += partdelta;
 
    // "ideal"
    if (tricks < 9) {
@@ -350,7 +350,7 @@ void CumulativeScore::Our1NT(uint tricks)
    int partdelta = tricks > 6 ? 
       90 + (tricks - 7) * 30 : 
       -100 * (7 - tricks);
-   partscore += partdelta;
+   bidPartscore += partdelta;
    bidGame += partdelta;
    ideal += partdelta;
 }
@@ -361,7 +361,7 @@ void CumulativeScore::Our2M(uint tricks)
    int partdelta = tricks > 7 ? 
       80 + (tricks - 7) * 30 : 
       -100 * (8 - tricks);
-   partscore += partdelta;
+   bidPartscore += partdelta;
    bidGame += partdelta;
    ideal += partdelta;
 }
@@ -427,38 +427,6 @@ void CumulativeScore::OurNV7m(uint tricks)
       ideal += gameDelta;
    } else {
       ideal += 1440;
-   }
-}
-
-void CumulativeScore::OurNV7NT(uint tricks)
-{
-   // "always slam" strategy
-   switch (tricks) {
-      case 2:  bidSlam -= 500; break;
-      case 3:  bidSlam -= 450; break;
-      case 4:  bidSlam -= 350; break;
-      case 5:  bidSlam -= 400; break;
-      case 6:  bidSlam -= 350; break;
-      case 7:  bidSlam -= 300; break;
-      case 8:  bidSlam -= 250; break;
-      case 9:  bidSlam -= 200; break;
-      case 10: bidSlam -= 150; break;
-      case 11: bidSlam -= 100; break;
-      case 12: bidSlam -= 50;  break;
-      case 13: bidSlam += 1520; break;
-   }
-
-   // "always game" strategy
-   int gameDelta = tricks > 11 ?
-      500 + 300 + (tricks - 6) * 30 + 10 :
-      -50 * (12 - tricks);
-   bidGame += gameDelta;
-
-   // "ideal"
-   if (tricks < 13) {
-      ideal += gameDelta;
-   } else {
-      ideal += 1520;
    }
 }
 
