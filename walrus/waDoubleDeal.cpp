@@ -94,7 +94,7 @@ void Walrus::PostmortemHCP(DdsTricks& tr, deal& cards)
 
    //  proper row => add a mark in stat
    if (row < IO_ROW_FILTERING - 1) {
-      HitByScore(tr, config.primGoal, row);
+      HitByTricks(tr, config.primGoal, row);
       progress.countExtraMarks++;
    }
 }
@@ -121,7 +121,7 @@ void Walrus::PostmortemSuit(DdsTricks& tr, deal& cards)
 
    // proper row => add a mark in stat
    if (row < IO_ROW_FILTERING - 1) {
-      HitByScore(tr, config.primGoal, row);
+      HitByTricks(tr, config.primGoal, row);
       progress.countExtraMarks++;
    }
 }

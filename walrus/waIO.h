@@ -24,6 +24,7 @@ struct MiniUI {
    char  declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10];
    MiniUI();
    void Init(int trump, int first);
+   void SetupOtherContract();
    void DisplayBoard(twContext* lay);
    void WaitAnyKey();
    void FillMiniRows();

@@ -23,8 +23,8 @@
 
 
 #ifdef SEMANTIC_7D_OR_NT_FEB
-   #define TITLE_VERSION  "Fix a 19 hcp 2722;\nPart has opened diamonds, shown 6-4 with spaeds, has AKQ in diaminds.\nQuestion: What's better -- 7D or 7NT?"
-   #define SEEK_BIDDING_LEVEL
+   #define TITLE_VERSION  "Fix a 19 hcp 2722;\nPart has opened diamonds, shown 6-4 with spaeds, has AKQ in diamonds.\nQuestion: What's better -- 7D or 7NT?"
+   #define SEEK_DENOMINATION
    #define IO_HCP_MIN  30
    #define IO_HCP_MAX  32
 #endif

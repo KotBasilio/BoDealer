@@ -123,8 +123,8 @@ void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
    //sem.onBoardAdded = &Walrus::DisplayBoard;
-   sem.onScoring = &Walrus::Score_NV7NT;
-   //sem.onScoring = &Walrus::Score_NV7Minor;
+   sem.onScoring = &Walrus::Score_NV7Minor;
+   sem.onSolvedTwice = &Walrus::Score_NV7NT;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 13);

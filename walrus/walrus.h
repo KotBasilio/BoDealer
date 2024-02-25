@@ -122,7 +122,8 @@ protected:
     void Score_Opp4Major(DdsTricks& tr);
     void Score_Opp5MinorDoubled(DdsTricks& tr);
     void Score_Opp3NT(DdsTricks& tr);
-    void HitByScore(DdsTricks &tr, uint made, uint row = IO_ROW_OUR_DOWN);
+    void AddScorerValues(char* tail);
+    void HitByTricks(DdsTricks &tr, uint made, uint row = IO_ROW_OUR_DOWN);
     void PostmortemHCP(DdsTricks& tr, deal& cards);
     void PostmortemSuit(DdsTricks& tr, deal& cards);
 

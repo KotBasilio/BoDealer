@@ -16,8 +16,7 @@
 // input
 
 #ifdef SEMANTIC_7D_OR_NT_FEB
-//#define INPUT_TRUMPS    SOL_DIAMONDS
-   #define INPUT_TRUMPS    SOL_NOTRUMP
+   #define INPUT_TRUMPS    SOL_DIAMONDS
    #define INPUT_ON_LEAD   WEST
    char const taskHandPBN[] = "[N:A7.AKJ8743.98.AK]";
 #endif 

@@ -68,47 +68,61 @@ void WaConfig::ReadStart()
 
 void Walrus::DetectGoals()
 {
-   char tail[128], chunk[20];
+   char tail[128];
    DdsTricks tr;
+   CumulativeScore zeroes;
 
    // primary
    config.primGoal = PokeScorerForTricks();
    owl.Show("Primary scorer (%s, %d tr):", ui.declTrump, config.primGoal);
    strcpy(tail, "  / ");
    for (tr.plainScore = 7; tr.plainScore <= 13 ; tr.plainScore++) {
-      cumulScore.bidGame = 0;
-      cumulScore.partscore = 0;
+      cumulScore = zeroes;
       (this->*sem.onScoring)(tr);
-      owl.Show(" %lld", cumulScore.bidGame);
-      if (cumulScore.partscore) {
-         sprintf(chunk, " %lld", cumulScore.partscore);
-         strcat(tail, chunk);
-      }
+      AddScorerValues(tail);
    }
    owl.Show("%s\n", tail);
 
    // secondary
    if (sem.solveSecondTime == &Walrus::SolveSecondTime) {
       config.otherGoal = PokeOtherScorer();
+      ui.SetupOtherContract();
       owl.Show("Secondary scorer (%s, %d tr):", ui.theirTrump, config.otherGoal);
       strcpy(tail, "  / ");
       for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
-         cumulScore.oppContract = 0;
-         cumulScore.oppCtrDoubled = 0;
+         cumulScore = zeroes;
          (this->*sem.onSolvedTwice)(tr);
-         owl.Show(" %lld", - cumulScore.oppContract);
-         if (cumulScore.oppCtrDoubled) {
-            sprintf(chunk, " %lld", - cumulScore.oppCtrDoubled);
-            strcat(tail, chunk);
-         }
+         AddScorerValues(tail);
       }
       owl.Show("%s\n", tail);
    }
 
-   // all this poking left some score
-   CumulativeScore zeroes;
+   // final cleanup
    cumulScore = zeroes;
+
    //PLATFORM_GETCH();
+}
+
+void Walrus::AddScorerValues(char *tail)
+{
+   char chunk[20];
+   if (cumulScore.oppContract) {
+      owl.Show(" %lld", -cumulScore.oppContract);
+      if (cumulScore.oppCtrDoubled) {
+         sprintf(chunk, " %lld", -cumulScore.oppCtrDoubled);
+         strcat(tail, chunk);
+      }
+      return;
+   }
+
+   owl.Show(" %lld", cumulScore.bidGame);
+   if (cumulScore.partscore) {
+      sprintf(chunk, " %lld", cumulScore.partscore);
+      strcat(tail, chunk);
+   } else if (cumulScore.bidSlam) {
+      sprintf(chunk, " %lld", cumulScore.bidSlam);
+      strcat(tail, chunk);
+   }
 }
 
 

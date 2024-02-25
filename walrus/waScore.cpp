@@ -11,7 +11,7 @@
 
 #define min(a,b) (((a) < (b)) ? (a) : (b))
 
-void Walrus::HitByScore(DdsTricks &tr, uint made, uint row /*= IO_ROW_OUR_DOWN*/)
+void Walrus::HitByTricks(DdsTricks &tr, uint made, uint row /*= IO_ROW_OUR_DOWN*/)
 {
    uint camp = 0;
    if (tr.plainScore >= made) {

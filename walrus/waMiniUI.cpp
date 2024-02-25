@@ -36,14 +36,18 @@ MiniUI::MiniUI()
    FillMiniRows();
 }
 
+void MiniUI::SetupOtherContract()
+{
+   if (config.otherGoal > 0) {
+      strcpy(theirTrump, s_TrumpNames[OC_TRUMPS]);
+   }
+}
+
 void MiniUI::Init(int trump, int first)
 {
    // fill names
    strcpy(declTrump, s_TrumpNames[trump]);
    strcpy(seatOnLead, s_SeatNames[first]);
-   if (config.otherGoal > 0) {
-      strcpy(theirTrump, s_TrumpNames[OC_TRUMPS]);
-   }
 
    // declarer is anti-ccw from leader
    int ds = (first + 3) % 4;
@@ -146,6 +150,9 @@ int Walrus::PokeOtherScorer()
    #ifdef SEEK_MAGIC_FLY
       return 9;
    #endif
+   cumulScore.oppContract = 0;
+   cumulScore.oppCtrDoubled = 0;
+   cumulScore.bidSlam = 0;
 
    // take 13 tricks 
    DdsTricks tr;
@@ -165,6 +172,13 @@ int Walrus::PokeOtherScorer()
       case -690: return 10;  // 4M NV
       case -890: return 10;  // 4M VUL
       case -1150: return 11; // 5mX
+   }
+
+   switch (cumulScore.bidSlam) {
+      case 1510: return 13; // 7M  NV
+      case 1520: return 13; // 7NT NV
+      case 2210: return 13; // 7M  V
+      case 2220: return 13; // 7NT V
    }
 
    return 0;
