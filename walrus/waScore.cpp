@@ -211,6 +211,11 @@ void Walrus::Score_NV7Minor(DdsTricks& tr)
    cumulScore.OurNV7m(tr.plainScore);
 }
 
+void Walrus::Score_NV7NT(DdsTricks& tr)
+{
+   cumulScore.OurNV7NT(tr.plainScore);
+}
+
 void Walrus::Score_NV6NoTrump(DdsTricks &tr)
 {
    cumulScore.OurNV6_No(tr.plainScore);

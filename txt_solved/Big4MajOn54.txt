@@ -533,17 +533,3 @@ Averages: ideal = 299, bidGame = 214, partscore=157.   Chance to make = 56.6%
 (p 25 down):     1975,     286,      22,       3,       0,   :     2286,
 (p 25 make):     4978,    2165,     210,      11,       0,   :     7364,  --> 76 %
 The search took 59.0 sec + an aftermath 9 min 30 sec.
-
-
-
-
-
-
-
-
-
-
-
-
-
-

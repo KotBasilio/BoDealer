@@ -21,6 +21,14 @@
    #define FOUR_HANDS_TASK
 */
 
+
+#ifdef SEMANTIC_7D_OR_NT_FEB
+   #define TITLE_VERSION  "Fix a 19 hcp 2722;\nPart has opened diamonds, shown 6-4 with spaeds, has AKQ in diaminds.\nQuestion: What's better -- 7D or 7NT?"
+   #define SEEK_BIDDING_LEVEL
+   #define IO_HCP_MIN  30
+   #define IO_HCP_MAX  32
+#endif
+
 #ifdef SEMANTIC_4M_ON54_FEB_PATTON
    #define TITLE_VERSION  "Fix a 10 hcp 5332;\n1NT(10-13) 2h\n2NT ??\nQuestion: How often 4s makes? Task"
    #define SEEK_BIDDING_LEVEL

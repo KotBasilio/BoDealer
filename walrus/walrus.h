@@ -112,6 +112,7 @@ protected:
     void Score_NV6NoTrump(DdsTricks &tr);
     void Score_6NT(DdsTricks &tr);
     void Score_NV7Minor(DdsTricks& tr);
+    void Score_NV7NT(DdsTricks& tr);
     void Score_OpLead3Major(DdsTricks &tr);
     void Score_OpLead3NT(DdsTricks &tr);
     void Score_OpLead3NTX(DdsTricks &tr);

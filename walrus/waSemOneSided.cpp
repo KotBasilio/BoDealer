@@ -117,3 +117,22 @@ void Walrus::FillSemantic(void)
    ADD_0PAR_FILTER(SOUTH, EndList);
 }
 #endif
+
+#ifdef SEMANTIC_7D_OR_NT_FEB
+void Walrus::FillSemantic(void)
+{
+   OrbNorthFillSem();
+   //sem.onBoardAdded = &Walrus::DisplayBoard;
+   sem.onScoring = &Walrus::Score_NV7NT;
+   //sem.onScoring = &Walrus::Score_NV7Minor;
+   sem.onPostmortem = &Walrus::PostmortemHCP;
+   sem.vecFilters.clear();
+   ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 13);
+   ADD_2PAR_FILTER(SOUTH, DiamondsLen, 6, 7);
+   ADD_2PAR_FILTER(SOUTH, PointsSuitAtLeast, DMD, 9);
+   ADD_2PAR_FILTER(SOUTH, SpadesLen, 4, 4);
+   ADD_2PAR_FILTER(SOUTH, HeartsLen, 0, 2);
+   ADD_0PAR_FILTER(EAST, NoOvercall);
+   ADD_0PAR_FILTER(WEST, NoOvercall);
+}
+#endif

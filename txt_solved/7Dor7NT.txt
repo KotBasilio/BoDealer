@@ -1,0 +1,105 @@
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+Fix a 19 hcp 2722;
+Part has opened diamonds, shown 6-4 with spaeds, has AKQ in diamonds.
+Question: What's better -- 7D or 7NT?
+Primary scorer (diamonds, 13 tr):
+----
+26:        0,       0,       0,     >XM,       0,  : 52617348      PointsRange 11 13 SOUTH
+27:        0,       0,       0,    >MLN,       0,  : 5767672       DiamondsLen 6 7 SOUTH
+28:        0,       0,       0,  588726,       0,  : 588726        PointsSuitAtLeast DMD 9 SOUTH
+29:        0,       0,       0,  305532,       0,  : 305532        SpadesLen 4 4 SOUTH
+30:        0,       0,       0,    1428,       0,  : 1428          HeartsLen 0 2 SOUTH
+31:        0,       0,    4033,       0,       0,  : 4033          NoOvercall EAST
+32:        0,       0,       0,       0,    3887,  : 3887          NoOvercall WEST
+----
+34:    50030,       0,       0,       0,       0,  : 50030
+----
+ 13 tricks board by South in diamonds example:
+--------
+               A7          HCP : 31
+               AKJ8743     CTRL: 11
+               98
+               AK
+   KJ43                    Q96
+   52                      T96
+   52                      73
+   QJ954                   T8762
+               T852
+               Q
+               AKQJT64
+               3
+
+Ending with:
+       (down):     5463,    1626,     165,       4,       0,       0,       0,        7258
+       (make):    42772,       0,       0,       0,       0,       0,       0,       42772
+Processed: 50030 total. West is on lead. Goal is 13 tricks in diamonds.
+Averages: ideal = 1329, bidGame = 902, slam=1221
+Chance to make = 85.5%
+(p 30 down):     1612,     768,      73,       2,       0,   :     2455,
+(p 30 make):    12139,       0,       0,       0,       0,   :    12139,  --> 83 %
+(p 31 down):     2332,     577,      57,       1,       0,   :     2967,
+(p 31 make):    16357,       0,       0,       0,       0,   :    16357,  --> 84 %
+(p 32 down):     1519,     281,      35,       1,       0,   :     1836,
+(p 32 make):    14276,       0,       0,       0,       0,   :    14276,  --> 88 %
+The search took 0.5 sec + an aftermath 1 min 47 sec.
+
+
+
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+Fix a 19 hcp 2722;
+Part has opened diamonds, shown 6-4 with spaeds, has AKQ in diamonds.
+Question: What's better -- 7D or 7NT?
+Primary scorer (notrump, 13 tr)
+----
+26:        0,       0,       0,     >XM,       0,  : 52546172      PointsRange 11 13 SOUTH
+27:        0,       0,       0,    >MLN,       0,  : 5772722       DiamondsLen 6 7 SOUTH
+28:        0,       0,       0,  584606,       0,  : 584606        PointsSuitAtLeast DMD 9 SOUTH
+29:        0,       0,       0,  303782,       0,  : 303782        SpadesLen 4 4 SOUTH
+30:        0,       0,       0,    1346,       0,  : 1346          HeartsLen 0 2 SOUTH
+31:        0,       0,    3793,       0,       0,  : 3793          NoOvercall EAST
+32:        0,       0,       0,       0,    3691,  : 3691          NoOvercall WEST
+----
+34:    50004,       0,       0,       0,       0,  : 50004
+----
+ 13 tricks board by South in notrump example:
+--------
+               A7          HCP : 31
+               AKJ8743     CTRL: 12
+               98
+               AK
+   JT                      Q8654
+   T65                     Q92
+   74                      J62
+   QT8763                  J2
+               K932
+               -
+               AKQT53
+               954
+
+Ending with:
+       (down):    17159,    3391,     498,     162,       9,       0,       0,       21219
+       (make):    28785,       0,       0,       0,       0,       0,       0,       28785
+Processed: 50004 total. West is on lead. Goal is 13 tricks in notrump.
+Averages: ideal = 1209, bidGame = 921, slam=848
+Chance to make = 57.6%
+(p 30 down):     5303,    1959,     317,     123,       7,   :     7709,
+(p 30 make):     6631,       0,       0,       0,       0,   :     6631,  --> 46 %
+(p 31 down):     7116,    1028,     147,      36,       1,   :     8328,
+(p 31 make):    11030,       0,       0,       0,       0,   :    11030,  --> 56 %
+(p 32 down):     4740,     404,      34,       3,       1,   :     5182,
+(p 32 make):    11124,       0,       0,       0,       0,   :    11124,  --> 68 %
+The search took 0.5 sec + an aftermath 3 min 37 sec.

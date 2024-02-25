@@ -67,6 +67,7 @@ public:
    uint LineKeyCardsSpade(twContext* lay, const uint* par);
    uint LinePointsRange(twContext* lay, const uint *par);
    // -
+   uint PointsSuitAtLeast(twContext* lay, const uint* par);
    uint PointsSuitLessSuit(twContext* lay, const uint* par);
    uint PointsSuitLEqSuit(twContext* lay, const uint* par);
    // -
@@ -74,6 +75,7 @@ public:
    uint HeartPointsLimit(twContext* lay, const uint *par);
    uint SpadePointsLimit(twContext* lay, const uint *par);
    uint DiamPointsLimit(twContext* lay, const uint *par);
+   uint DiamPointsAtLeast(twContext* lay, const uint* par);
    // -
    uint SpadesNatural(twContext* lay, const uint* par);
    uint NoMajorFit(twContext* lay, const uint *par);

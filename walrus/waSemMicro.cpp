@@ -283,6 +283,28 @@ uint WaFilter::DiamPointsLimit(twContext* lay, const uint* par)
    return MIC_BLOCK;
 }
 
+uint WaFilter::DiamPointsAtLeast(twContext* lay, const uint* par)
+{
+   ACCESS_MICPAR_HCP;
+
+   // only lower limit
+   if (hcp.d >= par[1]) {
+      return MIC_PASSED;
+   }
+   return MIC_BLOCK;
+}
+
+uint WaFilter::PointsSuitAtLeast(twContext* lay, const uint* par)
+{
+   ACCESS_MICPAR_HCP;
+
+   // only lower limit
+   if (hcp.arr[par[1]] >= par[2]) {
+      return MIC_PASSED;
+   }
+   return MIC_BLOCK;
+}
+
 uint WaFilter::SpadesNatural(twContext* lay, const uint* par)
 {
    ACCESS_MICPAR_LEN;
