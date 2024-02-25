@@ -258,7 +258,7 @@ void Walrus::ShowDetailedReportControls()
    u64 prevSum = 0;
    for (int i = IO_ROW_HCP_START; i < IO_ROW_FILTERING - 1; i++) {
       // calc ctrl for this row (row = start + (ctr - min) * 2)
-      auto ctr = (i - IO_ROW_HCP_START) / 2 + ui.minControls;
+      auto ctr = (i - IO_ROW_HCP_START) / 2 + config.minControls;
       if (ctr > 12) {
          break;
       }

@@ -28,17 +28,12 @@ MiniUI::MiniUI()
    : exitRequested(false)
    , reportRequested(false)
    , firstAutoShow(true)
-   , minControls(0)
    , irGoal(0)
    , irFly(0)
    , biddingBetterBy(0)
    , farCol(CTRL_SIZE)
 {
    FillMiniRows();
-
-   #if IO_HCP_MIN == IO_HCP_MAX
-      minControls = (IO_HCP_MIN * 4) / 10 - 6;
-   #endif
 }
 
 void MiniUI::Init(int trump, int first)
@@ -46,7 +41,7 @@ void MiniUI::Init(int trump, int first)
    // fill names
    strcpy(declTrump, s_TrumpNames[trump]);
    strcpy(seatOnLead, s_SeatNames[first]);
-   if (cfgTask.otherGoal > 0) {
+   if (config.otherGoal > 0) {
       strcpy(theirTrump, s_TrumpNames[OC_TRUMPS]);
    }
 
@@ -184,29 +179,29 @@ void MiniUI::Run()
       auto inchar = PLATFORM_GETCH();
       switch (inchar) {
          // just made
-         case ' ': irGoal = cfgTask.primGoal; break;
+         case ' ': irGoal = config.primGoal; break;
 
          // overtricks
-         case '1': irGoal = cfgTask.primGoal + 1; break;
-         case '2': irGoal = cfgTask.primGoal + 2; break;
-         case '3': irGoal = cfgTask.primGoal + 3; break;
-         case '4': irGoal = cfgTask.primGoal + 4; break;
+         case '1': irGoal = config.primGoal + 1; break;
+         case '2': irGoal = config.primGoal + 2; break;
+         case '3': irGoal = config.primGoal + 3; break;
+         case '4': irGoal = config.primGoal + 4; break;
 
          // down some
-         case 'q': irGoal = cfgTask.primGoal - 1;  break;
-         case 'w': irGoal = cfgTask.primGoal - 2;  break;
-         case 'e': irGoal = cfgTask.primGoal - 3;  break;
-         case 'r': irGoal = cfgTask.primGoal - 4;  break;
-         case 't': irGoal = cfgTask.primGoal - 5;  break;
-         case 'y': irGoal = cfgTask.primGoal - 6;  break;
-         case 'u': irGoal = cfgTask.primGoal - 7;  break;
-         case 'i': irGoal = cfgTask.primGoal - 8;  break;
+         case 'q': irGoal = config.primGoal - 1;  break;
+         case 'w': irGoal = config.primGoal - 2;  break;
+         case 'e': irGoal = config.primGoal - 3;  break;
+         case 'r': irGoal = config.primGoal - 4;  break;
+         case 't': irGoal = config.primGoal - 5;  break;
+         case 'y': irGoal = config.primGoal - 6;  break;
+         case 'u': irGoal = config.primGoal - 7;  break;
+         case 'i': irGoal = config.primGoal - 8;  break;
 
          // comparison
          #ifdef SEEK_MAGIC_FLY
-            case '=': irGoal = cfgTask.primGoal; irFly = IO_CAMP_SAME_NT; break;
-            case '[': irGoal = cfgTask.primGoal; irFly = IO_CAMP_PREFER_SUIT; break;
-            case ']': irGoal = cfgTask.primGoal; irFly = IO_CAMP_MORE_NT; break;
+            case '=': irGoal = config.primGoal; irFly = IO_CAMP_SAME_NT; break;
+            case '[': irGoal = config.primGoal; irFly = IO_CAMP_PREFER_SUIT; break;
+            case ']': irGoal = config.primGoal; irFly = IO_CAMP_MORE_NT; break;
          #endif 
 
          // report hits
@@ -241,7 +236,7 @@ void MiniUI::Run()
 
    // auto-command
    if (firstAutoShow && !irGoal) {
-      irGoal = cfgTask.primGoal;
+      irGoal = config.primGoal;
       owl.Show(" %d tricks board by %s in %s ", irGoal, declSeat, declTrump);
    }
 }

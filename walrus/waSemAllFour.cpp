@@ -171,8 +171,8 @@ void Walrus::FillSemantic(void)
    //ADD_2PAR_FILTER(NORTH, PointsSuitLessSuit, HRT, DMD);
    //ADD_2PAR_FILTER(NORTH, PointsSuitLEqSuit, DMD, HRT);
 
-   cfgTask.postmSuit = SOL_HEARTS;
-   //cfgTask.detailedReportType = WREPORT_SUIT;
+   config.postmSuit = SOL_HEARTS;
+   //config.detailedReportType = WREPORT_SUIT;
 
    //sem.onBoardAdded = &Walrus::DisplayBoard;
 }

@@ -16,7 +16,7 @@
 
 SplitBits sbBlank;
 Semantics semShared;
-WaConfig cfgTask;
+WaConfig config;
 
 Walrus::Walrus()
    // highBitscounts as many two cards in any suit. easily detected. doesn't cause an overflow
@@ -29,7 +29,7 @@ Walrus::Walrus()
    , filter()
 {
    filter.Bind(this);
-   cfgTask.namesBase.Build();
+   config.namesBase.Build();
    mainProgress = &progress;
 }
 
@@ -44,6 +44,7 @@ WaConfig::WaConfig()
    , primGoal(0)
    , otherGoal(0)
    , postmSuit(0)
+   , minControls(0)
    , detailedReportType(WREPORT_NONE)
 {
    titleOurContract [0] = 0;
@@ -51,6 +52,10 @@ WaConfig::WaConfig()
 
    #ifdef IO_SHOW_HCP_CTRL_SPLIT
       detailedReportType = WREPORT_HCP;
+   #endif
+
+   #if IO_HCP_MIN == IO_HCP_MAX
+         minControls = (IO_HCP_MIN * 4) / 10 - 6;
    #endif
 }
 

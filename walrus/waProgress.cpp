@@ -210,7 +210,7 @@ void Walrus::MiniReport(ucell toGo)
    // signature
    s64 doneOurs   = (s64)(__max( hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE  ], 1));
    s64 doneTheirs = (s64)( __max(hitsRow[IO_ROW_THEIRS  ] + hitsRow[IO_ROW_THEIRS + 1], 1));
-   owl.OnDone("Processed: %lld total. %s is on lead. Goal is %d tricks in %s.\n", doneOurs, ui.seatOnLead, cfgTask.primGoal, ui.declTrump);
+   owl.OnDone("Processed: %lld total. %s is on lead. Goal is %d tricks in %s.\n", doneOurs, ui.seatOnLead, config.primGoal, ui.declTrump);
 
    // other stuff
    ShowBiddingLevel(doneOurs);
@@ -234,7 +234,7 @@ void Walrus::ShowBiddingLevel(s64 sumRows)
 {
    #if defined(SEEK_BIDDING_LEVEL) || defined(FOUR_HANDS_TASK)
       // slam/game/partscore
-      if (cfgTask.primGoal < 12) {
+      if (config.primGoal < 12) {
          owl.OnDone("Averages: ideal = %lld, bidGame = %lld",
             cumulScore.ideal / sumRows,
             cumulScore.bidGame / sumRows);
@@ -319,13 +319,13 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
    // list by hcp, controls, etc
    if (ui.reportRequested) {
       ui.reportRequested = false;
-      switch (cfgTask.detailedReportType)
+      switch (config.detailedReportType)
       {
          case WREPORT_NONE:
             break;
          case WREPORT_HCP:
          case WREPORT_CONTROLS:
-            if (ui.minControls) {
+            if (config.minControls) {
                ShowDetailedReportControls();
             } else {
                ShowDetailedReportHighcards();

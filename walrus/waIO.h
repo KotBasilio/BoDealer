@@ -18,7 +18,6 @@ struct MiniUI {
    bool  exitRequested;
    bool  reportRequested;
    bool  firstAutoShow;
-   int   minControls;
    int   irGoal, irFly;
    s64   biddingBetterBy;
    int   farCol;
@@ -53,14 +52,16 @@ struct WaConfig {
 
    int   otherGoal; // goal tricks either in our secondary contract or in their contract
 
-   int   postmSuit; // for post-mortem
+   // for post-mortem:
+   int   postmSuit; 
+   int   minControls;
 
    WE_REPORT_TYPE detailedReportType;
 
    void ReadStart();
 };
 
-extern WaConfig cfgTask;
+extern WaConfig config;
 
 // Oscar interactions
 

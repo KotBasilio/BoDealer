@@ -72,8 +72,8 @@ void Walrus::DetectGoals()
    DdsTricks tr;
 
    // primary
-   cfgTask.primGoal = PokeScorerForTricks();
-   owl.Show("Primary scorer (%s, %d tr):", ui.declTrump, cfgTask.primGoal);
+   config.primGoal = PokeScorerForTricks();
+   owl.Show("Primary scorer (%s, %d tr):", ui.declTrump, config.primGoal);
    strcpy(tail, "  / ");
    for (tr.plainScore = 7; tr.plainScore <= 13 ; tr.plainScore++) {
       cumulScore.bidGame = 0;
@@ -89,8 +89,8 @@ void Walrus::DetectGoals()
 
    // secondary
    if (sem.solveSecondTime == &Walrus::SolveSecondTime) {
-      cfgTask.otherGoal = PokeOtherScorer();
-      owl.Show("Secondary scorer (%s, %d tr):", ui.theirTrump, cfgTask.otherGoal);
+      config.otherGoal = PokeOtherScorer();
+      owl.Show("Secondary scorer (%s, %d tr):", ui.theirTrump, config.otherGoal);
       strcpy(tail, "  / ");
       for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
          cumulScore.oppContract = 0;
@@ -115,7 +115,7 @@ void Walrus::DetectGoals()
 bool Walrus::InitByConfig()
 {
    // may read something
-   cfgTask.ReadStart();
+   config.ReadStart();
 
    // prepare, basing on config
    FillSemantic();

@@ -79,11 +79,11 @@ void Walrus::PostmortemHCP(DdsTricks& tr, deal& cards)
    uint row = 0;
    uint ctrl;
    auto hcp = WaCalcHCP(cards, ctrl);
-   if (ui.minControls) {
-      if (ctrl < (uint)ui.minControls) {
+   if (config.minControls) {
+      if (ctrl < (uint)config.minControls) {
          row = IO_ROW_HCP_START;
       } else {
-         row = IO_ROW_HCP_START + (ctrl - ui.minControls) * 2;
+         row = IO_ROW_HCP_START + (ctrl - config.minControls) * 2;
       }
    }
    else if (hcp < IO_HCP_MIN || IO_HCP_MAX < hcp) {
@@ -94,7 +94,7 @@ void Walrus::PostmortemHCP(DdsTricks& tr, deal& cards)
 
    //  proper row => add a mark in stat
    if (row < IO_ROW_FILTERING - 1) {
-      HitByScore(tr, cfgTask.primGoal, row);
+      HitByScore(tr, config.primGoal, row);
       progress.countExtraMarks++;
    }
 }
@@ -110,7 +110,7 @@ static uint CalcSuitHCP(deal& cards, uint seat)
       ((remain[seat][SOL_CLUBS]    & facecards) << (1))
    );
    twlHCP hcp(reducedHand);
-   return hcp.arr[cfgTask.postmSuit];
+   return hcp.arr[config.postmSuit];
 }
 
 void Walrus::PostmortemSuit(DdsTricks& tr, deal& cards)
@@ -121,7 +121,7 @@ void Walrus::PostmortemSuit(DdsTricks& tr, deal& cards)
 
    // proper row => add a mark in stat
    if (row < IO_ROW_FILTERING - 1) {
-      HitByScore(tr, cfgTask.primGoal, row);
+      HitByScore(tr, config.primGoal, row);
       progress.countExtraMarks++;
    }
 }
