@@ -68,17 +68,20 @@ void WaConfig::ReadStart()
 
 void Walrus::DetectGoals()
 {
-   char tail[128];
    DdsTricks tr;
+   char tail[128];
    CumulativeScore zeroes;
+   bool hasSecondaryScorer = (sem.solveSecondTime == &Walrus::SolveSecondTime);
 
    // primary
    config.primGoal = PokeScorerForTricks();
-   owl.Show("Primary scorer (%s, %d tr):", ui.declTrump, config.primGoal);
+   owl.Show("%s scorer (%s, %d tr):"
+      , hasSecondaryScorer ? "Contract-A" : "Primary"
+      , ui.declTrump, config.primGoal);
    strcpy(tail, "  / ");
    for (tr.plainScore = 7; tr.plainScore <= 13 ; tr.plainScore++) {
       cumulScore = zeroes;
-      (this->*sem.onScoring)(tr);
+      (cumulScore.*sem.onScoring)(tr.plainScore);
       AddScorerValues(tail);
    }
    owl.Show("%s\n", tail);
@@ -87,7 +90,7 @@ void Walrus::DetectGoals()
    if (sem.solveSecondTime == &Walrus::SolveSecondTime) {
       config.otherGoal = PokeOtherScorer();
       ui.SetupOtherContract();
-      owl.Show("Secondary scorer (%s, %d tr):", ui.theirTrump, config.otherGoal);
+      owl.Show("Contract-B scorer (%s, %d tr):", ui.theirTrump, config.otherGoal);
       strcpy(tail, "  / ");
       for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
          cumulScore = zeroes;

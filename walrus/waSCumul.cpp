@@ -13,6 +13,7 @@ void CumulativeScore::Our4M(uint tricks)
 {
    // "always game" strategy
    switch (tricks) {
+      case 1:  bidGame -= 900; break;
       case 2:  bidGame -= 800; break;
       case 3:  bidGame -= 700; break;
       case 4:  bidGame -= 600; break;
@@ -45,6 +46,7 @@ void CumulativeScore::OurNV4M(uint tricks)
 {
    // "always game" strategy
    switch (tricks) {
+      case 1:  bidGame -= 450; break;
       case 2:  bidGame -= 400; break;
       case 3:  bidGame -= 350; break;
       case 4:  bidGame -= 300; break;
@@ -77,6 +79,7 @@ void CumulativeScore::OurNV4MX(uint tricks)
 {
    // "always game" strategy
    switch (tricks) {
+      case 1:  bidGame -= 2300; break;
       case 2:  bidGame -= 2000; break;
       case 3:  bidGame -= 1700; break;
       case 4:  bidGame -= 1400; break;

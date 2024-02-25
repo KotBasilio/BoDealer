@@ -14,6 +14,7 @@
 #ifdef SEEK_DENOMINATION
    #define FIXED_HAND_NORTH
    #define SCORE_THE_OTHER_CONTRACT
+   #define THE_OTHER_IS_OURS
 #endif
 
 #ifdef PARTNER_HAND_TASK

@@ -101,10 +101,10 @@ void MiniUI::FillMiniRows()
 
    #ifdef SHOW_OUR_OTHER
    {
-      sprintf(miniRowStart[IO_ROW_OUR_DOWN], "    (5d down): ");
-      sprintf(miniRowStart[IO_ROW_OUR_MADE], "    (5d make): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS+0], "   (3NT down): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS+1], "   (3NT make): ");
+      sprintf(miniRowStart[IO_ROW_OUR_DOWN], "  (ctrA down): ");
+      sprintf(miniRowStart[IO_ROW_OUR_MADE], "  (ctrA make): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS+0], "  (ctrB down): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS+1], "  (ctrB make): ");
    }
    #endif
 

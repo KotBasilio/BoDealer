@@ -123,7 +123,7 @@ void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
    //sem.onBoardAdded = &Walrus::DisplayBoard;
-   sem.onScoring = &Walrus::Score_NV7Minor;
+   sem.onScoring = &CumulativeScore::OurNV7m;
    sem.onSolvedTwice = &Walrus::Score_NV7NT;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();

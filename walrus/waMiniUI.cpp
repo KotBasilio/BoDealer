@@ -72,9 +72,8 @@ void MiniUI::WaitAnyKey()
 int Walrus::PokeScorerForTricks()
 {
    // take 13 tricks 
-   DdsTricks tr;
-   tr.plainScore = 13;
-   (this->*sem.onScoring)(tr);
+   uint plainScore = 13;
+   (cumulScore.*sem.onScoring)(plainScore);
 
    // not a game => some partscore
    if (cumulScore.ideal < 300) {
@@ -87,8 +86,8 @@ int Walrus::PokeScorerForTricks()
       }
 
       // a major, tell 3M from 2M
-      tr.plainScore = 8;
-      (this->*sem.onScoring)(tr);
+      plainScore = 8;
+      (cumulScore.*sem.onScoring)(plainScore);
       if (cumulScore.partscore == 370) {
          return 8; 
       }
@@ -122,8 +121,8 @@ int Walrus::PokeScorerForTricks()
    }
 
    // take 9 and analyze sum
-   tr.plainScore = 9;
-   (this->*sem.onScoring)(tr);
+   plainScore = 9;
+   (cumulScore.*sem.onScoring)(plainScore);
 
    // made two games => seems playing 3NT
    if (cumulScore.ideal > 1200) {
@@ -175,11 +174,13 @@ int Walrus::PokeOtherScorer()
    }
 
    switch (cumulScore.bidSlam) {
-      case 1510: return 13; // 7M  NV
-      case 1520: return 13; // 7NT NV
-      case 2210: return 13; // 7M  V
-      case 2220: return 13; // 7NT V
+      case 1510: // 7M  NV
+      case 1520: // 7NT NV
+      case 2210: // 7M  V
+      case 2220: // 7NT V
+         return 13;
    }
+
 
    return 0;
 }

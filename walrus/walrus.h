@@ -93,25 +93,7 @@ protected:
 
     // scoring
     CumulativeScore cumulScore;
-    void Score_4Major(DdsTricks &tr);
-    void Score_NV_4Major(DdsTricks &tr);
-    void Score_NV_Doubled4Major(DdsTricks &tr);
-    void Score_4Minor(DdsTricks& tr);
-    void Score_5Major(DdsTricks &tr);
-    void Score_NV_5Major(DdsTricks &tr);
-    void Score_5Minor(DdsTricks& tr);
-    void Score_NV_5Minor(DdsTricks &tr);
-    void Score_NV_Doubled5Minor(DdsTricks &tr);
-    void Score_3NT(DdsTricks &tr);
     void Score_Doubled3NT(DdsTricks &tr);
-    void Score_2m(DdsTricks &tr);
-    void Score_2M(DdsTricks &tr);
-    void Score_1NT(DdsTricks &tr);
-    void Score_NV6Major(DdsTricks &tr);
-    void Score_NV6Minor(DdsTricks &tr);
-    void Score_NV6NoTrump(DdsTricks &tr);
-    void Score_6NT(DdsTricks &tr);
-    void Score_NV7Minor(DdsTricks& tr);
     void Score_NV7NT(DdsTricks& tr);
     void Score_OpLead3Major(DdsTricks &tr);
     void Score_OpLead3NT(DdsTricks &tr);

@@ -144,6 +144,7 @@
     <ClCompile Include="..\..\dds-develop\src\TransTableS.cpp" />
     <ClCompile Include="..\..\walrus\waAI.cpp" />
     <ClCompile Include="..\..\walrus\waBitTwelve.cpp" />
+    <ClCompile Include="..\..\walrus\waCompareContracts.cpp" />
     <ClCompile Include="..\..\walrus\waConfig.cpp" />
     <ClCompile Include="..\..\walrus\waDDSTest.cpp" />
     <ClCompile Include="..\..\walrus\waDoubleDeal.cpp" />

@@ -99,7 +99,7 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
 
       // pass to basic statistics
       HitByTricks(tr, config.primGoal);
-      (this->*sem.onScoring)(tr);
+      (cumulScore.*sem.onScoring)(tr.plainScore);
 
       // some detailed postmortem is possible
       (this->*sem.onPostmortem)(tr, cards);
@@ -167,7 +167,7 @@ void Walrus::SolveOneByOne(deal& dlBase)
       dl.Solve(i);
 
       // pass
-      (this->*sem.onScoring)(dl.tr);
+      (cumulScore.*sem.onScoring)(dl.tr.plainScore);
 
       // may report
       if (!(i & 0xf)) {

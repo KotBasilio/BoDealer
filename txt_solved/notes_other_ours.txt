@@ -1,0 +1,13 @@
+
+         DdsTricks trTw;
+         trTw.Init(twice.solvedBoard[handno]);
+         (this->*sem.onSolvedTwice)(trTw);
+
+         #ifdef THE_OTHER_IS_OURS
+            // DdsTricks tr; tr.Init(solved.solvedBoard[handno]);
+            // CountComboScore(tr.plainScore, trTw.plainScore);
+         #endif // THE_OTHER_IS_OURS
+
+
+
+
