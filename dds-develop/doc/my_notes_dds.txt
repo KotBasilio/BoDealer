@@ -1,5 +1,10 @@
 actual doc see on https://github.com/dds-bridge/dds
 
+Ключевое про производительность:
+http://bcalc.w8.pl/
+гон€л до 100тыс cдч со сложными условиями и вычислениями, занимало 2-3 минуты
+
+
 
 AnalysePlayBin
 AnalyseAllPlaysBin
