@@ -44,17 +44,17 @@ void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs)
       progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_REFRAIN_BIDDING]++;
    }
    progress.countExtraMarks++;
-   ui.biddingBetterBy = tester.bidGame - tester.oppCtrDoubled;
+   s64   delta = tester.bidGame - tester.oppCtrDoubled;
+   ui.biddingBetterBy += delta;
 
    // debug
    #ifdef SHOW_EACH_COMPARISON
       char *action = "Bidding   ";
-      auto amount = ui.biddingBetterBy;
-      if (amount < 0) {
+      if (delta < 0) {
          action = "Refraining";
-         amount = -amount;
+         delta = -delta;
       }
-      printf("   %4lld; %4lld. %s is better by %lld points\n", tester.bidGame, tester.oppCtrDoubled, action, amount);
+      printf("   %4lld; %4lld. %s is better by %lld points\n", tester.bidGame, tester.oppCtrDoubled, action, delta);
    #endif 
 }
 
@@ -78,11 +78,16 @@ void Walrus::CompareSlams(uint tricksA, uint tricksB)
    // mark
    if (tester.ourOther > tester.bidSlam) {
       progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_PREFER_TO_BID]++;
+   } else if (tester.ourOther == tester.bidSlam) {
+      progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_NO_DIFF]++;
    } else {
       progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_REFRAIN_BIDDING]++;
    }
    progress.countExtraMarks++;
-   ui.biddingBetterBy = tester.ourOther - tester.bidSlam;
+
+   // convert to imps
+   s64   delta = tester.ourOther - tester.bidSlam;
+   ui.biddingBetterBy += delta;
 }
 
 // OBSOLETE

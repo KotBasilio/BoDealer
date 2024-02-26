@@ -226,13 +226,12 @@ void Walrus::ShowPercentages(s64 sumRows)
 {
    float percGoDown = hitsRow[IO_ROW_OUR_DOWN] * 100.f / sumRows;
    float percMake = hitsRow[IO_ROW_OUR_MADE] * 100.f / sumRows;
-   //owl.OnDone("Chances: %3.1f%% down some + %3.1f%% make\n", percGoDown, percMake);
    owl.OnDone("Chance to make = %3.1f%%\n", percMake);
 }
 
 void Walrus::ShowBiddingLevel(s64 sumRows)
 {
-   #if defined(SEEK_BIDDING_LEVEL) || defined(FOUR_HANDS_TASK)
+   #if defined(SEEK_BIDDING_LEVEL) || defined(SEEK_DENOMINATION) || defined(FOUR_HANDS_TASK)
       // slam/game/partscore
       if (config.primGoal < 12) {
          owl.OnDone("Averages: ideal = %lld, bidGame = %lld",
@@ -244,7 +243,7 @@ void Walrus::ShowBiddingLevel(s64 sumRows)
          owl.OnDone(".   ");
          #endif 
       } else {
-         owl.OnDone("Averages: ideal = %lld, bidGame = %lld, slam=%lld\n",
+         owl.OnDone("Averages: ideal = %lld, bidGame = %lld, slam=%lld; ",
             cumulScore.ideal / sumRows,
             cumulScore.bidGame / sumRows,
             cumulScore.bidSlam / sumRows);
@@ -272,8 +271,15 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
 {
    // our other contract
    #ifdef SHOW_OUR_OTHER
-      owl.OnDone("The other contract expectation average = %lld.", cumulScore.ourOther / sumOppRows);
-      owl.OnDone(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows);
+      owl.OnDone("The other contract: avg = %lld; ", cumulScore.ourOther / sumOppRows);
+      s64 sumBid = (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_PREFER_TO_BID];
+      s64 sumRef = (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_REFRAIN_BIDDING] + 
+                   (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_NO_DIFF];
+      s64 totalComparisons = __max(sumBid + sumRef, 1);
+      float percBetterBid = sumBid * 100.f / totalComparisons;
+      owl.OnDone("makes in %3.1f%% cases; superior in %3.1f%% cases\n", 
+         hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows, percBetterBid);
+         // todo ui.biddingBetterBy / totalComparisons
    #endif
 
    // averages for opening lead

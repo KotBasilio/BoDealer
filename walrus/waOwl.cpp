@@ -144,7 +144,7 @@ void OscarTheOwl::Show(const char* format, ...)
 
    va_end(args);
 
-   printf(buffer);
+   printf("%s", buffer);
    Send(buffer);
 }
 
@@ -158,7 +158,7 @@ void OscarTheOwl::OnProgress(const char* format, ...)
    va_end(args);
 
    if (mainProgress->isDoneAll) {
-      printf(buffer);
+      printf("%s", buffer);
    } else {
       Send(buffer);
    }
@@ -176,7 +176,7 @@ void OscarTheOwl::OnDone(const char* format, ...)
    if (mainProgress->isDoneAll) {
       Send(buffer);
    } else {
-      printf(buffer);
+      printf("%s", buffer);
    }
 }
 

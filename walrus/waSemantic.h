@@ -23,6 +23,11 @@ constexpr uint IO_ROW_THEIRS     = IO_ROW_CONTRACT_B;
 constexpr uint IO_ROW_COMPARISON = IO_ROW_CONTRACT_B + 2;
 constexpr uint IO_ROW_MAGIC_FLY  = IO_ROW_COMPARISON;
 constexpr uint IO_ROW_SACRIFICE  = IO_ROW_COMPARISON;
+// -- hcp postmortem
+#define IO_ROW_HCP_START 7
+#define IO_SHIFT_FOR_EXTRA_MARKS  23
+#define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
+#define IO_ROW_SELECTED  (11 + IO_SHIFT_FOR_EXTRA_MARKS)
 
 // output columns
 constexpr uint IO_CAMP_OFF = 0;
@@ -30,6 +35,7 @@ constexpr uint IO_CAMP_PREFER_SUIT = 1;
 constexpr uint IO_CAMP_SAME_NT = 2;
 constexpr uint IO_CAMP_MORE_NT = 3;
 constexpr uint IO_CAMP_PREFER_TO_BID = 1;
+constexpr uint IO_CAMP_NO_DIFF = 2;
 constexpr uint IO_CAMP_REFRAIN_BIDDING = 3;
 
 // hits count and others

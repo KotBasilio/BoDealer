@@ -142,7 +142,7 @@ void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
       (this->*sem.onCompareContracts)(trFirst.plainScore, trSecond.plainScore);
 
       // may monitor TNT -- TODO
-      deal& cards(bo.deals[handno]);
+      //deal& cards(bo.deals[handno]);
       //(this->*sem.onMonitorTNT)(cards, trFirst.plainScore + trSecond.plainScore);
 
       // may debug each board
