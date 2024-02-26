@@ -21,10 +21,9 @@ struct MiniUI {
    int   irGoal, irFly;
    s64   biddingBetterBy;
    int   farCol;
-   char  declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10];
+   char  declTrump[10], declSeat[10], seatOnLead[10];
    MiniUI();
    void Init(int trump, int first);
-   void SetupOtherContract();
    void DisplayBoard(twContext* lay);
    void WaitAnyKey();
    void FillMiniRows();
@@ -43,15 +42,15 @@ constexpr uint WA_CONTR_TITLE_LEN = 5;
 struct WaConfig {
    waFileNames namesBase;
 
-   char titleOurContract[WA_CONTR_TITLE_LEN];   // kind of "2S", "6NT"
-   char titleTheirContract[WA_CONTR_TITLE_LEN]; // kind of "2Sx", "PASS" 
+   char titleContractPrimary[WA_CONTR_TITLE_LEN];   // kind of "2S", "6NT", our main action
+   char titleContractSecondary[WA_CONTR_TITLE_LEN]; // kind of "2Sx", "PASS", maybe their contract 
 
    WaConfig();
 
    int   primGoal;  // goal tricks in our primary contract
-   int   soTrump, soFirst;
+   int   primTrump, primFirst;
 
-   int   otherGoal; // goal tricks either in our secondary contract or in their contract
+   int   secGoal; // goal tricks either in our secondary contract or in their contract
 
    // for post-mortem:
    int   postmSuit; 
@@ -59,7 +58,10 @@ struct WaConfig {
 
    WE_REPORT_TYPE detailedReportType;
 
+   char  declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10], secLongName[20];
+
    void ReadStart();
+   void SetupOtherContract();
 };
 
 extern WaConfig config;

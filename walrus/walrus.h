@@ -65,6 +65,7 @@ protected:
     void NoticeSacrificePossible(uint tOurs, uint tTheirs);
     void NoticeBidProfit(uint tOurs, uint tTheirs);
     void CompareOurContracts(uint tricksA, uint tricksB);
+    void CompareSlams(uint tricksA, uint tricksB);
     void HandleDDSFail(int res);
 
     // multi-thread

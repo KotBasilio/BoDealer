@@ -60,6 +60,29 @@ void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs)
 
 void Walrus::CompareOurContracts(uint tricksA, uint tricksB)
 {
+   // detect score
+   CumulativeScore tester;
+   (tester.*sem.onScoring)(tricksA);
+   (tester.*sem.onSolvedTwice)(tricksB);
+
+   // todo general compare
+}
+
+void Walrus::CompareSlams(uint tricksA, uint tricksB)
+{
+   // detect score
+   CumulativeScore tester;
+   (tester.*sem.onScoring)(tricksA);
+   (tester.*sem.onSolvedTwice)(tricksB);
+
+   // mark
+   if (tester.ourOther > tester.bidSlam) {
+      progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_PREFER_TO_BID]++;
+   } else {
+      progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_REFRAIN_BIDDING]++;
+   }
+   progress.countExtraMarks++;
+   ui.biddingBetterBy = tester.ourOther - tester.bidSlam;
 }
 
 // OBSOLETE

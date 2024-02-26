@@ -42,7 +42,7 @@ void WaConfig::ReadStart()
 {
    // goals
    primGoal = 0;
-   otherGoal = 0;
+   secGoal = 0;
 
    const char* fname = namesBase.StartFrom;
    //printf("Reading config from: %s\n", fname);
@@ -88,9 +88,9 @@ void Walrus::DetectGoals()
 
    // secondary
    if (sem.solveSecondTime == &Walrus::SolveSecondTime) {
-      config.otherGoal = PokeOtherScorer();
-      ui.SetupOtherContract();
-      owl.Show("Contract-B scorer (%s, %d tr):", ui.theirTrump, config.otherGoal);
+      config.secGoal = PokeOtherScorer();
+      config.SetupOtherContract();
+      owl.Show("Contract-B scorer (%s, %d tr):", config.theirTrump, config.secGoal);
       strcpy(tail, "  / ");
       for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
          cumulScore = zeroes;

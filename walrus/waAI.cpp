@@ -133,7 +133,7 @@ void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
    for (int handno = 0; handno < _twiceSolved.noOfBoards; handno++) {
       // pass to basic statistics
       trSecond.Init(_twiceSolved.solvedBoard[handno]);
-      HitByTricks(trSecond, config.otherGoal, IO_ROW_THEIRS);
+      HitByTricks(trSecond, config.secGoal, IO_ROW_THEIRS);
       (cumulScore.*sem.onSolvedTwice)(trSecond.plainScore);
       progress.countExtraMarks++;
 

@@ -42,13 +42,13 @@ void WaFilter::Bind(class Walrus* _walrus)
 WaConfig::WaConfig()
    : namesBase()
    , primGoal(0)
-   , otherGoal(0)
+   , secGoal(0)
    , postmSuit(0)
    , minControls(0)
    , detailedReportType(WREPORT_NONE)
 {
-   titleOurContract [0] = 0;
-   titleTheirContract[0] = 0;
+   titleContractPrimary [0] = 0;
+   titleContractSecondary[0] = 0;
 
    #ifdef IO_SHOW_HCP_CTRL_SPLIT
       detailedReportType = WREPORT_HCP;

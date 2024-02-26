@@ -125,6 +125,7 @@ void Walrus::FillSemantic(void)
    //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.onScoring = &CumulativeScore::OurNV7m;
    sem.onSolvedTwice = &CumulativeScore::Score_NV7NT;
+   sem.onCompareContracts = &Walrus::CompareSlams;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 13);

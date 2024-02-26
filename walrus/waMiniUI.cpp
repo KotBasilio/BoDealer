@@ -36,10 +36,15 @@ MiniUI::MiniUI()
    FillMiniRows();
 }
 
-void MiniUI::SetupOtherContract()
+void WaConfig::SetupOtherContract()
 {
-   if (config.otherGoal > 0) {
+   if (secGoal > 0) {
       strcpy(theirTrump, s_TrumpNames[OC_TRUMPS]);
+      const char* whos = "Their";
+      #ifdef THE_OTHER_IS_OURS
+         whos = "A";
+      #endif
+      sprintf(secLongName, "%s contract in %s", whos, theirTrump);
    }
 }
 
