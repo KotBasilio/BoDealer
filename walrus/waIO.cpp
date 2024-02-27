@@ -108,17 +108,18 @@ static char *IndentName(const char *start, const char* name, int indent)
    return tail;
 }
 
-constexpr int SIGN_INDENT_PLUS = 'IynA';
+constexpr int SIGN_INDENT_PLUS_A = 'IynA';
+constexpr int SIGN_INDENT_PLUS_B = 'lcxE';
 constexpr int SIGN_INDENT_MINUS = 'LdnE';
 
-void Walrus::HandleFilterLine(int i, ucell sumline, int& indent)
+bool Walrus::HandleFilterLine(int i, ucell sumline, int& indent)
 {
    // normal line => may write dashes
    if (i < IO_ROW_FILTERING || IO_ROW_FILTERING + sem.vecFilters.size() <= i) {
       if (!sumline) {
          owl.OnProgress("----\n");
       }
-      return;
+      return true;
    }
 
    // access name
@@ -128,20 +129,24 @@ void Walrus::HandleFilterLine(int i, ucell sumline, int& indent)
    // filled filter line - show with indent
    if (sumline) {
       owl.OnProgress(IndentName("  ", name, indent));
-      return;
+      if (DetectKeyword(name, SIGN_INDENT_PLUS_B)) {
+         indent++;
+      }
+      return false;
    }
 
    // empty line with filter -- may change indent
    if (DetectKeyword(name, SIGN_INDENT_MINUS)) {
       indent--;
-      return;
+      return false;
    }
-   if (DetectKeyword(name, SIGN_INDENT_PLUS)) {
+   if (DetectKeyword(name, SIGN_INDENT_PLUS_A) || DetectKeyword(name, SIGN_INDENT_PLUS_B)) {
       indent++;
    }
 
    // out neutral or indent-adding
    owl.OnProgress("%02d:\t\t\t\t\t\t\t\t%s\n", i, IndentName(" ", name, indent));
+   return true;
 }
 
 
@@ -162,8 +167,7 @@ void Walrus::ReportAllLines(ucell& bookman)
       // skip lines filled with zeros
       if (!sumline) {
          if (!shownDashes) {
-            HandleFilterLine(i, sumline, indent);
-            shownDashes = true;
+            shownDashes = HandleFilterLine(i, sumline, indent);
          }
          continue;
       }

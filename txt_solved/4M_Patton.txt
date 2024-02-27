@@ -1,5 +1,142 @@
 
 
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+Fix a 10 hcp 5332;
+1NT(10-13) 2h
+2NT ??
+Question: How often 4s makes? Task
+Primary scorer (spades, 10 tr): -300 -200 -100 620 650 680 710  /  80 110 140 170 200 230 260
+----
+26:        0,       0,       0,    >MLN,       0,  : 5889618       PointsRange 12 13 SOUTH
+27:        0,       0,  291252,       0,       0,  : 291252        NoOvercall EAST
+28:        0,       0,       0,       0,  272278,  : 272278        NoOvercall WEST
+29:        0,       0,       0,   26094,       0,  : 26094         ControlsRange 3 6 SOUTH
+30:        0,       0,       0,  413932,       0,  : 413932        SpadesLen 4 4 SOUTH
+31:        0,       0,       0,   14998,       0,  : 14998         HeartsLen 2 4 SOUTH
+32:        0,       0,       0,   10416,       0,  : 10416         DiamondsLen 2 4 SOUTH
+33:        0,       0,       0,    5334,       0,  : 5334          ClubsLen 2 4 SOUTH
+34:    50136,       0,       0,       0,       0,  : 50136
+----
+ 10 tricks board by South in spades example:
+--------
+               KJT75       HCP : 23
+               T73         CTRL: 9
+               K96
+               K8
+   Q6                      93
+   KQJ64                   985
+   Q85                     AJ42
+   T96                     Q432
+               A842
+               A2
+               T73
+               AJ75
+
+Seek 10 tricks board by South in spades ... example:
+--------
+               KJT75       HCP : 22
+               T73         CTRL: 8
+               K96
+               K8
+   Q96                     2
+   QJ865                   A94
+   A32                     QT4
+   65                      QJT974
+               A843
+               K2
+               J875
+               A32
+
+  card suit   rank   equals score
+     0 H      6      5      3
+     1 H      8             3
+     2 H      Q      J      3
+     3 D      A             3
+     4 C      6      5      3
+     5 D      3      2      3
+     6 S      6             3
+     7 S      9             3
+     8 S      Q             3
+
+
+Seek 9 tricks board by South in spades ... example:
+--------
+               KJT75       HCP : 22
+               T73         CTRL: 7
+               K96
+               K8
+   4                       863
+   J984                    KQ
+   AJT73                   Q85
+   A54                     J9732
+               AQ92
+               A652
+               42
+               QT6
+
+  card suit   rank   equals score
+     0 H      4             4
+     1 H      9      8      4
+     2 D      A             3
+     3 C      A             3
+     4 D      3             3
+     5 C      5      4      3
+     6 H      J             3
+     7 D      7             3
+     8 D      J      T      3
+     9 S      4             3
+
+
+Seek 9 tricks board by South in spades ... example:
+--------
+               KJT75       HCP : 23
+               T73         CTRL: 7
+               K96
+               K8
+   42                      Q8
+   AJ82                    K65
+   JT5                     A873
+   Q753                    T962
+               A963
+               Q94
+               Q42
+               AJ4
+
+  card suit   rank   equals score
+     0 H      2             4
+     1 H      8             4
+     2 D      5             4
+     3 D      J      T      4
+     4 C      3             4
+     5 C      5             4
+     6 C      7             4
+     7 C      Q             4
+     8 S      2             4
+     9 S      4             4
+    10 H      J             3
+    11 H      A             3
+
+
+Ending with:
+       (down):    21647,   10628,    1738,      99,       6,       0,       0,       34118
+       (make):    14102,    1913,       3,       0,       0,       0,       0,       16018
+Processed: 50136 total. West is on lead. Goal is 10 tricks in spades.
+Averages: ideal = 285, bidGame = 102, partscore=141.   Chance to make = 31.9%
+(p 22 down):    10739,    6182,    1139,      71,       4,   :    18135,
+(p 22 make):     5514,     381,       0,       0,       0,   :     5895,  --> 24 %
+(p 23 down):    10908,    4446,     599,      28,       2,   :    15983,
+(p 23 make):     8588,    1532,       3,       0,       0,   :    10123,  --> 38 %
+The search took 0.1 sec + an aftermath 7 min 32 sec.
+
+
+
+
 
       |\_______/|
     / | [o] [o] | \

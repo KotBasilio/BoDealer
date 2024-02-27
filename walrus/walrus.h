@@ -108,7 +108,7 @@ protected:
     Progress progress;
     void AnnounceSolving();
     void ReportAllLines(ucell& bookman);
-    void HandleFilterLine(int i, ucell sumline, int &indent);
+    bool HandleFilterLine(int i, ucell sumline, int &indent);
     void MiniReport(ucell toGo);
     void ShowProgress(ucell idx);
     void DetectFarColumn();

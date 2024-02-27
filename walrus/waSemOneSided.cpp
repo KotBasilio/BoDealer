@@ -103,18 +103,24 @@ void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
    //sem.onBoardAdded = &Walrus::DisplayBoard;
-   sem.onScoring = &Walrus::Score_4Major;
+   sem.onScoring = &CumulativeScore::Our4M;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 12, 13);
    ADD_0PAR_FILTER(EAST, NoOvercall);
    ADD_0PAR_FILTER(WEST, NoOvercall);
-   //ADD_2PAR_FILTER(NORTH, ControlsRange, 3, 6);
+   ADD_2PAR_FILTER(SOUTH, ControlsRange, 3, 6);
 
-   ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
-      ADD_4PAR_FILTER(SOUTH, ExactShape, 4, 4, 2, 3);
-      ADD_4PAR_FILTER(SOUTH, ExactShape, 4, 3, 2, 4);
-   ADD_0PAR_FILTER(SOUTH, EndList);
+   //ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
+   //   ADD_4PAR_FILTER(SOUTH, ExactShape, 4, 4, 2, 3);
+   //   ADD_4PAR_FILTER(SOUTH, ExactShape, 4, 3, 2, 4);
+   //ADD_0PAR_FILTER(SOUTH, EndList);
+
+   ADD_2PAR_FILTER(SOUTH, SpadesLen,   4, 4);
+   ADD_2PAR_FILTER(SOUTH, HeartsLen,   2, 4);
+   ADD_2PAR_FILTER(SOUTH, DiamondsLen, 2, 4);
+   ADD_2PAR_FILTER(SOUTH, ClubsLen,    2, 4);
+
 }
 #endif
 
@@ -137,3 +143,39 @@ void Walrus::FillSemantic(void)
    ADD_0PAR_FILTER(WEST, NoOvercall);
 }
 #endif
+
+#ifdef SEMANTIC_INV_AFTER_2H
+void Walrus::FillSemantic(void)
+{
+   OrbNorthFillSem();
+   //sem.onBoardAdded = &Walrus::DisplayBoard;
+   sem.onScoring = &CumulativeScore::Our4M;
+   sem.onPostmortem = &Walrus::PostmortemHCP;
+   sem.vecFilters.clear();
+   ADD_2PAR_FILTER(SOUTH, PointsRange, 10, 13);
+   ADD_2PAR_FILTER(SOUTH, SpadesLen, 5, 6);
+
+   ADD_0PAR_FILTER(WEST, NoOvercall);
+   ADD_2PAR_FILTER(WEST, HeartsLen, 0, 2);
+
+   ADD_2PAR_FILTER(EAST, HeartsLen, 6, 6);
+   ADD_2PAR_FILTER(EAST, PointsRange, 7, 10);
+   ADD_2PAR_FILTER(EAST, PointsSuitAtLeast, HRT, 3);
+
+   //ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
+   //   ADD_2PAR_FILTER(SOUTH, SpadesLen, 6, 6);
+   //   ADD_2PAR_FILTER(SOUTH, PointsRange, 12, 13);
+   //ADD_0PAR_FILTER(SOUTH, EndList);
+
+   ADD_0PAR_FILTER(SOUTH, SpadesNatural);
+   ADD_0PAR_FILTER(SOUTH, ExcludeCombination);
+      ADD_2PAR_FILTER(SOUTH, SpadesLen, 5, 5);
+      ADD_2PAR_FILTER(SOUTH, PointsRange, 10, 11);
+   ADD_0PAR_FILTER(SOUTH, EndList);
+   ADD_0PAR_FILTER(SOUTH, ExcludeCombination);
+      ADD_2PAR_FILTER(SOUTH, SpadesLen, 6, 6);
+      ADD_2PAR_FILTER(SOUTH, PointsRange, 13, 13);
+   ADD_0PAR_FILTER(SOUTH, EndList);
+
+}
+#endif 

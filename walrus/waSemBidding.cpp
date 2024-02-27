@@ -67,7 +67,7 @@ void Walrus::FillSemantic(void)
 }
 #endif // SEMANTIC_OCT_INDIAN_5C
 
-#ifdef SEMANTIC_MORO_4C
+#ifdef SEMANTIC_OVERCALL_4C
 void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
@@ -85,6 +85,6 @@ void Walrus::FillSemantic(void)
    ADD_2PAR_FILTER(WEST,  DiamondsLen, 0, 5);
    ADD_2PAR_FILTER(WEST,  ClubsLen, 0, 5);
 }
-#endif // SEMANTIC_MORO_4C
+#endif // SEMANTIC_OVERCALL_4C
 
 

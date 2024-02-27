@@ -80,6 +80,8 @@ struct Semantics {
    struct deal* dlBase;
    Semantics();
    void MiniLink();
+private:
+   bool IsListStart(const MicroFilter& mic);
 };
 
 extern Semantics semShared;

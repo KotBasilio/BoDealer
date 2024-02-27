@@ -8,7 +8,7 @@
  // hitsCount[][]; distribution 
  // -- rows are big factor (aka hcp, 0 - 40)
  // -- columns are smaller factor (aka controls, 0 - 12)
-constexpr int EXTRA_FILTER_SIZE = 0; // may reserve for big filters
+constexpr int EXTRA_FILTER_SIZE = 10; // may reserve for big filters
 constexpr int HCP_SIZE = 40 + 1 + EXTRA_FILTER_SIZE;// to address 0 - 40
 constexpr int CTRL_SIZE = 12 + 4;// to get 16 as padding
 
@@ -27,7 +27,7 @@ constexpr uint IO_ROW_SACRIFICE  = IO_ROW_COMPARISON;
 #define IO_ROW_HCP_START 7
 #define IO_SHIFT_FOR_EXTRA_MARKS  23
 #define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
-#define IO_ROW_SELECTED  (11 + IO_SHIFT_FOR_EXTRA_MARKS)
+#define IO_ROW_SELECTED  IO_ROW_FILTERING
 
 // output columns
 constexpr uint IO_CAMP_OFF = 0;
@@ -103,12 +103,14 @@ public:
    uint TakeoutOfClubs(twContext* lay, const uint* par);
    // -- branching
    uint AnyInListBelow(twContext* lay, const uint *par);
+   uint ExcludeCombination(twContext* lay, const uint *par);
    uint EndList(twContext* lay, const uint *par);
 private:
    Progress *progress;
    struct Semantics* sem;
    uint LineKeyCardsRange(twContext* lay, const uint* par, u64 kc_mask);
    bool KeyCardsRange(u64 jo, u64 kc_mask, uint from, uint to);
+   void ImprintWithinList(uint ip, uint reason, uint last);
 
    struct semExec {
       uint ip;     // instruction pointer

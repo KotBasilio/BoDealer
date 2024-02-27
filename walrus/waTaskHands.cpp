@@ -15,6 +15,12 @@
 // --------------------------------------------------------------------------------
 // input
 
+#ifdef SEMANTIC_INV_AFTER_2H
+   #define INPUT_TRUMPS    SOL_SPADES
+   #define INPUT_ON_LEAD   WEST
+   char const taskHandPBN[] = "[N:9854.K96.Q65.AK8]";
+#endif 
+
 #ifdef SEMANTIC_7D_OR_NT_FEB
    #define INPUT_TRUMPS    SOL_DIAMONDS
    #define INPUT_ON_LEAD   WEST
@@ -75,12 +81,12 @@
 #endif
 
 
-#ifdef SEMANTIC_MORO_4C
+#ifdef SEMANTIC_OVERCALL_4C
    // origin: Morozevic, Dec 2023
    #define INPUT_TRUMPS    SOL_CLUBS
    #define INPUT_ON_LEAD   EAST
    char const taskHandPBN[] = "[N:.KJ5.T763.KQ9873]";
-#endif // SEMANTIC_MORO_4C
+#endif // SEMANTIC_OVERCALL_4C
 
 #ifdef FOUR_HANDS_TASK
    char const taskHandPBN[] = "[N:234.567.AKQT.J98]";// just a dummy

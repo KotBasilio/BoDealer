@@ -524,6 +524,17 @@ bool WaFilter::ScanOut(twContext* lay)
    return false;
 }
 
+void WaFilter::ImprintWithinList(uint ip, uint reason, uint last)
+{
+   auto row = IO_ROW_FILTERING + ip;
+   progress->hitsCount[row][reason]++;
+   if (ip < last) {
+      progress->countExtraMarks++;
+   } else {
+      progress->hitsCount[row + 1][reason]--;
+   }
+}
+
 uint WaFilter::AnyInListBelow(twContext* lay, const uint* par)
 {
    // init
@@ -541,15 +552,8 @@ uint WaFilter::AnyInListBelow(twContext* lay, const uint* par)
       // when the filter rejects this layout
       if (reason) {
          // we just imprint that rejection in the main table
-         auto row = IO_ROW_FILTERING + ip;
-         progress->hitsCount[row][reason]++; 
-         if (ip < last) {
-            progress->countExtraMarks++;
-         } else {
-            progress->hitsCount[row + 1][reason]--; 
-         }
-
          // continue checks since some other filter can accept this layout
+         ImprintWithinList(ip, reason, last);
          continue;
       } 
       
@@ -560,6 +564,36 @@ uint WaFilter::AnyInListBelow(twContext* lay, const uint* par)
 
    // pass or fail by the last checked filter
    return reason;
+}
+
+uint WaFilter::ExcludeCombination(twContext* lay, const uint* par)
+{
+   // same as AnyInListBelow(), but all filters must fail
+   uint reason = MIC_PASSED;
+   auto backup = exec.ip;
+   auto &ip = exec.ip;
+   auto last = par[1] - 1;
+
+   // for all filters in this block
+   for (ip++; ip <= last; ip++) {
+      // try current filter
+      const auto& mic = sem->vecFilters[ip];
+      reason = (this->*mic.func)(lay, mic.params);
+
+      // rejected => entire block is accepted
+      if (reason) {
+         ImprintWithinList(ip, reason, last + 2);
+         ip = last + 1;
+         return MIC_PASSED;
+      }
+
+      // continue checks since some other filter can reject this layout
+   }
+
+   // all filters accepted the layout => we exclude it
+   ip = backup;
+   auto seat = par[0];
+   return MIC_BLOCK;
 }
 
 uint WaFilter::EndList(twContext* lay, const uint* par)

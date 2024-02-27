@@ -135,7 +135,7 @@ void Semantics::MiniLink()
    for (uint ip = 0; ip < vecFilters.size(); ip++) {
       // notice one
       auto& mic = vecFilters[ip];
-      if (mic.func != &WaFilter::AnyInListBelow) {
+      if (!IsListStart(mic)) {
          continue;
       }
 
@@ -144,7 +144,7 @@ void Semantics::MiniLink()
       for (retAddr = ip+1; retAddr < vecFilters.size() && depth; retAddr++) {
          // notice nested blocks 
          const auto& scanRet = vecFilters[retAddr];
-         if (scanRet.func == &WaFilter::AnyInListBelow) {
+         if (IsListStart(scanRet)) {
             depth++;
          }
          if (scanRet.func == &WaFilter::EndList) {
@@ -155,6 +155,12 @@ void Semantics::MiniLink()
       // place it in the instruction
       mic.params[1] = retAddr - 1;
    }
+}
+
+bool Semantics::IsListStart(const MicroFilter& mic)
+{
+   return mic.func == &WaFilter::AnyInListBelow ||
+          mic.func == &WaFilter::ExcludeCombination;
 }
 
 void Walrus::InitDeck(void)
