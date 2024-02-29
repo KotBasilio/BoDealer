@@ -68,6 +68,7 @@ extern WaConfig config;
 
 // Oscar interactions
 
+#define GRIFFINS_CLUB_RUNS       "Lights are on"
 #define GRIFFINS_CLUB_IS_CLOSING "Shutdown"
 
 struct OscarTheOwl {

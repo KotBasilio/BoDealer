@@ -29,8 +29,13 @@ private:
    bool IsFeelingLost();
 
    int countEmpty = 0;
-   char gossip[256];
+   char gossip[512];
 };
+extern void ShowAllScores();
+
+void FillScores();
+
+void MinorPartscore(s64*& cur);
 
 bool OscarEcho::IsFeelingLost()
 {
@@ -62,15 +67,21 @@ bool OscarEcho::Retell()
       return false;
    }
 
-   // TODO: recoginze other commands
+   // TODO: recognize other commands
 
    // stay content
    return true;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
+   if (argc < 2) {
+      ShowAllScores();
+      return 0;
+   }
+
    OscarEcho owl;
    while (owl.Retell()) {}
-}
 
+   return 0;
+}

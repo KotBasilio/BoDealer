@@ -38,7 +38,7 @@ static BOOL _AttemptStartOscar(CHAR *workDirPath, CHAR* suffix, STARTUPINFO& siS
 
    // Create the child process.
    return CreateProcess(oscarPath,
-      NULL,     // Command line
+      GRIFFINS_CLUB_RUNS,     // Command line
       NULL,     // Process handle not inheritable
       NULL,     // Thread handle not inheritable
       TRUE,     // Set handle inheritance to TRUE

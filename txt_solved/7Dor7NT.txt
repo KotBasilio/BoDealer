@@ -103,3 +103,74 @@ Chance to make = 57.6%
 (p 32 down):     4740,     404,      34,       3,       1,   :     5182,
 (p 32 make):    11124,       0,       0,       0,       0,   :    11124,  --> 68 %
 The search took 0.5 sec + an aftermath 3 min 37 sec.
+
+
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+Fix a 19 hcp 2722;
+Part has opened diamonds, shown 6-4 with spaeds, has AKQ in diamonds.
+Question: What's better -- 7D or 7NT?
+Contract-A scorer (diamonds, 13 tr): -250 -200 -150 -100 -50 920 940  /  -300 -250 -200 -150 -100 -50 1440
+Contract-B scorer (notrump, 13 tr):                              /  -300 -250 -200 -150 -100 -50 1520
+----
+26:        0,       0,       0,     >XM,       0,  : 51365148      PointsRange 11 13 SOUTH
+27:        0,       0,       0,    >MLN,       0,  : 5633952       DiamondsLen 6 7 SOUTH
+28:        0,       0,       0,  573402,       0,  : 573402        PointsSuitAtLeast DMD 9 SOUTH
+29:        0,       0,       0,  297560,       0,  : 297560        SpadesLen 4 4 SOUTH
+30:        0,       0,       0,    1376,       0,  : 1376          HeartsLen 0 2 SOUTH
+31:        0,       0,    3864,       0,       0,  : 3864          NoOvercall EAST
+32:        0,       0,       0,       0,    3732,  : 3732          NoOvercall WEST
+----
+34:    50006,       0,       0,       0,       0,  : 50006
+----
+ 13 tricks board by South in diamonds example:
+--------
+               A7          HCP : 30
+               AKJ8743     CTRL: 11
+               98
+               AK
+   K42                     QT63
+   QT6                     52
+   T764                    5
+   QT6                     J98742
+               J985
+               9
+               AKQJ32
+               53
+                                      A contract in notrump has 13 tricks.
+    suit   rank   score               suit   rank   score
+      C      6      0                   S      2      0
+      S      2      0                   S      4      0
+      C      T      0                   S      K      0
+      S      4      0                   C      6      0
+      C      Q      0                   C      T      0
+      S      K      0                   C      Q      0
+      H      6      0                   H      6      0
+      H      T      0                   H      T      0
+      H      Q      0                   H      Q      0
+      D      4      0                   D      4      0
+      D      7      0                   D      7      0
+      D      T      0                   D      T      0
+
+Ending with:
+  (ctrA down):     5167,    1665,     135,       2,       0,       0,       0,        6969
+  (ctrA make):    43037,       0,       0,       0,       0,       0,       0,       43037
+       (----):        0,       0,       0,       0,       0,       0,       0,           0
+  (ctrB down):    17007,    3346,     595,     138,      10,       0,       0,       21096
+  (ctrB make):    28910,       0,       0,       0,       0,       0,       0,       28910
+Processed: 50006 total. West is on lead. Goal is 13 tricks in diamonds.
+Averages: ideal = 1332, bidGame = 902, slam=1230; Chance to make = 86.1%
+The other contract: avg = 852; makes in 57.8% cases; superior in 58.0% cases
+(p 30 down):     1594,     813,      70,       2,       0,   :     2479,
+(p 30 make):    11987,       0,       0,       0,       0,   :    11987,  --> 82 %
+(p 31 down):     2064,     570,      45,       0,       0,   :     2679,
+(p 31 make):    16513,       0,       0,       0,       0,   :    16513,  --> 86 %
+(p 32 down):     1509,     282,      20,       0,       0,   :     1811,
+(p 32 make):    14537,       0,       0,       0,       0,   :    14537,  --> 88 %
+The search took 0.6 sec + an aftermath 5 min 25 sec.
