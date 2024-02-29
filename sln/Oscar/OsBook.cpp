@@ -3,8 +3,9 @@
 //
 
 #define  _CRT_SECURE_NO_WARNINGS
-#include "walrus.h"
-#include HEADER_CURSES
+
+typedef unsigned int uint;
+typedef signed long long s64;
 
 constexpr uint SCO_ACTIONS = 3; // Pass, Dbl, ReDbl
 constexpr uint SCO_LEVELS  = 7; // 1..7
@@ -12,7 +13,7 @@ constexpr uint SCO_DENOMS  = 3; // m, M, NT
 constexpr uint SCO_TRICKS  = 14;// 0..13
 constexpr uint SCO_VUL     = 2; // nv, V
 constexpr uint SIZE_LINEAR_SCORES = SCO_ACTIONS * SCO_LEVELS * SCO_DENOMS * SCO_VUL * SCO_TRICKS ;
-s64  linearScores[SIZE_LINEAR_SCORES + SCO_TRICKS];
+s64  gLinearScores[SIZE_LINEAR_SCORES + SCO_TRICKS];
 
 static void MinorPartscore(s64*& cur, int level)
 {
@@ -441,7 +442,7 @@ static void XXMNTSlam(s64*& cur, s64*& doubled, int level, int add)
 void FillScores()
 {
    // on pass
-   s64* cur = linearScores;
+   s64* cur = gLinearScores;
    MinorPartscore(cur, 1);
    MajorPartscore(cur, 1);
    NTPartscore   (cur, 1);
@@ -465,7 +466,7 @@ void FillScores()
    NTGrand       (cur, 7);
 
    // on DBL
-   s64* passed = linearScores;
+   s64* passed = gLinearScores;
    XMinor     (cur, passed, 1);
    XMajor     (cur, passed, 1);
    XNT        (cur, passed, 1);
@@ -513,28 +514,55 @@ void FillScores()
    XXMNTSlam  (cur, doubled, 7, 70);
 
    // tail for debug
-   linearScores[SIZE_LINEAR_SCORES] = 42;
-   linearScores[SIZE_LINEAR_SCORES + 1] = 0;
-   linearScores[SIZE_LINEAR_SCORES + 2] = 42;
+   gLinearScores[SIZE_LINEAR_SCORES] = 42;
+   gLinearScores[SIZE_LINEAR_SCORES + 1] = 0;
+   gLinearScores[SIZE_LINEAR_SCORES + 2] = 42;
 }
 
-void ShowAllScores()
+// accept code in format like:
+// V2S  -- vulnerable, 2 spades
+// N1CX -- nv, 1 club doubled
+// N3NR -- nv, 3 NT redoubled
+// i.e. : {VN}[level]{CDHSN}{X R}
+const s64* FindLinearScore(const char* code)
 {
-   FillScores();
+   uint vul = 0;
+   switch (code[0]) {
+      case 'V': vul++;
+      case 'N': break;
+      default : return nullptr;
+   } 
 
-   s64 *cur = linearScores;
-   while (*cur) {
-      for (int tricks = 0; tricks < SCO_TRICKS; tricks++) {
-         printf(" %5lld", *cur++);
-      }
-      printf("\n");
-      for (int tricks = 0; tricks < SCO_TRICKS; tricks++) {
-         printf(" %5lld", *cur++);
-      }
-      printf("\n\n");
+   uint level = code[1] - '0';
+   if (level < 1 || 7 < level) {
+      return nullptr;
+   }
+   level--;
+
+   uint denom = 0;
+   switch (code[2]) {
+      case 'N': denom++;
+      case 'S':
+      case 'H': denom++;
+      case 'D':
+      case 'C': break;
+      default : return nullptr;
    }
 
-   printf("Waiting for the club to start.\n");
-   char tmpBuf[10];
-   gets_s(tmpBuf, 5);
+   uint action = 0;
+   switch (code[3]) {
+      case 'R': action++;
+      case 'X': action++;
+      case ' ':
+      case 0  : break;
+      default : return nullptr;
+   }
+
+   uint shift = 
+      vul      * SCO_TRICKS                                       // vul/nv scores within 1c
+      + denom  * SCO_TRICKS * SCO_VUL                             // all denominations within 1st level
+      + level  * SCO_TRICKS * SCO_VUL * SCO_DENOMS                // all levels within one action
+      + action * SCO_TRICKS * SCO_VUL * SCO_DENOMS * SCO_LEVELS;  // all actions
+
+   return gLinearScores + shift;
 }

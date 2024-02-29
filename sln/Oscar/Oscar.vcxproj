@@ -144,6 +144,9 @@
     <ClCompile Include="OsBook.cpp" />
     <ClCompile Include="Oscar.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Oscar.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

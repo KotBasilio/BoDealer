@@ -6,6 +6,7 @@
 
 #define  _CRT_SECURE_NO_WARNINGS
 #include "walrus.h"
+#include "Oscar.h"
 #include HEADER_CURSES
 
 struct OscarEcho {
@@ -31,11 +32,9 @@ private:
    int countEmpty = 0;
    char gossip[512];
 };
-extern void ShowAllScores();
-
-void FillScores();
-
-void MinorPartscore(s64*& cur);
+extern void FillScores();
+extern s64  gLinearScores[];
+const s64* FindLinearScore(const char* code);
 
 bool OscarEcho::IsFeelingLost()
 {
@@ -71,6 +70,43 @@ bool OscarEcho::Retell()
 
    // stay content
    return true;
+}
+
+constexpr uint SCO_TRICKS = 14;// 0..13
+
+static void PrintCode(const char* code)
+{
+   auto cur = FindLinearScore(code);
+   printf("code : %s\n", code);
+   for (int tricks = 0; tricks < SCO_TRICKS; tricks++) {
+      printf(" %5lld", *cur++);
+   }
+   printf("\n\n");
+}
+
+static void ShowAllScores()
+{
+   FillScores();
+
+   const s64* cur = gLinearScores;
+   while (*cur) {
+      for (int tricks = 0; tricks < SCO_TRICKS; tricks++) {
+         printf(" %5lld", *cur++);
+      }
+      printf("\n");
+      for (int tricks = 0; tricks < SCO_TRICKS; tricks++) {
+         printf(" %5lld", *cur++);
+      }
+      printf("\n\n");
+   }
+
+   PrintCode("V7NR");
+   PrintCode("V2C");
+   PrintCode("V3NX");
+
+   printf("Waiting for the club to start.\n");
+   char tmpBuf[10];
+   gets_s(tmpBuf, 5);
 }
 
 int main(int argc, char* argv[])
