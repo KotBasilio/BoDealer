@@ -15,6 +15,12 @@
 // --------------------------------------------------------------------------------
 // input
 
+#ifdef SEMANTIC_1H_1S_2H_MAR
+   #define INPUT_TRUMPS    SOL_HEARTS
+   #define INPUT_ON_LEAD   WEST
+   char const taskHandPBN[] = "[N:QJ53.KJ8.953.AT7]";
+#endif 
+
 #ifdef SEMANTIC_INV_AFTER_2H
    #define INPUT_TRUMPS    SOL_SPADES
    #define INPUT_ON_LEAD   WEST

@@ -44,6 +44,7 @@ WaConfig::WaConfig()
    , primGoal(0)
    , secGoal(0)
    , postmSuit(0)
+   , postmHand(NORTH)
    , minControls(0)
    , detailedReportType(WREPORT_NONE)
 {

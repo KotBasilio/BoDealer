@@ -116,7 +116,7 @@ static uint CalcSuitHCP(deal& cards, uint seat)
 void Walrus::PostmortemSuit(DdsTricks& tr, deal& cards)
 {
    // calc
-   auto suitHCP = CalcSuitHCP(cards, NORTH);
+   auto suitHCP = CalcSuitHCP(cards, config.postmHand);
    uint row = IO_ROW_HCP_START + suitHCP*2;
 
    // proper row => add a mark in stat

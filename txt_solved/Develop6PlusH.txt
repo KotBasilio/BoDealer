@@ -1,0 +1,823 @@
+
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+Fix a 11 hcp 4333;
+1h 1s
+2h ??
+Question: how often h game makes?
+Primary scorer (hearts, 10 tr): -300 -200 -100 620 650 680 710  /  80 110 140 170 200 230 260
+----
+26:   100074,       0,       0,     >XM,       0,  : 14209686      PointsRange 11 14 SOUTH
+27:        0,       0,       0,    >MLN,       0,  : 2005962       SpadesLen   0 3 SOUTH
+28:        0,       0,       0,    >MLN,       0,  : 3649762       HeartsLen   6 6 SOUTH
+29:        0,       0,       0,    8264,       0,  : 8264          DiamondsLen 0 4 SOUTH
+30:        0,       0,       0,    5612,       0,  : 5612          ClubsLen    0 4 SOUTH
+31:        0,       0,       0,       0,   43907,  : 43907         NoOvercall WEST
+32:        0,       0,   41219,       0,       0,  : 41219         NoOvercall EAST
+----
+ 10 tricks board by South in hearts example:
+--------
+               QJ53        HCP : 23
+               KJ8         CTRL: 7
+               953
+               AT7
+   A84                     KT762
+   954                     6
+   QJ8                     A7642
+   QJ65                    92
+               9
+               AQT732
+               KT
+               K843
+
+Ending with:
+       (down):    27792,    7455,     582,      10,       0,       0,       0,       35839
+       (make):    43370,   18613,    2205,      47,       0,       0,       0,       64235
+Processed: 100074 total. West is on lead. Goal is 10 tricks in hearts.
+Averages: ideal = 452, bidGame = 360, partscore=163.   Chance to make = 64.2%
+(p 22 down):    10746,    4238,     394,       8,       0,   :    15386,
+(p 22 make):     8521,    1754,      92,       3,       0,   :    10370,  --> 40 %
+(p 23 down):     9217,    2330,     149,       2,       0,   :    11698,
+(p 23 make):    11411,    3149,     252,       4,       0,   :    14816,  --> 55 %
+(p 24 down):     5548,     709,      30,       0,       0,   :     6287,
+(p 24 make):    13539,    6224,     608,       8,       0,   :    20379,  --> 76 %
+(p 25 down):     2281,     178,       9,       0,       0,   :     2468,
+(p 25 make):     9899,    7486,    1253,      32,       0,   :    18670,  --> 88 %
+The search took 0.2 sec + an aftermath 11 min 7 sec.
+
+
+
+>>>>>>>>>>>>>>>> NO SHAPE? ~6322
+
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+Fix a 11 hcp 4333;
+1h 1s
+2h ??
+Question: how often h game makes?
+Primary scorer (hearts, 10 tr): -300 -200 -100 620 650 680 710  /  80 110 140 170 200 230 260
+----
+26:   100044,       0,       0,     >XM,       0,  : 32182520      PointsRange 11 14 SOUTH
+27:        0,       0,       0,    >MLN,       0,  : 6042858       SpadesLen   2 3 SOUTH
+28:        0,       0,       0,    >MLN,       0,  : 6943462       HeartsLen   6 6 SOUTH
+29:        0,       0,       0,   96678,       0,  : 96678         DiamondsLen 2 3 SOUTH
+30:        0,       0,       0,   34626,       0,  : 34626         ClubsLen    2 3 SOUTH
+31:        0,       0,       0,       0,   40012,  : 40012         NoOvercall WEST
+32:        0,       0,   37982,       0,       0,  : 37982         NoOvercall EAST
+----
+ 10 tricks board by South in hearts example:
+--------
+               QJ53        HCP : 22
+               KJ8         CTRL: 7
+               953
+               AT7
+   T                       K8764
+   AT6                     4
+   QT4                     KJ872
+   K86432                  Q5
+               A92
+               Q97532
+               A6
+               J9
+
+Ending with:
+       (down):    33586,   11933,     631,       5,       0,       0,       0,       46155
+       (make):    40877,   12459,     543,      10,       0,       0,       0,       53889
+Processed: 100044 total. West is on lead. Goal is 10 tricks in hearts.
+Averages: ideal = 398, bidGame = 278, partscore=156.   Chance to make = 53.9%
+(p 22 down):    11944,    6613,     489,       3,       0,   :    19049,
+(p 22 make):     5684,     884,      11,       0,       0,   :     6579,  --> 25 %
+(p 23 down):    11186,    3808,     116,       2,       0,   :    15112,
+(p 23 make):     9586,    1453,      37,       0,       0,   :    11076,  --> 42 %
+(p 24 down):     7268,    1182,      20,       0,       0,   :     8470,
+(p 24 make):    13963,    4124,      77,       0,       0,   :    18164,  --> 68 %
+(p 25 down):     3188,     330,       6,       0,       0,   :     3524,
+(p 25 make):    11644,    5998,     418,      10,       0,   :    18070,  --> 83 %
+The search took 0.3 sec + an aftermath 8 min 40 sec.
+
+
+
+>>>>>>>>>>>>>>>> TO CHECK: SOME SHORTAGE, min pts 11-12
+
+
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+Fix a 11 hcp 4333;
+1h 1s
+2h ??
+Question: how often h game makes?
+Primary scorer (hearts, 10 tr): -300 -200 -100 620 650 680 710  /  80 110 140 170 200 230 260
+----
+26:    50032,       0,       0,     >XM,       0,  : 24391374      PointsRange 11 12 SOUTH
+27:        0,       0,       0,  599646,       0,  : 599646        SpadesLen 0 4 SOUTH
+28:        0,       0,       0,    >MLN,       0,  : 4243820       HeartsLen 6 6 SOUTH
+29:        0,       0,       0,    7212,       0,  : 7212          DiamondsLen 0 4 SOUTH
+30:        0,       0,       0,    5570,       0,  : 5570          ClubsLen 0 4 SOUTH
+31:        0,       0,       0,       0,   49920,  : 49920         NoOvercall WEST
+32:        0,       0,   46464,       0,       0,  : 46464         NoOvercall EAST
+33:        0,       0,       0,   33758,       0,  : 33758         ExcludeCombination SOUTH
+34:        0,       0,       0,   28906,       0,  : 28906           SpadesLen 2 3 SOUTH
+35:        0,       0,       0,   15294,       0,  : 15294           DiamondsLen 2 3 SOUTH
+36:        0,       0,       0,    5832,       0,  : 5832            ClubsLen 2 3 SOUTH
+----
+ 10 tricks board by South in hearts example:
+--------
+               QJ53        HCP : 22
+               KJ8         CTRL: 8
+               953
+               AT7
+   K74                     AT862
+   QT5                     6
+   876                     QJT
+   QJ98                    K542
+               9
+               A97432
+               AK42
+               63
+
+Ending with:
+       (down):    15887,    3262,     439,      16,       0,       0,       0,       19604
+       (make):    21348,    8262,     802,      16,       0,       0,       0,       30428
+Processed: 50032 total. West is on lead. Goal is 10 tricks in hearts.
+Averages: ideal = 435, bidGame = 335, partscore=161.   Chance to make = 60.8%
+(p 22 down):     9100,    2189,     287,      14,       0,   :    11590,
+(p 22 make):    10246,    3091,     230,       1,       0,   :    13568,  --> 53 %
+(p 23 down):     6787,    1073,     152,       2,       0,   :     8014,
+(p 23 make):    11102,    5171,     572,      15,       0,   :    16860,  --> 67 %
+The search took 0.2 sec + an aftermath 9 min 43 sec.
+
+
+>>>>>>>>>>>>>>>> TO CHECK: any 11 on North
+
+
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+North is some 11 hcp, =4333;
+1h 1s
+2h ??
+Question: how often h game makes?
+Primary scorer (hearts, 10 tr): -300 -200 -100 620 650 680 710  /  80 110 140 170 200 230 260
+----
+26:   148098,     >XR,       0,       0,       0,  : 26589910788   ExactShape 4 3 3 3 NORTH
+27:        0,    >XXM,       0,       0,       0,  : 656782272     PointsRange 11 11 NORTH
+28:        0,     >XM,       0,       0,       0,  : 10473660      ControlsRange 3 5 NORTH
+29:        0,       0,       0,     >XM,       0,  : 39379812      PointsRange 11 13 SOUTH
+30:        0,       0,       0,    >MLN,       0,  : 1469244       SpadesLen 0 4 SOUTH
+31:        0,       0,       0,     >XM,       0,  : 10717400      HeartsLen 6 6 SOUTH
+32:        0,       0,       0,   16616,       0,  : 16616         DiamondsLen 0 4 SOUTH
+33:        0,       0,       0,   16760,       0,  : 16760         ClubsLen 0 4 SOUTH
+34:        0,       0,       0,       0,  121994,  : 121994        NoOvercall WEST
+35:        0,       0,  112892,       0,       0,  : 112892        NoOvercall EAST
+36:        0,       0,       0,  100538,       0,  : 100538        ExcludeCombination SOUTH
+37:        0,       0,       0,   84656,       0,  : 84656           SpadesLen 2 3 SOUTH
+38:        0,       0,       0,   46548,       0,  : 46548           DiamondsLen 2 3 SOUTH
+39:        0,       0,       0,   16894,       0,  : 16894           ClubsLen 2 3 SOUTH
+----
+ 10 tricks board by North in hearts example:
+--------
+               A975        HCP : 24
+               J76         CTRL: 9
+               AQ3
+               985
+   QJ62                    T843
+   Q982                    -
+   86                      J542
+   T72                     AKQJ6
+               K
+               AKT543
+               KT97
+               43
+
+Seek 9 tricks board by North in hearts ... example:
+--------
+               AQJ4        HCP : 22
+               954         CTRL: 6
+               K65
+               JT5
+   32                      KT865
+   AQ                      76
+   9872                    T4
+   KQ743                   A962
+               97
+               KJT832
+               AQJ3
+               8
+
+  card suit   rank   equals score
+     0 C      2             4
+     1 C      6             4
+     2 C      9             4
+     3 C      A             4
+     4 H      7      6      4
+     5 D      4             4
+     6 D      T             4
+     7 S      6      5      3
+     8 S      8             3
+     9 S      T             3
+    10 S      K             2
+
+
+Seek 9 tricks board by North in hearts ... example:
+--------
+               KQ83        HCP : 23
+               Q97         CTRL: 7
+               AT2
+               865
+   A7642                   JT5
+   J4                      T6
+   J9754                   86
+   Q                       AKJ973
+               9
+               AK8532
+               KQ3
+               T42
+
+  card suit   rank   equals score
+     0 S      5             4
+     1 C      A      K      4
+     2 S      J      T      4
+     3 D      6             4
+     4 D      8             4
+     5 H      6             4
+     6 H      T             4
+     7 C      3             2
+     8 C      7             2
+     9 C      9             2
+    10 C      J             2
+
+
+Seek 9 tricks board by North in hearts ... example:
+--------
+               K964        HCP : 23
+               Q86         CTRL: 6
+               A98
+               Q62
+   AJ82                    T753
+   5                       974
+   K765                    Q42
+   K843                    A97
+               Q
+               AKJT32
+               JT3
+               JT5
+
+  card suit   rank   equals score
+     0 C      7             4
+     1 C      9             4
+     2 C      A             4
+     3 S      3             4
+     4 S      5             4
+     5 S      7             4
+     6 S      T             4
+     7 D      2             4
+     8 D      4             4
+     9 D      Q             4
+    10 H      4             4
+    11 H      7             4
+    12 H      9             4
+
+
+Seek 9 tricks board by North in hearts ... example:
+--------
+               K862        HCP : 23
+               652         CTRL: 7
+               KQ3
+               K65
+   JT754                   AQ9
+   K4                      J7
+   8                       976542
+   AQ983                   T2
+               3
+               AQT983
+               AJT
+               J74
+
+  card suit   rank   equals score
+     0 C      2             4
+     1 C      T             4
+     2 H      7             4
+     3 H      J             4
+     4 D      2             4
+     5 D      7      654    4
+     6 D      9             4
+     7 S      A             3
+     8 S      9             3
+     9 S      Q             3
+
+
+Seek 9 tricks board by North in hearts ... example:
+--------
+               K874        HCP : 22
+               AQ9         CTRL: 7
+               J96
+               J92
+   Q65                     AT932
+   5                       J83
+   KQ8532                  T
+   765                     AQT3
+               J
+               KT7642
+               A74
+               K84
+
+  card suit   rank   equals score
+     0 D      T             4
+     1 C      A             4
+     2 S      A             4
+     3 S      3      2      4
+     4 S      T      9      4
+     5 C      Q             4
+     6 H      3             4
+     7 H      8             4
+     8 H      J             4
+     9 C      3             3
+    10 C      T             3
+
+
+Seek 9 tricks board by North in hearts ... example:
+--------
+               A754        HCP : 23
+               JT4         CTRL: 8
+               A54
+               Q96
+   KQ8632                  J9
+   K32                     6
+   82                      QJT93
+   J3                      AT852
+               T
+               AQ9875
+               K76
+               K74
+
+  card suit   rank   equals score
+     0 D      3             4
+     1 C      2             4
+     2 C      5             4
+     3 D      Q      JT9    4
+     4 C      8             4
+     5 C      T             4
+     6 C      A             3
+     7 S      9             3
+     8 S      J             3
+     9 H      6             3
+
+
+Seek 9 tricks board by North in hearts ... example:
+--------
+               J752        HCP : 23
+               532         CTRL: 7
+               A98
+               AQ9
+   Q9                      AT8643
+   AQ8                     7
+   T73                     KJ54
+   T7542                   J6
+               K
+               KJT964
+               Q62
+               K83
+
+  card suit   rank   equals score
+     0 S      A             4
+     1 H      7             4
+     2 D      5      4      4
+     3 C      6             4
+     4 D      J             4
+     5 C      J             4
+     6 D      K             4
+     7 S      4      3      3
+     8 S      6             3
+     9 S      8             3
+    10 S      T             3
+
+
+Seek 9 tricks board by North in hearts ... example:
+--------
+               KQ32        HCP : 24
+               J87         CTRL: 8
+               AJT
+               T82
+   9765                    AJ84
+   93                      65
+   KQ7                     8543
+   K953                    QJ4
+               T
+               AKQT42
+               962
+               A76
+
+  card suit   rank   equals score
+     0 C      4             4
+     1 C      Q      J      4
+     2 D      5      43     3
+     3 D      8             3
+     4 S      J             3
+     5 H      6      5      3
+     6 S      A             2
+     7 S      4             2
+     8 S      8             2
+
+
+Seek 9 tricks board by North in hearts ... example:
+--------
+               AJ96        HCP : 23
+               QT8         CTRL: 8
+               T75
+               KJT
+   3                       KQT4
+   K42                     9
+   832                     QJ964
+   AQ8763                  542
+               8752
+               AJ7653
+               AK
+               9
+
+  card suit   rank   equals score
+     0 C      2             4
+     1 C      5      4      4
+     2 D      4             4
+     3 D      6             4
+     4 D      9             4
+     5 D      Q      J      4
+     6 H      9             4
+     7 S      K      Q      4
+     8 S      4             3
+     9 S      T             3
+
+
+Seek 9 tricks board by North in hearts ... example:
+--------
+               AQJ3        HCP : 23
+               T63         CTRL: 7
+               T75
+               AT3
+   K97654                  T2
+   K7                      85
+   K4                      AQ932
+   952                     Q764
+               8
+               AQJ942
+               J86
+               KJ8
+
+  card suit   rank   equals score
+     0 D      3      2      4
+     1 D      9             4
+     2 D      Q             3
+     3 D      A             3
+     4 S      2             3
+     5 H      5             3
+     6 H      8             3
+     7 S      T             3
+     8 C      4             3
+     9 C      7      6      3
+    10 C      Q             3
+
+
+Seek 9 tricks board by North in hearts ... example:
+--------
+               AQ93        HCP : 22
+               A53         CTRL: 6
+               J54
+               T85
+   85                      J762
+   762                     9
+   Q3                      AK862
+   AJ9743                  K62
+               KT4
+               KQJT84
+               T97
+               Q
+
+  card suit   rank   equals score
+     0 C      2             4
+     1 C      6             4
+     2 C      K             4
+     3 D      A      K      4
+     4 D      2             4
+     5 D      6             4
+     6 D      8             4
+     7 S      2             3
+     8 S      7      6      3
+     9 S      J             3
+    10 H      9             3
+
+
+Seek 9 tricks board by North in hearts ... example:
+--------
+               A986        HCP : 22
+               A62         CTRL: 7
+               QJ8
+               863
+   32                      KQT7
+   Q5                      J7
+   KT973                   6542
+   AT54                    K72
+               J54
+               KT9843
+               A
+               QJ9
+
+  card suit   rank   equals score
+     0 C      2             4
+     1 C      7             4
+     2 C      K             4
+     3 D      2             3
+     4 D      6      54     3
+     5 S      K      Q      3
+     6 S      7             3
+     7 S      T             3
+     8 H      7             3
+     9 H      J             3
+
+Ending with:
+       (down):    37238,    7741,    1070,      54,       0,       0,       0,       46103
+       (make):    61958,   34874,    5028,     135,       0,       0,       0,      101995
+Processed: 148098 total. East is on lead. Goal is 10 tricks in hearts.
+Averages: ideal = 477, bidGame = 398, partscore=167.   Chance to make = 68.9%
+(p 22 down):    16435,    4440,     634,      36,       0,   :    21545,
+(p 22 make):    18418,    6907,     563,       7,       0,   :    25895,  --> 54 %
+(p 23 down):    13081,    2335,     313,      11,       0,   :    15740,
+(p 23 make):    22232,   11698,    1491,      35,       0,   :    35456,  --> 69 %
+(p 24 down):     7722,     966,     123,       7,       0,   :     8818,
+(p 24 make):    21308,   16269,    2974,      93,       0,   :    40644,  --> 82 %
+The search took 52.7 sec + an aftermath 17 min 28 sec.
+
+Ending with:
+       (down):    36753,    7798,    1042,      68,       0,       0,       0,       45661
+       (make):    61197,   35119,    4998,     149,       0,       0,       0,      101463
+Processed: 147124 total. West is on lead. Goal is 10 tricks in hearts.
+Averages: ideal = 478, bidGame = 398, partscore=167.   Chance to make = 69.0%
+(p 22 down):    16213,    4476,     620,      53,       0,   :    21362,
+(p 22 make):    18298,    6664,     617,      13,       0,   :    25592,  --> 54 %
+(p 23 down):    12770,    2374,     293,      13,       0,   :    15450,
+(p 23 make):    21772,   11688,    1426,      26,       0,   :    34912,  --> 69 %
+(p 24 down):     7770,     948,     129,       2,       0,   :     8849,
+(p 24 make):    21127,   16767,    2955,     110,       0,   :    40959,  --> 82 %
+The search took 52.8 sec + an aftermath 17 min 58 sec.
+
+
+>>>>>>>>>>>>>>>>>>>>>>> DOUBLETON FIT
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+North is some 11 hcp =4333;
+1h 1s
+2h ??
+Question: how often h game makes?
+Primary scorer (hearts, 10 tr): -300 -200 -100 620 650 680 710  /  80 110 140 170 200 230 260
+----
+26:   150870,     >XR,       0,       0,       0,  : 22398108168   ExactShape 4 2 4 3 NORTH
+27:        0,    >XXM,       0,       0,       0,  : 373701996     PointsRange 11 11 NORTH
+28:        0,    >MLN,       0,       0,       0,  : 5897574       ControlsRange 3 5 NORTH
+29:        0,       0,       0,     >XM,       0,  : 22713104      PointsRange 11 13 SOUTH
+30:        0,       0,       0,  847396,       0,  : 847396        SpadesLen 0 4 SOUTH
+31:        0,       0,       0,    >MLN,       0,  : 5988646       HeartsLen 6 6 SOUTH
+32:        0,       0,       0,   10340,       0,  : 10340         DiamondsLen 0 4 SOUTH
+33:        0,       0,       0,   18674,       0,  : 18674         ClubsLen 0 4 SOUTH
+34:        0,       0,       0,       0,  108569,  : 108569        NoOvercall WEST
+35:        0,       0,  103335,       0,       0,  : 103335        NoOvercall EAST
+36:        0,       0,       0,  103118,       0,  : 103118        ExcludeCombination SOUTH
+37:        0,       0,       0,   82528,       0,  : 82528           SpadesLen 2 3 SOUTH
+38:        0,       0,       0,   53212,       0,  : 53212           DiamondsLen 2 3 SOUTH
+39:        0,       0,       0,   15130,       0,  : 15130           ClubsLen 2 3 SOUTH
+----
+ 10 tricks board by South in hearts example:
+--------
+               AQ75        HCP : 22
+               A7          CTRL: 7
+               JT54
+               865
+   K94                     JT8632
+   KQJ4                    6
+   963                     A7
+   T73                     KJ42
+               -
+               T98532
+               KQ82
+               AQ9
+
+Seek 9 tricks board by South in hearts ... example:
+--------
+               Q652        HCP : 22
+               T3          CTRL: 7
+               A732
+               KQ2
+   83                      KJT4
+   A                       K974
+   KJ9865                  QT
+   JT86                    943
+               A97
+               QJ8652
+               4
+               A75
+
+  card suit   rank   equals score
+     0 D      6      5      4
+     1 D      9      8      4
+     2 H      A             4
+     3 D      J             4
+     4 D      K             4
+     5 C      6             4
+     6 C      8             4
+     7 C      J      T      4
+     8 S      3             4
+     9 S      8             4
+
+Seek 9 tricks board by South in hearts ... example:
+--------
+               AT62        HCP : 23
+               K4          CTRL: 8
+               KJ95
+               983
+   K873                    Q954
+   632                     T7
+   T64                     AQ82
+   KJ6                     QT5
+               J
+               AQJ985
+               73
+               A742
+
+  card suit   rank   equals score
+     0 D      4             4
+     1 D      6             4
+     2 S      3             4
+     3 D      T             4
+     4 S      8      7      4
+     5 S      K             4
+     6 C      6             4
+     7 C      J             4
+     8 C      K             4
+     9 H      3      2      4
+    10 H      6             4
+
+Ending with:
+       (down):    48232,   15511,    2764,     272,      14,       0,       0,       66793
+       (make):    55975,   25077,    2969,      56,       0,       0,       0,       84077
+Processed: 150870 total. West is on lead. Goal is 10 tricks in hearts.
+Averages: ideal = 409, bidGame = 292, partscore=158.   Chance to make = 55.7%
+(p 22 down):    19284,    8222,    1640,     164,      11,   :    29321,
+(p 22 make):    14876,    4207,     300,       4,       0,   :    19387,  --> 39 %
+(p 23 down):    17020,    4851,     790,      83,       3,   :    22747,
+(p 23 make):    19958,    8111,     775,      13,       0,   :    28857,  --> 55 %
+(p 24 down):    11928,    2438,     334,      25,       0,   :    14725,
+(p 24 make):    21141,   12759,    1894,      39,       0,   :    35833,  --> 70 %
+The search took 43.8 sec + an aftermath 32 min 32 sec.
+
+
+
+
+
+>>>>>>>>>>>>>>>>>> INSPECT 22 PTS, ONE SUIT SHORTAGE
+
+
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+North is some 11 hcp =4333;
+1h 1s
+2h ??
+Question: how often h game makes?
+Primary scorer (hearts, 10 tr): -300 -200 -100 620 650 680 710  /  80 110 140 170 200 230 260
+----
+26:    49314,     >XR,       0,       0,       0,  : 131146314192  ExactShape 4 2 4 3 NORTH
+27:        0,   >MLRD,       0,       0,       0,  : 2187797184    PointsRange 11 11 NORTH
+28:        0,     >XM,       0,       0,       0,  : 34591902      ControlsRange 3 5 NORTH
+29:        0,       0,       0,    >XXM,       0,  : 159407246     PointsRange 11 11 SOUTH
+30:                                                                AnyInListBelow SOUTH
+31:        0,       0,       0,     >XM,       0,  : 16353116        ExactShape 3 6 1 3 SOUTH
+32:        0,       0,       0,     >XM,       0,  : 16335776        ExactShape 3 6 0 4 SOUTH
+34:        0,       0,       0,       0,   28127,  : 28127         NoOvercall WEST
+35:        0,       0,   26949,       0,       0,  : 26949         NoOvercall EAST
+----
+ 10 tricks board by South in hearts example:
+--------
+               QJ97        HCP : 22
+               K4          CTRL: 7
+               AJ75
+               653
+   AT32                    54
+   75                      Q62
+   K832                    QT96
+   A98                     QJ42
+               K86
+               AJT983
+               4
+               KT7
+
+Ending with:
+       (down):    21330,   10362,    2293,     268,       9,       0,       0,       34262
+       (make):    11909,    2907,     231,       5,       0,       0,       0,       15052
+Processed: 49314 total. West is on lead. Goal is 10 tricks in hearts.
+Averages: ideal = 278, bidGame = 89, partscore=140.   Chance to make = 30.5%
+(p  0 down):     1801,     533,      46,       1,       0,   :     2381,
+(p  0 make):     1947,    1141,     141,       2,       0,   :     3231,  --> 57 %
+(p  1 down):     1715,     662,      96,       5,       0,   :     2478,
+(p  1 make):     1335,     524,      38,       3,       0,   :     1900,  --> 43 %
+(p  2 down):     2043,     946,     129,      10,       0,   :     3128,
+(p  2 make):     1078,     263,       9,       0,       0,   :     1350,  --> 30 %
+(p  3 down):     3952,    2239,     376,      31,       2,   :     6600,
+(p  3 make):     1791,     259,       8,       0,       0,   :     2058,  --> 23 %
+(p  4 down):     5340,    2041,     421,      50,       1,   :     7853,
+(p  4 make):     3521,     554,      30,       0,       0,   :     4105,  --> 34 %
+(p  5 down):     2494,    1544,     517,      57,       1,   :     4613,
+(p  5 make):      959,      78,       4,       0,       0,   :     1041,  --> 18 %
+(p  6 down):     1583,     922,     254,      22,       0,   :     2781,
+(p  6 make):      590,      56,       1,       0,       0,   :      647,  --> 18 %
+(p  7 down):     2025,    1110,     290,      38,       3,   :     3466,
+(p  7 make):      584,      26,       0,       0,       0,   :      610,  --> 14 %
+(p  8 down):      234,     217,      75,      28,       0,   :      554,
+(p  8 make):       75,       5,       0,       0,       0,   :       80,  --> 12 %
+The search took 252.4 sec + an aftermath 9 min 23 sec.
+
+
+>>>>>>>>>>>>>>>>>> GET MORE STATISTICS ON LITTLE POINTS WASTED 
+
+
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+North is some 11 hcp =4333;
+1h 1s
+2h ??
+Question: how often h game makes?
+Primary scorer (hearts, 10 tr): -300 -200 -100 620 650 680 710  /  80 110 140 170 200 230 260
+----
+30:    19228,     >XR,       0,       0,       0,  : 258460903732  ExactShape 4 2 4 3 NORTH
+31:        0,   >MLRD,       0,       0,       0,  : 4312216494    PointsRange 11 11 NORTH
+32:        0,    >XXM,       0,       0,       0,  : 329531070     PointsSuitLimit DMD 1 NORTH
+33:        0,       0,       0,     >XM,       0,  : 77133444      PointsRange 11 11 SOUTH
+34:                                                                AnyInListBelow SOUTH
+35:        0,       0,       0,    >MLN,       0,  : 7898172         ExactShape 3 6 1 3 SOUTH
+36:        0,       0,       0,    >MLN,       0,  : 7890556         ExactShape 3 6 0 4 SOUTH
+38:        0,    4892,       0,       0,       0,  : 4892          ControlsRange 3 5 NORTH
+39:        0,       0,       0,       0,   11365,  : 11365         NoOvercall WEST
+40:        0,       0,   11095,       0,       0,  : 11095         NoOvercall EAST
+----
+ 10 tricks board by South in hearts example:
+--------
+               AK93        HCP : 22
+               T7          CTRL: 9
+               9754
+               A65
+   742                     QJT
+   J83                     Q2
+   AQ2                     KJ863
+   Q982                    743
+               865
+               AK9654
+               T
+               KJT
+
+Ending with:
+       (down):     6684,    2188,     274,      20,       0,       0,       0,        9166
+       (make):     6451,    3227,     378,       6,       0,       0,       0,       10062
+Processed: 19228 total. West is on lead. Goal is 10 tricks in hearts.
+Averages: ideal = 392, bidGame = 268, partscore=157.   Chance to make = 52.3%
+(p  0 down):     3490,     910,      84,       7,       0,   :     4491,
+(p  0 make):     3792,    2164,     282,       5,       0,   :     6243,  --> 58 %
+(p  1 down):     3194,    1278,     190,      13,       0,   :     4675,
+(p  1 make):     2659,    1063,      96,       1,       0,   :     3819,  --> 44 %
+The search took 754.8 sec + an aftermath 5 min 27 sec.
+ 

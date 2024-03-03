@@ -53,7 +53,7 @@ struct WaConfig {
    int   secGoal; // goal tricks either in our secondary contract or in their contract
 
    // for post-mortem:
-   int   postmSuit; 
+   int   postmSuit, postmHand; 
    int   minControls;
 
    WE_REPORT_TYPE detailedReportType;

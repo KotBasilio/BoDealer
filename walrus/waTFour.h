@@ -54,3 +54,12 @@
    #define IO_HCP_MAX  25
 #endif
 
+
+#ifdef SEMANTIC_ALL4_1H_1S_2H_MAR
+   #define TITLE_VERSION  "North is some 11 hcp =4333;\n1h 1s\n2h ??\nQuestion: how often h game makes?"
+   #define FOUR_HANDS_TASK
+   #define INPUT_TRUMPS    SOL_HEARTS
+   #define INPUT_ON_LEAD   WEST
+   #define IO_HCP_MIN  22
+   #define IO_HCP_MAX  24
+#endif

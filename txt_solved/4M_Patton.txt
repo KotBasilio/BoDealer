@@ -251,9 +251,9 @@ Fix a 10 hcp 5332;
 3d ?? ===================== DOUBLETON WASTING SOME POINTS
 Question: How often 4s makes? Task
 ----
-24:        0,       0,       0,     >XM,       0,    : 18984224        PointsRange 12 13 SOUTH
-25:        0,       0,  938391,       0,       0,    : 938391          NoOvercall EAST
-26:        0,       0,       0,       0,  876575,    : 876575          NoOvercall WEST
+24:        0,       0,       0,     >XM,       0,    : 18984224     PointsRange 12 13 SOUTH
+25:        0,       0,  938391,       0,       0,    : 938391       NoOvercall EAST
+26:        0,       0,       0,       0,  876575,    : 876575       NoOvercall WEST
 ----                                                                AnyInListBelow SOUTH
 28:        0,       0,       0,    >MLN,       0,    : 1655354         ExactShape 4 4 2 3 SOUTH
 29:        0,       0,       0,    >MLN,       0,    : 1628968         ExactShape 4 3 2 4 SOUTH
@@ -346,12 +346,12 @@ Averages: ideal = 209, bidGame = -21, partscore=130.   Chance to make = 17.5%
 Senior kibitzer Oscar is observing a task:
 Fix a 10 hcp 5332;
 1NT(10-13) 2h
-...  ======================= MIRROR MATCHING 4
+...  ======================= POORLY MATCHING 4
 Question: How often 4s makes? Task
 ----
-24:        0,       0,       0,     >XM,       0,    : 22473908        PointsRange 12 13 SOUTH
-25:        0,       0,    >MLN,       0,       0,    : 1109391         NoOvercall EAST
-26:        0,       0,       0,       0,    >MLN,    : 1035595         NoOvercall WEST
+24:        0,       0,       0,     >XM,       0,    : 22473908     PointsRange 12 13 SOUTH
+25:        0,       0,    >MLN,       0,       0,    : 1109391      NoOvercall EAST
+26:        0,       0,       0,       0,    >MLN,    : 1035595      NoOvercall WEST
 ----                                                                AnyInListBelow SOUTH
 28:        0,       0,       0,    >MLN,       0,    : 1958970         ExactShape 4 4 2 3 SOUTH
 29:        0,       0,       0,    >MLN,       0,    : 1935954         ExactShape 4 4 3 2 SOUTH
@@ -398,9 +398,9 @@ Fix a 10 hcp 5332;
 ... ======================= GREAT MATCHING 4
 Question: How often 4s makes? Task
 ----
-24:        0,       0,       0,     >XM,       0,    : 23744230        PointsRange 12 13 SOUTH
-25:        0,       0,    >MLN,       0,       0,    : 1171767         NoOvercall EAST
-26:        0,       0,       0,       0,    >MLN,    : 1095087         NoOvercall WEST
+24:        0,       0,       0,     >XM,       0,    : 23744230     PointsRange 12 13 SOUTH
+25:        0,       0,    >MLN,       0,       0,    : 1171767      NoOvercall EAST
+26:        0,       0,       0,       0,    >MLN,    : 1095087      NoOvercall WEST
 ----                                                                AnyInListBelow SOUTH
 28:        0,       0,       0,    >MLN,       0,    : 2063234         ExactShape 4 2 4 3 SOUTH
 29:        0,       0,       0,    >MLN,       0,    : 2039890         ExactShape 4 3 4 2 SOUTH

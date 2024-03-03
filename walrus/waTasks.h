@@ -13,12 +13,13 @@
 //#define SEMANTIC_54M_FEB_PARTIZAN
 //#define SEMANTIC_4M_ON54_FEB_PATTON
 //#define SEMANTIC_7D_OR_NT_FEB
+//#define SEMANTIC_1H_1S_2H_MAR
 
 // Bidding decision competitive:
 //#define SEMANTIC_JUN_MINORS_VS_MAJORS
 //#define SEMANTIC_OCT_INDIAN_5C
 //#define SEMANTIC_OVERCALL_4C
-#define SEMANTIC_INV_AFTER_2H
+//#define SEMANTIC_INV_AFTER_2H
 
 // Opening lead:
 
@@ -33,6 +34,7 @@
 //#define SEMANTIC_CONFIG_BASED
 //#define SEMANTIC_1NT_OR_SIGN_OFF
 //#define SEMANTIC_4M_ON54_BIG
+#define SEMANTIC_ALL4_1H_1S_2H_MAR
 
 // -----------------------------------------------------------------
 // task descriptions

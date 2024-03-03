@@ -307,24 +307,24 @@ void Walrus::ShowDetailedReportSuit()
 
       // ok start printing
       bool down = (bool)(i & 1);
-      owl.OnDone(down ? "(p %2d down): " : "(p %2d make): ", hcp);
+      owl.Silent(down ? "(p %2d down): " : "(p %2d make): ", hcp);
 
       // calc and print one line
       // -- its body
       u64 sumline = 0;
       int j = 0;
       for (; j <= ui.farCol; j++) {
-         owl.OnDone(fmtCell, progress.hitsCount[i][j]);
+         owl.Silent(fmtCell, progress.hitsCount[i][j]);
          sumline += progress.hitsCount[i][j];
       }
       // -- its sum
-      owl.OnDone("   : ");
-      owl.OnDone(fmtCell, sumline);
+      owl.Silent("   : ");
+      owl.Silent(fmtCell, sumline);
       // -- percentage
       if (sumline && !down) {
-         owl.OnDone("  --> %2llu %%", sumline * 100 / (sumline + prevSum));
+         owl.Silent("  --> %2llu %%", sumline * 100 / (sumline + prevSum));
       }
-      owl.OnDone("\n");
+      owl.Silent("\n");
 
       prevSum = sumline;
    }

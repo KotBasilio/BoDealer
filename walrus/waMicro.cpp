@@ -228,67 +228,23 @@ uint WaFilter::PointsLimit(twContext* lay, const uint* par)
    return MIC_BLOCK;
 }
 
+uint WaFilter::PointsSuitLimit(twContext* lay, const uint* par)
+{
+   ACCESS_MICPAR_HCP;
+
+   // only upper limit
+   if (hcp.arr[par[1]] <= par[2]) {
+      return MIC_PASSED;
+   }
+   return MIC_BLOCK;
+}
+
 uint WaFilter::PointsAtLeast(twContext* lay, const uint* par)
 {
    ACCESS_MICPAR_HCP;
 
    // require enough
    if (par[1] <= hcp.total) {
-      return MIC_PASSED;
-   }
-   return MIC_BLOCK;
-}
-
-uint WaFilter::ClubPointsLimit(twContext* lay, const uint* par)
-{
-   ACCESS_MICPAR_HCP;
-
-   // only upper limit
-   if (hcp.c <= par[1]) {
-      return MIC_PASSED;
-   }
-   return MIC_BLOCK;
-}
-
-uint WaFilter::HeartPointsLimit(twContext* lay, const uint* par)
-{
-   ACCESS_MICPAR_HCP;
-
-   // only upper limit
-   if (hcp.h <= par[1]) {
-      return MIC_PASSED;
-   }
-   return MIC_BLOCK;
-}
-
-uint WaFilter::SpadePointsLimit(twContext* lay, const uint* par)
-{
-   ACCESS_MICPAR_HCP;
-
-   // only upper limit
-   if (hcp.s <= par[1]) {
-      return MIC_PASSED;
-   }
-   return MIC_BLOCK;
-}
-
-uint WaFilter::DiamPointsLimit(twContext* lay, const uint* par)
-{
-   ACCESS_MICPAR_HCP;
-
-   // only upper limit
-   if (hcp.d <= par[1]) {
-      return MIC_PASSED;
-   }
-   return MIC_BLOCK;
-}
-
-uint WaFilter::DiamPointsAtLeast(twContext* lay, const uint* par)
-{
-   ACCESS_MICPAR_HCP;
-
-   // only lower limit
-   if (hcp.d >= par[1]) {
       return MIC_PASSED;
    }
    return MIC_BLOCK;

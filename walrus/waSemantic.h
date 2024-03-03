@@ -25,7 +25,7 @@ constexpr uint IO_ROW_MAGIC_FLY  = IO_ROW_COMPARISON;
 constexpr uint IO_ROW_SACRIFICE  = IO_ROW_COMPARISON;
 // -- hcp postmortem
 #define IO_ROW_HCP_START 7
-#define IO_SHIFT_FOR_EXTRA_MARKS  23
+#define IO_SHIFT_FOR_EXTRA_MARKS  27
 #define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
 #define IO_ROW_SELECTED  IO_ROW_FILTERING
 
@@ -76,15 +76,10 @@ public:
    uint LineKeyCardsSpade(twContext* lay, const uint* par);
    uint LinePointsRange(twContext* lay, const uint *par);
    // -
+   uint PointsSuitLimit(twContext* lay, const uint* par);
    uint PointsSuitAtLeast(twContext* lay, const uint* par);
    uint PointsSuitLessSuit(twContext* lay, const uint* par);
    uint PointsSuitLEqSuit(twContext* lay, const uint* par);
-   // -
-   uint ClubPointsLimit(twContext* lay, const uint *par);
-   uint HeartPointsLimit(twContext* lay, const uint *par);
-   uint SpadePointsLimit(twContext* lay, const uint *par);
-   uint DiamPointsLimit(twContext* lay, const uint *par);
-   uint DiamPointsAtLeast(twContext* lay, const uint* par);
    // -
    uint SpadesNatural(twContext* lay, const uint* par);
    uint NoMajorFit(twContext* lay, const uint *par);

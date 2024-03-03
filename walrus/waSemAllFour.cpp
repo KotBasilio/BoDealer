@@ -178,3 +178,41 @@ void Walrus::FillSemantic(void)
 }
 #endif
 
+#ifdef SEMANTIC_ALL4_1H_1S_2H_MAR
+void Walrus::FillSemantic(void)
+{
+   FourHandsFillSem();
+
+   sem.onScoring = &CumulativeScore::Our4M;
+   sem.onPostmortem = &Walrus::PostmortemHCP;
+   sem.onPostmortem = &Walrus::PostmortemSuit;
+   sem.vecFilters.clear();
+
+   ADD_4PAR_FILTER(NORTH, ExactShape, 4, 2, 4, 3);
+   ADD_2PAR_FILTER(NORTH, PointsRange, 11, 11);
+   ADD_2PAR_FILTER(NORTH, PointsSuitLimit, DMD, 1);
+
+   ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 11);
+   ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
+      ADD_4PAR_FILTER(SOUTH, ExactShape, 3, 6, 1, 3);
+      ADD_4PAR_FILTER(SOUTH, ExactShape, 3, 6, 0, 4);
+   ADD_0PAR_FILTER(SOUTH, EndList);
+   //ADD_2PAR_FILTER(SOUTH, SpadesLen, 0, 4);
+   //ADD_2PAR_FILTER(SOUTH, HeartsLen, 6, 6);
+   //ADD_2PAR_FILTER(SOUTH, DiamondsLen, 0, 4);
+   //ADD_2PAR_FILTER(SOUTH, ClubsLen, 0, 4);
+
+   ADD_2PAR_FILTER(NORTH, ControlsRange, 3, 5);
+   ADD_0PAR_FILTER(WEST, NoOvercall);
+   ADD_0PAR_FILTER(EAST, NoOvercall);
+
+   //ADD_0PAR_FILTER(SOUTH, ExcludeCombination);
+   //   ADD_2PAR_FILTER(SOUTH, SpadesLen, 2, 3);
+   //   ADD_2PAR_FILTER(SOUTH, DiamondsLen, 2, 3);
+   //   ADD_2PAR_FILTER(SOUTH, ClubsLen, 2, 3);
+   //ADD_0PAR_FILTER(SOUTH, EndList);
+
+   config.postmSuit = SOL_DIAMONDS;
+   config.detailedReportType = WREPORT_SUIT;
+}
+#endif
