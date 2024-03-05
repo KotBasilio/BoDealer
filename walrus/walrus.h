@@ -31,6 +31,7 @@ public:
    bool IsRunning(void) const { return mul.isRunning; }
    const char *GetName() const { return mul.nameHlp; }
    ucell NumFiltered() const { return mul.countToSolve; }
+   ucell CloudSize() const { return mul.countShare; }
    Progress* GetProgress() { return &progress; }
    Semantics* GetSemantics() { return &sem; }
 

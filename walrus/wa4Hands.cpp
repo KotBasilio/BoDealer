@@ -152,11 +152,6 @@ void Walrus::ClassifyOnPermute(twContext* lay)
    (this->*sem.onBoardAdded)(lay);
 }
 
-void Walrus::SignOutChunk()
-{
-   mul.countShare = mul.countIterations + sem.scanCover;
-}
-
 void DdsTask3::Init(twContext* lay) 
 { 
    north = lay[NORTH].hand; 

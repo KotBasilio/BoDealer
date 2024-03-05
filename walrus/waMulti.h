@@ -6,7 +6,8 @@ class Walrus;
 
 struct WaMulti {
    WaMulti();
-   bool ShowLiveSigns(uint oneCover);
+   void ShowLiveSigns(uint oneCover);
+   void StopHelpersSuddenly();
    uint Gathered() const { return countToSolve; }
 
    // main scan part

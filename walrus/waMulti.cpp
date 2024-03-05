@@ -57,7 +57,7 @@ PFM_THREAD_RETTYPE ProcHelper(void *arg)
 {
    Walrus *helper = (Walrus *)(arg);
    printf("\n%s: %10llu done ", helper->GetName(), helper->DoTheShare());
-   printf("---> %llu", helper->NumFiltered());
+   printf("---> %llu ", helper->NumFiltered());
 
    return PFM_THREAD_RETVAL;
 }
@@ -161,10 +161,22 @@ ucell Walrus::DoTheShare()
    (this->*sem.onShareStart)();
 
    // iterate until stopped
-   while (mul.countIterations < mul.countShare) {
-      DoIteration();
-      mul.ShowLiveSigns(sem.scanCover);
-   }
+   do {
+      // normal work
+      while (mul.countIterations < mul.countShare) {
+         DoIteration();
+         mul.ShowLiveSigns(sem.scanCover);
+      }
+
+      // helper => may decide to work more
+      if (!mul.hA) {
+         if (Gathered() < (AIM_TASKS_COUNT * 32) / 100) {
+            while (mul.countIterations >= mul.countShare) {
+               mul.countShare += ADDITION_STEP_ITERATIONS;
+            }
+         }
+      }
+   } while (mul.countIterations < mul.countShare);
 
    // signal
    mul.isRunning = false;
@@ -179,6 +191,9 @@ void Walrus::MergeResults(Walrus *other)
    if (!other) {
       return;
    }
+
+   // mark
+   //printf((other == mul.hA) ? "+A," : "+B,");
 
    // helper is busy => do some of its work
    while (other->IsRunning()) {
@@ -227,7 +242,7 @@ void Walrus::Supervise()
    }
 
    // while it makes any sense
-   for (;;) {
+   for (int count_cowork = 0; ; count_cowork++) {
       ucell cA = helperA->Remains();
       ucell cB = helperB->Remains();
       if (cA + cB < SUPERVISE_REASONABLE) {
@@ -239,10 +254,15 @@ void Walrus::Supervise()
       for (int i = SUPERVISE_CHUNK; --i >= 0;) {
          CoWork(needy);
       }
+
+      if (count_cowork > 100) {
+         mul.StopHelpersSuddenly();
+         return;
+      }
    }
 }
 
-bool WaMulti::ShowLiveSigns(uint oneCover)
+void WaMulti::ShowLiveSigns(uint oneCover)
 {
    const uint LIVE_SIGN = ADDITION_STEP_ITERATIONS * 64 / 70;
 
@@ -253,11 +273,11 @@ bool WaMulti::ShowLiveSigns(uint oneCover)
             countShare = countIterations;
          }
       #endif 
-      return false;
+      return;
    }
 
    if (!isRunning) {
-      return false;
+      return;
    }
 
    // got enough => sign out to stop
@@ -265,28 +285,23 @@ bool WaMulti::ShowLiveSigns(uint oneCover)
    if (acc > AIM_TASKS_COUNT) {
       printf("found.");
       countShare = countIterations;
-      if (hA->mul.isRunning) {
-         hA->SignOutChunk();
-      }
-      if (hB->mul.isRunning) {
-         hB->SignOutChunk();
-      }
-      return false;
+      StopHelpersSuddenly();
+      return;
    }
 
    // wait / reset
    if (countShowLiveSign > oneCover) {
       countShowLiveSign -= oneCover;
-      return false;
+      return;
    }
    countShowLiveSign = LIVE_SIGN;
 
    // show accumulation progress
    printf("%d", acc / 1000);
 
-   // consider extension of the search unless we're 95% close
+   // consider extension of the search unless we're 98% close
    if (countIterations + ADDITION_STEP_ITERATIONS > countShare &&
-      acc < (AIM_TASKS_COUNT * 95) / 100) {
+      acc < (AIM_TASKS_COUNT * 98) / 100) {
       countShare += ADDITION_STEP_ITERATIONS;
       hA->mul.countShare += ADDITION_STEP_ITERATIONS;
       hB->mul.countShare += ADDITION_STEP_ITERATIONS;
@@ -298,13 +313,25 @@ bool WaMulti::ShowLiveSigns(uint oneCover)
    // allow interruption
    if (PLATFORM_KBHIT()) {
       auto inchar = PLATFORM_GETCH();
-      printf("X");
-      hA->mul.countShare = hA->mul.countIterations + 1000;
-      hB->mul.countShare = hB->mul.countIterations + 1000;
+      StopHelpersSuddenly();
       countShare = countIterations;
    }
+}
 
-   return true;
+void Walrus::SignOutChunk()
+{
+   mul.countShare = mul.countIterations + sem.scanCover;
+}
+
+void WaMulti::StopHelpersSuddenly()
+{
+   printf("X");
+   if (hA->mul.isRunning) {
+      hA->SignOutChunk();
+   }
+   if (hB->mul.isRunning) {
+      hB->SignOutChunk();
+   }
 }
 
 
