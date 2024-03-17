@@ -21,13 +21,19 @@
    #define FOUR_HANDS_TASK
 */
 
+#ifdef SEMANTIC_1C_P_1H_2D_2H_MAR
+   #define TITLE_VERSION  "Fix a 11 hcp 2542;\n1c p 1h\n2d 2h p ??\nQuestion: how often h game makes?"
+   #define SEEK_BIDDING_LEVEL
+   #define IO_HCP_MIN  22
+   #define IO_HCP_MAX  24
+#endif
+
 #ifdef SEMANTIC_1H_1S_2H_MAR
    #define TITLE_VERSION  "Fix a 11 hcp 4333;\n1h 1s\n2h ??\nQuestion: how often h game makes?"
    #define SEEK_BIDDING_LEVEL
    #define IO_HCP_MIN  22
    #define IO_HCP_MAX  25
 #endif
-
 
 #ifdef SEMANTIC_INV_AFTER_2H
    #define TITLE_VERSION  "Fix a 12 hcp 4333;\nLHO has opened 2h (6+, 7-10), part 2S, RHO pass.\nQuestion: What's better -- invit or a game?"

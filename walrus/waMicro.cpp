@@ -275,6 +275,20 @@ uint WaFilter::SpadesNatural(twContext* lay, const uint* par)
    return MIC_BLOCK;
 }
 
+uint WaFilter::DiamondsNatural(twContext* lay, const uint* par)
+{
+   ACCESS_MICPAR_LEN;
+
+   // c is same or shorter, majors are shorter
+   if (len.d > len.h &&
+       len.d > len.s &&
+       len.d >= len.c) {
+      return MIC_PASSED;
+   }
+
+   return MIC_BLOCK;
+}
+
 uint WaFilter::NoMajorFit(twContext* lay, const uint* par)
 {
    ACCESS_MICPAR_LEN;
@@ -333,8 +347,6 @@ uint WaFilter::NoOvercall(twContext* lay, const uint* par)
       if (len.s > 5 || len.h > 5 || len.d > 5 || len.c > 5) {
          return MIC_BLOCK;
       }
-   } else if (hcp.total >= 7) {
-
    }
 
    // relay
