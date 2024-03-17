@@ -1,10 +1,14 @@
 *.db
 *.opendb
 *.suo
+*.wsuo
+*.json
 /exe/*
 /intermediate/*
 /sln/Bo/x64/*
 /sln/Oscar/x64/*
+/sln/Bo/Oscar/x64/*
+/sln/Bo/Walrus/x64/*
 *.o
 *.d
 /sln/Bo/.vs/*
