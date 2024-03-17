@@ -51,8 +51,8 @@ CumulativeScore::CumulativeScore()
    , bidPartscore(0L)
    , oppContract(0L)
    , oppCtrDoubled(0L)
-   , ourOther(0L)
-   , ourHedging(0L)
+   , ourOther     (0L)
+   , ourHedging   (0L)
 {
    //leadS = leadH = leadD = leadC = 0L;
 }
