@@ -14,7 +14,7 @@
 //#define SEMANTIC_4M_ON54_FEB_PATTON
 //#define SEMANTIC_7D_OR_NT_FEB
 //#define SEMANTIC_1H_1S_2H_MAR
-#define SEMANTIC_1C_P_1H_2D_2H_MAR
+//#define SEMANTIC_1C_P_1H_2D_2H_MAR
 
 // Bidding decision competitive:
 //#define SEMANTIC_JUN_MINORS_VS_MAJORS
@@ -36,6 +36,7 @@
 //#define SEMANTIC_1NT_OR_SIGN_OFF
 //#define SEMANTIC_4M_ON54_BIG
 //#define SEMANTIC_ALL4_1H_1S_2H_MAR
+#define SEM_ALL4_1C_P_1H_2D_2H_MAR
 
 // -----------------------------------------------------------------
 // task descriptions

@@ -217,3 +217,60 @@ void Walrus::FillSemantic(void)
    config.detailedReportType = WREPORT_SUIT;
 }
 #endif
+
+#ifdef SEM_ALL4_1C_P_1H_2D_2H_MAR
+void Walrus::FillSemantic(void)
+{
+    FourHandsFillSem();
+
+    sem.onScoring = &CumulativeScore::Our4M;
+    sem.onPostmortem = &Walrus::PostmortemHCP;
+    sem.vecFilters.clear();
+
+    // prototype [N:83.QJ874.A5.A965]
+    ADD_4PAR_FILTER(NORTH, ExactShape, 2, 5, 2, 4);
+    ADD_2PAR_FILTER(NORTH, PointsRange, 11, 11);
+    ADD_2PAR_FILTER(NORTH, ControlsRange, 3, 5);
+
+    //ADD_2PAR_FILTER(SOUTH, PointsRange, 12, 13);
+    //ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
+    //    ADD_2PAR_FILTER(SOUTH, PointsRange, 13, 13);
+    //    ADD_2PAR_FILTER(SOUTH, ControlsRange, 4, 6);
+    //ADD_0PAR_FILTER(SOUTH, EndList);
+
+    ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 12);
+    ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
+        ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 11);
+        ADD_2PAR_FILTER(SOUTH, ControlsRange, 0, 3);
+    ADD_0PAR_FILTER(SOUTH, EndList);
+
+    //ADD_4PAR_FILTER(SOUTH, ExactShape, 3, 4, 3, 3);
+     ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
+        ADD_4PAR_FILTER(SOUTH, ExactShape, 3, 4, 4, 2);
+        ADD_4PAR_FILTER(SOUTH, ExactShape, 4, 4, 3, 2);
+     ADD_0PAR_FILTER(SOUTH, EndList);
+ //    ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
+ //       ADD_4PAR_FILTER(SOUTH, ExactShape, 2, 4, 4, 3);
+ //       ADD_4PAR_FILTER(SOUTH, ExactShape, 2, 4, 3, 4);
+ //    ADD_0PAR_FILTER(SOUTH, EndList);
+    //ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
+    //    ADD_4PAR_FILTER(SOUTH, ExactShape, 4, 4, 2, 3);
+    //    ADD_4PAR_FILTER(SOUTH, ExactShape, 3, 4, 2, 4);
+    //ADD_0PAR_FILTER(SOUTH, EndList);
+
+    //ADD_2PAR_FILTER(SOUTH, HeartsLen, 4, 4);
+    //ADD_2PAR_FILTER(SOUTH, SpadesLen, 2, 4);
+    //ADD_2PAR_FILTER(SOUTH, DiamondsLen, 2, 4);
+    //ADD_2PAR_FILTER(SOUTH, ClubsLen, 2, 4);
+
+    ADD_0PAR_FILTER(WEST, NoOvercall);
+
+    ADD_2PAR_FILTER(EAST, PointsRange, 10, 16);
+    ADD_2PAR_FILTER(EAST, DiamondsLen, 5, 7);
+    ADD_0PAR_FILTER(EAST, DiamondsNatural);
+
+    //config.postmSuit = SOL_DIAMONDS;
+    //config.detailedReportType = WREPORT_SUIT;
+    //sem.onBoardAdded = &Walrus::DisplayBoard;
+}
+#endif 
