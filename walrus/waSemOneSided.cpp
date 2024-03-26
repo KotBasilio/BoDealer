@@ -248,3 +248,40 @@ void Walrus::FillSemantic(void)
    ADD_0PAR_FILTER(EAST, DiamondsNatural);
 }
 #endif 
+
+
+#ifdef SEM_MIX_MAR24_INVITE_4S
+void Walrus::FillSemantic(void)
+{
+   OrbNorthFillSem();
+   //sem.onBoardAdded = &Walrus::DisplayBoard;
+
+   sem.onScoring = &CumulativeScore::Our4M;
+   sem.onPostmortem = &Walrus::PostmortemHCP;
+   sem.vecFilters.clear();
+
+   //"Fix a 14 hcp 4315;\np 1c p 1d\n1h 1s 2h 2s p ??\nQuestion: how often s game makes?"
+   ADD_2PAR_FILTER(SOUTH, PointsRange, 7, 8);
+   ADD_2PAR_FILTER(WEST,  PointsRange, 7, 11);
+
+   ADD_2PAR_FILTER(WEST,  HeartsLen, 4, 5);
+   ADD_2PAR_FILTER(SOUTH, HeartsLen, 2, 2);
+
+   ADD_2PAR_FILTER(SOUTH, SpadesLen, 4, 4);
+   ADD_2PAR_FILTER(SOUTH, DiamondsLen, 4, 5);
+
+   ADD_0PAR_FILTER(WEST, HeartsNatural);
+   ADD_0PAR_FILTER(EAST, NoOvercall);
+
+   ADD_2PAR_FILTER(EAST, DiamondsLen, 0, 5);
+   ADD_0PAR_FILTER(EAST, ExcludeCombination);
+      ADD_2PAR_FILTER(EAST, DiamondsLen, 5, 5);
+      ADD_2PAR_FILTER(EAST, PointsRange, 10, 12);
+   ADD_0PAR_FILTER(EAST, EndList);
+
+   //ADD_2PAR_FILTER(SOUTH, PointsSuitLimit, CLB, 0);
+
+}
+#endif 
+
+

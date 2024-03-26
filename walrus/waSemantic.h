@@ -82,6 +82,7 @@ public:
    uint PointsSuitLEqSuit(twContext* lay, const uint* par);
    // -
    uint SpadesNatural(twContext* lay, const uint* par);
+   uint HeartsNatural(twContext* lay, const uint* par);
    uint DiamondsNatural(twContext* lay, const uint* par);
    uint NoMajorFit(twContext* lay, const uint *par);
    // -

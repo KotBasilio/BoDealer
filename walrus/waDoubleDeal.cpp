@@ -51,6 +51,8 @@ void Walrus::HandleDDSFail(int res)
    PLATFORM_GETCH();
 }
 
+twlHCP lastCalcHcp;
+
 uint WaCalcHCP(const deal& dl, uint& ctrl)
 {
    // not a complex task, knowing that
@@ -69,6 +71,9 @@ uint WaCalcHCP(const deal& dl, uint& ctrl)
    twlHCP hcp(reducedHand);
    twlControls onRed(reducedHand);
    ctrl = onRed.total;
+
+   // hack
+   lastCalcHcp = hcp;
 
    return hcp.total;
 }
@@ -97,6 +102,16 @@ void Walrus::PostmortemHCP(DdsTricks& tr, deal& cards)
       HitByTricks(tr, config.primGoal, row);
       progress.countExtraMarks++;
    }
+
+   // hack for club points
+   row = IO_ROW_HCP_START + (IO_HCP_MAX - IO_HCP_MIN) * 2;
+   if (lastCalcHcp.c > 8) {
+      progress.hitsCount[row][0]++;
+   } else {
+      progress.hitsCount[row+1][0]++;
+   }
+   progress.countExtraMarks++;
+
 }
 
 static uint CalcSuitHCP(deal& cards, uint seat)

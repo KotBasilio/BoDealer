@@ -15,6 +15,12 @@
 // --------------------------------------------------------------------------------
 // input
 
+#ifdef SEM_MIX_MAR24_INVITE_4S
+   #define INPUT_TRUMPS    SOL_SPADES
+   #define INPUT_ON_LEAD   WEST
+   char const taskHandPBN[] = "[N:AK97.432.2.AQJ84]";
+#endif 
+
 #ifdef SEM_DU_MAR_1C_X_XX_1H_ETC_MAR
    #define INPUT_TRUMPS    SOL_DIAMONDS
    #define INPUT_ON_LEAD   WEST

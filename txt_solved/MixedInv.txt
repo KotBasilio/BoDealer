@@ -1,0 +1,460 @@
+
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+Fix a 14 hcp 4315;
+p 1c p 1d
+1h 1s 2h 2s p ??
+Question: how often s game makes?
+Primary scorer (spades, 10 tr): -300 -200 -100 620 650 680 710  /  80 110 140 170 200 230 260
+----
+30:   166283,       0,       0,     >XM,       0,  : 42772575      PointsRange 7 10 SOUTH
+31:        0,       0,       0,       0,     >XM,  : 13486611      PointsRange 7 11 WEST
+32:        0,       0,    >MLN,       0,       0,  : 2176236       NoOvercall EAST
+33:        0,       0,       0,       0,    >MLN,  : 8718875       HeartsLen 4 5 WEST
+34:        0,       0,    >MLN,       0,       0,  : 2416885       HeartsLen 3 4 EAST
+35:        0,       0,       0,    >MLN,       0,  : 2434831       SpadesLen 4 4 SOUTH
+36:        0,       0,       0,  334616,       0,  : 334616        DiamondsLen 4 5 SOUTH
+37:        0,       0,       0,       0,  342670,  : 342670        HeartsNatural WEST
+38:        0,       0,   10461,       0,       0,  : 10461         DiamondsLen 0 5 EAST
+39:        0,       0,       0,   20882,       0,  : 20882         ExcludeCombination SOUTH
+40:        0,       0,  112340,       0,       0,  : 112340          DiamondsLen 5 5 EAST
+41:        0,       0,   53943,       0,       0,  : 53943           PointsRange 10 12 EAST
+----
+ 10 tricks board by South in spades example:
+--------
+               AK97        HCP : 22
+               432         CTRL: 7
+               2
+               AQJ84
+   843                     J5
+   AKQJ5                   976
+   9873                    KJT4
+   2                       K765
+               QT62
+               T8
+               AQ65
+               T93
+
+Seek 11 tricks board by South in spades ... example:
+--------
+               AK97        HCP : 24
+               432         CTRL: 8
+               2
+               AQJ84
+   542                     83
+   KQJ86                   AT5
+   Q86                     JT53
+   K6                      T752
+               QJT6
+               97
+               AK974
+               93
+
+  card suit   rank   equals score
+     0 H      6             2
+     1 H      8             2
+     2 H      K      QJ     2
+     3 S      2             2
+     4 S      5      4      2
+     5 C      6             1
+     6 D      6             1
+     7 D      8             1
+     8 C      K             1
+     9 D      Q             1
+
+
+Seek 10 tricks board by South in spades ... example:
+--------
+               AK97        HCP : 24
+               432         CTRL: 8
+               2
+               AQJ84
+   T6                      542
+   AQJ97                   KT5
+   T8                      QJ653
+   9765                    K3
+               QJ83
+               86
+               AK974
+               T2
+
+  card suit   rank   equals score
+     0 H      7             3
+     1 H      9             3
+     2 H      Q      J      3
+     3 H      A             3
+     4 C      7      65     3
+     5 C      9             3
+     6 D      8             3
+     7 D      T             3
+     8 S      6             3
+     9 S      T             3
+
+
+Seek 10 tricks board by South in spades ... example:
+--------
+               AK97        HCP : 23
+               432         CTRL: 7
+               2
+               AQJ84
+   T8                      J65
+   K9865                   AT7
+   J763                    KQ9
+   K3                      T762
+               Q432
+               QJ
+               AT854
+               95
+
+  card suit   rank   equals score
+     0 H      6      5      3
+     1 H      9      8      3
+     2 H      K             3
+     3 D      3             3
+     4 D      7      6      3
+     5 C      3             3
+     6 C      K             3
+     7 S      8             3
+     8 S      T             3
+     9 D      J             2
+
+
+Seek 10 tricks board by South in spades ... example:
+--------
+               AK97        HCP : 21
+               432         CTRL: 6
+               2
+               AQJ84
+   52                      T83
+   KQ965                   AJT8
+   KQ3                     AT965
+   653                     T
+               QJ64
+               7
+               J874
+               K972
+
+  card suit   rank   equals score
+     0 H      6      5      3
+     1 H      9             3
+     2 D      3             3
+     3 H      K      Q      3
+     4 D      K      Q      3
+     5 S      2             3
+     6 S      5             3
+     7 C      3             3
+     8 C      6      5      3
+
+(p 21 down):     1184,     413,      34,       2,       0,   :     1633,
+(p 21 make):     1460,     510,      78,       0,       0,   :     2048,  --> 55 %
+(p 22 down):     1305,     344,      31,       2,       0,   :     1682,
+(p 22 make):     1981,    1005,     173,       0,       0,   :     3159,  --> 65 %
+(p 23 down):     1035,     217,      14,       0,       0,   :     1266,
+(p 23 make):     1981,    1370,     371,      11,       0,   :     3733,  --> 74 %
+(p 24 down):      617,      75,       4,       0,       0,   :      696,
+(p 24 make):     1861,    1645,     534,      43,       0,   :     4083,  --> 85 %
+(p 21 down):     1363,     461,      40,       2,       0,   :     1866,
+(p 21 make):     1696,     602,      83,       0,       0,   :     2381,  --> 56 %
+(p 22 down):     1483,     395,      32,       2,       0,   :     1912,
+(p 22 make):     2276,    1175,     206,       0,       0,   :     3657,  --> 65 %
+(p 23 down):     1161,     252,      16,       0,       0,   :     1429,
+(p 23 make):     2290,    1614,     424,      12,       0,   :     4340,  --> 75 %
+(p 24 down):      720,      88,       5,       0,       0,   :      813,
+(p 24 make):     2141,    1900,     615,      46,       0,   :     4702,  --> 85 %
+
+Seek 10 tricks board by South in spades ... example:
+--------
+               AK97        HCP : 22
+               432         CTRL: 7
+               2
+               AQJ84
+   J82                     54
+   KT96                    AQJ7
+   KT7                     J964
+   962                     KT5
+               QT63
+               85
+               AQ853
+               73
+
+  card suit   rank   equals score
+     0 H      6             3
+     1 H      T      9      3
+     2 H      K             3
+     3 C      2             3
+     4 C      6             3
+     5 C      9             3
+     6 D      7             3
+     7 S      2             3
+     8 D      T             3
+     9 D      K             3
+    10 S      8             3
+    11 S      J             3
+
+(p 21 down):     1667,     572,      50,       2,       0,   :     2291,
+(p 21 make):     2050,     708,      99,       0,       0,   :     2857,  --> 55 %
+(p 22 down):     1806,     480,      37,       2,       0,   :     2325,
+(p 22 make):     2742,    1417,     259,       1,       0,   :     4419,  --> 65 %
+(p 23 down):     1386,     291,      21,       0,       0,   :     1698,
+(p 23 make):     2730,    1952,     522,      16,       0,   :     5220,  --> 75 %
+(p 24 down):      889,     102,       5,       0,       0,   :      996,
+(p 24 make):     2558,    2336,     747,      53,       0,   :     5694,  --> 85 %
+
+Seek 10 tricks board by South in spades ... example:
+--------
+               AK97        HCP : 21
+               432         CTRL: 6
+               2
+               AQJ84
+   43                      JT8
+   AK986                   JT75
+   A95                     KQJT4
+   963                     T
+               Q652
+               Q
+               8763
+               K752
+
+  card suit   rank   equals score
+     0 D      5             3
+     1 D      9             3
+     2 D      A             3
+     3 H      A      K      3
+     4 S      4      3      3
+     5 C      3             3
+     6 C      6             3
+     7 C      9             3
+     8 H      6             1
+     9 H      9      8      1
+
+
+Ending with:
+       (down):     8863,    2183,     184,       7,       0,       0,       0,       11237
+       (make):    15477,   10056,    2628,     102,       0,       0,       0,       28263
+Processed: 39500 total. West is on lead. Goal is 10 tricks in spades.
+Averages: ideal = 493, bidGame = 420, partscore=171.   Chance to make = 71.6%
+(p 21 down):     2545,     867,      90,       5,       0,   :     3507,
+(p 21 make):     3120,    1142,     153,       0,       0,   :     4415,  --> 55 %
+(p 22 down):     2786,     735,      64,       2,       0,   :     3587,
+(p 22 make):     4203,    2228,     400,       3,       0,   :     6834,  --> 65 %
+(p 23 down):     2145,     430,      24,       0,       0,   :     2599,
+(p 23 make):     4303,    3076,     811,      21,       0,   :     8211,  --> 75 %
+(p 24 down):     1387,     151,       6,       0,       0,   :     1544,
+(p 24 make):     3851,    3610,    1264,      78,       0,   :     8803,  --> 85 %
+The search took 0.6 sec + an aftermath 6 min 23 sec.
+
+
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+Fix a 14 hcp 4315;
+p 1c p 1d
+1h 1s 2h 2s p ??
+Question: how often s game makes?
+Primary scorer (spades, 10 tr): -300 -200 -100 620 650 680 710  /  80 110 140 170 200 230 260
+----
+30:   175585,       0,       0,    >XXM,       0,  : 283202447     PointsRange 7 8 SOUTH
+31:        0,       0,       0,       0,     >XM,  : 33908448      PointsRange 7 11 WEST
+32:        0,       0,       0,       0,     >XM,  : 24609162      HeartsLen 4 5 WEST
+33:        0,       0,       0,     >XM,       0,  : 11599761      HeartsLen 2 2 SOUTH
+34:        0,       0,       0,    >MLN,       0,  : 3288280       SpadesLen 4 4 SOUTH
+35:        0,       0,       0,  469294,       0,  : 469294        DiamondsLen 4 5 SOUTH
+36:        0,       0,       0,       0,  478678,  : 478678        HeartsNatural WEST
+37:        0,       0,   46384,       0,       0,  : 46384         NoOvercall EAST
+38:        0,       0,   16055,       0,       0,  : 16055         DiamondsLen 0 5 EAST
+39:        0,       0,   51261,       0,       0,  : 51261         ExcludeCombination EAST
+40:        0,       0,  176441,       0,       0,  : 176441          DiamondsLen 5 5 EAST
+41:        0,       0,   64518,       0,       0,  : 64518           PointsRange 10 12 EAST
+43:        0,       0,       0,   65374,       0,  : 65374         PointsSuitLimit CLB 0 SOUTH
+----
+ 10 tricks board by South in spades example:
+--------
+               AK97        HCP : 21
+               432         CTRL: 7
+               2
+               AQJ84
+   Q8                      532
+   AJ865                   K97
+   QT64                    KJ53
+   63                      K72
+               JT64
+               QT
+               A987
+               T95
+
+Seek 10 tricks board by South in spades ... example:
+--------
+               AK97        HCP : 22
+               432         CTRL: 8
+               2
+               AQJ84
+   Q63                     42
+   KQT85                   AJ6
+   J973                    QT86
+   9                       K532
+               JT85
+               97
+               AK54
+               T76
+
+  card suit   rank   equals score
+     0 H      5             3
+     1 H      8             3
+     2 H      T             3
+     3 H      K      Q      3
+     4 C      9             3
+     5 D      3             3
+     6 D      7             3
+     7 D      9             3
+     8 D      J             3
+     9 S      3             3
+    10 S      6             3
+    11 S      Q             3
+
+
+Seek 10 tricks board by South in spades ... example:
+--------
+               AK97        HCP : 22
+               432         CTRL: 6
+               2
+               AQJ84
+   65                      J83
+   QT985                   A76
+   AJ6                     K974
+   763                     KT9
+               QT42
+               KJ
+               QT853
+               52
+
+  card suit   rank   equals score
+     0 D      6             3
+     1 D      J             3
+     2 D      A             3
+     3 H      5             3
+     4 C      3             3
+     5 H      T      98     3
+     6 H      Q             3
+     7 C      7      6      3
+     8 S      6      5      3
+
+
+Seek 10 tricks board by South in spades ... example:
+--------
+               AK97        HCP : 22
+               432         CTRL: 6
+               2
+               AQJ84
+   T8                      652
+   AQ765                   KJ9
+   J954                    A873
+   K3                      962
+               QJ43
+               T8
+               KQT6
+               T75
+
+  card suit   rank   equals score
+     0 H      7      65     3
+     1 H      Q             3
+     2 H      A             3
+     3 D      5      4      3
+     4 D      9             3
+     5 D      J             3
+     6 C      3             2
+     7 S      8             2
+     8 S      T             2
+     9 C      K             2
+
+
+Seek 11 tricks board by South in spades ... example:
+--------
+               AK97        HCP : 22
+               432         CTRL: 7
+               2
+               AQJ84
+   J32                     84
+   KJ95                    AQT7
+   986                     KJT7
+   K62                     953
+               QT65
+               86
+               AQ543
+               T7
+
+  card suit   rank   equals score
+     0 H      5             2
+     1 H      9             2
+     2 H      J             2
+     3 H      K             2
+     4 C      2             1
+     5 C      6             1
+     6 D      6             1
+     7 D      9      8      1
+     8 S      3      2      1
+     9 C      K             1
+    10 S      J             1
+
+
+Seek 9 tricks board by South in spades ... example:
+--------
+               AK97        HCP : 22
+               432         CTRL: 7
+               2
+               AQJ84
+   8                       JT53
+   AJT96                   Q85
+   Q984                    AJ76
+   K92                     T7
+               Q642
+               K7
+               KT53
+               653
+
+  card suit   rank   equals score
+     0 D      4             4
+     1 D      9      8      4
+     2 D      Q             4
+     3 C      2             4
+     4 S      8             4
+     5 C      9             4
+     6 C      K             4
+     7 H      A             3
+     8 H      6             3
+     9 H      J      T9     3
+
+
+Ending with:
+       (down):     7505,    2554,     292,       6,       1,       0,       0,       10358
+       (make):     7770,    3041,     322,       9,       0,       0,       0,       11142
+Processed: 21500 total. West is on lead. Goal is 10 tricks in spades.
+Averages: ideal = 389, bidGame = 263, partscore=156.   Chance to make = 51.8%
+(p 21 down):     3686,    1467,     204,       5,       1,   :     5363,
+(p 21 make):     3283,    1126,      38,       0,       0,   :     4447,  --> 45 %
+(p 22 down):     3819,    1087,      88,       1,       0,   :     4995,
+(p 22 make):     4487,    1915,     284,       9,       0,   :     6695,  --> 57 %
+(p 23 down):        0,       0,       0,       0,       0,   :        0,
+(p 23 make):        0,       0,       0,       0,       0,   :        0,
+(p 24 down):        0,       0,       0,       0,       0,   :        0,
+(p 24 make):        0,       0,       0,       0,       0,   :        0,
+The search took 2.1 sec + an aftermath 4 min 42 sec.
+
+
+With Kc / without Kc. 
+   ~ 2 / 7 
+
+
+
+
+

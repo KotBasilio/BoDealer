@@ -21,7 +21,8 @@
 //#define SEMANTIC_OCT_INDIAN_5C
 //#define SEMANTIC_OVERCALL_4C
 //#define SEMANTIC_INV_AFTER_2H
-#define SEM_DU_MAR_1C_X_XX_1H_ETC_MAR
+//#define SEM_DU_MAR_1C_X_XX_1H_ETC_MAR
+#define SEM_MIX_MAR24_INVITE_4S
 
 // Opening lead:
 

@@ -275,6 +275,22 @@ uint WaFilter::SpadesNatural(twContext* lay, const uint* par)
    return MIC_BLOCK;
 }
 
+uint WaFilter::HeartsNatural(twContext* lay, const uint* par)
+{
+   ACCESS_MICPAR_LEN;
+
+   // s is shorter, minor can be 1 card longer
+   if (len.h > len.s &&
+      len.h >= len.d + 1 &&
+      len.h >= len.c + 1) {
+      return MIC_PASSED;
+   }
+
+   return MIC_BLOCK;
+}
+
+
+
 uint WaFilter::DiamondsNatural(twContext* lay, const uint* par)
 {
    ACCESS_MICPAR_LEN;
