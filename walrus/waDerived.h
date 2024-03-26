@@ -7,18 +7,10 @@
    #define FIXED_HAND_WEST
 #endif
 
-#ifdef SEEK_BIDDING_LEVEL
-   #define FIXED_HAND_NORTH
-#endif
-
 #ifdef SEEK_DENOMINATION
    #define FIXED_HAND_NORTH
    #define SCORE_THE_OTHER_CONTRACT
    #define THE_OTHER_IS_OURS
-#endif
-
-#ifdef PARTNER_HAND_TASK
-   #define FIXED_HAND_NORTH
 #endif
 
 #ifdef SEEK_OPENING_LEAD
@@ -83,7 +75,10 @@
 #endif
 
 // -----------------------------------------------------------------
-// personal opinions on how to filter
+// more resolutions on a fixed hand
+#ifdef SEEK_BIDDING_LEVEL
+   #define FIXED_HAND_NORTH
+#endif
 
 // -----------------------------------------------------------------
 // common constants, biggest symmetry in bridge
@@ -144,10 +139,10 @@ const ucell MAX_ITERATION = 3001000000;// 3 mlrd
 
 const uint MAX_TASKS_TO_SOLVE = 200 * 1000;
 //const uint AIM_TASKS_COUNT = 150 * 1000;
-const uint AIM_TASKS_COUNT = 120 * 1000;
+//const uint AIM_TASKS_COUNT = 120 * 1000;
 //const uint AIM_TASKS_COUNT = MAX_TASKS_TO_SOLVE / 2;
 //const uint AIM_TASKS_COUNT = 70 * 1000;
-//const uint AIM_TASKS_COUNT = 50 * 1000;
+const uint AIM_TASKS_COUNT = 50 * 1000;
 //const uint AIM_TASKS_COUNT = 20*1000;
 //const uint AIM_TASKS_COUNT = 5*1000;
 //const uint AIM_TASKS_COUNT = 2*1000;

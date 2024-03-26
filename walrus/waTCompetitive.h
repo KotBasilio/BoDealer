@@ -20,6 +20,15 @@
    #define FOUR_HANDS_TASK
 */
 
+#ifdef SEM_DU_MAR_1C_X_XX_1H_ETC_MAR
+	#define TITLE_VERSION  "Fix 1363 8hcp, all vul;\n  1c (X) XX 1h\n2d (2h) 3d (3h)\n X p ??\nQuestion: pass or 4d?"
+	#define SEEK_DECISION_BID_OR_DOUBLE
+	#define SCORE_THE_OTHER_CONTRACT
+	#define OC_TRUMPS       SOL_HEARTS
+	#define OC_ON_LEAD      SOUTH
+	#define SHOW_OPPS_ON_DOUBLE_ONLY
+#endif 
+
 #ifdef SEMANTIC_OCT_INDIAN_5C
    #define TITLE_VERSION  "Fix 5530 9hcp, all vul;\n  1c (2c) 2s two suiter spade and a red suit (4c)\n  4s (pass) pass (5c)\n  dbl pass or 5s? Task "
    #define SEEK_DECISION_BID_OR_DOUBLE

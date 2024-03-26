@@ -21,6 +21,7 @@
 //#define SEMANTIC_OCT_INDIAN_5C
 //#define SEMANTIC_OVERCALL_4C
 //#define SEMANTIC_INV_AFTER_2H
+#define SEM_DU_MAR_1C_X_XX_1H_ETC_MAR
 
 // Opening lead:
 
@@ -36,7 +37,7 @@
 //#define SEMANTIC_1NT_OR_SIGN_OFF
 //#define SEMANTIC_4M_ON54_BIG
 //#define SEMANTIC_ALL4_1H_1S_2H_MAR
-#define SEM_ALL4_1C_P_1H_2D_2H_MAR
+//#define SEM_ALL4_1C_P_1H_2D_2H_MAR
 
 // -----------------------------------------------------------------
 // task descriptions

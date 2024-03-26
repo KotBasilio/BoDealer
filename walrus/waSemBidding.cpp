@@ -87,4 +87,26 @@ void Walrus::FillSemantic(void)
 }
 #endif // SEMANTIC_OVERCALL_4C
 
+#ifdef SEM_DU_MAR_1C_X_XX_1H_ETC_MAR
+void Walrus::FillSemantic(void)
+{
+   OrbNorthFillSem();
+   //sem.onBoardAdded = &Walrus::DisplayBoard;
+   sem.onScoring = &CumulativeScore::Our4minor;
+   sem.onSolvedTwice = &CumulativeScore::Score_Opp3Major;
+   sem.vecFilters.clear();
+   ADD_2PAR_FILTER(SOUTH, PointsRange, 12, 13);
+   ADD_2PAR_FILTER(WEST,  PointsRange, 11, 15);
+   ADD_2PAR_FILTER(EAST,  PointsRange, 7, 9);
+
+   ADD_2PAR_FILTER(WEST, SpadesLen, 4, 4);
+   ADD_2PAR_FILTER(EAST, SpadesLen, 4, 4);
+
+   ADD_2PAR_FILTER(WEST,  HeartsLen, 3, 4);
+   ADD_2PAR_FILTER(SOUTH, HeartsLen, 2, 2);
+
+   ADD_2PAR_FILTER(SOUTH, DiamondsLen, 3, 3);
+   ADD_2PAR_FILTER(WEST,  DiamondsLen, 2, 4);
+}
+#endif 
 

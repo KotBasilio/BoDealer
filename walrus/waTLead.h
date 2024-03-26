@@ -48,7 +48,7 @@
 // ---
 #ifdef SEMANTIC_SPADE_4_WHEN_1H
    #define TITLE_VERSION  "Part opened 1H. We hold ~4333 with 4s;\nQuestion: how often part has 4+ spades? Ver 2.0 "
-   #define PARTNER_HAND_TASK
+   #define FIXED_HAND_NORTH
    #define PERCENTAGES_IN_ANSWER_ROW
    #define ANSWER_ROW_IDX  1
 #endif

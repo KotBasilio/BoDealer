@@ -1,0 +1,126 @@
+
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+Fix 1363 8hcp, all vul;
+  1c (X) XX 1h
+2d (2h) 3d (3h)
+ X p ??
+Question: pass or 4d?
+Contract-A scorer (diamonds, 10 tr): -300 -200 -100 130 150 170 190  /  -300 -200 -100 130 150 170 190
+Contract-B scorer (hearts, 9 tr): -100 -50 140 170 200 230 260  /  -300 -100 530 630 730 830 930
+----
+30:    50003,       0,       0,    >XXM,       0,  : 613379901     PointsRange 12 13 SOUTH
+31:        0,       0,       0,       0,     >XM,  : 78655246      PointsRange 11 15 WEST
+32:        0,       0,     >XM,       0,       0,  : 15876077      PointsRange 7 9 EAST
+33:        0,       0,       0,       0,     >XM,  : 22352227      SpadesLen 4 4 WEST
+34:        0,       0,    >MLN,       0,       0,  : 5916970       SpadesLen 4 4 EAST
+35:        0,       0,       0,       0,    >MLN,  : 2059528       HeartsLen 4 4 WEST
+36:        0,       0,  602101,       0,       0,  : 602101        HeartsLen 4 4 EAST
+37:        0,       0,       0,  116438,       0,  : 116438        DiamondsLen 3 3 SOUTH
+38:        0,       0,       0,       0,   19674,  : 19674         DiamondsLen 2 4 WEST
+----
+ 10 tricks board by South in diamonds example:
+--------
+               Q           HCP : 20
+               874         CTRL: 6
+               AQ9654
+               653
+   AK82                    JT93
+   A652                    KQJ9
+   32                      J8
+   J94                     T82
+               7654
+               T3
+               KT7
+               AKQ7
+                                      Their contract in hearts has 8 tricks.
+    suit   rank   score               suit   rank   score
+      H      2      3                   D      7      5
+      H      6      3                   D      T      5
+      H      A      3                   D      K      5
+      S      A      3                   C      A      5
+      S      2      2                   S      7      5
+      S      8      2                   H      3      5
+      C      4      2                   H      T      5
+      C      9      2                   C      7      4
+      C      J      2
+      D      3      2
+
+Seek 9 tricks board by South in diamonds ... example:
+--------
+               Q           HCP : 20
+               874         CTRL: 7
+               AQ9654
+               653
+   K742                    9653
+   KJ95                    QT63
+   T87                     J
+   AQ                      KJ84
+               AJT8
+               A2
+               K32
+               T972
+                                      Their contract in hearts has 7 tricks.
+    suit   rank   score               suit   rank   score
+      C      A      4                   D      3      6
+      C      Q      3                   D      K      6
+      H      5      3                   S      A      6
+      H      9      3                   H      A      6
+      H      J      3                   C      2      5
+      H      K      3                   C      7      5
+      D      8      3                   C      T      5
+      D      T      3                   H      2      5
+      S      2      2                   S      8      4
+      S      4      2                   S      J      4
+      S      7      2
+      S      K      2
+
+Seek 9 tricks board by South in diamonds ... example:
+--------
+               Q           HCP : 20
+               874         CTRL: 5
+               AQ9654
+               653
+   9863                    KT42
+   KJ96                    AT32
+   KJ                      72
+   AJT                     974
+               AJ75
+               Q5
+               T83
+               KQ82
+                                      Their contract in hearts has 7 tricks.
+    suit   rank   score               suit   rank   score
+      H      6      4                   D      3      6
+      H      9      4                   D      8      6
+      H      J      4                   D      T      6
+      H      K      4                   S      A      6
+      C      J      4                   C      K      5
+      S      3      3                   C      2      5
+      C      A      3                   C      8      5
+      S      6      3                   H      5      5
+      S      9      3                   H      Q      5
+      D      J      3                   S      5      5
+      D      K      3                   S      7      5
+                                        S      J      4
+
+Ending with:
+    (we down):    20052,   11917,    1253,       2,       0,       0,       0,       33224
+    (we make):    14717,    2047,      15,       0,       0,       0,       0,       16779
+       (----):        0,       0,       0,       0,       0,       0,       0,           0
+   (opp down):    12950,   14670,   10394,    2255,     384,       0,       0,       40653
+   (opp make):     7682,    1494,     162,      12,       0,       0,       0,        9350
+(bid/refrain):        0,   11961,       0,   38042,       0,       0,       0,       50003
+Processed: 50003 total. West is on lead. Goal is 10 tricks in diamonds.
+Averages: ideal = 50, bidGame = -50.   Chance to make = 33.6%
+Their contract doubled, expectation average: 159. Chance to make = 18.7%
+To bid is better in: 23.9% cases
+The search took 3.2 sec + an aftermath 10 min 22 sec.
+
+
