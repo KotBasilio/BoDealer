@@ -56,6 +56,56 @@ void Walrus::ShowProgress(ucell idx)
    } else {
       printf(".");
    }
+   ParanoidBalanceCheck();
+}
+
+void Walrus::ParanoidBalanceCheck()
+{
+   static ucell goodBook[HCP_SIZE][CTRL_SIZE];
+
+   // calc bookman
+   ucell bookman = mul.countIterations + progress.countExtraMarks;
+   for (int i = 0; i < HCP_SIZE; i++) {
+      // calc bookman 
+      for (int j = 0; j < CTRL_SIZE; j++) {
+         auto cell = progress.hitsCount[i][j];
+         bookman -= cell;
+      }
+   }
+
+   // no bookman is great
+   if (!bookman) {
+      memcpy(goodBook, progress.hitsCount, sizeof(goodBook));
+      return;
+   }
+   if (bookman - mul.countToSolve == 0) {
+      // good as well
+      memcpy(goodBook, progress.hitsCount, sizeof(goodBook));
+      return;
+   }
+    
+   // announce
+   owl.Show(">>>>>>>>>>> Balance is broken: ");
+   if (bookman < mul.countIterations) {
+      owl.Show("%llu iterations left no mark\n", bookman);
+   } else {
+      owl.Show("%llu more marks than expected\n", MAXUINT64 - bookman + 1);
+   }
+
+   // go to details
+   for (int i = 0; i < HCP_SIZE; i++) {
+      for (int j = 0; j < CTRL_SIZE; j++) {
+         auto cell = progress.hitsCount[i][j];
+         auto good = goodBook[i][j];
+         if (cell != good) {
+            owl.Show("row %d camp %d: good=%llu bad=%llu\n", i, j, good, cell);
+         }
+      }
+   }
+
+   owl.Show("Debug pls.");
+   PLATFORM_GETCH();
+   owl.Show(" OK.\n");
 }
 
 // ------------------------------------------------------------------------------------------

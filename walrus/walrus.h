@@ -112,6 +112,7 @@ protected:
     bool HandleFilterLine(int i, ucell sumline, int &indent);
     void MiniReport(ucell toGo);
     void ShowProgress(ucell idx);
+    void ParanoidBalanceCheck();
     void DetectFarColumn();
     void ShowPercentages(s64 sumRows);
     void ShowBiddingLevel(s64 sumRows);
@@ -152,7 +153,6 @@ private:
    void Permute6(SplitBits a, SplitBits b, SplitBits c);
    void Permute24(SplitBits a, SplitBits b, SplitBits c);
    void Classify6(twContext *lay);
-   void SignOutChunk();
    // -- other scans
    uint KeyCards_ClassifyHand(uint &ba, SplitBits &sum);
    uint CountKeyCards(SplitBits &hand);

@@ -139,17 +139,22 @@ void Walrus::ClassifyOnPermute(twContext* lay)
    }
 
    // save all three hands
-   if (mul.countToSolve < mul.maxTasksToSolve) {
-      mul.arrToSolve[mul.countToSolve++].Init(lay);
-   } else {
-      SignOutChunk();
-   }
+   mul.SaveThreeHands(lay);
 
    // mark together all saved boards
    progress.hitsCount[IO_ROW_SELECTED][0]++;
 
    // any extra work
    (this->*sem.onBoardAdded)(lay);
+}
+
+void WaMulti::SaveThreeHands(twContext* lay)
+{
+   if (countToSolve < maxTasksToSolve) {
+      arrToSolve[countToSolve++].Init(lay);
+   } else {
+      shouldSignOut = true;
+   }
 }
 
 void DdsTask3::Init(twContext* lay) 

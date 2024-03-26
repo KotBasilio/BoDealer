@@ -276,6 +276,7 @@ void Walrus::AnnounceSolving()
       ReportState("");
       //PLATFORM_GETCH();
       printf("Solving started: ");
+      ParanoidBalanceCheck();
    }
 }
 

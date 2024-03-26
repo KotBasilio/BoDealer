@@ -43,9 +43,9 @@ void Walrus::SolveInChunks()
    for (; chunkStart+step < mul.countToSolve ; chunkStart+=step ) {
       // main work
       SolveOneChunk(_chunkBoards, chunkStart, step);
+      progress.StoreCountToGo(mul.countToSolve - chunkStart - step);
 
       // show some progress or just a dot
-      progress.StoreCountToGo(mul.countToSolve - chunkStart - step);
       ShowProgress(chunkStart);
 
       // fast exit

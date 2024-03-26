@@ -15,6 +15,7 @@ extern u64 ChronoRound();
 
 WaMulti::WaMulti()
    : isRunning(true)
+   , shouldSignOut(false)
    , nameHlp("main")
    , countIterations(0)
    , countShare(MAX_ITERATION)
@@ -164,12 +165,17 @@ ucell Walrus::DoTheShare()
    do {
       // normal work
       while (mul.countIterations < mul.countShare) {
-         DoIteration();
-         mul.ShowLiveSigns(sem.scanCover);
+         if (mul.shouldSignOut) {
+            mul.countShare = mul.countIterations;
+         } else {
+            DoIteration();
+            mul.ShowLiveSigns(sem.scanCover);
+         }
       }
 
-      // helper => may decide to work more
-      if (!mul.hA) {
+      // watch for helper done his share natural
+      if (mul.hA || mul.shouldSignOut) {
+      } else { // may decide to work more
          if (Gathered() < (AIM_TASKS_COUNT * 32) / 100) {
             while (mul.countIterations >= mul.countShare) {
                mul.countShare += ADDITION_STEP_ITERATIONS;
@@ -318,19 +324,14 @@ void WaMulti::ShowLiveSigns(uint oneCover)
    }
 }
 
-void Walrus::SignOutChunk()
-{
-   mul.countShare = mul.countIterations + sem.scanCover;
-}
-
 void WaMulti::StopHelpersSuddenly()
 {
    printf("X");
    if (hA->mul.isRunning) {
-      hA->SignOutChunk();
+      hA->mul.shouldSignOut = true;
    }
    if (hB->mul.isRunning) {
-      hB->SignOutChunk();
+      hB->mul.shouldSignOut = true;
    }
 }
 
