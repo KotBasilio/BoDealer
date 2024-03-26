@@ -451,10 +451,19 @@ Averages: ideal = 389, bidGame = 263, partscore=156.   Chance to make = 51.8%
 The search took 2.1 sec + an aftermath 4 min 42 sec.
 
 
-With Kc / without Kc. 
-   ~ 2 / 7 
-
-
-
-
+===================
+Ending with:
+       (down):    35325,   11510,    1315,      40,       1,       0,       0,       48191
+       (make):    45645,   13508,    1327,      29,       0,       0,       0,       60509
+Processed: 108700 total. West is on lead. Goal is 10 tricks in spades.
+Averages: ideal = 407, bidGame = 292, partscore=157.   Chance to make = 55.7%
+(p 21 down):    16737,    6395,     872,      27,       0,   :    24031,
+(p 21 make):    18474,    4369,     181,       0,       0,   :    23024,  --> 48 %
+(p 22 down):    18588,    5115,     443,      13,       1,   :    24160,
+(p 22 make):    27171,    9139,    1146,      29,       0,   :    37485,  --> 60 %
+(p 23 down):        0,       0,       0,       0,       0,   :        0,
+(p 23 make):        0,       0,       0,       0,       0,   :        0,
+(with Kc   ):   30111,       0,       0,       0,       0,   :    30111,
+(without Kc):   78589,       0,       0,       0,       0,   :    78589,  --> 72 %
+The search took 1.5 sec + an aftermath 21 min 11 sec.
 

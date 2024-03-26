@@ -13,6 +13,7 @@
 //#define  DBG_SHOW_BOARD_ON_CONSTRUCTION
 
 bool DdsDeal::needInspect = true;
+static twlHCP lastCalcHcp;
 
 void DdsDeal::ReconstructNorth(int s)
 {
@@ -51,8 +52,6 @@ void Walrus::HandleDDSFail(int res)
    PLATFORM_GETCH();
 }
 
-twlHCP lastCalcHcp;
-
 uint WaCalcHCP(const deal& dl, uint& ctrl)
 {
    // not a complex task, knowing that
@@ -72,7 +71,7 @@ uint WaCalcHCP(const deal& dl, uint& ctrl)
    twlControls onRed(reducedHand);
    ctrl = onRed.total;
 
-   // hack
+   // save
    lastCalcHcp = hcp;
 
    return hcp.total;
@@ -104,14 +103,15 @@ void Walrus::PostmortemHCP(DdsTricks& tr, deal& cards)
    }
 
    // hack for club points
-   row = IO_ROW_HCP_START + (IO_HCP_MAX - IO_HCP_MIN) * 2;
-   if (lastCalcHcp.c > 8) {
-      progress.hitsCount[row][0]++;
-   } else {
-      progress.hitsCount[row+1][0]++;
-   }
-   progress.countExtraMarks++;
-
+   #ifdef CALC_CLUB_HITS_EXPERIMENTAL
+      row = IO_ROW_HCP_START + (IO_HCP_MAX - IO_HCP_MIN) * 2;
+      if (lastCalcHcp.c > 8) {
+         progress.hitsCount[row][0]++;
+      } else {
+         progress.hitsCount[row+1][0]++;
+      }
+      progress.countExtraMarks++;
+   #endif // CALC_CLUB_HITS_EXPERIMENTAL
 }
 
 static uint CalcSuitHCP(deal& cards, uint seat)

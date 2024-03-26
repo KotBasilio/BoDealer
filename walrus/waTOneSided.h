@@ -24,8 +24,8 @@
 #ifdef SEM_MIX_MAR24_INVITE_4S
    #define TITLE_VERSION  "Fix a 14 hcp 4315;\np 1c p 1d\n1h 1s 2h 2s p ??\nQuestion: how often s game makes?"
    #define SEEK_BIDDING_LEVEL
-   #define IO_HCP_MIN  21
-   #define IO_HCP_MAX  24
+   #define IO_HCP_MIN  20
+   #define IO_HCP_MAX  25
 #endif 
 
 #ifdef SEMANTIC_1C_P_1H_2D_2H_MAR
