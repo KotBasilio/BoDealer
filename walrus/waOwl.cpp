@@ -15,6 +15,7 @@ static HANDLE g_PipeFromOwl = NULL;
 OscarTheOwl owl;
 char OscarTheOwl::buffer   [OscarTheOwl::bufferSize];
 char OscarTheOwl::earlyLine[OscarTheOwl::bufferSize];
+static char viscr[DDS_HAND_LINES][DDS_FULL_LINE]{};
 
 #ifdef _DEBUG
    #define OWL_CONFIG_SUFFIX  "\\x64\\Debug"
@@ -270,16 +271,15 @@ void OwlOneFut(char title[], futureTricks * fut)
    owl.Silent("\n");
 }
 
-void PrintHand(char title[], const deal& dl)
+static void FillVScreen(const deal& dl)
 {
    int c, h, s, r;
-   char text[DDS_HAND_LINES][DDS_FULL_LINE];
 
    // clear virtual screen
    for (int l = 0; l < DDS_HAND_LINES; l++)
    {
-      memset(text[l], ' ', DDS_FULL_LINE);
-      text[l][DDS_FULL_LINE - 1] = '\0';
+      memset(viscr[l], ' ', DDS_FULL_LINE);
+      viscr[l][DDS_FULL_LINE - 1] = '\0';
    }
 
    // for each hand
@@ -306,21 +306,26 @@ void PrintHand(char title[], const deal& dl)
          c = offset;
          for (r = 14; r >= 2; r--) {
             if ((dl.remainCards[h][s] >> 2) & dbitMapRank[r])
-               text[line + s][c++] = static_cast<char>(dcardRank[r]);
+               viscr[line + s][c++] = static_cast<char>(dcardRank[r]);
          }
 
          if (c == offset)
-            text[line + s][c++] = '-';
+            viscr[line + s][c++] = '-';
 
          if (h == SOUTH || h == EAST)
-            text[line + s][c] = '\0';
+            viscr[line + s][c] = '\0';
       }
    }
 
-   // print HCP and controls
+   // add HCP and controls
    uint ctrl;
-   sprintf(text[DDS_STATS_LINE  ] + DDS_STATS_OFFSET, "HCP : %d", WaCalcHCP(dl, ctrl));
-   sprintf(text[DDS_STATS_LINE+1] + DDS_STATS_OFFSET, "CTRL: %d", ctrl);
+   sprintf(viscr[DDS_STATS_LINE  ] + DDS_STATS_OFFSET, "HCP : %d", WaCalcHCP(dl, ctrl));
+   sprintf(viscr[DDS_STATS_LINE+1] + DDS_STATS_OFFSET, "CTRL: %d", ctrl);
+}
+
+void PrintHand(char title[], const deal& dl)
+{
+   FillVScreen(dl);
 
    // start with title and underline it
    printf(title);
@@ -333,61 +338,13 @@ void PrintHand(char title[], const deal& dl)
 
    // print the v-screen
    for (int i = 0; i < DDS_HAND_LINES; i++)
-      printf("   %s\n", text[i]);
+      printf("   %s\n", viscr[i]);
    //printf("\n\n");
 }
 
-void OwlOutHand(char title[], const deal& dl)
+void OwlOutBoard(char title[], const deal& dl)
 {
-   int c, h, s, r;
-   char text[DDS_HAND_LINES][DDS_FULL_LINE];
-
-   // clear virtual screen
-   for (int l = 0; l < DDS_HAND_LINES; l++)
-   {
-      memset(text[l], ' ', DDS_FULL_LINE);
-      text[l][DDS_FULL_LINE - 1] = '\0';
-   }
-
-   // for each hand
-   for (h = 0; h < DDS_HANDS; h++)
-   {
-      // detect location
-      int offset, line;
-      if (h == 0) {
-         offset = DDS_HAND_OFFSET;
-         line = 0;
-      } else if (h == 1) {
-         offset = 2 * DDS_HAND_OFFSET;
-         line = 4;
-      } else if (h == 2) {
-         offset = DDS_HAND_OFFSET;
-         line = 8;
-      } else {
-         offset = 0;
-         line = 4;
-      }
-
-      // print hand to v-screen
-      for (s = 0; s < DDS_SUITS; s++) {
-         c = offset;
-         for (r = 14; r >= 2; r--) {
-            if ((dl.remainCards[h][s] >> 2) & dbitMapRank[r])
-               text[line + s][c++] = static_cast<char>(dcardRank[r]);
-         }
-
-         if (c == offset)
-            text[line + s][c++] = '-';
-
-         if (h == SOUTH || h == EAST)
-            text[line + s][c] = '\0';
-      }
-   }
-
-   // print HCP and controls
-   uint ctrl;
-   sprintf(text[DDS_STATS_LINE  ] + DDS_STATS_OFFSET, "HCP : %d", WaCalcHCP(dl, ctrl));
-   sprintf(text[DDS_STATS_LINE+1] + DDS_STATS_OFFSET, "CTRL: %d", ctrl);
+   FillVScreen(dl);
 
    // start with title and underline it
    owl.Silent(title);
@@ -400,39 +357,43 @@ void OwlOutHand(char title[], const deal& dl)
 
    // print the v-screen
    for (int i = 0; i < DDS_HAND_LINES; i++)
-      owl.Silent("   %s\n", text[i]);
+      owl.Silent("   %s\n", viscr[i]);
    //printf("\n\n");
+}
+
+void OwlTNTBoard(char title[], const deal& dl)
+{
 }
 
 void PrintTwoFutures(char title[], futureTricks * fut1, futureTricks * fut2)
 {
-   char text[DDS_OPLEAD_LINES][DDS_FULL_LINE];
+   char viscr[DDS_OPLEAD_LINES][DDS_FULL_LINE];
 
    // clear virtual screen
    for (int lidx = 0; lidx < DDS_OPLEAD_LINES; lidx++) {
-      memset(text[lidx], ' ', DDS_FULL_LINE);
-      text[lidx][DDS_FULL_LINE - 1] = '\0';
+      memset(viscr[lidx], ' ', DDS_FULL_LINE);
+      viscr[lidx][DDS_FULL_LINE - 1] = '\0';
    }
 
-   // fill it with text info
+   // fill it with viscr info
    int off2 = 35;
-   sprintf(text[0] + off2, "%s", title);
+   sprintf(viscr[0] + off2, "%s", title);
 
-   sprintf(text[1], " %-6s %-6s %-6s              %-6s %-6s %-6s",
+   sprintf(viscr[1], " %-6s %-6s %-6s              %-6s %-6s %-6s",
       "suit", "rank", "score",
       "suit", "rank", "score"
    );
 
    for (int i = 0; i < fut1->cards; i++) {
-      sprintf(text[2+i], "   %-6c %-6c %-6d",
+      sprintf(viscr[2+i], "   %-6c %-6c %-6d",
          dcardSuit[fut1->suit[i]],
          dcardRank[fut1->rank[i]],
          fut1->score[i]);
-      text[2+i][23] = ' ';
+      viscr[2+i][23] = ' ';
    }
 
    for (int i = 0; i < fut2->cards; i++) {
-      sprintf(text[2 + i] + off2, "  %-6c %-6c %-6d",
+      sprintf(viscr[2 + i] + off2, "  %-6c %-6c %-6d",
          dcardSuit[fut2->suit[i]],
          dcardRank[fut2->rank[i]],
          fut2->score[i]);
@@ -441,39 +402,39 @@ void PrintTwoFutures(char title[], futureTricks * fut1, futureTricks * fut2)
    // print the v-screen
    auto maxline = __max(fut1->cards, fut2->cards) + 2;
    for (int i = 0; i < maxline; i++) {
-      printf("   %s\n", text[i]);
+      printf("   %s\n", viscr[i]);
    }
 }
 
 void OwlTwoFut(char title[], futureTricks * fut1, futureTricks * fut2)
 {
-   char text[DDS_OPLEAD_LINES][DDS_FULL_LINE];
+   char viscr[DDS_OPLEAD_LINES][DDS_FULL_LINE];
 
    // clear virtual screen
    for (int lidx = 0; lidx < DDS_OPLEAD_LINES; lidx++) {
-      memset(text[lidx], ' ', DDS_FULL_LINE);
-      text[lidx][DDS_FULL_LINE - 1] = '\0';
+      memset(viscr[lidx], ' ', DDS_FULL_LINE);
+      viscr[lidx][DDS_FULL_LINE - 1] = '\0';
    }
 
-   // fill it with text info
+   // fill it with viscr info
    int off2 = 35;
-   sprintf(text[0] + off2, "%s", title);
+   sprintf(viscr[0] + off2, "%s", title);
 
-   sprintf(text[1], " %-6s %-6s %-6s              %-6s %-6s %-6s",
+   sprintf(viscr[1], " %-6s %-6s %-6s              %-6s %-6s %-6s",
       "suit", "rank", "score",
       "suit", "rank", "score"
    );
 
    for (int i = 0; i < fut1->cards; i++) {
-      sprintf(text[2+i], "   %-6c %-6c %-6d",
+      sprintf(viscr[2+i], "   %-6c %-6c %-6d",
          dcardSuit[fut1->suit[i]],
          dcardRank[fut1->rank[i]],
          fut1->score[i]);
-      text[2+i][23] = ' ';
+      viscr[2+i][23] = ' ';
    }
 
    for (int i = 0; i < fut2->cards; i++) {
-      sprintf(text[2 + i] + off2, "  %-6c %-6c %-6d",
+      sprintf(viscr[2 + i] + off2, "  %-6c %-6c %-6d",
          dcardSuit[fut2->suit[i]],
          dcardRank[fut2->rank[i]],
          fut2->score[i]);
@@ -482,7 +443,7 @@ void OwlTwoFut(char title[], futureTricks * fut1, futureTricks * fut2)
    // print the v-screen
    auto maxline = __max(fut1->cards, fut2->cards) + 2;
    for (int i = 0; i < maxline; i++) {
-      owl.Silent("   %s\n", text[i]);
+      owl.Silent("   %s\n", viscr[i]);
    }
 }
 
