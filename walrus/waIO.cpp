@@ -44,26 +44,10 @@ void Walrus::ReportState(char* header)
       printf(header);
    }
 
-   u64 delta1 = progress.delta1;
-   u64 delta2 = progress.delta2;
-   DetectFarColumn();
+   ReportAllLines();
 
-   // calc bookman
-   ucell bookman = mul.countIterations + progress.countExtraMarks;
-   ReportAllLines(bookman);
-
-   // control him
-   printf("Total iterations = %llu, balance ", mul.countIterations);
-   if (bookman) {
-      printf("is broken: ");
-      if (bookman < mul.countIterations) {
-         printf("%llu iterations left no mark\n", bookman);
-      } else {
-         printf("%llu more marks than expected\n", MAXUINT64 - bookman + 1);
-      }
-   } else {
-      printf("is fine\n");
-   }
+   // verbose bookman
+   printf("Total iterations = %llu, balance %s\n", mul.countIterations, RegularBalanceCheck() ? "is fine" : "is broken");
 
    // tailing report
    if (progress.isDoneAll) {
@@ -71,10 +55,10 @@ void Walrus::ReportState(char* header)
       ui.reportRequested = true;
       MiniReport(0);
    }
-   ReportTime(delta1, delta2);
+   ReportTime(progress.delta1, progress.delta2);
 }
 
-void Walrus::DetectFarColumn()
+void Walrus::UpdateFarColumnUI()
 {
    // to trim tailing zeros
    ui.farCol = 1;
@@ -150,18 +134,17 @@ bool Walrus::HandleFilterLine(int i, ucell sumline, int& indent)
 }
 
 
-void Walrus::ReportAllLines(ucell& bookman)
+void Walrus::ReportAllLines()
 {
+   UpdateFarColumnUI();
+
    bool shownDashes = false;
    int  indent = 0;
-
    for (int i = 0; i < HCP_SIZE; i++) {
       // calc bookman 
       ucell sumline = 0;
       for (int j = 0; j < CTRL_SIZE; j++) {
-         auto cell = progress.hitsCount[i][j];
-         bookman -= cell;
-         sumline += cell;
+         sumline += progress.hitsCount[i][j];
       }
 
       // skip lines filled with zeros
@@ -199,24 +182,24 @@ void Walrus::ReportAllLines(ucell& bookman)
 
       // may add percentages
       #ifdef PERCENTAGES_IN_ANSWER_ROW
-         if (i < 20) {
-            if (!sumline) {
-               sumline = 1;
-            }
-            owl.OnProgress(" %%:  ");
-            for (int j = 0; j < ui.farCol; j++) {
-               float percent = progress.hitsCount[i][j] * 100.f / sumline;
-               owl.OnProgress(fmtCellFloat, percent);
-            }
-            owl.OnProgress("\n");
+      if (i < 20) {
+         if (!sumline) {
+            sumline = 1;
          }
+         owl.OnProgress(" %%:  ");
+         for (int j = 0; j < ui.farCol; j++) {
+            float percent = progress.hitsCount[i][j] * 100.f / sumline;
+            owl.OnProgress(fmtCellFloat, percent);
+         }
+         owl.OnProgress("\n");
+      }
       #endif
    }
 }
 
 void Walrus::ShowDetailedReportHighcards()
 {
-   DetectFarColumn();
+   UpdateFarColumnUI();
 
    // for mid-rows
    u64 prevSum = 0;
@@ -256,7 +239,7 @@ void Walrus::ShowDetailedReportHighcards()
 
 void Walrus::ShowDetailedReportControls()
 {
-   DetectFarColumn();
+   UpdateFarColumnUI();
 
    // for mid-rows
    u64 prevSum = 0;
@@ -294,7 +277,7 @@ void Walrus::ShowDetailedReportControls()
 
 void Walrus::ShowDetailedReportSuit()
 {
-   DetectFarColumn();
+   UpdateFarColumnUI();
 
    // for mid-rows
    u64 prevSum = 0;

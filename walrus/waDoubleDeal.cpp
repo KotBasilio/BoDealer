@@ -89,8 +89,7 @@ void Walrus::PostmortemHCP(DdsTricks& tr, deal& cards)
       } else {
          row = IO_ROW_HCP_START + (ctrl - config.minControls) * 2;
       }
-   }
-   else if (hcp < IO_HCP_MIN || IO_HCP_MAX < hcp) {
+   } else if (hcp < IO_HCP_MIN || IO_HCP_MAX < hcp) {
       return;
    } else {
       row = IO_ROW_HCP_START + (hcp - IO_HCP_MIN) * 2;
@@ -102,16 +101,18 @@ void Walrus::PostmortemHCP(DdsTricks& tr, deal& cards)
       progress.countExtraMarks++;
    }
 
-   // hack for club points
+   // additional postmortem statistics
    #ifdef CALC_CLUB_HITS_EXPERIMENTAL
+   {
       row = IO_ROW_HCP_START + (IO_HCP_MAX - IO_HCP_MIN) * 2;
       if (lastCalcHcp.c > 8) {
          progress.hitsCount[row][0]++;
       } else {
-         progress.hitsCount[row+1][0]++;
+         progress.hitsCount[row + 1][0]++;
       }
       progress.countExtraMarks++;
-   #endif // CALC_CLUB_HITS_EXPERIMENTAL
+   }
+   #endif
 }
 
 static uint CalcSuitHCP(deal& cards, uint seat)

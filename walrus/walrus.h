@@ -108,12 +108,12 @@ protected:
     // progress and reports
     Progress progress;
     void AnnounceSolving();
-    void ReportAllLines(ucell& bookman);
+    void ReportAllLines();
     bool HandleFilterLine(int i, ucell sumline, int &indent);
     void MiniReport(ucell toGo);
     void ShowProgress(ucell idx);
-    void ParanoidBalanceCheck();
-    void DetectFarColumn();
+    bool RegularBalanceCheck();
+    void UpdateFarColumnUI();
     void ShowPercentages(s64 sumRows);
     void ShowBiddingLevel(s64 sumRows);
     void ShowTheirScore(s64 doneTheirs);

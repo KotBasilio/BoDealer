@@ -49,8 +49,7 @@ void Walrus::SolveInChunks()
       ShowProgress(chunkStart);
 
       // fast exit
-      if (ui.exitRequested) {
-         printf("QUIT(1)");
+      if (ui.exitRequested) {//printf("QUIT(1)");
          return;
       }
    }
@@ -115,8 +114,7 @@ void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
    // show a life sign and allow early quit
    printf(".");
    ui.Run();
-   if (ui.exitRequested) {
-      printf("EXIT(2)");
+   if (ui.exitRequested) {// printf("EXIT(2)");
       return;
    }
 

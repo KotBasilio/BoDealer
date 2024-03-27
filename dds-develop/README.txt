@@ -12,6 +12,7 @@ Release notes are in the ChangeLog file.
 
 (c) Bo Haglund 2006-2014, (c) Bo Haglund / Soren Hein 2014-2018.
 
+https://github.com/dds-bridge/dds
 
 Credits
 =======

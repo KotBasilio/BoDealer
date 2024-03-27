@@ -55,11 +55,11 @@ void Walrus::ShowProgress(ucell idx)
       progress.Up(idx);
    } else {
       printf(".");
+      RegularBalanceCheck();
    }
-   ParanoidBalanceCheck();
 }
 
-void Walrus::ParanoidBalanceCheck()
+bool Walrus::RegularBalanceCheck()
 {
    static ucell goodBook[HCP_SIZE][CTRL_SIZE];
 
@@ -76,16 +76,14 @@ void Walrus::ParanoidBalanceCheck()
    // no bookman is great
    if (!bookman) {
       memcpy(goodBook, progress.hitsCount, sizeof(goodBook));
-      return;
+      return true;
    }
-   if (bookman - mul.countToSolve == 0) {
-      // good as well
-      memcpy(goodBook, progress.hitsCount, sizeof(goodBook));
-      return;
-   }
+
+   // one more normal case is if (bookman == mul.countToSolve)
+   // we can use it for more paranoid checks
     
    // announce
-   owl.Show(">>>>>>>>>>> Balance is broken: ");
+   owl.Show("\n>>>>>>>>>>> Balance is broken: ");
    if (bookman < mul.countIterations) {
       owl.Show("%llu iterations left no mark\n", bookman);
    } else {
@@ -103,9 +101,11 @@ void Walrus::ParanoidBalanceCheck()
       }
    }
 
-   owl.Show("Debug pls.");
-   PLATFORM_GETCH();
-   owl.Show(" OK.\n");
+   owl.Show("Debug pls.\n");
+   //PLATFORM_GETCH();
+   owl.Show("OK whatever...\n");
+
+   return false;
 }
 
 // ------------------------------------------------------------------------------------------
@@ -234,17 +234,17 @@ void Walrus::ShowMiniHits(ucell * hitsRow, ucell * hitsCamp) // OUT: hitsRow[], 
 
       // may add percentages
       #ifdef PERCENTAGES_IN_ANSWER_ROW
-         if (i == ANSWER_ROW_IDX) {
-            if (!sumline) {
-               sumline = 1;
-            }
-            owl.OnDone("(  %% ):  ");
-            for (int j = 0; j < miniCamps; j++) {
-               float percent = progress.hitsCount[i][j] * 100.f / sumline;
-               owl.OnDone(fmtCellFloat, percent);
-            }
-            owl.OnDone("\n");
+      if (i == ANSWER_ROW_IDX) {
+         if (!sumline) {
+            sumline = 1;
          }
+         owl.OnDone("(  %% ):  ");
+         for (int j = 0; j < miniCamps; j++) {
+            float percent = progress.hitsCount[i][j] * 100.f / sumline;
+            owl.OnDone(fmtCellFloat, percent);
+         }
+         owl.OnDone("\n");
+      }
       #endif // PERCENTAGES_IN_ANSWER_ROW
    }
 }

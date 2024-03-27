@@ -234,6 +234,7 @@ void MiniUI::Run()
             break;
       }
 
+      // check whether we've handled this key
       if (irGoal) {
          owl.Show("\nSeek %d tricks board by %s in %s ", irGoal, declSeat, declTrump);
          switch (irFly) {
@@ -248,7 +249,9 @@ void MiniUI::Run()
                break;
          }
          owl.Show("... ");
-      } else if (!(exitRequested || reportRequested)) {
+      } else if (exitRequested || reportRequested) {
+         // silent ok
+      } else {
          printf("\nCommand '%c' is ignored...", inchar);
       }
    }
@@ -276,7 +279,7 @@ void Walrus::AnnounceSolving()
       ReportState("");
       //PLATFORM_GETCH();
       printf("Solving started: ");
-      ParanoidBalanceCheck();
+      RegularBalanceCheck();
    }
 }
 
