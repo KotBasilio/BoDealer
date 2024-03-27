@@ -6,8 +6,8 @@
 
    See LICENSE and README.
 */
-#define  _CRT_SECURE_NO_WARNINGS
 
+#define  _CRT_SECURE_NO_WARNINGS
 
 #include <vector>
 #include <string>
@@ -71,7 +71,7 @@ int FLOOR_CONTRACT[36] =
       31, 32, 33, 34, 35
 };
 
-const string NUMBER_TO_CONTRACT[] =
+const vector<string> NUMBER_TO_CONTRACT =
 {
   "0",
   "1C", "1D", "1H", "1S", "1N",
@@ -83,7 +83,7 @@ const string NUMBER_TO_CONTRACT[] =
   "7C", "7D", "7H", "7S", "7N"
 };
 
-const string NUMBER_TO_PLAYER[] = { "N", "E", "S", "W" };
+const vector<string> NUMBER_TO_PLAYER = { "N", "E", "S", "W" };
 
 /* First index is vul: none, both, NS, EW.
    Second index is vul (0, 1) for NS and then EW. */

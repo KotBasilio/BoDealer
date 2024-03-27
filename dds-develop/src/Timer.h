@@ -13,8 +13,7 @@
 #include <string>
 #include <chrono>
 
-// was: using Clock = std::chrono::steady_clock;
-#define Clock std::chrono::steady_clock
+using Clock = std::chrono::steady_clock;
 using std::chrono::time_point;
 
 using namespace std;
@@ -30,7 +29,6 @@ class Timer
     long systCum;
 
     time_point<Clock> user0;
-    //time_point<chrono::system_clock> user0;
     clock_t syst0;
 
   public:

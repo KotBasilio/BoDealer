@@ -9,6 +9,12 @@ static boards _chunkBoards;
 static solvedBoards _solved;
 static solvedBoards _twiceSolved;
 
+#ifdef _DEBUG
+   const uint WALRUS_CHUNK_SIZE = 20;
+#else
+   const uint WALRUS_CHUNK_SIZE = 200;
+#endif
+
 void Walrus::InitMiniUI()
 {
    static deal dlBase;

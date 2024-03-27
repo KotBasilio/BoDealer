@@ -6,8 +6,7 @@
 
    See LICENSE and README.
 */
-#define  _CRT_SECURE_NO_WARNINGS
-
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <iostream>
 #include <iomanip>
@@ -28,7 +27,7 @@ extern Memory memory;
 extern ThreadMgr threadMgr;
 
 
-const string DDS_SYSTEM_PLATFORM[] =
+const vector<string> DDS_SYSTEM_PLATFORM =
 {
   "",
   "Windows",
@@ -37,7 +36,7 @@ const string DDS_SYSTEM_PLATFORM[] =
   "Apple"
 };
 
-const string DDS_SYSTEM_COMPILER[] =
+const vector<string> DDS_SYSTEM_COMPILER =
 {
   "",
   "Microsoft Visual C++",
@@ -46,14 +45,14 @@ const string DDS_SYSTEM_COMPILER[] =
   "clang"
 };
 
-const string DDS_SYSTEM_CONSTRUCTOR[] =
+const vector<string> DDS_SYSTEM_CONSTRUCTOR =
 {
   "",
   "DllMain",
   "Unix-style"
 };
 
-const string DDS_SYSTEM_THREADING[] =
+const vector<string> DDS_SYSTEM_THREADING =
 {
   "None",
   "Windows",
@@ -224,11 +223,13 @@ void System::GetHardware(
 #endif
 
 #ifdef __linux__
-  // The code for linux was suggested by Antony Lee.
-  FILE * fifo = popen(
-    "free -k | tail -n+3 | head -n1 | awk '{print $NF}'", "r");
-  int ignore = fscanf(fifo, "%llu", &kilobytesFree);
-  fclose(fifo);
+  // Use half of the physical memory
+  long pages = sysconf (_SC_PHYS_PAGES);
+  long pagesize = sysconf (_SC_PAGESIZE);
+  if (pages > 0 && pagesize > 0)
+    kilobytesFree = static_cast<unsigned long long>(pages * pagesize / 1024 / 2);
+  else
+    kilobytesFree = 1024 * 1024; // guess 1GB
 
   ncores = sysconf(_SC_NPROCESSORS_ONLN);
   return;
@@ -272,12 +273,6 @@ bool System::IsSingleThreaded() const
 bool System::IsIMPL() const
 {
   return (preferredSystem >= DDS_SYSTEM_THREAD_STLIMPL);
-}
-
-
-unsigned System::NumThreads() const
-{
-  return static_cast<unsigned>(numThreads);
 }
 
 
