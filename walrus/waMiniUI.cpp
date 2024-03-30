@@ -30,7 +30,7 @@ MiniUI::MiniUI()
    , firstAutoShow(true)
    , irGoal(0)
    , irFly(0)
-   , biddingBetterBy(0)
+   , primaBetterBy(0)
    , farCol(CTRL_SIZE)
 {
    FillMiniRows();

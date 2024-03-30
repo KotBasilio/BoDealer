@@ -33,7 +33,7 @@ void Walrus::NoticeSacrificePossible(uint tOurs, uint tTheirs)
 void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs)
 {
    // detect score
-   CumulativeScore tester(cumulScore);
+   CumulativeScore tester;// don't use with adjustable scorers. They are not inited
    (tester.*sem.onScoring)(tOurs);
    (tester.*sem.onSolvedTwice)(tTheirs);
 
@@ -45,7 +45,7 @@ void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs)
    }
    progress.countExtraMarks++;
    s64   delta = tester.bidGame - tester.oppCtrDoubled;
-   ui.biddingBetterBy += delta;
+   ui.primaBetterBy += delta;
 
    // debug
    #ifdef SHOW_EACH_COMPARISON
@@ -58,20 +58,10 @@ void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs)
    #endif 
 }
 
-void Walrus::CompareOurContracts(uint tricksA, uint tricksB)
-{
-   // detect score
-   CumulativeScore tester(cumulScore);
-   (tester.*sem.onScoring)(tricksA);
-   (tester.*sem.onSolvedTwice)(tricksB);
-
-   // todo general compare
-}
-
 void Walrus::CompareSlams(uint tricksA, uint tricksB)
 {
    // detect score
-   CumulativeScore tester(cumulScore);
+   CumulativeScore tester;// don't use with adjustable scorers. They are not inited
    (tester.*sem.onScoring)(tricksA);
    (tester.*sem.onSolvedTwice)(tricksB);
 
@@ -85,26 +75,29 @@ void Walrus::CompareSlams(uint tricksA, uint tricksB)
    }
    progress.countExtraMarks++;
 
-   // convert to imps
-   s64   delta = tester.ourOther - tester.bidSlam;
-   ui.biddingBetterBy += delta;
+   // add up. may also convert to imps
+   auto delta = tester.ourOther - tester.bidSlam;
+   ui.primaBetterBy += delta;
 }
 
-// OBSOLETE
-// void Walrus::CountComboScore(uint trickSuit, uint tricksNT)
-// {
-//    s64    deltaCombo = 0L;
-//    if (tricksNT > 8) {
-//       cumulScore.Opp_3NT(deltaCombo, tricksNT);
-//    } else if (trickSuit > 10) {
-//       cumulScore.Opp_5minor(deltaCombo, trickSuit);
-//    } else {
-//       uint tricksSet = min(9-tricksNT, 11-trickSuit);
-//       deltaCombo = 100 * tricksSet;
-//    }
-//    cumulScore.ourCombo -= deltaCombo;
-// ...
-//    owl.OnDone("Combo-score average for our two contracts = %lld.\n", cumulScore.ourCombo / sumOppRows);
-// }
+void Walrus::CompareOurContracts(uint tricksA, uint tricksB)
+{
+   // detect score
+   auto gainPrima   = cumulScore.prima.Get(tricksA);
+   auto gainSecunda = cumulScore.secunda.Get(tricksB);
 
+   // mark
+   if (gainPrima > gainSecunda) {
+      progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_PREFER_PRIMA]++;
+   } else if (gainPrima == gainSecunda) {
+      progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_NO_DIFF]++;
+   } else {
+      progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_PREFER_SECUNDA]++;
+   }
+   progress.countExtraMarks++;
+
+   // add up. may also convert to imps
+   auto delta = gainPrima - gainSecunda;
+   ui.primaBetterBy += delta;
+}
 

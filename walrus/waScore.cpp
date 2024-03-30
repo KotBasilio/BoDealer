@@ -54,12 +54,6 @@ void CumulativeScore::Our2_NV7NT(uint tricks)
    OurNV7NT(ourOther, tricks);
 }
 
-//void Our2_3NT(uint tricks);
-//void CumulativeScore::Our2_3NT(uint tricks)
-//{
-//   
-//}
-
 void CumulativeScore::OurNV7NT(s64& sum, uint tricks)
 {
    // "always slam" strategy
@@ -79,11 +73,21 @@ void CumulativeScore::OurNV7NT(s64& sum, uint tricks)
    }
 }
 
+CumulativeScore::Adjustable::Adjustable() 
+   : linearBase(nullptr)
+   , outSum(nullptr) 
+{}
+
+bool CumulativeScore::Adjustable::IsEmpty()
+{
+   return outSum == nullptr;
+}
+
 bool CumulativeScore::Adjustable::Init(s64 &out, const char* code)
 {
-   outSum = &out;
    linearBase = FindLinearScore(code);
    if (linearBase) {
+      outSum = &out;
       return true;
    }
 
@@ -91,7 +95,12 @@ bool CumulativeScore::Adjustable::Init(s64 &out, const char* code)
    return false;
 }
 
+s64 CumulativeScore::Adjustable::Get(uint tricks)
+{
+   return linearBase[tricks];
+}
+
 void CumulativeScore::Adjustable::operator()(uint tricks)
 {
-   *outSum += linearBase[tricks];
+   *outSum += Get(tricks);
 }

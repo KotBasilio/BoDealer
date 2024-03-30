@@ -288,10 +288,9 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
-   sem.onBoardAdded = &Walrus::DisplayBoard;
-   sem.onScoring = &CumulativeScore::Our5minor;
-   cumulScore.secunda.Init(cumulScore.ourOther, "V3N ");
-   sem.onSolvedTwice = &CumulativeScore::Secondary;
+   //sem.onBoardAdded = &Walrus::DisplayBoard;
+   sem.SetOurPrimaryScorer  (cumulScore, "V5C ");
+   sem.SetOurSecondaryScorer(cumulScore, "V3N ");
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 16);

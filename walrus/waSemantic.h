@@ -31,12 +31,15 @@ constexpr uint IO_ROW_SACRIFICE  = IO_ROW_COMPARISON;
 
 // output columns
 constexpr uint IO_CAMP_OFF = 0;
-constexpr uint IO_CAMP_PREFER_SUIT = 1;
-constexpr uint IO_CAMP_SAME_NT = 2;
-constexpr uint IO_CAMP_MORE_NT = 3;
-constexpr uint IO_CAMP_PREFER_TO_BID = 1;
+constexpr uint IO_CAMP_PREFER_PRIMA = 1;
 constexpr uint IO_CAMP_NO_DIFF = 2;
-constexpr uint IO_CAMP_REFRAIN_BIDDING = 3;
+constexpr uint IO_CAMP_PREFER_SECUNDA = 3;
+// -- derived
+constexpr uint IO_CAMP_PREFER_SUIT = IO_CAMP_PREFER_PRIMA;
+constexpr uint IO_CAMP_SAME_NT     = IO_CAMP_NO_DIFF;
+constexpr uint IO_CAMP_MORE_NT     = IO_CAMP_PREFER_SECUNDA;
+constexpr uint IO_CAMP_PREFER_TO_BID   = IO_CAMP_PREFER_PRIMA;
+constexpr uint IO_CAMP_REFRAIN_BIDDING = IO_CAMP_PREFER_SECUNDA;
 
 // hits count and others
 struct Progress {

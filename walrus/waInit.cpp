@@ -164,6 +164,24 @@ bool Semantics::IsListStart(const MicroFilter& mic)
           mic.func == &WaFilter::ExcludeCombination;
 }
 
+void Semantics::SetOurPrimaryScorer(CumulativeScore &cs, const char* code)
+{
+   if (!cs.prima.Init(cs.bidGame, code)) {
+      isInitSuccess = false;
+      return;
+   }
+   onScoring = &CumulativeScore::Primary;
+}
+
+void Semantics::SetOurSecondaryScorer(CumulativeScore &cs, const char* code)
+{
+   if (!cs.secunda.Init(cs.ourOther, code)) {
+      isInitSuccess = false;
+      return;
+   }
+   onSolvedTwice = &CumulativeScore::Secondary;
+}
+
 void Walrus::InitDeck(void)
 {
    shuf.InitDeck();
@@ -172,6 +190,7 @@ void Walrus::InitDeck(void)
 
    shuf.ClearFlipover();
    shuf.StoreCheckSum();
+   shuf.VerifyCheckSum();
 }
 
 u64 Walrus::SumFirstHand()

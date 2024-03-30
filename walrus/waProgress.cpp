@@ -330,7 +330,7 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
       float percBetterBid = sumBid * 100.f / totalComparisons;
       owl.OnDone("makes in %3.1f%% cases; superior in %3.1f%% cases\n", 
          hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows, percBetterBid);
-         // todo ui.biddingBetterBy / totalComparisons
+         // todo ui.primaBetterBy / totalComparisons
    #endif
 
    // averages for opening lead

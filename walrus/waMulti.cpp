@@ -158,6 +158,8 @@ void Walrus::DoIteration()
 
 ucell Walrus::DoTheShare()
 {
+   shuf.VerifyCheckSum();
+
    // any last-train init
    (this->*sem.onShareStart)();
 

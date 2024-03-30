@@ -68,6 +68,17 @@ void WaConfig::ReadStart()
 
 void Walrus::DetectGoals()
 {
+   // detect old scorers
+   if (cumulScore.prima.IsEmpty() && cumulScore.secunda.IsEmpty()) {
+      DeprDetectGoals();
+      return;
+   }
+
+
+}
+
+void Walrus::DeprDetectGoals()
+{
    DdsTricks tr;
    char tail[128];
    CumulativeScore zeroes(cumulScore);

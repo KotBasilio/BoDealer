@@ -50,8 +50,10 @@ struct CumulativeScore {
 
    // linear-score oriented
    struct Adjustable {
-      Adjustable() : linearBase(nullptr), outSum(nullptr) {}
+      Adjustable();
       bool Init(s64 &out, const char* code);
+      bool IsEmpty();
+      s64  Get(uint tricks);
       void operator () (uint tricks);
    private:
       const s64* linearBase;

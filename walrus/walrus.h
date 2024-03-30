@@ -40,6 +40,7 @@ protected:
     void PrepareBaseDeal(struct deal &dlBase);
     bool StartOscar();
     void InitDeck(void);
+    void DeprDetectGoals(void);
 
     // withdrawals
     void WithdrawByInput();

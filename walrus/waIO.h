@@ -19,7 +19,7 @@ struct MiniUI {
    bool  reportRequested;
    bool  firstAutoShow;
    int   irGoal, irFly;
-   s64   biddingBetterBy;
+   s64   primaBetterBy;
    int   farCol;
    char  declTrump[10], declSeat[10], seatOnLead[10];
    MiniUI();
@@ -58,7 +58,8 @@ struct WaConfig {
 
    WE_REPORT_TYPE detailedReportType;
 
-   char  declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10], secLongName[20];
+   char  declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10];
+   char  secLongName[128];
 
    void ReadStart();
    void SetupOtherContract();
