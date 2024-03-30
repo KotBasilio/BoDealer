@@ -32,7 +32,7 @@ private:
    int countEmpty = 0;
    char gossip[512];
 };
-extern void FillScores();
+extern void PrepareLinearScores();
 extern s64  gLinearScores[];
 const s64* FindLinearScore(const char* code);
 
@@ -86,7 +86,7 @@ static void PrintCode(const char* code)
 
 static void ShowAllScores()
 {
-   FillScores();
+   PrepareLinearScores();
 
    const s64* cur = gLinearScores;
    while (*cur) {

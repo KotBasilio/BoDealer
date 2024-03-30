@@ -79,9 +79,11 @@ struct Semantics {
    uint scanCover; // how much iterations covers one scan
    struct deal* dlBase;
    Semantics();
-   void MiniLink();
+   void MiniLinkFilters();
+   bool IsInitFailed() { return !isInitSuccess; }
 private:
    bool IsListStart(const MicroFilter& mic);
+   bool isInitSuccess = true;
 };
 
 extern Semantics semShared;

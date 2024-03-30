@@ -21,6 +21,15 @@
    #define FOUR_HANDS_TASK
 */
 
+#ifdef SEM_MAR24_5C_OR_3NT
+   #define TITLE_VERSION  "Fix a 12 hcp 1435;\n2c p 2d\n3c/2nt p ??\nQuestion: how often 3NT is better than 5C?"
+   #define SEEK_DENOMINATION
+   #define IO_HCP_MIN  23
+   #define IO_HCP_MAX  28
+   #define OC_TRUMPS       SOL_NOTRUMP
+   #define OC_ON_LEAD      EAST
+#endif 
+
 #ifdef SEM_MIX_MAR24_INVITE_4S
    #define TITLE_VERSION  "Fix a 14 hcp 4315;\np 1c p 1d\n1h 1s 2h 2s p ??\nQuestion: how often s game makes?"
    #define SEEK_BIDDING_LEVEL

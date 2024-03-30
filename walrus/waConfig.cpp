@@ -70,7 +70,7 @@ void Walrus::DetectGoals()
 {
    DdsTricks tr;
    char tail[128];
-   CumulativeScore zeroes;
+   CumulativeScore zeroes(cumulScore);
    bool hasSecondaryScorer = (sem.solveSecondTime == &Walrus::SolveSecondTime);
 
    // primary
@@ -137,15 +137,22 @@ void Walrus::AddScorerValues(char *tail)
    }
 }
 
-
 bool Walrus::InitByConfig()
 {
+   PrepareLinearScores();
+
    // may read something
    config.ReadStart();
 
-   // prepare, basing on config
+   // semantic preparations
    FillSemantic();
-   sem.MiniLink();
+   sem.MiniLinkFilters();
+   if (sem.IsInitFailed()) {
+      owl.Show("Failed to init semantics\n");
+      return false;
+   }
+
+   // other preparations basing on config
    InitDeck();
    memset(progress.hitsCount, 0, sizeof(progress.hitsCount));
    shuf.SeedRand();

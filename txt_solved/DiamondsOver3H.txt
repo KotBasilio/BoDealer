@@ -134,7 +134,7 @@ The search took 3.2 sec + an aftermath 10 min 22 sec.
 
 Senior kibitzer Oscar is observing a task:
 Fix 1363 8hcp, all vul;
-  1c (X) XX 1h
+1c (X) XX 1h
 2d (2h) 3d (3h)
  X p ??
 Question: pass or 4d?

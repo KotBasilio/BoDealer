@@ -46,7 +46,22 @@ struct CumulativeScore {
    void OurNV5minor(uint tricks);
    void OurNV5mX(uint tricks);
    // -- allowing for scorer2
-   void Score_NV7NT(uint tricks);
+   void Our2_NV7NT(uint tricks);
+
+   // linear-score oriented
+   struct Adjustable {
+      Adjustable() : linearBase(nullptr), outSum(nullptr) {}
+      bool Init(s64 &out, const char* code);
+      void operator () (uint tricks);
+   private:
+      const s64* linearBase;
+      s64* outSum;
+   };
+   Adjustable  prima, secunda, tertia;
+   void Primary   (uint tricks) { prima(tricks); }
+   void Secondary (uint tricks) { secunda(tricks); }
+   void Tertiary  (uint tricks) { tertia(tricks); }
+
 private:
    void Opp_3MajX(s64& sum, uint tricks);
    void Opp_3Major(s64& sum, uint tricks);
@@ -110,3 +125,7 @@ private:
    void Roll(uint i);
    u64  CalcCheckSum();
 };
+
+extern void PrepareLinearScores();
+extern const s64* FindLinearScore(const char* code);
+

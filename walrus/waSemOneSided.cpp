@@ -130,7 +130,7 @@ void Walrus::FillSemantic(void)
    OrbNorthFillSem();
    //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.onScoring = &CumulativeScore::OurNV7m;
-   sem.onSolvedTwice = &CumulativeScore::Score_NV7NT;
+   sem.onSolvedTwice = &CumulativeScore::Our2_NV7NT;
    sem.onCompareContracts = &Walrus::CompareSlams;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
@@ -284,4 +284,23 @@ void Walrus::FillSemantic(void)
 }
 #endif 
 
+#ifdef SEM_MAR24_5C_OR_3NT
+void Walrus::FillSemantic(void)
+{
+   OrbNorthFillSem();
+   sem.onBoardAdded = &Walrus::DisplayBoard;
+   sem.onScoring = &CumulativeScore::Our5minor;
+   cumulScore.secunda.Init(cumulScore.ourOther, "V3N ");
+   sem.onSolvedTwice = &CumulativeScore::Secondary;
+   sem.onPostmortem = &Walrus::PostmortemHCP;
+   sem.vecFilters.clear();
+   ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 16);
+   ADD_2PAR_FILTER(SOUTH, ClubsLen, 6, 6);
+   ADD_2PAR_FILTER(SOUTH, SpadesLen, 0, 4);
+   ADD_2PAR_FILTER(SOUTH, HeartsLen, 0, 4);
+   ADD_2PAR_FILTER(SOUTH, DiamondsLen, 0, 4);
+   ADD_0PAR_FILTER(EAST, NoOvercall);
+   ADD_0PAR_FILTER(WEST, NoOvercall);
+}
+#endif
 

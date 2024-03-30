@@ -179,6 +179,9 @@ int Walrus::PokeOtherScorer()
    }
 
    switch (cumulScore.ourOther) {
+      case 520: // 3NT NV
+      case 720: // 3NT VUL
+         return 9;  
       case 1510: // 7M  NV
       case 1520: // 7NT NV
       case 2210: // 7M  V

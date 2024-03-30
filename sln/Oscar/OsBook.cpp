@@ -439,7 +439,7 @@ static void XXMNTSlam(s64*& cur, s64*& doubled, int level, int add)
    }
 }
 
-void FillScores()
+void PrepareLinearScores()
 {
    // on pass
    s64* cur = gLinearScores;
@@ -520,10 +520,11 @@ void FillScores()
 }
 
 // accept code in format like:
+// {VN}[level]{CDHSN}{X R}
+// Examples:
 // V2S  -- vulnerable, 2 spades
 // N1CX -- nv, 1 club doubled
 // N3NR -- nv, 3 NT redoubled
-// i.e. : {VN}[level]{CDHSN}{X R}
 const s64* FindLinearScore(const char* code)
 {
    uint vul = 0;

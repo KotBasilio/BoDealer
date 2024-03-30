@@ -33,7 +33,7 @@ void Walrus::NoticeSacrificePossible(uint tOurs, uint tTheirs)
 void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs)
 {
    // detect score
-   CumulativeScore tester;
+   CumulativeScore tester(cumulScore);
    (tester.*sem.onScoring)(tOurs);
    (tester.*sem.onSolvedTwice)(tTheirs);
 
@@ -61,7 +61,7 @@ void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs)
 void Walrus::CompareOurContracts(uint tricksA, uint tricksB)
 {
    // detect score
-   CumulativeScore tester;
+   CumulativeScore tester(cumulScore);
    (tester.*sem.onScoring)(tricksA);
    (tester.*sem.onSolvedTwice)(tricksB);
 
@@ -71,7 +71,7 @@ void Walrus::CompareOurContracts(uint tricksA, uint tricksB)
 void Walrus::CompareSlams(uint tricksA, uint tricksB)
 {
    // detect score
-   CumulativeScore tester;
+   CumulativeScore tester(cumulScore);
    (tester.*sem.onScoring)(tricksA);
    (tester.*sem.onSolvedTwice)(tricksB);
 

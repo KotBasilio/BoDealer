@@ -129,7 +129,7 @@ Semantics::Semantics()
 
 }
 
-void Semantics::MiniLink()
+void Semantics::MiniLinkFilters()
 {
    // resolve any-in-list-below block
    uint retAddr;
