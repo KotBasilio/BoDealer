@@ -21,6 +21,13 @@
    #define FOUR_HANDS_TASK
 */
 
+#ifdef SEM_MAY24_TENS_AND_NINES
+   #define TITLE_VERSION  "Fix a 10 hcp 3343;\n1c p 1NT\n2nt p ??\nQuestion: pass or 3NT?"
+   #define SEEK_BIDDING_LEVEL
+   #define IO_HCP_MIN  24
+   #define IO_HCP_MAX  25
+#endif 
+
 #ifdef SEM_MAR24_5C_OR_3NT
    #define TITLE_VERSION  "Fix a 12 hcp 1435;\n2c p 2d\n3c/2nt p ??\nQuestion: how often 3NT is better than 5C?"
    #define SEEK_DENOMINATION

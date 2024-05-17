@@ -74,7 +74,7 @@ void Walrus::DetectGoals()
       return;
    }
 
-
+   config.primGoal = 9;
 }
 
 void Walrus::DeprDetectGoals()

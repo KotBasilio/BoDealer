@@ -96,6 +96,7 @@ public:
    // -
    uint NoOvcOn1LevOpen(twContext* lay, const uint *par);
    uint NoOvercall(twContext* lay, const uint *par);
+   uint NoPrecision2C(twContext* lay, const uint *par);
    uint No7Plus(twContext* lay, const uint *par);
    uint No2SuiterAntiSpade(twContext* lay, const uint *par);
    uint No2SuitsAntiHeart(twContext* lay, const uint *par);

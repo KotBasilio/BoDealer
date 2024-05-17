@@ -369,6 +369,21 @@ uint WaFilter::NoOvercall(twContext* lay, const uint* par)
    return No7Plus(lay, par);
 }
 
+uint WaFilter::NoPrecision2C(twContext* lay, const uint* par)
+{
+   ACCESS_MICPAR_LEN;
+
+   if (len.c > 5) {
+      return MIC_BLOCK;
+   }
+   if (len.c == 5 && len.h > 3 || len.s > 3) {
+      return MIC_BLOCK;
+   }
+
+   // ok
+   return MIC_PASSED;
+}
+
 uint WaFilter::No7Plus(twContext* lay, const uint* par)
 {
    ACCESS_MICPAR_LEN;

@@ -124,10 +124,10 @@ typedef u64 ucell;
 #endif
 
 //const ucell MAX_ITERATION = 6001000000LL;// 6 mlrd (u64, not max)
-const ucell MAX_ITERATION = 3001000000;// 3 mlrd 
+//const ucell MAX_ITERATION = 3001000000;// 3 mlrd 
 //const ucell MAX_ITERATION = 501000000;// a half of mlrd
 //const ucell MAX_ITERATION = 333000000;// a third of mlrd
-//const ucell MAX_ITERATION = 251000000;// a quarter of mlrd
+const ucell MAX_ITERATION = 251000000;// a quarter of mlrd
 //const ucell MAX_ITERATION = 101000000;// 101 mln
 //const ucell MAX_ITERATION = 20 * 1000000;// 20 mln 
 //const ucell MAX_ITERATION = 5000000;// 5 mln 
@@ -140,9 +140,9 @@ const uint MAX_TASKS_TO_SOLVE = 200 * 1000;
 //const uint AIM_TASKS_COUNT = 120 * 1000;
 //const uint AIM_TASKS_COUNT = MAX_TASKS_TO_SOLVE / 2;
 //const uint AIM_TASKS_COUNT = 70 * 1000;
-//const uint AIM_TASKS_COUNT = 50 * 1000;
+const uint AIM_TASKS_COUNT = 50 * 1000;
 //const uint AIM_TASKS_COUNT = 20*1000;
-const uint AIM_TASKS_COUNT = 5*1000;
+//const uint AIM_TASKS_COUNT = 5*1000;
 //const uint AIM_TASKS_COUNT = 2*1000;
 
 constexpr ucell ClipByPerformance(ucell lim, ucell a)
