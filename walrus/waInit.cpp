@@ -164,6 +164,12 @@ bool Semantics::IsListStart(const MicroFilter& mic)
           mic.func == &WaFilter::ExcludeCombination;
 }
 
+static int GetGoalFrom(const char* code)
+{
+   uint level = code[1] - '0';
+   return 6 + level;
+}
+
 void Semantics::SetOurPrimaryScorer(CumulativeScore &cs, const char* code)
 {
    if (!cs.prima.Init(cs.bidGame, code)) {
@@ -171,6 +177,7 @@ void Semantics::SetOurPrimaryScorer(CumulativeScore &cs, const char* code)
       return;
    }
    onScoring = &CumulativeScore::Primary;
+   config.primGoal = GetGoalFrom(code);
 }
 
 void Semantics::SetOurSecondaryScorer(CumulativeScore &cs, const char* code)
@@ -180,6 +187,7 @@ void Semantics::SetOurSecondaryScorer(CumulativeScore &cs, const char* code)
       return;
    }
    onSolvedTwice = &CumulativeScore::Secondary;
+   config.secGoal = GetGoalFrom(code);
 }
 
 void Walrus::InitDeck(void)

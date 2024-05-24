@@ -76,6 +76,7 @@ void CumulativeScore::OurNV7NT(s64& sum, uint tricks)
 CumulativeScore::Adjustable::Adjustable() 
    : linearBase(nullptr)
    , outSum(nullptr) 
+   , title("none")
 {}
 
 bool CumulativeScore::Adjustable::IsEmpty()
@@ -88,6 +89,7 @@ bool CumulativeScore::Adjustable::Init(s64 &out, const char* code)
    linearBase = FindLinearScore(code);
    if (linearBase) {
       outSum = &out;
+      title = code;
       return true;
    }
 

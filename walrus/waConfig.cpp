@@ -73,8 +73,6 @@ void Walrus::DetectGoals()
       DeprDetectGoals();
       return;
    }
-
-   config.primGoal = 9;
 }
 
 void Walrus::DeprDetectGoals()

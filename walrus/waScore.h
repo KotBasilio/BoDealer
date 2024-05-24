@@ -56,6 +56,7 @@ struct CumulativeScore {
       s64  Get(uint tricks);
       void operator () (uint tricks);
    private:
+      const char* title;
       const s64* linearBase;
       s64* outSum;
    };
