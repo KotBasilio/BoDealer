@@ -16,7 +16,8 @@
 //#define SEMANTIC_1H_1S_2H_MAR
 //#define SEMANTIC_1C_P_1H_2D_2H_MAR
 //#define SEM_MAR24_5C_OR_3NT
-#define SEM_MAY24_TENS_AND_NINES
+//#define SEM_MAY24_TENS_AND_NINES
+#define SEM_MAY24_GLADIATOR
 
 // Bidding decision competitive:
 //#define SEMANTIC_JUN_MINORS_VS_MAJORS
