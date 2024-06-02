@@ -88,13 +88,18 @@ bool CumulativeScore::Adjustable::Init(s64 &out, const char* code)
 {
    linearBase = FindLinearScore(code);
    if (linearBase) {
-      outSum = &out;
+      TargetOut(out);
       title = code;
       return true;
    }
 
    owl.Show("Failed on encoding scorer for code: %s\n", code);
    return false;
+}
+
+void CumulativeScore::Adjustable::TargetOut(s64& out)
+{
+   outSum = &out;
 }
 
 s64 CumulativeScore::Adjustable::Get(uint tricks)
@@ -105,4 +110,16 @@ s64 CumulativeScore::Adjustable::Get(uint tricks)
 void CumulativeScore::Adjustable::operator()(uint tricks)
 {
    *outSum += Get(tricks);
+}
+
+void CumulativeScore::BiddingLevel(uint tricks)
+{
+   // ideal
+   auto gainGame = prima.Get(tricks);
+   auto gainPartscore = secunda.Get(tricks);
+   ideal += gainGame > gainPartscore ? gainGame : gainPartscore;
+
+   // relay
+   prima(tricks);
+   secunda(tricks);
 }

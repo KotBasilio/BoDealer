@@ -82,6 +82,7 @@ struct Semantics {
    void MiniLinkFilters();
    void SetOurPrimaryScorer(CumulativeScore &cs, const char* code);
    void SetOurSecondaryScorer(CumulativeScore &cs, const char* code);
+   void SetBiddingGameScorer(CumulativeScore &cs, const char* code);
    bool IsInitFailed() { return !isInitSuccess; }
 private:
    bool IsListStart(const MicroFilter& mic);

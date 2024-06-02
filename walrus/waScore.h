@@ -52,6 +52,7 @@ struct CumulativeScore {
    struct Adjustable {
       Adjustable();
       bool Init(s64 &out, const char* code);
+      void TargetOut(s64 &out);
       bool IsEmpty();
       s64  Get(uint tricks);
       void operator () (uint tricks);
@@ -61,9 +62,10 @@ struct CumulativeScore {
       s64* outSum;
    };
    Adjustable  prima, secunda, tertia;
-   void Primary   (uint tricks) { prima(tricks); }
-   void Secondary (uint tricks) { secunda(tricks); }
-   void Tertiary  (uint tricks) { tertia(tricks); }
+   void Primary     (uint tricks) { prima(tricks); }
+   void Secondary   (uint tricks) { secunda(tricks); }
+   void Tertiary    (uint tricks) { tertia(tricks); }
+   void BiddingLevel(uint tricks);
 
 private:
    void Opp_3MajX(s64& sum, uint tricks);

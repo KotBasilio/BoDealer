@@ -17,10 +17,10 @@
 
 #ifdef SEM_MAY24_GLADIATOR
    #define INPUT_TRUMPS    SOL_NOTRUMP
-   //#define INPUT_ON_LEAD   WEST
-   #define INPUT_ON_LEAD   EAST
-   //char const taskHandPBN[] = "[N:KT965.A64.73.T74]";
-   char const taskHandPBN[] = "[N:5.KJ4.AKQJ73.Q74]";
+   #define INPUT_ON_LEAD   WEST
+   //#define INPUT_ON_LEAD   EAST
+   char const taskHandPBN[] = "[N:KT965.A64.73.T74]";
+   //char const taskHandPBN[] = "[N:5.KJ4.AKQJ73.Q74]";
 #endif 
 
 #ifdef SEM_MAY24_TENS_AND_NINES

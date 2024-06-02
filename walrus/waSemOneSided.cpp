@@ -342,26 +342,25 @@ void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
    //sem.onBoardAdded = &Walrus::DisplayBoard;
-   sem.SetOurPrimaryScorer  (cumulScore, "V3N ");
-   sem.SetOurSecondaryScorer(cumulScore, "V2N ");
+   sem.SetBiddingGameScorer(cumulScore, "V3N ");
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
-   //ADD_2PAR_FILTER(SOUTH, PointsRange, 16, 16);
-   ////ADD_2PAR_FILTER(SOUTH, ControlsRange, 2, 6);
-   //ADD_2PAR_FILTER(SOUTH, SpadesLen, 0, 2);
-   //ADD_2PAR_FILTER(SOUTH, DiamondsLen, 6, 6);
-   //ADD_2PAR_FILTER(SOUTH, PointsSuitAtLeast, DMD, 7);
-   //ADD_2PAR_FILTER(SOUTH, HeartsLen, 0, 4);
-   //ADD_2PAR_FILTER(SOUTH, ClubsLen, 0, 4);
+   ADD_2PAR_FILTER(SOUTH, PointsRange, 14, 16);
+   //ADD_2PAR_FILTER(SOUTH, ControlsRange, 2, 6);
+   ADD_2PAR_FILTER(SOUTH, SpadesLen, 0, 2);
+   ADD_2PAR_FILTER(SOUTH, DiamondsLen, 6, 6);
+   ADD_2PAR_FILTER(SOUTH, PointsSuitAtLeast, DMD, 7);
+   ADD_2PAR_FILTER(SOUTH, HeartsLen, 0, 4);
+   ADD_2PAR_FILTER(SOUTH, ClubsLen, 0, 4);
 
-   ADD_2PAR_FILTER(SOUTH, PointsRange, 7, 9);
-   ADD_2PAR_FILTER(SOUTH, SpadesLen, 5, 5);
-   ADD_2PAR_FILTER(SOUTH, DiamondsLen, 1, 4);
-   ADD_2PAR_FILTER(SOUTH, HeartsLen, 1, 4);
-   ADD_2PAR_FILTER(SOUTH, ClubsLen, 1, 4);
+   //ADD_2PAR_FILTER(SOUTH, PointsRange, 7, 9);
+   //ADD_2PAR_FILTER(SOUTH, SpadesLen, 5, 5);
+   //ADD_2PAR_FILTER(SOUTH, DiamondsLen, 1, 4);
+   //ADD_2PAR_FILTER(SOUTH, HeartsLen, 1, 4);
+   //ADD_2PAR_FILTER(SOUTH, ClubsLen, 1, 4);
 
-   ADD_0PAR_FILTER(WEST, NoOvercall);
-   ADD_0PAR_FILTER(EAST, NoOvercall);
+   //ADD_0PAR_FILTER(WEST, NoOvercall);
+   //ADD_0PAR_FILTER(EAST, NoOvercall);
 }
 #endif
 

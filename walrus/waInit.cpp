@@ -190,6 +190,23 @@ void Semantics::SetOurSecondaryScorer(CumulativeScore &cs, const char* code)
    config.secGoal = GetGoalFrom(code);
 }
 
+void Semantics::SetBiddingGameScorer(CumulativeScore& cs, const char* code)
+{
+   // setup both scorers
+   static char codePartscore[8];
+   SetOurPrimaryScorer(cs, code);
+   strcpy(codePartscore, code);
+   codePartscore[1]--;
+   SetOurSecondaryScorer(cs, codePartscore);
+   cs.secunda.TargetOut(cs.bidPartscore);
+   if (!isInitSuccess) {
+      return;
+   }
+
+   // relay to ideal
+   onScoring = &CumulativeScore::BiddingLevel;
+}
+
 void Walrus::InitDeck(void)
 {
    shuf.InitDeck();
