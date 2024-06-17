@@ -20,6 +20,15 @@
    #define FOUR_HANDS_TASK
 */
 
+#ifdef SEM_MAY24_TRHEE_SUITED_BALANCE
+   #define TITLE_VERSION  "Fix a 8 hcp 2434;\n2s X p ??\nQuestion: is there invit to 4H?"
+   #define INPUT_TRUMPS    SOL_HEARTS
+   #define INPUT_ON_LEAD   EAST
+   #define SEEK_BIDDING_LEVEL
+   #define IO_HCP_MIN  20
+   #define IO_HCP_MAX  24
+#endif 
+
 #ifdef SEM_MAY24_GLADIATOR
    #define TITLE_VERSION  "Fix a 7 hcp 5323;\n1d 1s\n2nt ??\nQuestion: pass or 3NT?"
    #define SEEK_BIDDING_LEVEL

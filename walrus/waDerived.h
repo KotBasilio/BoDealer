@@ -30,8 +30,8 @@
 #endif
 
 #ifndef OC_TRUMPS
-   #define OC_TRUMPS       SOL_NOTRUMP
-   #define OC_ON_LEAD      WEST
+   #define OC_TRUMPS       INPUT_TRUMPS
+   #define OC_ON_LEAD      INPUT_ON_LEAD
 #endif
 
 #ifdef SCORE_THE_OTHER_CONTRACT
@@ -131,11 +131,11 @@ const ucell MAX_ITERATION = 251000000;// a quarter of mlrd
 //const ucell MAX_ITERATION = 3000;
 
 const uint MAX_TASKS_TO_SOLVE = 200 * 1000;
-//const uint AIM_TASKS_COUNT = 150 * 1000;
+const uint AIM_TASKS_COUNT = 150 * 1000;
 //const uint AIM_TASKS_COUNT = 120 * 1000;
 //const uint AIM_TASKS_COUNT = MAX_TASKS_TO_SOLVE / 2;
 //const uint AIM_TASKS_COUNT = 70 * 1000;
-const uint AIM_TASKS_COUNT = 50 * 1000;
+//const uint AIM_TASKS_COUNT = 50 * 1000;
 //const uint AIM_TASKS_COUNT = 20*1000;
 //const uint AIM_TASKS_COUNT = 5*1000;
 //const uint AIM_TASKS_COUNT = 2*1000;

@@ -11,7 +11,6 @@
 void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
    //sem.onScoring = &Walrus::Score_3NT;
    sem.onScoring = &Walrus::Score_6NT;
    sem.vecFilters.clear();
@@ -28,7 +27,6 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.onScoring = &Walrus::Score_NV6Minor;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
@@ -46,7 +44,6 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.onScoring = &Walrus::Score_3NT;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
@@ -66,7 +63,6 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.onScoring = &Walrus::Score_4Major;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
@@ -83,7 +79,6 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
    //sem.onScoring = &Walrus::Score_4Major;
    sem.onScoring = &Walrus::Score_3NT;
    sem.onPostmortem = &Walrus::PostmortemHCP;
@@ -102,7 +97,6 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.onScoring = &CumulativeScore::Our4M;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
@@ -128,7 +122,6 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.onScoring = &CumulativeScore::OurNV7m;
    sem.onSolvedTwice = &CumulativeScore::Our2_NV7NT;
    sem.onCompareContracts = &Walrus::CompareSlams;
@@ -148,7 +141,6 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.onScoring = &CumulativeScore::Our4M;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
@@ -185,7 +177,6 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.onScoring = &CumulativeScore::Our4M;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
@@ -211,7 +202,6 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.onScoring = &CumulativeScore::Our4M;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
@@ -254,7 +244,6 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
 
    sem.onScoring = &CumulativeScore::Our4M;
    sem.onPostmortem = &Walrus::PostmortemHCP;
@@ -288,7 +277,6 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.SetOurPrimaryScorer  (cumulScore, "V5C ");
    sem.SetOurSecondaryScorer(cumulScore, "V3N ");
    sem.onPostmortem = &Walrus::PostmortemHCP;
@@ -307,7 +295,6 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.SetOurPrimaryScorer  (cumulScore, "V3N ");
    sem.SetOurSecondaryScorer(cumulScore, "V2N ");
    sem.onPostmortem = &Walrus::PostmortemHCP;
@@ -341,7 +328,6 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.SetBiddingGameScorer(cumulScore, "V3N ");
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
@@ -353,14 +339,31 @@ void Walrus::FillSemantic(void)
    ADD_2PAR_FILTER(SOUTH, HeartsLen, 0, 4);
    ADD_2PAR_FILTER(SOUTH, ClubsLen, 0, 4);
 
-   //ADD_2PAR_FILTER(SOUTH, PointsRange, 7, 9);
-   //ADD_2PAR_FILTER(SOUTH, SpadesLen, 5, 5);
-   //ADD_2PAR_FILTER(SOUTH, DiamondsLen, 1, 4);
-   //ADD_2PAR_FILTER(SOUTH, HeartsLen, 1, 4);
-   //ADD_2PAR_FILTER(SOUTH, ClubsLen, 1, 4);
-
    //ADD_0PAR_FILTER(WEST, NoOvercall);
    //ADD_0PAR_FILTER(EAST, NoOvercall);
 }
 #endif
 
+#ifdef SEM_MAY24_TRHEE_SUITED_BALANCE
+void Walrus::FillSemantic(void)
+{
+   OrbNorthFillSem();
+   sem.SetBiddingGameScorer(cumulScore, "V4H ");
+   sem.onPostmortem = &Walrus::PostmortemHCP;
+   sem.vecFilters.clear();
+   ADD_4PAR_FILTER(SOUTH, ExactShape, 1, 4, 4, 4);
+   ADD_2PAR_FILTER(SOUTH, PointsRange, 12, 16);
+
+   ADD_2PAR_FILTER(EAST, PointsRange, 5, 10);
+   ADD_2PAR_FILTER(EAST, SpadesLen, 6, 6);
+   ADD_2PAR_FILTER(EAST, HeartsLen, 0, 4);
+   ADD_2PAR_FILTER(EAST, DiamondsLen, 0, 5);
+
+   ADD_0PAR_FILTER(WEST, ExcludeCombination);
+      ADD_1PAR_FILTER(WEST, PointsAtLeast, 10);
+      ADD_2PAR_FILTER(WEST, SpadesLen, 4, 4);
+   ADD_0PAR_FILTER(WEST, EndList);
+
+   ADD_2PAR_FILTER(SOUTH, ControlsRange, 2, 8);
+}
+#endif

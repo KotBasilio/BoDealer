@@ -46,7 +46,6 @@ void Walrus::FillSemantic(void)
    // ADD_1PAR_FILTER( NORTH, PointsAtLeast, 10);
    // ADD_2PAR_FILTER( SOUTH, ControlsRange, 4, 10);
    // ADD_2PAR_FILTER( NORTH, ControlsRange, 4, 10);
-   // sem.onBoardAdded = &Walrus::DisplayBoard;
    // sem.onBoardAdded = &Walrus::GrabSplinterVariant;
 }
 #endif // SEMANTIC_SPLINTER_SHAPE
@@ -65,7 +64,6 @@ void Walrus::FillSemantic(void)
    ADD_1PAR_FILTER(SOUTH, PointsAtLeast, 10);
    ADD_1PAR_FILTER(NORTH, NoMajorFit, SOUTH);
 
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
    //ADD_3PAR_FILTER(NORTH, LinePointsRange, SOUTH, IO_HCP_MIN, IO_HCP_MAX);
 }
 #endif
@@ -87,7 +85,6 @@ void Walrus::FillSemantic(void)
    ADD_1PAR_FILTER(SOUTH, PointsAtLeast, 10);
    ADD_3PAR_FILTER(NORTH, LineAcesRange, SOUTH, 3, 4);
 
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
    //ADD_2PAR_FILTER(SOUTH, DiamondsLen, 5, 5);
 }
 #endif
@@ -136,7 +133,6 @@ void Walrus::FillSemantic(void)
    ADD_2PAR_FILTER(SOUTH, DiamondsLen, 2, 5);
    ADD_2PAR_FILTER(SOUTH, ClubsLen, 2, 5);
 
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
 }
 #endif
 
@@ -174,7 +170,6 @@ void Walrus::FillSemantic(void)
    config.postmSuit = SOL_HEARTS;
    //config.detailedReportType = WREPORT_SUIT;
 
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
 }
 #endif
 
@@ -271,6 +266,5 @@ void Walrus::FillSemantic(void)
 
     //config.postmSuit = SOL_DIAMONDS;
     //config.detailedReportType = WREPORT_SUIT;
-    //sem.onBoardAdded = &Walrus::DisplayBoard;
 }
 #endif 

@@ -17,7 +17,8 @@
 //#define SEMANTIC_1C_P_1H_2D_2H_MAR
 //#define SEM_MAR24_5C_OR_3NT
 //#define SEM_MAY24_TENS_AND_NINES
-#define SEM_MAY24_GLADIATOR
+//#define SEM_MAY24_GLADIATOR
+#define SEM_MAY24_TRHEE_SUITED_BALANCE
 
 // Bidding decision competitive:
 //#define SEMANTIC_JUN_MINORS_VS_MAJORS
@@ -52,3 +53,4 @@
 
 // other parameters for solving
 #include "waDerived.h"
+//#define DBG_VIEW_ON_ADD

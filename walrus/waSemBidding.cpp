@@ -11,7 +11,6 @@
 void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.onScoring = &Walrus::Score_NV_Doubled5Minor;
    sem.onSolvedTwice = &Walrus::Score_Opp4Major;
    sem.vecFilters.clear();
@@ -40,7 +39,6 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.onScoring = &Walrus::Score_5Major;
    sem.onSolvedTwice = &Walrus::Score_Opp5Minor;
    sem.vecFilters.clear();
@@ -71,7 +69,6 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.onScoring = &Walrus::Score_4Minor;
    sem.onSolvedTwice = &Walrus::Score_Opp4Major;
    sem.vecFilters.clear();
@@ -91,7 +88,6 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
-   //sem.onBoardAdded = &Walrus::DisplayBoard;
    sem.onScoring = &CumulativeScore::Our4minor;
    sem.onSolvedTwice = &CumulativeScore::Score_Opp3Major;
    sem.vecFilters.clear();
