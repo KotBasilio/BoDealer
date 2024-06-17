@@ -29,8 +29,6 @@
 #endif 
 
 #ifdef SEM_MAY24_TENS_AND_NINES
-   #define INPUT_TRUMPS    SOL_NOTRUMP
-   #define INPUT_ON_LEAD   EAST
    char const taskHandPBN[] = "[N:JT6.KJ6.KJT7.J97]";
   // char const taskHandPBN[] = "[N:JT9.KJT.KJT9.JT9]";
 #endif 

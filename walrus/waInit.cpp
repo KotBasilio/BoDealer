@@ -12,7 +12,7 @@
 #include HEADER_CURSES
 #include <memory.h> // memset
 
-//#define DBG_SHOW_ALLOCS
+#define DBG_SHOW_ALLOCS
 
 SplitBits sbBlank;
 Semantics semShared;

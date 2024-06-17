@@ -41,6 +41,8 @@
    #define SEEK_BIDDING_LEVEL
    #define IO_HCP_MIN  24
    #define IO_HCP_MAX  25
+   #define INPUT_TRUMPS    SOL_NOTRUMP
+   #define INPUT_ON_LEAD   EAST
 #endif 
 
 #ifdef SEM_MAR24_5C_OR_3NT

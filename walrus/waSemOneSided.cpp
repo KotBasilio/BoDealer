@@ -354,6 +354,8 @@ void Walrus::FillSemantic(void)
    ADD_4PAR_FILTER(SOUTH, ExactShape, 1, 4, 4, 4);
    ADD_2PAR_FILTER(SOUTH, PointsRange, 12, 16);
 
+   ADD_1PAR_FILTER(WEST, PointsLimit, 9);
+
    ADD_2PAR_FILTER(EAST, PointsRange, 5, 10);
    ADD_2PAR_FILTER(EAST, SpadesLen, 6, 6);
    ADD_2PAR_FILTER(EAST, HeartsLen, 0, 4);

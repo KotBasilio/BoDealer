@@ -18,9 +18,11 @@ struct MiniUI {
    bool  exitRequested;
    bool  reportRequested;
    bool  firstAutoShow;
+   bool  shownDashes;
    int   irGoal, irFly;
    s64   primaBetterBy;
    int   farCol;
+   int   indent;
    char  declTrump[10], declSeat[10], seatOnLead[10];
    MiniUI();
    void Init(int trump, int first);
