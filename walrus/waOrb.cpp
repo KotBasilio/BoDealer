@@ -199,19 +199,6 @@ bool Walrus::Orb_ApproveByFly(deal& cards)
    return false;
 }
 
-union mutedContexts {
-   struct {
-      twContext xA, xB, xC;
-   };
-   twContext lay[SIZE_PERMUTE_PATTERN];
-
-   template <int fixed = 5> 
-   mutedContexts(const SplitBits& a, const SplitBits& b, const SplitBits& c)
-   {
-      printf("fixed %d. ", fixed);
-   }
-};
-
 void Walrus::Scan3FixedNorth()
 {
    // we have some cards starting from each position
