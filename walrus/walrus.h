@@ -26,7 +26,7 @@ public:
    void DetectGoals();
    void MainScan(void);
    ucell DoTheShare();
-   void ReportState(char* header = nullptr);
+   void ReportState();
    bool AfterMath();
    bool IsRunning(void) const { return mul.isRunning; }
    const char *GetName() const { return mul.nameHlp; }
@@ -109,6 +109,7 @@ protected:
     // progress and reports
     Progress progress;
     void AnnounceSolving();
+    void ReportTime();
     void ReportAllLines();
     bool ConsiderNormalZeroLine(int i, ucell sumline);
     void DisplayStatNumbers(int i, ucell sumline);

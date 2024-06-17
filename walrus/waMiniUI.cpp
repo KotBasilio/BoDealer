@@ -281,10 +281,11 @@ void Walrus::AnnounceSolving()
    if (mul.countToSolve) {
       printf("Passing %u for double-dummy inspection: roughly each 1 of %llu; %llu skipped\n"
          , mul.countToSolve, sum / mul.countToSolve, sum);
-      ReportState("");
+      ReportState();
       //PLATFORM_GETCH();
       printf("Solving started: ");
       RegularBalanceCheck();
    }
 }
+
 

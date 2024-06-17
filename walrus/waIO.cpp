@@ -15,8 +15,77 @@ extern char fmtCell[];
 extern char fmtCellStr[];
 extern char fmtCellFloat[];
 
-static void ReportTime(u64 delta1, u64 delta2)
+void Walrus::ReportState()
 {
+   // tell final report from intermediate
+   if (!mul.countToSolve) {
+      owl.Show("\nEnding with:\n");
+   }
+
+   // normal big table
+   ReportAllLines();
+
+   // verbose bookman
+   printf("Total iterations = %llu, balance %s\n", mul.countIterations, RegularBalanceCheck() ? "is fine" : "is broken");
+
+   // tailing report
+   if (progress.isDoneAll) {
+      owl.OnProgress("\n--------------------------------\n");
+      ui.reportRequested = true;
+      MiniReport(0);
+   }
+   ReportTime();
+}
+
+void Walrus::ReportAllLines()
+{
+   // prepare ui
+   UpdateFarColumnUI();
+   ui.shownDashes = false;
+   ui.indent = 0;
+
+   // for all lines
+   for (int i = 0; i < HCP_SIZE; i++) {
+      // know sum
+      ucell sumline = 0;
+      for (int j = 0; j < CTRL_SIZE; j++) {
+         sumline += progress.hitsCount[i][j];
+      }
+
+      // skip normal empty lines
+      if (ConsiderNormalZeroLine(i, sumline)) {
+         continue;
+      }
+
+      // show statistics and summary
+      DisplayStatNumbers(i, sumline);
+      HandleFilterLine(i);
+      owl.OnProgress("\n");
+      RepeatLineWithPercentages(i, sumline);
+   }
+}
+
+void Walrus::UpdateFarColumnUI()
+{
+   // to trim tailing zeros
+   ui.farCol = 1;
+   for (int i = 0; i < HCP_SIZE; i++) {
+      for (int j = 0; j < CTRL_SIZE; j++) {
+         auto cell = progress.hitsCount[i][j];
+         if (cell) {
+            if (ui.farCol < j) {
+               ui.farCol = j;
+            }
+         }
+      }
+   }
+}
+
+void Walrus::ReportTime()
+{
+   u64 delta1 = progress.delta1;
+   u64 delta2 = progress.delta2;
+
    if (!delta2) {
       owl.OnDone("The search is done in %llu.%llu sec.\n"
          , delta1 / 1000, (delta1 % 1000) / 100);
@@ -35,44 +104,6 @@ static void ReportTime(u64 delta1, u64 delta2)
    owl.OnDone("The search took %llu.%llu sec + an aftermath %llu min %llu sec.\n"
       , delta1 / 1000, (delta1 % 1000) / 100
       , minutes, seconds - minutes * 60);
-}
-
-void Walrus::ReportState(char* header)
-{
-   if (!header) {
-      owl.Show("\nEnding with:\n");
-   } else {
-      printf(header);
-   }
-
-   ReportAllLines();
-
-   // verbose bookman
-   printf("Total iterations = %llu, balance %s\n", mul.countIterations, RegularBalanceCheck() ? "is fine" : "is broken");
-
-   // tailing report
-   if (progress.isDoneAll) {
-      owl.OnProgress("\n--------------------------------\n");
-      ui.reportRequested = true;
-      MiniReport(0);
-   }
-   ReportTime(progress.delta1, progress.delta2);
-}
-
-void Walrus::UpdateFarColumnUI()
-{
-   // to trim tailing zeros
-   ui.farCol = 1;
-   for (int i = 0; i < HCP_SIZE; i++) {
-      for (int j = 0; j < CTRL_SIZE; j++) {
-         auto cell = progress.hitsCount[i][j];
-         if (cell) {
-            if (ui.farCol < j) {
-               ui.farCol = j;
-            }
-         }
-      }
-   }
 }
 
 static bool DetectKeyword(char* name, int key)
@@ -195,34 +226,6 @@ void Walrus::DisplayStatNumbers(int i, ucell sumline)
    }
    owl.OnProgress("  : %-12llu", sumline);
    ui.shownDashes = false;
-}
-
-void Walrus::ReportAllLines()
-{
-   // prepare ui
-   UpdateFarColumnUI();
-   ui.shownDashes = false;
-   ui.indent = 0;
-
-   // for all lines
-   for (int i = 0; i < HCP_SIZE; i++) {
-      // know sum
-      ucell sumline = 0;
-      for (int j = 0; j < CTRL_SIZE; j++) {
-         sumline += progress.hitsCount[i][j];
-      }
-
-      // skip normal empty lines
-      if (ConsiderNormalZeroLine(i, sumline)) {
-         continue;
-      }
-
-      // show statistics and summary
-      DisplayStatNumbers(i, sumline);
-      HandleFilterLine(i);
-      owl.OnProgress("\n");
-      RepeatLineWithPercentages(i, sumline);
-   }
 }
 
 void Walrus::ShowDetailedReportHighcards()
