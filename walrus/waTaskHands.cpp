@@ -15,6 +15,11 @@
 // --------------------------------------------------------------------------------
 // input
 
+
+#ifdef SEM_MAY24_TRHEE_SUITED_BALANCE
+   char const taskHandPBN[] = "[N:83.Q874.T65.AQ65]";
+#endif
+
 #ifdef SEM_MAY24_GLADIATOR
    #define INPUT_TRUMPS    SOL_NOTRUMP
    #define INPUT_ON_LEAD   WEST

@@ -43,6 +43,8 @@ void WaConfig::SetupOtherContract()
       const char* whos = "Their";
       #ifdef THE_OTHER_IS_OURS
          whos = "A";
+      #elif defined(SEEK_BIDDING_LEVEL)
+         whos = "Our";
       #endif
       sprintf(secLongName, "%s contract in %s", whos, theirTrump);
    }

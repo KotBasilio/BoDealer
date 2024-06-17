@@ -73,20 +73,13 @@ void Walrus::DetectGoals()
       DeprDetectGoals();
       return;
    }
-}
+   config.SetupOtherContract();
 
-void Walrus::DeprDetectGoals()
-{
+   // display primary scorer
    DdsTricks tr;
    char tail[128];
    CumulativeScore zeroes(cumulScore);
-   bool hasSecondaryScorer = (sem.solveSecondTime == &Walrus::SolveSecondTime);
-
-   // primary
-   config.primGoal = PokeScorerForTricks();
-   owl.Show("%s scorer (%s, %d tr):"
-      , hasSecondaryScorer ? "Contract-A" : "Primary"
-      , ui.declTrump, config.primGoal);
+   owl.Show("Primary scorer (%s, %d tr):", ui.declTrump, config.primGoal);
    strcpy(tail, "  / ");
    for (tr.plainScore = 7; tr.plainScore <= 13 ; tr.plainScore++) {
       cumulScore = zeroes;
@@ -96,9 +89,8 @@ void Walrus::DeprDetectGoals()
    owl.Show("%s\n", tail);
 
    // secondary
-   if (sem.solveSecondTime == &Walrus::SolveSecondTime) {
-      config.secGoal = PokeOtherScorer();
-      config.SetupOtherContract();
+   bool shouldSkipSecunda = cumulScore.secunda.IsEmpty() || (sem.onScoring == &CumulativeScore::BiddingLevel);
+   if (!shouldSkipSecunda) {
       owl.Show("Contract-B scorer (%s, %d tr):", config.theirTrump, config.secGoal);
       strcpy(tail, "  / ");
       for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
@@ -111,11 +103,9 @@ void Walrus::DeprDetectGoals()
 
    // final cleanup
    cumulScore = zeroes;
-
-   //PLATFORM_GETCH();
 }
 
-void Walrus::AddScorerValues(char *tail)
+void Walrus::AddScorerValues(char* tail)
 {
    char chunk[20];
    if (cumulScore.oppContract) {
@@ -143,7 +133,54 @@ void Walrus::AddScorerValues(char *tail)
       owl.Show("    ");
       sprintf(chunk, " %lld", cumulScore.ourOther);
       strcat(tail, chunk);
+      return;
    }
+
+   if (cumulScore.bidPartscore) {
+      sprintf(chunk, " %lld", cumulScore.bidPartscore);
+      strcat(tail, chunk);
+      return;
+   }
+}
+
+void Walrus::DeprDetectGoals()
+{
+   DdsTricks tr;
+   char tail[128];
+   CumulativeScore zeroes(cumulScore);
+   bool hasSecondaryScorer = (sem.solveSecondTime == &Walrus::SolveSecondTime);
+
+   // primary
+   config.primGoal = PokeScorerForTricks();
+   owl.Show("%s scorer (%s, %d tr):"
+      , hasSecondaryScorer ? "Contract-A" : "Primary"
+      , ui.declTrump, config.primGoal);
+   strcpy(tail, "  / ");
+   for (tr.plainScore = 7; tr.plainScore <= 13 ; tr.plainScore++) {
+      cumulScore = zeroes;
+      (cumulScore.*sem.onScoring)(tr.plainScore);
+      AddScorerValues(tail);
+   }
+   owl.Show("%s\n", tail);
+
+   // secondary
+   if (hasSecondaryScorer) {
+      config.secGoal = PokeOtherScorer();
+      config.SetupOtherContract();
+      owl.Show("Contract-B scorer (%s, %d tr):", config.theirTrump, config.secGoal);
+      strcpy(tail, "  / ");
+      for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
+         cumulScore = zeroes;
+         (cumulScore.*sem.onSolvedTwice)(tr.plainScore);
+         AddScorerValues(tail);
+      }
+      owl.Show("%s\n", tail);
+   }
+
+   // final cleanup
+   cumulScore = zeroes;
+
+   //PLATFORM_GETCH();
 }
 
 bool Walrus::InitByConfig()
