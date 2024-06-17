@@ -166,10 +166,3 @@ union twPermutedFullFlip {
    void LayPattern(uint dest, uint iNewD);
 };
 
-// =======================
-struct CodedTricks
-{
-   CodedTricks() : jo(0) {}
-
-   u64 jo;// TODO
-};

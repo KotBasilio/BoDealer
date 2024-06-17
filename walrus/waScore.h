@@ -2,6 +2,25 @@
  * Walrus Shuffling & Scoring
  ************************************************************/
 
+struct DdsTricks
+{
+   // number of tricks in basic contract
+   uint plainScore; 
+
+   // tricks for each opening lead
+   #ifdef SEEK_OPENING_LEAD
+      struct Lead
+      {
+         uint S, H, D, N;
+         Lead() { S = H = D = N = 13; }
+      } lead;
+   #endif // SEEK_OPENING_LEAD
+
+   DdsTricks() : plainScore(0) {}
+   void Init(struct futureTricks &fut);
+};
+
+
 struct CumulativeScore {
    CumulativeScore();
    s64    ideal;
@@ -133,4 +152,3 @@ private:
 
 extern void PrepareLinearScores();
 extern const s64* FindLinearScore(const char* code);
-
