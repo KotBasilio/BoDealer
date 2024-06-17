@@ -21,30 +21,33 @@ void sample_main_JK_Solve();
 #define WEST     3
 
 // version when we need to store only two hands
-struct DdsTask2 
+// It's usefult for:
+// -- bidding decisions. Then a fixed hand is North
+// -- opening lead decisions. Then a fixed hand is West
+struct WaTask2 
 {
    SplitBits partner;
-   SplitBits rho;
+   SplitBits oneOpp;
 
-   DdsTask2() {}
-   void Init(SplitBits& a, SplitBits& b) { partner = a; rho = b; }
+   WaTask2() {}
+   void Init(SplitBits& a, SplitBits& b) { partner = a; oneOpp = b; }
    void Init(twContext* lay);
 };
 
 // version with 3 hands stored
-struct DdsTask3
+struct WaTask3
 {
    SplitBits north, east, south;
 
-   DdsTask3() {}
+   WaTask3() {}
    void Init(SplitBits& a, SplitBits& b) { DEBUG_UNEXPECTED; }
    void Init(twContext* lay);
 };
 
 #ifdef FOUR_HANDS_TASK
-   typedef DdsTask3 DdsTask;
+   typedef WaTask3 WaTask;
 #else
-   typedef DdsTask2 DdsTask;
+   typedef WaTask2 WaTask;
 #endif
 
 #define SOL_SPADES   0

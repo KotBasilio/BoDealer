@@ -47,7 +47,7 @@ Walrus::Walrus(Walrus *other, const char *nameH, ucell ourShare) : sem(semShared
    // helpers need 1/3 of max tasks
    const size_t oneK = 1024;
    mul.maxTasksToSolve = MAX_TASKS_TO_SOLVE;
-   size_t bsize = mul.maxTasksToSolve * sizeof(DdsTask);
+   size_t bsize = mul.maxTasksToSolve * sizeof(WaTask);
    if (bsize > 250 * oneK) {
       mul.maxTasksToSolve >>= 3;
       mul.maxTasksToSolve *= 3; // that's 3/8 -- about 1/3
@@ -221,7 +221,7 @@ void Walrus::MergeResults(Walrus *other)
    // copy tasks
    if (mul.arrToSolve && other->mul.arrToSolve && other->mul.countToSolve) {
       if (mul.countToSolve + other->mul.countToSolve <= MAX_TASKS_TO_SOLVE) {
-         uint size = other->mul.countToSolve * sizeof(DdsTask);
+         uint size = other->mul.countToSolve * sizeof(WaTask);
          memcpy(&mul.arrToSolve[mul.countToSolve], other->mul.arrToSolve, size);
          mul.countToSolve += other->mul.countToSolve;
       } else {

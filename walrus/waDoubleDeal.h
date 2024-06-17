@@ -18,8 +18,8 @@ struct DdsDeal
    // viewing
    static bool needInspect;
 
-   DdsDeal(const deal& dlBase, DdsTask2& task);
-   DdsDeal(const deal& dlBase, DdsTask3& task);
+   DdsDeal(const deal& dlBase, WaTask2& task);
+   DdsDeal(const deal& dlBase, WaTask3& task);
    DdsDeal(twContext* lay);
    void Solve(uint handno);
 private:
@@ -31,8 +31,8 @@ private:
    uint DecryptDiamnd(const SplitBits &bits) { return bits.card.w.d.Decrypt(); }
    uint DecryptClubs (const SplitBits &bits) { return bits.card.w.c.Decrypt(); }
 
-   void FillByFixedNorth(DdsTask2& task);
-   void FillByFixedWest (DdsTask2& task);
+   void FillByFixedNorth(WaTask2& task);
+   void FillByFixedWest (WaTask2& task);
 };
 
 // main entry point to the double-dummy solver

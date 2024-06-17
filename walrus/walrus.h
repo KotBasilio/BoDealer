@@ -60,7 +60,7 @@ protected:
     void SolveSavedTasks();
     void SolveOneByOne(struct deal &dlBase);
     void SolveInChunks();
-    void SolveOneChunk(struct boards &bo, uint i, uint step);
+    void SolveOneChunk(uint i, uint step);
     void HandleSolvedChunk(struct boards& bo, struct solvedBoards& chunk);
     void SolveSecondTime(struct boards& bo, struct solvedBoards& chunk);
     void NoticeMagicFly(uint trickSuit, uint tricksNT);

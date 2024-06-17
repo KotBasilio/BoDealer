@@ -157,17 +157,17 @@ void WaMulti::SaveThreeHands(twContext* lay)
    }
 }
 
-void DdsTask3::Init(twContext* lay) 
+void WaTask3::Init(twContext* lay) 
 { 
    north = lay[NORTH].hand; 
    east  = lay[EAST].hand; 
    south = lay[SOUTH].hand; 
 }
 
-void DdsTask2::Init(twContext* lay) 
+void WaTask2::Init(twContext* lay) 
 { 
    partner = lay[SOUTH].hand; 
-   rho     = lay[EAST].hand; 
+   oneOpp  = lay[EAST].hand; 
 }
 
 void Walrus::FourHandsFillSem(void)

@@ -63,10 +63,10 @@ WaConfig::WaConfig()
 void Walrus::AllocFilteredTasksBuf()
 {
    // determine size
-   size_t bsize = mul.maxTasksToSolve * sizeof(DdsTask);
+   size_t bsize = mul.maxTasksToSolve * sizeof(WaTask);
 
    // alloc
-   mul.arrToSolve = (DdsTask *)malloc(bsize);
+   mul.arrToSolve = (WaTask *)malloc(bsize);
    if (!mul.arrToSolve) {
       printf("%s: alloc failed\n", mul.nameHlp);
       PLATFORM_GETCH();

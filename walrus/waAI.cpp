@@ -48,14 +48,14 @@ void Walrus::SolveInChunks()
    uint chunkStart = 0;
    for (; chunkStart+step < mul.countToSolve ; chunkStart+=step ) {
       // main work
-      SolveOneChunk(_chunkBoards, chunkStart, step);
+      SolveOneChunk(chunkStart, step);
       progress.StoreCountToGo(mul.countToSolve - chunkStart - step);
 
       // show some progress or just a dot
       ShowProgress(chunkStart);
 
       // fast exit
-      if (ui.exitRequested) {//printf("QUIT(1)");
+      if (ui.exitRequested) {
          return;
       }
    }
@@ -63,36 +63,37 @@ void Walrus::SolveInChunks()
    // do a tail work
    if ( chunkStart < mul.countToSolve ) {
       step = mul.countToSolve - chunkStart;
-      SolveOneChunk(_chunkBoards, chunkStart, step);
+      SolveOneChunk(chunkStart, step);
    }
    progress.StoreCountToGo(0);
 }
 
-void Walrus::SolveOneChunk(boards& bo, uint ofs, uint step)
+void Walrus::SolveOneChunk(uint chunkStartIdx, uint boardsCount)
 {
-   bo.noOfBoards = (int)step;
+   // a chunk of tasks lies in arrToSolve. Indices are: from chunkStartIdx, boardsCount tasks
 
-   // refill & copy all deals
-   for (int i = 0; i < bo.noOfBoards; i++) {
-      DdsDeal dl(*sem.dlBase, mul.arrToSolve[ofs + i]);
-      bo.deals[i] = dl.dl;
-      bo.target[i] = -1;
-      bo.solutions[i] = PARAM_SOLUTIONS_DDS;
-      bo.mode[i] = 0;
+   // reconstruct all deals to fill the chunk
+   _chunkBoards.noOfBoards = (int)boardsCount;
+   for (int i = 0; i < _chunkBoards.noOfBoards; i++) {
+      DdsDeal dl(*sem.dlBase, mul.arrToSolve[chunkStartIdx + i]);
+      _chunkBoards.deals[i] = dl.dl;
+      _chunkBoards.target[i] = -1;
+      _chunkBoards.solutions[i] = PARAM_SOLUTIONS_DDS;
+      _chunkBoards.mode[i] = 0;
    }
 
    // solve in parallel
-   int res = SolveAllBoardsN(bo, _solved);
+   int res = SolveAllBoardsN(_chunkBoards, _solved);
    HandleDDSFail(res);
 
    // read user commands
    ui.Run();
 
    // relay the chunk
-   HandleSolvedChunk(bo, _solved);
+   HandleSolvedChunk(_chunkBoards, _solved);
 
    // sometimes we solve the same chunk in a different suit and/or declared
-   (this->*sem.solveSecondTime)(bo, _solved);
+   (this->*sem.solveSecondTime)(_chunkBoards, _solved);
 }
 
 void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
@@ -120,7 +121,7 @@ void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
    // show a life sign and allow early quit
    printf(".");
    ui.Run();
-   if (ui.exitRequested) {// printf("EXIT(2)");
+   if (ui.exitRequested) {
       return;
    }
 

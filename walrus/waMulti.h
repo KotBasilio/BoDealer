@@ -17,7 +17,7 @@ struct WaMulti {
    ucell            countIterations, countShare, countSolo, countShowLiveSign;
    // aftermath double-dummy
    uint       maxTasksToSolve;
-   DdsTask*   arrToSolve;
+   WaTask*    arrToSolve;
    uint       countToSolve;
    // supervision of helpers
    Walrus* hA;
