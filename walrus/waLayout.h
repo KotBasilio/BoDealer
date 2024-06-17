@@ -7,6 +7,21 @@
  // NB: low bytes first, so never overflow
  ************************************************************/
 
+#define R2     0x0004
+#define R3     0x0008
+#define R4     0x0010
+#define R5     0x0020
+#define R6     0x0040
+#define R7     0x0080
+#define R8     0x0100
+#define R9     0x0200
+#define RT     0x0400
+#define RJ     0x0800
+#define RQ     0x1000
+#define RK     0x2000
+#define RA     0x4000
+#define RFULL  0x7ffc
+
 union twSuit
 {
    struct
@@ -21,10 +36,26 @@ union twSuit
    };
    u16 w;
 
-   u16 Count() { return (w & 0x000F); }
-   uint Decrypt();
+   u16 Count() const { return (w & 0x000F); }
+   uint Decrypt() const {
+      uint holding = (w & 0xFFF0) >> 1;
+      if (HasDeuce()) {
+         holding |= R2;
+      }
+      return holding;
+   }
+
 private:
-   bool HasDeuce();
+   bool HasDeuce() const {
+      // count bits for 12 cards -- their mask is 0xFFF0
+      uint y = (w & 0x5550) + ((w & 0xAAA0) >> 1);
+      uint z = (y & 0x3333) + ((y & 0xCCCC) >> 2);
+      y      = (z & 0x0F0F) + ((z & 0xF0F0) >> 4);
+      z      = (y & 0x00FF) + ((y & 0xFF00) >> 8);
+
+      // count is greater => deuce is present
+      return Count() > z;
+   }
 };
 
 #define BO_SPADS   0x0001000000000000LL

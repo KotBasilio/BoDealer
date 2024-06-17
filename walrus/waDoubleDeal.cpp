@@ -10,7 +10,7 @@
 #include "../dds-develop/examples/hands.h"
 #include HEADER_CURSES
 
-//#define  DBG_SHOW_BOARD_ON_CONSTRUCTION
+//#define  DBG_SHOW_BOARD_ON_RECONSTRUCTION
 
 bool DdsDeal::needInspect = true;
 static twlHCP lastCalcHcp;
@@ -142,29 +142,16 @@ void Walrus::PostmortemSuit(DdsTricks& tr, deal& cards)
    }
 }
 
-DdsDeal::DdsDeal(const deal &dlBase, DdsTask2 &task)
-{
-   memcpy(&dl, &dlBase, sizeof(dl));
-
 #ifdef FIXED_HAND_NORTH
-   // decrypt all cards
-   dl.remainCards[EAST ][SOL_SPADES  ] = DecryptSpades(task.rho);
-   dl.remainCards[EAST ][SOL_HEARTS  ] = DecryptHearts(task.rho);
-   dl.remainCards[EAST ][SOL_DIAMONDS] = DecryptDiamnd(task.rho);
-   dl.remainCards[EAST ][SOL_CLUBS   ] = DecryptClubs (task.rho);
-   dl.remainCards[SOUTH][SOL_SPADES  ] = DecryptSpades(task.partner);
-   dl.remainCards[SOUTH][SOL_HEARTS  ] = DecryptHearts(task.partner);
-   dl.remainCards[SOUTH][SOL_DIAMONDS] = DecryptDiamnd(task.partner);
-   dl.remainCards[SOUTH][SOL_CLUBS   ] = DecryptClubs (task.partner);
+   #define FILL_BY_FIXED_HAND  FillByFixedNorth(task)
+#elif defined( FIXED_HAND_WEST )
+   #define FILL_BY_FIXED_HAND  FillByFixedWest(task)
+#else
+   #define FILL_BY_FIXED_HAND  DEBUG_UNEXPECTED
+#endif 
 
-   // reconstruct 4th hand
-   ReconstructWest(SOL_SPADES);
-   ReconstructWest(SOL_HEARTS);
-   ReconstructWest(SOL_DIAMONDS);
-   ReconstructWest(SOL_CLUBS);
-#endif // FIXED_HAND_NORTH
-
-#ifdef FIXED_HAND_WEST
+void DdsDeal::FillByFixedWest(DdsTask2 & task)
+{
    // decrypt all cards
    dl.remainCards[SOUTH][SOL_SPADES  ] = DecryptSpades(task.rho);
    dl.remainCards[SOUTH][SOL_HEARTS  ] = DecryptHearts(task.rho);
@@ -180,10 +167,37 @@ DdsDeal::DdsDeal(const deal &dlBase, DdsTask2 &task)
    ReconstructNorth(SOL_HEARTS);
    ReconstructNorth(SOL_DIAMONDS);
    ReconstructNorth(SOL_CLUBS);
-#endif // FIXED_HAND_WEST
+}
 
-   // debug
-   #ifdef DBG_SHOW_BOARD_ON_CONSTRUCTION
+void DdsDeal::FillByFixedNorth(DdsTask2& task)
+{
+   // decrypt all cards
+   dl.remainCards[EAST ][SOL_SPADES  ] = DecryptSpades(task.rho);
+   dl.remainCards[EAST ][SOL_HEARTS  ] = DecryptHearts(task.rho);
+   dl.remainCards[EAST ][SOL_DIAMONDS] = DecryptDiamnd(task.rho);
+   dl.remainCards[EAST ][SOL_CLUBS   ] = DecryptClubs (task.rho);
+   dl.remainCards[SOUTH][SOL_SPADES  ] = DecryptSpades(task.partner);
+   dl.remainCards[SOUTH][SOL_HEARTS  ] = DecryptHearts(task.partner);
+   dl.remainCards[SOUTH][SOL_DIAMONDS] = DecryptDiamnd(task.partner);
+   dl.remainCards[SOUTH][SOL_CLUBS   ] = DecryptClubs (task.partner);
+
+   // reconstruct 4th hand
+   ReconstructWest(SOL_SPADES);
+   ReconstructWest(SOL_HEARTS);
+   ReconstructWest(SOL_DIAMONDS);
+   ReconstructWest(SOL_CLUBS);
+}
+
+DdsDeal::DdsDeal(const deal &dlBase, DdsTask2 &task)
+{
+   // base deal contains a denomination to solve and 
+   memcpy(&dl, &dlBase, sizeof(dl));
+
+   // task contains hands necessary for reconstruction
+   FILL_BY_FIXED_HAND;
+
+   // may see
+   #ifdef DBG_SHOW_BOARD_ON_RECONSTRUCTION
       PrintHand("A board: \n", dl);
       PLATFORM_GETCH();
    #endif 
@@ -191,9 +205,10 @@ DdsDeal::DdsDeal(const deal &dlBase, DdsTask2 &task)
 
 DdsDeal::DdsDeal(const deal& dlBase, DdsTask3& task)
 {
+   // base deal contains a denomination to solve and 
    memcpy(&dl, &dlBase, sizeof(dl));
 
-   // decrypt all cards
+   // task contains hands necessary for reconstruction
    dl.remainCards[NORTH][SOL_SPADES  ] = DecryptSpades(task.north);
    dl.remainCards[NORTH][SOL_HEARTS  ] = DecryptHearts(task.north);
    dl.remainCards[NORTH][SOL_DIAMONDS] = DecryptDiamnd(task.north);
@@ -210,6 +225,12 @@ DdsDeal::DdsDeal(const deal& dlBase, DdsTask3& task)
    ReconstructWest(SOL_HEARTS);
    ReconstructWest(SOL_DIAMONDS);
    ReconstructWest(SOL_CLUBS);
+
+   // may see
+   #ifdef DBG_SHOW_BOARD_ON_RECONSTRUCTION
+      PrintHand("A board: \n", dl);
+      PLATFORM_GETCH();
+   #endif 
 }
 
 void DdsDeal::Solve(uint handno)

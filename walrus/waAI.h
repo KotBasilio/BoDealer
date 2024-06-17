@@ -58,21 +58,6 @@ struct DdsTask3
 #define DMD SOL_DIAMONDS
 #define CLB SOL_CLUBS
 
-#define R2     0x0004
-#define R3     0x0008
-#define R4     0x0010
-#define R5     0x0020
-#define R6     0x0040
-#define R7     0x0080
-#define R8     0x0100
-#define R9     0x0200
-#define RT     0x0400
-#define RJ     0x0800
-#define RQ     0x1000
-#define RK     0x2000
-#define RA     0x4000
-#define RFULL  0x7ffc
-
 #define K2       2
 #define K3       3
 #define K4       4

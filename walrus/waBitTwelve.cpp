@@ -5,27 +5,6 @@
 ************************************************************/
 #include "walrus.h"
 
-inline bool twSuit::HasDeuce()
-{
-   // count top 12 bits
-   uint y = (w & 0x5550) + ((w & 0xAAA0) >> 1);
-   uint z = (y & 0x3333) + ((y & 0xCCCC) >> 2);
-   y      = (z & 0x0F0F) + ((z & 0xF0F0) >> 4);
-   z      = (y & 0x00FF) + ((y & 0xFF00) >> 8);
-
-   // count is greater => deuce
-   return Count() > z;
-}
-
-uint twSuit::Decrypt()
-{
-   uint holding = (w & 0xFFF0) >> 1;
-   if (HasDeuce()) {
-      holding |= R2;
-   }
-   return holding;
-}
-
 static char ranks[] = { /*'2',*/ '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' }; // only twelve, yes
 int Shuffler::InitSuit(u64 suit, int idx)
 {

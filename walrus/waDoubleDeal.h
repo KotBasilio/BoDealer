@@ -26,10 +26,13 @@ private:
    void ReconstructNorth(int s);
    void ReconstructWest(int s);
 
-   uint DecryptSpades(SplitBits bits) { return bits.card.w.s.Decrypt(); }
-   uint DecryptHearts(SplitBits bits) { return bits.card.w.h.Decrypt(); }
-   uint DecryptDiamnd(SplitBits bits) { return bits.card.w.d.Decrypt(); }
-   uint DecryptClubs(SplitBits bits)  { return bits.card.w.c.Decrypt(); }
+   uint DecryptSpades(const SplitBits &bits) { return bits.card.w.s.Decrypt(); }
+   uint DecryptHearts(const SplitBits &bits) { return bits.card.w.h.Decrypt(); }
+   uint DecryptDiamnd(const SplitBits &bits) { return bits.card.w.d.Decrypt(); }
+   uint DecryptClubs (const SplitBits &bits) { return bits.card.w.c.Decrypt(); }
+
+   void FillByFixedNorth(DdsTask2& task);
+   void FillByFixedWest (DdsTask2& task);
 };
 
 // main entry point to the double-dummy solver
