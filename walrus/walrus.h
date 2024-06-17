@@ -111,8 +111,8 @@ protected:
     void AnnounceSolving();
     void ReportAllLines();
     bool ConsiderNormalZeroLine(int i, ucell sumline);
+    void DisplayStatNumbers(int i, ucell sumline);
     void RepeatLineWithPercentages(int i, ucell sumline);
-    void DisplayStatNumbers(int i);
     void HandleFilterLine(int i);
     bool IsFilterLine(int i);
     void MiniReport(ucell toGo);

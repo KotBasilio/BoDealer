@@ -158,7 +158,7 @@ bool Walrus::ConsiderNormalZeroLine(int i, ucell sumline)
 
 void Walrus::RepeatLineWithPercentages(int i, ucell sumline)
 {
-   // may add percentages
+   // percentages are optional
    #ifdef PERCENTAGES_IN_ANSWER_ROW
    if (i < 20) {
       if (!sumline) {
@@ -174,7 +174,7 @@ void Walrus::RepeatLineWithPercentages(int i, ucell sumline)
    #endif
 }
 
-void Walrus::DisplayStatNumbers(int i)
+void Walrus::DisplayStatNumbers(int i, ucell sumline)
 {
    owl.OnProgress("%02d: ", i);
    for (int j = 0; j <= ui.farCol; j++) {
@@ -193,6 +193,8 @@ void Walrus::DisplayStatNumbers(int i)
          owl.OnProgress(fmtCellStr, ">XR");
       }
    }
+   owl.OnProgress("  : %-12llu", sumline);
+   ui.shownDashes = false;
 }
 
 void Walrus::ReportAllLines()
@@ -204,6 +206,7 @@ void Walrus::ReportAllLines()
 
    // for all lines
    for (int i = 0; i < HCP_SIZE; i++) {
+      // know sum
       ucell sumline = 0;
       for (int j = 0; j < CTRL_SIZE; j++) {
          sumline += progress.hitsCount[i][j];
@@ -215,12 +218,10 @@ void Walrus::ReportAllLines()
       }
 
       // show statistics and summary
-      DisplayStatNumbers(i);
-      owl.OnProgress("  : %-12llu", sumline);
+      DisplayStatNumbers(i, sumline);
       HandleFilterLine(i);
       owl.OnProgress("\n");
       RepeatLineWithPercentages(i, sumline);
-      ui.shownDashes = false;
    }
 }
 
