@@ -1,12 +1,14 @@
 /************************************************************
- * Walrus BITS LAYOUT VARIANTS
- // each suit is encoded in 16 bits:
- // -- top 12 bits are for ranks; 
+ // Walrus BITS LAYOUT VARIANTS
+ // each suit is encoded in 4 hexadecimal numbers, i.e. two chars, 16 bits:
+ // -- top 12 bits are for ranks, except a deuce; 
  // -- low 4 bits are for count
- // the deuce presence is deducted logically
- // NB: low bytes first, so never overflow
+ // -- the deuce presence is deducted logically
+ // NB1: we combine cards by adding and subtracting card.jo, so it goes super-fast and parallel
+ // NB2: low bytes first, so we never get an overflow
  ************************************************************/
 
+// DDS layout -- suitable for fast conversion from Walrus format. see twSuit::Decrypt()
 #define R2     0x0004
 #define R3     0x0008
 #define R4     0x0010
@@ -26,8 +28,8 @@ union twSuit
 {
    struct
    {
-      UCHAR s543_count;         // four  bits for (6543), then four bits for count
-      UCHAR Ato7;               // eight bits for (AKQJT987)
+      UCHAR s543_count;         // four  bits for cards (6543), then four bits for count
+      UCHAR Ato7;               // eight bits for cards (AKQJT987)
    };
    struct
    {
@@ -58,27 +60,18 @@ private:
    }
 };
 
-#define BO_SPADS   0x0001000000000000LL
-#define BO_HEART   0x0000000100000000LL
-#define BO_DIAMD   0x0000000000010000LL
-#define BO_CLUBS   0x0000000000000001LL
-#define ANY_ACE    0x8000800080008000LL
-
-#define SBITS_CHARS_LAYOUT             \
-   /* sums up to 64 bits */            \
-   struct twHand {                     \
-      twSuit c;/* clubs */             \
-      twSuit d;/* diamonds */          \
-      twSuit h;/* hearts */            \
-      twSuit s;/* spades */            \
+union SBUnion {
+   struct twHand {/* sums up to 64 bits */
+      twSuit c;/* clubs */   
+      twSuit d;/* diamonds */
+      twSuit h;/* hearts */ 
+      twSuit s;/* spades */ 
    } w;
+   u64 jo;
+};
 
-// split bits card to operate super-fast
+// split bits cards and/or hands
 struct SplitBits {
-   union SBUnion {// low bytes first, so never overflow
-      SBITS_CHARS_LAYOUT;
-      u64 jo;
-   };
    SBUnion card;
 
    SplitBits()                       { card.jo = 0L; }
@@ -92,6 +85,7 @@ struct SplitBits {
    bool IsBlank() { return (card.jo == 0L); }
    u16 IsEndIter() { return (CountAll() & (u16)(0x10)); }
 };
+
 inline u16 SplitBits::CountAll()
 {
    return card.w.c.Count() + 
@@ -101,10 +95,15 @@ inline u16 SplitBits::CountAll()
 }
 extern SplitBits sbBlank;
 
+#define BO_SPADS   0x0001000000000000LL
+#define BO_HEART   0x0000000100000000LL
+#define BO_DIAMD   0x0000000000010000LL
+#define BO_CLUBS   0x0000000000000001LL
+#define ANY_ACE    0x8000800080008000LL
+
 // twelve-layout lets counting some parameters in parallel, then queried
 // -- high-card points
-struct twlHCP 
-{
+struct twlHCP {
    twlHCP() {}
    twlHCP(const SplitBits &hand);
    union {
@@ -115,8 +114,7 @@ struct twlHCP
    };
 };
 // -- lengths
-struct twLengths
-{
+struct twLengths {
    twLengths() {}
    twLengths(const SplitBits &hand);
    union {
@@ -127,8 +125,7 @@ struct twLengths
    };
 };
 // -- controls
-struct twlControls
-{
+struct twlControls {
    twlControls() {}
    twlControls(const SplitBits &hand);
    union {
@@ -138,7 +135,9 @@ struct twlControls
       uint arr[5];
    };
 };
-// -- all combined together
+
+
+// then we combine all 3 characteristics together to make a context for permutation
 struct twContext {
    SplitBits   hand;
    twLengths   len;
@@ -147,8 +146,9 @@ struct twContext {
    twContext() : hand(0) {}
    twContext(const SplitBits& h): hand(h), len(h), hcp(h), ctrl(h) {}
 };
-// -- permuted for filtering with one hand fixed
-#define SIZE_PERMUTE_PATTERN 10
+
+// now we combine permuted context for filtering with one hand fixed
+constexpr uint SIZE_PERMUTE_PATTERN = 10;
 union twPermutedContexts {
    struct {
       twContext xA, xB, xC;
@@ -157,7 +157,8 @@ union twPermutedContexts {
    twPermutedContexts(const SplitBits& a, const SplitBits& b, const SplitBits& c);
    twPermutedContexts(const SplitBits& a, const SplitBits& b, const SplitBits& c, uint hand);
 };
-// -- permuted for filtering, full transposition
+
+// and finally we combine them for full transposition used in 4-hands scan
 union twPermutedFullFlip {
    twPermutedContexts p6;
    twContext lay[SIZE_PERMUTE_PATTERN * 4];
@@ -165,4 +166,10 @@ union twPermutedFullFlip {
    void LayPattern(uint dest, uint iNewD);
 };
 
+// =======================
+struct CodedTricks
+{
+   CodedTricks() : jo(0) {}
 
+   u64 jo;// TODO
+};

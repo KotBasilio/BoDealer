@@ -29,6 +29,8 @@ struct WaTask2
    SplitBits partner;
    SplitBits oneOpp;
 
+   CodedTricks tricks;
+
    WaTask2() {}
    void Init(SplitBits& a, SplitBits& b) { partner = a; oneOpp = b; }
    void Init(twContext* lay);
