@@ -16,6 +16,7 @@ extern u64 ChronoRound();
 WaMulti::WaMulti()
    : isRunning(true)
    , shouldSignOut(false)
+   , shownFirstLiveSign(false)
    , nameHlp("main")
    , countIterations(0)
    , countShare(MAX_ITERATION)
@@ -80,10 +81,6 @@ void Walrus::LaunchHelpers(Walrus &hA, Walrus &hB)
    PLATFORM_BEGIN_THREAD(ProcHelper, mul.hB);
    mul.countShowLiveSign = ADDITION_STEP_ITERATIONS;
 #endif // SKIP_HELPERS
-
-   if (mul.countShare > ADDITION_STEP_ITERATIONS) {
-      printf("A progress in finding %dK boards: ", AIM_TASKS_COUNT / 1000);
-   }
 }
 
 void Walrus::ShowEffortSplit(Walrus &hA, Walrus &hB)
@@ -308,6 +305,12 @@ void WaMulti::ShowLiveSigns(uint oneCover)
       return;
    }
    countShowLiveSign = LIVE_SIGN;
+
+   // first sign is a title
+   if (!shownFirstLiveSign) {
+      printf("A progress in finding %dK boards: ", AIM_TASKS_COUNT / 1000);
+      shownFirstLiveSign = true;
+   }
 
    // show accumulation progress
    printf("%d", acc / 1000);

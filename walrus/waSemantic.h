@@ -3,43 +3,12 @@
  *
  ************************************************************/
 
-#include <vector>
-
  // hitsCount[][]; distribution 
  // -- rows are big factor (aka hcp, 0 - 40)
  // -- columns are smaller factor (aka controls, 0 - 12)
 constexpr int EXTRA_FILTER_SIZE = 10; // may reserve for big filters
 constexpr int HCP_SIZE = 40 + 1 + EXTRA_FILTER_SIZE;// to address 0 - 40
 constexpr int CTRL_SIZE = 12 + 4;// to get 16 as padding
-
-// output rows: 
-// -- we down, we make, a blank line
-constexpr uint IO_ROW_OUR_DOWN   = 0;
-constexpr uint IO_ROW_OUR_MADE   = IO_ROW_OUR_DOWN + 1;
-// -- they down, they make
-constexpr uint IO_ROW_CONTRACT_B = IO_ROW_OUR_MADE + 2;
-constexpr uint IO_ROW_THEIRS     = IO_ROW_CONTRACT_B;
-// -- comparison
-constexpr uint IO_ROW_COMPARISON = IO_ROW_CONTRACT_B + 2;
-constexpr uint IO_ROW_MAGIC_FLY  = IO_ROW_COMPARISON;
-constexpr uint IO_ROW_SACRIFICE  = IO_ROW_COMPARISON;
-// -- hcp postmortem
-#define IO_ROW_HCP_START 7
-#define IO_SHIFT_FOR_EXTRA_MARKS  27
-#define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
-#define IO_ROW_SELECTED  IO_ROW_FILTERING
-
-// output columns
-constexpr uint IO_CAMP_OFF = 0;
-constexpr uint IO_CAMP_PREFER_PRIMA = 1;
-constexpr uint IO_CAMP_NO_DIFF = 2;
-constexpr uint IO_CAMP_PREFER_SECUNDA = 3;
-// -- derived
-constexpr uint IO_CAMP_PREFER_SUIT = IO_CAMP_PREFER_PRIMA;
-constexpr uint IO_CAMP_SAME_NT     = IO_CAMP_NO_DIFF;
-constexpr uint IO_CAMP_MORE_NT     = IO_CAMP_PREFER_SECUNDA;
-constexpr uint IO_CAMP_PREFER_TO_BID   = IO_CAMP_PREFER_PRIMA;
-constexpr uint IO_CAMP_REFRAIN_BIDDING = IO_CAMP_PREFER_SECUNDA;
 
 // hits count and others
 struct Progress {
@@ -52,6 +21,7 @@ struct Progress {
    bool Step();
    void Up(ucell idx);
    void StoreCountToGo(ucell count);
+   ucell GetDiscardedBoardsCount();
 };
 extern Progress *mainProgress;
 

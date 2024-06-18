@@ -1,4 +1,7 @@
-// config is gonna be here
+/************************************************************
+* WALRUS config and other input/output                   2024
+*
+************************************************************/
 
 // file names
 #define START_FROM_FNAME "start_from.txt"
@@ -32,61 +35,75 @@ struct MiniUI {
    void Run();
 };
 
+// output rows: 
+// -- we down, we make, a blank line
+constexpr uint IO_ROW_OUR_DOWN   = 0;
+constexpr uint IO_ROW_OUR_MADE   = IO_ROW_OUR_DOWN + 1;
+// -- they down, they make
+constexpr uint IO_ROW_CONTRACT_B = IO_ROW_OUR_MADE + 2;
+constexpr uint IO_ROW_THEIRS     = IO_ROW_CONTRACT_B;
+// -- comparison
+constexpr uint IO_ROW_COMPARISON = IO_ROW_CONTRACT_B + 2;
+constexpr uint IO_ROW_MAGIC_FLY  = IO_ROW_COMPARISON;
+constexpr uint IO_ROW_SACRIFICE  = IO_ROW_COMPARISON;
+// -- hcp postmortem
+#define IO_ROW_HCP_START 7
+#define IO_SHIFT_FOR_EXTRA_MARKS  27
+#define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
+#define IO_ROW_SELECTED  IO_ROW_FILTERING
 
-enum WE_REPORT_TYPE {
+// output columns
+constexpr uint IO_CAMP_OFF = 0;
+constexpr uint IO_CAMP_PREFER_PRIMA = 1;
+constexpr uint IO_CAMP_NO_DIFF = 2;
+constexpr uint IO_CAMP_PREFER_SECUNDA = 3;
+// -- derived
+constexpr uint IO_CAMP_PREFER_SUIT = IO_CAMP_PREFER_PRIMA;
+constexpr uint IO_CAMP_SAME_NT     = IO_CAMP_NO_DIFF;
+constexpr uint IO_CAMP_MORE_NT     = IO_CAMP_PREFER_SECUNDA;
+constexpr uint IO_CAMP_PREFER_TO_BID   = IO_CAMP_PREFER_PRIMA;
+constexpr uint IO_CAMP_REFRAIN_BIDDING = IO_CAMP_PREFER_SECUNDA;
+
+enum WA_REPORT_TYPE {
    WREPORT_NONE = 0,
    WREPORT_HCP,
    WREPORT_CONTROLS,
    WREPORT_SUIT,
 };
 
+enum WA_OPERATION_MODE {
+   OPMODE_NONE = 0,
+   OPMODE_FIXED_TASK,
+   OPMODE_STRAY,
+};
+
 constexpr uint WA_CONTR_TITLE_LEN = 5;
 struct WaConfig {
+   WA_OPERATION_MODE opMode = OPMODE_NONE;
    waFileNames namesBase;
 
    char titleContractPrimary[WA_CONTR_TITLE_LEN];   // kind of "2S", "6NT", our main action
    char titleContractSecondary[WA_CONTR_TITLE_LEN]; // kind of "2Sx", "PASS", maybe their contract 
 
-   WaConfig();
-
    int   primGoal;  // goal tricks in our primary contract
    int   primTrump, primFirst;
 
    int   secGoal; // goal tricks either in our secondary contract or in their contract
+   uint  countFilters;
 
    // for post-mortem:
    int   postmSuit, postmHand; 
    int   minControls;
 
-   WE_REPORT_TYPE detailedReportType;
+   WA_REPORT_TYPE detailedReportType;
 
    char  declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10];
    char  secLongName[128];
 
+   WaConfig();
    void ReadStart();
    void SetupOtherContract();
 };
 
 extern WaConfig config;
 
-// Oscar interactions
-
-#define GRIFFINS_CLUB_RUNS       "Lights are on"
-#define GRIFFINS_CLUB_IS_CLOSING "Shutdown"
-
-struct OscarTheOwl {
-   OscarTheOwl();
-   void Show(const char* format, ...);
-   void Silent(const char* format, ...);
-   void OnProgress(const char* format, ...);
-   void OnDone(const char* format, ...);
-   void Send(char* msg);
-   void Flush();
-   void Goodbye();
-private:
-   static const size_t bufferSize = 512;
-   static char buffer[bufferSize];
-   static char earlyLine[bufferSize];
-};
-
-extern OscarTheOwl owl;

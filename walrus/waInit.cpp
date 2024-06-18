@@ -47,6 +47,7 @@ WaConfig::WaConfig()
    , postmHand(NORTH)
    , minControls(0)
    , detailedReportType(WREPORT_NONE)
+   , countFilters(0)
 {
    titleContractPrimary [0] = 0;
    titleContractSecondary[0] = 0;
@@ -58,6 +59,8 @@ WaConfig::WaConfig()
    #if IO_HCP_MIN == IO_HCP_MAX
          minControls = (IO_HCP_MIN * 4) / 10 - 6;
    #endif
+
+   opMode = OPMODE_FIXED_TASK;
 }
 
 void Walrus::AllocFilteredTasksBuf()
@@ -68,7 +71,7 @@ void Walrus::AllocFilteredTasksBuf()
    // alloc
    mul.arrToSolve = (WaTask *)malloc(bsize);
    if (!mul.arrToSolve) {
-      printf("%s: alloc failed\n", mul.nameHlp);
+      printf("%s: alloc failed %llu bytes\n", mul.nameHlp, bsize);
       PLATFORM_GETCH();
       exit(0);
    }
@@ -156,6 +159,9 @@ void Semantics::MiniLinkFilters()
       // place it in the instruction
       mic.params[1] = retAddr - 1;
    }
+
+   // update config
+   config.countFilters = (uint)(vecFilters.size());
 }
 
 bool Semantics::IsListStart(const MicroFilter& mic)

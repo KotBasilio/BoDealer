@@ -270,22 +270,19 @@ void MiniUI::Run()
 
 void Walrus::AnnounceSolving()
 {
-   // how much filtered out
-   u64 sum = 0;
-   for (int i = 0; i < HCP_SIZE; i++) {
-      sum += progress.hitsCount[i][1] + progress.hitsCount[i][2] + progress.hitsCount[i][3];
-      sum += progress.hitsCount[i][4] + progress.hitsCount[i][5] + progress.hitsCount[i][6];
+   if (!NumFiltered()) {
+      return;
    }
 
    // show filtration results
-   if (NumFiltered()) {
-      printf("Passing %u for double-dummy inspection: roughly each 1 of %llu; %llu skipped\n"
-         , NumFiltered(), sum / NumFiltered(), sum);
-      ReportState();
-      //PLATFORM_GETCH();
-      printf("Solving started: ");
-      RegularBalanceCheck();
-   }
+   ucell discarded = progress.GetDiscardedBoardsCount();
+   printf("Passing %u for double-dummy inspection. %llu boards are skipped. A pick rate is 1 to %llu\n"
+      , NumFiltered(), discarded, discarded / NumFiltered());
+   ReportState();
+   RegularBalanceCheck();
+
+   printf("Solving started: ");
+   //PLATFORM_GETCH();
 }
 
 

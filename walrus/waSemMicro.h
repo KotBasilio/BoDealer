@@ -1,7 +1,9 @@
 /******************************************************************************
- * Micro-filters are a kind of byte-code programming   07.06.2023
+ * Micro-filters are a kind of byte-code programming               2023
  *
  ******************************************************************************/
+
+#include <vector>
 
 #define MAX_MICRO_PARAMS 5
 

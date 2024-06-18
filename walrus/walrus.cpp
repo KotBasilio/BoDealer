@@ -9,6 +9,7 @@
 #include <chrono>
 
 std::chrono::steady_clock::duration timeChronoStart;
+extern void DoSelfTests();
 
 void ChronoStart()
 {
@@ -54,10 +55,8 @@ CumulativeScore::CumulativeScore()
    , ourOther     (0L)
    , ourHedging   (0L)
 {
-   //leadS = leadH = leadD = leadC = 0L;
+   leadS = leadH = leadD = leadC = 0L;
 }
-
-extern void DoSelfTests();
 
 int main(int argc, char *argv[])
 {
@@ -79,11 +78,18 @@ int main(int argc, char *argv[])
 
 void Walrus::Main()
 {
-   // phases 1 and 2
-   ScanFixedTask();
-   AfterMath();
+   switch (config.opMode) {
+      case OPMODE_FIXED_TASK: {
+         ScanFixedTask();
+         AfterMath();
+         ReportState();
+         break;
+      }
 
-   // report
-   ReportState();
+      case OPMODE_STRAY: {
+         printf("STRAY -- TO DO.\n");
+         break;
+      }
+   }
 }
 
