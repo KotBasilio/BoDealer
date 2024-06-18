@@ -16,7 +16,8 @@ struct Progress {
    ucell hitsCount[HCP_SIZE][CTRL_SIZE];
    ucell step, went, margin;
    ucell countExtraMarks;
-   u64  delta1, delta2, isDoneAll;
+   u64  delta1, delta2;
+   bool isDoneAll;
    void Init(ucell _step);
    bool Step();
    void Up(ucell idx);

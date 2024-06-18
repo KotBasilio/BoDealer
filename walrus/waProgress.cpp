@@ -18,7 +18,7 @@ Progress::Progress()
    , step(42), went(42), margin(42)
    , delta1(0)
    , delta2(0)
-   , isDoneAll(0)
+   , isDoneAll(false)
 {
 }
 

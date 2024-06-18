@@ -26,7 +26,7 @@ void Walrus::InitMiniUI()
 void Walrus::SolveSavedTasks()
 {
    // say
-   AnnounceSolving();
+   SummarizeFiltering();
 
    // finalize preparations
    SetMaxThreads(0);

@@ -28,21 +28,12 @@ u64 ChronoRound()
    return delta;
 }
 
-bool Walrus::AfterMath()
+void Walrus::AfterMath()
 {
-   // no op => back off
-   if (sem.onAfterMath == (&Walrus::NOP)) {
-      return false;
-   }
-
-   // relay
+   // relay, then measure perf
    (this->*sem.onAfterMath)();
-
-   // perf
    progress.delta2 = ChronoRound();
-   progress.isDoneAll = 42;
-
-   return true;
+   progress.isDoneAll = true;
 }
 
 CumulativeScore::CumulativeScore()
@@ -56,24 +47,6 @@ CumulativeScore::CumulativeScore()
    , ourHedging   (0L)
 {
    leadS = leadH = leadD = leadC = 0L;
-}
-
-int main(int argc, char *argv[])
-{
-   printf(TITLE_VERSION" started.\n");
-   ChronoStart();
-
-   Walrus walter;
-   if (walter.InitByConfig()) {
-      walter.Main();
-   }
-
-   printf("Press any key.\n");
-   DoSelfTests();
-   PLATFORM_GETCH();
-   owl.Goodbye();
-
-   return 0;
 }
 
 void Walrus::Main()
@@ -93,3 +66,20 @@ void Walrus::Main()
    }
 }
 
+int main(int argc, char *argv[])
+{
+   printf(TITLE_VERSION" started.\n");
+   ChronoStart();
+
+   Walrus walter;
+   if (walter.InitByConfig()) {
+      walter.Main();
+   }
+
+   printf("Press any key.\n");
+   DoSelfTests();
+   PLATFORM_GETCH();
+   owl.Goodbye();
+
+   return 0;
+}

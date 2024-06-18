@@ -33,7 +33,7 @@ public:
 protected:
    // "main"
    void ScanFixedTask(void);
-   bool AfterMath();
+   void AfterMath();
    void ReportState();
 
    // inits
@@ -115,7 +115,7 @@ protected:
 
     // progress and reports
     Progress progress;
-    void AnnounceSolving();
+    void SummarizeFiltering();
     void ReportTime();
     void ReportAllLines();
     bool ConsiderNormalZeroLine(int i, ucell sumline);

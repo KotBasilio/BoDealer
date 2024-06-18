@@ -268,8 +268,9 @@ void MiniUI::Run()
    }
 }
 
-void Walrus::AnnounceSolving()
+void Walrus::SummarizeFiltering()
 {
+   // ensure have some
    if (!NumFiltered()) {
       return;
    }
