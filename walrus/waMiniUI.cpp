@@ -278,9 +278,9 @@ void Walrus::AnnounceSolving()
    }
 
    // show filtration results
-   if (mul.countToSolve) {
+   if (NumFiltered()) {
       printf("Passing %u for double-dummy inspection: roughly each 1 of %llu; %llu skipped\n"
-         , mul.countToSolve, sum / mul.countToSolve, sum);
+         , NumFiltered(), sum / NumFiltered(), sum);
       ReportState();
       //PLATFORM_GETCH();
       printf("Solving started: ");

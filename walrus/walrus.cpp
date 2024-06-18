@@ -66,12 +66,7 @@ int main(int argc, char *argv[])
 
    Walrus walter;
    if (walter.InitByConfig()) {
-      // phases 1 and 2
-      walter.MainScan();
-      walter.AfterMath();
-
-      // report
-      walter.ReportState();
+      walter.Main();
    }
 
    printf("Press any key.\n");
@@ -81,3 +76,14 @@ int main(int argc, char *argv[])
 
    return 0;
 }
+
+void Walrus::Main()
+{
+   // phases 1 and 2
+   ScanFixedTask();
+   AfterMath();
+
+   // report
+   ReportState();
+}
+

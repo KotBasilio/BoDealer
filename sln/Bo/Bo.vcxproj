@@ -212,6 +212,7 @@
     <ClInclude Include="..\..\walrus\waScore.h" />
     <ClInclude Include="..\..\walrus\waSemantic.h" />
     <ClInclude Include="..\..\walrus\waSemMicro.h" />
+    <ClInclude Include="..\..\walrus\waShuffle.h" />
     <ClInclude Include="..\..\walrus\waTasks.h" />
     <ClInclude Include="..\..\walrus\waTCompetitive.h" />
     <ClInclude Include="..\..\walrus\waTFour.h" />

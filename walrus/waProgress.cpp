@@ -52,7 +52,7 @@ void Walrus::ShowProgress(ucell idx)
 {
    // do reports
    if (progress.Step() || ui.reportRequested) {
-      MiniReport(mul.countToSolve - idx);
+      MiniReport(NumFiltered() - idx);
       progress.Up(idx);
    } else {
       printf(".");
@@ -80,7 +80,7 @@ bool Walrus::RegularBalanceCheck()
       return true;
    }
 
-   // one more normal case is if (bookman == mul.countToSolve)
+   // one more normal case is if (bookman == NumFiltered())
    // we can use it for more paranoid checks
     
    // announce

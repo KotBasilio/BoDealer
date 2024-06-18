@@ -46,10 +46,10 @@ void Walrus::SolveInChunks()
    uint step = WALRUS_CHUNK_SIZE;
    progress.Init(step);
    uint chunkStart = 0;
-   for (; chunkStart+step < mul.countToSolve ; chunkStart+=step ) {
+   for (; chunkStart+step < NumFiltered() ; chunkStart+=step ) {
       // main work
       SolveOneChunk(chunkStart, step);
-      progress.StoreCountToGo(mul.countToSolve - chunkStart - step);
+      progress.StoreCountToGo(NumFiltered() - chunkStart - step);
 
       // show some progress or just a dot
       ShowProgress(chunkStart);
@@ -61,8 +61,8 @@ void Walrus::SolveInChunks()
    }
 
    // do a tail work
-   if ( chunkStart < mul.countToSolve ) {
-      step = mul.countToSolve - chunkStart;
+   if ( chunkStart < NumFiltered() ) {
+      step = NumFiltered() - chunkStart;
       SolveOneChunk(chunkStart, step);
    }
    progress.StoreCountToGo(0);
@@ -166,7 +166,7 @@ void Walrus::SolveOneByOne(deal& dlBase)
 {
    uint freqMiniReport = 0x3f; // 0xff to make rare
 
-   for (uint i = 0; i < mul.countToSolve; i++) {
+   for (uint i = 0; i < NumFiltered(); i++) {
       // refill & solve the next deal
       DdsDeal dl(dlBase, mul.arrToSolve[i]);
       dl.Solve(i);
@@ -178,7 +178,7 @@ void Walrus::SolveOneByOne(deal& dlBase)
       if (!(i & 0xf)) {
          printf(".");
          if (i && !(i & freqMiniReport)) {
-            MiniReport(mul.countToSolve - i);
+            MiniReport(NumFiltered() - i);
          }
       }
    }

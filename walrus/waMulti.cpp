@@ -54,11 +54,16 @@ Walrus::Walrus(Walrus *other, const char *nameH, ucell ourShare) : sem(semShared
    }
 }
 
+void Walrus::ScanAsHelper()
+{
+   printf("\n%s: %10llu done ", GetName(), DoTheShare());
+   printf("---> %lu ", NumFiltered());
+}
+
 PFM_THREAD_RETTYPE ProcHelper(void *arg)
 {
-   Walrus *helper = (Walrus *)(arg);
-   printf("\n%s: %10llu done ", helper->GetName(), helper->DoTheShare());
-   printf("---> %llu ", helper->NumFiltered());
+   Walrus *bro = (Walrus *)(arg);
+   bro->ScanAsHelper();
 
    return PFM_THREAD_RETVAL;
 }
@@ -101,7 +106,7 @@ void Walrus::ShowEffortSplit(Walrus &hA, Walrus &hB)
 #endif // SHOW_EFFORT_SPLIT
 }
 
-void Walrus::MainScan(void)
+void Walrus::ScanFixedTask(void)
 {
    // decide how to split effort as the main thread is faster a bit
    ucell effortA = (mul.countShare >> 2)
@@ -178,7 +183,7 @@ ucell Walrus::DoTheShare()
       // watch for helper done his share natural
       if (mul.hA || mul.shouldSignOut) {
       } else { // may decide to work more
-         if (Gathered() < (AIM_TASKS_COUNT * 32) / 100) {
+         if (NumFiltered() < (AIM_TASKS_COUNT * 32) / 100) {
             while (mul.countIterations >= mul.countShare) {
                mul.countShare += ADDITION_STEP_ITERATIONS;
             }
@@ -219,13 +224,13 @@ void Walrus::MergeResults(Walrus *other)
    progress.countExtraMarks += other->progress.countExtraMarks;
 
    // copy tasks
-   if (mul.arrToSolve && other->mul.arrToSolve && other->mul.countToSolve) {
-      if (mul.countToSolve + other->mul.countToSolve <= MAX_TASKS_TO_SOLVE) {
-         uint size = other->mul.countToSolve * sizeof(WaTask);
-         memcpy(&mul.arrToSolve[mul.countToSolve], other->mul.arrToSolve, size);
-         mul.countToSolve += other->mul.countToSolve;
+   if (mul.arrToSolve && other->mul.arrToSolve && other->NumFiltered()) {
+      if (NumFiltered() + other->NumFiltered() <= MAX_TASKS_TO_SOLVE) {
+         size_t size = other->NumFiltered() * sizeof(WaTask);
+         memcpy(&mul.arrToSolve[NumFiltered()], other->mul.arrToSolve, size);
+         mul.countToSolve += other->NumFiltered();
       } else {
-         printf("\nFailed to merge %d from %s\n", other->mul.countToSolve, other->GetName());
+         printf("\nFailed to merge %d from %s\n", other->NumFiltered(), other->GetName());
       }
    }
 }
@@ -253,13 +258,13 @@ void Walrus::Supervise()
    for (int count_cowork = 0; ; count_cowork++) {
       ucell cA = helperA->Remains();
       ucell cB = helperB->Remains();
-      if (cA + cB < SUPERVISE_REASONABLE) {
+      if (cA + cB < COWORK_REASONABLE) {
          return;
       }
 
       // co-work with a helper that has more work ahead
       Walrus *needy = cA > cB ? helperA : helperB;
-      for (int i = SUPERVISE_CHUNK; --i >= 0;) {
+      for (int i = COWORK_CHUNK; --i >= 0;) {
          CoWork(needy);
       }
 
@@ -289,7 +294,7 @@ void WaMulti::ShowLiveSigns(uint oneCover)
    }
 
    // got enough => sign out to stop
-   uint acc = Gathered() + hA->Gathered() + hB->Gathered();
+   uint acc = NumFiltered() + hA->NumFiltered() + hB->NumFiltered();
    if (acc > AIM_TASKS_COUNT) {
       printf("found.");
       countShare = countIterations;

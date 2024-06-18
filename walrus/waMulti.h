@@ -9,7 +9,7 @@ struct WaMulti {
    void ShowLiveSigns(uint oneCover);
    void SaveThreeHands(twContext* lay);
    void StopHelpersSuddenly();
-   uint Gathered() const { return countToSolve; }
+   uint NumFiltered() const { return countToSolve; }
 
    // main scan part
    bool             isRunning, shouldSignOut;
@@ -24,3 +24,6 @@ struct WaMulti {
    Walrus* hB;
 };
 
+// co-working on filtering
+const uint COWORK_CHUNK = 10;
+const uint COWORK_REASONABLE = COWORK_CHUNK * ACTUAL_CARDS_COUNT * 2;

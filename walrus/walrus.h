@@ -6,6 +6,7 @@
 #include "waTasks.h"
 #include "waAI.h"
 #include "waScore.h"
+#include "waShuffle.h"
 #include "waSemantic.h"
 #include "waMulti.h"
 #include "waIO.h"
@@ -21,25 +22,26 @@ public:
    Walrus(Walrus *other, const char *nameH, ucell ourShare);
    ~Walrus();
 
+   // top level
    bool InitByConfig();
-   void DetectGoals();
-   void MainScan(void);
-   ucell DoTheShare();
-   void ReportState();
-   bool AfterMath();
-   bool IsRunning(void) const { return mul.isRunning; }
-   const char *GetName() const { return mul.nameHlp; }
-   ucell NumFiltered() const { return mul.countToSolve; }
-   ucell CloudSize() const { return mul.countShare; }
-   Progress* GetProgress() { return &progress; }
-   Semantics* GetSemantics() { return &sem; }
+   void Main();
+   void ScanAsHelper();
 
+   // access
+   Progress* GetProgress()     { return &progress; }
+   Semantics* GetSemantics()   { return &sem; }
 protected:
-    // Start
-    void PrepareBaseDeal(struct deal &dlBase);
-    bool StartOscar();
-    void InitDeck(void);
-    void DeprDetectGoals(void);
+   // "main"
+   void ScanFixedTask(void);
+   bool AfterMath();
+   void ReportState();
+
+   // inits
+   void PrepareBaseDeal(struct deal &dlBase);
+   bool StartOscar();
+   void InitDeck(void);
+   void DetectGoals();
+   void DeprDetectGoals(void);
 
     // withdrawals
     void WithdrawByInput();
@@ -70,14 +72,20 @@ protected:
     void HandleDDSFail(int res);
 
     // multi-thread
-    void LaunchHelpers(Walrus &hA, Walrus &hB);
-    void ShowEffortSplit(Walrus &hA, Walrus &hB);
-    void DoIteration();
-    ucell Remains() const { return (mul.countIterations < mul.countShare) ? mul.countShare - mul.countIterations : 0; }
-    uint Gathered() const { return mul.Gathered(); }
-    void CoWork(Walrus * other);
-    void Supervise(void);
-    void MergeResults(Walrus *other);
+    void  LaunchHelpers(Walrus &hA, Walrus &hB);
+    void  ShowEffortSplit(Walrus &hA, Walrus &hB);
+    void  DoIteration();
+    uint  NumFiltered() const   { return mul.countToSolve; }
+    ucell CloudSize() const     { return mul.countShare; }
+    ucell Remains() const { return (mul.countIterations < CloudSize()) ? CloudSize() - mul.countIterations : 0; }
+    void  CoWork(Walrus * other);
+    void  Supervise(void);
+    void  MergeResults(Walrus *other);
+
+    // joined effort
+    ucell DoTheShare();
+    bool IsRunning(void) const  { return mul.isRunning; }
+    const char *GetName() const { return mul.nameHlp; }
 
     // semantics
     void FillSemantic(void);
