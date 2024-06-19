@@ -78,7 +78,7 @@ enum WA_OPERATION_MODE {
 };
 
 constexpr uint WA_CONTR_TITLE_LEN = 5;
-constexpr uint WA_SOURCE_CODE_BUF = 2 * 1024;
+constexpr size_t WA_SOURCE_CODE_BUF = 2 * 1024;
 struct WaConfig {
    WA_OPERATION_MODE opMode = OPMODE_NONE;
    waFileNames namesBase;
@@ -90,7 +90,6 @@ struct WaConfig {
    int   primTrump, primFirst;
 
    int   secGoal; // goal tricks either in our secondary contract or in their contract
-   uint  countFilters;
 
    // for post-mortem:
    int   postmSuit, postmHand; 
@@ -98,15 +97,19 @@ struct WaConfig {
 
    WA_REPORT_TYPE detailedReportType;
 
-   char  filtersSourceCode[WA_SOURCE_CODE_BUF];
+   // filtering
+   char   sourceCodeFilters[WA_SOURCE_CODE_BUF];
+   size_t sizeSourceCode, countFilters;
+
+   // other text params
    char  declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10];
    char  secLongName[128];
 
    WaConfig();
-   void ReadStart();
+   void ReadStart(class Walrus *walrus);
    void SetupOtherContract();
 private:
-   void LoadFiltersSource();
+   bool LoadFiltersSource();
 };
 
 extern WaConfig config;

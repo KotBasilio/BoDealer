@@ -162,7 +162,7 @@ void Semantics::MiniLinkFilters()
    }
 
    // update config
-   config.countFilters = (uint)(vecFilters.size());
+   config.countFilters = vecFilters.size();
 }
 
 bool Semantics::IsListStart(const MicroFilter& mic)

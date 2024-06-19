@@ -41,29 +41,31 @@ void waFileNames::Build()
    strcat(Solution, OUT_FNAME);
 }
 
-void WaConfig::ReadStart()
+void WaConfig::ReadStart(Walrus *walrus)
 {
    // goals
    primGoal = 0;
    secGoal = 0;
 
-   LoadFiltersSource();
+   if (LoadFiltersSource()) {
+      // TO DO compile source to walrus
+   }
 
    //PLATFORM_GETCH();
 }
 
 bool IsStartsWith(const char *str, const char *prefix) {
-   size_t lenPrefix = std::strlen(prefix);
-   size_t lenStr = std::strlen(str);
+   size_t lenPrefix = strlen(prefix);
+   size_t lenStr = strlen(str);
 
    if (lenStr < lenPrefix) {
       return false;
    }
 
-   return std::strncmp(str, prefix, lenPrefix) == 0;
+   return strncmp(str, prefix, lenPrefix) == 0;
 }
 
-void WaConfig::LoadFiltersSource()
+bool WaConfig::LoadFiltersSource()
 {
    const char* fname = namesBase.StartFrom;
    printf("Reading config from: %s\n", fname);
@@ -71,10 +73,10 @@ void WaConfig::LoadFiltersSource()
 
    FILE* stream;
    if (fopen_s(&stream, fname, "r")) {// non-zero => failed to open
-      return;
+      return false;
    }
 
-   filtersSourceCode[0] = 0;
+   sourceCodeFilters[0] = 0;
    bool copying = false;
    while (!feof(stream)) {
       char line[100];
@@ -87,7 +89,7 @@ void WaConfig::LoadFiltersSource()
          if (IsStartsWith(line, "ENDF")) {
             copying = false;
          } else {
-            strcat(filtersSourceCode, line);
+            strcat(sourceCodeFilters, line);
          }
       } else {
          if (IsStartsWith(line, "FILTERS:")) {
@@ -95,7 +97,8 @@ void WaConfig::LoadFiltersSource()
          }
       }
 
-      if (strlen(filtersSourceCode) > WA_SOURCE_CODE_BUF) {
+      sizeSourceCode = strlen(sourceCodeFilters);
+      if (sizeSourceCode > WA_SOURCE_CODE_BUF) {
          printf("Error: exceeded source code size. Exiting\n");
          PLATFORM_GETCH();
          exit(0);
@@ -103,6 +106,9 @@ void WaConfig::LoadFiltersSource()
    }
 
    fclose(stream);
+
+   printf("Code size: %llu of %llu\n", sizeSourceCode, WA_SOURCE_CODE_BUF);
+   return true;
 }
 
 void Walrus::DetectGoals()
@@ -225,7 +231,7 @@ void Walrus::DeprDetectGoals()
 bool Walrus::InitByConfig()
 {
    // may read something
-   config.ReadStart();
+   config.ReadStart(this);
 
    // semantic preparations
    FillSemantic();

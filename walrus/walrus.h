@@ -17,6 +17,7 @@ class Walrus
 {
    friend struct Semantics;
    friend struct WaMulti;
+   friend struct WaConfig;
 public:
    Walrus();
    Walrus(Walrus *other, const char *nameH, ucell ourShare);
