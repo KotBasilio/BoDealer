@@ -78,6 +78,7 @@ enum WA_OPERATION_MODE {
 };
 
 constexpr uint WA_CONTR_TITLE_LEN = 5;
+constexpr uint WA_SOURCE_CODE_BUF = 2 * 1024;
 struct WaConfig {
    WA_OPERATION_MODE opMode = OPMODE_NONE;
    waFileNames namesBase;
@@ -97,12 +98,15 @@ struct WaConfig {
 
    WA_REPORT_TYPE detailedReportType;
 
+   char  filtersSourceCode[WA_SOURCE_CODE_BUF];
    char  declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10];
    char  secLongName[128];
 
    WaConfig();
    void ReadStart();
    void SetupOtherContract();
+private:
+   void LoadFiltersSource();
 };
 
 extern WaConfig config;

@@ -31,6 +31,7 @@ Walrus::Walrus()
    filter.Bind(this);
    config.namesBase.Build();
    mainProgress = &progress;
+   PrepareLinearScores();
 }
 
 void WaFilter::Bind(class Walrus* _walrus) 

@@ -31,11 +31,14 @@
     <Filter Include="Source Files\walrus\Solve">
       <UniqueIdentifier>{c462cd83-de0c-4cc9-a39a-1f1e9eb25720}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\walrus\Score">
+    <Filter Include="Source Files\walrus\Tasks">
+      <UniqueIdentifier>{582c2f20-b9a3-4197-9764-3c208b8b9acf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\walrus\Scoring">
       <UniqueIdentifier>{d7cc7b5b-9973-4790-9dc4-0d263f1259c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\walrus\Semantics">
-      <UniqueIdentifier>{582c2f20-b9a3-4197-9764-3c208b8b9acf}</UniqueIdentifier>
+    <Filter Include="Source Files\walrus\Config">
+      <UniqueIdentifier>{a7624854-89ed-4180-b790-fcda1bf4ad1e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -124,16 +127,13 @@
       <Filter>Source Files\dds</Filter>
     </ClCompile>
     <ClCompile Include="..\Oscar\OsBook.cpp">
-      <Filter>Source Files\walrus\Score</Filter>
+      <Filter>Source Files\walrus\Scoring</Filter>
     </ClCompile>
     <ClCompile Include="..\..\walrus\waBitTwelve.cpp">
       <Filter>Source Files\walrus\Core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\walrus\waAI.cpp">
       <Filter>Source Files\walrus\Solve</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\walrus\waConfig.cpp">
-      <Filter>Source Files\walrus\Core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\walrus\waDDSTest.cpp">
       <Filter>Source Files\walrus\Solve</Filter>
@@ -142,10 +142,7 @@
       <Filter>Source Files\walrus\Solve</Filter>
     </ClCompile>
     <ClCompile Include="..\..\walrus\waCompareContracts.cpp">
-      <Filter>Source Files\walrus\Score</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\walrus\waInit.cpp">
-      <Filter>Source Files\walrus\Core</Filter>
+      <Filter>Source Files\walrus\Scoring</Filter>
     </ClCompile>
     <ClCompile Include="..\..\walrus\walrus.cpp">
       <Filter>Source Files\walrus\Core</Filter>
@@ -169,13 +166,13 @@
       <Filter>Source Files\walrus\Show</Filter>
     </ClCompile>
     <ClCompile Include="..\..\walrus\waScOpLead.cpp">
-      <Filter>Source Files\walrus\Score</Filter>
+      <Filter>Source Files\walrus\Scoring</Filter>
     </ClCompile>
     <ClCompile Include="..\..\walrus\waScore.cpp">
-      <Filter>Source Files\walrus\Score</Filter>
+      <Filter>Source Files\walrus\Scoring</Filter>
     </ClCompile>
     <ClCompile Include="..\..\walrus\waSCumul.cpp">
-      <Filter>Source Files\walrus\Score</Filter>
+      <Filter>Source Files\walrus\Scoring</Filter>
     </ClCompile>
     <ClCompile Include="..\..\walrus\waShuffle.cpp">
       <Filter>Source Files\walrus\Core</Filter>
@@ -187,25 +184,34 @@
       <Filter>Source Files\walrus\Core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\walrus\waSemAllFour.cpp">
-      <Filter>Source Files\walrus\Semantics</Filter>
+      <Filter>Source Files\walrus\Tasks</Filter>
     </ClCompile>
     <ClCompile Include="..\..\walrus\waSemBidding.cpp">
-      <Filter>Source Files\walrus\Semantics</Filter>
+      <Filter>Source Files\walrus\Tasks</Filter>
     </ClCompile>
     <ClCompile Include="..\..\walrus\waSemLead.cpp">
-      <Filter>Source Files\walrus\Semantics</Filter>
+      <Filter>Source Files\walrus\Tasks</Filter>
     </ClCompile>
     <ClCompile Include="..\..\walrus\waMicro.cpp">
       <Filter>Source Files\walrus\Core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\walrus\waSemOneSided.cpp">
-      <Filter>Source Files\walrus\Semantics</Filter>
+      <Filter>Source Files\walrus\Tasks</Filter>
     </ClCompile>
     <ClCompile Include="..\..\walrus\waSemSingle.cpp">
-      <Filter>Source Files\walrus\Semantics</Filter>
+      <Filter>Source Files\walrus\Tasks</Filter>
     </ClCompile>
     <ClCompile Include="..\..\walrus\waTaskHands.cpp">
-      <Filter>Source Files\walrus\Semantics</Filter>
+      <Filter>Source Files\walrus\Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\walrus\waConfig.cpp">
+      <Filter>Source Files\walrus\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\walrus\waInit.cpp">
+      <Filter>Source Files\walrus\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\walrus\waCompiler.cpp">
+      <Filter>Source Files\walrus\Config</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

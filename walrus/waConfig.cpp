@@ -16,11 +16,14 @@ void waFileNames::Build()
    size_t size = sizeof(StartFrom);
    #ifdef WIN_DETECT_PATH
       int rl = GetModuleFileName(NULL, buf, (DWORD)size);
-      const char *key = "Dealer";
+      const char *key = "Walrus";
       char* in = strstr(buf, key);
       if (in) {
-         in += strlen(key);
-         in[1] = 0;
+         *in = 0;
+      }
+      in = strstr(buf, "exe");
+      if (in) {
+         *in = 0;
       }
    #else
       buf[0] = 0;
@@ -44,26 +47,62 @@ void WaConfig::ReadStart()
    primGoal = 0;
    secGoal = 0;
 
+   LoadFiltersSource();
+
+   //PLATFORM_GETCH();
+}
+
+bool IsStartsWith(const char *str, const char *prefix) {
+   size_t lenPrefix = std::strlen(prefix);
+   size_t lenStr = std::strlen(str);
+
+   if (lenStr < lenPrefix) {
+      return false;
+   }
+
+   return std::strncmp(str, prefix, lenPrefix) == 0;
+}
+
+void WaConfig::LoadFiltersSource()
+{
    const char* fname = namesBase.StartFrom;
-   //printf("Reading config from: %s\n", fname);
+   printf("Reading config from: %s\n", fname);
    //PLATFORM_GETCH();
 
    FILE* stream;
-   if (!fopen_s(&stream, fname, "r") == 0) {
+   if (fopen_s(&stream, fname, "r")) {// non-zero => failed to open
       return;
    }
 
+   filtersSourceCode[0] = 0;
+   bool copying = false;
    while (!feof(stream)) {
       char line[100];
       if (!fgets(line, sizeof(line), stream)) {
          break;
       }
-      //printf(line);
+      printf(line);
+
+      if (copying) {
+         if (IsStartsWith(line, "ENDF")) {
+            copying = false;
+         } else {
+            strcat(filtersSourceCode, line);
+         }
+      } else {
+         if (IsStartsWith(line, "FILTERS:")) {
+            copying = true;
+         }
+      }
+
+      if (strlen(filtersSourceCode) > WA_SOURCE_CODE_BUF) {
+         printf("Error: exceeded source code size. Exiting\n");
+         PLATFORM_GETCH();
+         exit(0);
+      }
    }
 
    fclose(stream);
-
-   //PLATFORM_GETCH();
 }
 
 void Walrus::DetectGoals()
@@ -185,8 +224,6 @@ void Walrus::DeprDetectGoals()
 
 bool Walrus::InitByConfig()
 {
-   PrepareLinearScores();
-
    // may read something
    config.ReadStart();
 
