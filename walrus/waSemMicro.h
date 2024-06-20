@@ -13,7 +13,7 @@ struct MicroFilter {
    MicroFunc func;
    uint  params[MAX_MICRO_PARAMS];
    char  name[48];
-   MicroFilter() : func(nullptr) { params[0] = 0; name[0] = 0; }
+   MicroFilter() : func(nullptr) { params[0] = params[1] = params[2] = params[3] = params[4] = 0; name[0] = 0; }
    MicroFilter(MicroFunc f, const char *_name, uint p0 = 0, uint p1 = 0, uint p2 = 0, uint p3 = 0, uint p4 = 0);
 };
 

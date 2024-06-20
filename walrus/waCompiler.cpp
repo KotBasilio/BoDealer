@@ -48,16 +48,22 @@ enum ECompilerError {
 
 struct CompilerContext
 {
+   // parsing
    int idxLine = 0;
    char* line = nullptr;
    size_t size;
-   ECompilerError err;
+
+
+   // out 
+   MicroFilter fToBuild;
    std::vector<MicroFilter>& out;
+   ECompilerError err;
 
    CompilerContext(const char* sourceCode, size_t _size, std::vector<MicroFilter>& _filters)
       : err(E_SUCCESS)
       , size(_size)
       , out(_filters)
+      , fToBuild()
    {
       bufCopy = (char *)malloc(size);
       if (!bufCopy) {
@@ -85,9 +91,16 @@ struct CompilerContext
    {
       idxLine++;
       line = pos;
+      fToBuild = MicroFilter();
    }
 
    char* Buf() { return bufCopy; }
+
+   void DumpBuiltFilter()
+   {
+      out.push_back(fToBuild);
+      fToBuild = MicroFilter();
+   }
 
 private:
    char* bufCopy;
@@ -126,6 +139,48 @@ enum ECompilerState {
    S_ARGUMENTS
 };
 
+//uint ExactShape(twContext* lay, const uint* par);
+//uint ModelShape(twContext* lay, const uint *par);
+//uint PointsRange(twContext* lay, const uint *par);
+//uint PointsLimit(twContext* lay, const uint *par);
+//uint PointsAtLeast(twContext* lay, const uint *par);
+//uint ControlsRange(twContext* lay, const uint* par);
+//uint KeyCardsRange(twContext* lay, const uint* par);
+//// -
+//uint LineControlsRange(twContext* lay, const uint* par);
+//uint LineAcesRange(twContext* lay, const uint* par);
+//uint LineKeyCardsSpade(twContext* lay, const uint* par);
+//uint LinePointsRange(twContext* lay, const uint *par);
+//// -
+//uint PointsSuitLimit(twContext* lay, const uint* par);
+//uint PointsSuitAtLeast(twContext* lay, const uint* par);
+//uint PointsSuitLessSuit(twContext* lay, const uint* par);
+//uint PointsSuitLEqSuit(twContext* lay, const uint* par);
+//// -
+//uint SpadesNatural(twContext* lay, const uint* par);
+//uint HeartsNatural(twContext* lay, const uint* par);
+//uint DiamondsNatural(twContext* lay, const uint* par);
+//uint NoMajorFit(twContext* lay, const uint *par);
+//// -
+//uint SpadesLen(twContext* lay, const uint *par);
+//uint HeartsLen(twContext* lay, const uint *par);
+//uint DiamondsLen(twContext* lay, const uint *par);
+//uint ClubsLen(twContext* lay, const uint *par);
+//// -
+//uint NoOvcOn1LevOpen(twContext* lay, const uint *par);
+//uint NoOvercall(twContext* lay, const uint *par);
+//uint NoPrecision2C(twContext* lay, const uint *par);
+//uint No7Plus(twContext* lay, const uint *par);
+//uint No2SuiterAntiSpade(twContext* lay, const uint *par);
+//uint No2SuitsAntiHeart(twContext* lay, const uint *par);
+//uint No2SuitsMinors(twContext* lay, const uint* par);
+//uint TakeoutOfClubs(twContext* lay, const uint* par);
+//// -- branching
+//uint AnyInListBelow(twContext* lay, const uint *par);
+//uint ExcludeCombination(twContext* lay, const uint *par);
+
+//sem.vecFilters.push_back( MicroFilter(&WaFilter::NAME, #NAME" "#P2" "#P3" "#HAND, HAND, P2, P3)          )
+
 bool Semantics::CompileOneLine(CompilerContext &ctx)
 {
    static const char* delimiters = " ,.!:;()";
@@ -143,12 +198,22 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
             // no break;
 
          case S_POSITION:
+            ctx.fToBuild.params[0] = SOUTH;
+            fsmState = S_FILTER;
             break;
 
          case S_FILTER:
+            ctx.fToBuild.func = &WaFilter::PointsRange;
+            strcpy(ctx.fToBuild.name, "SOUTH");
+            fsmState = S_ARGUMENTS;
             break;
 
          case S_ARGUMENTS:
+            ctx.fToBuild.params[1] = 14;
+            ctx.fToBuild.params[1] = 15;
+
+            ctx.DumpBuiltFilter();
+            return true;
             break;
 
          default:
