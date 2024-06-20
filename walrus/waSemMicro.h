@@ -86,7 +86,12 @@ struct Semantics {
    void SetOurSecondaryScorer(CumulativeScore &cs, const char* code);
    void SetBiddingGameScorer(CumulativeScore &cs, const char* code);
    bool IsInitFailed() { return !isInitSuccess; }
+
+   bool Compile(const char* sourceCode, size_t sizeSourceCode, std::vector<MicroFilter>& filters);
+   void MiniLink(std::vector<MicroFilter> &filters);
 private:
+   bool CompileOneLine(struct CompilerContext &ctx);
+   bool CompileOneLine(char* line, std::vector<MicroFilter>& filters);
    bool IsListStart(const MicroFilter& mic);
    bool isInitSuccess = true;
 };

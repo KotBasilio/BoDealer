@@ -135,31 +135,8 @@ Semantics::Semantics()
 
 void Semantics::MiniLinkFilters()
 {
-   // resolve any-in-list-below block
-   uint retAddr;
-   for (uint ip = 0; ip < vecFilters.size(); ip++) {
-      // notice one
-      auto& mic = vecFilters[ip];
-      if (!IsListStart(mic)) {
-         continue;
-      }
-
-      // detect return address, done on zero depth or array end
-      int depth = 1;
-      for (retAddr = ip+1; retAddr < vecFilters.size() && depth; retAddr++) {
-         // notice nested blocks 
-         const auto& scanRet = vecFilters[retAddr];
-         if (IsListStart(scanRet)) {
-            depth++;
-         }
-         if (scanRet.func == &WaFilter::EndList) {
-            depth--;
-         }
-      }
-
-      // place it in the instruction
-      mic.params[1] = retAddr - 1;
-   }
+   // relay
+   MiniLink(vecFilters);
 
    // update config
    config.countFilters = vecFilters.size();

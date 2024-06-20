@@ -48,10 +48,20 @@ void WaConfig::ReadStart(Walrus *walrus)
    secGoal = 0;
 
    if (LoadFiltersSource()) {
-      // TO DO compile source to walrus
+      BuildNewFilters(walrus);
    }
 
    //PLATFORM_GETCH();
+}
+
+void WaConfig::BuildNewFilters(Walrus *walrus)
+{
+   // try
+   if (walrus->sem.Compile(sourceCodeFilters, sizeSourceCode, filtersLoaded)) {
+      walrus->sem.MiniLink(filtersLoaded);
+   } else {
+      printf("Failed to compile filters.\n");
+   }
 }
 
 bool IsStartsWith(const char *str, const char *prefix) {
@@ -65,10 +75,17 @@ bool IsStartsWith(const char *str, const char *prefix) {
    return strncmp(str, prefix, lenPrefix) == 0;
 }
 
+enum EConfigReaderState {
+   S_IDLE,
+   S_FILTERS,
+   S_BIDDING,
+   S_GOALS
+};
+
 bool WaConfig::LoadFiltersSource()
 {
    const char* fname = namesBase.StartFrom;
-   printf("Reading config from: %s\n", fname);
+   //printf("Reading config from: %s\n", fname);
    //PLATFORM_GETCH();
 
    FILE* stream;
@@ -85,6 +102,7 @@ bool WaConfig::LoadFiltersSource()
       }
       printf(line);
 
+      // only one non-idle state of FSM so far
       if (copying) {
          if (IsStartsWith(line, "ENDF")) {
             copying = false;
@@ -96,8 +114,7 @@ bool WaConfig::LoadFiltersSource()
             copying = true;
          }
       }
-
-      sizeSourceCode = strlen(sourceCodeFilters);
+      sizeSourceCode = strlen(sourceCodeFilters) + 1;
       if (sizeSourceCode > WA_SOURCE_CODE_BUF) {
          printf("Error: exceeded source code size. Exiting\n");
          PLATFORM_GETCH();

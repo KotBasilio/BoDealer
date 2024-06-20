@@ -100,6 +100,7 @@ struct WaConfig {
    // filtering
    char   sourceCodeFilters[WA_SOURCE_CODE_BUF];
    size_t sizeSourceCode, countFilters;
+   std::vector<MicroFilter> filtersLoaded;
 
    // other text params
    char  declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10];
@@ -110,6 +111,7 @@ struct WaConfig {
    void SetupOtherContract();
 private:
    bool LoadFiltersSource();
+   void BuildNewFilters(class Walrus *walrus);
 };
 
 extern WaConfig config;
