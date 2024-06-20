@@ -8,21 +8,7 @@
 #include HEADER_SLEEP
 #include HEADER_CURSES
 #include "walrus.h"
-
-/*
-#include <iostream>
-#include <cstring>
-
-int main() {
-// Define a string to tokenize
-char str[] = "Hello, world! This is a sample string.";
-
-// Define the delimiter characters
-
-
-return 0;
-}
-*/
+//#include <cstring>
 
 void Semantics::MiniLink(std::vector<MicroFilter>& filters)
 {
@@ -64,15 +50,47 @@ struct CompilerContext
 {
    int idxLine = 0;
    char* line = nullptr;
+   size_t size;
    ECompilerError err;
-   std::vector<MicroFilter>& filters;
+   std::vector<MicroFilter>& out;
 
-   CompilerContext(const char* sourceCode, size_t size, std::vector<MicroFilter>& _filters)
+   CompilerContext(const char* sourceCode, size_t _size, std::vector<MicroFilter>& _filters)
       : err(E_SUCCESS)
-      , filters(_filters)
+      , size(_size)
+      , out(_filters)
    {
-
+      bufCopy = (char *)malloc(size);
+      if (!bufCopy) {
+         printf("Compile alloc failed %llu bytes\n", size);
+         PLATFORM_GETCH();
+         exit(0);
+      }
+      strcpy_s(bufCopy, size, sourceCode);
+      line = bufCopy;
    }
+
+   ~CompilerContext()
+   {
+      if (bufCopy) {
+         free(bufCopy);
+      }
+   }
+
+   bool IsLineInRange()
+   {
+      return ((size_t)(line - bufCopy) <= size);
+   }
+
+   void NextLineAt(char* pos)
+   {
+      idxLine++;
+      line = pos;
+   }
+
+   char* Buf() { return bufCopy; }
+
+private:
+   char* bufCopy;
 };
 
 bool Semantics::Compile(const char* sourceCode, size_t size, std::vector<MicroFilter>& filters)
@@ -82,30 +100,22 @@ bool Semantics::Compile(const char* sourceCode, size_t size, std::vector<MicroFi
       return true;
    }
 
-   // prepare
+   // scan via context
    CompilerContext ctx(sourceCode, size, filters);
-   char* bufCopy = (char *)malloc(size);
-   if (!bufCopy) {
-      printf("Compile alloc failed %llu bytes\n", size);
-      PLATFORM_GETCH();
-      exit(0);
-   }
-   strcpy_s(bufCopy, size, sourceCode);
-
-   // scan lines
-   char* curLine = bufCopy;
-   char* posEndl = bufCopy;
-   for (int idxLine = 0; posEndl && ((size_t)(curLine - bufCopy) <= size); idxLine++) {
-      posEndl = strchr(curLine, '\n');
+   char* posEndl(ctx.Buf());
+   for (; posEndl && ctx.IsLineInRange(); ctx.NextLineAt(posEndl + 1)) {
+      // detach line
+      posEndl = strchr(ctx.line, '\n');
       if (posEndl) {
          *posEndl = 0;
       }
-      printf("Line %d: %s\n", idxLine, curLine);
-      curLine = posEndl + 1;
+
+      // pass
+      if (!CompileOneLine(ctx)) {
+         return false;
+      }
    }
 
-   // cleanup
-   free(bufCopy);
    return true;
 }
 
@@ -118,15 +128,41 @@ enum ECompilerState {
 
 bool Semantics::CompileOneLine(CompilerContext &ctx)
 {
-   static const char* delimiters = " ,.!:;";
+   static const char* delimiters = " ,.!:;()";
+
+   printf("Line %d: %s\n", ctx.idxLine, ctx.line);
    ECompilerState fsmState = S_IDLE;
 
-   // Use strtok to get the first token
+   // parse all tokens
    for ( char* token = std::strtok(ctx.line, delimiters); token; token = std::strtok(nullptr, delimiters) ) {
       // Print each token
       printf( "%s\n", token);
+      switch (fsmState) {
+         case S_IDLE:
+            // only in this state we can accept empty token
+            // no break;
+
+         case S_POSITION:
+            break;
+
+         case S_FILTER:
+            break;
+
+         case S_ARGUMENTS:
+            break;
+
+         default:
+            DEBUG_UNEXPECTED;
+            return false;
+      }
    }
 
+   // only in idle state we can accept empty token
+   if (fsmState == S_IDLE) {
+      return true;
+   }
+
+   printf( "Unexpected end of line #%d\n", ctx.idxLine);
    return false;
 }
 
