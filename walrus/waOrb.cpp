@@ -70,6 +70,10 @@ void Walrus::OrbNorthFillSem(void)
    sem.scanCover = SYMM * ORBIT_PERMUTE_FACTOR;
    sem.onAfterMath = &Walrus::SolveSavedTasks;
 
+   if (!config.filtersLoaded.empty()) {
+      sem.vecFilters = config.filtersLoaded;
+   }
+
 #ifdef DBG_VIEW_ON_ADD
    sem.onBoardAdded = &Walrus::DisplayBoard;
 #endif

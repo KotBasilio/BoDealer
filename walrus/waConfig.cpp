@@ -66,7 +66,7 @@ void WaConfig::BuildNewFilters(Walrus *walrus)
       return;
    }
 
-   printf("Succes on compile+link filters.\n");
+   printf("Succes on filters compiling and linking.\n");
 }
 
 bool IsStartsWith(const char *str, const char *prefix) {

@@ -104,8 +104,8 @@ bool Semantics::MiniLink(std::vector<MicroFilter>& filters)
       mic.params[1] = retAddr - 1;
 
       // sanity check
-      if (mic.params[1] == ip) {
-         printf("Unmatched control path bracket for filter #%d: %s\n", ip, mic.name);
+      if (depth) {
+         printf("Unmatched control path bracket for filter: %s\n", mic.name);
          return false;
       }
    }
@@ -237,8 +237,7 @@ enum EParserState {
    S_POSITION,
    S_FILTER,
    S_ARGUMENTS,
-   S_OPEN_BRKT,
-   S_CLOSE_BRKT
+   S_BRACKET
 };
 
 struct Parser
@@ -381,7 +380,7 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
       switch (fsmState) {
          case S_IDLE:
             if (parser.AcceptClosingBracket()) {
-               fsmState = S_CLOSE_BRKT;
+               fsmState = S_BRACKET;
                break;
             }
             // merge down
@@ -399,7 +398,7 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
 
          case S_FILTER:
             if (parser.AcceptOpeningBracket()) {
-               fsmState = S_OPEN_BRKT;
+               fsmState = S_BRACKET;
             } else if (parser.AcceptHandFilter()) {
                fsmState = S_ARGUMENTS;
             } else {
@@ -432,8 +431,7 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
          ctx.DumpBuiltFilter();
          return true;
 
-      case S_OPEN_BRKT:
-      case S_CLOSE_BRKT:
+      case S_BRACKET:
          ctx.DumpBuiltFilter();
          return true;
    }
