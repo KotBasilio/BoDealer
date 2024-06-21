@@ -59,6 +59,7 @@ void WaConfig::BuildNewFilters(Walrus *walrus)
    // try
    if (walrus->sem.Compile(sourceCodeFilters, sizeSourceCode, filtersLoaded)) {
       walrus->sem.MiniLink(filtersLoaded);
+      printf("Succes on compile+link filters.\n");
    } else {
       printf("Config ERROR: Failed to compile filters.\n");
    }
@@ -100,7 +101,7 @@ bool WaConfig::LoadFiltersSource()
       if (!fgets(line, sizeof(line), stream)) {
          break;
       }
-      printf(line);
+      //printf(line);
 
       // only one non-idle state of FSM so far
       if (copying) {
@@ -124,7 +125,7 @@ bool WaConfig::LoadFiltersSource()
 
    fclose(stream);
 
-   printf("Code size: %llu of %llu\n", sizeSourceCode, WA_SOURCE_CODE_BUF);
+   printf("Read a source code for filters with size %llu of %llu. Passing to compiler.\n", sizeSourceCode, WA_SOURCE_CODE_BUF);
    return true;
 }
 

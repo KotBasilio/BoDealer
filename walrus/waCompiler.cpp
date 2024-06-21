@@ -11,65 +11,56 @@
 //#include <cstring>
 //#include <cctype>
 
-//uint ExactShape(twContext* lay, const uint* par);
-//uint ModelShape(twContext* lay, const uint *par);
-//uint PointsRange(twContext* lay, const uint *par);
-//uint PointsLimit(twContext* lay, const uint *par);
-//uint PointsAtLeast(twContext* lay, const uint *par);
-//uint ControlsRange(twContext* lay, const uint* par);
-//uint KeyCardsRange(twContext* lay, const uint* par);
-//// -
-//uint LineControlsRange(twContext* lay, const uint* par);
-//uint LineAcesRange(twContext* lay, const uint* par);
-//uint LineKeyCardsSpade(twContext* lay, const uint* par);
-//uint LinePointsRange(twContext* lay, const uint *par);
-//// -
-//uint PointsSuitLimit(twContext* lay, const uint* par);
-//uint PointsSuitAtLeast(twContext* lay, const uint* par);
-//uint PointsSuitLessSuit(twContext* lay, const uint* par);
-//uint PointsSuitLEqSuit(twContext* lay, const uint* par);
-//// -
-//uint SpadesNatural(twContext* lay, const uint* par);
-//uint HeartsNatural(twContext* lay, const uint* par);
-//uint DiamondsNatural(twContext* lay, const uint* par);
-//uint NoMajorFit(twContext* lay, const uint *par);
-//// -
-//uint SpadesLen(twContext* lay, const uint *par);
-//uint HeartsLen(twContext* lay, const uint *par);
-//uint DiamondsLen(twContext* lay, const uint *par);
-//uint ClubsLen(twContext* lay, const uint *par);
-//// -
-//uint NoOvcOn1LevOpen(twContext* lay, const uint *par);
-//uint NoOvercall(twContext* lay, const uint *par);
-//uint NoPrecision2C(twContext* lay, const uint *par);
-//uint No7Plus(twContext* lay, const uint *par);
-//uint No2SuiterAntiSpade(twContext* lay, const uint *par);
-//uint No2SuitsAntiHeart(twContext* lay, const uint *par);
-//uint No2SuitsMinors(twContext* lay, const uint* par);
-//uint TakeoutOfClubs(twContext* lay, const uint* par);
-//// -- branching
-//uint AnyInListBelow(twContext* lay, const uint *par);
-//uint ExcludeCombination(twContext* lay, const uint *par);
-
-#define HAND_FILTER_DEFINITION(NAME, NUM) {&WaFilter::NAME, #NAME, NUM}
-
 struct HandFilter {
    MicroFunc func;
    const char* name;
    int countArgs;
 };
+
+#define DESCRIBE_FILTER(NAME, NUM) {&WaFilter::NAME, #NAME, NUM}
+
 static HandFilter ExportedHandFilters[] = {
-   HAND_FILTER_DEFINITION(PointsRange, 2),
-   HAND_FILTER_DEFINITION(ControlsRange, 2),
-   HAND_FILTER_DEFINITION(SpadesLen, 2),
-   HAND_FILTER_DEFINITION(HeartsLen, 2),
-   //HAND_FILTER_DEFINITION(),
-   //HAND_FILTER_DEFINITION(),
+   DESCRIBE_FILTER(PointsRange, 2),
+   DESCRIBE_FILTER(ControlsRange, 2),
+   DESCRIBE_FILTER(PointsAtLeast, 1),
+   DESCRIBE_FILTER(KeyCardsRange, 2),
+
+   DESCRIBE_FILTER(ExactShape, 4),
+   DESCRIBE_FILTER(ModelShape, 4),
+
+   DESCRIBE_FILTER(SpadesLen, 2),
+   DESCRIBE_FILTER(HeartsLen, 2),
+   DESCRIBE_FILTER(DiamondsLen, 2),
+   DESCRIBE_FILTER(ClubsLen, 2),
+
+   DESCRIBE_FILTER(LineControlsRange, 3),
+   DESCRIBE_FILTER(LineAcesRange, 3),
+   DESCRIBE_FILTER(LineKeyCardsSpade, 3),
+   DESCRIBE_FILTER(LinePointsRange, 3),
+
+   DESCRIBE_FILTER(PointsSuitLimit, 2),
+   DESCRIBE_FILTER(PointsSuitAtLeast, 2),
+   DESCRIBE_FILTER(PointsSuitLessSuit, 2),
+   DESCRIBE_FILTER(PointsSuitLEqSuit, 2),
+
+   DESCRIBE_FILTER(SpadesNatural, 0),
+   DESCRIBE_FILTER(HeartsNatural, 0),
+   DESCRIBE_FILTER(DiamondsNatural, 0),
+   DESCRIBE_FILTER(NoMajorFit, 0),
+
+   DESCRIBE_FILTER(NoOvcOn1LevOpen, 0),
+   DESCRIBE_FILTER(NoOvercall, 0),
+   DESCRIBE_FILTER(NoPrecision2C, 0),
+   DESCRIBE_FILTER(No7Plus, 0),
+   DESCRIBE_FILTER(No2SuiterAntiSpade, 0),
+   DESCRIBE_FILTER(No2SuitsAntiHeart, 0),
+   DESCRIBE_FILTER(No2SuitsMinors, 0),
+   DESCRIBE_FILTER(TakeoutOfClubs, 0),
 };
 
 void Semantics::MiniLink(std::vector<MicroFilter>& filters)
 {
-   // resolve any-in-list-below block
+   // resolve all bracket-blocks
    uint retAddr;
    for (uint ip = 0; ip < filters.size(); ip++) {
       // notice one
