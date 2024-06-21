@@ -53,9 +53,9 @@ struct CompilerContext
    char* line = nullptr;
    size_t size;
 
-
    // out 
    MicroFilter fToBuild;
+   int idxArg = 0;
    std::vector<MicroFilter>& out;
    ECompilerError err;
 
@@ -82,6 +82,8 @@ struct CompilerContext
       }
    }
 
+   char* Buf() { return bufCopy; }
+
    bool IsLineInRange()
    {
       return ((size_t)(line - bufCopy) <= size);
@@ -92,14 +94,18 @@ struct CompilerContext
       idxLine++;
       line = pos;
       fToBuild = MicroFilter();
+      idxArg = 0;
    }
-
-   char* Buf() { return bufCopy; }
 
    void DumpBuiltFilter()
    {
       out.push_back(fToBuild);
       fToBuild = MicroFilter();
+   }
+
+   void AddArg(int arg)
+   {
+      fToBuild.params[idxArg++] = arg;
    }
 
 private:
@@ -181,25 +187,69 @@ enum ECompilerState {
 
 //sem.vecFilters.push_back( MicroFilter(&WaFilter::NAME, #NAME" "#P2" "#P3" "#HAND, HAND, P2, P3)          )
 
+struct Parser
+{
+   char* token = nullptr;
+
+   Parser(CompilerContext& _ctx) : ctx(_ctx)
+   {
+      strcpy_s(backupLine, sizeof(backupLine), ctx.line);
+      token = std::strtok(ctx.line, delimiters);
+   }
+
+   void operator++()
+   {
+      token = std::strtok(nullptr, delimiters);
+   }
+
+   bool IsToken(const char* key)
+   {
+      return 0 == strcmp(token, key);
+   }
+
+   void Fail(const char* reason1, const char* r2 = "", const char* r3 = "")
+   {
+      printf("%s%s%s #%d: %s\n", reason1, r2, r3, ctx.idxLine + 1, backupLine);
+   }
+
+private:
+   char backupLine[64];
+   CompilerContext& ctx;
+   static const char* delimiters;
+};
+const char* Parser::delimiters = " ,.!:;()";
+
+#define ACCEPT_POS(NAME) if (parser.IsToken(#NAME)) {  \
+            ctx.AddArg(NAME);                            \
+            fsmState = S_FILTER;                         \
+         }
+
 bool Semantics::CompileOneLine(CompilerContext &ctx)
 {
-   static const char* delimiters = " ,.!:;()";
-
+   // prepare
    printf("Line %d: %s\n", ctx.idxLine, ctx.line);
    ECompilerState fsmState = S_IDLE;
 
    // parse all tokens
-   for ( char* token = std::strtok(ctx.line, delimiters); token; token = std::strtok(nullptr, delimiters) ) {
+   Parser parser(ctx);
+   for ( ; parser.token; ++parser ) {
       // Print each token
-      printf( "%s\n", token);
+      printf( "%s\n", parser.token);
       switch (fsmState) {
          case S_IDLE:
-            // only in this state we can accept empty token
+            // opening brackets
             // no break;
 
          case S_POSITION:
-            ctx.fToBuild.params[0] = SOUTH;
-            fsmState = S_FILTER;
+            ACCEPT_POS(SOUTH);
+            ACCEPT_POS(WEST);
+            ACCEPT_POS(NORTH);
+            ACCEPT_POS(EAST);
+
+            if (fsmState == S_POSITION) {
+               parser.Fail("Unrecognized position ", parser.token, " in line");
+               return false;
+            }
             break;
 
          case S_FILTER:
@@ -209,8 +259,8 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
             break;
 
          case S_ARGUMENTS:
-            ctx.fToBuild.params[1] = 14;
-            ctx.fToBuild.params[1] = 15;
+            ctx.AddArg(14);
+            ctx.AddArg(15);
 
             ctx.DumpBuiltFilter();
             return true;
@@ -227,7 +277,7 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
       return true;
    }
 
-   printf( "Unexpected end of line #%d\n", ctx.idxLine);
+   parser.Fail("Unexpected end of line");
    return false;
 }
 
