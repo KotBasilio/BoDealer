@@ -1,5 +1,9 @@
-Dummy config: line 1
-line 2
+Dummy config: a title
+
+some other stuff
+blah
+blah blah
+
 FILTERS:
    SOUTH: PointsRange 14, 15
    SOUTH: ControlsRange 2, 6
@@ -9,20 +13,31 @@ FILTERS:
    SOUTH: ClubsLen, 2, 5
    SOUTH: DiamondsLen, 1, 5
 
-   ADD_0PAR_FILTER(SOUTH, ExcludeCombination);
+   WEST: NoOvercall
+   EAST: NoOvercall
+
+   SOUTH ExcludeCombination {
+         SOUTH, PointsRange, 15, 15);
+         SOUTH, ControlsRange, 6, 6);
+   }
+
+   WEST: NoOvercall
+   EAST: NoOvercall
+
+   SOUTH: NoPrecision2C
+ENDF
+
+more stuff 
+   SOUTH ExcludeCombination {
       ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
-         ADD_2PAR_FILTER(SOUTH, PointsRange, 15, 15);
-         ADD_2PAR_FILTER(SOUTH, ControlsRange, 6, 6);
+         SOUTH, PointsRange, 15, 15);
+         SOUTH, ControlsRange, 6, 6);
       ADD_0PAR_FILTER(SOUTH, EndList);
       ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
          ADD_2PAR_FILTER(SOUTH, ClubsLen, 5, 5);
          ADD_2PAR_FILTER(SOUTH, DiamondsLen, 5, 5);
       ADD_0PAR_FILTER(SOUTH, EndList);
-   ADD_0PAR_FILTER(SOUTH, EndList);
+   }
 
-   ADD_0PAR_FILTER(WEST, NoOvercall);
-   ADD_0PAR_FILTER(EAST, NoOvercall);
 
-   ADD_0PAR_FILTER(SOUTH, NoPrecision2C);
-ENDF
-line 3 -- config end.
+-- config end.

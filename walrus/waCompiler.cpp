@@ -11,13 +11,31 @@
 //#include <cstring>
 //#include <cctype>
 
-struct HandFilter {
+
+struct NullFilter {
    MicroFunc func;
    const char* name;
-   int countArgs;
+   NullFilter(MicroFunc _func, const char* _name)
+      : func(_func), name(_name) 
+   {}
 };
 
+struct HandFilter : public NullFilter {
+   int countArgs;
+   HandFilter(MicroFunc _func, const char* _name, int _count)
+      : NullFilter(_func, _name)
+      , countArgs(_count)
+   {}
+};
+
+#define DESCRIBE_BRACKET(NAME)     {&WaFilter::NAME, #NAME}
 #define DESCRIBE_FILTER(NAME, NUM) {&WaFilter::NAME, #NAME, NUM}
+
+static NullFilter OpeningBrackets[] =
+{
+   DESCRIBE_BRACKET(AnyInListBelow),
+   DESCRIBE_BRACKET(ExcludeCombination)
+};
 
 static HandFilter ExportedHandFilters[] = {
    DESCRIBE_FILTER(PointsRange, 2),
@@ -58,7 +76,7 @@ static HandFilter ExportedHandFilters[] = {
    DESCRIBE_FILTER(TakeoutOfClubs, 0),
 };
 
-void Semantics::MiniLink(std::vector<MicroFilter>& filters)
+bool Semantics::MiniLink(std::vector<MicroFilter>& filters)
 {
    // resolve all bracket-blocks
    uint retAddr;
@@ -84,7 +102,15 @@ void Semantics::MiniLink(std::vector<MicroFilter>& filters)
 
       // place it in the instruction
       mic.params[1] = retAddr - 1;
+
+      // sanity check
+      if (mic.params[1] == ip) {
+         printf("Unmatched control path bracket for filter #%d: %s\n", ip, mic.name);
+         return false;
+      }
    }
+
+   return true;
 }
 
 enum ECompilerError {
@@ -156,6 +182,11 @@ struct CompilerContext
       fToBuild.params[idxArg++] = arg;
    }
 
+   void AddText(const char* text) {
+      strcat(fToBuild.name, text);
+      strcat(fToBuild.name, " ");
+   }
+
 private:
    char* bufCopy;
 };
@@ -205,7 +236,9 @@ enum EParserState {
    S_IDLE,
    S_POSITION,
    S_FILTER,
-   S_ARGUMENTS
+   S_ARGUMENTS,
+   S_OPEN_BRKT,
+   S_CLOSE_BRKT
 };
 
 struct Parser
@@ -237,6 +270,11 @@ struct Parser
       strcpy_s(posName, sizeof(posName), token);
    }
 
+   void AppendPosition()
+   {
+      ctx.AddText(posName);
+   }
+
    bool Fail(const char* reason1, const char* r2 = "", const char* r3 = "")
    {
       printf("%s%s%s #%d: %s\n", reason1, r2, r3, ctx.idxLine + 1, backupLine);
@@ -248,13 +286,38 @@ struct Parser
       return Fail(reason, token, " in line");
    }
 
+   bool AcceptOpeningBracket()
+   {
+      for (const auto& filter : OpeningBrackets) {
+         if (IsToken(filter.name)) {
+            ctx.fToBuild.func = filter.func;
+            AppendPosition();
+            ctx.AddText(filter.name);
+            argsLeftExpected = 0;
+            return true;
+         }
+      }
+
+      return false;
+   }
+
+   bool AcceptClosingBracket()
+   {
+      if (IsToken("}")) {
+         ctx.fToBuild.func = &WaFilter::EndList;
+         strcpy(ctx.fToBuild.name, "} ");
+         return true;
+      }
+
+      return false;
+   }
+
    bool AcceptHandFilter()
    {
       for (const auto& filter : ExportedHandFilters) {
          if (IsToken(filter.name)) {
             ctx.fToBuild.func = filter.func;
-            strcpy(ctx.fToBuild.name, filter.name);
-            strcat(ctx.fToBuild.name, " ");
+            ctx.AddText(filter.name);
             argsLeftExpected = filter.countArgs;
             return true;
          }
@@ -290,12 +353,13 @@ private:
 
       int number = atoi(token);
       ctx.AddArg(number);
+      ctx.AddText(token);
       argsLeftExpected--;
 
       return true;
    }
 };
-const char* Parser::delimiters = " ,.!:;()";
+const char* Parser::delimiters = " ,.!:;(){";
 
 #define ACCEPT_POS(NAME) if (parser.IsToken(#NAME)) {  \
             ctx.AddArg(NAME);                          \
@@ -306,7 +370,7 @@ const char* Parser::delimiters = " ,.!:;()";
 bool Semantics::CompileOneLine(CompilerContext &ctx)
 {
    // prepare
-   printf("Line %d: %s\n", ctx.idxLine, ctx.line);
+   printf("Line %2d: %s\n", ctx.idxLine + 1, ctx.line);
    EParserState fsmState = S_IDLE;
 
    // parse all tokens
@@ -316,9 +380,11 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
 
       switch (fsmState) {
          case S_IDLE:
-            // opening brackets
-            // a closing bracket
-            // no break;
+            if (parser.AcceptClosingBracket()) {
+               fsmState = S_CLOSE_BRKT;
+               break;
+            }
+            // merge down
 
          case S_POSITION:
             ACCEPT_POS(SOUTH);
@@ -332,7 +398,9 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
             break;
 
          case S_FILTER:
-            if (parser.AcceptHandFilter()) {
+            if (parser.AcceptOpeningBracket()) {
+               fsmState = S_OPEN_BRKT;
+            } else if (parser.AcceptHandFilter()) {
                fsmState = S_ARGUMENTS;
             } else {
                return parser.FailTok("Unrecognized hand filter ");
@@ -341,7 +409,7 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
 
          case S_ARGUMENTS:
             if (!parser.AcceptArgument()) {
-               return parser.FailTok("Unexpected extra argument ");
+               return parser.FailTok("Unexpected argument ");
             }
             break;
 
@@ -351,18 +419,26 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
       }
    }
 
-   // only in some states we can accept an end of line
-   if (fsmState == S_IDLE) {
-      return true;
-   }
-   if (fsmState == S_ARGUMENTS) {
-      if (parser.argsLeftExpected) {
-         return parser.Fail("Too few arguments in line");
-      }
-      ctx.DumpBuiltFilter();
-      return true;
+   // analyze state where line has ended
+   switch (fsmState) {
+      case S_IDLE:
+         return true;
+
+      case S_ARGUMENTS:
+         if (parser.argsLeftExpected) {
+            return parser.Fail("Too few arguments in line");
+         }
+         parser.AppendPosition();
+         ctx.DumpBuiltFilter();
+         return true;
+
+      case S_OPEN_BRKT:
+      case S_CLOSE_BRKT:
+         ctx.DumpBuiltFilter();
+         return true;
    }
 
+   // not accepted => error
    return parser.Fail("Unexpected end of line");
 }
 

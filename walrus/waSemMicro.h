@@ -88,7 +88,7 @@ struct Semantics {
    bool IsInitFailed() { return !isInitSuccess; }
 
    bool Compile(const char* sourceCode, size_t sizeSourceCode, std::vector<MicroFilter>& filters);
-   void MiniLink(std::vector<MicroFilter> &filters);
+   bool MiniLink(std::vector<MicroFilter> &filters);
 private:
    bool CompileOneLine(struct CompilerContext &ctx);
    bool CompileOneLine(char* line, std::vector<MicroFilter>& filters);

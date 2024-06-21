@@ -56,13 +56,17 @@ void WaConfig::ReadStart(Walrus *walrus)
 
 void WaConfig::BuildNewFilters(Walrus *walrus)
 {
-   // try
-   if (walrus->sem.Compile(sourceCodeFilters, sizeSourceCode, filtersLoaded)) {
-      walrus->sem.MiniLink(filtersLoaded);
-      printf("Succes on compile+link filters.\n");
-   } else {
+   if (!walrus->sem.Compile(sourceCodeFilters, sizeSourceCode, filtersLoaded)) {
       printf("Config ERROR: Failed to compile filters.\n");
+      return;
    }
+
+   if (!walrus->sem.MiniLink(filtersLoaded)) {
+      printf("Config ERROR: Failed to link filters.\n");
+      return;
+   }
+
+   printf("Succes on compile+link filters.\n");
 }
 
 bool IsStartsWith(const char *str, const char *prefix) {
@@ -87,7 +91,6 @@ bool WaConfig::LoadFiltersSource()
 {
    const char* fname = namesBase.StartFrom;
    //printf("Reading config from: %s\n", fname);
-   //PLATFORM_GETCH();
 
    FILE* stream;
    if (fopen_s(&stream, fname, "r")) {// non-zero => failed to open
@@ -116,16 +119,17 @@ bool WaConfig::LoadFiltersSource()
          }
       }
       sizeSourceCode = strlen(sourceCodeFilters) + 1;
-      if (sizeSourceCode > WA_SOURCE_CODE_BUF) {
-         printf("Error: exceeded source code size. Exiting\n");
+      if (sizeSourceCode > sizeof(sourceCodeFilters)) {
+         printf("Error: exceeded source code size. Exiting.\n");
          PLATFORM_GETCH();
          exit(0);
       }
    }
-
    fclose(stream);
 
-   printf("Read a source code for filters with size %llu of %llu. Passing to compiler.\n", sizeSourceCode, WA_SOURCE_CODE_BUF);
+   printf("Config has read a source code with size %llu of %llu. Passing to filters compiler.\n", 
+      sizeSourceCode, sizeof(sourceCodeFilters));
+
    return true;
 }
 
