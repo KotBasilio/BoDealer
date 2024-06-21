@@ -31,7 +31,7 @@
       <DisplayString>({params[0]},{params[1]},{params[2]},{params[3]}) -> {name,s}</DisplayString>
    </Type>
    <Type Name="Parser">
-      <DisplayString>{token,s}</DisplayString>
+      <DisplayString>t:{token,s} in:{backupLine,s}</DisplayString>
    </Type>
 
 </AutoVisualizer>

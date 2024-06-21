@@ -2,12 +2,12 @@ Dummy config: line 1
 line 2
 FILTERS:
    SOUTH: PointsRange 14, 15
-   SOUTH: ControlsRange 2, 6);
-   SOUTH: SpadesLen, 2, 4);
-   SOUTH: HeartsLen, 2, 4);
+   SOUTH: ControlsRange 2, 6
+   SOUTH: SpadesLen, 2, 4
+   SOUTH: HeartsLen, 2, 4
 
-   SOUTH: ClubsLen, 2, 5);
-   SOUTH: DiamondsLen, 1, 5);
+   SOUTH: ClubsLen, 2, 5
+   SOUTH: DiamondsLen, 1, 5
 
    ADD_0PAR_FILTER(SOUTH, ExcludeCombination);
       ADD_0PAR_FILTER(SOUTH, AnyInListBelow);

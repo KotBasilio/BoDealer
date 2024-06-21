@@ -60,7 +60,7 @@ void WaConfig::BuildNewFilters(Walrus *walrus)
    if (walrus->sem.Compile(sourceCodeFilters, sizeSourceCode, filtersLoaded)) {
       walrus->sem.MiniLink(filtersLoaded);
    } else {
-      printf("Failed to compile filters.\n");
+      printf("Config ERROR: Failed to compile filters.\n");
    }
 }
 

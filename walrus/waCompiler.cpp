@@ -9,6 +9,63 @@
 #include HEADER_CURSES
 #include "walrus.h"
 //#include <cstring>
+//#include <cctype>
+
+//uint ExactShape(twContext* lay, const uint* par);
+//uint ModelShape(twContext* lay, const uint *par);
+//uint PointsRange(twContext* lay, const uint *par);
+//uint PointsLimit(twContext* lay, const uint *par);
+//uint PointsAtLeast(twContext* lay, const uint *par);
+//uint ControlsRange(twContext* lay, const uint* par);
+//uint KeyCardsRange(twContext* lay, const uint* par);
+//// -
+//uint LineControlsRange(twContext* lay, const uint* par);
+//uint LineAcesRange(twContext* lay, const uint* par);
+//uint LineKeyCardsSpade(twContext* lay, const uint* par);
+//uint LinePointsRange(twContext* lay, const uint *par);
+//// -
+//uint PointsSuitLimit(twContext* lay, const uint* par);
+//uint PointsSuitAtLeast(twContext* lay, const uint* par);
+//uint PointsSuitLessSuit(twContext* lay, const uint* par);
+//uint PointsSuitLEqSuit(twContext* lay, const uint* par);
+//// -
+//uint SpadesNatural(twContext* lay, const uint* par);
+//uint HeartsNatural(twContext* lay, const uint* par);
+//uint DiamondsNatural(twContext* lay, const uint* par);
+//uint NoMajorFit(twContext* lay, const uint *par);
+//// -
+//uint SpadesLen(twContext* lay, const uint *par);
+//uint HeartsLen(twContext* lay, const uint *par);
+//uint DiamondsLen(twContext* lay, const uint *par);
+//uint ClubsLen(twContext* lay, const uint *par);
+//// -
+//uint NoOvcOn1LevOpen(twContext* lay, const uint *par);
+//uint NoOvercall(twContext* lay, const uint *par);
+//uint NoPrecision2C(twContext* lay, const uint *par);
+//uint No7Plus(twContext* lay, const uint *par);
+//uint No2SuiterAntiSpade(twContext* lay, const uint *par);
+//uint No2SuitsAntiHeart(twContext* lay, const uint *par);
+//uint No2SuitsMinors(twContext* lay, const uint* par);
+//uint TakeoutOfClubs(twContext* lay, const uint* par);
+//// -- branching
+//uint AnyInListBelow(twContext* lay, const uint *par);
+//uint ExcludeCombination(twContext* lay, const uint *par);
+
+#define HAND_FILTER_DEFINITION(NAME, NUM) {&WaFilter::NAME, #NAME, NUM}
+
+struct HandFilter {
+   MicroFunc func;
+   const char* name;
+   int countArgs;
+};
+static HandFilter ExportedHandFilters[] = {
+   HAND_FILTER_DEFINITION(PointsRange, 2),
+   HAND_FILTER_DEFINITION(ControlsRange, 2),
+   HAND_FILTER_DEFINITION(SpadesLen, 2),
+   HAND_FILTER_DEFINITION(HeartsLen, 2),
+   //HAND_FILTER_DEFINITION(),
+   //HAND_FILTER_DEFINITION(),
+};
 
 void Semantics::MiniLink(std::vector<MicroFilter>& filters)
 {
@@ -138,60 +195,37 @@ bool Semantics::Compile(const char* sourceCode, size_t size, std::vector<MicroFi
    return true;
 }
 
-enum ECompilerState {
+static bool IsDigitsOnly(const char* str) 
+{
+   if (str == nullptr) {
+      return false;
+   }
+
+   while (*str) {
+      if (!isdigit(static_cast<unsigned char>(*str))) {
+         return false;
+      }
+      ++str;
+   }
+   return true;
+}
+
+enum EParserState {
    S_IDLE,
    S_POSITION,
    S_FILTER,
    S_ARGUMENTS
 };
 
-//uint ExactShape(twContext* lay, const uint* par);
-//uint ModelShape(twContext* lay, const uint *par);
-//uint PointsRange(twContext* lay, const uint *par);
-//uint PointsLimit(twContext* lay, const uint *par);
-//uint PointsAtLeast(twContext* lay, const uint *par);
-//uint ControlsRange(twContext* lay, const uint* par);
-//uint KeyCardsRange(twContext* lay, const uint* par);
-//// -
-//uint LineControlsRange(twContext* lay, const uint* par);
-//uint LineAcesRange(twContext* lay, const uint* par);
-//uint LineKeyCardsSpade(twContext* lay, const uint* par);
-//uint LinePointsRange(twContext* lay, const uint *par);
-//// -
-//uint PointsSuitLimit(twContext* lay, const uint* par);
-//uint PointsSuitAtLeast(twContext* lay, const uint* par);
-//uint PointsSuitLessSuit(twContext* lay, const uint* par);
-//uint PointsSuitLEqSuit(twContext* lay, const uint* par);
-//// -
-//uint SpadesNatural(twContext* lay, const uint* par);
-//uint HeartsNatural(twContext* lay, const uint* par);
-//uint DiamondsNatural(twContext* lay, const uint* par);
-//uint NoMajorFit(twContext* lay, const uint *par);
-//// -
-//uint SpadesLen(twContext* lay, const uint *par);
-//uint HeartsLen(twContext* lay, const uint *par);
-//uint DiamondsLen(twContext* lay, const uint *par);
-//uint ClubsLen(twContext* lay, const uint *par);
-//// -
-//uint NoOvcOn1LevOpen(twContext* lay, const uint *par);
-//uint NoOvercall(twContext* lay, const uint *par);
-//uint NoPrecision2C(twContext* lay, const uint *par);
-//uint No7Plus(twContext* lay, const uint *par);
-//uint No2SuiterAntiSpade(twContext* lay, const uint *par);
-//uint No2SuitsAntiHeart(twContext* lay, const uint *par);
-//uint No2SuitsMinors(twContext* lay, const uint* par);
-//uint TakeoutOfClubs(twContext* lay, const uint* par);
-//// -- branching
-//uint AnyInListBelow(twContext* lay, const uint *par);
-//uint ExcludeCombination(twContext* lay, const uint *par);
-
-//sem.vecFilters.push_back( MicroFilter(&WaFilter::NAME, #NAME" "#P2" "#P3" "#HAND, HAND, P2, P3)          )
-
 struct Parser
 {
    char* token = nullptr;
+   int argsLeftExpected = 0;
 
-   Parser(CompilerContext& _ctx) : ctx(_ctx)
+   Parser(CompilerContext& _ctx) 
+      : ctx(_ctx)
+      , posName()
+      , backupLine()
    {
       strcpy_s(backupLine, sizeof(backupLine), ctx.line);
       token = std::strtok(ctx.line, delimiters);
@@ -207,37 +241,92 @@ struct Parser
       return 0 == strcmp(token, key);
    }
 
-   void Fail(const char* reason1, const char* r2 = "", const char* r3 = "")
+   void NoticeTokenIsPosition()
+   {
+      strcpy_s(posName, sizeof(posName), token);
+   }
+
+   bool Fail(const char* reason1, const char* r2 = "", const char* r3 = "")
    {
       printf("%s%s%s #%d: %s\n", reason1, r2, r3, ctx.idxLine + 1, backupLine);
+      return false;
+   }
+
+   bool FailTok(const char* reason)
+   {
+      return Fail(reason, token, " in line");
+   }
+
+   bool AcceptHandFilter()
+   {
+      for (const auto& filter : ExportedHandFilters) {
+         if (IsToken(filter.name)) {
+            ctx.fToBuild.func = filter.func;
+            strcpy(ctx.fToBuild.name, filter.name);
+            strcat(ctx.fToBuild.name, " ");
+            argsLeftExpected = filter.countArgs;
+            return true;
+         }
+      }
+
+      return false;
+   }
+
+   bool AcceptArgument()
+   {
+      if (!argsLeftExpected) {
+         return false;
+      }
+
+      if (TryAcceptNumber()) {
+         return true;
+      }
+
+      return false;
    }
 
 private:
    char backupLine[64];
+   char posName[10];
    CompilerContext& ctx;
    static const char* delimiters;
+
+   bool TryAcceptNumber()
+   {
+      if (!IsDigitsOnly(token)) {
+         return false;
+      }
+
+      int number = atoi(token);
+      ctx.AddArg(number);
+      argsLeftExpected--;
+
+      return true;
+   }
 };
 const char* Parser::delimiters = " ,.!:;()";
 
 #define ACCEPT_POS(NAME) if (parser.IsToken(#NAME)) {  \
-            ctx.AddArg(NAME);                            \
-            fsmState = S_FILTER;                         \
+            ctx.AddArg(NAME);                          \
+            parser.NoticeTokenIsPosition();            \
+            fsmState = S_FILTER;                       \
          }
 
 bool Semantics::CompileOneLine(CompilerContext &ctx)
 {
    // prepare
    printf("Line %d: %s\n", ctx.idxLine, ctx.line);
-   ECompilerState fsmState = S_IDLE;
+   EParserState fsmState = S_IDLE;
 
    // parse all tokens
    Parser parser(ctx);
    for ( ; parser.token; ++parser ) {
-      // Print each token
-      printf( "%s\n", parser.token);
+      //printf( "%s\n", parser.token);
+
       switch (fsmState) {
          case S_IDLE:
             // opening brackets
+            // a closing bracket
             // no break;
 
          case S_POSITION:
@@ -246,24 +335,23 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
             ACCEPT_POS(NORTH);
             ACCEPT_POS(EAST);
 
-            if (fsmState == S_POSITION) {
-               parser.Fail("Unrecognized position ", parser.token, " in line");
-               return false;
+            if (fsmState != S_FILTER) {
+               return parser.FailTok("Unrecognized position ");
             }
             break;
 
          case S_FILTER:
-            ctx.fToBuild.func = &WaFilter::PointsRange;
-            strcpy(ctx.fToBuild.name, "SOUTH");
-            fsmState = S_ARGUMENTS;
+            if (parser.AcceptHandFilter()) {
+               fsmState = S_ARGUMENTS;
+            } else {
+               return parser.FailTok("Unrecognized hand filter ");
+            }
             break;
 
          case S_ARGUMENTS:
-            ctx.AddArg(14);
-            ctx.AddArg(15);
-
-            ctx.DumpBuiltFilter();
-            return true;
+            if (!parser.AcceptArgument()) {
+               return parser.FailTok("Unexpected extra argument ");
+            }
             break;
 
          default:
@@ -272,12 +360,18 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
       }
    }
 
-   // only in idle state we can accept empty token
+   // only in some states we can accept an end of line
    if (fsmState == S_IDLE) {
       return true;
    }
+   if (fsmState == S_ARGUMENTS) {
+      if (parser.argsLeftExpected) {
+         return parser.Fail("Too few arguments in line");
+      }
+      ctx.DumpBuiltFilter();
+      return true;
+   }
 
-   parser.Fail("Unexpected end of line");
-   return false;
+   return parser.Fail("Unexpected end of line");
 }
 
