@@ -105,11 +105,11 @@ void Walrus::ShowEffortSplit(Walrus &hA, Walrus &hB)
 
 void Walrus::ScanFixedTask(void)
 {
-   // decide how to split effort as the main thread is faster a bit
+   // decide how to split effort. Take in account that the main thread is faster a bit
    ucell effortA = (mul.countShare >> 2)
-                + (mul.countShare >> 4)
-                + (mul.countShare >> 6)
-                + (mul.countShare >> 8);
+                 + (mul.countShare >> 4)
+                 + (mul.countShare >> 6)
+                 + (mul.countShare >> 8);
    ucell effortB = effortA;
    #ifdef SKIP_HELPERS
       effortB = effortA = 0;
@@ -139,6 +139,29 @@ void Walrus::ScanFixedTask(void)
 
    // perf
    progress.delta1 = ChronoRound();
+}
+
+void Walrus::ScanStray(void)
+{
+   // give main effort to helper, Corgy
+   ucell effortA = (mul.countShare >> 1)
+                 + (mul.countShare >> 2);
+   mul.countShare -= effortA;
+   mul.hA = new Walrus(this, "Corgy", effortA);
+
+   // let Corgy go
+
+   // find some amount of boards to start
+
+   // pass to Corgy remained effort
+}
+
+void Walrus::EndStray(void)
+{
+   if (mul.hA) {
+      delete mul.hA;
+      mul.hA = nullptr;
+   }
 }
 
 void Walrus::DoIteration()

@@ -36,6 +36,8 @@ protected:
    void ScanFixedTask(void);
    void AfterMath();
    void ReportState();
+   void ScanStray(void);
+   void EndStray(void);
 
    // inits
    void PrepareBaseDeal(struct deal &dlBase);

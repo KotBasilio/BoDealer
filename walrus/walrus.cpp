@@ -59,6 +59,12 @@ void Walrus::Main()
          break;
       }
 
+      case OPMODE_SEMI_STRAY: {
+         ScanStray();
+         EndStray();
+         break;
+      }
+
       case OPMODE_STRAY: {
          printf("STRAY -- TO DO.\n");
          break;

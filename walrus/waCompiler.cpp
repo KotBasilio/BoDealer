@@ -370,7 +370,7 @@ const char* Parser::delimiters = " ,.!:;(){";
 bool Semantics::CompileOneLine(CompilerContext &ctx)
 {
    // prepare
-   printf("Line %2d: %s\n", ctx.idxLine + 1, ctx.line);
+   //printf("Line %2d: %s\n", ctx.idxLine + 1, ctx.line);
    EParserState fsmState = S_IDLE;
 
    // parse all tokens

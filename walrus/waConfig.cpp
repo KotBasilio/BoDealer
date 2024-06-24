@@ -127,7 +127,7 @@ bool WaConfig::LoadFiltersSource()
    }
    fclose(stream);
 
-   printf("Config has read a source code with size %llu of %llu. Passing to filters compiler.\n", 
+   printf("A filters source code is found in the config. Passing to compiler, size is %llu of %llu.\n", 
       sizeSourceCode, sizeof(sourceCodeFilters));
 
    return true;
