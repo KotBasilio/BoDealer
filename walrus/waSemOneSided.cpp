@@ -350,22 +350,22 @@ void Walrus::FillSemantic(void)
    OrbNorthFillSem();
    sem.SetBiddingGameScorer(cumulScore, "V4H ");
    sem.onPostmortem = &Walrus::PostmortemHCP;
-   //sem.vecFilters.clear();
-   //ADD_4PAR_FILTER(SOUTH, ExactShape, 1, 4, 4, 4);
-   //ADD_2PAR_FILTER(SOUTH, PointsRange, 12, 16);
+   sem.vecFilters.clear();
+   ADD_4PAR_FILTER(SOUTH, ExactShape, 1, 4, 4, 4);
+   ADD_2PAR_FILTER(SOUTH, PointsRange, 12, 16);
 
-   //ADD_1PAR_FILTER(WEST, PointsLimit, 9);
+   ADD_1PAR_FILTER(WEST, PointsLimit, 9);
 
-   //ADD_2PAR_FILTER(EAST, PointsRange, 5, 10);
-   //ADD_2PAR_FILTER(EAST, SpadesLen, 6, 6);
-   //ADD_2PAR_FILTER(EAST, HeartsLen, 0, 4);
-   //ADD_2PAR_FILTER(EAST, DiamondsLen, 0, 5);
+   ADD_2PAR_FILTER(EAST, PointsRange, 5, 10);
+   ADD_2PAR_FILTER(EAST, SpadesLen, 6, 6);
+   ADD_2PAR_FILTER(EAST, HeartsLen, 0, 4);
+   ADD_2PAR_FILTER(EAST, DiamondsLen, 0, 5);
 
-   //ADD_0PAR_FILTER(WEST, ExcludeCombination);
-   //   ADD_1PAR_FILTER(WEST, PointsAtLeast, 10);
-   //   ADD_2PAR_FILTER(WEST, SpadesLen, 4, 4);
-   //ADD_0PAR_FILTER(WEST, EndList);
+   ADD_0PAR_FILTER(WEST, ExcludeCombination);
+      ADD_1PAR_FILTER(WEST, PointsAtLeast, 10);
+      ADD_2PAR_FILTER(WEST, SpadesLen, 4, 4);
+   ADD_0PAR_FILTER(WEST, EndList);
 
-   //ADD_2PAR_FILTER(SOUTH, ControlsRange, 2, 8);
+   ADD_2PAR_FILTER(SOUTH, ControlsRange, 2, 8);
 }
 #endif

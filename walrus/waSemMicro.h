@@ -2,7 +2,7 @@
  * Micro-filters are a kind of byte-code programming               2023
  *
  ******************************************************************************/
-
+#pragma once
 #include <vector>
 
 #define MAX_MICRO_PARAMS 5
@@ -86,6 +86,8 @@ struct Semantics {
    void SetOurSecondaryScorer(CumulativeScore &cs, const char* code);
    void SetBiddingGameScorer(CumulativeScore &cs, const char* code);
    bool IsInitFailed() { return !isInitSuccess; }
+   bool IsClosingBracket(int idx);
+   bool IsOpeningBracket(int idx);
 
    bool Compile(const char* sourceCode, size_t sizeSourceCode, std::vector<MicroFilter>& filters);
    bool MiniLink(std::vector<MicroFilter> &filters);

@@ -106,6 +106,9 @@ void Walrus::ReportTime()
       , minutes, seconds - minutes * 60);
 }
 
+constexpr int SIGN_INDENT_PLUS_A = 'IynA';
+constexpr int SIGN_INDENT_PLUS_B = 'lcxE';
+constexpr int SIGN_INDENT_MINUS = 'LdnE';
 static bool DetectKeyword(char* name, int key)
 {
    return key == *(int *)(name);
@@ -143,15 +146,11 @@ void Walrus::HandleFilterLine(int i)
    char* name = sem.vecFilters[fidx].name;
 
    // indent changing lines
-   constexpr int SIGN_INDENT_PLUS_A = 'IynA';
-   constexpr int SIGN_INDENT_PLUS_B = 'lcxE';
-   constexpr int SIGN_INDENT_MINUS = 'LdnE';
-   if (DetectKeyword(name, SIGN_INDENT_MINUS)) {
+   if (sem.IsClosingBracket(fidx)) {
       ui.indent--;
    }
    int effective = ui.indent;
-   if (DetectKeyword(name, SIGN_INDENT_PLUS_A) || 
-       DetectKeyword(name, SIGN_INDENT_PLUS_B) ) {
+   if (sem.IsOpeningBracket(fidx)) {
       ui.indent++;
    }
 

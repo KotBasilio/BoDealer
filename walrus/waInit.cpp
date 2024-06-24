@@ -11,6 +11,7 @@
 #include "../dds-develop/examples/hands.h"
 #include HEADER_CURSES
 #include <memory.h> // memset
+#include "waSemMicro.h"
 
 #define DBG_SHOW_ALLOCS
 
@@ -146,6 +147,24 @@ bool Semantics::IsListStart(const MicroFilter& mic)
 {
    return mic.func == &WaFilter::AnyInListBelow ||
           mic.func == &WaFilter::ExcludeCombination;
+}
+
+bool Semantics::IsOpeningBracket(int idx)
+{
+   if (idx < 0 || vecFilters.size() <= idx) {
+      return false;
+   }
+
+   return IsListStart(vecFilters[idx]);
+}
+
+bool Semantics::IsClosingBracket(int idx)
+{
+   if (idx < 0 || vecFilters.size() <= idx) {
+      return false;
+   }
+
+   return vecFilters[idx].func == &WaFilter::EndList;
 }
 
 static int GetGoalFrom(const char* code)

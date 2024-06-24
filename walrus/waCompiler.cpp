@@ -292,6 +292,7 @@ struct Parser
             ctx.fToBuild.func = filter.func;
             AppendPosition();
             ctx.AddText(filter.name);
+            ctx.AddText(" {");
             argsLeftExpected = 0;
             return true;
          }

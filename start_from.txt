@@ -29,8 +29,14 @@ FILTERS:
    EAST: NoOvercall
 
    SOUTH ExcludeCombination {
+      SOUTH, AnyInListBelow);
          SOUTH, PointsRange, 15, 15);
          SOUTH, ControlsRange, 6, 6);
+      }
+      SOUTH, AnyInListBelow);
+         SOUTH, ClubsLen, 5, 5);
+         SOUTH, DiamondsLen, 5, 5);
+      }
    }
 
    WEST: NoOvercall
@@ -41,14 +47,19 @@ ENDF
 
 more stuff 
    SOUTH ExcludeCombination {
+         SOUTH, PointsRange, 15, 15);
+         SOUTH, ControlsRange, 6, 6);
+   }
+
+   SOUTH ExcludeCombination {
       ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
          SOUTH, PointsRange, 15, 15);
          SOUTH, ControlsRange, 6, 6);
-      ADD_0PAR_FILTER(SOUTH, EndList);
+      }
       ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
          ADD_2PAR_FILTER(SOUTH, ClubsLen, 5, 5);
          ADD_2PAR_FILTER(SOUTH, DiamondsLen, 5, 5);
-      ADD_0PAR_FILTER(SOUTH, EndList);
+      }
    }
 
 
