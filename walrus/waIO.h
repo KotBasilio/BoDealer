@@ -20,6 +20,7 @@ struct waFileNames {
 struct MiniUI {
    bool  exitRequested;
    bool  reportRequested;
+   bool  advancedStatistics;
    bool  firstAutoShow;
    bool  shownDashes;
    int   irGoal, irFly;

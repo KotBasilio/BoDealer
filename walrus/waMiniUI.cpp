@@ -27,6 +27,7 @@ static const char *s_SeatNames[] = {
 MiniUI::MiniUI()
    : exitRequested(false)
    , reportRequested(false)
+   , advancedStatistics(false)
    , firstAutoShow(true)
    , irGoal(0)
    , irFly(0)
@@ -232,10 +233,15 @@ void MiniUI::Run()
          case 'h': 
             reportRequested = true; 
             break;
+         case 'a': 
+            reportRequested = true; 
+            advancedStatistics = true; 
+            break;
 
          // exit
          case 'x':
             exitRequested = true;
+            advancedStatistics = true; 
             break;
       }
 

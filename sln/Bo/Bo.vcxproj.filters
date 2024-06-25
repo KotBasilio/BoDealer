@@ -213,6 +213,9 @@
     <ClCompile Include="..\..\walrus\waCompiler.cpp">
       <Filter>Source Files\walrus\Config</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\walrus\waStatistics.cpp">
+      <Filter>Source Files\walrus\Show</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\walrus\waAI.h">
@@ -351,6 +354,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\walrus\waShuffle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\walrus\waStatistics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

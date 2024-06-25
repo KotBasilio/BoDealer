@@ -262,6 +262,10 @@ void Walrus::ShowDetailedReportHighcards()
       owl.Silent("\n");
 
       prevSum = sumline;
+
+      if (!down) {
+         ShowAdvancedStatistics(i);
+      }
    }
 
    //PLATFORM_GETCH();
@@ -302,6 +306,10 @@ void Walrus::ShowDetailedReportControls()
       owl.Silent("\n");
 
       prevSum = sumline;
+
+      if (down) {
+         ShowAdvancedStatistics(i);
+      }
    }
 }
 

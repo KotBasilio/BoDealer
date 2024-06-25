@@ -130,6 +130,7 @@ char tblHat[]       = "    :  HITS COUNT   :\n";
 char fmtCell[]      = "%8llu,";
 char fmtCellStr[]   = "%8s,";
 char fmtCellFloat[] = "%8.1f,";
+char fmtCellDouble[] = "%-.2lf";
 //char tblHat[] =  "    :       let    spade    heart     both     club             sum\n";
 
 void MiniUI::FillMiniRows()
@@ -401,5 +402,6 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
             ShowDetailedReportSuit();
             break;
       }
+      ui.advancedStatistics = false;
    }
 }

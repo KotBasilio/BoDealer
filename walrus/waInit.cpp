@@ -64,7 +64,7 @@ WaConfig::WaConfig()
    #endif
 
    opMode = OPMODE_FIXED_TASK;
-   opMode = OPMODE_SEMI_STRAY;
+   // @_@ opMode = OPMODE_SEMI_STRAY;
 }
 
 void Walrus::AllocFilteredTasksBuf()

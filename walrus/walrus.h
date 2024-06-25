@@ -135,6 +135,9 @@ protected:
     void ShowTheirScore(s64 doneTheirs);
     void ShowOptionalReports(s64 doneOurs, s64 doneTheirs);
     void ShowDetailedReportHighcards();
+    void ShowAdvancedStatistics(int idx);
+    void AddSetContracts(int idx);
+    void AddMadeContracts(int idx);
     void ShowDetailedReportControls();
     void ShowDetailedReportSuit();
     void ShowMiniHits(ucell* hitsRow, ucell* hitsCamp);
