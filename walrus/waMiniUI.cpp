@@ -28,6 +28,7 @@ MiniUI::MiniUI()
    : exitRequested(false)
    , reportRequested(false)
    , advancedStatistics(false)
+   , allStatGraphs(false)
    , firstAutoShow(true)
    , irGoal(0)
    , irFly(0)
@@ -230,12 +231,14 @@ void MiniUI::Run()
          #endif 
 
          // report hits
+         case 's': 
+            allStatGraphs = true; 
+            // fall down
+         case 'a': 
+            advancedStatistics = true; 
+            // fall down
          case 'h': 
             reportRequested = true; 
-            break;
-         case 'a': 
-            reportRequested = true; 
-            advancedStatistics = true; 
             break;
 
          // exit

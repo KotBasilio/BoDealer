@@ -17,10 +17,14 @@ struct waFileNames {
    void Build();
 };
 
+#define DDS_FULL_LINE 76
+#define DDS_HAND_OFFSET 12
+#define DDS_HAND_LINES 12
+
 struct MiniUI {
    bool  exitRequested;
    bool  reportRequested;
-   bool  advancedStatistics;
+   bool  advancedStatistics, allStatGraphs;
    bool  firstAutoShow;
    bool  shownDashes;
    int   irGoal, irFly;

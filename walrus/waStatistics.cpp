@@ -16,6 +16,8 @@
 
 extern char fmtCellFloat[];
 extern char fmtCellDouble[];
+extern char fmtStatCell[];
+extern char fmtCellStr[];
 
 constexpr int MAX_SIZE = 14;  // 0 to 13 tricks
 
@@ -135,6 +137,12 @@ void calculateConfidenceInterval(double mean, double sigma, double totalCount, d
 
 // >>> GPT code end
 
+static bool IsSmall(double x)
+{
+   return x < 1e-9;
+}
+
+
 static void ClearFreqs()
 {
    for (int i = 0; i < MAX_SIZE; ++i) {
@@ -142,11 +150,59 @@ static void ClearFreqs()
    }
 }
 
+extern char viscr[DDS_HAND_LINES][DDS_FULL_LINE];
+extern void ClearViScreen();
+extern void SilentViScreen(int count);
+constexpr int REL_GRAPH_LINES = 10;
+constexpr int REL_GRAPH_SCREEN = DDS_HAND_LINES;
+
+static void DisplayRawData()
+{
+   // prepare v-screen
+   ClearViScreen();
+   int off2 = 28;
+   sprintf(viscr[0] + off2, "RELATIVE GRAPH");
+   auto line = REL_GRAPH_SCREEN - 1;
+   viscr[line][0] = 0;
+   for (int i = 0; i < MAX_SIZE; ++i) {
+      auto loc = viscr[line] + i * 5;
+      sprintf(loc, " %02d    ", i);
+   }
+   line--;
+
+   // get max
+   auto top = FREQ[0];
+   for (int i = 1; i < MAX_SIZE; ++i) {
+      top = max(top, FREQ[i]);
+   }
+   if (IsSmall(top)) {
+      return;
+   }
+
+   // display columns
+   auto step = top / 10.f;
+   for (int i = 0; i < MAX_SIZE; ++i) {
+      auto val = FREQ[i];
+      if (IsSmall(val)) {
+         continue;
+      }
+      for (int j = line; j > 0; j--, val -= step) {
+         auto loc = viscr[j] + i * 5;
+         if (val > 1e-9) {
+            loc[0] = loc[1] = loc[2] = loc[3] = '*';
+         }
+      }
+   }
+
+   // out
+   SilentViScreen(REL_GRAPH_SCREEN);
+}
+
 static void CalcAndDisplayStatistics(char *title)
 {
    // calc all stats
    double totalCount = calculateTotalCount();
-   if (totalCount < 1e-9) {
+   if (IsSmall(totalCount)) {
       return;
    }
    double mean = calculateMean(totalCount);
@@ -183,7 +239,7 @@ static void CalcAndDisplayStatistics(char *title)
    } else if (kurtosis > 1.f) {
       owl.Silent("peaky");
    } else if (kurtosis > .5f) {
-      owl.Silent("conic");
+      owl.Silent("Gauss++");
    } else if (kurtosis > 0.1f) {
       owl.Silent("peaker than Gauss");
    } else if (kurtosis > -0.1f) {
@@ -193,13 +249,23 @@ static void CalcAndDisplayStatistics(char *title)
    } else if (kurtosis > -1.f) {
       owl.Silent("Fudzi-like");
    } else {
-      owl.Silent("very flat");
+      owl.Silent("uncertain");
    }
 
    owl.Silent("\n\n");
 }
 
 void Walrus::AddSetContracts(int idx)
+{
+   for (int j = 0; j <= ui.farCol; j++) {
+      auto tricks = config.primGoal - 1 - j;
+      if (tricks >= 0) {
+         FREQ[tricks] += progress.hitsCount[idx][j];
+      }
+   }
+}
+
+void Walrus::AddMadeContracts(int idx)
 {
    for (int j = 0; j <= ui.farCol; j++) {
       auto tricks = config.primGoal + j;
@@ -209,15 +275,64 @@ void Walrus::AddSetContracts(int idx)
    }
 }
 
-void Walrus::AddMadeContracts(int idx)
+void Walrus::AddOverallStats(int idx)
 {
-   for (int j = 0; j <= ui.farCol; j++) {
-      auto tricks = config.primGoal - j;
-      if (tricks >= 0) {
-         FREQ[tricks] += progress.hitsCount[idx][j];
+   for (int i = IO_ROW_HCP_START; i < idx; i++) {
+      bool down = (bool)(i & 1);
+      if (down) {
+         AddSetContracts(i);
+      } else {
+         AddMadeContracts(i);
       }
    }
 }
+
+void Walrus::DisplayGraphStatData(int idx)
+{
+
+   // ok start printing
+   //bool down = (bool)(i & 1);
+   //owl.Silent(down ? "(p %2d down): " : "(p %2d make): ", h);
+
+   // print setting line
+   double prevSum = 0;
+   owl.Silent("( all down): ");
+   for (int j = 0; j <= ui.farCol; j++) {
+      auto tricks = config.primGoal - 1 - j;
+      if (tricks >= 0) {
+         owl.Silent(fmtStatCell, FREQ[tricks]);
+         prevSum += FREQ[tricks];
+      } else {
+         owl.Silent(fmtCellStr, "  ");
+      }
+   }
+   owl.Silent("   : ");
+   owl.Silent(fmtStatCell, prevSum);
+   owl.Silent("\n");
+
+   // print making line
+   double sumline = 0;
+   owl.Silent("( all make): ");
+   for (int j = 0; j <= ui.farCol; j++) {
+      auto tricks = config.primGoal + j;
+      if (tricks < MAX_SIZE) {
+         owl.Silent(fmtStatCell, FREQ[tricks]);
+         sumline += FREQ[tricks];
+      } else {
+         owl.Silent(fmtCellStr, "  ");
+      }
+   }
+   owl.Silent("   : ");
+   owl.Silent(fmtStatCell, sumline);
+
+   // add percentage
+   owl.Silent("  --> %2.0lf %%", sumline * 100 / (sumline + prevSum));
+   owl.Silent("\n\n");
+
+   DisplayRawData();
+}
+
+
 
 void Walrus::ShowAdvancedStatistics(int idx)
 {
@@ -230,8 +345,11 @@ void Walrus::ShowAdvancedStatistics(int idx)
    //   idx-1 for going down
    // convert them to frequences
    ClearFreqs();
-   AddSetContracts(idx);
-   AddMadeContracts(idx - 1);
+   AddMadeContracts(idx);
+   AddSetContracts(idx - 1);
+   if (ui.allStatGraphs) {
+      DisplayRawData();
+   }
    CalcAndDisplayStatistics("Adv stats");
 
    // not the last line => done
@@ -242,15 +360,8 @@ void Walrus::ShowAdvancedStatistics(int idx)
 
    // it's time to display overall
    ClearFreqs();
-   for (int i = IO_ROW_HCP_START; i < idx; i++) {
-      bool down = (bool)(i & 1);
-      if (down) {
-         AddSetContracts(i);
-      } else {
-         AddMadeContracts(i);
-      }
-   }
+   AddOverallStats(idx);
+   DisplayGraphStatData(idx);
    CalcAndDisplayStatistics("Overall adv stats");
-
 }
 

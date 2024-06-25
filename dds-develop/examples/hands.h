@@ -63,9 +63,6 @@ const char* haTrumpToShort(int trump);
 
 int IsACard(char cardChar);
 
-#define DDS_FULL_LINE 76
-#define DDS_HAND_OFFSET 12
-#define DDS_HAND_LINES 12
 #define DDS_OPLEAD_LINES 15
 #define DDS_STATS_LINE 0
 #define DDS_STATS_OFFSET (2 * DDS_HAND_OFFSET)

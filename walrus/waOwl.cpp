@@ -15,7 +15,7 @@ static HANDLE g_PipeFromOwl = NULL;
 OscarTheOwl owl;
 char OscarTheOwl::buffer   [OscarTheOwl::bufferSize];
 char OscarTheOwl::earlyLine[OscarTheOwl::bufferSize];
-static char viscr[DDS_HAND_LINES][DDS_FULL_LINE]{};
+char viscr[DDS_HAND_LINES][DDS_FULL_LINE]{};
 
 #ifdef _DEBUG
    #define OWL_CONFIG_SUFFIX  "\\x64\\Debug"
@@ -271,16 +271,29 @@ void OwlOneFut(char title[], futureTricks * fut)
    owl.Silent("\n");
 }
 
+void ClearViScreen()
+{
+   // clear virtual screen
+   for (int l = 0; l < DDS_HAND_LINES; l++) {
+      memset(viscr[l], ' ', DDS_FULL_LINE);
+      viscr[l][DDS_FULL_LINE - 1] = '\0';
+   }
+}
+
+void SilentViScreen(int count)
+{
+   // print the v-screen
+   for (int i = 0; i < count; i++) {
+      owl.Silent("   %s\n", viscr[i]);
+   }
+   //owl.Silent("\n\n");
+}
+
 static void FillVScreen(const deal& dl)
 {
    int c, h, s, r;
 
-   // clear virtual screen
-   for (int l = 0; l < DDS_HAND_LINES; l++)
-   {
-      memset(viscr[l], ' ', DDS_FULL_LINE);
-      viscr[l][DDS_FULL_LINE - 1] = '\0';
-   }
+   ClearViScreen();
 
    // for each hand
    for (h = 0; h < DDS_HANDS; h++)
@@ -336,10 +349,7 @@ void PrintHand(char title[], const deal& dl)
    dashes[l] = '\0';
    printf("%s\n", dashes);
 
-   // print the v-screen
-   for (int i = 0; i < DDS_HAND_LINES; i++)
-      printf("   %s\n", viscr[i]);
-   //printf("\n\n");
+   SilentViScreen(DDS_HAND_LINES);
 }
 
 void OwlOutBoard(char title[], const deal& dl)
@@ -355,10 +365,7 @@ void OwlOutBoard(char title[], const deal& dl)
    dashes[l] = '\0';
    owl.Silent("%s\n", dashes);
 
-   // print the v-screen
-   for (int i = 0; i < DDS_HAND_LINES; i++)
-      owl.Silent("   %s\n", viscr[i]);
-   //printf("\n\n");
+   SilentViScreen(DDS_HAND_LINES);
 }
 
 void OwlTNTBoard(char title[], const deal& dl)
@@ -401,9 +408,7 @@ void PrintTwoFutures(char title[], futureTricks * fut1, futureTricks * fut2)
 
    // print the v-screen
    auto maxline = __max(fut1->cards, fut2->cards) + 2;
-   for (int i = 0; i < maxline; i++) {
-      printf("   %s\n", viscr[i]);
-   }
+   SilentViScreen(maxline);
 }
 
 void OwlTwoFut(char title[], futureTricks * fut1, futureTricks * fut2)
@@ -442,8 +447,6 @@ void OwlTwoFut(char title[], futureTricks * fut1, futureTricks * fut2)
 
    // print the v-screen
    auto maxline = __max(fut1->cards, fut2->cards) + 2;
-   for (int i = 0; i < maxline; i++) {
-      owl.Silent("   %s\n", viscr[i]);
-   }
+   SilentViScreen(maxline);
 }
 
