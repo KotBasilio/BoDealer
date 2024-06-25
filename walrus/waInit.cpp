@@ -51,6 +51,7 @@ WaConfig::WaConfig()
    , detailedReportType(WREPORT_NONE)
    , countFilters(0)
 {
+   titleBrief[0] = 0;
    titleContractPrimary [0] = 0;
    titleContractSecondary[0] = 0;
 

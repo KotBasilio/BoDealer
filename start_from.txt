@@ -1,4 +1,10 @@
-Dummy config: a title
+Config main selector is a line that starts with "TASK NAME".
+So we can comment out them easily at the line start
+
+//TASK NAME:old one
+//TASK NAME:also not actual
+TASK NAME:MYTASK1
+//TASK NAME:some more task names
 
 some other stuff
 blah
@@ -16,6 +22,12 @@ blah blah
 39:        0,       0,       0,       0,       0,  : 0               SpadesLen 4 4 WEST
 40:        0,       0,       0,       0,       0,  : 0             EndList WEST
 41:        0,       0,       0,       0,       0,  : 0             ControlsRange 2 8 SOUTH
+
+
+MYTASK1 This is title
+Details like a bidding
+More details
+
 FILTERS:
    SOUTH: PointsRange 14, 15
    SOUTH: ControlsRange 2, 6
@@ -44,6 +56,7 @@ FILTERS:
 
    SOUTH: NoPrecision2C
 ENDF
+TASK END
 
 more stuff 
    SOUTH ExcludeCombination {

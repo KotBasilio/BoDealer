@@ -66,7 +66,7 @@ void WaConfig::BuildNewFilters(Walrus *walrus)
       return;
    }
 
-   printf("Succes on filters compiling and linking.\n");
+   printf("Success on filters compiling and linking.\n");
 }
 
 bool IsStartsWith(const char *str, const char *prefix) {
@@ -81,7 +81,9 @@ bool IsStartsWith(const char *str, const char *prefix) {
 }
 
 enum EConfigReaderState {
-   S_IDLE,
+   S_IDLE = 0,
+   S_WAIT_TASK,
+   S_IN_TASK,
    S_FILTERS,
    S_BIDDING,
    S_GOALS
@@ -89,16 +91,19 @@ enum EConfigReaderState {
 
 bool WaConfig::LoadFiltersSource()
 {
+   // ensure we have a file
    const char* fname = namesBase.StartFrom;
-   //printf("Reading config from: %s\n", fname);
-
+   printf("Reading config from: %s\n", fname);
    FILE* stream;
    if (fopen_s(&stream, fname, "r")) {// non-zero => failed to open
       return false;
    }
 
+   // prepare
+   EConfigReaderState fsm = S_IDLE;
+   char* keyName = "TASK NAME:";
+   char nameTask[128];
    sourceCodeFilters[0] = 0;
-   bool copying = false;
    while (!feof(stream)) {
       char line[100];
       if (!fgets(line, sizeof(line), stream)) {
@@ -106,26 +111,68 @@ bool WaConfig::LoadFiltersSource()
       }
       //printf(line);
 
-      // only one non-idle state of FSM so far
-      if (copying) {
-         if (IsStartsWith(line, "ENDF")) {
-            copying = false;
-         } else {
+      switch (fsm) {
+         case S_IDLE: {
+            if (IsStartsWith(line, keyName)) {
+               strcpy_s(nameTask, sizeof(nameTask), line + strlen(keyName));
+               fsm = S_WAIT_TASK;
+               printf("Selected task: %s", nameTask);
+               nameTask[strlen(nameTask) - 1] = 0;
+            }
+            break;
+         }
+
+         case S_WAIT_TASK: {
+            if (IsStartsWith(line, nameTask)) {
+               fsm = S_IN_TASK;
+               strcpy_s(titleBrief, sizeof(titleBrief), line + strlen(nameTask) + 1);
+            }
+            break;
+         }
+
+         case S_IN_TASK: {
+            if (IsStartsWith(line, "FILTERS:")) {
+               fsm = S_FILTERS;
+            } else if (IsStartsWith(line, "TASK END")) {
+               fsm = S_IDLE;
+            } else {
+               strcat_s(titleBrief, sizeof(titleBrief), line);
+            }
+
+            break;
+         }
+         case S_FILTERS:  {
+            if (IsStartsWith(line, "ENDF")) {
+               fsm = S_IN_TASK;
+               break;
+            }
+
+            // add and control
             strcat(sourceCodeFilters, line);
+            sizeSourceCode = strlen(sourceCodeFilters) + 1;
+            if (sizeSourceCode > sizeof(sourceCodeFilters)) {
+               printf("Error: exceeded source code size. Exiting.\n");
+               PLATFORM_GETCH();
+               exit(0);
+            }
+            break;
          }
-      } else {
-         if (IsStartsWith(line, "FILTERS:")) {
-            copying = true;
-         }
+
+         case S_BIDDING:
+            break;
+         case S_GOALS:
+            break;
+         default:
+            break;
       }
-      sizeSourceCode = strlen(sourceCodeFilters) + 1;
-      if (sizeSourceCode > sizeof(sourceCodeFilters)) {
-         printf("Error: exceeded source code size. Exiting.\n");
-         PLATFORM_GETCH();
-         exit(0);
-      }
+
    }
    fclose(stream);
+
+   if (!sizeSourceCode) {
+      printf("No filters are found in the config.\n");
+      return false;
+   }
 
    printf("A filters source code is found in the config. Passing to compiler, size is %llu of %llu.\n", 
       sizeSourceCode, sizeof(sourceCodeFilters));
