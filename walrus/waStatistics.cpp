@@ -241,7 +241,7 @@ static void CalcAndDisplayStatistics(char *title)
    } else if (kurtosis > .5f) {
       owl.Silent("Gauss++");
    } else if (kurtosis > 0.1f) {
-      owl.Silent("peaker than Gauss");
+      owl.Silent("Gauss+");
    } else if (kurtosis > -0.1f) {
       owl.Silent("Gauss-like");
    } else if (kurtosis > -0.5f) {
