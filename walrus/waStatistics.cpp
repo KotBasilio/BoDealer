@@ -277,7 +277,7 @@ void Walrus::AddMadeContracts(int idx)
 
 void Walrus::AddOverallStats(int idx)
 {
-   for (int i = IO_ROW_HCP_START; i < idx; i++) {
+   for (int i = IO_ROW_HCP_START; i <= idx; i++) {
       bool down = (bool)(i & 1);
       if (down) {
          AddSetContracts(i);
