@@ -81,6 +81,7 @@ enum WA_OPERATION_MODE {
    OPMODE_FIXED_TASK,
    OPMODE_SEMI_STRAY,
    OPMODE_STRAY,
+   OPMODE_DEMO_STATISTICS,
 };
 
 constexpr uint WA_CONTR_TITLE_LEN = 5;
@@ -119,6 +120,7 @@ struct WaConfig {
    void SetupOtherContract();
 private:
    void BuildNewFilters(class Walrus *walrus);
+   void ChangeOpMode(const char *line);
 };
 
 extern WaConfig config;

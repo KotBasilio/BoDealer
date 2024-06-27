@@ -76,12 +76,15 @@ void WaConfig::ReadTask(Walrus *walrus)
    }
 
    // prepare
-   EConfigReaderState fsm = S_IDLE;
    char* keyName = "TASK NAME:";
-   char nameTask[128];
+   char* keyOpMode = "OPMODE:";
+   char line[128];
+   char nameTask[64];
    sourceCodeFilters[0] = 0;
+
+   // fsm on all lines
+   EConfigReaderState fsm = S_IDLE;
    while (!feof(stream)) {
-      char line[100];
       if (!fgets(line, sizeof(line), stream)) {
          break;
       }
@@ -102,7 +105,7 @@ void WaConfig::ReadTask(Walrus *walrus)
             if (IsStartsWith(line, nameTask)) {
                fsm = S_IN_TASK;
                strcpy_s(titleBrief, sizeof(titleBrief), line + strlen(nameTask) + 1);
-            }
+            } 
             break;
          }
 
@@ -111,6 +114,8 @@ void WaConfig::ReadTask(Walrus *walrus)
                fsm = S_FILTERS;
             } else if (IsStartsWith(line, "TASK END")) {
                fsm = S_IDLE;
+            } else if (IsStartsWith(line, keyOpMode)) {
+               ChangeOpMode(line + strlen(keyOpMode));
             } else {
                strcat_s(titleBrief, sizeof(titleBrief), line);
             }
@@ -168,6 +173,31 @@ void WaConfig::BuildNewFilters(Walrus *walrus)
    }
 
    printf("Success on filters compiling and linking.\n");
+}
+
+struct OpModeDesc {
+   WA_OPERATION_MODE val;
+   const char* key;
+};
+
+#define DESCRIBE_OPMODE(NAME)     {OPMODE_##NAME, #NAME}
+
+static OpModeDesc OpModes[] =
+{
+   DESCRIBE_OPMODE(FIXED_TASK),
+   DESCRIBE_OPMODE(SEMI_STRAY),
+   DESCRIBE_OPMODE(STRAY),
+   DESCRIBE_OPMODE(DEMO_STATISTICS)
+};
+
+void WaConfig::ChangeOpMode(const char* line)
+{
+   for (auto& desc : OpModes) {
+      if (IsStartsWith(line, desc.key)) {
+         opMode = desc.val;
+         printf("Recognized op-mode: %s", line);
+      }
+   }
 }
 
 void Walrus::DetectGoals()

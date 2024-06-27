@@ -23,10 +23,13 @@ blah blah
 40:        0,       0,       0,       0,       0,  : 0             EndList WEST
 41:        0,       0,       0,       0,       0,  : 0             ControlsRange 2 8 SOUTH
 
+//OPMODE:SEMI_STRAY
+
 
 MYTASK1 This is title
 Details like a bidding
 More details
+//OPMODE:DEMO_STATISTICS
 
 FILTERS:
    SOUTH: PointsRange 14, 15
