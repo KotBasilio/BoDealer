@@ -41,34 +41,6 @@ void waFileNames::Build()
    strcat(Solution, OUT_FNAME);
 }
 
-void WaConfig::ReadStart(Walrus *walrus)
-{
-   // goals
-   primGoal = 0;
-   secGoal = 0;
-
-   if (LoadFiltersSource()) {
-      BuildNewFilters(walrus);
-   }
-
-   //PLATFORM_GETCH();
-}
-
-void WaConfig::BuildNewFilters(Walrus *walrus)
-{
-   if (!walrus->sem.Compile(sourceCodeFilters, sizeSourceCode, filtersLoaded)) {
-      printf("Config ERROR: Failed to compile filters.\n");
-      return;
-   }
-
-   if (!walrus->sem.MiniLink(filtersLoaded)) {
-      printf("Config ERROR: Failed to link filters.\n");
-      return;
-   }
-
-   printf("Success on filters compiling and linking.\n");
-}
-
 bool IsStartsWith(const char *str, const char *prefix) {
    size_t lenPrefix = strlen(prefix);
    size_t lenStr = strlen(str);
@@ -89,14 +61,18 @@ enum EConfigReaderState {
    S_GOALS
 };
 
-bool WaConfig::LoadFiltersSource()
+void WaConfig::ReadTask(Walrus *walrus)
 {
+   // drop goals
+   primGoal = 0;
+   secGoal = 0;
+
    // ensure we have a file
    const char* fname = namesBase.StartFrom;
    printf("Reading config from: %s\n", fname);
    FILE* stream;
    if (fopen_s(&stream, fname, "r")) {// non-zero => failed to open
-      return false;
+      return;
    }
 
    // prepare
@@ -169,15 +145,29 @@ bool WaConfig::LoadFiltersSource()
    }
    fclose(stream);
 
+   BuildNewFilters(walrus);
+}
+
+void WaConfig::BuildNewFilters(Walrus *walrus)
+{
    if (!sizeSourceCode) {
       printf("No filters are found in the config.\n");
-      return false;
+      return;
    }
-
    printf("A filters source code is found in the config. Passing to compiler, size is %llu of %llu.\n", 
       sizeSourceCode, sizeof(sourceCodeFilters));
 
-   return true;
+   if (!walrus->sem.Compile(sourceCodeFilters, sizeSourceCode, filtersLoaded)) {
+      printf("Config ERROR: Failed to compile filters.\n");
+      return;
+   }
+
+   if (!walrus->sem.MiniLink(filtersLoaded)) {
+      printf("Config ERROR: Failed to link filters.\n");
+      return;
+   }
+
+   printf("Success on filters compiling and linking.\n");
 }
 
 void Walrus::DetectGoals()
@@ -300,7 +290,7 @@ void Walrus::DeprDetectGoals()
 bool Walrus::InitByConfig()
 {
    // may read something
-   config.ReadStart(this);
+   config.ReadTask(this);
 
    // semantic preparations
    FillSemantic();

@@ -115,10 +115,9 @@ struct WaConfig {
    char  secLongName[128];
 
    WaConfig();
-   void ReadStart(class Walrus *walrus);
+   void ReadTask(class Walrus *walrus);
    void SetupOtherContract();
 private:
-   bool LoadFiltersSource();
    void BuildNewFilters(class Walrus *walrus);
 };
 
