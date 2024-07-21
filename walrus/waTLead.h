@@ -6,10 +6,10 @@
    #define SEEK_OPENING_LEAD
    #define INPUT_TRUMPS    SOL_HEARTS
    #define INPUT_ON_LEAD   WEST
-   #define CARD_LEAD_SPADE   R2
-   #define CARD_LEAD_HEARTS  R3
-   #define CARD_LEAD_DIAMD   R4
-   #define CARD_LEAD_CLUBS   RK
+   #define CARD_LEAD_SPADE   K2
+   #define CARD_LEAD_HEARTS  K3
+   #define CARD_LEAD_DIAMD   K4
+   #define CARD_LEAD_CLUBS   KK
 #endif
 
 #ifdef SEMANTIC_JAN_PETYA_VS_3NT

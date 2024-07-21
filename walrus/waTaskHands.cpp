@@ -232,6 +232,20 @@ void Walrus::PrepareBaseDeal(deal& dlBase)
    }
 }
 
+#define K2       2
+#define K3       3
+#define K4       4
+#define K5       5
+#define K6       6
+#define K7       7
+#define K8       8
+#define K9       9
+#define KT      10
+#define KJ      11
+#define KQ      12
+#define KK      13
+#define KA      14
+
 void DdsTricks::Init(futureTricks& fut)
 {
    // plainScore is good for any goal

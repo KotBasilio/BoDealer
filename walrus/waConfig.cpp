@@ -73,7 +73,7 @@ EConfigReaderState WaConfig::FSM_DoFiltersState(char *line)
 
 void WaConfig::ReadHandPBN(const char* line)
 {
-   strcpy(taskHandPBN, "[N:");
+   strcpy(taskHandPBN, "[");
    strcat_s(taskHandPBN, sizeof(taskHandPBN), line);
    taskHandPBN[strlen(taskHandPBN) - 1] = 0;
    strcat_s(taskHandPBN, sizeof(taskHandPBN), "]");
