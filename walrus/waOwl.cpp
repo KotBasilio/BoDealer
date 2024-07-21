@@ -112,7 +112,7 @@ bool Walrus::StartOscar()
    CloseHandle(piProcInfo.hThread);
 
    // Now, in this process we can write to g_PipeOut and the child process will be able to read from it.
-   char *message = "Senior kibitzer Oscar is observing a task:\n" TITLE_VERSION "\n";
+   char *message = "Senior kibitzer Oscar is observing a task ";
    owl.Send(message);
 
    // Receive data from the child process

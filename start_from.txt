@@ -3,34 +3,29 @@ So we can comment out them easily at the line start
 
 //TASK NAME:old one
 //TASK NAME:also not actual
-TASK NAME:MYTASK1
-//TASK NAME:some more task names
+//TASK NAME:MYTASK1
+TASK NAME:MAY24_TRHEE_SUITED_BALANCE
 
-some other stuff
 blah
 blah blah
 
-30:    12609,       0,       0,    >XXM,       0,  : 206615631     ExactShape 1 4 4 4 SOUTH
-31:        0,       0,       0,  645956,       0,  : 645956        PointsRange 12 16 SOUTH
-32:        0,       0,       0,       0,  135752,  : 135752        PointsLimit 9 WEST
-33:        0,       0,  102625,       0,       0,  : 102625        PointsRange 5 10 EAST
-34:        0,       0,   40887,       0,       0,  : 40887         SpadesLen 6 6 EAST
-35:        0,       0,      57,       0,       0,  : 57            HeartsLen 0 4 EAST
-36:        0,       0,      10,       0,       0,  : 10            DiamondsLen 0 5 EAST
-37:        0,       0,       0,       0,       0,  : 0             ExcludeCombination WEST
-38:        0,       0,       0,       0,   12609,  : 12609           PointsAtLeast 10 WEST
-39:        0,       0,       0,       0,       0,  : 0               SpadesLen 4 4 WEST
-40:        0,       0,       0,       0,       0,  : 0             EndList WEST
-41:        0,       0,       0,       0,       0,  : 0             ControlsRange 2 8 SOUTH
-
 //OPMODE:SEMI_STRAY
+OPMODE:DEMO_STATISTICS
 
+-----------------------------------------------------------------------------------------------------------------------
+MAY24_TRHEE_SUITED_BALANCE Fix a 8 hcp 2434;
+Bidding: 2s X p ??
+Question: is there invit to 4H?
+FILTERS:
+   SOUTH: PointsRange 14, 15
+   SOUTH: ControlsRange 2, 6
+ENDF
+TASK END
 
+-----------------------------------------------------------------------------------------------------------------------
 MYTASK1 This is title
 Details like a bidding
 More details
-//OPMODE:DEMO_STATISTICS
-
 FILTERS:
    SOUTH: PointsRange 14, 15
    SOUTH: ControlsRange 2, 6

@@ -69,12 +69,17 @@ void Walrus::Main()
          printf("STRAY -- TO DO.\n");
          break;
       }
+
+      case OPMODE_DEMO_STATISTICS: {
+         printf("Unused op mode -- DEMO_STATISTICS.\n");
+         break;
+      }
    }
 }
 
 int main(int argc, char *argv[])
 {
-   printf(TITLE_VERSION" started.\n");
+   printf("Walter the Walrus can count.\n");
    ChronoStart();
 
    Walrus walter;

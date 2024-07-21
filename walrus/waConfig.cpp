@@ -76,10 +76,11 @@ void WaConfig::ReadTask(Walrus *walrus)
    }
 
    // prepare
-   char* keyName = "TASK NAME:";
-   char* keyOpMode = "OPMODE:";
    char line[128];
    char nameTask[64];
+   char* keyOpMode = "OPMODE:";
+   char* keyName = "TASK NAME:";
+   titleBrief[0] = 0;
    sourceCodeFilters[0] = 0;
 
    // fsm on all lines
@@ -95,7 +96,6 @@ void WaConfig::ReadTask(Walrus *walrus)
             if (IsStartsWith(line, keyName)) {
                strcpy_s(nameTask, sizeof(nameTask), line + strlen(keyName));
                fsm = S_WAIT_TASK;
-               printf("Selected task: %s", nameTask);
                nameTask[strlen(nameTask) - 1] = 0;
             }
             break;
@@ -112,6 +112,7 @@ void WaConfig::ReadTask(Walrus *walrus)
          case S_IN_TASK: {
             if (IsStartsWith(line, "FILTERS:")) {
                fsm = S_FILTERS;
+               owl.Show("%s : %s", nameTask, titleBrief);
             } else if (IsStartsWith(line, "TASK END")) {
                fsm = S_IDLE;
             } else if (IsStartsWith(line, keyOpMode)) {

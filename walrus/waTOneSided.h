@@ -21,7 +21,7 @@
 */
 
 #ifdef SEM_MAY24_TRHEE_SUITED_BALANCE
-   #define TITLE_VERSION  "Fix a 8 hcp 2434;\n2s X p ??\nQuestion: is there invit to 4H?"
+   #define TITLE_VERSION  "(See config)"
    #define INPUT_TRUMPS    SOL_HEARTS
    #define INPUT_ON_LEAD   EAST
    #define SEEK_BIDDING_LEVEL
