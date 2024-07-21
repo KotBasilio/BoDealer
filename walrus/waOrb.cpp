@@ -77,6 +77,10 @@ void Walrus::OrbNorthFillSem(void)
 #ifdef DBG_VIEW_ON_ADD
    sem.onBoardAdded = &Walrus::DisplayBoard;
 #endif
+
+#ifdef FIXED_HAND_WEST
+   sem.onScanCenter = &Walrus::Scan3FixedWest;
+#endif
 }
 
 void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)

@@ -301,7 +301,7 @@ void WaMulti::ShowLiveSigns(uint oneCover)
 
    if (!hA) {
       #ifdef SKIP_HELPERS
-         if ( Gathered() > AIM_TASKS_COUNT) {
+         if ( NumFiltered() > AIM_TASKS_COUNT) {
             printf("found.");
             countShare = countIterations;
          }
