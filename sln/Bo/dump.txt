@@ -1,40 +1,40 @@
 Error code=-14
 
 Deal data:
-trump=S
-first=E
-index1=0 index2=0 remainCards=6128
-index1=0 index2=1 remainCards=8620
-index1=0 index2=2 remainCards=14456
-index1=0 index2=3 remainCards=21184
-index1=1 index2=0 remainCards=26628
-index1=1 index2=1 remainCards=22592
-index1=1 index2=2 remainCards=1024
-index1=1 index2=3 remainCards=8220
-index1=2 index2=0 remainCards=8
-index1=2 index2=1 remainCards=1552
-index1=2 index2=2 remainCards=17284
-index1=2 index2=3 remainCards=3360
+trump=H
+first=W
+index1=0 index2=0 remainCards=3196
+index1=0 index2=1 remainCards=12360
+index1=0 index2=2 remainCards=31024
+index1=0 index2=3 remainCards=32328
+index1=1 index2=0 remainCards=28672
+index1=1 index2=1 remainCards=19088
+index1=1 index2=2 remainCards=1088
+index1=1 index2=3 remainCards=388
+index1=2 index2=0 remainCards=896
+index1=2 index2=1 remainCards=1316
+index1=2 index2=2 remainCards=652
+index1=2 index2=3 remainCards=48
 index1=3 index2=0 remainCards=0
 index1=3 index2=1 remainCards=0
 index1=3 index2=2 remainCards=0
 index1=3 index2=3 remainCards=0
 
 target=-1
-solutions=1
+solutions=3
 mode=0
 
 
-        S QT987654
-        H K87532
-        D KQJ6543
-        C AQ976
-S --            S AKJ2
-H --            H AQJ6
-D --            D T
-C --            C K432
-        S 3
-        H T94
-        D A9872
-        C JT85
+        S JT65432
+        H KQ63
+        D AKQJ854
+        C AKQJT963
+S --            S AKQ
+H --            H AJ974
+D --            D T6
+C --            C 872
+        S 987
+        H T852
+        D 9732
+        C 54
 

@@ -3,8 +3,9 @@ So we can comment out them easily at the line start
 
 //TASK NAME:old one
 //TASK NAME:also not actual
+TASK NAME:Jun24 lead from AK or side
 //TASK NAME:MYTASK1
-TASK NAME:MAY24_TRHEE_SUITED_BALANCE
+//TASK NAME:MAY24_TRHEE_SUITED_BALANCE
 
 blah
 blah blah
@@ -13,9 +14,30 @@ blah blah
 OPMODE:DEMO_STATISTICS
 
 -----------------------------------------------------------------------------------------------------------------------
+Jun24 lead from AK or side -- Fix a 8 hcp 5224;
+Bidding from RHO: 
+        (1h) p 
+ (2c) p (2h) p
+ (3h) p (4h) all pass
+Question: what to lead?
+
+HAND:J6532.63.54.AK96
+
+FILTERS:
+   SOUTH: PointsRange 11, 14
+   SOUTH: HeartsLen, 5, 6
+   SOUTH: HeartsNatural
+
+   EAST: NoOvercall
+ENDF
+TASK END
+
+-----------------------------------------------------------------------------------------------------------------------
 MAY24_TRHEE_SUITED_BALANCE Fix a 8 hcp 2434;
 Bidding: 2s X p ??
 Question: is there invit to 4H?
+
+
 FILTERS:
    SOUTH: PointsRange 14, 15
    SOUTH: ControlsRange 2, 6
@@ -26,6 +48,7 @@ TASK END
 MYTASK1 This is title
 Details like a bidding
 More details
+
 FILTERS:
    SOUTH: PointsRange 14, 15
    SOUTH: ControlsRange 2, 6

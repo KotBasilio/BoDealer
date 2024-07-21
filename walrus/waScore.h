@@ -38,6 +38,7 @@ struct CumulativeScore {
    void OpLead3NT(s64& sum, uint tricks);
    void OpLead3NTX(s64& sum, uint tricks);
    void OpLead3Major(s64& sum, uint tricks);
+   void OpLead4Major(s64& sum, uint tricks);
    void OpLead5minor(s64& sum, uint tricks);
    void OpLead5mX(s64& sum, uint tricks);
    // -- opp contract

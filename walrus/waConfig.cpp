@@ -52,14 +52,57 @@ bool IsStartsWith(const char *str, const char *prefix) {
    return strncmp(str, prefix, lenPrefix) == 0;
 }
 
-enum EConfigReaderState {
-   S_IDLE = 0,
-   S_WAIT_TASK,
-   S_IN_TASK,
-   S_FILTERS,
-   S_BIDDING,
-   S_GOALS
-};
+EConfigReaderState WaConfig::FSM_DoFiltersState(char *line)
+{
+   // end
+   if (IsStartsWith(line, "ENDF")) {
+      return S_IN_TASK;
+   }
+
+   // add and control
+   strcat(sourceCodeFilters, line);
+   sizeSourceCode = strlen(sourceCodeFilters) + 1;
+   if (sizeSourceCode > sizeof(sourceCodeFilters)) {
+      printf("Error: exceeded source code size. Exiting.\n");
+      PLATFORM_GETCH();
+      exit(0);
+   }
+
+   return S_FILTERS;
+}
+
+void WaConfig::ReadHandPBN(const char* line)
+{
+   strcpy(taskHandPBN, "[N:");
+   strcat_s(taskHandPBN, sizeof(taskHandPBN), line);
+   taskHandPBN[strlen(taskHandPBN) - 1] = 0;
+   strcat_s(taskHandPBN, sizeof(taskHandPBN), "]");
+}
+
+EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
+{
+   static char* keyOpMode = "OPMODE:";
+   static char* keyHand = "HAND:";
+
+   if (IsStartsWith(line, "FILTERS:")) {
+      owl.Show("%s : %s", nameTask, titleBrief);
+      return S_FILTERS; 
+   } 
+   
+   if (IsStartsWith(line, "TASK END")) {
+      return S_IDLE;
+   } 
+   
+   if (IsStartsWith(line, keyOpMode)) {
+      ChangeOpMode(line + strlen(keyOpMode));
+   } else if (IsStartsWith(line, keyHand)) {
+      ReadHandPBN(line + strlen(keyHand));
+   } else if (strlen(line) > 2) {
+      strcat_s(titleBrief, sizeof(titleBrief), line);
+   }
+
+   return S_IN_TASK;
+}
 
 void WaConfig::ReadTask(Walrus *walrus)
 {
@@ -77,11 +120,10 @@ void WaConfig::ReadTask(Walrus *walrus)
 
    // prepare
    char line[128];
-   char nameTask[64];
-   char* keyOpMode = "OPMODE:";
-   char* keyName = "TASK NAME:";
    titleBrief[0] = 0;
+   taskHandPBN[0] = 0;
    sourceCodeFilters[0] = 0;
+   char* keyName = "TASK NAME:";
 
    // fsm on all lines
    EConfigReaderState fsm = S_IDLE;
@@ -110,40 +152,15 @@ void WaConfig::ReadTask(Walrus *walrus)
          }
 
          case S_IN_TASK: {
-            if (IsStartsWith(line, "FILTERS:")) {
-               fsm = S_FILTERS;
-               owl.Show("%s : %s", nameTask, titleBrief);
-            } else if (IsStartsWith(line, "TASK END")) {
-               fsm = S_IDLE;
-            } else if (IsStartsWith(line, keyOpMode)) {
-               ChangeOpMode(line + strlen(keyOpMode));
-            } else {
-               strcat_s(titleBrief, sizeof(titleBrief), line);
-            }
-
+            fsm = FSM_DoTaskState(line);
             break;
          }
          case S_FILTERS:  {
-            if (IsStartsWith(line, "ENDF")) {
-               fsm = S_IN_TASK;
-               break;
-            }
-
-            // add and control
-            strcat(sourceCodeFilters, line);
-            sizeSourceCode = strlen(sourceCodeFilters) + 1;
-            if (sizeSourceCode > sizeof(sourceCodeFilters)) {
-               printf("Error: exceeded source code size. Exiting.\n");
-               PLATFORM_GETCH();
-               exit(0);
-            }
+            fsm = FSM_DoFiltersState(line);
             break;
          }
 
-         case S_BIDDING:
-            break;
          case S_GOALS:
-            break;
          default:
             break;
       }

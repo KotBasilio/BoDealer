@@ -84,9 +84,18 @@ enum WA_OPERATION_MODE {
    OPMODE_DEMO_STATISTICS,
 };
 
+enum EConfigReaderState {
+   S_IDLE = 0,
+   S_WAIT_TASK,
+   S_IN_TASK,
+   S_FILTERS,
+   S_GOALS
+};
+
 constexpr uint WA_CONTR_TITLE_LEN = 5;
 constexpr size_t WA_SOURCE_CODE_BUF = 2 * 1024;
 constexpr size_t WA_TASK_BRIEF = 1024;
+constexpr size_t WA_HAND_LEN = 30;
 struct WaConfig {
    WA_OPERATION_MODE opMode = OPMODE_NONE;
    waFileNames namesBase;
@@ -94,6 +103,7 @@ struct WaConfig {
    char titleBrief[WA_TASK_BRIEF];   // title and a brief
    char titleContractPrimary[WA_CONTR_TITLE_LEN];   // kind of "2S", "6NT", our main action
    char titleContractSecondary[WA_CONTR_TITLE_LEN]; // kind of "2Sx", "PASS", maybe their contract 
+   char taskHandPBN[WA_HAND_LEN];
 
    int   primGoal;  // goal tricks in our primary contract
    int   primTrump, primFirst;
@@ -116,11 +126,17 @@ struct WaConfig {
    char  secLongName[128];
 
    WaConfig();
+   void FSM_DoFiltersState(char  line[128], EConfigReaderState& fsm, int& retFlag);
    void ReadTask(class Walrus *walrus);
    void SetupOtherContract();
 private:
+   char nameTask[64];
+
    void BuildNewFilters(class Walrus *walrus);
    void ChangeOpMode(const char *line);
+   void ReadHandPBN(const char *line);
+   EConfigReaderState FSM_DoFiltersState(char* line);
+   EConfigReaderState FSM_DoTaskState(char* line);
 };
 
 extern WaConfig config;

@@ -7,3 +7,16 @@
 ************************************************************/
 #include "walrus.h"
 
+#ifdef SEM_JUN24_LEAD_AK
+void Walrus::FillSemantic(void)
+{
+   OrbNorthFillSem();
+
+   //sem.onScoring = &CumulativeScore::Our4M;
+   sem.SetOurPrimaryScorer  (cumulScore, "V4H ");
+   //sem.onPostmortem = &Walrus::PostmortemHCP;
+
+   //ADD_2PAR_FILTER(SOUTH, PointsSuitLimit, CLB, 0);
+
+}
+#endif 

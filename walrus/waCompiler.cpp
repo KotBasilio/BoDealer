@@ -233,11 +233,11 @@ static bool IsDigitsOnly(const char* str)
 }
 
 enum EParserState {
-   S_IDLE,
-   S_POSITION,
-   S_FILTER,
-   S_ARGUMENTS,
-   S_BRACKET
+   PS_IDLE,
+   PS_POSITION,
+   PS_FILTER,
+   PS_ARGUMENTS,
+   PS_BRACKET
 };
 
 struct Parser
@@ -364,14 +364,14 @@ const char* Parser::delimiters = " ,.!:;(){";
 #define ACCEPT_POS(NAME) if (parser.IsToken(#NAME)) {  \
             ctx.AddArg(NAME);                          \
             parser.NoticeTokenIsPosition();            \
-            fsmState = S_FILTER;                       \
+            fsmState = PS_FILTER;                       \
          }
 
 bool Semantics::CompileOneLine(CompilerContext &ctx)
 {
    // prepare
    //printf("Line %2d: %s\n", ctx.idxLine + 1, ctx.line);
-   EParserState fsmState = S_IDLE;
+   EParserState fsmState = PS_IDLE;
 
    // parse all tokens
    Parser parser(ctx);
@@ -379,35 +379,35 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
       //printf( "%s\n", parser.token);
 
       switch (fsmState) {
-         case S_IDLE:
+         case PS_IDLE:
             if (parser.AcceptClosingBracket()) {
-               fsmState = S_BRACKET;
+               fsmState = PS_BRACKET;
                break;
             }
             // merge down
 
-         case S_POSITION:
+         case PS_POSITION:
             ACCEPT_POS(SOUTH);
             ACCEPT_POS(WEST);
             ACCEPT_POS(NORTH);
             ACCEPT_POS(EAST);
 
-            if (fsmState != S_FILTER) {
+            if (fsmState != PS_FILTER) {
                return parser.FailTok("Unrecognized position ");
             }
             break;
 
-         case S_FILTER:
+         case PS_FILTER:
             if (parser.AcceptOpeningBracket()) {
-               fsmState = S_BRACKET;
+               fsmState = PS_BRACKET;
             } else if (parser.AcceptHandFilter()) {
-               fsmState = S_ARGUMENTS;
+               fsmState = PS_ARGUMENTS;
             } else {
                return parser.FailTok("Unrecognized hand filter ");
             }
             break;
 
-         case S_ARGUMENTS:
+         case PS_ARGUMENTS:
             if (!parser.AcceptArgument()) {
                return parser.FailTok("Unexpected argument ");
             }
@@ -421,10 +421,10 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
 
    // analyze state where line has ended
    switch (fsmState) {
-      case S_IDLE:
+      case PS_IDLE:
          return true;
 
-      case S_ARGUMENTS:
+      case PS_ARGUMENTS:
          if (parser.argsLeftExpected) {
             return parser.Fail("Too few arguments in line");
          }
@@ -432,7 +432,7 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
          ctx.DumpBuiltFilter();
          return true;
 
-      case S_BRACKET:
+      case PS_BRACKET:
          ctx.DumpBuiltFilter();
          return true;
    }

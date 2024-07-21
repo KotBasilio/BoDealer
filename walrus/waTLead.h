@@ -2,6 +2,16 @@
 // --- DESCRIPTIONS
 // -------------------------------------------------------- 
 
+#ifdef SEM_JUN24_LEAD_AK
+   #define SEEK_OPENING_LEAD
+   #define INPUT_TRUMPS    SOL_HEARTS
+   #define INPUT_ON_LEAD   WEST
+   #define CARD_LEAD_SPADE   R2
+   #define CARD_LEAD_HEARTS  R3
+   #define CARD_LEAD_DIAMD   R4
+   #define CARD_LEAD_CLUBS   RK
+#endif
+
 #ifdef SEMANTIC_JAN_PETYA_VS_3NT
    #define TITLE_VERSION  "Fix a 10 hcp ;\n 1NT - 3NT\nQuestion: what to lead?\nVer 2.0 "
    #define SEEK_OPENING_LEAD

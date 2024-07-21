@@ -161,8 +161,8 @@ void Walrus::WithdrawByInput(void)
 {
    // convert to temp
    ddTableDeal pbnDeal;
-   if (ConvertFromPBN(taskHandPBN, pbnDeal.cards) != 1) {
-      printf("\nERROR: Cannot parse PBN: %s\n", taskHandPBN);
+   if (ConvertFromPBN(config.taskHandPBN, pbnDeal.cards) != 1) {
+      printf("\nERROR: Cannot parse PBN: %s\n", config.taskHandPBN);
       return;
    }
 
@@ -181,7 +181,7 @@ void Walrus::WithdrawByInput(void)
       }
    }
 
-   shuf.AssertDeckSize(SYMM3, taskHandPBN);
+   shuf.AssertDeckSize(SYMM3, config.taskHandPBN);
 }
 
 uint CountBits(uint v)// count bits set in this (32-bit value)
@@ -253,7 +253,7 @@ void DdsTricks::Init(futureTricks& fut)
          continue;
       }
       if (fut.suit[i] == SOL_CLUBS && fut.rank[i] == CARD_LEAD_CLUBS) {
-         lead.Ñ = 13 - fut.score[i];
+         lead.N = 13 - fut.score[i];
          continue;
       }
    }
