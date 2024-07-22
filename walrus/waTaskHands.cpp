@@ -268,5 +268,3 @@ void DdsTricks::Init(futureTricks& fut)
    }
 #endif // SEEK_OPENING_LEAD
 }
-
-

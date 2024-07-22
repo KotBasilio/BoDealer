@@ -10,8 +10,8 @@ TASK NAME:Jun24 lead from AK or side
 blah
 blah blah
 
-//OPMODE:SEMI_STRAY
-OPMODE:DEMO_STATISTICS
+//OPMODE: SEMI_STRAY
+OPMODE: DEMO_STATISTICS
 
 -----------------------------------------------------------------------------------------------------------------------
 Jun24 lead from AK or side -- Fix a 8 hcp 5224;
@@ -44,10 +44,22 @@ Question: is there invit to 4H?
 HAND: N:83.Q874.T65.AQ65
 
 FILTERS:
+   SOUTH: PointsRange 11, 14
+   SOUTH: HeartsLen 5, 6
+   SOUTH: HeartsNatural
+
+   EAST: NoOvercall
+
+   NORTH: PointsRange 2, 15
+   NORTH: ClubsLen 3, 6
+   NORTH: HeartsLen 3, 4
+ENDF
+TASK END
+
+FILTERS:
    SOUTH: PointsRange 14, 15
    SOUTH: ControlsRange 2, 6
 ENDF
-TASK END
 
 -----------------------------------------------------------------------------------------------------------------------
 MYTASK1 This is title
@@ -71,7 +83,7 @@ FILTERS:
          SOUTH, PointsRange, 15, 15);
          SOUTH, ControlsRange, 6, 6);
       }
-      SOUTH, AnyInListBelow);
+      SOUTH, AnyInListBelow {
          SOUTH, ClubsLen, 5, 5);
          SOUTH, DiamondsLen, 5, 5);
       }
@@ -85,21 +97,6 @@ ENDF
 TASK END
 
 more stuff 
-   SOUTH ExcludeCombination {
-         SOUTH, PointsRange, 15, 15);
-         SOUTH, ControlsRange, 6, 6);
-   }
-
-   SOUTH ExcludeCombination {
-      ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
-         SOUTH, PointsRange, 15, 15);
-         SOUTH, ControlsRange, 6, 6);
-      }
-      ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
-         ADD_2PAR_FILTER(SOUTH, ClubsLen, 5, 5);
-         ADD_2PAR_FILTER(SOUTH, DiamondsLen, 5, 5);
-      }
-   }
 
 
 -- config end.

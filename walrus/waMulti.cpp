@@ -196,6 +196,7 @@ ucell Walrus::DoTheShare()
             mul.countShare = mul.countIterations;
          } else {
             DoIteration();
+            //RegularBalanceCheck();
             mul.ShowLiveSigns(sem.scanCover);
          }
       }
@@ -217,8 +218,6 @@ ucell Walrus::DoTheShare()
 }
 
 //------------------------------------------------
-// replicate system rand(), strip the code out of thread handling
-//
 void Walrus::MergeResults(Walrus *other)
 {
    if (!other) {

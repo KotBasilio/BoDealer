@@ -26,6 +26,7 @@ void Shuffler::SeedRand()
 
 uint Shuffler::Rand()
 {
+   // replicate system rand(), strip out the code of thread handling
    return (((oldRand = oldRand * 214013L + 2531011L) >> 16) & RAND_MAX);
 }
 

@@ -25,6 +25,10 @@ void waFileNames::Build()
       if (in) {
          *in = 0;
       }
+      in = strstr(buf, "sln");
+      if (in) {
+         *in = 0;
+      }
    #else
       buf[0] = 0;
    #endif // WIN_DETECT_PATH
@@ -81,11 +85,12 @@ void WaConfig::ReadHandPBN(const char* line)
 
 EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
 {
-   static char* keyOpMode = "OPMODE:";
-   static char* keyHand = "HAND:";
+   static char* keyOpMode = "OPMODE: ";
+   static char* keyHand = "HAND: ";
 
    if (IsStartsWith(line, "FILTERS:")) {
       owl.Show("%s : %s", nameTask, titleBrief);
+      owl.Show("Fixed hand is %s\n", taskHandPBN);
       return S_FILTERS; 
    } 
    

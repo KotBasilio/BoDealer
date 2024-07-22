@@ -79,7 +79,7 @@ void Walrus::Main()
 
 int main(int argc, char *argv[])
 {
-   printf("Walter the Walrus can count.\n");
+   printf("Walter the Walrus is curious.\n");
    ChronoStart();
 
    Walrus walter;

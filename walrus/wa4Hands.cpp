@@ -45,24 +45,6 @@ void Walrus::Scan4Hands()
    }
 }
 
-void Walrus::Permute6(SplitBits a, SplitBits b, SplitBits c)
-{
-   twPermutedContexts xArr(a,b,c);
-   Classify6(xArr.lay);
-}
-
-void Walrus::Classify6(twContext *lay)
-{
-   // when a hand D is fixed in the end, we get 6 options to lay A,B,C
-   ClassifyAndPull  (lay + 6);// CBAD
-   ClassifyAndPull  (lay + 5);// ACBD
-   ClassifyOnPermute(lay + 4);// BACD
-   lay[5] = lay[9];           // double-pull D
-   ClassifyAndPull  (lay + 2);// CABD
-   ClassifyAndPull  (lay + 1);// BCAD
-   ClassifyOnPermute(lay + 0);// ABCD
-}
-
 #define FULL_PART_0  0
 #define FULL_PART_1  (FULL_PART_0 + SIZE_PERMUTE_PATTERN - 3)
 #define FULL_PART_2  (FULL_PART_1 + SIZE_PERMUTE_PATTERN - 2)

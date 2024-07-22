@@ -10,7 +10,7 @@
 #include "../dds-develop/examples/hands.h"
 #include HEADER_CURSES
 
-//#define  DBG_SHOW_BOARD_ON_RECONSTRUCTION
+//#define  DBG_VIEW_ON_RECONSTRUCTION
 
 bool DdsDeal::needInspect = true;
 static twlHCP lastCalcHcp;
@@ -153,14 +153,14 @@ void Walrus::PostmortemSuit(DdsTricks& tr, deal& cards)
 void DdsDeal::FillByFixedWest(WaTask2 & task)
 {
    // decrypt all cards
-   dl.remainCards[SOUTH][SOL_SPADES  ] = DecryptSpades(task.oneOpp);
-   dl.remainCards[SOUTH][SOL_HEARTS  ] = DecryptHearts(task.oneOpp);
-   dl.remainCards[SOUTH][SOL_DIAMONDS] = DecryptDiamnd(task.oneOpp);
-   dl.remainCards[SOUTH][SOL_CLUBS   ] = DecryptClubs (task.oneOpp);
-   dl.remainCards[EAST ][SOL_SPADES  ] = DecryptSpades(task.partner);
-   dl.remainCards[EAST ][SOL_HEARTS  ] = DecryptHearts(task.partner);
-   dl.remainCards[EAST ][SOL_DIAMONDS] = DecryptDiamnd(task.partner);
-   dl.remainCards[EAST ][SOL_CLUBS   ] = DecryptClubs (task.partner);
+   dl.remainCards[SOUTH][SOL_SPADES  ] = DecryptSpades(task.partner);
+   dl.remainCards[SOUTH][SOL_HEARTS  ] = DecryptHearts(task.partner);
+   dl.remainCards[SOUTH][SOL_DIAMONDS] = DecryptDiamnd(task.partner);
+   dl.remainCards[SOUTH][SOL_CLUBS   ] = DecryptClubs (task.partner);
+   dl.remainCards[EAST ][SOL_SPADES  ] = DecryptSpades(task.oneOpp);
+   dl.remainCards[EAST ][SOL_HEARTS  ] = DecryptHearts(task.oneOpp);
+   dl.remainCards[EAST ][SOL_DIAMONDS] = DecryptDiamnd(task.oneOpp);
+   dl.remainCards[EAST ][SOL_CLUBS   ] = DecryptClubs (task.oneOpp);
 
    // reconstruct 4th hand
    ReconstructNorth(SOL_SPADES);
@@ -197,7 +197,7 @@ DdsDeal::DdsDeal(const deal &dlBase, WaTask2 &task)
    FILL_BY_TASK_WITH_FIXED_HAND;
 
    // may see
-   #ifdef DBG_SHOW_BOARD_ON_RECONSTRUCTION
+   #ifdef DBG_VIEW_ON_RECONSTRUCTION
       PrintHand("A board: \n", dl);
       PLATFORM_GETCH();
    #endif 
@@ -227,7 +227,7 @@ DdsDeal::DdsDeal(const deal& dlBase, WaTask3& task)
    ReconstructWest(SOL_CLUBS);
 
    // may see
-   #ifdef DBG_SHOW_BOARD_ON_RECONSTRUCTION
+   #ifdef DBG_VIEW_ON_RECONSTRUCTION
       PrintHand("A board: \n", dl);
       PLATFORM_GETCH();
    #endif 

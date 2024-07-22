@@ -42,8 +42,8 @@ void Walrus::Scan3FixedWest()
    // we have some cards starting from each position
    SplitBits sum(SumFirstHand());
    SplitBits sec(SumSecondHand());
-   for (int idxHandStart = 0;;) {
-      // full permutation
+   for (u64 idxHandStart = 0; idxHandStart < SYMM;) {
+      // do all permutations of 3 hands around W
       SplitBits third(shuf.CheckSum() - sum.card.jo - sec.card.jo);
       Permute6(sum, sec, third);
 
@@ -53,11 +53,6 @@ void Walrus::Scan3FixedWest()
       sec.card.jo -= flipcd;
       sum.card.jo += flipcd;
       sec.card.jo += shuf.deck[SYMM2 + idxHandStart++].card.jo;
-
-      // simple exit using count -- it became faster than highBits
-      if (idxHandStart >= ACTUAL_CARDS_COUNT) {
-         break;
-      }
    }
 }
 
@@ -218,8 +213,9 @@ void Walrus::Scan3FixedNorth()
    SplitBits sum(SumFirstHand());
    SplitBits sec(SumSecondHand());
    SplitBits stop(sec);
-   for (int idxHandStart = 0; sum != stop;) {
-      // do all permutation of 3 hands around N
+   int idxHandStart = 0;
+   for (; sum != stop;) {
+      // do all permutations of 3 hands around N
       twPermutedContexts xArr(fixedN, sum, sec, NORTH);
       OrbNorthClassify(xArr.lay);
 
@@ -287,5 +283,23 @@ void Walrus::OrbNorthClassify(twContext * lay)
    ClassifyAndPush  (lay + 4);// ACBD
    ClassifyAndPush  (lay + 5);// ABDC
    ClassifyOnPermute(lay + 6);// ADCB
+}
+
+void Walrus::Permute6(SplitBits a, SplitBits b, SplitBits c)
+{
+   twPermutedContexts xArr(a,b,c);
+   Classify6(xArr.lay);
+}
+
+void Walrus::Classify6(twContext *lay)
+{
+   // when a hand D is fixed in the end, we get 6 options to lay A,B,C
+   ClassifyAndPull  (lay + 6);// CBAD
+   ClassifyAndPull  (lay + 5);// ACBD
+   ClassifyOnPermute(lay + 4);// BACD
+   lay[5] = lay[9];           // double-pull D
+   ClassifyAndPull  (lay + 2);// CABD
+   ClassifyAndPull  (lay + 1);// BCAD
+   ClassifyOnPermute(lay + 0);// ABCD
 }
 

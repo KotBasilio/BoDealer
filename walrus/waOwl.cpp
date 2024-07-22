@@ -341,13 +341,13 @@ void PrintHand(char title[], const deal& dl)
    FillVScreen(dl);
 
    // start with title and underline it
-   printf(title);
+   owl.Silent(title);
    char dashes[80];
    int l = static_cast<int>(strlen(title)) - 1;
    for (int i = 0; i < l; i++)
       dashes[i] = '-';
    dashes[l] = '\0';
-   printf("%s\n", dashes);
+   owl.Silent("%s\n", dashes);
 
    SilentViScreen(DDS_HAND_LINES);
 }
