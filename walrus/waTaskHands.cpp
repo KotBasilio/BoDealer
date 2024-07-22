@@ -15,11 +15,6 @@
 // --------------------------------------------------------------------------------
 // input
 
-
-#ifdef SEM_MAY24_TRHEE_SUITED_BALANCE
-   char const taskHandPBN[] = "[N:83.Q874.T65.AQ65]";
-#endif
-
 #ifdef SEM_MAY24_GLADIATOR
    #define INPUT_TRUMPS    SOL_NOTRUMP
    #define INPUT_ON_LEAD   WEST
@@ -42,7 +37,7 @@
 #ifdef SEM_MIX_MAR24_INVITE_4S
    #define INPUT_TRUMPS    SOL_SPADES
    #define INPUT_ON_LEAD   WEST
-   char const taskHandPBN[] = "[N:AK97.432.2.AQJ84]";
+   //char const taskHandPBN[] = "[N:AK97.432.2.AQJ84]";
 #endif 
 
 #ifdef SEM_DU_MAR_1C_X_XX_1H_ETC_MAR

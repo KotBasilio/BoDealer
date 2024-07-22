@@ -41,6 +41,7 @@ MAY24_TRHEE_SUITED_BALANCE Fix a 8 hcp 2434;
 Bidding: 2s X p ??
 Question: is there invit to 4H?
 
+HAND: N:83.Q874.T65.AQ65
 
 FILTERS:
    SOUTH: PointsRange 14, 15
