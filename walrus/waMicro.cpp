@@ -514,7 +514,7 @@ bool WaFilter::ScanOut(twContext* lay)
    for (auto &ip = exec.ip; ip < sem->vecFilters.size(); ip++) {
       const auto& mic = sem->vecFilters[ip];
       if (auto reason = (this->*mic.func)(lay, mic.params)) {
-         progress->hitsCount[IO_ROW_FILTERING + ip][reason]++; 
+         progress->FilteredOutMark(ip, reason);
          return true;
       } 
    }
@@ -526,11 +526,9 @@ bool WaFilter::ScanOut(twContext* lay)
 void WaFilter::ImprintWithinList(uint ip, uint reason, uint last)
 {
    auto row = IO_ROW_FILTERING + ip;
-   progress->hitsCount[row][reason]++;
-   if (ip < last) {
-      progress->countExtraMarks++;
-   } else {
-      progress->hitsCount[row + 1][reason]--;
+   progress->ExtraMark(row, reason);
+   if (ip >= last) {
+      progress->RemoveExtraMark(row + 1, reason);
    }
 }
 

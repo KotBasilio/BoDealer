@@ -14,15 +14,12 @@
 void Walrus::NoticeMagicFly(uint trickSuit, uint tricksNT)
 {
    if (tricksNT > trickSuit) {
-      progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_MORE_NT]++;
+      progress.ExtraMark(IO_ROW_MAGIC_FLY, IO_CAMP_MORE_NT);
    } else if (tricksNT == trickSuit) {
-      progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_SAME_NT]++;
+      progress.ExtraMark(IO_ROW_MAGIC_FLY, IO_CAMP_SAME_NT);
    } else {
-      progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_PREFER_SUIT]++;
+      progress.ExtraMark(IO_ROW_MAGIC_FLY, IO_CAMP_PREFER_SUIT);
    }
-
-   // extra mark for the fly
-   progress.countExtraMarks++;
 }
 
 void Walrus::NoticeSacrificePossible(uint tOurs, uint tTheirs)
@@ -39,11 +36,10 @@ void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs)
 
    // mark
    if (tester.bidGame > tester.oppCtrDoubled) {
-      progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_PREFER_TO_BID]++;
+      progress.ExtraMark(IO_ROW_SACRIFICE, IO_CAMP_PREFER_TO_BID);
    } else {
-      progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_REFRAIN_BIDDING]++;
+      progress.ExtraMark(IO_ROW_SACRIFICE, IO_CAMP_REFRAIN_BIDDING);
    }
-   progress.countExtraMarks++;
    s64   delta = tester.bidGame - tester.oppCtrDoubled;
    ui.primaBetterBy += delta;
 
@@ -67,13 +63,12 @@ void Walrus::CompareSlams(uint tricksA, uint tricksB)
 
    // mark
    if (tester.ourOther > tester.bidSlam) {
-      progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_PREFER_TO_BID]++;
+      progress.ExtraMark(IO_ROW_COMPARISON,IO_CAMP_PREFER_TO_BID);
    } else if (tester.ourOther == tester.bidSlam) {
-      progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_NO_DIFF]++;
+      progress.ExtraMark(IO_ROW_SACRIFICE,IO_CAMP_NO_DIFF);
    } else {
-      progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_REFRAIN_BIDDING]++;
+      progress.ExtraMark(IO_ROW_COMPARISON,IO_CAMP_REFRAIN_BIDDING);
    }
-   progress.countExtraMarks++;
 
    // add up. may also convert to imps
    auto delta = tester.ourOther - tester.bidSlam;
@@ -88,13 +83,12 @@ void Walrus::CompareOurContracts(uint tricksA, uint tricksB)
 
    // mark
    if (gainPrima > gainSecunda) {
-      progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_PREFER_PRIMA]++;
+      progress.ExtraMark(IO_ROW_COMPARISON,IO_CAMP_PREFER_PRIMA);
    } else if (gainPrima == gainSecunda) {
-      progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_NO_DIFF]++;
+      progress.ExtraMark(IO_ROW_SACRIFICE,IO_CAMP_NO_DIFF);
    } else {
-      progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_PREFER_SECUNDA]++;
+      progress.ExtraMark(IO_ROW_COMPARISON,IO_CAMP_PREFER_SECUNDA);
    }
-   progress.countExtraMarks++;
 
    // add up. may also convert to imps
    auto delta = gainPrima - gainSecunda;

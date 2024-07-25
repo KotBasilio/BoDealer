@@ -12,10 +12,9 @@ constexpr int CTRL_SIZE = 12 + 4;// to get 16 as padding
 
 // hits count and others
 struct Progress {
+   friend class Walrus;
    Progress();
-   ucell hitsCount[HCP_SIZE][CTRL_SIZE];
    ucell step, went, margin;
-   ucell countExtraMarks;
    u64  delta1, delta2;
    bool isDoneAll;
    void Init(ucell _step);
@@ -23,6 +22,16 @@ struct Progress {
    void Up(ucell idx);
    void StoreCountToGo(ucell count);
    ucell GetDiscardedBoardsCount();
+
+   // operating marks
+   void SelectedMark();
+   void FilteredOutMark(uint ip, uint reason);
+   void SolvedMark(uint row, uint col);
+   void ExtraMark(uint row, uint col);
+   void RemoveExtraMark(uint row, uint col);
+private:
+   ucell hitsCount[HCP_SIZE][CTRL_SIZE];
+   ucell countExtraMarks;
 };
 extern Progress *mainProgress;
 

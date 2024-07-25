@@ -407,3 +407,31 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
       ui.allStatGraphs = false;
    }
 }
+
+void Progress::SelectedMark()
+{
+   hitsCount[IO_ROW_SELECTED][0]++;
+}
+
+void Progress::FilteredOutMark(uint ip, uint reason)
+{
+   hitsCount[IO_ROW_FILTERING + ip][reason]++;
+}
+
+void Progress::SolvedMark(uint row, uint col)
+{
+   hitsCount[row][col]++;
+}
+
+void Progress::ExtraMark(uint row, uint col)
+{
+   hitsCount[row][col]++;
+   countExtraMarks++;
+}
+
+void Progress::RemoveExtraMark(uint row, uint col)
+{
+   hitsCount[row][col]--;
+   countExtraMarks--;
+}
+

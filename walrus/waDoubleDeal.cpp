@@ -106,11 +106,10 @@ void Walrus::PostmortemHCP(DdsTricks& tr, deal& cards)
    {
       row = IO_ROW_HCP_START + (IO_HCP_MAX - IO_HCP_MIN) * 2;
       if (lastCalcHcp.c > 8) {
-         progress.hitsCount[row][0]++;
+         progress.ExtraMark(row, 0);
       } else {
-         progress.hitsCount[row + 1][0]++;
+         progress.ExtraMark(row + 1, 0);
       }
-      progress.countExtraMarks++;
    }
    #endif
 }

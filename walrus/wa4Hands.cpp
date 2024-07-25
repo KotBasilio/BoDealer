@@ -124,7 +124,7 @@ void Walrus::ClassifyOnPermute(twContext* lay)
    mul.SaveThreeHands(lay);
 
    // mark together all saved boards
-   progress.hitsCount[IO_ROW_SELECTED][0]++;
+   progress.SelectedMark();
 
    // any extra work
    (this->*sem.onBoardAdded)(lay);

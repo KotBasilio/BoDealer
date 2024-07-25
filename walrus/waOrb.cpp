@@ -24,7 +24,7 @@ void Walrus::ScanTrivial()
       uint bar = 0;
 
       // account the hand
-      progress.hitsCount[foo][bar]++;
+      progress.FilteredOutMark(foo, bar);
 
       // advance to account next hand
       sum.card.jo -= shuf.deck[idxHandStart].card.jo;

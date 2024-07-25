@@ -179,10 +179,10 @@ void Walrus::WithdrawByInput(void)
    shuf.AssertDeckSize(SYMM3, config.taskHandPBN);
 }
 
-uint CountBits(uint v)// count bits set in this (32-bit value)
+static uint CountBits(uint v)// count bits set in v (32-bit value)
 {
    uint c; // store the total here
-   static const int S[] = { 1, 2, 4, 8, 16 }; // Magic Binary Numbers
+   static const int S[] = { 1, 2, 4, 8, 16 }; // 2 pow idx
    static const int B[] = { 0x55555555, 0x33333333, 0x0F0F0F0F, 0x00FF00FF, 0x0000FFFF };
 
    c = v - ((v >> 1) & B[0]);

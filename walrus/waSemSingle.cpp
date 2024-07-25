@@ -25,7 +25,7 @@ void Walrus::ScanKeycards()
       uint foo = KeyCards_ClassifyHand(bar, sum);
 
       // account the hand
-      progress.hitsCount[foo][bar]++;
+      progress.FilteredOutMark(foo, bar);
 
       // advance to account next hand
       sum.card.jo -= shuf.deck[idxHandStart].card.jo;
