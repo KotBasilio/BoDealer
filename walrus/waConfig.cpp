@@ -240,19 +240,19 @@ void Walrus::DetectGoals()
    strcpy(tail, "  / ");
    for (tr.plainScore = 7; tr.plainScore <= 13 ; tr.plainScore++) {
       cumulScore = zeroes;
-      (cumulScore.*sem.onScoring)(tr.plainScore);
+      (cumulScore.*sem.onDepPrimaryScoring)(tr.plainScore);
       AddScorerValues(tail);
    }
    owl.Show("%s\n", tail);
 
    // secondary
-   bool shouldSkipSecunda = cumulScore.secunda.IsEmpty() || (sem.onScoring == &CumulativeScore::BiddingLevel);
+   bool shouldSkipSecunda = cumulScore.secunda.IsEmpty() || (sem.onDepPrimaryScoring == &CumulativeScore::BiddingLevel);
    if (!shouldSkipSecunda) {
       owl.Show("Contract-B scorer (%s, %d tr):", config.theirTrump, config.secGoal);
       strcpy(tail, "  / ");
       for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
          cumulScore = zeroes;
-         (cumulScore.*sem.onSolvedTwice)(tr.plainScore);
+         (cumulScore.*sem.onDepSecondScoring)(tr.plainScore);
          AddScorerValues(tail);
       }
       owl.Show("%s\n", tail);
@@ -315,7 +315,7 @@ void Walrus::DeprDetectGoals()
    strcpy(tail, "  / ");
    for (tr.plainScore = 7; tr.plainScore <= 13 ; tr.plainScore++) {
       cumulScore = zeroes;
-      (cumulScore.*sem.onScoring)(tr.plainScore);
+      (cumulScore.*sem.onDepPrimaryScoring)(tr.plainScore);
       AddScorerValues(tail);
    }
    owl.Show("%s\n", tail);
@@ -328,7 +328,7 @@ void Walrus::DeprDetectGoals()
       strcpy(tail, "  / ");
       for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
          cumulScore = zeroes;
-         (cumulScore.*sem.onSolvedTwice)(tr.plainScore);
+         (cumulScore.*sem.onDepSecondScoring)(tr.plainScore);
          AddScorerValues(tail);
       }
       owl.Show("%s\n", tail);

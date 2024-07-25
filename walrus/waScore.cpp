@@ -114,12 +114,26 @@ void CumulativeScore::Adjustable::operator()(uint tricks)
 
 void CumulativeScore::BiddingLevel(uint tricks)
 {
-   // ideal
+   // find out ideal
    auto gainGame = prima.Get(tricks);
    auto gainPartscore = secunda.Get(tricks);
    ideal += gainGame > gainPartscore ? gainGame : gainPartscore;
 
-   // relay
+   // accumulate regular scores
    prima(tricks);
    secunda(tricks);
+}
+
+void CumulativeScore::OpeningLead(uint tricks)
+{
+   // accumulate regular score
+   prima(tricks);
+
+   // accumulate results of each lead
+   //ideal, tr.plainScore);
+   //leadS, tr.lead.S);
+   //leadH, tr.lead.H);
+   //leadD, tr.lead.D);
+   //leadC, tr.lead.N);
+
 }

@@ -12,8 +12,8 @@ void Walrus::FillSemantic(void)
 {
    OrbNorthFillSem();
 
-   //sem.onScoring = &CumulativeScore::Our4M;
-   sem.SetOurPrimaryScorer  (cumulScore, "V4H ");
+   //sem.onDepPrimaryScoring = &CumulativeScore::Our4M;
+   sem.SetOpeningLeadScorer  (cumulScore, "V4H ");
    //sem.onPostmortem = &Walrus::PostmortemHCP;
 
    //ADD_2PAR_FILTER(SOUTH, PointsSuitLimit, CLB, 0);

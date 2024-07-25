@@ -59,7 +59,7 @@ const uint SKIP_BY_SANDWICH = SKIP_BY_OPP;
 // then values are constant through all solving
 typedef void (Shuffler::*        SemShufflerFunc)();
 typedef void (Walrus::*          SemFuncType)();
-typedef void (CumulativeScore::* SemScoring)(uint tricks);
+typedef void (CumulativeScore::* SemDepScoring)(uint tricks);
 typedef void (Walrus::*          SemComparing)(uint trickSuit, uint tricksNT);
 typedef void (Walrus::*          SemPostMortem)(DdsTricks& tr, deal& cards);
 typedef void (Walrus::*          SemOnBoardAdded)(twContext* lay);
@@ -72,9 +72,9 @@ struct Semantics {
    std::vector<MicroFilter> vecFilters;
    SemOnBoardAdded          onBoardAdded;
    SemFuncType              onAfterMath;
-   SemScoring               onScoring;
+   SemDepScoring            onDepPrimaryScoring;
    SemSecondSolver          solveSecondTime;
-   SemScoring               onSolvedTwice;
+   SemDepScoring            onDepSecondScoring;
    SemComparing             onCompareContracts;
    SemPostMortem            onPostmortem;
 
@@ -85,6 +85,7 @@ struct Semantics {
    void SetOurPrimaryScorer(CumulativeScore &cs, const char* code);
    void SetOurSecondaryScorer(CumulativeScore &cs, const char* code);
    void SetBiddingGameScorer(CumulativeScore &cs, const char* code);
+   void SetOpeningLeadScorer(CumulativeScore &cs, const char* code);
    bool IsInitFailed() { return !isInitSuccess; }
    bool IsClosingBracket(int idx);
    bool IsOpeningBracket(int idx);

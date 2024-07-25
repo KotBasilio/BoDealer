@@ -106,7 +106,7 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
 
       // pass to basic statistics
       HitByTricks(tr, config.primGoal);
-      (cumulScore.*sem.onScoring)(tr.plainScore);
+      (cumulScore.*sem.onDepPrimaryScoring)(tr.plainScore);
 
       // some detailed postmortem is possible
       (this->*sem.onPostmortem)(tr, cards);
@@ -141,7 +141,7 @@ void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
       // pass to basic statistics
       trSecond.Init(_twiceSolved.solvedBoard[handno]);
       HitByTricks(trSecond, config.secGoal, IO_ROW_THEIRS);
-      (cumulScore.*sem.onSolvedTwice)(trSecond.plainScore);
+      (cumulScore.*sem.onDepSecondScoring)(trSecond.plainScore);
       progress.countExtraMarks++;
 
       // pass to comparison
@@ -172,7 +172,7 @@ void Walrus::SolveOneByOne(deal& dlBase)
       dl.Solve(i);
 
       // pass
-      (cumulScore.*sem.onScoring)(dl.tr.plainScore);
+      (cumulScore.*sem.onDepPrimaryScoring)(dl.tr.plainScore);
 
       // may report
       if (!(i & 0xf)) {

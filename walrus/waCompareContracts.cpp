@@ -31,8 +31,8 @@ void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs)
 {
    // detect score
    CumulativeScore tester;// don't use with adjustable scorers. They are not inited
-   (tester.*sem.onScoring)(tOurs);
-   (tester.*sem.onSolvedTwice)(tTheirs);
+   (tester.*sem.onDepPrimaryScoring)(tOurs);
+   (tester.*sem.onDepSecondScoring)(tTheirs);
 
    // mark
    if (tester.bidGame > tester.oppCtrDoubled) {
@@ -58,8 +58,8 @@ void Walrus::CompareSlams(uint tricksA, uint tricksB)
 {
    // detect score
    CumulativeScore tester;// don't use with adjustable scorers. They are not inited
-   (tester.*sem.onScoring)(tricksA);
-   (tester.*sem.onSolvedTwice)(tricksB);
+   (tester.*sem.onDepPrimaryScoring)(tricksA);
+   (tester.*sem.onDepSecondScoring)(tricksB);
 
    // mark
    if (tester.ourOther > tester.bidSlam) {

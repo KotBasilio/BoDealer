@@ -86,6 +86,7 @@ struct CumulativeScore {
    void Secondary   (uint tricks) { secunda(tricks); }
    void Tertiary    (uint tricks) { tertia(tricks); }
    void BiddingLevel(uint tricks);
+   void OpeningLead (uint tricks);
 
 private:
    void Opp_3MajX(s64& sum, uint tricks);

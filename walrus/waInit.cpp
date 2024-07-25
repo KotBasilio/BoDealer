@@ -106,11 +106,11 @@ Semantics::Semantics()
    , onBoardAdded        (&Walrus::VoidAdded)
    , onScanCenter        (&Walrus::NOP)
    , onAfterMath         (&Walrus::NOP) 
-   , onScoring           (&CumulativeScore::VoidScoring)
+   , onDepPrimaryScoring           (&CumulativeScore::VoidScoring)
    , onPostmortem        (&Walrus::VoidPostmortem)
    , solveSecondTime     (&Walrus::VoidSecondSolve)
    , onCompareContracts  (&Walrus::VoidCompare)
-   , onSolvedTwice       (&CumulativeScore::VoidScoring)
+   , onDepSecondScoring       (&CumulativeScore::VoidScoring)
    , scanCover(ACTUAL_CARDS_COUNT)
    , dlBase(nullptr)
 {
@@ -180,7 +180,7 @@ void Semantics::SetOurPrimaryScorer(CumulativeScore &cs, const char* code)
       isInitSuccess = false;
       return;
    }
-   onScoring = &CumulativeScore::Primary;
+   onDepPrimaryScoring = &CumulativeScore::Primary;
    config.primGoal = GetGoalFrom(code);
 }
 
@@ -190,25 +190,39 @@ void Semantics::SetOurSecondaryScorer(CumulativeScore &cs, const char* code)
       isInitSuccess = false;
       return;
    }
-   onSolvedTwice = &CumulativeScore::Secondary;
+   onDepSecondScoring = &CumulativeScore::Secondary;
    config.secGoal = GetGoalFrom(code);
 }
 
 void Semantics::SetBiddingGameScorer(CumulativeScore& cs, const char* code)
 {
    // setup both scorers
-   static char codePartscore[8];
    SetOurPrimaryScorer(cs, code);
+
+   static char codePartscore[8];
    strcpy(codePartscore, code);
    codePartscore[1]--;
    SetOurSecondaryScorer(cs, codePartscore);
+
    cs.secunda.TargetOut(cs.bidPartscore);
    if (!isInitSuccess) {
       return;
    }
 
-   // relay to ideal
-   onScoring = &CumulativeScore::BiddingLevel;
+   // allow to compare
+   onDepPrimaryScoring = &CumulativeScore::BiddingLevel;
+}
+
+void Semantics::SetOpeningLeadScorer(CumulativeScore& cs, const char* code)
+{
+   SetOurPrimaryScorer(cs, code);
+   cs.prima.TargetOut(cs.ideal);
+   if (!isInitSuccess) {
+      return;
+   }
+
+   // allow to count for all leads
+   onDepPrimaryScoring = &CumulativeScore::OpeningLead;
 }
 
 void Walrus::InitDeck(void)
