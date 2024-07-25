@@ -124,16 +124,15 @@ void CumulativeScore::BiddingLevel(uint tricks)
    secunda(tricks);
 }
 
-void CumulativeScore::OpeningLead(uint tricks)
+void CumulativeScore::OpeningLead(DdsTricks &tr)
 {
    // accumulate regular score
-   prima(tricks);
+   prima(tr.plainScore);
 
    // accumulate results of each lead
-   //ideal, tr.plainScore);
-   //leadS, tr.lead.S);
-   //leadH, tr.lead.H);
-   //leadD, tr.lead.D);
-   //leadC, tr.lead.N);
+   leadS += prima.Get(tr.lead.S);
+   leadH += prima.Get(tr.lead.H);
+   leadD += prima.Get(tr.lead.D);
+   leadC += prima.Get(tr.lead.C);
 
 }

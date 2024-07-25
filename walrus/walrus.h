@@ -93,7 +93,7 @@ protected:
     // semantics
     void FillSemantic(void);
     void NOP() {}
-    void VoidScoring(DdsTricks &tr) {}
+    void VoidDepScoring(DdsTricks &tr) {}
     void VoidPostmortem(DdsTricks& tr, deal& cards) {}
     void VoidAdded(twContext* lay) {}
     void VoidSecondSolve(boards& bo, solvedBoards& solved) {}
@@ -106,6 +106,8 @@ protected:
 
     // scoring
     CumulativeScore cumulScore;
+    void ScoreWithPrimary(DdsTricks &tr);
+    void ScoreWithSecondary(DdsTricks &tr);
     void Score_OpLead3Major(DdsTricks &tr);
     void Score_OpLead3NT(DdsTricks &tr);
     void Score_OpLead3NTX(DdsTricks &tr);

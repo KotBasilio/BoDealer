@@ -106,13 +106,15 @@ Semantics::Semantics()
    , onBoardAdded        (&Walrus::VoidAdded)
    , onScanCenter        (&Walrus::NOP)
    , onAfterMath         (&Walrus::NOP) 
-   , onDepPrimaryScoring           (&CumulativeScore::VoidScoring)
+   , onPrimaryScoring    (&CumulativeScore::VoidScoring)
+   , onSecondScoring     (&CumulativeScore::VoidScoring)
    , onPostmortem        (&Walrus::VoidPostmortem)
    , solveSecondTime     (&Walrus::VoidSecondSolve)
    , onCompareContracts  (&Walrus::VoidCompare)
-   , onDepSecondScoring       (&CumulativeScore::VoidScoring)
    , scanCover(ACTUAL_CARDS_COUNT)
    , dlBase(nullptr)
+   , onDepPrimaryScoring (&CumulativeScore::VoidDepScoring)
+   , onDepSecondScoring  (&CumulativeScore::VoidDepScoring)
 {
    // reject all. should analyze config later and fill 
    vecFilters.reserve(10);
@@ -180,7 +182,8 @@ void Semantics::SetOurPrimaryScorer(CumulativeScore &cs, const char* code)
       isInitSuccess = false;
       return;
    }
-   onDepPrimaryScoring = &CumulativeScore::Primary;
+   onDepPrimaryScoring = &CumulativeScore::DepPrimary;
+   onPrimaryScoring = &CumulativeScore::Primary;
    config.primGoal = GetGoalFrom(code);
 }
 
@@ -190,7 +193,8 @@ void Semantics::SetOurSecondaryScorer(CumulativeScore &cs, const char* code)
       isInitSuccess = false;
       return;
    }
-   onDepSecondScoring = &CumulativeScore::Secondary;
+   onDepSecondScoring = &CumulativeScore::DepSecondary;
+   onSecondScoring = &CumulativeScore::Secondary;
    config.secGoal = GetGoalFrom(code);
 }
 
@@ -222,7 +226,7 @@ void Semantics::SetOpeningLeadScorer(CumulativeScore& cs, const char* code)
    }
 
    // allow to count for all leads
-   onDepPrimaryScoring = &CumulativeScore::OpeningLead;
+   onPrimaryScoring = &CumulativeScore::OpeningLead;
 }
 
 void Walrus::InitDeck(void)

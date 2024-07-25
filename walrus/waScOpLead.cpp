@@ -16,7 +16,7 @@ void Walrus::Score_OpLead3NT(DdsTricks &tr)
    cumulScore.OpLead3NT(cumulScore.leadS, tr.lead.S);
    cumulScore.OpLead3NT(cumulScore.leadH, tr.lead.H);
    cumulScore.OpLead3NT(cumulScore.leadD, tr.lead.D);
-   cumulScore.OpLead3NT(cumulScore.leadC, tr.lead.N);
+   cumulScore.OpLead3NT(cumulScore.leadC, tr.lead.C);
 #endif // SEEK_OPENING_LEAD
 }
 
@@ -28,7 +28,7 @@ void Walrus::Score_OpLead3NTX(DdsTricks &tr)
    cumulScore.OpLead3NTX(cumulScore.leadS, tr.lead.S);
    cumulScore.OpLead3NTX(cumulScore.leadH, tr.lead.H);
    cumulScore.OpLead3NTX(cumulScore.leadD, tr.lead.D);
-   cumulScore.OpLead3NTX(cumulScore.leadC, tr.lead.N);
+   cumulScore.OpLead3NTX(cumulScore.leadC, tr.lead.C);
 #endif // SEEK_OPENING_LEAD
 }
 
@@ -40,7 +40,7 @@ void Walrus::Score_OpLead3Major(DdsTricks &tr)
    cumulScore.OpLead3Major(cumulScore.leadS, tr.lead.S);
    cumulScore.OpLead3Major(cumulScore.leadH, tr.lead.H);
    cumulScore.OpLead3Major(cumulScore.leadD, tr.lead.D);
-   cumulScore.OpLead3Major(cumulScore.leadC, tr.lead.N);
+   cumulScore.OpLead3Major(cumulScore.leadC, tr.lead.C);
 #endif // SEEK_OPENING_LEAD
 }
 
@@ -109,7 +109,7 @@ void Walrus::Score_OpLead5D(DdsTricks &tr)
    cumulScore.OpLead5minor(cumulScore.leadS, tr.lead.S);
    cumulScore.OpLead5minor(cumulScore.leadH, tr.lead.H);
    cumulScore.OpLead5minor(cumulScore.leadD, tr.lead.D);
-   cumulScore.OpLead5minor(cumulScore.leadC, tr.lead.N);
+   cumulScore.OpLead5minor(cumulScore.leadC, tr.lead.C);
 #endif // SEEK_OPENING_LEAD
 }
 
@@ -121,7 +121,7 @@ void Walrus::Score_OpLead5DX(DdsTricks &tr)
    cumulScore.OpLead5mX(cumulScore.leadS, tr.lead.S);
    cumulScore.OpLead5mX(cumulScore.leadH, tr.lead.H);
    cumulScore.OpLead5mX(cumulScore.leadD, tr.lead.D);
-   cumulScore.OpLead5mX(cumulScore.leadC, tr.lead.N);
+   cumulScore.OpLead5mX(cumulScore.leadC, tr.lead.C);
 #endif // SEEK_OPENING_LEAD
 }
 

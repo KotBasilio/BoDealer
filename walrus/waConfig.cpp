@@ -240,7 +240,7 @@ void Walrus::DetectGoals()
    strcpy(tail, "  / ");
    for (tr.plainScore = 7; tr.plainScore <= 13 ; tr.plainScore++) {
       cumulScore = zeroes;
-      (cumulScore.*sem.onDepPrimaryScoring)(tr.plainScore);
+      ScoreWithPrimary(tr);
       AddScorerValues(tail);
    }
    owl.Show("%s\n", tail);
@@ -252,7 +252,7 @@ void Walrus::DetectGoals()
       strcpy(tail, "  / ");
       for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
          cumulScore = zeroes;
-         (cumulScore.*sem.onDepSecondScoring)(tr.plainScore);
+         ScoreWithSecondary(tr);
          AddScorerValues(tail);
       }
       owl.Show("%s\n", tail);
@@ -315,7 +315,7 @@ void Walrus::DeprDetectGoals()
    strcpy(tail, "  / ");
    for (tr.plainScore = 7; tr.plainScore <= 13 ; tr.plainScore++) {
       cumulScore = zeroes;
-      (cumulScore.*sem.onDepPrimaryScoring)(tr.plainScore);
+      ScoreWithPrimary(tr);
       AddScorerValues(tail);
    }
    owl.Show("%s\n", tail);
@@ -328,7 +328,7 @@ void Walrus::DeprDetectGoals()
       strcpy(tail, "  / ");
       for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
          cumulScore = zeroes;
-         (cumulScore.*sem.onDepSecondScoring)(tr.plainScore);
+         ScoreWithSecondary(tr);
          AddScorerValues(tail);
       }
       owl.Show("%s\n", tail);

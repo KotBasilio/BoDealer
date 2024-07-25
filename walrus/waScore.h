@@ -8,13 +8,11 @@ struct DdsTricks
    uint plainScore; 
 
    // tricks for each opening lead
-   #ifdef SEEK_OPENING_LEAD
-      struct Lead
-      {
-         uint S, H, D, N;
-         Lead() { S = H = D = N = 13; }
-      } lead;
-   #endif // SEEK_OPENING_LEAD
+   struct Lead
+   {
+      uint S, H, D, C;
+      Lead() { S = H = D = C = 13; }
+   } lead;
 
    DdsTricks() : plainScore(0) {}
    void Init(struct futureTricks &fut);
@@ -47,7 +45,8 @@ struct CumulativeScore {
    void Score_Opp5Minor(uint tricks);
    void Score_Opp3NT(uint tricks);
    // -- our contracts
-   void VoidScoring(uint tricks) {}
+   void VoidScoring(DdsTricks& tr) {}
+   void VoidDepScoring(uint tricks) {}
    void OurNV6m(uint tricks);
    void OurNV6Maj(uint tricks);
    void OurNV6_No(uint tricks);
@@ -82,11 +81,14 @@ struct CumulativeScore {
       s64* outSum;
    };
    Adjustable  prima, secunda, tertia;
-   void Primary     (uint tricks) { prima(tricks); }
-   void Secondary   (uint tricks) { secunda(tricks); }
-   void Tertiary    (uint tricks) { tertia(tricks); }
+   void DepPrimary     (uint tricks) { prima(tricks); }
+   void DepSecondary   (uint tricks) { secunda(tricks); }
+   void DepTertiary    (uint tricks) { tertia(tricks); }
+   void Primary        (DdsTricks &tr) { DepPrimary  (tr.plainScore); }
+   void Secondary      (DdsTricks &tr) { DepSecondary(tr.plainScore); }
+   void Tertiary       (DdsTricks &tr) { DepTertiary (tr.plainScore); }
    void BiddingLevel(uint tricks);
-   void OpeningLead (uint tricks);
+   void OpeningLead (DdsTricks &tr);
 
 private:
    void Opp_3MajX(s64& sum, uint tricks);

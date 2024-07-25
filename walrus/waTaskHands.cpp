@@ -262,7 +262,7 @@ void DdsTricks::Init(futureTricks& fut)
          continue;
       }
       if (fut.suit[i] == SOL_CLUBS && fut.rank[i] == CARD_LEAD_CLUBS) {
-         lead.N = 13 - fut.score[i];
+         lead.C = 13 - fut.score[i];
          continue;
       }
    }

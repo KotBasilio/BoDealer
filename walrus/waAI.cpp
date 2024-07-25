@@ -96,6 +96,24 @@ void Walrus::SolveOneChunk(uint chunkStartIdx, uint boardsCount)
    (this->*sem.solveSecondTime)(_chunkBoards, _solved);
 }
 
+void Walrus::ScoreWithPrimary(DdsTricks& tr)
+{
+   #ifdef USE_DEP_SCORING
+      (cumulScore.*sem.onDepPrimaryScoring)(tr.plainScore);
+   #else
+      (cumulScore.*sem.onPrimaryScoring)(tr);
+   #endif
+}
+
+void Walrus::ScoreWithSecondary(DdsTricks& tr)
+{
+   #ifdef USE_DEP_SCORING
+      (cumulScore.*sem.onDepSecondScoring)(tr.plainScore);
+   #else
+      (cumulScore.*sem.onSecondScoring)(tr);
+   #endif
+}
+
 void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
 {
    // pass to statistics and/or UI
@@ -106,7 +124,7 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
 
       // pass to basic statistics
       HitByTricks(tr, config.primGoal);
-      (cumulScore.*sem.onDepPrimaryScoring)(tr.plainScore);
+      ScoreWithPrimary(tr);
 
       // some detailed postmortem is possible
       (this->*sem.onPostmortem)(tr, cards);
@@ -141,7 +159,7 @@ void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
       // pass to basic statistics
       trSecond.Init(_twiceSolved.solvedBoard[handno]);
       HitByTricks(trSecond, config.secGoal, IO_ROW_THEIRS);
-      (cumulScore.*sem.onDepSecondScoring)(trSecond.plainScore);
+      ScoreWithSecondary(trSecond);
       progress.countExtraMarks++;
 
       // pass to comparison

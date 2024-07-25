@@ -59,11 +59,12 @@ const uint SKIP_BY_SANDWICH = SKIP_BY_OPP;
 // then values are constant through all solving
 typedef void (Shuffler::*        SemShufflerFunc)();
 typedef void (Walrus::*          SemFuncType)();
-typedef void (CumulativeScore::* SemDepScoring)(uint tricks);
+typedef void (CumulativeScore::* SemScoring)(DdsTricks &tr);
 typedef void (Walrus::*          SemComparing)(uint trickSuit, uint tricksNT);
 typedef void (Walrus::*          SemPostMortem)(DdsTricks& tr, deal& cards);
 typedef void (Walrus::*          SemOnBoardAdded)(twContext* lay);
 typedef void (Walrus::*          SemSecondSolver)(struct boards& bo, struct solvedBoards& solved);
+typedef void (CumulativeScore::* SemDepScoring)(uint tricks);
 struct Semantics {
    SemFuncType              onInit;
    SemFuncType              onShareStart;
@@ -72,9 +73,9 @@ struct Semantics {
    std::vector<MicroFilter> vecFilters;
    SemOnBoardAdded          onBoardAdded;
    SemFuncType              onAfterMath;
-   SemDepScoring            onDepPrimaryScoring;
+   SemScoring               onPrimaryScoring;
    SemSecondSolver          solveSecondTime;
-   SemDepScoring            onDepSecondScoring;
+   SemScoring               onSecondScoring;
    SemComparing             onCompareContracts;
    SemPostMortem            onPostmortem;
 
@@ -92,6 +93,10 @@ struct Semantics {
 
    bool Compile(const char* sourceCode, size_t sizeSourceCode, std::vector<MicroFilter>& filters);
    bool MiniLink(std::vector<MicroFilter> &filters);
+
+   // deprecated
+   SemDepScoring            onDepPrimaryScoring;
+   SemDepScoring            onDepSecondScoring;
 private:
    bool CompileOneLine(struct CompilerContext &ctx);
    bool CompileOneLine(char* line, std::vector<MicroFilter>& filters);
