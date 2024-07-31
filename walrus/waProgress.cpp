@@ -390,6 +390,7 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
       switch (config.detailedReportType)
       {
          case WREPORT_NONE:
+         case WREPORT_OPENING_LEADS:
             break;
          case WREPORT_HCP:
          case WREPORT_CONTROLS:

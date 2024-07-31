@@ -134,10 +134,10 @@ const uint MAX_TASKS_TO_SOLVE = 200 * 1000;
 //const uint AIM_TASKS_COUNT = 150 * 1000;
 //const uint AIM_TASKS_COUNT = 120 * 1000;
 //const uint AIM_TASKS_COUNT = MAX_TASKS_TO_SOLVE / 2;
-const uint AIM_TASKS_COUNT = 70 * 1000;
+//const uint AIM_TASKS_COUNT = 70 * 1000;
 //const uint AIM_TASKS_COUNT = 50 * 1000;
 //const uint AIM_TASKS_COUNT = 20*1000;
-//const uint AIM_TASKS_COUNT = 5*1000;
+const uint AIM_TASKS_COUNT = 5*1000;
 //const uint AIM_TASKS_COUNT = 2*1000;
 //const uint AIM_TASKS_COUNT = 10;
 

@@ -265,6 +265,14 @@ void Walrus::DetectGoals()
 void Walrus::AddScorerValues(char* tail)
 {
    char chunk[20];
+
+   #ifdef SEEK_OPENING_LEAD
+   if (cumulScore.ideal) {
+      owl.Show(" %lld", cumulScore.ideal);
+      return;
+   }
+   #endif SEEK_OPENING_LEAD
+
    if (cumulScore.oppContract) {
       owl.Show(" %lld", -cumulScore.oppContract);
       if (cumulScore.oppCtrDoubled) {
