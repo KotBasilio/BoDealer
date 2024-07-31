@@ -138,6 +138,15 @@ private:
    void ReadHandPBN(const char *line);
    EConfigReaderState FSM_DoFiltersState(char* line);
    EConfigReaderState FSM_DoTaskState(char* line);
+
+   // keywords used in parsing
+   struct Keywords {
+      static char* OpMode;
+      static char* Hand;
+      static char* TName;
+      static char* Filters;
+      static char* TEnd;
+   } key;
 };
 
 extern WaConfig config;

@@ -56,11 +56,20 @@ bool IsStartsWith(const char *str, const char *prefix) {
    return strncmp(str, prefix, lenPrefix) == 0;
 }
 
+char* WaConfig::Keywords::OpMode = "OPMODE: ";
+char* WaConfig::Keywords::Hand = "HAND: ";
+char* WaConfig::Keywords::TName = "TASK NAME:";
+char* WaConfig::Keywords::Filters = "FILTERS:";
+char* WaConfig::Keywords::TEnd = "TASK END";
+
 EConfigReaderState WaConfig::FSM_DoFiltersState(char *line)
 {
-   // end
+   // ends
    if (IsStartsWith(line, "ENDF")) {
       return S_IN_TASK;
+   }
+   if (IsStartsWith(line, key.TEnd)) {
+      return S_IDLE;
    }
 
    // add and control
@@ -85,23 +94,20 @@ void WaConfig::ReadHandPBN(const char* line)
 
 EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
 {
-   static char* keyOpMode = "OPMODE: ";
-   static char* keyHand = "HAND: ";
-
-   if (IsStartsWith(line, "FILTERS:")) {
+   if (IsStartsWith(line, key.Filters)) {
       owl.Show("%s : %s", nameTask, titleBrief);
       owl.Show("Fixed hand is %s\n", taskHandPBN);
       return S_FILTERS; 
    } 
    
-   if (IsStartsWith(line, "TASK END")) {
+   if (IsStartsWith(line, key.TEnd)) {
       return S_IDLE;
    } 
    
-   if (IsStartsWith(line, keyOpMode)) {
-      ChangeOpMode(line + strlen(keyOpMode));
-   } else if (IsStartsWith(line, keyHand)) {
-      ReadHandPBN(line + strlen(keyHand));
+   if (IsStartsWith(line, key.OpMode)) {
+      ChangeOpMode(line + strlen(key.OpMode));
+   } else if (IsStartsWith(line, key.Hand)) {
+      ReadHandPBN(line + strlen(key.Hand));
    } else if (strlen(line) > 2) {
       strcat_s(titleBrief, sizeof(titleBrief), line);
    }
@@ -128,7 +134,6 @@ void WaConfig::ReadTask(Walrus *walrus)
    titleBrief[0] = 0;
    taskHandPBN[0] = 0;
    sourceCodeFilters[0] = 0;
-   char* keyName = "TASK NAME:";
 
    // fsm on all lines
    EConfigReaderState fsm = S_IDLE;
@@ -140,8 +145,8 @@ void WaConfig::ReadTask(Walrus *walrus)
 
       switch (fsm) {
          case S_IDLE: {
-            if (IsStartsWith(line, keyName)) {
-               strcpy_s(nameTask, sizeof(nameTask), line + strlen(keyName));
+            if (IsStartsWith(line, key.TName)) {
+               strcpy_s(nameTask, sizeof(nameTask), line + strlen(key.TName));
                fsm = S_WAIT_TASK;
                nameTask[strlen(nameTask) - 1] = 0;
             }
