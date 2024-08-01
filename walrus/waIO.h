@@ -93,17 +93,18 @@ enum EConfigReaderState {
    S_GOALS
 };
 
-constexpr uint WA_CONTR_TITLE_LEN = 5;
+constexpr size_t WA_SCORER_CODE_LEN = 10;
 constexpr size_t WA_SOURCE_CODE_BUF = 2 * 1024;
 constexpr size_t WA_TASK_BRIEF = 1024;
+constexpr size_t WA_TASK_NANE_LEN = 64;
 constexpr size_t WA_HAND_LEN = 30;
 struct WaConfig {
    WA_OPERATION_MODE opMode = OPMODE_NONE;
    waFileNames namesBase;
 
    char titleBrief[WA_TASK_BRIEF];   // title and a brief
-   char titleContractPrimary[WA_CONTR_TITLE_LEN];   // kind of "2S", "6NT", our main action
-   char titleContractSecondary[WA_CONTR_TITLE_LEN]; // kind of "2Sx", "PASS", maybe their contract 
+   char primaScorerCode[WA_SCORER_CODE_LEN];   // our main action in linear scorer format
+   char titleContractSecondary[WA_SCORER_CODE_LEN]; // kind of "2Sx", "PASS", maybe their contract 
    char taskHandPBN[WA_HAND_LEN];
 
    int   primGoal;  // goal tricks in our primary contract
@@ -131,10 +132,11 @@ struct WaConfig {
    void BuildNewFilters(class Walrus *walrus);
    void SetupOtherContract();
 private:
-   char nameTask[64];
+   char nameTask[WA_TASK_NANE_LEN];
 
    void ChangeOpMode(const char *line);
    void ReadHandPBN(const char *line);
+   void ReadPrimaScorer(const char *line);
    EConfigReaderState FSM_DoFiltersState(char* line);
    EConfigReaderState FSM_DoTaskState(char* line);
    EConfigReaderState FSM_Go2WaitTask(char* line);
@@ -145,6 +147,7 @@ private:
       static char* OpMode;
       static char* Hand;
       static char* TName;
+      static char* Prima, *Secunda;
       static char* Filters;
       static char* TEnd;
    } key;

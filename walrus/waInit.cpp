@@ -52,7 +52,7 @@ WaConfig::WaConfig()
    , countFilters(0)
 {
    titleBrief[0] = 0;
-   titleContractPrimary [0] = 0;
+   primaScorerCode[0] = 0;
    titleContractSecondary[0] = 0;
 
    #ifdef IO_SHOW_HCP_CTRL_SPLIT
@@ -62,8 +62,6 @@ WaConfig::WaConfig()
    #if IO_HCP_MIN == IO_HCP_MAX
          minControls = (IO_HCP_MIN * 4) / 10 - 6;
    #endif
-
-   opMode = OPMODE_FIXED_TASK;
 }
 
 void Walrus::AllocFilteredTasksBuf()

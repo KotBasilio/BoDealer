@@ -9,9 +9,26 @@
 #include HEADER_CURSES
 #include "walrus.h"
 
+#define CUT_AT_TAIL(STR)     \
+   STR[sizeof(STR) - 1] = 0; \
+   STR[strlen(STR) - 1] = 0
+
+#define SAFE_STR_BY_LINE(TOSTR)         \
+   strncpy(TOSTR, line, sizeof(TOSTR)); \
+   CUT_AT_TAIL(TOSTR)
+
+#define SAFE_ADD_BY_LINE(TOSTR)                         \
+   strncat(TOSTR, line, sizeof(TOSTR) - strlen(TOSTR)); \
+   CUT_AT_TAIL(TOSTR)
+
+#define SAFE_ADD(TOSTR, ADDITION) \
+   strncat(TOSTR, ADDITION, sizeof(TOSTR) - strlen(TOSTR))
+
 char* WaConfig::Keywords::OpMode = "OPMODE: ";
 char* WaConfig::Keywords::Hand = "HAND: ";
 char* WaConfig::Keywords::TName = "TASK NAME:";
+char* WaConfig::Keywords::Prima = "PRIMARY SCORER: ";
+char* WaConfig::Keywords::Secunda = "SECONDARY SCORER: ";
 char* WaConfig::Keywords::Filters = "FILTERS:";
 char* WaConfig::Keywords::TEnd = "--------";
 
@@ -77,9 +94,13 @@ EConfigReaderState WaConfig::FSM_DoFiltersState(char *line)
 void WaConfig::ReadHandPBN(const char* line)
 {
    strcpy(taskHandPBN, "[");
-   strcat_s(taskHandPBN, sizeof(taskHandPBN), line);
-   taskHandPBN[strlen(taskHandPBN) - 1] = 0;
-   strcat_s(taskHandPBN, sizeof(taskHandPBN), "]");
+   SAFE_ADD_BY_LINE(taskHandPBN);
+   SAFE_ADD(taskHandPBN, "]");
+}
+
+void WaConfig::ReadPrimaScorer(const char* line)
+{
+   SAFE_STR_BY_LINE(primaScorerCode);
 }
 
 EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
@@ -87,6 +108,9 @@ EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
    if (IsStartsWith(line, key.Filters)) {
       owl.Show("%s : %s", nameTask, titleBrief);
       owl.Show("Fixed hand is %s\n", taskHandPBN);
+      if (primaScorerCode[0]) {
+         owl.Show("Scorer to use is %s\n", primaScorerCode);
+      }
       return S_FILTERS; 
    } 
    
@@ -98,8 +122,10 @@ EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
       ChangeOpMode(line + strlen(key.OpMode));
    } else if (IsStartsWith(line, key.Hand)) {
       ReadHandPBN(line + strlen(key.Hand));
+   } else if (IsStartsWith(line, key.Prima)) {
+      ReadPrimaScorer(line + strlen(key.Prima));
    } else if (strlen(line) > 2) {
-      strcat_s(titleBrief, sizeof(titleBrief), line);
+      SAFE_ADD(titleBrief, line);
    }
 
    return S_IN_TASK;
@@ -107,15 +133,18 @@ EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
 
 EConfigReaderState WaConfig::FSM_GoInsideTask(char* line)
 {
-   strcpy_s(titleBrief, sizeof(titleBrief), line + strlen(nameTask) + 1);
+   line += strlen(nameTask) + 1;
+   strcpy_s(titleBrief, sizeof(titleBrief), line);
+
+   opMode = OPMODE_FIXED_TASK;
 
    return S_IN_TASK;
 }
 
 EConfigReaderState WaConfig::FSM_Go2WaitTask(char* line)
 {
-   strcpy_s(nameTask, sizeof(nameTask), line + strlen(key.TName));
-   nameTask[strlen(nameTask) - 1] = 0;
+   line += strlen(key.TName);
+   SAFE_STR_BY_LINE(nameTask);
 
    return S_WAIT_TASK;
 }
@@ -137,6 +166,7 @@ void WaConfig::ReadTask(Walrus *walrus)
    // prepare
    char line[128];
    titleBrief[0] = 0;
+   primaScorerCode[0] = 0;
    taskHandPBN[0] = 0;
    sourceCodeFilters[0] = 0;
 
@@ -163,22 +193,17 @@ void WaConfig::ReadTask(Walrus *walrus)
             break;
          }
 
-         case S_IN_TASK: {
-            fsm = FSM_DoTaskState(line);
-            break;
-         }
-         case S_FILTERS:  {
-            fsm = FSM_DoFiltersState(line);
-            break;
-         }
-
-         default:
-            break;
+         case S_IN_TASK: fsm = FSM_DoTaskState(line);    break;
+         case S_FILTERS: fsm = FSM_DoFiltersState(line); break;
       }
-
    }
 
-   // done
+   // ensure we were in task
+   if (nameTask[0] && (opMode == OPMODE_NONE)) {
+      printf("Error: Task '%s' not found in the config file\n", nameTask);
+   }
+
+   // cleanup
    fclose(stream);
 }
 

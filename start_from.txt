@@ -10,6 +10,7 @@ TASK NAME:Jun24 lead from AK or side
 
 //OPMODE: SEMI_STRAY
 OPMODE: DEMO_STATISTICS
+PRIMARY SCORER: V4H 
 
 -----------------------------------------------------------------------------------------------------------------------
 Jun24 lead from AK or side -- Fix a 8 hcp 5224;
