@@ -127,17 +127,18 @@ struct WaConfig {
    char  secLongName[128];
 
    WaConfig();
-   void FSM_DoFiltersState(char  line[128], EConfigReaderState& fsm, int& retFlag);
    void ReadTask(class Walrus *walrus);
+   void BuildNewFilters(class Walrus *walrus);
    void SetupOtherContract();
 private:
    char nameTask[64];
 
-   void BuildNewFilters(class Walrus *walrus);
    void ChangeOpMode(const char *line);
    void ReadHandPBN(const char *line);
    EConfigReaderState FSM_DoFiltersState(char* line);
    EConfigReaderState FSM_DoTaskState(char* line);
+   EConfigReaderState FSM_Go2WaitTask(char* line);
+   EConfigReaderState FSM_GoInsideTask(char* line);
 
    // keywords used in parsing
    struct Keywords {

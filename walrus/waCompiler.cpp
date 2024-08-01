@@ -8,9 +8,6 @@
 #include HEADER_SLEEP
 #include HEADER_CURSES
 #include "walrus.h"
-//#include <cstring>
-//#include <cctype>
-
 
 struct NullFilter {
    MicroFunc func;
@@ -439,5 +436,27 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
 
    // not accepted => error
    return parser.Fail("Unexpected end of line");
+}
+
+void WaConfig::BuildNewFilters(Walrus *walrus)
+{
+   if (!sizeSourceCode) {
+      printf("No filters are found in the config.\n");
+      return;
+   }
+   printf("A filters source code is found in the config. Passing to compiler, size is %llu of %llu.\n", 
+      sizeSourceCode, sizeof(sourceCodeFilters));
+
+   if (!walrus->sem.Compile(sourceCodeFilters, sizeSourceCode, filtersLoaded)) {
+      printf("Config ERROR: Failed to compile filters.\n");
+      return;
+   }
+
+   if (!walrus->sem.MiniLink(filtersLoaded)) {
+      printf("Config ERROR: Failed to link filters.\n");
+      return;
+   }
+
+   printf("Success on filters compiling and linking.\n");
 }
 

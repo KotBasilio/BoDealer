@@ -147,6 +147,7 @@
     <ClCompile Include="..\..\walrus\waCompareContracts.cpp" />
     <ClCompile Include="..\..\walrus\waCompiler.cpp" />
     <ClCompile Include="..\..\walrus\waConfig.cpp" />
+    <ClCompile Include="..\..\walrus\waConfReader.cpp" />
     <ClCompile Include="..\..\walrus\waDDSTest.cpp" />
     <ClCompile Include="..\..\walrus\waDoubleDeal.cpp" />
     <ClCompile Include="..\..\walrus\waInit.cpp" />
