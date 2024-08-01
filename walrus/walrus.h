@@ -91,6 +91,7 @@ protected:
     const char *GetName() const { return mul.nameHlp; }
 
     // semantics
+    bool InitSemantics();
     void FillSemantic(void);
     void NOP() {}
     void VoidDepScoring(DdsTricks &tr) {}
@@ -166,7 +167,7 @@ private:
    void ClassifyAndPush(twContext* lay);
    void ClassifyOnPermute(twContext* lay);
    // -- 3-hands scan is like orbiting around a hand
-   void OrbNorthFillSem(void);
+   void SemanticsToOrbitFixedHand(void);
    void Orb_Interrogate(DdsTricks &tr, deal &cards, struct futureTricks &fut);
    bool Orb_ApproveByFly(deal& cards);
    void Orb_ReSolveAndShow(deal &cards);

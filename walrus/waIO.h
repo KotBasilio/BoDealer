@@ -131,7 +131,9 @@ struct WaConfig {
    void ReadTask(class Walrus *walrus);
    void BuildNewFilters(class Walrus *walrus);
    void SetupOtherContract();
+   bool IsInitFailed() { return !isInitSuccess; }
 private:
+   bool isInitSuccess = true;
    char nameTask[WA_TASK_NANE_LEN];
 
    void ChangeOpMode(const char *line);

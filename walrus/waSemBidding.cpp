@@ -10,7 +10,7 @@
 #ifdef SEMANTIC_JUN_MINORS_VS_MAJORS
 void Walrus::FillSemantic(void)
 {
-   OrbNorthFillSem();
+   SemanticsToOrbitFixedHand();
    sem.onDepPrimaryScoring = &Walrus::Score_NV_Doubled5Minor;
    sem.onDepSecondScoring = &Walrus::Score_Opp4Major;
    sem.vecFilters.clear();
@@ -38,7 +38,7 @@ void Walrus::FillSemantic(void)
 #ifdef SEMANTIC_OCT_INDIAN_5C
 void Walrus::FillSemantic(void)
 {
-   OrbNorthFillSem();
+   SemanticsToOrbitFixedHand();
    sem.onDepPrimaryScoring = &Walrus::Score_5Major;
    sem.onDepSecondScoring = &Walrus::Score_Opp5Minor;
    sem.vecFilters.clear();
@@ -68,7 +68,7 @@ void Walrus::FillSemantic(void)
 #ifdef SEMANTIC_OVERCALL_4C
 void Walrus::FillSemantic(void)
 {
-   OrbNorthFillSem();
+   SemanticsToOrbitFixedHand();
    sem.onDepPrimaryScoring = &Walrus::Score_4Minor;
    sem.onDepSecondScoring = &Walrus::Score_Opp4Major;
    sem.vecFilters.clear();
@@ -87,7 +87,7 @@ void Walrus::FillSemantic(void)
 #ifdef SEM_DU_MAR_1C_X_XX_1H_ETC_MAR
 void Walrus::FillSemantic(void)
 {
-   OrbNorthFillSem();
+   SemanticsToOrbitFixedHand();
    sem.onDepPrimaryScoring = &CumulativeScore::Our4minor;
    sem.onDepSecondScoring = &CumulativeScore::Score_Opp3Major;
    sem.vecFilters.clear();

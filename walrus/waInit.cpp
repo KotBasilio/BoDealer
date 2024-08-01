@@ -62,6 +62,10 @@ WaConfig::WaConfig()
    #if IO_HCP_MIN == IO_HCP_MAX
          minControls = (IO_HCP_MIN * 4) / 10 - 6;
    #endif
+
+   #ifdef SEEK_OPENING_LEAD
+      detailedReportType = WREPORT_OPENING_LEADS;
+   #endif
 }
 
 void Walrus::AllocFilteredTasksBuf()

@@ -56,7 +56,7 @@ void Walrus::Scan3FixedWest()
    }
 }
 
-void Walrus::OrbNorthFillSem(void)
+void Walrus::SemanticsToOrbitFixedHand(void)
 {
    sem.onInit = &Walrus::WithdrawByInput;
    sem.onShareStart = &Walrus::AllocFilteredTasksBuf;
@@ -75,6 +75,12 @@ void Walrus::OrbNorthFillSem(void)
 
 #ifdef FIXED_HAND_WEST
    sem.onScanCenter = &Walrus::Scan3FixedWest;
+#endif
+
+#ifdef SEEK_OPENING_LEAD
+   if (config.primaScorerCode[0]) {
+      sem.SetOpeningLeadScorer  (cumulScore, config.primaScorerCode);
+   }
 #endif
 }
 

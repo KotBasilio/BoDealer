@@ -10,7 +10,7 @@
 #ifdef SEMANTIC_JULY_MOROZOV_HAND_EVAL
 void Walrus::FillSemantic(void)
 {
-   OrbNorthFillSem();
+   SemanticsToOrbitFixedHand();
    //sem.onDepPrimaryScoring = &Walrus::Score_3NT;
    sem.onDepPrimaryScoring = &Walrus::Score_6NT;
    sem.vecFilters.clear();
@@ -26,7 +26,7 @@ void Walrus::FillSemantic(void)
 #ifdef SEMANTIC_OCT_SEEK_6D
 void Walrus::FillSemantic(void)
 {
-   OrbNorthFillSem();
+   SemanticsToOrbitFixedHand();
    sem.onDepPrimaryScoring = &Walrus::Score_NV6Minor;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
@@ -43,7 +43,7 @@ void Walrus::FillSemantic(void)
 #ifdef SEMANTIC_BASHA_NOV_NT
 void Walrus::FillSemantic(void)
 {
-   OrbNorthFillSem();
+   SemanticsToOrbitFixedHand();
    sem.onDepPrimaryScoring = &Walrus::Score_3NT;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
@@ -62,7 +62,7 @@ void Walrus::FillSemantic(void)
 #ifdef SEMANTIC_TANJA_FEB_LONG_H
 void Walrus::FillSemantic(void)
 {
-   OrbNorthFillSem();
+   SemanticsToOrbitFixedHand();
    sem.onDepPrimaryScoring = &Walrus::Score_4Major;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
@@ -78,7 +78,7 @@ void Walrus::FillSemantic(void)
 #ifdef SEMANTIC_54M_FEB_PARTIZAN
 void Walrus::FillSemantic(void)
 {
-   OrbNorthFillSem();
+   SemanticsToOrbitFixedHand();
    //sem.onDepPrimaryScoring = &Walrus::Score_4Major;
    sem.onDepPrimaryScoring = &Walrus::Score_3NT;
    sem.onPostmortem = &Walrus::PostmortemHCP;
@@ -96,7 +96,7 @@ void Walrus::FillSemantic(void)
 #ifdef SEMANTIC_4M_ON54_FEB_PATTON
 void Walrus::FillSemantic(void)
 {
-   OrbNorthFillSem();
+   SemanticsToOrbitFixedHand();
    sem.onDepPrimaryScoring = &CumulativeScore::Our4M;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
@@ -121,7 +121,7 @@ void Walrus::FillSemantic(void)
 #ifdef SEMANTIC_7D_OR_NT_FEB
 void Walrus::FillSemantic(void)
 {
-   OrbNorthFillSem();
+   SemanticsToOrbitFixedHand();
    sem.onDepPrimaryScoring = &CumulativeScore::OurNV7m;
    sem.onDepSecondScoring = &CumulativeScore::Our2_NV7NT;
    sem.onCompareContracts = &Walrus::CompareSlams;
@@ -140,7 +140,7 @@ void Walrus::FillSemantic(void)
 #ifdef SEMANTIC_INV_AFTER_2H
 void Walrus::FillSemantic(void)
 {
-   OrbNorthFillSem();
+   SemanticsToOrbitFixedHand();
    sem.onDepPrimaryScoring = &CumulativeScore::Our4M;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
@@ -176,7 +176,7 @@ void Walrus::FillSemantic(void)
 #ifdef SEMANTIC_1H_1S_2H_MAR
 void Walrus::FillSemantic(void)
 {
-   OrbNorthFillSem();
+   SemanticsToOrbitFixedHand();
    sem.onDepPrimaryScoring = &CumulativeScore::Our4M;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
@@ -201,7 +201,7 @@ void Walrus::FillSemantic(void)
 #ifdef SEMANTIC_1C_P_1H_2D_2H_MAR
 void Walrus::FillSemantic(void)
 {
-   OrbNorthFillSem();
+   SemanticsToOrbitFixedHand();
    sem.onDepPrimaryScoring = &CumulativeScore::Our4M;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
@@ -243,7 +243,7 @@ void Walrus::FillSemantic(void)
 #ifdef SEM_MIX_MAR24_INVITE_4S
 void Walrus::FillSemantic(void)
 {
-   OrbNorthFillSem();
+   SemanticsToOrbitFixedHand();
 
    sem.onDepPrimaryScoring = &CumulativeScore::Our4M;
    sem.onPostmortem = &Walrus::PostmortemHCP;
@@ -276,7 +276,7 @@ void Walrus::FillSemantic(void)
 #ifdef SEM_MAR24_5C_OR_3NT
 void Walrus::FillSemantic(void)
 {
-   OrbNorthFillSem();
+   SemanticsToOrbitFixedHand();
    sem.SetOurPrimaryScorer  (cumulScore, "V5C ");
    sem.SetOurSecondaryScorer(cumulScore, "V3N ");
    sem.onPostmortem = &Walrus::PostmortemHCP;
@@ -294,7 +294,7 @@ void Walrus::FillSemantic(void)
 #ifdef SEM_MAY24_TENS_AND_NINES
 void Walrus::FillSemantic(void)
 {
-   OrbNorthFillSem();
+   SemanticsToOrbitFixedHand();
    sem.SetOurPrimaryScorer  (cumulScore, "V3N ");
    sem.SetOurSecondaryScorer(cumulScore, "V2N ");
    sem.onPostmortem = &Walrus::PostmortemHCP;
@@ -327,7 +327,7 @@ void Walrus::FillSemantic(void)
 #ifdef SEM_MAY24_GLADIATOR
 void Walrus::FillSemantic(void)
 {
-   OrbNorthFillSem();
+   SemanticsToOrbitFixedHand();
    sem.SetBiddingGameScorer(cumulScore, "V3N ");
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
@@ -347,7 +347,7 @@ void Walrus::FillSemantic(void)
 #ifdef SEM_MAY24_TRHEE_SUITED_BALANCE
 void Walrus::FillSemantic(void)
 {
-   OrbNorthFillSem();
+   SemanticsToOrbitFixedHand();
    sem.SetBiddingGameScorer(cumulScore, "V4H ");
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();

@@ -170,16 +170,32 @@ void Walrus::DeprDetectGoals()
    //PLATFORM_GETCH();
 }
 
+bool Walrus::InitSemantics()
+{
+   // many tasks fully relay on config
+   #ifdef SEM_ORBITING_FIXED_HAND
+      SemanticsToOrbitFixedHand();
+   #else // other tasks, older approach
+      FillSemantic();
+   #endif
+
+   sem.MiniLinkFilters();
+
+   return sem.IsInitOK();
+}
+
 bool Walrus::InitByConfig()
 {
    // may read something
    config.ReadTask(this);
    config.BuildNewFilters(this);
+   if (config.IsInitFailed()) {
+      owl.Show("Failed to init configuration\n");
+      return false;
+   }
 
    // semantic preparations
-   FillSemantic();
-   sem.MiniLinkFilters();
-   if (sem.IsInitFailed()) {
+   if (!InitSemantics()) {
       owl.Show("Failed to init semantics\n");
       return false;
    }

@@ -87,7 +87,7 @@ struct Semantics {
    void SetOurSecondaryScorer(CumulativeScore &cs, const char* code);
    void SetBiddingGameScorer(CumulativeScore &cs, const char* code);
    void SetOpeningLeadScorer(CumulativeScore &cs, const char* code);
-   bool IsInitFailed() { return !isInitSuccess; }
+   bool IsInitOK() { return isInitSuccess; }
    bool IsClosingBracket(int idx);
    bool IsOpeningBracket(int idx);
 
