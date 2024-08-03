@@ -51,7 +51,8 @@ void Progress::StoreCountToGo(ucell count)
 ucell Progress::GetDiscardedBoardsCount()
 {
    u64 sum2 = 0;
-   for (uint i = IO_ROW_FILTERING; i < IO_ROW_FILTERING + config.countFilters; i++) {
+   auto upperLimit = min(HCP_SIZE, IO_ROW_FILTERING + config.countFilters);
+   for (uint i = IO_ROW_FILTERING; i < upperLimit; i++) {
       sum2 += hitsCount[i][1] + hitsCount[i][2] + hitsCount[i][3];
       sum2 += hitsCount[i][4] + hitsCount[i][5] + hitsCount[i][6];
    }
