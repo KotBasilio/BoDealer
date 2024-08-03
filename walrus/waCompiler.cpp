@@ -63,6 +63,9 @@ static HandFilter ExportedHandFilters[] = {
    DESCRIBE_FILTER(DiamondsNatural, 0),
    DESCRIBE_FILTER(NoMajorFit, 0),
 
+   DESCRIBE_FILTER(PenaltyDoubleSuit, 1),
+   DESCRIBE_FILTER(PenaltyDoubleDiamonds, 0),
+
    DESCRIBE_FILTER(NoOvcOn1LevOpen, 0),
    DESCRIBE_FILTER(NoOvercall, 0),
    DESCRIBE_FILTER(NoPrecision2C, 0),
@@ -273,7 +276,7 @@ struct Parser
 
    bool Fail(const char* reason1, const char* r2 = "", const char* r3 = "")
    {
-      printf("%s%s%s #%d: %s\n", reason1, r2, r3, ctx.idxLine + 1, backupLine);
+      printf("\n%s%s%s #%d: %s\n", reason1, r2, r3, ctx.idxLine + 1, backupLine);
       return false;
    }
 
@@ -438,21 +441,30 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
    return parser.Fail("Unexpected end of line");
 }
 
+//#define DBG_REPORT_SIZES
+
 void WaConfig::BuildNewFilters(Walrus *walrus)
 {
    if (!sizeSourceCode) {
       printf("No filters are found in the config.\n");
       return;
    }
-   printf("A filters source code is found in the config. Passing to compiler, size is %llu of %llu.\n", 
-      sizeSourceCode, sizeof(sourceCodeFilters));
+
+   #ifdef DBG_REPORT_SIZES
+      printf("A filters source code is found in the config. Passing to compiler, size is %llu of %llu.\n", 
+         sizeSourceCode, sizeof(sourceCodeFilters));
+   #else
+      printf("Compiling filters...");
+   #endif
 
    if (!walrus->sem.Compile(sourceCodeFilters, sizeSourceCode, filtersLoaded)) {
+      isInitSuccess = false;
       printf("Config ERROR: Failed to compile filters.\n");
       return;
    }
 
    if (!walrus->sem.MiniLink(filtersLoaded)) {
+      isInitSuccess = false;
       printf("Config ERROR: Failed to link filters.\n");
       return;
    }

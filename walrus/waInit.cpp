@@ -53,7 +53,7 @@ WaConfig::WaConfig()
 {
    titleBrief[0] = 0;
    primaScorerCode[0] = 0;
-   titleContractSecondary[0] = 0;
+   secundaScorerCode[0] = 0;
 
    #ifdef IO_SHOW_HCP_CTRL_SPLIT
       detailedReportType = WREPORT_HCP;
@@ -127,9 +127,7 @@ Semantics::Semantics()
       solveSecondTime = &Walrus::SolveSecondTime;
    #endif
 
-   #ifdef SEEK_SACRIFICE_DECISION
-      onCompareContracts = &Walrus::NoticeSacrificePossible;
-   #elif defined(SEEK_DECISION_BID_OR_DOUBLE)
+   #ifdef SEEK_DECISION_COMPETE
       onCompareContracts = &Walrus::NoticeBidProfit;
    #elif defined(SEEK_MAGIC_FLY)
       onCompareContracts = &Walrus::NoticeMagicFly;
@@ -184,20 +182,34 @@ void Semantics::SetOurPrimaryScorer(CumulativeScore &cs, const char* code)
       isInitSuccess = false;
       return;
    }
-   onDepPrimaryScoring = &CumulativeScore::DepPrimary;
+
+   // ok
    onPrimaryScoring = &CumulativeScore::Primary;
    config.primGoal = GetGoalFrom(code);
+   onDepPrimaryScoring = &CumulativeScore::DepPrimary;
+}
+
+void Semantics::SetSecondaryScorer(CumulativeScore &cs, s64& target, const char* code)
+{
+   if (!cs.secunda.Init(target, code)) {
+      isInitSuccess = false;
+      return;
+   }
+
+   // ok
+   onSecondScoring = &CumulativeScore::Secondary;
+   config.secGoal = GetGoalFrom(code);
+   onDepSecondScoring = &CumulativeScore::DepSecondary;
 }
 
 void Semantics::SetOurSecondaryScorer(CumulativeScore &cs, const char* code)
 {
-   if (!cs.secunda.Init(cs.ourOther, code)) {
-      isInitSuccess = false;
-      return;
-   }
-   onDepSecondScoring = &CumulativeScore::DepSecondary;
-   onSecondScoring = &CumulativeScore::Secondary;
-   config.secGoal = GetGoalFrom(code);
+   SetSecondaryScorer(cs, cs.ourOther, code);
+}
+
+void Semantics::SetTheirScorer(CumulativeScore& cs, const char* code)
+{
+   SetSecondaryScorer(cs, cs.oppContract, code);
 }
 
 void Semantics::SetBiddingGameScorer(CumulativeScore& cs, const char* code)

@@ -104,7 +104,7 @@ struct WaConfig {
 
    char titleBrief[WA_TASK_BRIEF];   // title and a brief
    char primaScorerCode[WA_SCORER_CODE_LEN];   // our main action in linear scorer format
-   char titleContractSecondary[WA_SCORER_CODE_LEN]; // kind of "2Sx", "PASS", maybe their contract 
+   char secundaScorerCode[WA_SCORER_CODE_LEN]; // second action
    char taskHandPBN[WA_HAND_LEN];
 
    int   primGoal;  // goal tricks in our primary contract
@@ -139,6 +139,7 @@ private:
    void ChangeOpMode(const char *line);
    void ReadHandPBN(const char *line);
    void ReadPrimaScorer(const char *line);
+   void ReadSecundaScorer(const char *line);
    EConfigReaderState FSM_DoFiltersState(char* line);
    EConfigReaderState FSM_DoTaskState(char* line);
    EConfigReaderState FSM_Go2WaitTask(char* line);

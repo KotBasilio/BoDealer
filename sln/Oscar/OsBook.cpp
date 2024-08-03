@@ -3,6 +3,7 @@
 //
 
 #define  _CRT_SECURE_NO_WARNINGS
+#include <string.h>
 
 typedef unsigned int uint;
 typedef signed long long s64;
@@ -527,6 +528,10 @@ void PrepareLinearScores()
 // N3NR -- nv, 3 NT redoubled
 const s64* FindLinearScore(const char* code)
 {
+   if (strlen(code) < 3) {
+      return nullptr;
+   }
+
    uint vul = 0;
    switch (code[0]) {
       case 'V': vul++;

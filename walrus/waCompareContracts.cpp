@@ -22,42 +22,44 @@ void Walrus::NoticeMagicFly(uint trickSuit, uint tricksNT)
    }
 }
 
-void Walrus::NoticeSacrificePossible(uint tOurs, uint tTheirs)
-{
-   DEBUG_UNEXPECTED;
-}
+#define DBG_SHOW_EACH_COMPARISON
 
 void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs)
 {
    // detect score
-   CumulativeScore tester;// don't use with adjustable scorers. They are not inited
+   CumulativeScore tester;
+   tester.FillSameLinears(cumulScore);
    (tester.*sem.onDepPrimaryScoring)(tOurs);
    (tester.*sem.onDepSecondScoring)(tTheirs);
 
-   // mark
-   if (tester.bidGame > tester.oppCtrDoubled) {
+   // get proper idea of result
+   auto fromTheirs = - tester.oppContract; // or oppCtrDoubled in other tasks
+
+   // mark 
+   if (tester.bidGame > fromTheirs) {
       progress.ExtraMark(IO_ROW_SACRIFICE, IO_CAMP_PREFER_TO_BID);
    } else {
       progress.ExtraMark(IO_ROW_SACRIFICE, IO_CAMP_REFRAIN_BIDDING);
    }
-   s64   delta = tester.bidGame - tester.oppCtrDoubled;
+   s64   delta = tester.bidGame - fromTheirs;
    ui.primaBetterBy += delta;
 
    // debug
-   #ifdef SHOW_EACH_COMPARISON
+   #ifdef DBG_SHOW_EACH_COMPARISON
       char *action = "Bidding   ";
       if (delta < 0) {
          action = "Refraining";
          delta = -delta;
       }
-      printf("   %4lld; %4lld. %s is better by %lld points\n", tester.bidGame, tester.oppCtrDoubled, action, delta);
+      printf("   %4lld; %4lld. %s is better by %lld points\n", tester.bidGame, fromTheirs, action, delta);
    #endif 
 }
 
 void Walrus::CompareSlams(uint tricksA, uint tricksB)
 {
-   // detect score
-   CumulativeScore tester;// don't use with adjustable scorers. They are not inited
+   // detect score -- TODO init for linear scorers
+   CumulativeScore tester;
+   tester.FillSameLinears(cumulScore);
    (tester.*sem.onDepPrimaryScoring)(tricksA);
    (tester.*sem.onDepSecondScoring)(tricksB);
 

@@ -622,3 +622,33 @@ uint WaFilter::PointsSuitLEqSuit(twContext* lay, const uint* par)
    return MIC_BLOCK;
 }
 
+uint WaFilter::PenaltyDoubleSuit(twContext* lay, const uint* par)
+{
+   ACCESS_MICPAR_LEN;
+   DEBUG_UNEXPECTED;
+   return MIC_BLOCK;
+}
+
+uint WaFilter::PenaltyDoubleDiamonds(twContext* lay, const uint* par)
+{
+   ACCESS_MICPARS_HL;
+
+   if (len.d <= 2) {
+      return MIC_BLOCK;
+   }
+
+   if (len.d == 3) {
+      if (hcp.d < 8) {
+         return MIC_BLOCK;
+      }
+   }
+
+   if (len.d == 4) {
+      if (hcp.d < 5) {
+         return MIC_BLOCK;
+      }
+   }
+
+   return MIC_PASSED;
+}
+

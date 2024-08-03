@@ -19,10 +19,18 @@
    #define FOUR_HANDS_TASK
 */
 
+#ifdef SEM_AUG_PREEMPTIVE_ON_PART_1H
+   #define SEEK_SACRIFICE_DECISION
+   #define INPUT_TRUMPS    SOL_SPADES
+   #define INPUT_ON_LEAD   WEST
+   #define OC_TRUMPS       SOL_DIAMONDS
+   #define OC_ON_LEAD      NORTH
+   #define SEM_ORBITING_FIXED_HAND
+#endif 
+
 #ifdef SEM_DU_MAR_1C_X_XX_1H_ETC_MAR
 	#define TITLE_VERSION  "Fix 1363 8hcp, all vul;\n  1c (X) XX 1h\n2d (2h) 3d (3h)\n X p ??\nQuestion: pass or 4d?"
 	#define SEEK_DECISION_BID_OR_DOUBLE
-	#define SCORE_THE_OTHER_CONTRACT
 	#define OC_TRUMPS       SOL_HEARTS
 	#define OC_ON_LEAD      SOUTH
 	#define SHOW_OPPS_ON_DOUBLE_ONLY

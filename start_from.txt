@@ -2,7 +2,8 @@ The main selector in this config
 is a line that starts with "TASK NAME".
 So we can comment out them easily at the line start
 
-TASK NAME:Jun24 lead from AK or side
+TASK NAME:Aug2 seven spades vs 1h
+//TASK NAME:Jun24 lead from AK or side
 //TASK NAME:MYTASK1
 //TASK NAME:MAY24_TRHEE_SUITED_BALANCE
 //TASK NAME:some old one
@@ -10,6 +11,52 @@ TASK NAME:Jun24 lead from AK or side
 
 //OPMODE: SEMI_STRAY
 OPMODE: DEMO_STATISTICS
+
+Scorer to use is N3S
+A filters source code is found in the config. Passing to compiler, size is 413 of 2048.
+Unrecognized hand filter PenaltyDoubleDiamonds in line #8:         SOUTH, PenaltyDoubleDiamonds
+Config ERROR: Failed to compile filters.
+Failed to init configuration
+Press an
+
+-----------------------------------------------------------------------------------------------------------------------
+Aug2 seven spades vs 1h
+Bidding from RHO: 
+ 1h    pass 2s 3d
+ pass  pass ??
+Question: pass or 3s?
+
+HAND: N:KJT7652.Q3.4.J96
+
+PRIMARY SCORER: N3S 
+SECONDARY SCORER: N3D 
+
+FILTERS:
+   SOUTH: PointsRange 8, 14
+   SOUTH: HeartsLen 5, 6
+   SOUTH: HeartsNatural
+   SOUTH: SpadesLen 0, 2
+
+   SOUTH ExcludeCombination {
+        SOUTH, PointsRange, 13, 14
+        SOUTH, PenaltyDoubleDiamonds
+   }
+
+   WEST: NoOvercall
+   WEST: PointsRange 0, 9
+   WEST: DiamondsLen, 0, 4
+   WEST ExcludeCombination {
+        WEST, DiamondsLen, 4, 4
+        WEST, PointsRange, 8, 9
+   }
+
+   EAST: PointsRange 9, 16
+   EAST: DiamondsLen, 5, 7
+   EAST: DiamondsNatural
+   WEST ExcludeCombination {
+        WEST, DiamondsLen, 5, 5
+        WEST, ClubsLen, 5, 5
+   }
 
 -----------------------------------------------------------------------------------------------------------------------
 Jun24 lead from AK or side -- Fix a 8 hcp 5224;

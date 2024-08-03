@@ -152,7 +152,7 @@ static void ClearFreqs()
 
 extern char viscr[DDS_HAND_LINES][DDS_FULL_LINE];
 extern void ClearViScreen();
-extern void SilentViScreen(int count);
+extern void SilentViScreen(int count, char scr[][DDS_FULL_LINE]);
 constexpr int REL_GRAPH_LINES = 10;
 constexpr int REL_GRAPH_SCREEN = DDS_HAND_LINES;
 
@@ -195,7 +195,7 @@ static void DisplayRawData()
    }
 
    // out
-   SilentViScreen(REL_GRAPH_SCREEN);
+   SilentViScreen(REL_GRAPH_SCREEN, viscr);
 }
 
 static void CalcAndDisplayStatistics(char *title)

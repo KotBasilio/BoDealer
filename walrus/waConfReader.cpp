@@ -103,13 +103,22 @@ void WaConfig::ReadPrimaScorer(const char* line)
    SAFE_STR_BY_LINE(primaScorerCode);
 }
 
+void WaConfig::ReadSecundaScorer(const char* line)
+{
+   SAFE_STR_BY_LINE(secundaScorerCode);
+}
+
 EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
 {
    if (IsStartsWith(line, key.Filters)) {
       owl.Show("%s : %s", nameTask, titleBrief);
       owl.Show("Fixed hand is %s\n", taskHandPBN);
       if (primaScorerCode[0]) {
-         owl.Show("Scorer to use is %s\n", primaScorerCode);
+         if (secundaScorerCode[0]) {
+            owl.Show("Scorers to use are: %s; %s\n", primaScorerCode, secundaScorerCode);
+         } else {
+            owl.Show("Scorer to use is %s\n", primaScorerCode);
+         }
       }
       return S_FILTERS; 
    } 
@@ -124,6 +133,8 @@ EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
       ReadHandPBN(line + strlen(key.Hand));
    } else if (IsStartsWith(line, key.Prima)) {
       ReadPrimaScorer(line + strlen(key.Prima));
+   } else if (IsStartsWith(line, key.Secunda)) {
+      ReadSecundaScorer(line + strlen(key.Secunda));
    } else if (strlen(line) > 2) {
       SAFE_ADD(titleBrief, line);
    }

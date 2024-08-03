@@ -280,11 +280,11 @@ void ClearViScreen()
    }
 }
 
-void SilentViScreen(int count)
+void SilentViScreen(int count, char scr[][DDS_FULL_LINE])
 {
    // print the v-screen
    for (int i = 0; i < count; i++) {
-      owl.Silent("   %s\n", viscr[i]);
+      owl.Silent("   %s\n", scr[i]);
    }
    //owl.Silent("\n\n");
 }
@@ -349,7 +349,7 @@ void PrintHand(char title[], const deal& dl)
    dashes[l] = '\0';
    owl.Silent("%s\n", dashes);
 
-   SilentViScreen(DDS_HAND_LINES);
+   SilentViScreen(DDS_HAND_LINES, viscr);
 }
 
 void OwlOutBoard(char title[], const deal& dl)
@@ -365,7 +365,7 @@ void OwlOutBoard(char title[], const deal& dl)
    dashes[l] = '\0';
    owl.Silent("%s\n", dashes);
 
-   SilentViScreen(DDS_HAND_LINES);
+   SilentViScreen(DDS_HAND_LINES, viscr);
 }
 
 void OwlTNTBoard(char title[], const deal& dl)
@@ -374,33 +374,33 @@ void OwlTNTBoard(char title[], const deal& dl)
 
 void PrintTwoFutures(char title[], futureTricks * fut1, futureTricks * fut2)
 {
-   char viscr[DDS_OPLEAD_LINES][DDS_FULL_LINE];
+   char bigScr[DDS_OPLEAD_LINES][DDS_FULL_LINE];
 
    // clear virtual screen
    for (int lidx = 0; lidx < DDS_OPLEAD_LINES; lidx++) {
-      memset(viscr[lidx], ' ', DDS_FULL_LINE);
-      viscr[lidx][DDS_FULL_LINE - 1] = '\0';
+      memset(bigScr[lidx], ' ', DDS_FULL_LINE);
+      bigScr[lidx][DDS_FULL_LINE - 1] = '\0';
    }
 
-   // fill it with viscr info
+   // fill it with bigScr info
    int off2 = 35;
-   sprintf(viscr[0] + off2, "%s", title);
+   sprintf(bigScr[0] + off2, "%s", title);
 
-   sprintf(viscr[1], " %-6s %-6s %-6s              %-6s %-6s %-6s",
+   sprintf(bigScr[1], " %-6s %-6s %-6s              %-6s %-6s %-6s",
       "suit", "rank", "score",
       "suit", "rank", "score"
    );
 
    for (int i = 0; i < fut1->cards; i++) {
-      sprintf(viscr[2+i], "   %-6c %-6c %-6d",
+      sprintf(bigScr[2+i], "   %-6c %-6c %-6d",
          dcardSuit[fut1->suit[i]],
          dcardRank[fut1->rank[i]],
          fut1->score[i]);
-      viscr[2+i][23] = ' ';
+      bigScr[2+i][23] = ' ';
    }
 
    for (int i = 0; i < fut2->cards; i++) {
-      sprintf(viscr[2 + i] + off2, "  %-6c %-6c %-6d",
+      sprintf(bigScr[2 + i] + off2, "  %-6c %-6c %-6d",
          dcardSuit[fut2->suit[i]],
          dcardRank[fut2->rank[i]],
          fut2->score[i]);
@@ -408,38 +408,38 @@ void PrintTwoFutures(char title[], futureTricks * fut1, futureTricks * fut2)
 
    // print the v-screen
    auto maxline = __max(fut1->cards, fut2->cards) + 2;
-   SilentViScreen(maxline);
+   SilentViScreen(maxline, bigScr);
 }
 
 void OwlTwoFut(char title[], futureTricks * fut1, futureTricks * fut2)
 {
-   char viscr[DDS_OPLEAD_LINES][DDS_FULL_LINE];
+   char bigScr[DDS_OPLEAD_LINES][DDS_FULL_LINE];
 
    // clear virtual screen
    for (int lidx = 0; lidx < DDS_OPLEAD_LINES; lidx++) {
-      memset(viscr[lidx], ' ', DDS_FULL_LINE);
-      viscr[lidx][DDS_FULL_LINE - 1] = '\0';
+      memset(bigScr[lidx], ' ', DDS_FULL_LINE);
+      bigScr[lidx][DDS_FULL_LINE - 1] = '\0';
    }
 
-   // fill it with viscr info
+   // fill it with bigScr info
    int off2 = 35;
-   sprintf(viscr[0] + off2, "%s", title);
+   sprintf(bigScr[0] + off2, "%s", title);
 
-   sprintf(viscr[1], " %-6s %-6s %-6s              %-6s %-6s %-6s",
+   sprintf(bigScr[1], " %-6s %-6s %-6s              %-6s %-6s %-6s",
       "suit", "rank", "score",
       "suit", "rank", "score"
    );
 
    for (int i = 0; i < fut1->cards; i++) {
-      sprintf(viscr[2+i], "   %-6c %-6c %-6d",
+      sprintf(bigScr[2+i], "   %-6c %-6c %-6d",
          dcardSuit[fut1->suit[i]],
          dcardRank[fut1->rank[i]],
          fut1->score[i]);
-      viscr[2+i][23] = ' ';
+      bigScr[2+i][23] = ' ';
    }
 
    for (int i = 0; i < fut2->cards; i++) {
-      sprintf(viscr[2 + i] + off2, "  %-6c %-6c %-6d",
+      sprintf(bigScr[2 + i] + off2, "  %-6c %-6c %-6d",
          dcardSuit[fut2->suit[i]],
          dcardRank[fut2->rank[i]],
          fut2->score[i]);
@@ -447,6 +447,6 @@ void OwlTwoFut(char title[], futureTricks * fut1, futureTricks * fut2)
 
    // print the v-screen
    auto maxline = __max(fut1->cards, fut2->cards) + 2;
-   SilentViScreen(maxline);
+   SilentViScreen(maxline, bigScr);
 }
 

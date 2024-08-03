@@ -23,16 +23,27 @@
    #define SHOW_MY_FLY_RESULTS
 #endif
 
-#ifdef SEEK_SACRIFICE_DECISION
-   #define SEEK_BIDDING_LEVEL
-   #define SCORE_THE_OTHER_CONTRACT
-   #define SHOW_SACRIFICE_RESULTS
-#endif
-
 #ifndef OC_TRUMPS
    #define OC_TRUMPS       INPUT_TRUMPS
    #define OC_ON_LEAD      INPUT_ON_LEAD
 #endif
+
+#ifdef SEEK_SACRIFICE_DECISION
+   #define SHOW_OPPS_ON_PASS_ONLY
+   #define SEEK_DECISION_COMPETE
+#endif
+
+#ifdef SEEK_DECISION_BID_OR_DOUBLE
+   #define SHOW_OPPS_ON_DOUBLE_ONLY
+   #define SEEK_DECISION_COMPETE
+#endif
+
+#ifdef SEEK_DECISION_COMPETE
+   #define SCORE_THE_OTHER_CONTRACT
+   #define SEEK_BIDDING_LEVEL
+   #define SHOW_SACRIFICE_RESULTS
+#endif
+
 
 #ifdef SCORE_THE_OTHER_CONTRACT
    #define SOLVE_TWICE_HANDLED_CHUNK
@@ -49,11 +60,6 @@
 #ifndef TWICE_ON_LEAD_INSPECT
    #define TWICE_ON_LEAD_INSPECT   SOL_CLUBS
    #define TWICE_ON_LEAD_CHUNK     NORTH
-#endif
-
-#ifdef SEEK_DECISION_BID_OR_DOUBLE
-   #define SEEK_BIDDING_LEVEL
-   #define SHOW_SACRIFICE_RESULTS
 #endif
 
 // tasks without a fixed hand (no specifics)

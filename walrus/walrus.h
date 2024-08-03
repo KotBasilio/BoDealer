@@ -68,7 +68,6 @@ protected:
     void HandleSolvedChunk(struct boards& bo, struct solvedBoards& chunk);
     void SolveSecondTime(struct boards& bo, struct solvedBoards& chunk);
     void NoticeMagicFly(uint trickSuit, uint tricksNT);
-    void NoticeSacrificePossible(uint tOurs, uint tTheirs);
     void NoticeBidProfit(uint tOurs, uint tTheirs);
     void CompareOurContracts(uint tricksA, uint tricksB);
     void CompareSlams(uint tricksA, uint tricksB);

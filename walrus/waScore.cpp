@@ -79,7 +79,7 @@ CumulativeScore::Adjustable::Adjustable()
    , title("none")
 {}
 
-bool CumulativeScore::Adjustable::IsEmpty()
+bool CumulativeScore::Adjustable::IsEmpty() const
 {
    return outSum == nullptr;
 }
@@ -110,6 +110,27 @@ s64 CumulativeScore::Adjustable::Get(uint tricks)
 void CumulativeScore::Adjustable::operator()(uint tricks)
 {
    *outSum += Get(tricks);
+}
+
+void CumulativeScore::FillSameLinears(const CumulativeScore& other)
+{
+   prima.  FillUpon(&ideal, other.prima,   &other.ideal);
+   secunda.FillUpon(&ideal, other.secunda, &other.ideal);
+   tertia. FillUpon(&ideal, other.tertia,  &other.ideal);
+}
+
+void CumulativeScore::Adjustable::FillUpon(s64* ourBase, const Adjustable& other, const s64* thatBase)
+{
+   if (other.IsEmpty()) {
+      return;
+   }
+
+   // src
+   linearBase = other.linearBase;
+
+   // dst
+   auto offset = other.outSum - thatBase;
+   outSum = ourBase + offset;
 }
 
 void CumulativeScore::BiddingLevel(uint tricks)

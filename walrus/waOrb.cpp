@@ -78,10 +78,16 @@ void Walrus::SemanticsToOrbitFixedHand(void)
 #endif
 
 #ifdef SEEK_OPENING_LEAD
-   if (config.primaScorerCode[0]) {
-      sem.SetOpeningLeadScorer  (cumulScore, config.primaScorerCode);
-   }
+   sem.SetOpeningLeadScorer  (cumulScore, config.primaScorerCode);
 #endif
+
+#ifdef SEEK_DECISION_COMPETE
+   sem.SetOurPrimaryScorer(cumulScore, config.primaScorerCode);
+   sem.SetTheirScorer(cumulScore, config.secundaScorerCode);
+#elif defined(SEEK_BIDDING_LEVEL)
+   sem.SetBiddingGameScorer(cumulScore, config.primaScorerCode);
+#endif
+
 }
 
 void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)

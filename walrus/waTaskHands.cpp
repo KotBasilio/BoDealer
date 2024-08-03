@@ -196,9 +196,16 @@ static uint CountBits(uint v)// count bits set in v (32-bit value)
 
 void Walrus::PrepareBaseDeal(deal& dlBase)
 {
+   #ifdef INPUT_TRUMPS
+      config.primTrump = INPUT_TRUMPS;
+      config.primFirst = INPUT_ON_LEAD;
+   #else
+      DEBUG_UNEXPECTED; // get from scorer, and not even here
+   #endif
+
    // common fields
-   dlBase.trump = config.primTrump = INPUT_TRUMPS;
-   dlBase.first = config.primFirst = INPUT_ON_LEAD;
+   dlBase.trump = config.primTrump;// = INPUT_TRUMPS;
+   dlBase.first = config.primFirst;// = INPUT_ON_LEAD;
 
    dlBase.currentTrickSuit[0] = 0;
    dlBase.currentTrickSuit[1] = 0;

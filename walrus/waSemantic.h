@@ -69,6 +69,9 @@ public:
    uint DiamondsNatural(twContext* lay, const uint* par);
    uint NoMajorFit(twContext* lay, const uint *par);
    // -
+   uint PenaltyDoubleSuit(twContext* lay, const uint* par);
+   uint PenaltyDoubleDiamonds(twContext* lay, const uint* par);
+   // -
    uint SpadesLen(twContext* lay, const uint *par);
    uint HeartsLen(twContext* lay, const uint *par);
    uint DiamondsLen(twContext* lay, const uint *par);

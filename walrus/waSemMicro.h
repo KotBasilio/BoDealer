@@ -54,6 +54,8 @@ const uint SKIP_BY_SANDWICH = SKIP_BY_OPP;
    const auto &hcp(lay[seat].hcp);   \
    const auto &len(lay[seat].len)
 
+#define ACCESS_MICPAR_SUIT           \
+   auto suit = par[1];
 
 // a class to rule task logic. fill them on init. 
 // then values are constant through all solving
@@ -85,6 +87,7 @@ struct Semantics {
    void MiniLinkFilters();
    void SetOurPrimaryScorer(CumulativeScore &cs, const char* code);
    void SetOurSecondaryScorer(CumulativeScore &cs, const char* code);
+   void SetTheirScorer(CumulativeScore &cs, const char* code);
    void SetBiddingGameScorer(CumulativeScore &cs, const char* code);
    void SetOpeningLeadScorer(CumulativeScore &cs, const char* code);
    bool IsInitOK() { return isInitSuccess; }
@@ -98,8 +101,8 @@ struct Semantics {
    SemDepScoring            onDepPrimaryScoring;
    SemDepScoring            onDepSecondScoring;
 private:
+   void SetSecondaryScorer(CumulativeScore &cs, s64 &target, const char* code);
    bool CompileOneLine(struct CompilerContext &ctx);
-   bool CompileOneLine(char* line, std::vector<MicroFilter>& filters);
    bool IsListStart(const MicroFilter& mic);
    bool isInitSuccess = true;
 };

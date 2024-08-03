@@ -72,9 +72,10 @@ struct CumulativeScore {
       Adjustable();
       bool Init(s64 &out, const char* code);
       void TargetOut(s64 &out);
-      bool IsEmpty();
+      bool IsEmpty() const;
       s64  Get(uint tricks);
       void operator () (uint tricks);
+      void FillUpon(s64 *ourBase, const Adjustable& other, const s64 *thatBase);
    private:
       const char* title;
       const s64* linearBase;
@@ -89,6 +90,7 @@ struct CumulativeScore {
    void Tertiary       (DdsTricks &tr) { DepTertiary (tr.plainScore); }
    void BiddingLevel(uint tricks);
    void OpeningLead (DdsTricks &tr);
+   void FillSameLinears(const CumulativeScore &other);
 
 private:
    void Opp_3MajX(s64& sum, uint tricks);
