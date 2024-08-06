@@ -22,6 +22,7 @@ struct Progress {
    void Up(ucell idx);
    void StoreCountToGo(ucell count);
    ucell GetDiscardedBoardsCount();
+   ucell PeekByIPR(uint ip, uint reason) { return CellByIPR(ip, reason); }
 
    // operating marks
    void SelectedMark();

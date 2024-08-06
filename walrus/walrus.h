@@ -125,10 +125,11 @@ protected:
     void ReportTime();
     void ReportAllLines();
     bool ConsiderNormalZeroLine(int i, ucell sumline);
-    void DisplayStatNumbers(int i, ucell sumline);
+    void DisplaySolvingStats(int i, ucell sumline);
+    void DisplayFilterNumbers(uint ip);
     void DisplayStatCell(ucell cell);
     void RepeatLineWithPercentages(int i, ucell sumline);
-    void HandleFilterLine(int i);
+    void HandleFilterLine(uint ip);
     bool IsFilterLine(int i);
     void MiniReport(ucell toGo);
     void ShowProgress(ucell idx);

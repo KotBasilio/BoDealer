@@ -59,7 +59,7 @@ void Walrus::ReportAllLines()
       }
 
       // show statistics and summary
-      DisplayStatNumbers(i, sumline);
+      DisplaySolvingStats(i, sumline);
       owl.OnProgress("\n");
       RepeatLineWithPercentages(i, sumline);
    }
@@ -72,10 +72,9 @@ void Walrus::ReportAllLines()
    // show filtering
    ui.farCol = 3;
    owl.OnProgress("%d:    NORTH     EAST    SOUTH     WEST\n", i-1);
-   for (int ip = 0; ip < sem.vecFilters.size(); ip++, i++) {
-      DisplayStatNumbers(i, 0);
-      HandleFilterLine(i);
-      owl.OnProgress("\n");
+   for (uint ip = 0; ip < sem.vecFilters.size(); ip++, i++) {
+      DisplayFilterNumbers(ip);
+      HandleFilterLine(ip);
    }
 }
 
@@ -128,6 +127,13 @@ static bool DetectKeyword(char* name, int key)
    return key == *(int *)(name);
 }
 
+bool Walrus::IsFilterLine(int i)
+{
+   auto start = IO_ROW_FILTERING;
+   auto end = start + sem.vecFilters.size();
+   return ( start <= i && i < end );
+}
+
 static char *IndentName(const char *start, const char* name, int indent)
 {
    static char tail[40];
@@ -137,26 +143,14 @@ static char *IndentName(const char *start, const char* name, int indent)
       strcat(tail, "  ");
    }
    strcat(tail, name);
+   strcat(tail, "\n");
 
    return tail;
 }
 
-bool Walrus::IsFilterLine(int i)
+void Walrus::HandleFilterLine(uint fidx)
 {
-   auto start = IO_ROW_FILTERING;
-   auto end = start + sem.vecFilters.size();
-   return ( start <= i && i < end );
-}
-
-void Walrus::HandleFilterLine(int i)
-{
-   // ensure the line is filtering
-   if (!IsFilterLine(i)) {
-      return;
-   }
-
    // access name
-   uint fidx = i - IO_ROW_FILTERING;
    char* name = sem.vecFilters[fidx].name;
 
    // indent changing lines
@@ -229,19 +223,25 @@ void Walrus::DisplayStatCell(ucell cell)
    }
 }
 
-void Walrus::DisplayStatNumbers(int i, ucell sumline)
+void Walrus::DisplaySolvingStats(int i, ucell sumline)
 {
    owl.OnProgress("%02d: ", i);
    for (int j = 0; j <= ui.farCol; j++) {
       auto cell = progress.hitsCount[i][j];
       DisplayStatCell(cell);
    }
-   if (sumline) {
-      owl.OnProgress("  : %-12llu", sumline);
-   } else {
-      owl.OnProgress("  : ");
-   }
+   owl.OnProgress("  : %-12llu", sumline);
    ui.shownDashes = false;
+}
+
+void Walrus::DisplayFilterNumbers(uint ip)
+{
+   int i = IO_ROW_FILTERING + ip;
+   owl.OnProgress("%02d: ", i);
+   for (uint reason = NORTH; reason <= WEST; ) {
+      DisplayStatCell(progress.PeekByIPR(ip, ++reason));
+   }
+   owl.OnProgress("  : ");
 }
 
 void Walrus::ShowDetailedReportHighcards()
