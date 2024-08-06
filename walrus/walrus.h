@@ -74,7 +74,7 @@ protected:
     void HandleDDSFail(int res);
 
     // multi-thread
-    void  LaunchHelpers(Walrus &hA, Walrus &hB);
+    void  LaunchHelpers();
     void  ShowEffortSplit(Walrus &hA, Walrus &hB);
     void  DoIteration();
     uint  NumFiltered() const   { return mul.countToSolve; }
@@ -83,6 +83,7 @@ protected:
     void  CoWork(Walrus * other);
     void  Supervise(void);
     void  MergeResults(Walrus *other);
+    void  ClearHelpers();
 
     // joined effort
     ucell DoTheShare();

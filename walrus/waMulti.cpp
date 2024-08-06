@@ -69,18 +69,38 @@ PFM_THREAD_RETTYPE ProcHelper(void *arg)
    return PFM_THREAD_RETVAL;
 }
 
-void Walrus::LaunchHelpers(Walrus &hA, Walrus &hB)
+void Walrus::LaunchHelpers()
 {
-#ifdef SKIP_HELPERS
-   hA.mul.isRunning = false;
-   hB.mul.isRunning = false;
-#else
-   mul.hA = &hA;
-   mul.hB = &hB;
+   // may work without helpers
+   #ifdef SKIP_HELPERS
+      mul.hA = mul.hB = nullptr;
+      return;
+   #endif
+
+   // decide how to split effort. Take in account that the main thread is faster a bit
+   ucell effortA = (mul.countShare >> 2)
+                 + (mul.countShare >> 4)
+                 + (mul.countShare >> 6)
+                 + (mul.countShare >> 8);
+   ucell effortB = effortA;
+   mul.countShare -= effortA + effortB;
+
+   // split the effort
+   mul.hA = new Walrus(this  , "helperA", effortA);
+   mul.hB = new Walrus(mul.hA, "helperB", effortB);
+   ShowEffortSplit(*mul.hA, *mul.hB);
+
+   // threads
    PLATFORM_BEGIN_THREAD(ProcHelper, mul.hA);
    PLATFORM_BEGIN_THREAD(ProcHelper, mul.hB);
    mul.countShowLiveSign = ADDITION_STEP_ITERATIONS;
-#endif // SKIP_HELPERS
+}
+
+void Walrus::ClearHelpers()
+{
+   delete mul.hA;
+   delete mul.hB;
+   mul.hA = mul.hB = nullptr;
 }
 
 void Walrus::ShowEffortSplit(Walrus &hA, Walrus &hB)
@@ -105,24 +125,8 @@ void Walrus::ShowEffortSplit(Walrus &hA, Walrus &hB)
 
 void Walrus::ScanFixedTask(void)
 {
-   // decide how to split effort. Take in account that the main thread is faster a bit
-   ucell effortA = (mul.countShare >> 2)
-                 + (mul.countShare >> 4)
-                 + (mul.countShare >> 6)
-                 + (mul.countShare >> 8);
-   ucell effortB = effortA;
-   #ifdef SKIP_HELPERS
-      effortB = effortA = 0;
-   #endif
-   mul.countShare -= effortA + effortB;
-
-   // split the effort
-   Walrus hA(this, "helperA", effortA);
-   Walrus hB(&hA , "helperB", effortB);
-   ShowEffortSplit(hA, hB);
-
    // setup the parallel work
-   LaunchHelpers(hA, hB);
+   LaunchHelpers();
 
    // start ours
    DoTheShare();
@@ -136,6 +140,7 @@ void Walrus::ScanFixedTask(void)
    // don't work all day! have a dinner break ;-)
    PLATFORM_SLEEP(20);
    printf("\n   main: %-10llu done\n", mul.countSolo);
+   ClearHelpers();
 
    // perf
    progress.delta1 = ChronoRound();
