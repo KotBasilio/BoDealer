@@ -126,6 +126,7 @@ protected:
     void ReportAllLines();
     bool ConsiderNormalZeroLine(int i, ucell sumline);
     void DisplayStatNumbers(int i, ucell sumline);
+    void DisplayStatCell(ucell cell);
     void RepeatLineWithPercentages(int i, ucell sumline);
     void HandleFilterLine(int i);
     bool IsFilterLine(int i);

@@ -70,16 +70,10 @@ void Walrus::ReportAllLines()
    }
 
    // show filtering
+   ui.farCol = 3;
    owl.OnProgress("%d:    NORTH     EAST    SOUTH     WEST\n", i-1);
-   for (; i < HCP_SIZE; i++) {
-      // know sum
-      ucell sumline = 0;
-      for (int j = 0; j < CTRL_SIZE; j++) {
-         sumline += progress.hitsCount[i][j];
-      }
-
-      // show statistics and summary
-      DisplayStatNumbers(i, sumline);
+   for (int ip = 0; ip < sem.vecFilters.size(); ip++, i++) {
+      DisplayStatNumbers(i, 0);
       HandleFilterLine(i);
       owl.OnProgress("\n");
    }
@@ -218,27 +212,34 @@ void Walrus::RepeatLineWithPercentages(int i, ucell sumline)
    #endif
 }
 
+void Walrus::DisplayStatCell(ucell cell)
+{
+   if (cell <= 1000000) {
+      owl.OnProgress(fmtCell, cell);
+   } else if (cell <= 10000000) {
+      owl.OnProgress(fmtCellStr, ">MLN");
+   } else if (cell <= 100000000) {
+      owl.OnProgress(fmtCellStr, ">XM");
+   } else if (cell <= 1000000000) {
+      owl.OnProgress(fmtCellStr, ">XXM");
+   } else if (cell <= 10000000000LL) {
+      owl.OnProgress(fmtCellStr, ">MLRD");
+   } else {
+      owl.OnProgress(fmtCellStr, ">XR");
+   }
+}
+
 void Walrus::DisplayStatNumbers(int i, ucell sumline)
 {
    owl.OnProgress("%02d: ", i);
    for (int j = 0; j <= ui.farCol; j++) {
       auto cell = progress.hitsCount[i][j];
-      if (cell <= 1000000) {
-         owl.OnProgress(fmtCell, cell);
-      } else if (cell <= 10000000) {
-         owl.OnProgress(fmtCellStr, ">MLN");
-      } else if (cell <= 100000000) {
-         owl.OnProgress(fmtCellStr, ">XM");
-      } else if (cell <= 1000000000) {
-         owl.OnProgress(fmtCellStr, ">XXM");
-      } else if (cell <= 10000000000LL) {
-         owl.OnProgress(fmtCellStr, ">MLRD");
-      } else {
-         owl.OnProgress(fmtCellStr, ">XR");
-      }
+      DisplayStatCell(cell);
    }
    if (sumline) {
       owl.OnProgress("  : %-12llu", sumline);
+   } else {
+      owl.OnProgress("  : ");
    }
    ui.shownDashes = false;
 }

@@ -140,7 +140,11 @@ Semantics::Semantics()
 void Semantics::MiniLinkFilters()
 {
    // relay
-   MiniLink(vecFilters);
+   if (!MiniLink(vecFilters)) {
+      isInitSuccess = false;
+      printf("Semantics ERROR: Failed to link filters.\n");
+      return;
+   }
 
    // update config
    config.countFilters = vecFilters.size();

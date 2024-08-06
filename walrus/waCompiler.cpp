@@ -78,6 +78,12 @@ static HandFilter ExportedHandFilters[] = {
 
 bool Semantics::MiniLink(std::vector<MicroFilter>& filters)
 {
+   // checsk size
+   if (IO_ROW_FILTERING + filters.size() > HCP_SIZE) {
+      printf("Link ERROR: Insufficent hit array size for %llu filters\n", filters.size());
+      return false;
+   }
+
    // resolve all bracket-blocks
    uint retAddr;
    for (uint ip = 0; ip < filters.size(); ip++) {
@@ -105,7 +111,7 @@ bool Semantics::MiniLink(std::vector<MicroFilter>& filters)
 
       // sanity check
       if (depth) {
-         printf("Unmatched control path bracket for filter: %s\n", mic.name);
+         printf("Link ERROR: Unmatched control path bracket for filter: %s\n", mic.name);
          return false;
       }
    }
