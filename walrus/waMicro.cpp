@@ -525,10 +525,9 @@ bool WaFilter::ScanOut(twContext* lay)
 
 void WaFilter::ImprintWithinList(uint ip, uint reason, uint last)
 {
-   auto row = IO_ROW_FILTERING + ip;
-   progress->ExtraMark(row, reason);
+   progress->FOutExtraMark(ip, reason);
    if (ip >= last) {
-      progress->RemoveExtraMark(row + 1, reason);
+      progress->RemoveFOutExtraMark(ip, reason);
    }
 }
 

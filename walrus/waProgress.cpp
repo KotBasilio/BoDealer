@@ -410,6 +410,8 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
    }
 }
 
+// ------ Marks on filtering
+
 void Progress::SelectedMark()
 {
    hitsCount[IO_ROW_SELECTED][0]++;
@@ -417,23 +419,38 @@ void Progress::SelectedMark()
 
 void Progress::FilteredOutMark(uint ip, uint reason)
 {
-   hitsCount[IO_ROW_FILTERING + ip][reason]++;
+   CellByIPR(ip, reason)++;
 }
 
-void Progress::SolvedMark(uint row, uint col)
+void Progress::FOutExtraMark(uint ip, uint reason)
+{
+   CellByIPR(ip, reason)++;
+   countExtraMarks++;
+}
+
+void Progress::RemoveFOutExtraMark(uint ip, uint reason)
+{
+   CellByIPR(ip, reason)--;
+   countExtraMarks--;
+}
+
+ucell& Progress::CellByIPR(uint ip, uint reason)
+{
+   return hitsCount[IO_ROW_FILTERING + ip][reason - 1];
+}
+
+// ------ Marks on solving
+
+void Progress::SolvedNormalMark(uint row, uint col)
 {
    hitsCount[row][col]++;
 }
 
-void Progress::ExtraMark(uint row, uint col)
+void Progress::SolvedExtraMark(uint row, uint col)
 {
    hitsCount[row][col]++;
    countExtraMarks++;
 }
 
-void Progress::RemoveExtraMark(uint row, uint col)
-{
-   hitsCount[row][col]--;
-   countExtraMarks--;
-}
+
 

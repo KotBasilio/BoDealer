@@ -45,7 +45,8 @@ void Walrus::ReportAllLines()
    ui.indent = 0;
 
    // for all lines
-   for (int i = 0; i < HCP_SIZE; i++) {
+   int i = 0;
+   for (; i < IO_ROW_FILTERING; i++) {
       // know sum
       ucell sumline = 0;
       for (int j = 0; j < CTRL_SIZE; j++) {
@@ -59,9 +60,28 @@ void Walrus::ReportAllLines()
 
       // show statistics and summary
       DisplayStatNumbers(i, sumline);
-      HandleFilterLine(i);
       owl.OnProgress("\n");
       RepeatLineWithPercentages(i, sumline);
+   }
+
+   // done all => we've seen filters already
+   if (progress.isDoneAll) {
+      return;
+   }
+
+   // show filtering
+   owl.OnProgress("%d:    NORTH     EAST    SOUTH     WEST\n", i-1);
+   for (; i < HCP_SIZE; i++) {
+      // know sum
+      ucell sumline = 0;
+      for (int j = 0; j < CTRL_SIZE; j++) {
+         sumline += progress.hitsCount[i][j];
+      }
+
+      // show statistics and summary
+      DisplayStatNumbers(i, sumline);
+      HandleFilterLine(i);
+      owl.OnProgress("\n");
    }
 }
 
@@ -170,14 +190,8 @@ bool Walrus::ConsiderNormalZeroLine(int i, ucell sumline)
       return false;
    }
 
-
-   if (ui.shownDashes) {
-      // show filtering header
-      if (i == IO_ROW_FILTERING - 1) {
-         owl.OnProgress("%d: TO SOLVE    NORTH     EAST    SOUTH     WEST\n", i);
-      }
-   } else {
-      // dash once
+   // dash once
+   if (!ui.shownDashes) {
       owl.OnProgress("----\n");
       ui.shownDashes = true;
    }
@@ -223,7 +237,9 @@ void Walrus::DisplayStatNumbers(int i, ucell sumline)
          owl.OnProgress(fmtCellStr, ">XR");
       }
    }
-   owl.OnProgress("  : %-12llu", sumline);
+   if (sumline) {
+      owl.OnProgress("  : %-12llu", sumline);
+   }
    ui.shownDashes = false;
 }
 

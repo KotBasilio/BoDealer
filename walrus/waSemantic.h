@@ -26,12 +26,14 @@ struct Progress {
    // operating marks
    void SelectedMark();
    void FilteredOutMark(uint ip, uint reason);
-   void SolvedMark(uint row, uint col);
-   void ExtraMark(uint row, uint col);
-   void RemoveExtraMark(uint row, uint col);
+   void FOutExtraMark(uint ip, uint reason);
+   void RemoveFOutExtraMark(uint ip, uint reason);
+   void SolvedNormalMark(uint row, uint col);
+   void SolvedExtraMark(uint row, uint col);
 private:
    ucell hitsCount[HCP_SIZE][CTRL_SIZE];
    ucell countExtraMarks;
+   ucell& CellByIPR(uint ip, uint reason);
 };
 extern Progress *mainProgress;
 

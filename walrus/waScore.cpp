@@ -18,7 +18,7 @@ void Walrus::HitByTricks(DdsTricks &tr, uint made, uint row /*= IO_ROW_OUR_DOWN*
    } else {
       camp = made - tr.plainScore - 1;
    }
-   progress.SolvedMark(row, camp);
+   progress.SolvedNormalMark(row, camp);
 }
 
 void CumulativeScore::Score_Opp3Major(uint tricks)

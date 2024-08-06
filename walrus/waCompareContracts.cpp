@@ -14,11 +14,11 @@
 void Walrus::NoticeMagicFly(uint trickSuit, uint tricksNT)
 {
    if (tricksNT > trickSuit) {
-      progress.ExtraMark(IO_ROW_MAGIC_FLY, IO_CAMP_MORE_NT);
+      progress.SolvedExtraMark(IO_ROW_MAGIC_FLY, IO_CAMP_MORE_NT);
    } else if (tricksNT == trickSuit) {
-      progress.ExtraMark(IO_ROW_MAGIC_FLY, IO_CAMP_SAME_NT);
+      progress.SolvedExtraMark(IO_ROW_MAGIC_FLY, IO_CAMP_SAME_NT);
    } else {
-      progress.ExtraMark(IO_ROW_MAGIC_FLY, IO_CAMP_PREFER_SUIT);
+      progress.SolvedExtraMark(IO_ROW_MAGIC_FLY, IO_CAMP_PREFER_SUIT);
    }
 }
 
@@ -32,11 +32,11 @@ void Walrus::CompareSlams(uint tricksA, uint tricksB)
 
    // mark
    if (tester.ourOther > tester.bidSlam) {
-      progress.ExtraMark(IO_ROW_COMPARISON,IO_CAMP_PREFER_TO_BID);
+      progress.SolvedExtraMark(IO_ROW_COMPARISON,IO_CAMP_PREFER_TO_BID);
    } else if (tester.ourOther == tester.bidSlam) {
-      progress.ExtraMark(IO_ROW_SACRIFICE,IO_CAMP_NO_DIFF);
+      progress.SolvedExtraMark(IO_ROW_SACRIFICE,IO_CAMP_NO_DIFF);
    } else {
-      progress.ExtraMark(IO_ROW_COMPARISON,IO_CAMP_REFRAIN_BIDDING);
+      progress.SolvedExtraMark(IO_ROW_COMPARISON,IO_CAMP_REFRAIN_BIDDING);
    }
 
    // add up. may also convert to imps
@@ -52,11 +52,11 @@ void Walrus::CompareOurContracts(uint tricksA, uint tricksB)
 
    // mark
    if (gainPrima > gainSecunda) {
-      progress.ExtraMark(IO_ROW_COMPARISON,IO_CAMP_PREFER_PRIMA);
+      progress.SolvedExtraMark(IO_ROW_COMPARISON,IO_CAMP_PREFER_PRIMA);
    } else if (gainPrima == gainSecunda) {
-      progress.ExtraMark(IO_ROW_SACRIFICE,IO_CAMP_NO_DIFF);
+      progress.SolvedExtraMark(IO_ROW_SACRIFICE,IO_CAMP_NO_DIFF);
    } else {
-      progress.ExtraMark(IO_ROW_COMPARISON,IO_CAMP_PREFER_SECUNDA);
+      progress.SolvedExtraMark(IO_ROW_COMPARISON,IO_CAMP_PREFER_SECUNDA);
    }
 
    // add up. may also convert to imps
@@ -74,9 +74,9 @@ void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs)
 
    // mark 
    if (gainPrima > gainSecunda) {
-      progress.ExtraMark(IO_ROW_SACRIFICE, IO_CAMP_PREFER_TO_BID);
+      progress.SolvedExtraMark(IO_ROW_SACRIFICE, IO_CAMP_PREFER_TO_BID);
    } else {
-      progress.ExtraMark(IO_ROW_SACRIFICE, IO_CAMP_REFRAIN_BIDDING);
+      progress.SolvedExtraMark(IO_ROW_SACRIFICE, IO_CAMP_REFRAIN_BIDDING);
    }
 
    // add up. may also convert to imps
