@@ -51,11 +51,6 @@ constexpr uint IO_ROW_THEIRS     = IO_ROW_CONTRACT_B;
 constexpr uint IO_ROW_COMPARISON = IO_ROW_CONTRACT_B + 2;
 constexpr uint IO_ROW_MAGIC_FLY  = IO_ROW_COMPARISON;
 constexpr uint IO_ROW_SACRIFICE  = IO_ROW_COMPARISON;
-// -- hcp postmortem
-#define IO_ROW_HCP_START 7
-#define IO_SHIFT_FOR_EXTRA_MARKS  27
-#define IO_ROW_FILTERING (3  + IO_SHIFT_FOR_EXTRA_MARKS)
-#define IO_ROW_SELECTED  IO_ROW_FILTERING
 
 // output columns
 constexpr uint IO_CAMP_OFF = 0;

@@ -436,7 +436,17 @@ void Progress::RemoveFOutExtraMark(uint ip, uint reason)
 
 ucell& Progress::CellByIPR(uint ip, uint reason)
 {
-   return hitsCount[IO_ROW_FILTERING + ip][reason - 1];
+   // we use 4 columns (N,E,S,W) of IPR_COMPACTION records
+   // then 4 more columns similarly, 
+   // then again and again, since CTRL_SIZE is 16 so far
+   // so we get a total of IPR_COMPACTION * 16
+   auto lowIP = ip & 0x0F;
+   auto IPdiv16 = ip >> 4;
+   auto startReason = IPdiv16 << 2;
+   return hitsCount[IO_ROW_FILTERING + lowIP][startReason + reason - 1];
+
+   // an old, flat version left for debug: all is linear, IPR_COMPACTION is not used
+   //return hitsCount[IO_ROW_FILTERING + ip][reason - 1];
 }
 
 // ------ Marks on solving

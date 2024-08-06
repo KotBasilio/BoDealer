@@ -52,6 +52,7 @@ FILTERS:
 
    EAST: PointsRange 9, 16
    EAST: DiamondsLen, 5, 7
+   EAST: DiamondsNatural
    WEST ExcludeCombination {
         WEST, DiamondsLen, 5, 5
         WEST, ClubsLen, 5, 5
@@ -59,7 +60,6 @@ FILTERS:
 
 -----------------------------------------------------------------------------------------------------------------------
 
-   EAST: DiamondsNatural
 
 Jun24 lead from AK or side -- Fix a 8 hcp 5224;
 Bidding from RHO: 

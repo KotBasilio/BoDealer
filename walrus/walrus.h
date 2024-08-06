@@ -124,7 +124,7 @@ protected:
     void SummarizeFiltering();
     void ReportTime();
     void ReportAllLines();
-    bool ConsiderNormalZeroLine(int i, ucell sumline);
+    bool ConsiderDashOutLine(int i, ucell sumline);
     void DisplaySolvingStats(int i, ucell sumline);
     void DisplayFilterNumbers(uint ip);
     void DisplayStatCell(ucell cell);

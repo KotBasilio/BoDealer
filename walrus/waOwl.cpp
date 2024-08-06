@@ -422,10 +422,10 @@ void OwlTwoFut(char title[], futureTricks * fut1, futureTricks * fut2)
    }
 
    // fill it with bigScr info
-   int off2 = 35;
+   int off2 = 34;
    sprintf(bigScr[0] + off2, "%s", title);
 
-   sprintf(bigScr[1], " %-6s %-6s %-6s              %-6s %-6s %-6s",
+   sprintf(bigScr[1], " %-6s %-6s %-6s             %-6s %-6s %-6s",
       "suit", "rank", "score",
       "suit", "rank", "score"
    );

@@ -54,7 +54,7 @@ void Walrus::ReportAllLines()
       }
 
       // skip normal empty lines
-      if (ConsiderNormalZeroLine(i, sumline)) {
+      if (ConsiderDashOutLine(i, sumline)) {
          continue;
       }
 
@@ -70,7 +70,6 @@ void Walrus::ReportAllLines()
    }
 
    // show filtering
-   ui.farCol = 3;
    owl.OnProgress("%d:    NORTH     EAST    SOUTH     WEST\n", i-1);
    for (uint ip = 0; ip < sem.vecFilters.size(); ip++, i++) {
       DisplayFilterNumbers(ip);
@@ -166,7 +165,7 @@ void Walrus::HandleFilterLine(uint fidx)
    owl.OnProgress(IndentName("  ", name, effective));
 }
 
-bool Walrus::ConsiderNormalZeroLine(int i, ucell sumline)
+bool Walrus::ConsiderDashOutLine(int i, ucell sumline)
 {
    // ensure zeroes
    if (sumline) {

@@ -79,7 +79,7 @@ static HandFilter ExportedHandFilters[] = {
 bool Semantics::MiniLink(std::vector<MicroFilter>& filters)
 {
    // checsk size
-   if (IO_ROW_FILTERING + filters.size() > HCP_SIZE) {
+   if (filters.size() > IPR_COMPACTION * 4) {
       printf("Link ERROR: Insufficent hit array size for %llu filters\n", filters.size());
       return false;
    }
