@@ -129,13 +129,18 @@ const int PREFIX_LEN = 16;
 char miniRowStart[MINI_ROWS][PREFIX_LEN];
 
 // output alignments
-char tblHat[]       = "    :  HITS COUNT   :\n";
 char fmtCell[]      = "%8llu,";
 char fmtCellStr[]   = "%8s,";
 char fmtStatCell[]  = "%8.0lf,";
 char fmtCellFloat[] = "%8.1f,";
 char fmtCellDouble[] = "%-.2lf";
+
+// hats
+#ifdef SEEK_OPENING_LEAD
 //char tblHat[] =  "    :       let    spade    heart     both     club             sum\n";
+#else
+   char tblHat[]       = "    :  HITS COUNT   :\n";
+#endif
 
 void MiniUI::FillMiniRows()
 {

@@ -109,11 +109,6 @@ protected:
     CumulativeScore cumulScore;
     void ScoreWithPrimary(DdsTricks &tr);
     void ScoreWithSecondary(DdsTricks &tr);
-    void Score_OpLead3Major(DdsTricks &tr);
-    void Score_OpLead3NT(DdsTricks &tr);
-    void Score_OpLead3NTX(DdsTricks &tr);
-    void Score_OpLead5D(DdsTricks &tr);
-    void Score_OpLead5DX(DdsTricks &tr);
     void AddScorerValues(char* tail);
     void HitByTricks(DdsTricks &tr, uint made, uint row = IO_ROW_OUR_DOWN);
     void PostmortemHCP(DdsTricks& tr, deal& cards);

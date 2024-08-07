@@ -32,18 +32,6 @@ struct CumulativeScore {
          s64    ourOther, ourHedging;
       };
    };
-   // -- opening lead
-   void OpLead3NT(s64& sum, uint tricks);
-   void OpLead3NTX(s64& sum, uint tricks);
-   void OpLead3Major(s64& sum, uint tricks);
-   void OpLead4Major(s64& sum, uint tricks);
-   void OpLead5minor(s64& sum, uint tricks);
-   void OpLead5mX(s64& sum, uint tricks);
-   // -- opp contract
-   void Score_Opp4Major(uint tricks);
-   void Score_Opp3Major(uint tricks);
-   void Score_Opp5Minor(uint tricks);
-   void Score_Opp3NT(uint tricks);
    // -- our contracts
    void VoidScoring(DdsTricks& tr) {}
    void VoidDepScoring(uint tricks) {}
@@ -91,20 +79,6 @@ struct CumulativeScore {
    void BiddingLevel(uint tricks);
    void OpeningLead (DdsTricks &tr);
    void FillSameLinears(const CumulativeScore &other);
-
-private:
-   void Opp_3MajX(s64& sum, uint tricks);
-   void Opp_3Major(s64& sum, uint tricks);
-   void Opp_4M(s64& sum, uint tricks);
-   void Opp_4MajX(s64& sum, uint tricks);
-   void Opp_NV_4MajX(s64& sum, uint tricks);
-   void Opp_3NT(s64& sum, uint tricks);
-   void Opp_3NTX(s64& sum, uint tricks);
-   void Opp_5minor(s64& sum, uint tricks);
-   void Opp_5minorX(s64& sum, uint tricks);
-   void Opp_2m(s64& sum, uint tricks);
-   void Opp_2mX(s64& sum, uint tricks);
-   void OurNV7NT(s64& sum, uint tricks);
 };
 
 extern void PrepareLinearScores();
