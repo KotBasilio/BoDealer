@@ -33,7 +33,7 @@ MiniUI::MiniUI()
    , irGoal(0)
    , irFly(0)
    , primaBetterBy(0)
-   , farCol(CTRL_SIZE)
+   , farCol(HITS_COLUMNS_SIZE)
 {
    FillMiniRows();
 }

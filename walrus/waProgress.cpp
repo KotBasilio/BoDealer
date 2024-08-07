@@ -51,11 +51,13 @@ void Progress::StoreCountToGo(ucell count)
 ucell Progress::GetDiscardedBoardsCount()
 {
    u64 sum2 = 0;
-   auto upperLimit = min(HCP_SIZE, IO_ROW_FILTERING + config.countFilters);
-   for (uint i = IO_ROW_FILTERING; i < upperLimit; i++) {
-      sum2 += hitsCount[i][1] + hitsCount[i][2] + hitsCount[i][3];
-      sum2 += hitsCount[i][4] + hitsCount[i][5] + hitsCount[i][6];
+   for (uint i = IO_ROW_FILTERING; i < HITS_LINES_SIZE; i++) {
+      for (uint j = 0; j < HITS_COLUMNS_SIZE; j++) {
+         sum2 += hitsCount[i][j];
+      }
    }
+   sum2 -= hitsCount[IO_ROW_SELECTED][0];
+
    return sum2;
 }
 
@@ -73,13 +75,13 @@ void Walrus::ShowProgress(ucell idx)
 
 bool Walrus::RegularBalanceCheck()
 {
-   static ucell goodBook[HCP_SIZE][CTRL_SIZE];
+   static ucell goodBook[HITS_LINES_SIZE][HITS_COLUMNS_SIZE];
 
    // calc bookman
    ucell bookman = mul.countIterations + progress.countExtraMarks;
-   for (int i = 0; i < HCP_SIZE; i++) {
+   for (int i = 0; i < HITS_LINES_SIZE; i++) {
       // calc bookman 
-      for (int j = 0; j < CTRL_SIZE; j++) {
+      for (int j = 0; j < HITS_COLUMNS_SIZE; j++) {
          auto cell = progress.hitsCount[i][j];
          bookman -= cell;
       }
@@ -103,8 +105,8 @@ bool Walrus::RegularBalanceCheck()
    }
 
    // go to details
-   for (int i = 0; i < HCP_SIZE; i++) {
-      for (int j = 0; j < CTRL_SIZE; j++) {
+   for (int i = 0; i < HITS_LINES_SIZE; i++) {
+      for (int j = 0; j < HITS_COLUMNS_SIZE; j++) {
          auto cell = progress.hitsCount[i][j];
          auto good = goodBook[i][j];
          if (cell != good) {
@@ -437,9 +439,9 @@ void Progress::RemoveFOutExtraMark(uint ip, uint reason)
 ucell& Progress::CellByIPR(uint ip, uint reason)
 {
    // we use 4 columns (N,E,S,W) of IPR_COMPACTION records
-   // then 4 more columns similarly, 
-   // then again and again, since CTRL_SIZE is 16 so far
-   // so we get a total of IPR_COMPACTION * 16
+   // then (N,E,S,W) more columns similarly three times, 
+   // to get total HITS_COLUMNS_SIZE columns
+   // so we get a total of IPR_COMPACTION * 4
    auto lowIP = ip & 0x0F;
    auto IPdiv16 = ip >> 4;
    auto startReason = IPdiv16 << 2;

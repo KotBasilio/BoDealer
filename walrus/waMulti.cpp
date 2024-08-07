@@ -239,8 +239,8 @@ void Walrus::MergeResults(Walrus *other)
    }
 
    // sum up
-   for (int i = 0; i < HCP_SIZE; i++) {
-      for (int j = 0; j < CTRL_SIZE; j++) {
+   for (int i = 0; i < HITS_LINES_SIZE; i++) {
+      for (int j = 0; j < HITS_COLUMNS_SIZE; j++) {
          progress.hitsCount[i][j] += other->progress.hitsCount[i][j];
       }
    }

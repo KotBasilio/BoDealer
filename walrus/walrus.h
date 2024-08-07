@@ -124,13 +124,12 @@ protected:
     void SummarizeFiltering();
     void ReportTime();
     void ReportAllLines();
-    bool ConsiderDashOutLine(int i, ucell sumline);
+    bool ConsiderDashOutLine(ucell sumline);
     void DisplaySolvingStats(int i, ucell sumline);
     void DisplayFilterNumbers(uint ip);
     void DisplayStatCell(ucell cell);
     void RepeatLineWithPercentages(int i, ucell sumline);
     void HandleFilterLine(uint ip);
-    bool IsFilterLine(int i);
     void MiniReport(ucell toGo);
     void ShowProgress(ucell idx);
     bool RegularBalanceCheck();

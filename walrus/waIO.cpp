@@ -49,12 +49,12 @@ void Walrus::ReportAllLines()
    for (; i < IO_ROW_FILTERING; i++) {
       // know sum
       ucell sumline = 0;
-      for (int j = 0; j < CTRL_SIZE; j++) {
+      for (int j = 0; j < HITS_COLUMNS_SIZE; j++) {
          sumline += progress.hitsCount[i][j];
       }
 
       // skip normal empty lines
-      if (ConsiderDashOutLine(i, sumline)) {
+      if (ConsiderDashOutLine(sumline)) {
          continue;
       }
 
@@ -71,7 +71,7 @@ void Walrus::ReportAllLines()
 
    // show filtering
    owl.OnProgress("%d:    NORTH     EAST    SOUTH     WEST\n", i-1);
-   for (uint ip = 0; ip < sem.vecFilters.size(); ip++, i++) {
+   for (uint ip = 0; ip < sem.vecFilters.size(); ip++) {
       DisplayFilterNumbers(ip);
       HandleFilterLine(ip);
    }
@@ -81,8 +81,8 @@ void Walrus::UpdateFarColumnUI()
 {
    // to trim tailing zeros
    ui.farCol = 1;
-   for (int i = 0; i < HCP_SIZE; i++) {
-      for (int j = 0; j < CTRL_SIZE; j++) {
+   for (int i = 0; i < IO_ROW_FILTERING; i++) {
+      for (int j = 0; j < HITS_COLUMNS_SIZE; j++) {
          auto cell = progress.hitsCount[i][j];
          if (cell) {
             if (ui.farCol < j) {
@@ -126,13 +126,6 @@ static bool DetectKeyword(char* name, int key)
    return key == *(int *)(name);
 }
 
-bool Walrus::IsFilterLine(int i)
-{
-   auto start = IO_ROW_FILTERING;
-   auto end = start + sem.vecFilters.size();
-   return ( start <= i && i < end );
-}
-
 static char *IndentName(const char *start, const char* name, int indent)
 {
    static char tail[40];
@@ -165,15 +158,10 @@ void Walrus::HandleFilterLine(uint fidx)
    owl.OnProgress(IndentName("  ", name, effective));
 }
 
-bool Walrus::ConsiderDashOutLine(int i, ucell sumline)
+bool Walrus::ConsiderDashOutLine(ucell sumline)
 {
    // ensure zeroes
    if (sumline) {
-      return false;
-   }
-
-   // ensure normal
-   if (IsFilterLine(i)) {
       return false;
    }
 

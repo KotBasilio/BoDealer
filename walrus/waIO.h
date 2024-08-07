@@ -40,30 +40,6 @@ struct MiniUI {
    void Run();
 };
 
-// output rows: 
-// -- we down, we make, a blank line
-constexpr uint IO_ROW_OUR_DOWN   = 0;
-constexpr uint IO_ROW_OUR_MADE   = IO_ROW_OUR_DOWN + 1;
-// -- they down, they make
-constexpr uint IO_ROW_CONTRACT_B = IO_ROW_OUR_MADE + 2;
-constexpr uint IO_ROW_THEIRS     = IO_ROW_CONTRACT_B;
-// -- comparison
-constexpr uint IO_ROW_COMPARISON = IO_ROW_CONTRACT_B + 2;
-constexpr uint IO_ROW_MAGIC_FLY  = IO_ROW_COMPARISON;
-constexpr uint IO_ROW_SACRIFICE  = IO_ROW_COMPARISON;
-
-// output columns
-constexpr uint IO_CAMP_OFF = 0;
-constexpr uint IO_CAMP_PREFER_PRIMA = 1;
-constexpr uint IO_CAMP_NO_DIFF = 2;
-constexpr uint IO_CAMP_PREFER_SECUNDA = 3;
-// -- derived
-constexpr uint IO_CAMP_PREFER_SUIT = IO_CAMP_PREFER_PRIMA;
-constexpr uint IO_CAMP_SAME_NT     = IO_CAMP_NO_DIFF;
-constexpr uint IO_CAMP_MORE_NT     = IO_CAMP_PREFER_SECUNDA;
-constexpr uint IO_CAMP_PREFER_TO_BID   = IO_CAMP_PREFER_PRIMA;
-constexpr uint IO_CAMP_REFRAIN_BIDDING = IO_CAMP_PREFER_SECUNDA;
-
 enum WA_REPORT_TYPE {
    WREPORT_NONE = 0,
    WREPORT_HCP,
