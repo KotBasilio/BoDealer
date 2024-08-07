@@ -206,6 +206,10 @@ bool Walrus::InitByConfig()
    shuf.SeedRand();
    InitMiniUI();
    DetectGoals();
+   if (config.IsInitFailed()) {
+      owl.Show("Failed on semantic-dependent init\n");
+      return false;
+   }
 
    return StartOscar();
 }
