@@ -99,7 +99,7 @@ void Walrus::SolveOneChunk(uint chunkStartIdx, uint boardsCount)
 void Walrus::ScoreWithPrimary(DdsTricks& tr)
 {
    #ifdef USE_DEP_SCORING
-      (cumulScore.*sem.onDepPrimaryScoring)(tr.plainScore);
+      (cumulScore.*sem.onSinglePrimary)(tr.plainScore);
    #else
       (cumulScore.*sem.onPrimaryScoring)(tr);
    #endif
@@ -108,7 +108,7 @@ void Walrus::ScoreWithPrimary(DdsTricks& tr)
 void Walrus::ScoreWithSecondary(DdsTricks& tr)
 {
    #ifdef USE_DEP_SCORING
-      (cumulScore.*sem.onDepSecondScoring)(tr.plainScore);
+      (cumulScore.*sem.onSingleSecondary)(tr.plainScore);
    #else
       (cumulScore.*sem.onSecondScoring)(tr);
    #endif
@@ -190,7 +190,7 @@ void Walrus::SolveOneByOne(deal& dlBase)
       dl.Solve(i);
 
       // pass
-      (cumulScore.*sem.onDepPrimaryScoring)(dl.tr.plainScore);
+      (cumulScore.*sem.onSinglePrimary)(dl.tr.plainScore);
 
       // may report
       if (!(i & 0xf)) {

@@ -82,7 +82,7 @@ int Walrus::PokeScorerForTricks()
 {
    // take 13 tricks 
    uint plainScore = 13;
-   (cumulScore.*sem.onDepPrimaryScoring)(plainScore);
+   (cumulScore.*sem.onSinglePrimary)(plainScore);
 
    // not a game => some partscore
    if (cumulScore.ideal < 300) {
@@ -96,7 +96,7 @@ int Walrus::PokeScorerForTricks()
 
       // a major, tell 3M from 2M
       plainScore = 8;
-      (cumulScore.*sem.onDepPrimaryScoring)(plainScore);
+      (cumulScore.*sem.onSinglePrimary)(plainScore);
       if (cumulScore.bidPartscore == 370) {
          return 8; 
       }
@@ -131,7 +131,7 @@ int Walrus::PokeScorerForTricks()
 
    // take 9 and analyze sum
    plainScore = 9;
-   (cumulScore.*sem.onDepPrimaryScoring)(plainScore);
+   (cumulScore.*sem.onSinglePrimary)(plainScore);
 
    // made two games => seems playing 3NT
    if (cumulScore.ideal > 1200) {
@@ -165,7 +165,7 @@ int Walrus::PokeOtherScorer()
    // take 13 tricks 
    DdsTricks tr;
    tr.plainScore = 13;
-   (cumulScore.*sem.onDepSecondScoring)(tr.plainScore);
+   (cumulScore.*sem.onSingleSecondary)(tr.plainScore);
 
    switch (cumulScore.oppContract) {
       case -260: return 9;  // 3M

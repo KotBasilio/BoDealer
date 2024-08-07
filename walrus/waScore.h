@@ -35,25 +35,6 @@ struct CumulativeScore {
    // -- our contracts
    void VoidScoring(DdsTricks& tr) {}
    void VoidDepScoring(uint tricks) {}
-   void OurNV6m(uint tricks);
-   void OurNV6Maj(uint tricks);
-   void OurNV6_No(uint tricks);
-   void Our6_No(uint tricks);
-   void OurNV7m(uint tricks);
-   void Our3NT(uint tricks);
-   void Our4M(uint tricks);
-   void Our1NT(uint tricks);
-   void Our2M(uint tricks);
-   void Our4minor(uint tricks);
-   void OurNV4M(uint tricks);
-   void OurNV4MX(uint tricks);
-   void Our5M(uint tricks);
-   void OurNV5M(uint tricks);
-   void Our5minor(uint tricks);
-   void OurNV5minor(uint tricks);
-   void OurNV5mX(uint tricks);
-   // -- allowing for scorer2
-   void Our2_NV7NT(uint tricks);
 
    // linear-score oriented
    struct Adjustable {

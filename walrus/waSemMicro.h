@@ -5,7 +5,75 @@
 #pragma once
 #include <vector>
 
-#define MAX_MICRO_PARAMS 5
+ // Filters
+class WaFilter
+{
+public:
+   WaFilter() : progress(nullptr), sem(nullptr) {}
+   void Bind(class Walrus* _walrus);
+   bool ScanOut(twContext* lay);
+
+   // Micro filters
+   uint RejectAll(twContext* lay, const uint *par) { return 2; }
+   uint OKNum(twContext* lay, const uint *par);
+   uint ExactShape(twContext* lay, const uint* par);
+   uint ModelShape(twContext* lay, const uint *par);
+   uint PointsRange(twContext* lay, const uint *par);
+   uint PointsLimit(twContext* lay, const uint *par);
+   uint PointsAtLeast(twContext* lay, const uint *par);
+   uint ControlsRange(twContext* lay, const uint* par);
+   uint KeyCardsRange(twContext* lay, const uint* par);
+   // -
+   uint LineControlsRange(twContext* lay, const uint* par);
+   uint LineAcesRange(twContext* lay, const uint* par);
+   uint LineKeyCardsSpade(twContext* lay, const uint* par);
+   uint LinePointsRange(twContext* lay, const uint *par);
+   // -
+   uint PointsSuitLimit(twContext* lay, const uint* par);
+   uint PointsSuitAtLeast(twContext* lay, const uint* par);
+   uint PointsSuitLessSuit(twContext* lay, const uint* par);
+   uint PointsSuitLEqSuit(twContext* lay, const uint* par);
+   // -
+   uint SpadesNatural(twContext* lay, const uint* par);
+   uint HeartsNatural(twContext* lay, const uint* par);
+   uint DiamondsNatural(twContext* lay, const uint* par);
+   uint NoMajorFit(twContext* lay, const uint *par);
+   // -
+   uint PenaltyDoubleSuit(twContext* lay, const uint* par);
+   uint PenaltyDoubleDiamonds(twContext* lay, const uint* par);
+   // -
+   uint SpadesLen(twContext* lay, const uint *par);
+   uint HeartsLen(twContext* lay, const uint *par);
+   uint DiamondsLen(twContext* lay, const uint *par);
+   uint ClubsLen(twContext* lay, const uint *par);
+   // -
+   uint NoOvcOn1LevOpen(twContext* lay, const uint *par);
+   uint NoOvercall(twContext* lay, const uint *par);
+   uint NoPrecision2C(twContext* lay, const uint *par);
+   uint No7Plus(twContext* lay, const uint *par);
+   uint No2SuiterAntiSpade(twContext* lay, const uint *par);
+   uint No2SuitsAntiHeart(twContext* lay, const uint *par);
+   uint No2SuitsMinors(twContext* lay, const uint* par);
+   uint TakeoutOfClubs(twContext* lay, const uint* par);
+   // -- branching
+   uint AnyInListBelow(twContext* lay, const uint *par);
+   uint ExcludeCombination(twContext* lay, const uint *par);
+   uint EndList(twContext* lay, const uint *par);
+private:
+   Progress *progress;
+   struct Semantics* sem;
+   uint LineKeyCardsRange(twContext* lay, const uint* par, u64 kc_mask);
+   bool KeyCardsRange(u64 jo, u64 kc_mask, uint from, uint to);
+   void ImprintWithinList(uint ip, uint reason, uint last);
+
+   struct semExec {
+      uint ip;     // instruction pointer
+      uint depth;  // how much are we within nested condition
+      void Reset() { ip = 0; depth = 0; }
+   } exec;
+};
+
+constexpr uint MAX_MICRO_PARAMS = 5;
 
 typedef uint (WaFilter::* MicroFunc)(twContext* lay, const uint *par);
 
@@ -18,11 +86,11 @@ struct MicroFilter {
 };
 
 // common reasons for a filter
-const uint SKIP_BY_PART = 1;
-const uint SKIP_BY_RESP = 2;
-const uint SKIP_BY_OPP = 3;
-const uint SKIP_BY_DIRECT = SKIP_BY_RESP;
-const uint SKIP_BY_SANDWICH = SKIP_BY_OPP;
+constexpr uint SKIP_BY_PART = 1;
+constexpr uint SKIP_BY_RESP = 2;
+constexpr uint SKIP_BY_OPP = 3;
+constexpr uint SKIP_BY_DIRECT = SKIP_BY_RESP;
+constexpr uint SKIP_BY_SANDWICH = SKIP_BY_OPP;
 
 // macros for adding filters
 #define ADD_VOID_FILTER(NAME)                         sem.vecFilters.push_back( MicroFilter(&WaFilter::NAME, #NAME)                        )
@@ -56,56 +124,3 @@ const uint SKIP_BY_SANDWICH = SKIP_BY_OPP;
 
 #define ACCESS_MICPAR_SUIT           \
    auto suit = par[1];
-
-// a class to rule task logic. fill them on init. 
-// then values are constant through all solving
-typedef void (Shuffler::*        SemShufflerFunc)();
-typedef void (Walrus::*          SemFuncType)();
-typedef void (CumulativeScore::* SemScoring)(DdsTricks &tr);
-typedef void (Walrus::*          SemComparing)(uint trickSuit, uint tricksNT);
-typedef void (Walrus::*          SemPostMortem)(DdsTricks& tr, deal& cards);
-typedef void (Walrus::*          SemOnBoardAdded)(twContext* lay);
-typedef void (Walrus::*          SemSecondSolver)(struct boards& bo, struct solvedBoards& solved);
-typedef void (CumulativeScore::* SemDepScoring)(uint tricks);
-struct Semantics {
-   SemFuncType              onInit;
-   SemFuncType              onShareStart;
-   SemFuncType              onScanCenter;
-   SemShufflerFunc          fillFlipover;
-   std::vector<MicroFilter> vecFilters;
-   SemOnBoardAdded          onBoardAdded;
-   SemFuncType              onAfterMath;
-   SemScoring               onPrimaryScoring;
-   SemSecondSolver          solveSecondTime;
-   SemScoring               onSecondScoring;
-   SemComparing             onCompareContracts;
-   SemPostMortem            onPostmortem;
-
-   uint scanCover; // how much iterations covers one scan
-   struct deal* dlBase;
-   Semantics();
-   void MiniLinkFilters();
-   void SetOurPrimaryScorer(CumulativeScore &cs, const char* code);
-   void SetOurSecondaryScorer(CumulativeScore &cs, const char* code);
-   void SetTheirScorer(CumulativeScore &cs, const char* code);
-   void SetBiddingGameScorer(CumulativeScore &cs, const char* code);
-   void SetOpeningLeadScorer(CumulativeScore &cs, const char* code);
-   bool IsInitOK() { return isInitSuccess; }
-   bool IsClosingBracket(int idx);
-   bool IsOpeningBracket(int idx);
-
-   bool Compile(const char* sourceCode, size_t sizeSourceCode, std::vector<MicroFilter>& filters);
-   bool MiniLink(std::vector<MicroFilter> &filters);
-
-   // deprecated
-   SemDepScoring            onDepPrimaryScoring;
-   SemDepScoring            onDepSecondScoring;
-private:
-   void SetSecondaryScorer(CumulativeScore &cs, s64 &target, const char* code);
-   bool CompileOneLine(struct CompilerContext &ctx);
-   bool IsListStart(const MicroFilter& mic);
-   bool isInitSuccess = true;
-};
-
-extern Semantics semShared;
-

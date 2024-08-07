@@ -115,8 +115,8 @@ Semantics::Semantics()
    , onCompareContracts  (&Walrus::VoidCompare)
    , scanCover(ACTUAL_CARDS_COUNT)
    , dlBase(nullptr)
-   , onDepPrimaryScoring (&CumulativeScore::VoidDepScoring)
-   , onDepSecondScoring  (&CumulativeScore::VoidDepScoring)
+   , onSinglePrimary (&CumulativeScore::VoidDepScoring)
+   , onSingleSecondary  (&CumulativeScore::VoidDepScoring)
 {
    // reject all. should analyze config later and fill 
    vecFilters.reserve(10);
@@ -190,7 +190,7 @@ void Semantics::SetOurPrimaryScorer(CumulativeScore &cs, const char* code)
    // ok
    onPrimaryScoring = &CumulativeScore::Primary;
    config.primGoal = GetGoalFrom(code);
-   onDepPrimaryScoring = &CumulativeScore::DepPrimary;
+   onSinglePrimary = &CumulativeScore::DepPrimary;
 }
 
 void Semantics::SetSecondaryScorer(CumulativeScore &cs, s64& target, const char* code)
@@ -203,7 +203,7 @@ void Semantics::SetSecondaryScorer(CumulativeScore &cs, s64& target, const char*
    // ok
    onSecondScoring = &CumulativeScore::Secondary;
    config.secGoal = GetGoalFrom(code);
-   onDepSecondScoring = &CumulativeScore::DepSecondary;
+   onSingleSecondary = &CumulativeScore::DepSecondary;
 }
 
 void Semantics::SetOurSecondaryScorer(CumulativeScore &cs, const char* code)
@@ -232,7 +232,7 @@ void Semantics::SetBiddingGameScorer(CumulativeScore& cs, const char* code)
    }
 
    // allow to compare
-   onDepPrimaryScoring = &CumulativeScore::BiddingLevel;
+   onSinglePrimary = &CumulativeScore::BiddingLevel;
 }
 
 void Semantics::SetOpeningLeadScorer(CumulativeScore& cs, const char* code)

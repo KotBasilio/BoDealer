@@ -27,8 +27,8 @@ void Walrus::CompareSlams(uint tricksA, uint tricksB)
    // detect score -- TODO see CompareOurContracts / NoticeBidProfit
    CumulativeScore tester;
    tester.FillSameLinears(cumulScore);
-   (tester.*sem.onDepPrimaryScoring)(tricksA);
-   (tester.*sem.onDepSecondScoring)(tricksB);
+   (tester.*sem.onSinglePrimary)(tricksA);
+   (tester.*sem.onSingleSecondary)(tricksB);
 
    // mark
    if (tester.ourOther > tester.bidSlam) {

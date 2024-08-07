@@ -137,7 +137,7 @@ char fmtCellDouble[] = "%-.2lf";
 
 // hats
 #ifdef SEEK_OPENING_LEAD
-//char tblHat[] =  "    :       let    spade    heart     both     club             sum\n";
+   char tblHat[] =  "    :       let    spade    heart     both     club             sum\n";
 #else
    char tblHat[]       = "    :  HITS COUNT   :\n";
 #endif

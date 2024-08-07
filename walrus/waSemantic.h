@@ -8,6 +8,7 @@
  * -- lines 0 to (IO_ROW_FILTERING - 1)               <-- for statistics on solved boards
  * -- lines IO_ROW_FILTERING to (HITS_LINES_SIZE - 1) <-- for statistics during boards filtering
  ************************************************************/
+#pragma once
 
  // output rows: 
  // -- we down, we make, a blank line
@@ -76,72 +77,57 @@ private:
 };
 extern Progress *mainProgress;
 
-// Filters
-class WaFilter
-{
-public:
-   WaFilter() : progress(nullptr), sem(nullptr) {}
-   void Bind(class Walrus* _walrus);
-   bool ScanOut(twContext* lay);
+#include "WaSemMicro.h"
 
-   // Micro filters
-   uint RejectAll(twContext* lay, const uint *par) { return 2; }
-   uint OKNum(twContext* lay, const uint *par);
-   uint ExactShape(twContext* lay, const uint* par);
-   uint ModelShape(twContext* lay, const uint *par);
-   uint PointsRange(twContext* lay, const uint *par);
-   uint PointsLimit(twContext* lay, const uint *par);
-   uint PointsAtLeast(twContext* lay, const uint *par);
-   uint ControlsRange(twContext* lay, const uint* par);
-   uint KeyCardsRange(twContext* lay, const uint* par);
-   // -
-   uint LineControlsRange(twContext* lay, const uint* par);
-   uint LineAcesRange(twContext* lay, const uint* par);
-   uint LineKeyCardsSpade(twContext* lay, const uint* par);
-   uint LinePointsRange(twContext* lay, const uint *par);
-   // -
-   uint PointsSuitLimit(twContext* lay, const uint* par);
-   uint PointsSuitAtLeast(twContext* lay, const uint* par);
-   uint PointsSuitLessSuit(twContext* lay, const uint* par);
-   uint PointsSuitLEqSuit(twContext* lay, const uint* par);
-   // -
-   uint SpadesNatural(twContext* lay, const uint* par);
-   uint HeartsNatural(twContext* lay, const uint* par);
-   uint DiamondsNatural(twContext* lay, const uint* par);
-   uint NoMajorFit(twContext* lay, const uint *par);
-   // -
-   uint PenaltyDoubleSuit(twContext* lay, const uint* par);
-   uint PenaltyDoubleDiamonds(twContext* lay, const uint* par);
-   // -
-   uint SpadesLen(twContext* lay, const uint *par);
-   uint HeartsLen(twContext* lay, const uint *par);
-   uint DiamondsLen(twContext* lay, const uint *par);
-   uint ClubsLen(twContext* lay, const uint *par);
-   // -
-   uint NoOvcOn1LevOpen(twContext* lay, const uint *par);
-   uint NoOvercall(twContext* lay, const uint *par);
-   uint NoPrecision2C(twContext* lay, const uint *par);
-   uint No7Plus(twContext* lay, const uint *par);
-   uint No2SuiterAntiSpade(twContext* lay, const uint *par);
-   uint No2SuitsAntiHeart(twContext* lay, const uint *par);
-   uint No2SuitsMinors(twContext* lay, const uint* par);
-   uint TakeoutOfClubs(twContext* lay, const uint* par);
-   // -- branching
-   uint AnyInListBelow(twContext* lay, const uint *par);
-   uint ExcludeCombination(twContext* lay, const uint *par);
-   uint EndList(twContext* lay, const uint *par);
+// a class to rule task logic. fill them on init. 
+// then values are constant through all solving
+typedef void (Shuffler::*        SemShufflerFunc)();
+typedef void (Walrus::*          SemFuncType)();
+typedef void (CumulativeScore::* SemGenScoring)(DdsTricks &tr);
+typedef void (CumulativeScore::* SemSingleScoring)(uint tricks);
+typedef void (Walrus::*          SemComparing)(uint trickSuit, uint tricksNT);
+typedef void (Walrus::*          SemPostMortem)(DdsTricks& tr, deal& cards);
+typedef void (Walrus::*          SemOnBoardAdded)(twContext* lay);
+typedef void (Walrus::*          SemSecondSolver)(struct boards& bo, struct solvedBoards& solved);
+struct Semantics {
+   SemFuncType              onInit;
+   SemFuncType              onShareStart;
+   SemFuncType              onScanCenter;
+   SemShufflerFunc          fillFlipover;
+   std::vector<MicroFilter> vecFilters;
+   SemOnBoardAdded          onBoardAdded;
+   SemFuncType              onAfterMath;
+   SemSecondSolver          solveSecondTime;
+   SemComparing             onCompareContracts;
+   SemPostMortem            onPostmortem;
+   // scorers:
+   // -- primary
+   SemGenScoring            onPrimaryScoring;
+   SemSingleScoring         onSinglePrimary;
+   // -- secondary
+   SemGenScoring            onSecondScoring;
+   SemSingleScoring         onSingleSecondary;
+
+   uint scanCover; // how much iterations covers one scan
+   struct deal* dlBase;
+   Semantics();
+   void MiniLinkFilters();
+   void SetOurPrimaryScorer(CumulativeScore &cs, const char* code);
+   void SetOurSecondaryScorer(CumulativeScore &cs, const char* code);
+   void SetTheirScorer(CumulativeScore &cs, const char* code);
+   void SetBiddingGameScorer(CumulativeScore &cs, const char* code);
+   void SetOpeningLeadScorer(CumulativeScore &cs, const char* code);
+   bool IsInitOK() { return isInitSuccess; }
+   bool IsClosingBracket(int idx);
+   bool IsOpeningBracket(int idx);
+
+   bool Compile(const char* sourceCode, size_t sizeSourceCode, std::vector<MicroFilter>& filters);
+   bool MiniLink(std::vector<MicroFilter> &filters);
 private:
-   Progress *progress;
-   struct Semantics* sem;
-   uint LineKeyCardsRange(twContext* lay, const uint* par, u64 kc_mask);
-   bool KeyCardsRange(u64 jo, u64 kc_mask, uint from, uint to);
-   void ImprintWithinList(uint ip, uint reason, uint last);
-
-   struct semExec {
-      uint ip;     // instruction pointer
-      uint depth;  // how much are we within nested condition
-      void Reset() { ip = 0; depth = 0; }
-   } exec;
+   void SetSecondaryScorer(CumulativeScore &cs, s64 &target, const char* code);
+   bool CompileOneLine(struct CompilerContext &ctx);
+   bool IsListStart(const MicroFilter& mic);
+   bool isInitSuccess = true;
 };
 
-#include "WaSemMicro.h"
+extern Semantics semShared;

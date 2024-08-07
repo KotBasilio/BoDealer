@@ -11,8 +11,8 @@
 void Walrus::FillSemantic(void)
 {
    SemanticsToOrbitFixedHand();
-   //sem.onDepPrimaryScoring = &Walrus::Score_3NT;
-   sem.onDepPrimaryScoring = &Walrus::Score_6NT;
+   //sem.onSinglePrimary = &Walrus::Score_3NT;
+   sem.onSinglePrimary = &Walrus::Score_6NT;
    sem.vecFilters.clear();
    //ADD_2PAR_FILTER( SOUTH, PointsRange, 15, 17);
    ADD_2PAR_FILTER( SOUTH, PointsRange, 16, 17);
@@ -27,7 +27,7 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    SemanticsToOrbitFixedHand();
-   sem.onDepPrimaryScoring = &Walrus::Score_NV6Minor;
+   sem.onSinglePrimary = &Walrus::Score_NV6Minor;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
    ADD_4PAR_FILTER(SOUTH, ExactShape, 3, 2, 5, 3);
@@ -44,7 +44,7 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    SemanticsToOrbitFixedHand();
-   sem.onDepPrimaryScoring = &Walrus::Score_3NT;
+   sem.onSinglePrimary = &Walrus::Score_3NT;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 10, 11);
@@ -63,7 +63,7 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    SemanticsToOrbitFixedHand();
-   sem.onDepPrimaryScoring = &Walrus::Score_4Major;
+   sem.onSinglePrimary = &Walrus::Score_4Major;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 12);
@@ -79,8 +79,8 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    SemanticsToOrbitFixedHand();
-   //sem.onDepPrimaryScoring = &Walrus::Score_4Major;
-   sem.onDepPrimaryScoring = &Walrus::Score_3NT;
+   //sem.onSinglePrimary = &Walrus::Score_4Major;
+   sem.onSinglePrimary = &Walrus::Score_3NT;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 12, 13);
@@ -97,7 +97,7 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    SemanticsToOrbitFixedHand();
-   sem.onDepPrimaryScoring = &CumulativeScore::Our4M;
+   sem.onSinglePrimary = &CumulativeScore::Our4M;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 12, 13);
@@ -122,8 +122,8 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    SemanticsToOrbitFixedHand();
-   sem.onDepPrimaryScoring = &CumulativeScore::OurNV7m;
-   sem.onDepSecondScoring = &CumulativeScore::Our2_NV7NT;
+   sem.onSinglePrimary = &CumulativeScore::OurNV7m;
+   sem.onSingleSecondary = &CumulativeScore::Our2_NV7NT;
    sem.onCompareContracts = &Walrus::CompareSlams;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
@@ -141,7 +141,7 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    SemanticsToOrbitFixedHand();
-   sem.onDepPrimaryScoring = &CumulativeScore::Our4M;
+   sem.onSinglePrimary = &CumulativeScore::Our4M;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 10, 13);
@@ -177,7 +177,7 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    SemanticsToOrbitFixedHand();
-   sem.onDepPrimaryScoring = &CumulativeScore::Our4M;
+   sem.onSinglePrimary = &CumulativeScore::Our4M;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 12);
@@ -202,7 +202,7 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    SemanticsToOrbitFixedHand();
-   sem.onDepPrimaryScoring = &CumulativeScore::Our4M;
+   sem.onSinglePrimary = &CumulativeScore::Our4M;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 12);
@@ -245,7 +245,7 @@ void Walrus::FillSemantic(void)
 {
    SemanticsToOrbitFixedHand();
 
-   sem.onDepPrimaryScoring = &CumulativeScore::Our4M;
+   sem.onSinglePrimary = &CumulativeScore::Our4M;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
 

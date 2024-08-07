@@ -27,7 +27,7 @@ void Walrus::GrabSplinterVariant(twContext* lay)
 void Walrus::FillSemantic(void)
 {
    FourHandsFillSem();
-   sem.onDepPrimaryScoring = &Walrus::Score_NV6Major;
+   sem.onSinglePrimary = &Walrus::Score_NV6Major;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
    ADD_4PAR_FILTER( NORTH, ExactShape, 4, 4, 4, 1);
@@ -54,7 +54,7 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    FourHandsFillSem();
-   sem.onDepPrimaryScoring = &Walrus::Score_3NT;
+   sem.onSinglePrimary = &Walrus::Score_3NT;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
    ADD_4PAR_FILTER(NORTH, ModelShape, 3, 3, 3, 4);
@@ -72,7 +72,7 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    FourHandsFillSem();
-   sem.onDepPrimaryScoring = &Walrus::Score_NV6NoTrump;
+   sem.onSinglePrimary = &Walrus::Score_NV6NoTrump;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
    ADD_4PAR_FILTER(NORTH, ModelShape, 3, 3, 3, 4);
@@ -93,7 +93,7 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    FourHandsFillSem();
-   sem.onDepPrimaryScoring = &Walrus::Score_3NT;
+   sem.onSinglePrimary = &Walrus::Score_3NT;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
    ADD_4PAR_FILTER(NORTH, ModelShape, 3, 3, 3, 4);
@@ -114,10 +114,10 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    FourHandsFillSem();
-   //sem.onDepPrimaryScoring = &Walrus::Score_1NT;
-   sem.onDepPrimaryScoring = &Walrus::Score_2M;
-   sem.onDepPrimaryScoring = &Walrus::Score_4Major;
-   sem.onDepPrimaryScoring = &Walrus::Score_3NT;
+   //sem.onSinglePrimary = &Walrus::Score_1NT;
+   sem.onSinglePrimary = &Walrus::Score_2M;
+   sem.onSinglePrimary = &Walrus::Score_4Major;
+   sem.onSinglePrimary = &Walrus::Score_3NT;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.vecFilters.clear();
    ADD_4PAR_FILTER(NORTH, ExactShape, 5, 3, 3, 2);
@@ -140,8 +140,8 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    FourHandsFillSem();
-   sem.onDepPrimaryScoring = &Walrus::Score_NV_4Major;
-   //sem.onDepPrimaryScoring = &Walrus::Score_4Major;
+   sem.onSinglePrimary = &Walrus::Score_NV_4Major;
+   //sem.onSinglePrimary = &Walrus::Score_4Major;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    //sem.onPostmortem = &Walrus::PostmortemSuit;
    sem.vecFilters.clear();
@@ -178,7 +178,7 @@ void Walrus::FillSemantic(void)
 {
    FourHandsFillSem();
 
-   sem.onDepPrimaryScoring = &CumulativeScore::Our4M;
+   sem.onSinglePrimary = &CumulativeScore::Our4M;
    sem.onPostmortem = &Walrus::PostmortemHCP;
    sem.onPostmortem = &Walrus::PostmortemSuit;
    sem.vecFilters.clear();
@@ -218,7 +218,7 @@ void Walrus::FillSemantic(void)
 {
     FourHandsFillSem();
 
-    sem.onDepPrimaryScoring = &CumulativeScore::Our4M;
+    sem.onSinglePrimary = &CumulativeScore::Our4M;
     sem.onPostmortem = &Walrus::PostmortemHCP;
     sem.vecFilters.clear();
 
