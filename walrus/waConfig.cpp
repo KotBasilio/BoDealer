@@ -47,19 +47,19 @@ void waFileNames::Build()
 
 void Walrus::DetectGoals()
 {
-   // detect old scorers
+   // ensure we have a scorer
    if (cumulScore.prima.IsEmpty()) {
       printf("\nERROR: No primary scorer found\n");
       config.MarkFail();
       return;
    }
-   config.SetupOtherContract();
+   config.SetupSeatsAndTrumps();
 
    // display primary scorer
    DdsTricks tr;
    char tail[128];
    CumulativeScore zeroes(cumulScore);
-   owl.Show("Primary scorer (%s, %d tr):", ui.declTrump, config.primGoal);
+   owl.Show("Primary scorer (%s, %d tr):", config.declTrump, config.primGoal);
    strcpy(tail, "  / ");
    for (tr.plainScore = 7; tr.plainScore <= 13 ; tr.plainScore++) {
       cumulScore = zeroes;
@@ -162,16 +162,8 @@ bool Walrus::InitByConfig()
    }
 
    // other preparations basing on config
-#ifdef INPUT_TRUMPS
-   config.primTrump = INPUT_TRUMPS;
-   config.primFirst = INPUT_ON_LEAD;
-#else
-   DEBUG_UNEXPECTED; // get from scorer, and not even here
-#endif
-
-   InitDeck();
-   InitMiniUI();
    DetectGoals();
+   InitDeck();
    if (config.IsInitFailed()) {
       owl.Show("Failed on semantic-dependent init\n");
       return false;

@@ -38,8 +38,20 @@ MiniUI::MiniUI()
    FillMiniRows();
 }
 
-void WaConfig::SetupOtherContract()
+void WaConfig::SetupSeatsAndTrumps()
 {
+#ifdef INPUT_TRUMPS
+   primTrump = INPUT_TRUMPS;
+   primFirst = INPUT_ON_LEAD;
+#else
+   DEBUG_UNEXPECTED; // get from scorer, and not even here
+#endif
+   // primary
+   strcpy(declTrump, s_TrumpNames[primTrump]);
+   strcpy(seatOnLead, s_SeatNames[primFirst]);
+   int ds = (primFirst + 3) % 4; // anti-ccw from leader
+   strcpy(declSeat, s_SeatNames[ds]);
+
    if (secGoal > 0) {
       strcpy(theirTrump, s_TrumpNames[OC_TRUMPS]);
       const char* whos = "Their";
@@ -50,17 +62,6 @@ void WaConfig::SetupOtherContract()
       #endif
       sprintf(secLongName, "%s contract in %s", whos, theirTrump);
    }
-}
-
-void MiniUI::Init(int trump, int first)
-{
-   // fill names
-   strcpy(declTrump, s_TrumpNames[trump]);
-   strcpy(seatOnLead, s_SeatNames[first]);
-
-   // declarer is anti-ccw from leader
-   int ds = (first + 3) % 4;
-   strcpy(declSeat, s_SeatNames[ds]);
 }
 
 void MiniUI::DisplayBoard(twContext* lay)
@@ -132,7 +133,7 @@ void MiniUI::Run()
 
       // check whether we've handled this key
       if (irGoal) {
-         owl.Show("\nSeek %d tricks board by %s in %s ", irGoal, declSeat, declTrump);
+         owl.Show("\nSeek %d tricks board by %s in %s ", irGoal, config.declSeat, config.declTrump);
          switch (irFly) {
             case IO_CAMP_MORE_NT:
                owl.Show("where NT gives more tricks ");
@@ -155,7 +156,7 @@ void MiniUI::Run()
    // auto-command
    if (firstAutoShow && !irGoal) {
       irGoal = config.primGoal;
-      owl.Show(" %d tricks board by %s in %s ", irGoal, declSeat, declTrump);
+      owl.Show(" %d tricks board by %s in %s ", irGoal, config.declSeat, config.declTrump);
    }
 }
 

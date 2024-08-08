@@ -31,9 +31,7 @@ struct MiniUI {
    s64   primaBetterBy;
    int   farCol;
    int   indent;
-   char  declTrump[10], declSeat[10], seatOnLead[10];
    MiniUI();
-   void Init(int trump, int first);
    void DisplayBoard(twContext* lay);
    void WaitAnyKey();
    void FillMiniRows();
@@ -95,14 +93,13 @@ struct WaConfig {
    std::vector<MicroFilter> filtersLoaded;
 
    // other text params
-   //char  declTrump[10], declSeat[10], seatOnLead[10], 
-   char theirTrump[10];
+   char declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10];
    char secLongName[128];
 
    WaConfig();
    void ReadTask(class Walrus *walrus);
    void BuildNewFilters(class Walrus *walrus);
-   void SetupOtherContract();
+   void SetupSeatsAndTrumps();
    bool IsInitFailed() { return !isInitSuccess; }
    void MarkFail() { isInitSuccess = false; }
 private:

@@ -281,7 +281,7 @@ void Walrus::MiniReport(ucell toGo)
    // signature
    s64 doneOurs   = (s64)(__max( hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE  ], 1));
    s64 doneTheirs = (s64)( __max(hitsRow[IO_ROW_THEIRS  ] + hitsRow[IO_ROW_THEIRS + 1], 1));
-   owl.OnDone("Processed: %lld total. %s is on lead. Goal is %d tricks in %s.\n", doneOurs, ui.seatOnLead, config.primGoal, ui.declTrump);
+   owl.OnDone("Processed: %lld total. %s is on lead. Goal is %d tricks in %s.\n", doneOurs, config.seatOnLead, config.primGoal, config.declTrump);
 
    // other stuff
    ShowBiddingLevel(doneOurs);

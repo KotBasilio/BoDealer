@@ -109,7 +109,8 @@ protected:
     void PostmortemHCP(DdsTricks& tr, deal& cards);
     void PostmortemSuit(DdsTricks& tr, deal& cards);
 
-    // progress and reports
+    // UI, progress and reports
+    MiniUI ui;
     Progress progress;
     void SummarizeFiltering();
     void ReportTime();
@@ -137,10 +138,6 @@ protected:
     void ShowDetailedReportControls();
     void ShowDetailedReportSuit();
     void ShowMiniHits(ucell* hitsRow, ucell* hitsCamp);
-
-    // UI
-    MiniUI ui;
-    void InitMiniUI();
 
 private:
    Shuffler shuf;

@@ -250,6 +250,10 @@ void Semantics::SetOpeningLeadScorer(CumulativeScore& cs, const char* code)
 
 void Walrus::InitDeck(void)
 {
+   if (config.IsInitFailed()) {
+      return;
+   }
+
    shuf.InitDeck();
 
    (this->*sem.onInit)();
@@ -258,6 +262,10 @@ void Walrus::InitDeck(void)
    shuf.StoreCheckSum();
    shuf.VerifyCheckSum();
    shuf.SeedRand();
+
+   static deal dlBase;
+   PrepareBaseDeal(dlBase);
+   sem.dlBase = &dlBase;
 }
 
 u64 Walrus::SumFirstHand()

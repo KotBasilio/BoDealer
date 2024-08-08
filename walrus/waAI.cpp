@@ -15,14 +15,6 @@ static solvedBoards _twiceSolved;
    const uint WALRUS_CHUNK_SIZE = 200;
 #endif
 
-void Walrus::InitMiniUI()
-{
-   static deal dlBase;
-   PrepareBaseDeal(dlBase);
-   ui.Init(dlBase.trump, dlBase.first);
-   sem.dlBase = &dlBase;
-}
-
 void Walrus::SolveSavedTasks()
 {
    // say
