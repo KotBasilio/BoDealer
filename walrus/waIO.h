@@ -96,9 +96,12 @@ struct WaConfig {
    char theirTrump[10], secLongName[128];
 
    // post-mortem
+   struct Postmortem {
+      WA_REPORT_TYPE reportType;
+      int            minControls;
+      Postmortem();
+   } postm;
    int   postmSuit, postmHand; 
-   int   minControls;
-   WA_REPORT_TYPE detailedReportType;
 
    WaConfig();
    void ReadTask(class Walrus *walrus);

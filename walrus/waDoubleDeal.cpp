@@ -83,11 +83,11 @@ void Walrus::PostmortemHCP(DdsTricks& tr, deal& cards)
    uint row = 0;
    uint ctrl;
    auto hcp = WaCalcHCP(cards, ctrl);
-   if (config.minControls) {
-      if (ctrl < (uint)config.minControls) {
+   if (config.postm.minControls) {
+      if (ctrl < (uint)config.postm.minControls) {
          row = IO_ROW_HCP_START;
       } else {
-         row = IO_ROW_HCP_START + (ctrl - config.minControls) * 2;
+         row = IO_ROW_HCP_START + (ctrl - config.postm.minControls) * 2;
       }
    } else if (hcp < IO_HCP_MIN || IO_HCP_MAX < hcp) {
       return;

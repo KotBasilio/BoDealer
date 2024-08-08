@@ -395,14 +395,14 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
    // list by hcp, controls, etc
    if (ui.reportRequested) {
       ui.reportRequested = false;
-      switch (config.detailedReportType)
+      switch (config.postm.reportType)
       {
          case WREPORT_NONE:
          case WREPORT_OPENING_LEADS:
             break;
          case WREPORT_HCP:
          case WREPORT_CONTROLS:
-            if (config.minControls) {
+            if (config.postm.minControls) {
                ShowDetailedReportControls();
             } else {
                ShowDetailedReportHighcards();

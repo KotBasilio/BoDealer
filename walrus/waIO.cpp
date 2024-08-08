@@ -234,6 +234,7 @@ void Walrus::DisplayFilterNumbers(uint ip)
 void Walrus::ShowDetailedReportHighcards()
 {
    UpdateFarColumnUI();
+   owl.Silent("\nA split of board results by HCP from %d to %d:\n", IO_HCP_MIN, IO_HCP_MAX);
 
    // for mid-rows
    u64 prevSum = 0;
@@ -278,12 +279,13 @@ void Walrus::ShowDetailedReportHighcards()
 void Walrus::ShowDetailedReportControls()
 {
    UpdateFarColumnUI();
+   owl.Silent("\nA split of board results by CONTROLS from %d and up:\n", config.postm.minControls);
 
    // for mid-rows
    u64 prevSum = 0;
    for (int i = IO_ROW_HCP_START; i < IO_ROW_FILTERING - 1; i++) {
       // calc ctrl for this row (row = start + (ctr - min) * 2)
-      auto ctr = (i - IO_ROW_HCP_START) / 2 + config.minControls;
+      auto ctr = (i - IO_ROW_HCP_START) / 2 + config.postm.minControls;
       if (ctr > 12) {
          break;
       }

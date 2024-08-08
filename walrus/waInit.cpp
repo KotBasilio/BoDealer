@@ -50,12 +50,16 @@ WaConfig::Contract::Contract()
 {
 }
 
+WaConfig::Postmortem::Postmortem()
+   : minControls(0)
+   , reportType(WREPORT_NONE)
+{
+}
+
 WaConfig::WaConfig()
    : namesBase()
    , postmSuit(0)
    , postmHand(NORTH)
-   , minControls(0)
-   , detailedReportType(WREPORT_NONE)
    , sizeSourceCode(0)
    , countFilters(0)
 {
@@ -72,16 +76,16 @@ WaConfig::WaConfig()
    sourceCodeFilters[0] = 0;
    nameTask[0] = 0;
 
-   #ifdef IO_SHOW_HCP_CTRL_SPLIT
-      detailedReportType = WREPORT_HCP;
-   #endif
-
    #if IO_HCP_MIN == IO_HCP_MAX
       minControls = (IO_HCP_MIN * 4) / 10 - 6;
    #endif
 
+   #ifdef IO_SHOW_HCP_CTRL_SPLIT
+      postm.reportType = WREPORT_HCP;
+   #endif
+
    #ifdef SEEK_OPENING_LEAD
-      detailedReportType = WREPORT_OPENING_LEADS;
+      postm.reportType = WREPORT_OPENING_LEADS;
    #endif
 }
 
