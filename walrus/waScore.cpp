@@ -21,18 +21,18 @@ void Walrus::HitByTricks(DdsTricks &tr, uint made, uint row /*= IO_ROW_OUR_DOWN*
    progress.SolvedNormalMark(row, camp);
 }
 
-CumulativeScore::Adjustable::Adjustable() 
+CumulativeScore::LineScorer::LineScorer() 
    : linearBase(nullptr)
    , outSum(nullptr) 
    , title("none")
 {}
 
-bool CumulativeScore::Adjustable::IsEmpty() const
+bool CumulativeScore::LineScorer::IsEmpty() const
 {
    return outSum == nullptr;
 }
 
-bool CumulativeScore::Adjustable::Init(s64 &out, const char* code)
+bool CumulativeScore::LineScorer::Init(s64 &out, const char* code)
 {
    linearBase = FindLinearScore(code);
    if (linearBase) {
@@ -45,17 +45,17 @@ bool CumulativeScore::Adjustable::Init(s64 &out, const char* code)
    return false;
 }
 
-void CumulativeScore::Adjustable::TargetOut(s64& out)
+void CumulativeScore::LineScorer::TargetOut(s64& out)
 {
    outSum = &out;
 }
 
-s64 CumulativeScore::Adjustable::Get(uint tricks)
+s64 CumulativeScore::LineScorer::Get(uint tricks)
 {
    return linearBase[tricks];
 }
 
-void CumulativeScore::Adjustable::operator()(uint tricks)
+void CumulativeScore::LineScorer::operator()(uint tricks)
 {
    *outSum += Get(tricks);
 }
@@ -67,7 +67,7 @@ void CumulativeScore::FillSameLinears(const CumulativeScore& other)
    tertia. FillUpon(&ideal, other.tertia,  &other.ideal);
 }
 
-void CumulativeScore::Adjustable::FillUpon(s64* ourBase, const Adjustable& other, const s64* thatBase)
+void CumulativeScore::LineScorer::FillUpon(s64* ourBase, const LineScorer& other, const s64* thatBase)
 {
    if (other.IsEmpty()) {
       return;
@@ -105,3 +105,26 @@ void CumulativeScore::OpeningLead(DdsTricks &tr)
    leadC += prima.Get(tr.lead.C);
 
 }
+
+int CumulativeScore::LineScorer::Goal() const
+{
+   // see FindLinearScore()
+   uint level = title[1] - '0';
+   return level + 6;
+}
+
+int CumulativeScore::LineScorer::Trump() const
+{
+   // see FindLinearScore()
+   switch (title[2]) {
+      case 'N': return SOL_NOTRUMP;
+      case 'S': return SOL_SPADES;
+      case 'H': return SOL_HEARTS;
+      case 'D': return SOL_DIAMONDS;
+      case 'C': return SOL_CLUBS;
+   }
+
+   DEBUG_UNEXPECTED;
+   return SOL_NOTRUMP;
+}
+

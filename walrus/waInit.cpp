@@ -175,12 +175,6 @@ bool Semantics::IsClosingBracket(int idx)
    return vecFilters[idx].func == &WaFilter::EndList;
 }
 
-static int GetGoalFrom(const char* code)
-{
-   uint level = code[1] - '0';
-   return 6 + level;
-}
-
 void Semantics::SetOurPrimaryScorer(CumulativeScore &cs, const char* code)
 {
    if (!cs.prima.Init(cs.bidGame, code)) {
@@ -190,7 +184,7 @@ void Semantics::SetOurPrimaryScorer(CumulativeScore &cs, const char* code)
 
    // ok
    onPrimaryScoring = &CumulativeScore::Primary;
-   config.primGoal = GetGoalFrom(code);
+   config.primGoal = cs.prima.Goal();
    onSinglePrimary = &CumulativeScore::DepPrimary;
 }
 
@@ -203,7 +197,7 @@ void Semantics::SetSecondaryScorer(CumulativeScore &cs, s64& target, const char*
 
    // ok
    onSecondScoring = &CumulativeScore::Secondary;
-   config.secGoal = GetGoalFrom(code);
+   config.secGoal = cs.secunda.Goal();
    onSingleSecondary = &CumulativeScore::DepSecondary;
 }
 

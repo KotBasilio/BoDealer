@@ -38,15 +38,15 @@ MiniUI::MiniUI()
    FillMiniRows();
 }
 
-void WaConfig::SetupSeatsAndTrumps()
-{
 #ifdef INPUT_TRUMPS
-   primTrump = INPUT_TRUMPS;
-   primFirst = INPUT_ON_LEAD;
-#else
-   DEBUG_UNEXPECTED; // get from scorer, and not even here
+   #error Get rid of INPUT_TRUMPS define. Use linear scorer.
 #endif
+
+void WaConfig::SetupSeatsAndTrumps(const CumulativeScore &cs)
+{
    // primary
+   primTrump = cs.prima.Trump();
+   primFirst = INPUT_ON_LEAD;
    strcpy(declTrump, s_TrumpNames[primTrump]);
    strcpy(seatOnLead, s_SeatNames[primFirst]);
    int ds = (primFirst + 3) % 4; // anti-ccw from leader

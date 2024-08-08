@@ -5,7 +5,6 @@
 #ifdef SEM_JUN24_LEAD_AK
    #define SEEK_OPENING_LEAD
    #define SEM_ORBITING_FIXED_HAND
-   #define INPUT_TRUMPS    SOL_HEARTS
    #define INPUT_ON_LEAD   WEST
    #define CARD_LEAD_SPADE   K3
    #define CARD_LEAD_HEARTS  K3

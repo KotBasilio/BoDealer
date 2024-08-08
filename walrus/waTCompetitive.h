@@ -21,7 +21,6 @@
 
 #ifdef SEM_AUG_PREEMPTIVE_ON_PART_1H
    #define SEEK_SACRIFICE_DECISION
-   #define INPUT_TRUMPS    SOL_SPADES
    #define INPUT_ON_LEAD   WEST
    #define OC_TRUMPS       SOL_DIAMONDS
    #define OC_ON_LEAD      NORTH

@@ -53,7 +53,7 @@ void Walrus::DetectGoals()
       config.MarkFail();
       return;
    }
-   config.SetupSeatsAndTrumps();
+   config.SetupSeatsAndTrumps(cumulScore);
 
    // display primary scorer
    DdsTricks tr;

@@ -24,7 +24,7 @@
 #endif
 
 #ifndef OC_TRUMPS
-   #define OC_TRUMPS       INPUT_TRUMPS
+   #define OC_TRUMPS       SOL_HEARTS
    #define OC_ON_LEAD      INPUT_ON_LEAD
 #endif
 

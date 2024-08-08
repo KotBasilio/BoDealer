@@ -99,7 +99,7 @@ struct WaConfig {
    WaConfig();
    void ReadTask(class Walrus *walrus);
    void BuildNewFilters(class Walrus *walrus);
-   void SetupSeatsAndTrumps();
+   void SetupSeatsAndTrumps(const struct CumulativeScore &cs);
    bool IsInitFailed() { return !isInitSuccess; }
    void MarkFail() { isInitSuccess = false; }
 private:
