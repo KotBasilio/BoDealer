@@ -1,13 +1,20 @@
 /************************************************************
  * Walrus project                                        2020
- * AI parts
+ * Deprecatep parts and diagnostics
  *
  ************************************************************/
-#include <string.h>
 #include "walrus.h"
-#include "../dds-develop/include/dll.h"
-#include "../dds-develop/examples/hands.h"
 
-
-
+#ifdef INPUT_TRUMPS
+   #error Get rid of INPUT_TRUMPS define. Use primary linear scorer.
+#endif
+#ifdef INPUT_ON_LEAD
+   #error Get rid of INPUT_ON_LEAD define. Use primary linear scorer.
+#endif
+#ifdef OC_TRUMPS
+   #error Get rid of OC_TRUMPS define. Use secondary linear scorer.
+#endif
+#ifdef OC_ON_LEAD
+   #error Get rid of OC_ON_LEAD define. Use secondary linear scorer.
+#endif
 

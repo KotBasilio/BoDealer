@@ -137,8 +137,8 @@ void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
 
    // overwrite trumps and lead
    for (int i = 0; i < bo.noOfBoards; i++) {
-      bo.deals[i].trump = OC_TRUMPS;
-      bo.deals[i].first = OC_ON_LEAD;
+      bo.deals[i].trump = config.secondary.trump;
+      bo.deals[i].first = config.secondary.first;
    }
 
    // solve second time
@@ -150,7 +150,7 @@ void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
    for (int handno = 0; handno < _twiceSolved.noOfBoards; handno++) {
       // pass to basic statistics
       trSecond.Init(_twiceSolved.solvedBoard[handno]);
-      HitByTricks(trSecond, config.secondaryGoal, IO_ROW_THEIRS);
+      HitByTricks(trSecond, config.secondary.goal, IO_ROW_THEIRS);
       ScoreWithSecondary(trSecond);
       progress.countExtraMarks++;
 

@@ -170,7 +170,7 @@ void WaConfig::ReadTask(Walrus *walrus)
 {
    // drop goals
    prim.goal = 0;
-   secondaryGoal = 0;
+   secondary.goal = 0;
 
    // ensure we have a file
    const char* fname = namesBase.StartFrom;

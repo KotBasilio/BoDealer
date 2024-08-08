@@ -38,13 +38,6 @@ MiniUI::MiniUI()
    FillMiniRows();
 }
 
-#ifdef INPUT_TRUMPS
-   #error Get rid of INPUT_TRUMPS define. Use linear scorer.
-#endif
-#ifdef INPUT_ON_LEAD
-   #error Get rid of INPUT_ON_LEAD define. Use linear scorer.
-#endif
-
 void WaConfig::Contract::Init(const CumulativeScore::LineScorer& scorer)
 {
    trump = scorer.Trump();
@@ -63,7 +56,8 @@ void WaConfig::SetupSeatsAndTrumps(const CumulativeScore &cs)
 
    // secondary
    if (!cs.secunda.IsEmpty()) {
-      strcpy(theirTrump, s_TrumpNames[OC_TRUMPS]);
+      secondary.Init(cs.secunda);
+      strcpy(theirTrump, s_TrumpNames[secondary.trump]);
       const char* whos = "Their";
       #ifdef THE_OTHER_IS_OURS
          whos = "A";
@@ -97,16 +91,15 @@ void MiniUI::Run()
 
       auto inchar = PLATFORM_GETCH();
       switch (inchar) {
-         // just made
+         // primary:
+         // -- just made
          case ' ': irGoal = config.prim.goal; break;
-
-         // overtricks
+         // -- overtricks
          case '1': irGoal = config.prim.goal + 1; break;
          case '2': irGoal = config.prim.goal + 2; break;
          case '3': irGoal = config.prim.goal + 3; break;
          case '4': irGoal = config.prim.goal + 4; break;
-
-         // down some
+         // -- down some
          case 'q': irGoal = config.prim.goal - 1;  break;
          case 'w': irGoal = config.prim.goal - 2;  break;
          case 'e': irGoal = config.prim.goal - 3;  break;
@@ -116,12 +109,12 @@ void MiniUI::Run()
          case 'u': irGoal = config.prim.goal - 7;  break;
          case 'i': irGoal = config.prim.goal - 8;  break;
 
-         // comparison
-         #ifdef SEEK_MAGIC_FLY
-            case '=': irGoal = config.prim.goal; irFly = IO_CAMP_SAME_NT; break;
-            case '[': irGoal = config.prim.goal; irFly = IO_CAMP_PREFER_SUIT; break;
-            case ']': irGoal = config.prim.goal; irFly = IO_CAMP_MORE_NT; break;
-         #endif 
+         // secondary TODO
+
+         // fly comparison
+         case '=': irGoal = config.prim.goal; irFly = IO_CAMP_SAME_NT;     break;
+         case '[': irGoal = config.prim.goal; irFly = IO_CAMP_PREFER_SUIT; break;
+         case ']': irGoal = config.prim.goal; irFly = IO_CAMP_MORE_NT;     break;
 
          // report hits
          case 's': 
@@ -187,5 +180,3 @@ void Walrus::SummarizeFiltering()
    printf("Solving started: ");
    //PLATFORM_GETCH();
 }
-
-

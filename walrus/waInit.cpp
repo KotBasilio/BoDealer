@@ -52,8 +52,6 @@ WaConfig::Contract::Contract()
 
 WaConfig::WaConfig()
    : namesBase()
-   , secondaryGoal(0)
-   , secondaryBy(NORTH)
    , postmSuit(0)
    , postmHand(NORTH)
    , minControls(0)
@@ -205,7 +203,7 @@ void Semantics::SetSecondaryScorer(CumulativeScore &cs, s64& target, const char*
 
    // ok
    onSecondScoring = &CumulativeScore::Secondary;
-   config.secondaryGoal = cs.secunda.Goal();
+   config.secondary.goal = cs.secunda.Goal();
    onSingleSecondary = &CumulativeScore::DepSecondary;
 }
 

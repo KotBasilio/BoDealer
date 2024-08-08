@@ -4,6 +4,7 @@
  * Only micro-filters versions -- 3.0 and later
  * See previous tasks in archive 2.0 branch
  ************************************************************/
+#pragma once
 
 // Bidding decision one-sided:
 //#define SEMANTIC_JULY_MOROZOV_HAND_EVAL

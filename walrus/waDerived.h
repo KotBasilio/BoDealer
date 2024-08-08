@@ -17,15 +17,9 @@
 #ifdef SEEK_MAGIC_FLY
    #define FIXED_HAND_NORTH
    #define SOLVE_TWICE_HANDLED_CHUNK
-   #define TWICE_TRUMPS            SOL_NOTRUMP
    #define TWICE_ON_LEAD_INSPECT   cards.first
    #define TWICE_ON_LEAD_CHUNK     bo.deals[i].first
    #define SHOW_MY_FLY_RESULTS
-#endif
-
-#ifndef OC_TRUMPS
-   #define OC_TRUMPS       SOL_HEARTS
-   #define OC_ON_LEAD      INPUT_ON_LEAD
 #endif
 
 #ifdef SEEK_SACRIFICE_DECISION
@@ -46,9 +40,8 @@
 
 #ifdef SCORE_THE_OTHER_CONTRACT
    #define SOLVE_TWICE_HANDLED_CHUNK
-   #define TWICE_TRUMPS            OC_TRUMPS
-   #define TWICE_ON_LEAD_INSPECT   OC_ON_LEAD
-   #define TWICE_ON_LEAD_CHUNK     OC_ON_LEAD
+   #define TWICE_ON_LEAD_INSPECT   config.secondary.first
+   #define TWICE_ON_LEAD_CHUNK     config.secondary.first
    #ifdef THE_OTHER_IS_OURS
       #define SHOW_OUR_OTHER
    #else

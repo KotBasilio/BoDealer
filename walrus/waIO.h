@@ -87,9 +87,6 @@ struct WaConfig {
    Contract prim;      // our primary contract
    Contract secondary; // either our secondary contract or their contract
 
-   int   secondaryGoal; // goal tricks either in our secondary contract or in their contract
-   int   secondaryTrump, secondaryBy;
-
    // for post-mortem:
    int   postmSuit, postmHand; 
    int   minControls;
