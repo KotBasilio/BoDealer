@@ -21,7 +21,6 @@
 
 #ifdef SEM_AUG_PREEMPTIVE_ON_PART_1H
    #define SEEK_SACRIFICE_DECISION
-   #define INPUT_ON_LEAD   EAST
    #define OC_TRUMPS       SOL_DIAMONDS
    #define OC_ON_LEAD      NORTH
    #define SEM_ORBITING_FIXED_HAND

@@ -128,3 +128,20 @@ int CumulativeScore::LineScorer::Trump() const
    return SOL_NOTRUMP;
 }
 
+int CumulativeScore::LineScorer::Decl() const
+{
+   auto place = strstr(title, "BY ");
+   if (!place) {
+      return SOUTH;
+   }
+
+   switch (place[3]) {
+      case 'N': return NORTH;
+      case 'S': return SOUTH;
+      case 'W': return WEST;
+      case 'E': return EAST;
+   }
+
+   return SOUTH;
+}
+

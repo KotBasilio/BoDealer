@@ -82,10 +82,10 @@ struct WaConfig {
       int   by;    // declarer
       int   first; // attacker
       Contract();
+      void Init(const CumulativeScore::LineScorer& scorer);
    };
    Contract prim;      // our primary contract
-   Contract secondary; // either our secondary contract or in their contract
-   int   primTrump, primFirst, primaBy;
+   Contract secondary; // either our secondary contract or their contract
 
    int   secondaryGoal; // goal tricks either in our secondary contract or in their contract
    int   secondaryTrump, secondaryBy;

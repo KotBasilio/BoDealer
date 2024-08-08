@@ -205,8 +205,8 @@ void Semantics::PrepareBaseDeal()
 
    // common fields
    memset(dlBase, 0, sizeof(*dlBase));
-   dlBase->trump = config.primTrump;
-   dlBase->first = config.primFirst;
+   dlBase->trump = config.prim.trump;
+   dlBase->first = config.prim.first;
 
    // done for 4-hand tasks. We'll fill each hand
    #ifdef FOUR_HANDS_TASK

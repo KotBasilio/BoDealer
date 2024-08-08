@@ -41,21 +41,28 @@ MiniUI::MiniUI()
 #ifdef INPUT_TRUMPS
    #error Get rid of INPUT_TRUMPS define. Use linear scorer.
 #endif
+#ifdef INPUT_ON_LEAD
+   #error Get rid of INPUT_ON_LEAD define. Use linear scorer.
+#endif
+
+void WaConfig::Contract::Init(const CumulativeScore::LineScorer& scorer)
+{
+   trump = scorer.Trump();
+   goal = scorer.Goal();
+   by = scorer.Decl();
+   first = (by + 1) % 4;
+}
 
 void WaConfig::SetupSeatsAndTrumps(const CumulativeScore &cs)
 {
    // primary
-   primTrump = cs.prima.Trump();
-   strcpy(declTrump, s_TrumpNames[primTrump]);
+   prim.Init(cs.prima);
+   strcpy(declTrump,  s_TrumpNames[prim.trump]);
+   strcpy(seatOnLead, s_SeatNames [prim.first]);
+   strcpy(declSeat,   s_SeatNames [prim.by]);
 
-   //DetectDeclarer(primaScorerCode, declSeat);
-   //DetectDeclarer(secundaScorerCode, declSeat);
-   primFirst = INPUT_ON_LEAD;
-   strcpy(seatOnLead, s_SeatNames[primFirst]);
-   int ds = (primFirst + 3) % 4; // anti-ccw from leader
-   strcpy(declSeat, s_SeatNames[ds]);
-
-   if (secondaryGoal > 0) {
+   // secondary
+   if (!cs.secunda.IsEmpty()) {
       strcpy(theirTrump, s_TrumpNames[OC_TRUMPS]);
       const char* whos = "Their";
       #ifdef THE_OTHER_IS_OURS

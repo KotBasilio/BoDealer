@@ -52,8 +52,6 @@ WaConfig::Contract::Contract()
 
 WaConfig::WaConfig()
    : namesBase()
-   , primFirst(NORTH)
-   , primaBy(NORTH)
    , secondaryGoal(0)
    , secondaryBy(NORTH)
    , postmSuit(0)
