@@ -89,6 +89,10 @@ void Walrus::SemanticsToOrbitFixedHand(void)
 #ifdef SEEK_BIDDING_LEVEL
    sem.SetBiddingGameScorer(cumulScore, config.primaScorerCode);
 #endif
+
+#if IO_HCP_MIN != IO_HCP_MAX
+   sem.onPostmortem = &Walrus::PostmortemHCP;
+#endif
 }
 
 void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)

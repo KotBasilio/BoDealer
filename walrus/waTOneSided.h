@@ -21,10 +21,8 @@
 */
 
 #ifdef SEM_MAY24_TRHEE_SUITED_BALANCE
-   #define TITLE_VERSION  "(See config)"
-   #define INPUT_TRUMPS    SOL_HEARTS
-   #define INPUT_ON_LEAD   EAST
    #define SEEK_BIDDING_LEVEL
+   #define SEM_ORBITING_FIXED_HAND
    #define IO_HCP_MIN  20
    #define IO_HCP_MAX  24
 #endif 

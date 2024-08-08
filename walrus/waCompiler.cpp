@@ -37,8 +37,9 @@ static NullFilter OpeningBrackets[] =
 static HandFilter ExportedHandFilters[] = {
    DESCRIBE_FILTER(PointsRange, 2),
    DESCRIBE_FILTER(ControlsRange, 2),
-   DESCRIBE_FILTER(PointsAtLeast, 1),
    DESCRIBE_FILTER(KeyCardsRange, 2),
+   DESCRIBE_FILTER(PointsAtLeast, 1),
+   DESCRIBE_FILTER(PointsLimit, 1),
 
    DESCRIBE_FILTER(ExactShape, 4),
    DESCRIBE_FILTER(ModelShape, 4),
