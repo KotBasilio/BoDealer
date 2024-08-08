@@ -106,9 +106,9 @@ void Walrus::ClearHelpers()
 void Walrus::ShowEffortSplit(Walrus &hA, Walrus &hB)
 {
 #ifdef SHOW_EFFORT_SPLIT
-   printf("Aiming : %10u =\n"
-      "   main: %10u +\n"
-      "%s: %10u +\n%s: %10u\n-------------------\n"
+   printf("Aiming : %10llu =\n"
+      "   main: %10llu +\n"
+      "%s: %10llu +\n%s: %10llu\n-------------------\n"
       , MAX_ITERATION, mul.countShare
       , hA.GetName(), hA.mul.countShare
       , hB.GetName(), hB.mul.countShare);
@@ -233,7 +233,7 @@ void Walrus::MergeResults(Walrus *other)
    //printf((other == mul.hA) ? "+A," : "+B,");
 
    // helper is busy => do some of its work
-   while (other->IsRunning()) {
+   while (other->mul.IsRunning()) {
       CoWork(other);
       mul.countSolo += sem.scanCover;
    }
@@ -280,8 +280,8 @@ void Walrus::Supervise()
 
    // while it makes any sense
    for (int count_cowork = 0; ; count_cowork++) {
-      ucell cA = helperA->Remains();
-      ucell cB = helperB->Remains();
+      ucell cA = helperA->mul.Remains();
+      ucell cB = helperB->mul.Remains();
       if (cA + cB < COWORK_REASONABLE) {
          return;
       }

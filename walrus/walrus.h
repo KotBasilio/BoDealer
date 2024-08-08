@@ -72,22 +72,18 @@ protected:
     void CompareSlams(uint tricksA, uint tricksB);
     void HandleDDSFail(int res);
 
-    // multi-thread
+    // multi-thread & joined effort
     void  LaunchHelpers();
     void  ShowEffortSplit(Walrus &hA, Walrus &hB);
+    ucell DoTheShare();
     void  DoIteration();
-    uint  NumFiltered() const   { return mul.countToSolve; }
-    ucell CloudSize() const     { return mul.countShare; }
-    ucell Remains() const { return (mul.countIterations < CloudSize()) ? CloudSize() - mul.countIterations : 0; }
-    void  CoWork(Walrus * other);
     void  Supervise(void);
+    void  CoWork(Walrus * other);
     void  MergeResults(Walrus *other);
     void  ClearHelpers();
-
-    // joined effort
-    ucell DoTheShare();
-    bool IsRunning(void) const  { return mul.isRunning; }
     const char *GetName() const { return mul.nameHlp; }
+    uint  NumFiltered() const   { return mul.countToSolve; }
+    WaMulti mul;
 
     // semantics
     bool InitSemantics();
@@ -145,9 +141,6 @@ protected:
     // UI
     MiniUI ui;
     void InitMiniUI();
-
-    // Multi-thread
-    WaMulti mul;
 
 private:
    Shuffler shuf;

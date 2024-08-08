@@ -9,7 +9,10 @@ struct WaMulti {
    void ShowLiveSigns(uint oneCover);
    void SaveThreeHands(twContext* lay);
    void StopHelpersSuddenly();
-   uint NumFiltered() const { return countToSolve; }
+   bool IsRunning(void) const  { return isRunning; }
+   uint NumFiltered() const    { return countToSolve; }
+   ucell CloudSize() const     { return countShare; }
+   ucell Remains() const       { return (countIterations < CloudSize()) ? CloudSize() - countIterations : 0; }
 
    // main scan part
    bool             isRunning, shouldSignOut, shownFirstLiveSign;
