@@ -108,18 +108,24 @@ void WaConfig::ReadSecundaScorer(const char* line)
    SAFE_STR_BY_LINE(secundaScorerCode);
 }
 
+void WaConfig::AnnounceTask()
+{
+   owl.Show("%s : %s", nameTask, titleBrief);
+   owl.Show("Fixed hand is %s\n", taskHandPBN);
+
+   if (primaScorerCode[0]) {
+      if (secundaScorerCode[0]) {
+         owl.Show("Scorers to use are: %s; %s\n", primaScorerCode, secundaScorerCode);
+      } else {
+         owl.Show("Scorer to use is %s\n", primaScorerCode);
+      }
+   }
+}
+
 EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
 {
    if (IsStartsWith(line, key.Filters)) {
-      owl.Show("%s : %s", nameTask, titleBrief);
-      owl.Show("Fixed hand is %s\n", taskHandPBN);
-      if (primaScorerCode[0]) {
-         if (secundaScorerCode[0]) {
-            owl.Show("Scorers to use are: %s; %s\n", primaScorerCode, secundaScorerCode);
-         } else {
-            owl.Show("Scorer to use is %s\n", primaScorerCode);
-         }
-      }
+      AnnounceTask();
       return S_FILTERS; 
    } 
    
@@ -164,7 +170,7 @@ void WaConfig::ReadTask(Walrus *walrus)
 {
    // drop goals
    primGoal = 0;
-   secGoal = 0;
+   secondaryGoal = 0;
 
    // ensure we have a file
    const char* fname = namesBase.StartFrom;

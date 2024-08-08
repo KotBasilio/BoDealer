@@ -45,7 +45,10 @@ void WaFilter::Bind(class Walrus* _walrus)
 WaConfig::WaConfig()
    : namesBase()
    , primGoal(0)
-   , secGoal(0)
+   , primFirst(NORTH)
+   , primaBy(NORTH)
+   , secondaryGoal(0)
+   , secondaryBy(NORTH)
    , postmSuit(0)
    , postmHand(NORTH)
    , minControls(0)
@@ -197,7 +200,7 @@ void Semantics::SetSecondaryScorer(CumulativeScore &cs, s64& target, const char*
 
    // ok
    onSecondScoring = &CumulativeScore::Secondary;
-   config.secGoal = cs.secunda.Goal();
+   config.secondaryGoal = cs.secunda.Goal();
    onSingleSecondary = &CumulativeScore::DepSecondary;
 }
 

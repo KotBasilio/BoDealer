@@ -62,7 +62,7 @@ enum EConfigReaderState {
    S_GOALS
 };
 
-constexpr size_t WA_SCORER_CODE_LEN = 10;
+constexpr size_t WA_SCORER_CODE_LEN = 32;
 constexpr size_t WA_SOURCE_CODE_BUF = 2 * 1024;
 constexpr size_t WA_TASK_BRIEF = 1024;
 constexpr size_t WA_TASK_NANE_LEN = 64;
@@ -77,9 +77,10 @@ struct WaConfig {
    char taskHandPBN[WA_HAND_LEN];
 
    int   primGoal;  // goal tricks in our primary contract
-   int   primTrump, primFirst;
+   int   primTrump, primFirst, primaBy;
 
-   int   secGoal; // goal tricks either in our secondary contract or in their contract
+   int   secondaryGoal; // goal tricks either in our secondary contract or in their contract
+   int   secondaryTrump, secondaryBy;
 
    // for post-mortem:
    int   postmSuit, postmHand; 
@@ -106,6 +107,7 @@ private:
    bool isInitSuccess = true;
    char nameTask[WA_TASK_NANE_LEN];
 
+   void AnnounceTask();
    void ChangeOpMode(const char *line);
    void ReadHandPBN(const char *line);
    void ReadPrimaScorer(const char *line);

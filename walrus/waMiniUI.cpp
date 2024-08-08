@@ -46,13 +46,16 @@ void WaConfig::SetupSeatsAndTrumps(const CumulativeScore &cs)
 {
    // primary
    primTrump = cs.prima.Trump();
-   primFirst = INPUT_ON_LEAD;
    strcpy(declTrump, s_TrumpNames[primTrump]);
+
+   //DetectDeclarer(primaScorerCode, declSeat);
+   //DetectDeclarer(secundaScorerCode, declSeat);
+   primFirst = INPUT_ON_LEAD;
    strcpy(seatOnLead, s_SeatNames[primFirst]);
    int ds = (primFirst + 3) % 4; // anti-ccw from leader
    strcpy(declSeat, s_SeatNames[ds]);
 
-   if (secGoal > 0) {
+   if (secondaryGoal > 0) {
       strcpy(theirTrump, s_TrumpNames[OC_TRUMPS]);
       const char* whos = "Their";
       #ifdef THE_OTHER_IS_OURS

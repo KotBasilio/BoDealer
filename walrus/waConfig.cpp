@@ -71,7 +71,7 @@ void Walrus::DetectGoals()
    // secondary
    bool shouldSkipSecunda = cumulScore.secunda.IsEmpty() || (sem.onSinglePrimary == &CumulativeScore::BiddingLevel);
    if (!shouldSkipSecunda) {
-      owl.Show("Contract-B scorer (%s, %d tr):", config.theirTrump, config.secGoal);
+      owl.Show("Contract-B scorer (%s, %d tr):", config.theirTrump, config.secondaryGoal);
       strcpy(tail, "  / ");
       for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
          cumulScore = zeroes;
