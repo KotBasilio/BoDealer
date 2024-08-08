@@ -158,6 +158,7 @@ void Walrus::WithdrawByInput(void)
    ddTableDeal pbnDeal;
    if (ConvertFromPBN(config.taskHandPBN, pbnDeal.cards) != 1) {
       printf("\nERROR: Cannot parse PBN: %s\n", config.taskHandPBN);
+      config.MarkFail();
       return;
    }
 
@@ -176,7 +177,9 @@ void Walrus::WithdrawByInput(void)
       }
    }
 
-   shuf.AssertDeckSize(SYMM3, config.taskHandPBN);
+   if (!shuf.AssertDeckSize(SYMM3, config.taskHandPBN)) {
+      config.MarkFail();
+   }
 }
 
 static uint CountBits(uint v)// count bits set in v (32-bit value)
@@ -231,6 +234,7 @@ void Walrus::PrepareBaseDeal(deal& dlBase)
 
    if (countCards != SYMM) {
       printf("\nERROR: Wrong count of cards in hand: %d\n", countCards);
+      config.MarkFail();
    }
 }
 

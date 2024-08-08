@@ -24,23 +24,21 @@ void Walrus::NoticeMagicFly(uint trickSuit, uint tricksNT)
 
 void Walrus::CompareSlams(uint tricksA, uint tricksB)
 {
-   // detect score -- TODO see CompareOurContracts / NoticeBidProfit
-   CumulativeScore tester;
-   tester.FillSameLinears(cumulScore);
-   (tester.*sem.onSinglePrimary)(tricksA);
-   (tester.*sem.onSingleSecondary)(tricksB);
+   // detect score
+   auto gainPrima   = cumulScore.prima.Get(tricksA);
+   auto gainSecunda = cumulScore.secunda.Get(tricksB);
 
    // mark
-   if (tester.ourOther > tester.bidSlam) {
-      progress.SolvedExtraMark(IO_ROW_COMPARISON,IO_CAMP_PREFER_TO_BID);
-   } else if (tester.ourOther == tester.bidSlam) {
+   if (gainPrima > gainSecunda) {
+      progress.SolvedExtraMark(IO_ROW_COMPARISON,IO_CAMP_PREFER_PRIMA);
+   } else if (gainPrima == gainSecunda) {
       progress.SolvedExtraMark(IO_ROW_SACRIFICE,IO_CAMP_NO_DIFF);
    } else {
-      progress.SolvedExtraMark(IO_ROW_COMPARISON,IO_CAMP_REFRAIN_BIDDING);
+      progress.SolvedExtraMark(IO_ROW_COMPARISON,IO_CAMP_PREFER_SECUNDA);
    }
 
    // add up. may also convert to imps
-   auto delta = tester.ourOther - tester.bidSlam;
+   auto delta = gainPrima - gainSecunda;
    ui.primaBetterBy += delta;
 }
 

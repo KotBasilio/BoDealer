@@ -60,12 +60,14 @@ void Shuffler::VerifyCheckSum()
 #endif
 }
 
-void Shuffler::AssertDeckSize(uint wish, char const* hint)
+bool Shuffler::AssertDeckSize(uint wish, char const* hint)
 {
-   if (cardsInDeck != wish) {
-      printf("\nERROR: Wrong count of cards discarded: %d is left.\nHint: %s\n", cardsInDeck, hint);
-      PLATFORM_GETCH();
+   if (cardsInDeck == wish) {
+      return true;
    }
+
+   printf("\nERROR: Wrong count of cards discarded: %d is left.\nHint: %s\n", cardsInDeck, hint);
+   return false;
 }
 
 void Shuffler::ClearFlipover()

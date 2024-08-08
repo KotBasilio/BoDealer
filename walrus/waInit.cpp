@@ -33,6 +33,7 @@ Walrus::Walrus()
    config.namesBase.Build();
    mainProgress = &progress;
    PrepareLinearScores();
+   memset(progress.hitsCount, 0, sizeof(progress.hitsCount));
 }
 
 void WaFilter::Bind(class Walrus* _walrus) 
@@ -256,6 +257,7 @@ void Walrus::InitDeck(void)
    shuf.ClearFlipover();
    shuf.StoreCheckSum();
    shuf.VerifyCheckSum();
+   shuf.SeedRand();
 }
 
 u64 Walrus::SumFirstHand()

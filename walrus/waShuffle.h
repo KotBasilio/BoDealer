@@ -25,7 +25,7 @@ struct Shuffler {
    void StoreCheckSum();
    void VerifyCheckSum();
    u64  CheckSum() { return checkSum; }
-   void AssertDeckSize(uint wish, char const* hint);
+   bool AssertDeckSize(uint wish, char const* hint);
 
    // preparations
    void InitDeck(void);

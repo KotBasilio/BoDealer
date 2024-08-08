@@ -202,8 +202,6 @@ bool Walrus::InitByConfig()
 
    // other preparations basing on config
    InitDeck();
-   memset(progress.hitsCount, 0, sizeof(progress.hitsCount));
-   shuf.SeedRand();
    InitMiniUI();
    DetectGoals();
    if (config.IsInitFailed()) {
