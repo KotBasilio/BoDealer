@@ -451,6 +451,9 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
 
 void WaConfig::BuildNewFilters(Walrus *walrus)
 {
+   if (IsInitFailed()) {
+      return;
+   }
    if (!sizeSourceCode) {
       printf("No filters are found in the config.\n");
       return;

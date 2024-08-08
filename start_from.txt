@@ -2,7 +2,7 @@ The main selector in this config
 is a line that starts with "TASK NAME".
 So we can comment out them easily at the line start
 
-TASK NAME:Aug2 seven spades vs 1h
+TASK NAME:Aug2 seven spades
 //TASK NAME:Jun24 lead from AK or side
 //TASK NAME:MYTASK1
 //TASK NAME:MAY24_TRHEE_SUITED_BALANCE
@@ -20,15 +20,15 @@ Failed to init configuration
 Press an
 
 -----------------------------------------------------------------------------------------------------------------------
-Aug2 seven spades vs 1h
-Bidding from RHO: 
+Aug2 seven spades on North vs 1h
+Bidding from partner: 
  1h    pass 2s 3d
  pass  pass ??
 Question: pass or 3s?
 
 HAND: N:KJT7652.Q3.4.J96
 
-PRIMARY SCORER: V3SX
+PRIMARY SCORER: V3SX BY N
 SECONDARY SCORER: N3D 
 
 FILTERS:

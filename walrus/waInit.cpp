@@ -109,15 +109,15 @@ Semantics::Semantics()
    , onBoardAdded        (&Walrus::VoidAdded)
    , onScanCenter        (&Walrus::NOP)
    , onAfterMath         (&Walrus::NOP) 
-   , onPrimaryScoring    (&CumulativeScore::VoidScoring)
-   , onSecondScoring     (&CumulativeScore::VoidScoring)
+   , onPrimaryScoring    (&CumulativeScore::VoidGenScoring)
+   , onSinglePrimary     (&CumulativeScore::VoidSingleScoring)
+   , onSecondScoring     (&CumulativeScore::VoidGenScoring)
+   , onSingleSecondary   (&CumulativeScore::VoidSingleScoring)
    , onPostmortem        (&Walrus::VoidPostmortem)
    , solveSecondTime     (&Walrus::VoidSecondSolve)
    , onCompareContracts  (&Walrus::VoidCompare)
    , scanCover(ACTUAL_CARDS_COUNT)
    , dlBase(nullptr)
-   , onSinglePrimary (&CumulativeScore::VoidDepScoring)
-   , onSingleSecondary  (&CumulativeScore::VoidDepScoring)
 {
    // reject all. should analyze config later and fill 
    vecFilters.reserve(10);
@@ -257,9 +257,7 @@ void Walrus::InitDeck(void)
    shuf.VerifyCheckSum();
    shuf.SeedRand();
 
-   static deal dlBase;
-   PrepareBaseDeal(dlBase);
-   sem.dlBase = &dlBase;
+   sem.PrepareBaseDeal();
 }
 
 u64 Walrus::SumFirstHand()

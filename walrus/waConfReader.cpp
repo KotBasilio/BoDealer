@@ -212,6 +212,7 @@ void WaConfig::ReadTask(Walrus *walrus)
    // ensure we were in task
    if (nameTask[0] && (opMode == OPMODE_NONE)) {
       printf("Error: Task '%s' not found in the config file\n", nameTask);
+      MarkFail();
    }
 
    // cleanup

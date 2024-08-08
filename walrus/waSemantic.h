@@ -111,18 +111,19 @@ struct Semantics {
    uint scanCover; // how much iterations covers one scan
    struct deal* dlBase;
    Semantics();
-   void MiniLinkFilters();
    void SetOurPrimaryScorer(CumulativeScore &cs, const char* code);
    void SetOurSecondaryScorer(CumulativeScore &cs, const char* code);
    void SetTheirScorer(CumulativeScore &cs, const char* code);
    void SetBiddingGameScorer(CumulativeScore &cs, const char* code);
    void SetOpeningLeadScorer(CumulativeScore &cs, const char* code);
+   void PrepareBaseDeal();
    bool IsInitOK() { return isInitSuccess; }
    bool IsClosingBracket(int idx);
    bool IsOpeningBracket(int idx);
 
    bool Compile(const char* sourceCode, size_t sizeSourceCode, std::vector<MicroFilter>& filters);
    bool MiniLink(std::vector<MicroFilter> &filters);
+   void MiniLinkFilters();
 private:
    void SetSecondaryScorer(CumulativeScore &cs, s64 &target, const char* code);
    bool CompileOneLine(struct CompilerContext &ctx);

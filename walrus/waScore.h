@@ -33,8 +33,8 @@ struct CumulativeScore {
       };
    };
    // -- our contracts
-   void VoidScoring(DdsTricks& tr) {}
-   void VoidDepScoring(uint tricks) {}
+   void VoidGenScoring(DdsTricks& tr) {}
+   void VoidSingleScoring(uint tricks) {}
 
    // linear-score oriented
    struct LineScorer {

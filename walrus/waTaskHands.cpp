@@ -197,19 +197,16 @@ static uint CountBits(uint v)// count bits set in v (32-bit value)
    return c;
 }
 
-void Walrus::PrepareBaseDeal(deal& dlBase)
+void Semantics::PrepareBaseDeal()
 {
+   // ptr
+   static deal staticDeal;
+   dlBase = &staticDeal;
+
    // common fields
-   dlBase.trump = config.primTrump;
-   dlBase.first = config.primFirst;
-
-   dlBase.currentTrickSuit[0] = 0;
-   dlBase.currentTrickSuit[1] = 0;
-   dlBase.currentTrickSuit[2] = 0;
-
-   dlBase.currentTrickRank[0] = 0;
-   dlBase.currentTrickRank[1] = 0;
-   dlBase.currentTrickRank[2] = 0;
+   memset(dlBase, 0, sizeof(*dlBase));
+   dlBase->trump = config.primTrump;
+   dlBase->first = config.primFirst;
 
    // done for 4-hand tasks. We'll fill each hand
    #ifdef FOUR_HANDS_TASK
@@ -220,7 +217,7 @@ void Walrus::PrepareBaseDeal(deal& dlBase)
    for (int h = 0; h < DDS_HANDS; h++) {
       for (int s = 0; s < DDS_SUITS; s++) {
          auto holding = (*input_holdings)[s][h];
-         dlBase.remainCards[h][s] = holding;
+         dlBase->remainCards[h][s] = holding;
          countCards += CountBits(holding);
       }
    }

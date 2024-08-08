@@ -40,7 +40,6 @@ protected:
    void EndStray(void);
 
    // inits
-   void PrepareBaseDeal(struct deal &dlBase);
    bool StartOscar();
    void InitDeck(void);
    void DetectGoals();
@@ -89,7 +88,7 @@ protected:
     bool InitSemantics();
     void FillSemantic(void);
     void NOP() {}
-    void VoidDepScoring(DdsTricks &tr) {}
+    void VoidSingleScoring(DdsTricks &tr) {}
     void VoidPostmortem(DdsTricks& tr, deal& cards) {}
     void VoidAdded(twContext* lay) {}
     void VoidSecondSolve(boards& bo, solvedBoards& solved) {}
