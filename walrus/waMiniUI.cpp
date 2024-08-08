@@ -91,29 +91,29 @@ void MiniUI::Run()
       auto inchar = PLATFORM_GETCH();
       switch (inchar) {
          // just made
-         case ' ': irGoal = config.primGoal; break;
+         case ' ': irGoal = config.prim.goal; break;
 
          // overtricks
-         case '1': irGoal = config.primGoal + 1; break;
-         case '2': irGoal = config.primGoal + 2; break;
-         case '3': irGoal = config.primGoal + 3; break;
-         case '4': irGoal = config.primGoal + 4; break;
+         case '1': irGoal = config.prim.goal + 1; break;
+         case '2': irGoal = config.prim.goal + 2; break;
+         case '3': irGoal = config.prim.goal + 3; break;
+         case '4': irGoal = config.prim.goal + 4; break;
 
          // down some
-         case 'q': irGoal = config.primGoal - 1;  break;
-         case 'w': irGoal = config.primGoal - 2;  break;
-         case 'e': irGoal = config.primGoal - 3;  break;
-         case 'r': irGoal = config.primGoal - 4;  break;
-         case 't': irGoal = config.primGoal - 5;  break;
-         case 'y': irGoal = config.primGoal - 6;  break;
-         case 'u': irGoal = config.primGoal - 7;  break;
-         case 'i': irGoal = config.primGoal - 8;  break;
+         case 'q': irGoal = config.prim.goal - 1;  break;
+         case 'w': irGoal = config.prim.goal - 2;  break;
+         case 'e': irGoal = config.prim.goal - 3;  break;
+         case 'r': irGoal = config.prim.goal - 4;  break;
+         case 't': irGoal = config.prim.goal - 5;  break;
+         case 'y': irGoal = config.prim.goal - 6;  break;
+         case 'u': irGoal = config.prim.goal - 7;  break;
+         case 'i': irGoal = config.prim.goal - 8;  break;
 
          // comparison
          #ifdef SEEK_MAGIC_FLY
-            case '=': irGoal = config.primGoal; irFly = IO_CAMP_SAME_NT; break;
-            case '[': irGoal = config.primGoal; irFly = IO_CAMP_PREFER_SUIT; break;
-            case ']': irGoal = config.primGoal; irFly = IO_CAMP_MORE_NT; break;
+            case '=': irGoal = config.prim.goal; irFly = IO_CAMP_SAME_NT; break;
+            case '[': irGoal = config.prim.goal; irFly = IO_CAMP_PREFER_SUIT; break;
+            case ']': irGoal = config.prim.goal; irFly = IO_CAMP_MORE_NT; break;
          #endif 
 
          // report hits
@@ -158,7 +158,7 @@ void MiniUI::Run()
 
    // auto-command
    if (firstAutoShow && !irGoal) {
-      irGoal = config.primGoal;
+      irGoal = config.prim.goal;
       owl.Show(" %d tricks board by %s in %s ", irGoal, config.declSeat, config.declTrump);
    }
 }

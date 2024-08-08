@@ -281,7 +281,7 @@ void Walrus::MiniReport(ucell toGo)
    // signature
    s64 doneOurs   = (s64)(__max( hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE  ], 1));
    s64 doneTheirs = (s64)( __max(hitsRow[IO_ROW_THEIRS  ] + hitsRow[IO_ROW_THEIRS + 1], 1));
-   owl.OnDone("Processed: %lld total. %s is on lead. Goal is %d tricks in %s.\n", doneOurs, config.seatOnLead, config.primGoal, config.declTrump);
+   owl.OnDone("Processed: %lld total. %s is on lead. Goal is %d tricks in %s.\n", doneOurs, config.seatOnLead, config.prim.goal, config.declTrump);
 
    // other stuff
    ShowBiddingLevel(doneOurs);
@@ -304,7 +304,7 @@ void Walrus::ShowBiddingLevel(s64 sumRows)
 {
    #if defined(SEEK_BIDDING_LEVEL) || defined(SEEK_DENOMINATION) || defined(FOUR_HANDS_TASK)
       // slam/game/partscore
-      if (config.primGoal < 12) {
+      if (config.prim.goal < 12) {
          owl.OnDone("Averages: ideal = %lld, bidGame = %lld",
             cumulScore.ideal / sumRows,
             cumulScore.bidGame / sumRows);

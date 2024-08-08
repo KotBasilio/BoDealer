@@ -115,7 +115,7 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
       deal& cards(bo.deals[handno]);
 
       // pass to basic statistics
-      HitByTricks(tr, config.primGoal);
+      HitByTricks(tr, config.prim.goal);
       ScoreWithPrimary(tr);
 
       // some detailed postmortem is possible
@@ -197,7 +197,7 @@ void Walrus::SolveOneByOne(deal& dlBase)
 // unused chunk to cater for unplayable boards -- we change board result on some percentage boards
 #ifdef UNPLAYABLE_ONE_OF
 bool isDecimated = false;
-if (tr.plainScore == config.primGoal) {
+if (tr.plainScore == config.prim.goal) {
    static int cycleCatering = UNPLAYABLE_ONE_OF;
    if (0 == --cycleCatering) {
       tr.plainScore--;

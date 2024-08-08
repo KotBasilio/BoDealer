@@ -354,3 +354,4 @@ void Walrus::ShowDetailedReportSuit()
       prevSum = sumline;
    }
 }
+

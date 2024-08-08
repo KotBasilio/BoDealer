@@ -169,7 +169,7 @@ EConfigReaderState WaConfig::FSM_Go2WaitTask(char* line)
 void WaConfig::ReadTask(Walrus *walrus)
 {
    // drop goals
-   primGoal = 0;
+   prim.goal = 0;
    secondaryGoal = 0;
 
    // ensure we have a file

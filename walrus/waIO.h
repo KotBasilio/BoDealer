@@ -76,7 +76,15 @@ struct WaConfig {
    char secundaScorerCode[WA_SCORER_CODE_LEN]; // second action
    char taskHandPBN[WA_HAND_LEN];
 
-   int   primGoal;  // goal tricks in our primary contract
+   struct Contract {
+      int   goal;  // goal tricks
+      int   trump;
+      int   by;    // declarer
+      int   first; // attacker
+      Contract();
+   };
+   Contract prim;      // our primary contract
+   Contract secondary; // either our secondary contract or in their contract
    int   primTrump, primFirst, primaBy;
 
    int   secondaryGoal; // goal tricks either in our secondary contract or in their contract

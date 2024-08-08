@@ -258,7 +258,7 @@ static void CalcAndDisplayStatistics(char *title)
 void Walrus::AddSetContracts(int idx)
 {
    for (int j = 0; j <= ui.farCol; j++) {
-      auto tricks = config.primGoal - 1 - j;
+      auto tricks = config.prim.goal - 1 - j;
       if (tricks >= 0) {
          FREQ[tricks] += progress.hitsCount[idx][j];
       }
@@ -268,7 +268,7 @@ void Walrus::AddSetContracts(int idx)
 void Walrus::AddMadeContracts(int idx)
 {
    for (int j = 0; j <= ui.farCol; j++) {
-      auto tricks = config.primGoal + j;
+      auto tricks = config.prim.goal + j;
       if (tricks < MAX_SIZE) {
          FREQ[tricks] += progress.hitsCount[idx][j];
       }
@@ -298,7 +298,7 @@ void Walrus::DisplayGraphStatData(int idx)
    double prevSum = 0;
    owl.Silent("( all down): ");
    for (int j = 0; j <= ui.farCol; j++) {
-      auto tricks = config.primGoal - 1 - j;
+      auto tricks = config.prim.goal - 1 - j;
       if (tricks >= 0) {
          owl.Silent(fmtStatCell, FREQ[tricks]);
          prevSum += FREQ[tricks];
@@ -314,7 +314,7 @@ void Walrus::DisplayGraphStatData(int idx)
    double sumline = 0;
    owl.Silent("( all make): ");
    for (int j = 0; j <= ui.farCol; j++) {
-      auto tricks = config.primGoal + j;
+      auto tricks = config.prim.goal + j;
       if (tricks < MAX_SIZE) {
          owl.Silent(fmtStatCell, FREQ[tricks]);
          sumline += FREQ[tricks];

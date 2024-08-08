@@ -42,9 +42,16 @@ void WaFilter::Bind(class Walrus* _walrus)
    sem = _walrus->GetSemantics();
 }
 
+WaConfig::Contract::Contract()
+   : trump(SOL_NOTRUMP)
+   , goal(0)
+   , by(SOUTH)
+   , first(WEST)
+{
+}
+
 WaConfig::WaConfig()
    : namesBase()
-   , primGoal(0)
    , primFirst(NORTH)
    , primaBy(NORTH)
    , secondaryGoal(0)
@@ -187,7 +194,7 @@ void Semantics::SetOurPrimaryScorer(CumulativeScore &cs, const char* code)
 
    // ok
    onPrimaryScoring = &CumulativeScore::Primary;
-   config.primGoal = cs.prima.Goal();
+   config.prim.goal = cs.prima.Goal();
    onSinglePrimary = &CumulativeScore::DepPrimary;
 }
 

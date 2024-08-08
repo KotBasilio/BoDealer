@@ -59,7 +59,7 @@ void Walrus::DetectGoals()
    DdsTricks tr;
    char tail[128];
    CumulativeScore zeroes(cumulScore);
-   owl.Show("Primary scorer (%s, %d tr):", config.declTrump, config.primGoal);
+   owl.Show("Primary scorer (%s, %d tr):", config.declTrump, config.prim.goal);
    strcpy(tail, "  / ");
    for (tr.plainScore = 7; tr.plainScore <= 13 ; tr.plainScore++) {
       cumulScore = zeroes;
