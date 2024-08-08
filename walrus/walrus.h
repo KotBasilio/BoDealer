@@ -44,7 +44,6 @@ protected:
    bool StartOscar();
    void InitDeck(void);
    void DetectGoals();
-   void DeprDetectGoals(void);
 
     // withdrawals
     void WithdrawByInput();
@@ -146,9 +145,6 @@ protected:
     // UI
     MiniUI ui;
     void InitMiniUI();
-    void DisplayBoard(twContext* lay) { ui.DisplayBoard(lay); }
-    int  PokeScorerForTricks();
-    int  PokeOtherScorer();
 
     // Multi-thread
     WaMulti mul;

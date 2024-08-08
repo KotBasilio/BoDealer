@@ -13,7 +13,7 @@
 #include <memory.h> // memset
 #include "waSemMicro.h"
 
-#define DBG_SHOW_ALLOCS
+//#define DBG_SHOW_ALLOCS
 
 SplitBits sbBlank;
 Semantics semShared;
@@ -61,7 +61,7 @@ WaConfig::WaConfig()
    #endif
 
    #if IO_HCP_MIN == IO_HCP_MAX
-         minControls = (IO_HCP_MIN * 4) / 10 - 6;
+      minControls = (IO_HCP_MIN * 4) / 10 - 6;
    #endif
 
    #ifdef SEEK_OPENING_LEAD

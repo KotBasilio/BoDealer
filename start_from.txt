@@ -2,8 +2,8 @@ The main selector in this config
 is a line that starts with "TASK NAME".
 So we can comment out them easily at the line start
 
-TASK NAME:Aug2 seven spades vs 1h
-//TASK NAME:Jun24 lead from AK or side
+//TASK NAME:Aug2 seven spades vs 1h
+TASK NAME:Jun24 lead from AK or side
 //TASK NAME:MYTASK1
 //TASK NAME:MAY24_TRHEE_SUITED_BALANCE
 //TASK NAME:some old one

@@ -48,8 +48,9 @@ void waFileNames::Build()
 void Walrus::DetectGoals()
 {
    // detect old scorers
-   if (cumulScore.prima.IsEmpty() && cumulScore.secunda.IsEmpty()) {
-      DeprDetectGoals();
+   if (cumulScore.prima.IsEmpty()) {
+      printf("\nERROR: No primary scorer found\n");
+      config.MarkFail();
       return;
    }
    config.SetupOtherContract();
@@ -130,46 +131,6 @@ void Walrus::AddScorerValues(char* tail)
    }
 }
 
-void Walrus::DeprDetectGoals()
-{
-   DdsTricks tr;
-   char tail[128];
-   CumulativeScore zeroes(cumulScore);
-   bool hasSecondaryScorer = (sem.solveSecondTime == &Walrus::SolveSecondTime);
-
-   // primary
-   config.primGoal = PokeScorerForTricks();
-   owl.Show("%s scorer (%s, %d tr):"
-      , hasSecondaryScorer ? "Contract-A" : "Primary"
-      , ui.declTrump, config.primGoal);
-   strcpy(tail, "  / ");
-   for (tr.plainScore = 7; tr.plainScore <= 13 ; tr.plainScore++) {
-      cumulScore = zeroes;
-      ScoreWithPrimary(tr);
-      AddScorerValues(tail);
-   }
-   owl.Show("%s\n", tail);
-
-   // secondary
-   if (hasSecondaryScorer) {
-      config.secGoal = PokeOtherScorer();
-      config.SetupOtherContract();
-      owl.Show("Contract-B scorer (%s, %d tr):", config.theirTrump, config.secGoal);
-      strcpy(tail, "  / ");
-      for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
-         cumulScore = zeroes;
-         ScoreWithSecondary(tr);
-         AddScorerValues(tail);
-      }
-      owl.Show("%s\n", tail);
-   }
-
-   // final cleanup
-   cumulScore = zeroes;
-
-   //PLATFORM_GETCH();
-}
-
 bool Walrus::InitSemantics()
 {
    // many tasks fully relay on config
@@ -201,6 +162,13 @@ bool Walrus::InitByConfig()
    }
 
    // other preparations basing on config
+#ifdef INPUT_TRUMPS
+   config.primTrump = INPUT_TRUMPS;
+   config.primFirst = INPUT_ON_LEAD;
+#else
+   DEBUG_UNEXPECTED; // get from scorer, and not even here
+#endif
+
    InitDeck();
    InitMiniUI();
    DetectGoals();
