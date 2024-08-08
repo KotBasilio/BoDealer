@@ -56,11 +56,21 @@ WaConfig::WaConfig()
    , postmHand(NORTH)
    , minControls(0)
    , detailedReportType(WREPORT_NONE)
+   , sizeSourceCode(0)
    , countFilters(0)
 {
+   // texts
    titleBrief[0] = 0;
    primaScorerCode[0] = 0;
    secundaScorerCode[0] = 0;
+   taskHandPBN[0] = 0;
+   declTrump[0] = 0;
+   declSeat[0] = 0;
+   seatOnLead[0] = 0;
+   theirTrump[0] = 0;
+   secLongName[0] = 0;
+   sourceCodeFilters[0] = 0;
+   nameTask[0] = 0;
 
    #ifdef IO_SHOW_HCP_CTRL_SPLIT
       detailedReportType = WREPORT_HCP;

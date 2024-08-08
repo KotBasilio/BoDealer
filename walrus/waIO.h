@@ -76,6 +76,12 @@ struct WaConfig {
    char secundaScorerCode[WA_SCORER_CODE_LEN]; // second action
    char taskHandPBN[WA_HAND_LEN];
 
+   // filtering
+   char   sourceCodeFilters[WA_SOURCE_CODE_BUF];
+   size_t sizeSourceCode, countFilters;
+   std::vector<MicroFilter> filtersLoaded;
+
+   // contracts and its text representation
    struct Contract {
       int   goal;  // goal tricks
       int   trump;
@@ -86,21 +92,13 @@ struct WaConfig {
    };
    Contract prim;      // our primary contract
    Contract secondary; // either our secondary contract or their contract
+   char declTrump[10], declSeat[10], seatOnLead[10];
+   char theirTrump[10], secLongName[128];
 
-   // for post-mortem:
+   // post-mortem
    int   postmSuit, postmHand; 
    int   minControls;
-
    WA_REPORT_TYPE detailedReportType;
-
-   // filtering
-   char   sourceCodeFilters[WA_SOURCE_CODE_BUF];
-   size_t sizeSourceCode, countFilters;
-   std::vector<MicroFilter> filtersLoaded;
-
-   // other text params
-   char declTrump[10], declSeat[10], seatOnLead[10], theirTrump[10];
-   char secLongName[128];
 
    WaConfig();
    void ReadTask(class Walrus *walrus);
