@@ -119,6 +119,7 @@ private:
    void ReadHandPBN(const char *line);
    void ReadPrimaScorer(const char *line);
    void ReadSecundaScorer(const char *line);
+   void ReadPostmortemParams(char *line);
    EConfigReaderState FSM_DoFiltersState(char* line);
    EConfigReaderState FSM_DoTaskState(char* line);
    EConfigReaderState FSM_Go2WaitTask(char* line);
@@ -130,6 +131,7 @@ private:
       static char* Hand;
       static char* TName;
       static char* Prima, *Secunda;
+      static char* Postmortem;
       static char* Filters;
       static char* TEnd;
    } key;

@@ -29,6 +29,7 @@ char* WaConfig::Keywords::Hand = "HAND: ";
 char* WaConfig::Keywords::TName = "TASK NAME:";
 char* WaConfig::Keywords::Prima = "PRIMARY SCORER: ";
 char* WaConfig::Keywords::Secunda = "SECONDARY SCORER: ";
+char* WaConfig::Keywords::Postmortem = "POSTMORTEM: ";
 char* WaConfig::Keywords::Filters = "FILTERS:";
 char* WaConfig::Keywords::TEnd = "--------";
 
@@ -108,6 +109,16 @@ void WaConfig::ReadSecundaScorer(const char* line)
    SAFE_STR_BY_LINE(secundaScorerCode);
 }
 
+void WaConfig::ReadPostmortemParams(char* line)
+{
+   const char* delimiters = " ,.!:;()+-\n";
+   for (char* token = std::strtok(line, delimiters);
+        token;
+        token = std::strtok(nullptr, delimiters)) {
+      owl.Show(token);
+   }
+}
+
 void WaConfig::AnnounceTask()
 {
    owl.Show("%s : %s", nameTask, titleBrief);
@@ -141,6 +152,8 @@ EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
       ReadPrimaScorer(line + strlen(key.Prima));
    } else if (IsStartsWith(line, key.Secunda)) {
       ReadSecundaScorer(line + strlen(key.Secunda));
+   } else if (IsStartsWith(line, key.Postmortem)) {
+      ReadPostmortemParams(line + strlen(key.Postmortem));
    } else if (strlen(line) > 2) {
       SAFE_ADD(titleBrief, line);
    }
