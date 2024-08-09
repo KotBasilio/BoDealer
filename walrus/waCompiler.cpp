@@ -343,6 +343,10 @@ struct Parser
          return true;
       }
 
+      if (TryAcceptSuit()) {
+         return true;
+      }
+
       return false;
    }
 
@@ -364,6 +368,16 @@ private:
       argsLeftExpected--;
 
       return true;
+   }
+
+   bool TryAcceptSuit()
+   {
+      // TODO -- accept suits:
+      //#define SPD SOL_SPADES
+      //#define HRT SOL_HEARTS
+      //#define DMD SOL_DIAMONDS
+      //#define CLB SOL_CLUBS
+      return false;
    }
 };
 const char* Parser::delimiters = " ,.!:;(){";

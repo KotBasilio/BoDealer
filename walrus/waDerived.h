@@ -64,7 +64,6 @@
 
 #ifndef SHOW_OPP_RESULTS
    #define SHOW_PARTSCORE_STATLINE
-   #define IO_SHOW_HCP_CTRL_SPLIT
 #endif
 
 // -----------------------------------------------------------------

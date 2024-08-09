@@ -51,8 +51,9 @@ WaConfig::Contract::Contract()
 }
 
 WaConfig::Postmortem::Postmortem()
-   : minControls(0)
-   , reportType(WREPORT_NONE)
+   : reportType(WREPORT_NONE)
+   , minHCP(0), maxHCP(0)
+   , minControls(0)
 {
 }
 
@@ -78,10 +79,6 @@ WaConfig::WaConfig()
 
    #if IO_HCP_MIN == IO_HCP_MAX
       minControls = (IO_HCP_MIN * 4) / 10 - 6;
-   #endif
-
-   #ifdef IO_SHOW_HCP_CTRL_SPLIT
-      postm.reportType = WREPORT_HCP;
    #endif
 
    #ifdef SEEK_OPENING_LEAD

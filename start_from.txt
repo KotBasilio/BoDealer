@@ -4,9 +4,9 @@ So we can comment out them easily at the line start
 
 //TASK NAME:Aug2 seven spades
 //TASK NAME:Jun24 lead from AK or side
-//TASK NAME:MYTASK1
 TASK NAME:MAY24_TRHEE_SUITED_BALANCE
 //TASK NAME:some old one
+//TASK NAME:MYTASK1
 //TASK NAME:also not actual
 
 //OPMODE: SEMI_STRAY

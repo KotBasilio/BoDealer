@@ -99,6 +99,7 @@ struct WaConfig {
    // post-mortem
    struct Postmortem {
       WA_REPORT_TYPE reportType;
+      int            minHCP, maxHCP;
       int            minControls;
       Postmortem();
    } postm;
@@ -124,6 +125,7 @@ private:
    EConfigReaderState FSM_DoTaskState(char* line);
    EConfigReaderState FSM_Go2WaitTask(char* line);
    EConfigReaderState FSM_GoInsideTask(char* line);
+   bool RecognizePostmType(const char* token);
 
    // keywords used in parsing
    struct Keywords {

@@ -109,18 +109,52 @@ void WaConfig::ReadSecundaScorer(const char* line)
    SAFE_STR_BY_LINE(secundaScorerCode);
 }
 
+bool WaConfig::RecognizePostmType(const char* token)
+{
+   if (IsStartsWith(token, "HCP")) {
+      postm.reportType = WREPORT_HCP;
+      return true;
+   }
+
+   if (IsStartsWith(token, "LEAD")) {
+      postm.reportType = WREPORT_OPENING_LEADS;
+      return true;
+   }
+
+   printf("Error: unrecognized postmortem type '%s'\n", token);
+   MarkFail();
+   return false;
+}
+
 void WaConfig::ReadPostmortemParams(char* line)
 {
    const char* delimiters = " ,.!:;()+-\n";
+   int idx = 0;
    for (char* token = std::strtok(line, delimiters);
-        token;
-        token = std::strtok(nullptr, delimiters)) {
-      owl.Show(token);
+        token && isInitSuccess;
+        token = std::strtok(nullptr, delimiters), idx++) {
+      switch (idx) {
+         case 0:
+            RecognizePostmType(token);
+            break;
+
+         case 1:
+            postm.minHCP = atoi(token);
+            break;
+
+         case 2:
+            postm.maxHCP = atoi(token);
+            break;
+      }
    }
 }
 
 void WaConfig::AnnounceTask()
 {
+   if (IsInitFailed()) {
+      return;
+   }
+
    owl.Show("%s : %s", nameTask, titleBrief);
    owl.Show("Fixed hand is %s\n", taskHandPBN);
 

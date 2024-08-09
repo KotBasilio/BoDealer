@@ -23,3 +23,10 @@
    #error Get rid of TITLE_VERSION define. Use config task title.
 #endif
 
+#ifdef IO_SHOW_HCP_CTRL_SPLIT
+   #error Get rid of IO_SHOW_HCP_CTRL_SPLIT define. Use "POSTMORTEM: HCP" in config.
+#endif
+
+#ifdef SEEK_OPENING_LEAD
+   #error Get rid of SEEK_OPENING_LEAD define. Use "POSTMORTEM: LEAD" in config.
+#endif
