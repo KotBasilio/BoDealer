@@ -156,21 +156,9 @@ extern void SilentViScreen(int count, char scr[][DDS_FULL_LINE]);
 constexpr int REL_GRAPH_LINES = 10;
 constexpr int REL_GRAPH_SCREEN = DDS_HAND_LINES;
 
-static void DisplayRawData()
+static void PictureTricksFrequences(int hcp = 0)
 {
-   // prepare v-screen
-   ClearViScreen();
-   int off2 = 28;
-   sprintf(viscr[0] + off2, "RELATIVE GRAPH");
-   auto line = REL_GRAPH_SCREEN - 1;
-   viscr[line][0] = 0;
-   for (int i = 0; i < MAX_SIZE; ++i) {
-      auto loc = viscr[line] + i * 5;
-      sprintf(loc, " %02d    ", i);
-   }
-   line--;
-
-   // get max
+   // ensure there's a data
    auto top = FREQ[0];
    for (int i = 1; i < MAX_SIZE; ++i) {
       top = max(top, FREQ[i]);
@@ -179,8 +167,26 @@ static void DisplayRawData()
       return;
    }
 
-   // display columns
+   // prepare v-screen
+   ClearViScreen();
+   // -- title
+   auto locTitle = viscr[0] + 28;
+   if (hcp) {
+      sprintf(locTitle, "TRICKS FREQUENCY FOR %d HCP", hcp);
+   } else {
+      sprintf(locTitle, "OVERALL TRICKS FREQUENCY");
+   }
+   // -- bottom line
+   auto line = REL_GRAPH_SCREEN - 1;
+   viscr[line][0] = 0;
+   for (int i = 0; i < MAX_SIZE; ++i) {
+      auto loc = viscr[line] + i * 5;
+      sprintf(loc, " %02d    ", i);
+   }
+
+   // picture columns
    auto step = top / 10.f;
+   line--;
    for (int i = 0; i < MAX_SIZE; ++i) {
       auto val = FREQ[i];
       if (IsSmall(val)) {
@@ -329,7 +335,7 @@ void Walrus::DisplayGraphStatData(int idx)
    owl.Silent("  --> %2.0lf %%", sumline * 100 / (sumline + prevSum));
    owl.Silent("\n\n");
 
-   DisplayRawData();
+   PictureTricksFrequences();
 }
 
 
@@ -339,6 +345,7 @@ void Walrus::ShowAdvancedStatistics(int idx)
    if (!ui.advancedStatistics) {
       return;
    }
+   auto hcp = (idx - IO_ROW_HCP_START) / 2 + IO_HCP_MIN;
 
    // we get two lines that represent frequences in walrus-format
    //   idx for making contract
@@ -348,13 +355,12 @@ void Walrus::ShowAdvancedStatistics(int idx)
    AddMadeContracts(idx);
    AddSetContracts(idx - 1);
    if (ui.allStatGraphs) {
-      DisplayRawData();
+      PictureTricksFrequences(hcp);
    }
-   CalcAndDisplayStatistics("Adv stats");
+   CalcAndDisplayStatistics(":");
 
    // not the last line => done
-   auto h = (idx - IO_ROW_HCP_START) / 2 + IO_HCP_MIN;
-   if (h < IO_HCP_MAX) {
+   if (hcp < IO_HCP_MAX) {
       return;
    }
 
@@ -362,6 +368,6 @@ void Walrus::ShowAdvancedStatistics(int idx)
    ClearFreqs();
    AddOverallStats(idx);
    DisplayGraphStatData(idx);
-   CalcAndDisplayStatistics("Overall adv stats");
+   CalcAndDisplayStatistics("Detailed statistics");
 }
 

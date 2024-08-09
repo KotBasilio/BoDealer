@@ -19,7 +19,7 @@ Question: is there invit to 4H?
 
 HAND: N:83.Q874.T65.AQ65
 PRIMARY SCORER: V4H BY N
-POSTMORTEM HCP: 20, 25
+POSTMORTEM: HCP 20, 25
 
 FILTERS:
    SOUTH: ExactShape, 1, 4, 4, 4

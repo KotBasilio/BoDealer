@@ -68,6 +68,24 @@ void WaConfig::SetupSeatsAndTrumps(const CumulativeScore &cs)
    }
 }
 
+void Walrus::SummarizeFiltering()
+{
+   // ensure have some
+   if (!NumFiltered()) {
+      return;
+   }
+
+   // show filtration results
+   ucell discarded = progress.GetDiscardedBoardsCount();
+   printf("Passing %u for double-dummy inspection. %llu boards are skipped. A pick rate is 1 to %llu\n"
+      , NumFiltered(), discarded, discarded / NumFiltered());
+   ReportState();
+   RegularBalanceCheck();
+
+   printf("Solving started: ");
+   //PLATFORM_GETCH();
+}
+
 void MiniUI::DisplayBoard(twContext* lay)
 {
    DdsDeal wad(lay);
@@ -90,49 +108,7 @@ void MiniUI::Run()
       irFly = IO_CAMP_OFF;
 
       auto inchar = PLATFORM_GETCH();
-      switch (inchar) {
-         // primary:
-         // -- just made
-         case ' ': irGoal = config.prim.goal; break;
-         // -- overtricks
-         case '1': irGoal = config.prim.goal + 1; break;
-         case '2': irGoal = config.prim.goal + 2; break;
-         case '3': irGoal = config.prim.goal + 3; break;
-         case '4': irGoal = config.prim.goal + 4; break;
-         // -- down some
-         case 'q': irGoal = config.prim.goal - 1;  break;
-         case 'w': irGoal = config.prim.goal - 2;  break;
-         case 'e': irGoal = config.prim.goal - 3;  break;
-         case 'r': irGoal = config.prim.goal - 4;  break;
-         case 't': irGoal = config.prim.goal - 5;  break;
-         case 'y': irGoal = config.prim.goal - 6;  break;
-         case 'u': irGoal = config.prim.goal - 7;  break;
-         case 'i': irGoal = config.prim.goal - 8;  break;
-
-         // secondary TODO
-
-         // fly comparison
-         case '=': irGoal = config.prim.goal; irFly = IO_CAMP_SAME_NT;     break;
-         case '[': irGoal = config.prim.goal; irFly = IO_CAMP_PREFER_SUIT; break;
-         case ']': irGoal = config.prim.goal; irFly = IO_CAMP_MORE_NT;     break;
-
-         // report hits
-         case 's': 
-            allStatGraphs = true; 
-            // fall down
-         case 'a': 
-            advancedStatistics = true; 
-            // fall down
-         case 'h': 
-            reportRequested = true; 
-            break;
-
-         // exit
-         case 'x':
-            exitRequested = true;
-            advancedStatistics = true; 
-            break;
-      }
+      RecognizeCommands(inchar);
 
       // check whether we've handled this key
       if (irGoal) {
@@ -163,20 +139,49 @@ void MiniUI::Run()
    }
 }
 
-void Walrus::SummarizeFiltering()
+void MiniUI::RecognizeCommands(int inchar)
 {
-   // ensure have some
-   if (!NumFiltered()) {
-      return;
+   switch (inchar) {
+      // primary:
+      // -- just made
+      case ' ': irGoal = config.prim.goal; break;
+      // -- overtricks
+      case '1': irGoal = config.prim.goal + 1; break;
+      case '2': irGoal = config.prim.goal + 2; break;
+      case '3': irGoal = config.prim.goal + 3; break;
+      case '4': irGoal = config.prim.goal + 4; break;
+      // -- down some
+      case 'q': irGoal = config.prim.goal - 1;  break;
+      case 'w': irGoal = config.prim.goal - 2;  break;
+      case 'e': irGoal = config.prim.goal - 3;  break;
+      case 'r': irGoal = config.prim.goal - 4;  break;
+      case 't': irGoal = config.prim.goal - 5;  break;
+      case 'y': irGoal = config.prim.goal - 6;  break;
+      case 'u': irGoal = config.prim.goal - 7;  break;
+      case 'i': irGoal = config.prim.goal - 8;  break;
+
+      // secondary TODO
+
+      // fly comparison
+      case '=': irGoal = config.prim.goal; irFly = IO_CAMP_SAME_NT;     break;
+      case '[': irGoal = config.prim.goal; irFly = IO_CAMP_PREFER_SUIT; break;
+      case ']': irGoal = config.prim.goal; irFly = IO_CAMP_MORE_NT;     break;
+
+      // report hits
+      case 's': // report + all graphs
+         allStatGraphs = true;
+         // no break
+      case 'a': // report + one graph
+         advancedStatistics = true;
+         // no break
+      case 'z': // just a report
+         reportRequested = true;
+         break;
+
+      // exit
+      case 'x':
+         exitRequested = true;
+         break;
    }
-
-   // show filtration results
-   ucell discarded = progress.GetDiscardedBoardsCount();
-   printf("Passing %u for double-dummy inspection. %llu boards are skipped. A pick rate is 1 to %llu\n"
-      , NumFiltered(), discarded, discarded / NumFiltered());
-   ReportState();
-   RegularBalanceCheck();
-
-   printf("Solving started: ");
-   //PLATFORM_GETCH();
 }
+

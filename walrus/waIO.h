@@ -32,6 +32,7 @@ struct MiniUI {
    int   farCol;
    int   indent;
    MiniUI();
+   void RecognizeCommands(int inchar);
    void DisplayBoard(twContext* lay);
    void WaitAnyKey();
    void FillMiniRows();
