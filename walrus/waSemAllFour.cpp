@@ -33,7 +33,7 @@ void Walrus::FillSemantic(void)
    ADD_4PAR_FILTER( NORTH, ExactShape, 4, 4, 4, 1);
    ADD_2PAR_FILTER( SOUTH, SpadesLen, 5, 6);
    ADD_2PAR_FILTER( SOUTH, PointsRange, 11, 16);
-   ADD_3PAR_FILTER( NORTH, LinePointsRange, SOUTH, IO_HCP_MIN, IO_HCP_MAX);
+   ADD_3PAR_FILTER( NORTH, LinePointsRange, SOUTH, config.postm.minHCP, config.postm.maxHCP);
    ADD_3PAR_FILTER( NORTH, LineControlsRange, SOUTH, 8, 8);
    ADD_3PAR_FILTER( NORTH, LineKeyCardsSpade, SOUTH, 4, 5);
    ADD_1PAR_FILTER( NORTH, ClubPointsLimit, 1);
@@ -64,7 +64,7 @@ void Walrus::FillSemantic(void)
    ADD_1PAR_FILTER(SOUTH, PointsAtLeast, 10);
    ADD_1PAR_FILTER(NORTH, NoMajorFit, SOUTH);
 
-   //ADD_3PAR_FILTER(NORTH, LinePointsRange, SOUTH, IO_HCP_MIN, IO_HCP_MAX);
+   //ADD_3PAR_FILTER(NORTH, LinePointsRange, SOUTH, config.postm.minHCP, config.postm.maxHCP);
 }
 #endif
 
@@ -77,7 +77,7 @@ void Walrus::FillSemantic(void)
    sem.vecFilters.clear();
    ADD_4PAR_FILTER(NORTH, ModelShape, 3, 3, 3, 4);
    ADD_4PAR_FILTER(SOUTH, ModelShape, 3, 3, 4, 3);
-   ADD_3PAR_FILTER(NORTH, LinePointsRange, SOUTH, IO_HCP_MIN, IO_HCP_MAX);
+   ADD_3PAR_FILTER(NORTH, LinePointsRange, SOUTH, config.postm.minHCP, config.postm.maxHCP);
    ADD_2PAR_FILTER(SOUTH, DiamondsLen, 3, 4);
    ADD_2PAR_FILTER(NORTH, ClubsLen, 3, 4);
    ADD_1PAR_FILTER(NORTH, NoMajorFit, SOUTH);
@@ -98,7 +98,7 @@ void Walrus::FillSemantic(void)
    sem.vecFilters.clear();
    ADD_4PAR_FILTER(NORTH, ModelShape, 3, 3, 3, 4);
    ADD_4PAR_FILTER(SOUTH, ModelShape, 3, 3, 4, 3);
-   ADD_3PAR_FILTER(NORTH, LinePointsRange, SOUTH, IO_HCP_MIN, IO_HCP_MAX);
+   ADD_3PAR_FILTER(NORTH, LinePointsRange, SOUTH, config.postm.minHCP, config.postm.maxHCP);
    //ADD_2PAR_FILTER(SOUTH, DiamondsLen, 3, 4);
    //ADD_2PAR_FILTER(NORTH, ClubsLen, 3, 4);
    ADD_1PAR_FILTER(NORTH, PointsAtLeast, 10);

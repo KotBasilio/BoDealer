@@ -234,14 +234,14 @@ void Walrus::DisplayFilterNumbers(uint ip)
 void Walrus::ShowDetailedReportHighcards()
 {
    UpdateFarColumnUI();
-   owl.Silent("\nA split of board results by HCP from %d to %d:\n", IO_HCP_MIN, IO_HCP_MAX);
+   owl.Silent("\nA split of board results by HCP from %d to %d:\n", config.postm.minHCP, config.postm.maxHCP);
 
    // for mid-rows
    u64 prevSum = 0;
    for (int i = IO_ROW_HCP_START; i < IO_ROW_FILTERING - 1; i++) {
       // calc hcp for this row (row = 3 + (hcp - 21) * 2)
-      auto h = (i - IO_ROW_HCP_START) / 2 + IO_HCP_MIN;
-      if (h > IO_HCP_MAX) {
+      int h = (i - IO_ROW_HCP_START) / 2 + config.postm.minHCP;
+      if (h > config.postm.maxHCP) {
          break;
       }
 

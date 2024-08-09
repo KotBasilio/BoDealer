@@ -48,6 +48,9 @@ WaConfig::Contract::Contract()
    , by(SOUTH)
    , first(WEST)
 {
+   txtTrump[0] = 0;
+   txtBy[0] = 0;
+   txtAttacker[0] = 0;
 }
 
 WaConfig::Postmortem::Postmortem()
@@ -69,17 +72,13 @@ WaConfig::WaConfig()
    primaScorerCode[0] = 0;
    secundaScorerCode[0] = 0;
    taskHandPBN[0] = 0;
-   declTrump[0] = 0;
-   declSeat[0] = 0;
-   seatOnLead[0] = 0;
-   theirTrump[0] = 0;
+   prim.txtTrump[0] = 0;
+   prim.txtBy[0] = 0;
+   prim.txtAttacker[0] = 0;
+   secondary.txtTrump[0] = 0;
    secLongName[0] = 0;
    sourceCodeFilters[0] = 0;
    nameTask[0] = 0;
-
-   #if IO_HCP_MIN == IO_HCP_MAX
-      minControls = (IO_HCP_MIN * 4) / 10 - 6;
-   #endif
 
    #ifdef SEEK_OPENING_LEAD
       postm.reportType = WREPORT_OPENING_LEADS;

@@ -23,8 +23,6 @@
 #ifdef SEM_MAY24_TRHEE_SUITED_BALANCE
    #define SEEK_BIDDING_LEVEL
    #define SEM_ORBITING_FIXED_HAND
-   #define IO_HCP_MIN  20
-   #define IO_HCP_MAX  24
 #endif 
 
 #ifdef SEM_MAY24_GLADIATOR

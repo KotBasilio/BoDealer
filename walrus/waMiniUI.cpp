@@ -44,27 +44,27 @@ void WaConfig::Contract::Init(const CumulativeScore::LineScorer& scorer)
    goal = scorer.Goal();
    by = scorer.Decl();
    first = (by + 1) % 4;
+
+   strcpy(txtTrump,    s_TrumpNames[trump]);
+   strcpy(txtAttacker, s_SeatNames [first]);
+   strcpy(txtBy,       s_SeatNames [by]);
 }
 
 void WaConfig::SetupSeatsAndTrumps(const CumulativeScore &cs)
 {
    // primary
    prim.Init(cs.prima);
-   strcpy(declTrump,  s_TrumpNames[prim.trump]);
-   strcpy(seatOnLead, s_SeatNames [prim.first]);
-   strcpy(declSeat,   s_SeatNames [prim.by]);
 
    // secondary
    if (!cs.secunda.IsEmpty()) {
       secondary.Init(cs.secunda);
-      strcpy(theirTrump, s_TrumpNames[secondary.trump]);
       const char* whos = "Their";
       #ifdef THE_OTHER_IS_OURS
          whos = "A";
       #elif defined(SEEK_BIDDING_LEVEL)
          whos = "Our";
       #endif
-      sprintf(secLongName, "%s contract in %s", whos, theirTrump);
+      sprintf(secLongName, "%s contract in %s", whos, secondary.txtTrump);
    }
 }
 
@@ -112,7 +112,7 @@ void MiniUI::Run()
 
       // check whether we've handled this key
       if (irGoal) {
-         owl.Show("\nSeek %d tricks board by %s in %s ", irGoal, config.declSeat, config.declTrump);
+         owl.Show("\nSeek %d tricks board by %s in %s ", irGoal, config.prim.txtBy, config.prim.txtTrump);
          switch (irFly) {
             case IO_CAMP_MORE_NT:
                owl.Show("where NT gives more tricks ");
@@ -135,7 +135,7 @@ void MiniUI::Run()
    // auto-command
    if (firstAutoShow && !irGoal) {
       irGoal = config.prim.goal;
-      owl.Show(" %d tricks board by %s in %s ", irGoal, config.declSeat, config.declTrump);
+      owl.Show(" %d tricks board by %s in %s ", irGoal, config.prim.txtBy, config.prim.txtTrump);
    }
 }
 
@@ -181,6 +181,7 @@ void MiniUI::RecognizeCommands(int inchar)
       // exit
       case 'x':
          exitRequested = true;
+         owl.Show("\n");
          break;
    }
 }

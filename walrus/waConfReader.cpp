@@ -128,8 +128,9 @@ bool WaConfig::RecognizePostmType(const char* token)
 
 void WaConfig::ReadPostmortemParams(char* line)
 {
-   const char* delimiters = " ,.!:;()+-\n";
+   // parse the line
    int idx = 0;
+   const char* delimiters = " ,.!:;()+-\n";
    for (char* token = std::strtok(line, delimiters);
         token && isInitSuccess;
         token = std::strtok(nullptr, delimiters), idx++) {
@@ -145,6 +146,13 @@ void WaConfig::ReadPostmortemParams(char* line)
          case 2:
             postm.maxHCP = atoi(token);
             break;
+      }
+   }
+
+   // may detect controls
+   if (postm.minHCP) {
+      if (postm.minHCP == postm.maxHCP) {
+         postm.minControls = (postm.minHCP * 4) / 10 - 6;
       }
    }
 }
@@ -262,7 +270,7 @@ void WaConfig::ReadTask(Walrus *walrus)
       }
    }
 
-   // ensure we were in task
+   // ensure we visited some task
    if (nameTask[0] && (opMode == OPMODE_NONE)) {
       printf("Error: Task '%s' not found in the config file\n", nameTask);
       MarkFail();

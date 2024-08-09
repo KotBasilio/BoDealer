@@ -67,7 +67,9 @@ constexpr size_t WA_SCORER_CODE_LEN = 32;
 constexpr size_t WA_SOURCE_CODE_BUF = 2 * 1024;
 constexpr size_t WA_TASK_BRIEF = 1024;
 constexpr size_t WA_TASK_NANE_LEN = 64;
+constexpr size_t WA_SECONDARY_LNAME_LEN = WA_TASK_NANE_LEN * 2;
 constexpr size_t WA_HAND_LEN = 30;
+constexpr size_t WA_TXT_SEAT_SUIT = 10;
 struct WaConfig {
    WA_OPERATION_MODE opMode = OPMODE_NONE;
    waFileNames namesBase;
@@ -76,6 +78,7 @@ struct WaConfig {
    char primaScorerCode[WA_SCORER_CODE_LEN];   // our main action in linear scorer format
    char secundaScorerCode[WA_SCORER_CODE_LEN]; // second action
    char taskHandPBN[WA_HAND_LEN];
+   char secLongName[WA_SECONDARY_LNAME_LEN];
 
    // filtering
    char   sourceCodeFilters[WA_SOURCE_CODE_BUF];
@@ -88,13 +91,15 @@ struct WaConfig {
       int   trump;
       int   by;    // declarer
       int   first; // attacker
+
+      char txtTrump[WA_TXT_SEAT_SUIT];
+      char txtBy[WA_TXT_SEAT_SUIT];
+      char txtAttacker[WA_TXT_SEAT_SUIT];
       Contract();
       void Init(const CumulativeScore::LineScorer& scorer);
    };
    Contract prim;      // our primary contract
    Contract secondary; // either our secondary contract or their contract
-   char declTrump[10], declSeat[10], seatOnLead[10];
-   char theirTrump[10], secLongName[128];
 
    // post-mortem
    struct Postmortem {
@@ -102,6 +107,7 @@ struct WaConfig {
       int            minHCP, maxHCP;
       int            minControls;
       Postmortem();
+      bool Is(WA_REPORT_TYPE t) { return (t == reportType); }
    } postm;
    int   postmSuit, postmHand; 
 

@@ -63,13 +63,14 @@ ucell Progress::GetDiscardedBoardsCount()
 
 void Walrus::ShowProgress(ucell idx)
 {
+   RegularBalanceCheck();
+
    // do reports
-   if (progress.Step() || ui.reportRequested) {
+   if (progress.Step() || ui.reportRequested || ui.exitRequested) {
       MiniReport(NumFiltered() - idx);
       progress.Up(idx);
    } else {
       printf(".");
-      RegularBalanceCheck();
    }
 }
 
@@ -281,7 +282,7 @@ void Walrus::MiniReport(ucell toGo)
    // signature
    s64 doneOurs   = (s64)(__max( hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE  ], 1));
    s64 doneTheirs = (s64)( __max(hitsRow[IO_ROW_THEIRS  ] + hitsRow[IO_ROW_THEIRS + 1], 1));
-   owl.OnDone("Processed: %lld total. %s is on lead. Goal is %d tricks in %s.\n", doneOurs, config.seatOnLead, config.prim.goal, config.declTrump);
+   owl.OnDone("Processed: %lld total. %s is on lead. Goal is %d tricks in %s.\n", doneOurs, config.prim.txtAttacker, config.prim.goal, config.prim.txtTrump);
 
    // other stuff
    ShowBiddingLevel(doneOurs);

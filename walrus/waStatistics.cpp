@@ -345,7 +345,7 @@ void Walrus::ShowAdvancedStatistics(int idx)
    if (!ui.advancedStatistics) {
       return;
    }
-   auto hcp = (idx - IO_ROW_HCP_START) / 2 + IO_HCP_MIN;
+   auto hcp = (idx - IO_ROW_HCP_START) / 2 + config.postm.minHCP;
 
    // we get two lines that represent frequences in walrus-format
    //   idx for making contract
@@ -360,7 +360,7 @@ void Walrus::ShowAdvancedStatistics(int idx)
    CalcAndDisplayStatistics(":");
 
    // not the last line => done
-   if (hcp < IO_HCP_MAX) {
+   if (hcp < config.postm.maxHCP) {
       return;
    }
 

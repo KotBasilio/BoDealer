@@ -59,7 +59,7 @@ void Walrus::DetectGoals()
    DdsTricks tr;
    char tail[128];
    CumulativeScore zeroes(cumulScore);
-   owl.Show("Primary scorer (%s, %d tr):", config.declTrump, config.prim.goal);
+   owl.Show("Primary scorer (%s, %d tr):", config.prim.txtTrump, config.prim.goal);
    strcpy(tail, "  / ");
    for (tr.plainScore = 7; tr.plainScore <= 13 ; tr.plainScore++) {
       cumulScore = zeroes;
@@ -71,7 +71,7 @@ void Walrus::DetectGoals()
    // secondary
    bool shouldSkipSecunda = cumulScore.secunda.IsEmpty() || (sem.onSinglePrimary == &CumulativeScore::BiddingLevel);
    if (!shouldSkipSecunda) {
-      owl.Show("Contract-B scorer (%s, %d tr):", config.theirTrump, config.secondary.goal);
+      owl.Show("Contract-B scorer (%s, %d tr):", config.secondary.txtTrump, config.secondary.goal);
       strcpy(tail, "  / ");
       for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
          cumulScore = zeroes;

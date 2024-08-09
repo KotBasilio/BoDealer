@@ -82,17 +82,17 @@ void Walrus::PostmortemHCP(DdsTricks& tr, deal& cards)
    // detect row and column
    uint row = 0;
    uint ctrl;
-   auto hcp = WaCalcHCP(cards, ctrl);
+   int hcp = WaCalcHCP(cards, ctrl);
    if (config.postm.minControls) {
       if (ctrl < (uint)config.postm.minControls) {
          row = IO_ROW_HCP_START;
       } else {
          row = IO_ROW_HCP_START + (ctrl - config.postm.minControls) * 2;
       }
-   } else if (hcp < IO_HCP_MIN || IO_HCP_MAX < hcp) {
+   } else if (hcp < config.postm.minHCP || config.postm.maxHCP < hcp) {
       return;
    } else {
-      row = IO_ROW_HCP_START + (hcp - IO_HCP_MIN) * 2;
+      row = IO_ROW_HCP_START + (hcp - config.postm.minHCP) * 2;
    }
 
    //  proper row => add a mark in stat
@@ -104,7 +104,7 @@ void Walrus::PostmortemHCP(DdsTricks& tr, deal& cards)
    // additional postmortem statistics
    #ifdef CALC_CLUB_HITS_EXPERIMENTAL
    {
-      row = IO_ROW_HCP_START + (IO_HCP_MAX - IO_HCP_MIN) * 2;
+      row = IO_ROW_HCP_START + (config.postm.maxHCP - config.postm.minHCP) * 2;
       if (lastCalcHcp.c > 8) {
          progress.SolvedExtraMark(row, 0);
       } else {

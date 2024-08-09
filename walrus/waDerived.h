@@ -57,11 +57,6 @@
 // tasks without a fixed hand (no specifics)
 
 // User interface --- how to display
-#ifndef IO_HCP_MIN
-   #define IO_HCP_MIN  25
-   #define IO_HCP_MAX  25
-#endif
-
 #ifndef SHOW_OPP_RESULTS
    #define SHOW_PARTSCORE_STATLINE
 #endif

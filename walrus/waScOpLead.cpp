@@ -27,6 +27,19 @@
    #error Get rid of IO_SHOW_HCP_CTRL_SPLIT define. Use "POSTMORTEM: HCP" in config.
 #endif
 
+#ifdef IO_HCP_MIN
+   #error Get rid of IO_HCP_MIN define. Use "POSTMORTEM: HCP" in config, then config.postm.minHCP.
+#endif
+
+#ifdef IO_HCP_MAX
+   #error Get rid of IO_HCP_MAX define. Use "POSTMORTEM: HCP" in config, then config.postm.maxHCP
+#endif
+
 #ifdef SEEK_OPENING_LEAD
    #error Get rid of SEEK_OPENING_LEAD define. Use "POSTMORTEM: LEAD" in config.
 #endif
+
+//#ifdef 
+//   #error Get rid of  define. Use  in config.
+//#endif
+ 
