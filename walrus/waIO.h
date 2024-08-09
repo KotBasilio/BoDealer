@@ -39,12 +39,12 @@ struct MiniUI {
    void Run();
 };
 
-enum WA_REPORT_TYPE {
-   WREPORT_NONE = 0,
-   WREPORT_HCP,
-   WREPORT_CONTROLS,
-   WREPORT_SUIT,
-   WREPORT_OPENING_LEADS,
+enum WA_POSTM_TYPE {
+   WPM_NONE = 0,
+   WPM_HCP,
+   WPM_CONTROLS,
+   WPM_SUIT,
+   WPM_OPENING_LEADS,
 };
 
 enum WA_OPERATION_MODE {
@@ -103,11 +103,12 @@ struct WaConfig {
 
    // post-mortem
    struct Postmortem {
-      WA_REPORT_TYPE reportType;
+      WA_POSTM_TYPE reportType;
       int            minHCP, maxHCP;
       int            minControls;
       Postmortem();
-      bool Is(WA_REPORT_TYPE t) { return (t == reportType); }
+      bool Is(WA_POSTM_TYPE t) { return (t == reportType); }
+      int  HcpFromRow(int idx);
    } postm;
    int   postmSuit, postmHand; 
 

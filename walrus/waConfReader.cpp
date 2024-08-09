@@ -112,12 +112,12 @@ void WaConfig::ReadSecundaScorer(const char* line)
 bool WaConfig::RecognizePostmType(const char* token)
 {
    if (IsStartsWith(token, "HCP")) {
-      postm.reportType = WREPORT_HCP;
+      postm.reportType = WPM_HCP;
       return true;
    }
 
    if (IsStartsWith(token, "LEAD")) {
-      postm.reportType = WREPORT_OPENING_LEADS;
+      postm.reportType = WPM_OPENING_LEADS;
       return true;
    }
 

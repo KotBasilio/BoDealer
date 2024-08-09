@@ -8,9 +8,10 @@
    #define THE_OTHER_IS_OURS
 #endif
 
-#ifdef SEEK_OPENING_LEAD
-   #define DETAILED_LEADS
+#ifdef DETAILED_LEADS
+   #define SEM_ORBITING_FIXED_HAND
    #define FIXED_HAND_WEST
+   #define PARAM_SOLUTIONS_DDS   3
 #endif
 
 // Algorithm details --- how to solve and what to seek
@@ -93,11 +94,9 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
 // 1 -- Find the maximum number of tricks for the side to play. Return only one of the optimum cards and its score.
 // 2 -- Find the maximum number of tricks for the side to play. Return all optimum cards and their scores.
 // 3 -- Return all cards that can be legally played, with their scores in descending order.
-#ifdef DETAILED_LEADS
-   #define PARAM_SOLUTIONS_DDS   3
-#else
+#ifndef PARAM_SOLUTIONS_DDS
    #define PARAM_SOLUTIONS_DDS   1
-#endif // DETAILED_LEADS
+#endif
 
 // -----------------------------------------------------------------
 // --- Iterations count

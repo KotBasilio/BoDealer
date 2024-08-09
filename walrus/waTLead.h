@@ -3,9 +3,7 @@
 // -------------------------------------------------------- 
 
 #ifdef SEM_JUN24_LEAD_AK
-   #define SEEK_OPENING_LEAD
-   #define SEM_ORBITING_FIXED_HAND
-   #define INPUT_ON_LEAD   WEST
+   #define DETAILED_LEADS
    #define CARD_LEAD_SPADE   K3
    #define CARD_LEAD_HEARTS  K3
    #define CARD_LEAD_DIAMD   K5
@@ -15,7 +13,7 @@
 #ifdef SEMANTIC_JAN_PETYA_VS_3NT
    #define TITLE_VERSION  "Fix a 10 hcp ;\n 1NT - 3NT\nQuestion: what to lead?\nVer 2.0 "
    #define SEEK_OPENING_LEAD
-#endif // SEMANTIC_JAN_PETYA_VS_3NT
+#endif
 
 // ---
 #ifdef SEMANTIC_AUG_LEAD_VS_3H
@@ -44,8 +42,6 @@
    #define TITLE_VERSION  "Fix a weak hand;\n(2c)-p-(3NT)-all pass\nQuestion: what to lead?\nVer 2.0 "
    #define SEEK_OPENING_LEAD
 #endif 
-
-
 
 /// -----------------------------------------------------------------
 /// ONE HAND TASKS

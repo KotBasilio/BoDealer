@@ -9,7 +9,7 @@
    #error Get rid of INPUT_TRUMPS define. Use primary linear scorer.
 #endif
 #ifdef INPUT_ON_LEAD
-   #error Get rid of INPUT_ON_LEAD define. Use primary linear scorer.
+   #error Get rid of INPUT_ON_LEAD define. Use primary linear scorer with BY keyword.
 #endif
 
 #ifdef OC_TRUMPS
@@ -36,7 +36,7 @@
 #endif
 
 #ifdef SEEK_OPENING_LEAD
-   #error Get rid of SEEK_OPENING_LEAD define. Use "POSTMORTEM: LEAD" in config.
+   #error Get rid of SEEK_OPENING_LEAD define. Use "POSTMORTEM: LEAD" in config + DETAILED_LEADS define. 
 #endif
 
 //#ifdef 

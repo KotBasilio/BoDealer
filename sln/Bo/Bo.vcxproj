@@ -233,6 +233,9 @@
   <ItemGroup>
     <Natvis Include="..\wa_twelve.natvis" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\start_from.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

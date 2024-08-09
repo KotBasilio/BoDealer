@@ -19,7 +19,7 @@
 //#define SEM_MAR24_5C_OR_3NT
 //#define SEM_MAY24_TENS_AND_NINES
 //#define SEM_MAY24_GLADIATOR
-#define SEM_MAY24_TRHEE_SUITED_BALANCE
+//#define SEM_MAY24_TRHEE_SUITED_BALANCE
 
 // Bidding decision competitive:
 //#define SEMANTIC_JUN_MINORS_VS_MAJORS
@@ -31,7 +31,7 @@
 //#define SEM_AUG_PREEMPTIVE_ON_PART_1H
 
 // Opening lead:
-//#define SEM_JUN24_LEAD_AK
+#define SEM_JUN24_LEAD_AK
 
 // One hand tasks:
 //#define SEMANTIC_KEYCARDS_10_12

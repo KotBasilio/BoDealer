@@ -238,9 +238,9 @@ void Walrus::ShowDetailedReportHighcards()
 
    // for mid-rows
    u64 prevSum = 0;
-   for (int i = IO_ROW_HCP_START; i < IO_ROW_FILTERING - 1; i++) {
+   for (int i = IO_ROW_POSTMORTEM; i < IO_ROW_FILTERING - 1; i++) {
       // calc hcp for this row (row = 3 + (hcp - 21) * 2)
-      int h = (i - IO_ROW_HCP_START) / 2 + config.postm.minHCP;
+      int h = (i - IO_ROW_POSTMORTEM) / 2 + config.postm.minHCP;
       if (h > config.postm.maxHCP) {
          break;
       }
@@ -283,9 +283,9 @@ void Walrus::ShowDetailedReportControls()
 
    // for mid-rows
    u64 prevSum = 0;
-   for (int i = IO_ROW_HCP_START; i < IO_ROW_FILTERING - 1; i++) {
+   for (int i = IO_ROW_POSTMORTEM; i < IO_ROW_FILTERING - 1; i++) {
       // calc ctrl for this row (row = start + (ctr - min) * 2)
-      auto ctr = (i - IO_ROW_HCP_START) / 2 + config.postm.minControls;
+      auto ctr = (i - IO_ROW_POSTMORTEM) / 2 + config.postm.minControls;
       if (ctr > 12) {
          break;
       }
@@ -325,9 +325,9 @@ void Walrus::ShowDetailedReportSuit()
 
    // for mid-rows
    u64 prevSum = 0;
-   for (int i = IO_ROW_HCP_START; i < IO_ROW_FILTERING - 1; i++) {
+   for (int i = IO_ROW_POSTMORTEM; i < IO_ROW_FILTERING - 1; i++) {
       // calc suit hcp for this row (row = start + (hcp) * 2)
-      auto hcp = (i - IO_ROW_HCP_START) / 2;
+      auto hcp = (i - IO_ROW_POSTMORTEM) / 2;
       if (hcp > 10) {
          break;
       }

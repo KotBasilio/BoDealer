@@ -137,11 +137,8 @@ char fmtCellFloat[] = "%8.1f,";
 char fmtCellDouble[] = "%-.2lf";
 
 // hats
-#ifdef SEEK_OPENING_LEAD
-   char tblHat[] =  "    :       let    spade    heart     both     club             sum\n";
-#else
-   char tblHat[]       = "    :  HITS COUNT   :\n";
-#endif
+char tblLeads[] = "    :       let    spade    heart     both     club             sum\n";
+char tblHat[]   = "    :  HITS COUNT   :\n";
 
 void MiniUI::FillMiniRows()
 {
@@ -229,7 +226,11 @@ void Walrus::ShowMiniHits(ucell * hitsRow, ucell * hitsCamp) // OUT: hitsRow[], 
 
    // hat
    if (!progress.isDoneAll) {
-      printf("\n%s", tblHat);
+      if (config.postm.Is(WPM_OPENING_LEADS)) {
+         printf("\n%s", tblHat);// TODO -- use the other hat. And what do we store for leads?
+      } else {
+         printf("\n%s", tblHat);
+      }
    }
 
    // for all rows
@@ -355,14 +356,14 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
    #endif
 
    // averages for opening lead
-   #ifdef SEEK_OPENING_LEAD
+   if (config.postm.Is(WPM_OPENING_LEADS)) {
       owl.OnDone("Averages: ideal = %lld, lead Spade = %lld, lead Hearts = %lld, lead Diamonds = %lld, lead Clubs = %lld\n",
          cumulScore.ideal / sumRows,
          cumulScore.leadS / sumRows,
          cumulScore.leadH / sumRows,
          cumulScore.leadD / sumRows,
          cumulScore.leadC / sumRows);
-   #endif // SEEK_OPENING_LEAD
+   }
 
    // keycards split
    #ifdef SEMANTIC_KEYCARDS_10_12
@@ -398,18 +399,18 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
       ui.reportRequested = false;
       switch (config.postm.reportType)
       {
-         case WREPORT_NONE:
-         case WREPORT_OPENING_LEADS:
+         case WPM_NONE:
+         case WPM_OPENING_LEADS:
             break;
-         case WREPORT_HCP:
-         case WREPORT_CONTROLS:
+         case WPM_HCP:
+         case WPM_CONTROLS:
             if (config.postm.minControls) {
                ShowDetailedReportControls();
             } else {
                ShowDetailedReportHighcards();
             }
             break;
-         case WREPORT_SUIT:
+         case WPM_SUIT:
             ShowDetailedReportSuit();
             break;
       }

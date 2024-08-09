@@ -283,7 +283,7 @@ void Walrus::AddMadeContracts(int idx)
 
 void Walrus::AddOverallStats(int idx)
 {
-   for (int i = IO_ROW_HCP_START; i <= idx; i++) {
+   for (int i = IO_ROW_POSTMORTEM; i <= idx; i++) {
       bool down = (bool)(i & 1);
       if (down) {
          AddSetContracts(i);
@@ -345,7 +345,7 @@ void Walrus::ShowAdvancedStatistics(int idx)
    if (!ui.advancedStatistics) {
       return;
    }
-   auto hcp = (idx - IO_ROW_HCP_START) / 2 + config.postm.minHCP;
+   int hcp = config.postm.HcpFromRow(idx);
 
    // we get two lines that represent frequences in walrus-format
    //   idx for making contract

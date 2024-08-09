@@ -2,9 +2,10 @@ The main selector in this config
 is a line that starts with "TASK NAME".
 So we can comment out them easily at the line start
 
-//TASK NAME:Aug2 seven spades
-//TASK NAME:Jun24 lead from AK or side
-TASK NAME:MAY24_TRHEE_SUITED_BALANCE
+
+//TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
+TASK NAME:JUN24_LEAD_AK
+//TASK NAME:MAY24_TRHEE_SUITED_BALANCE
 //TASK NAME:some old one
 //TASK NAME:MYTASK1
 //TASK NAME:also not actual
@@ -40,8 +41,8 @@ FILTERS:
    SOUTH: ControlsRange, 2, 8
 
 -----------------------------------------------------------------------------------------------------------------------
-Aug2 seven spades on North vs 1h
-Bidding from partner: 
+AUG_PREEMPTIVE_ON_PART_1H seven spades on North
+Bidding from partner (S): 
  1h    pass 2s 3d
  pass  pass ??
 Question: pass or 3s?
@@ -79,18 +80,16 @@ FILTERS:
    }
 
 -----------------------------------------------------------------------------------------------------------------------
-
-
-Jun24 lead from AK or side -- Fix a 8 hcp 5224;
-Bidding from RHO: 
+JUN24_LEAD_AK lead from AK or a side suit
+Fix a 8 hcp 5224; Bidding from RHO (S): 
         (1h) p 
  (2c) p (2h) p
  (3h) p (4h) all pass
 Question: what to lead?
 
 HAND: W:J6532.63.54.AK96
-
-PRIMARY SCORER: V4H 
+PRIMARY SCORER: V4H BY S
+POSTMORTEM: LEAD
 
 FILTERS:
    SOUTH: PointsRange 11, 14

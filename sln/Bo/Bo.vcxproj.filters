@@ -381,4 +381,9 @@
       <Filter>VIsualizers</Filter>
     </Natvis>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\start_from.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

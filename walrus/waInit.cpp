@@ -54,10 +54,15 @@ WaConfig::Contract::Contract()
 }
 
 WaConfig::Postmortem::Postmortem()
-   : reportType(WREPORT_NONE)
+   : reportType(WPM_NONE)
    , minHCP(0), maxHCP(0)
    , minControls(0)
 {
+}
+
+int WaConfig::Postmortem::HcpFromRow(int idx)
+{
+    return (idx - IO_ROW_POSTMORTEM) / 2 + minHCP;
 }
 
 WaConfig::WaConfig()
@@ -79,10 +84,6 @@ WaConfig::WaConfig()
    secLongName[0] = 0;
    sourceCodeFilters[0] = 0;
    nameTask[0] = 0;
-
-   #ifdef SEEK_OPENING_LEAD
-      postm.reportType = WREPORT_OPENING_LEADS;
-   #endif
 }
 
 void Walrus::AllocFilteredTasksBuf()

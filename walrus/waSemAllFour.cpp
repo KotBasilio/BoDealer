@@ -168,7 +168,7 @@ void Walrus::FillSemantic(void)
    //ADD_2PAR_FILTER(NORTH, PointsSuitLEqSuit, DMD, HRT);
 
    config.postmSuit = SOL_HEARTS;
-   //config.postm.reportType = WREPORT_SUIT;
+   //config.postm.reportType = WPM_SUIT;
 
 }
 #endif
@@ -209,7 +209,7 @@ void Walrus::FillSemantic(void)
    //ADD_0PAR_FILTER(SOUTH, EndList);
 
    config.postmSuit = SOL_DIAMONDS;
-   config.postm.reportType = WREPORT_SUIT;
+   config.postm.reportType = WPM_SUIT;
 }
 #endif
 
@@ -265,6 +265,6 @@ void Walrus::FillSemantic(void)
     ADD_0PAR_FILTER(EAST, DiamondsNatural);
 
     //config.postmSuit = SOL_DIAMONDS;
-    //config.postm.reportType = WREPORT_SUIT;
+    //config.postm.reportType = WPM_SUIT;
 }
 #endif 

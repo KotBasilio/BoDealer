@@ -77,9 +77,9 @@ void Walrus::SemanticsToOrbitFixedHand(void)
    sem.onScanCenter = &Walrus::Scan3FixedWest;
 #endif
 
-#ifdef SEEK_OPENING_LEAD
-   sem.SetOpeningLeadScorer  (cumulScore, config.primaScorerCode);
-#endif
+   if (config.postm.Is(WPM_OPENING_LEADS)) {
+      sem.SetOpeningLeadScorer(cumulScore, config.primaScorerCode);
+   }
 
 #ifdef SEEK_DECISION_COMPETE
    sem.SetOurPrimaryScorer(cumulScore, config.primaScorerCode);
@@ -91,7 +91,7 @@ void Walrus::SemanticsToOrbitFixedHand(void)
 #endif
 
    // hcp / ctrl postmortems
-   if (config.postm.Is(WREPORT_HCP)) {
+   if (config.postm.Is(WPM_HCP)) {
       if (config.postm.minHCP != config.postm.maxHCP) {
          sem.onPostmortem = &Walrus::PostmortemHCP;
       }

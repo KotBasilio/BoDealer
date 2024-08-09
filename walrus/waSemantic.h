@@ -22,7 +22,7 @@ constexpr uint IO_ROW_COMPARISON = IO_ROW_CONTRACT_B + 2;
 constexpr uint IO_ROW_MAGIC_FLY  = IO_ROW_COMPARISON;
 constexpr uint IO_ROW_SACRIFICE  = IO_ROW_COMPARISON;
 // -- hcp postmortem
-constexpr uint IO_ROW_HCP_START = 7;
+constexpr uint IO_ROW_POSTMORTEM = 7;
 constexpr uint IO_SHIFT_FOR_EXTRA_MARKS = 27;
 // -- filtering
 constexpr uint IO_ROW_FILTERING = (3 + IO_SHIFT_FOR_EXTRA_MARKS);
