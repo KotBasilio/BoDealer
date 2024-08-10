@@ -29,9 +29,10 @@
 //#define SEM_DU_MAR_1C_X_XX_1H_ETC_MAR
 //#define SEM_MIX_MAR24_INVITE_4S
 //#define SEM_AUG_PREEMPTIVE_ON_PART_1H
+#define SEM_AUG_TRICOLOR_OVER_OPP_3S
 
 // Opening lead:
-#define SEM_JUN24_LEAD_AK
+//#define SEM_JUN24_LEAD_AK
 
 // One hand tasks:
 //#define SEMANTIC_KEYCARDS_10_12

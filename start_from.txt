@@ -2,7 +2,7 @@ The main selector in this config
 is a line that starts with "TASK NAME".
 So we can comment out them easily at the line start
 
-
+TASK NAME:AUG_TRICOLOR_OVER_OPP_3S
 //TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
 TASK NAME:JUN24_LEAD_AK
 //TASK NAME:MAY24_TRHEE_SUITED_BALANCE
@@ -12,6 +12,43 @@ TASK NAME:JUN24_LEAD_AK
 
 //OPMODE: SEMI_STRAY
 OPMODE: DEMO_STATISTICS
+
+
+-----------------------------------------------------------------------------------------------------------------------
+AUG_TRICOLOR_OVER_OPP_3S Fix 12 HCP 0544;
+Bidding from part (S): 
+1NT(10-13) pass   2h 2s
+pass       3s     ??
+Question: pass or 4H?
+
+HAND: N:.KQ754.A765.KT93
+
+PRIMARY SCORER: N4H BY SOUTH
+SECONDARY SCORER: N3S BY EAST
+TODO   SOUTH: WeakNT, 10, 13
+
+FILTERS:
+   SOUTH: ModelShape, 3, 3, 4, 4
+   SOUTH: PointsRange, 10, 13
+   SOUTH: HeartsLen, 2, 3
+
+   EAST: PointsRange, 10, 17
+   EAST: SpadesLen, 5, 7
+   EAST: SpadesNatural
+   EAST: ExcludeCombination {
+      EAST: PointsLimit, 12
+      EAST: SpadesLen, 5, 5
+   }
+
+   WEST: SpadesLen, 3, 4
+   WEST: ExcludeCombination {
+      WEST: SpadesLen, 3, 3
+      WEST: PointsLimit, 8
+   }
+   WEST: ExcludeCombination {
+      WEST: ExactShape, 4, 3, 3, 3
+      WEST: PointsLimit, 6
+   }
 
 -----------------------------------------------------------------------------------------------------------------------
 MAY24_TRHEE_SUITED_BALANCE Fix a 8 hcp 2434;

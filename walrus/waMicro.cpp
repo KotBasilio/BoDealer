@@ -171,7 +171,6 @@ uint WaFilter::KeyCardsRange(twContext* lay, const uint* par)
    return KeyCardsRange(jo, kc_mask, par[2], par[3]) ? MIC_PASSED : MIC_BLOCK;
 }
 
-
 uint WaFilter::LineKeyCardsSpade(twContext* lay, const uint* par)
 {// obsolete and early version. see more generic
    auto seat     = par[0];
@@ -651,3 +650,7 @@ uint WaFilter::PenaltyDoubleDiamonds(twContext* lay, const uint* par)
    return MIC_PASSED;
 }
 
+uint WaFilter::WeakNT(twContext* lay, const uint* par)
+{
+   return 0;
+}
