@@ -288,8 +288,6 @@ uint WaFilter::HeartsNatural(twContext* lay, const uint* par)
    return MIC_BLOCK;
 }
 
-
-
 uint WaFilter::DiamondsNatural(twContext* lay, const uint* par)
 {
    ACCESS_MICPAR_LEN;
@@ -652,5 +650,18 @@ uint WaFilter::PenaltyDoubleDiamonds(twContext* lay, const uint* par)
 
 uint WaFilter::WeakNT(twContext* lay, const uint* par)
 {
-   return 0;
+   static uint shapeModelNT[]  = { 0, 3, 3, 4, 4 };
+   static uint shapeTricolor[] = { 0, 4, 4, 1, 4 };
+
+   if (auto fail = PointsRange(lay, par)) {
+      return fail;
+   }
+
+   shapeModelNT[0] = par[0];
+   if (MIC_PASSED == ModelShape(lay, shapeModelNT)) {
+      return MIC_PASSED;
+   }
+
+   shapeTricolor[0] = par[0];
+   return ExactShape(lay, shapeTricolor);
 }

@@ -70,7 +70,7 @@ void Walrus::SemanticsToOrbitFixedHand(void)
    }
 
 #ifdef DBG_VIEW_ON_ADD
-   sem.onBoardAdded = &Walrus::DisplayBoard;
+   sem.onBoardAdded = &MiniUI::DisplayBoard;
 #endif
 
 #ifdef FIXED_HAND_WEST

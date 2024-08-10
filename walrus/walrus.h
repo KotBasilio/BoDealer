@@ -90,7 +90,6 @@ protected:
     void NOP() {}
     void VoidSingleScoring(DdsTricks &tr) {}
     void VoidPostmortem(DdsTricks& tr, deal& cards) {}
-    void VoidAdded(twContext* lay) {}
     void VoidSecondSolve(boards& bo, solvedBoards& solved) {}
     void VoidCompare(uint trickSuit, uint tricksNT) {}
     void GrabSplinterVariant(twContext* lay);

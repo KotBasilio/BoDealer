@@ -127,7 +127,7 @@ void Walrus::ClassifyOnPermute(twContext* lay)
    progress.SelectedMark();
 
    // any extra work
-   (this->*sem.onBoardAdded)(lay);
+   (this->ui.*sem.onBoardAdded)(lay);
 }
 
 void WaMulti::SaveThreeHands(twContext* lay)

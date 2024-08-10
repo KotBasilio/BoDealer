@@ -4,15 +4,14 @@ So we can comment out them easily at the line start
 
 TASK NAME:AUG_TRICOLOR_OVER_OPP_3S
 //TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
-TASK NAME:JUN24_LEAD_AK
-//TASK NAME:MAY24_TRHEE_SUITED_BALANCE
+//TASK NAME:JUN24_LEAD_AK
+TASK NAME:MAY24_TRHEE_SUITED_BALANCE
 //TASK NAME:some old one
 //TASK NAME:MYTASK1
 //TASK NAME:also not actual
 
 //OPMODE: SEMI_STRAY
 OPMODE: DEMO_STATISTICS
-
 
 -----------------------------------------------------------------------------------------------------------------------
 AUG_TRICOLOR_OVER_OPP_3S Fix 12 HCP 0544;
@@ -25,9 +24,10 @@ HAND: N:.KQ754.A765.KT93
 
 PRIMARY SCORER: N4H BY SOUTH
 SECONDARY SCORER: N3S BY EAST
-TODO   SOUTH: WeakNT, 10, 13
+POSTMORTEM: HCP 22, 25
 
 FILTERS:
+   SOUTH: WeakNT, 10, 13
    SOUTH: ModelShape, 3, 3, 4, 4
    SOUTH: PointsRange, 10, 13
    SOUTH: HeartsLen, 2, 3

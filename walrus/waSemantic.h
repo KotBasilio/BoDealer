@@ -79,6 +79,8 @@ extern Progress *mainProgress;
 
 #include "WaSemMicro.h"
 
+struct MiniUI;
+
 // a class to rule task logic. fill them on init. 
 // then values are constant through all solving
 typedef void (Shuffler::*        SemShufflerFunc)();
@@ -87,7 +89,7 @@ typedef void (CumulativeScore::* SemGenScoring)(DdsTricks &tr);
 typedef void (CumulativeScore::* SemSingleScoring)(uint tricks);
 typedef void (Walrus::*          SemComparing)(uint trickSuit, uint tricksNT);
 typedef void (Walrus::*          SemPostMortem)(DdsTricks& tr, deal& cards);
-typedef void (Walrus::*          SemOnBoardAdded)(twContext* lay);
+typedef void (MiniUI::*          SemOnBoardAdded)(twContext* lay);
 typedef void (Walrus::*          SemSecondSolver)(struct boards& bo, struct solvedBoards& solved);
 struct Semantics {
    SemFuncType              onInit;
