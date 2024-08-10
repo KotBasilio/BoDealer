@@ -101,6 +101,11 @@ struct WaConfig {
    Contract prim;      // our primary contract
    Contract secondary; // either our secondary contract or their contract
 
+   // cards to lead for WPM_OPENING_LEADS
+   struct Leads {
+      int S=0, H=0, D=0, C=0;
+   } leads;
+
    // post-mortem
    struct Postmortem {
       WA_POSTM_TYPE reportType;
@@ -125,6 +130,7 @@ private:
    void AnnounceTask();
    void ChangeOpMode(const char *line);
    void ReadHandPBN(const char *line);
+   void ReadLeadCards(const char *line);
    void ReadPrimaScorer(const char *line);
    void ReadSecundaScorer(const char *line);
    void ReadPostmortemParams(char *line);
@@ -138,11 +144,13 @@ private:
    struct Keywords {
       static char* OpMode;
       static char* Hand;
+      static char* Leads;
       static char* TName;
       static char* Prima, *Secunda;
       static char* Postmortem;
       static char* Filters;
       static char* TEnd;
+      static char* Delimiters;
    } key;
 };
 

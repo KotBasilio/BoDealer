@@ -228,44 +228,33 @@ void Semantics::PrepareBaseDeal()
    }
 }
 
-#define K2       2
-#define K3       3
-#define K4       4
-#define K5       5
-#define K6       6
-#define K7       7
-#define K8       8
-#define K9       9
-#define KT      10
-#define KJ      11
-#define KQ      12
-#define KK      13
-#define KA      14
-
 void DdsTricks::Init(futureTricks& fut)
 {
    // plainScore is good for any goal
    plainScore = 13 - fut.score[0];
 
    // the rest is for opening lead
-   if (config.postm.Is(WPM_OPENING_LEADS)) {
-      for (int i = 0; i < fut.cards; i++) {
-         if (fut.suit[i] == SOL_SPADES && fut.rank[i] == CARD_LEAD_SPADE) {
-            lead.S = 13 - fut.score[i];
-            continue;
-         }
-         if (fut.suit[i] == SOL_HEARTS && fut.rank[i] == CARD_LEAD_HEARTS) {
-            lead.H = 13 - fut.score[i];
-            continue;
-         }
-         if (fut.suit[i] == SOL_DIAMONDS && fut.rank[i] == CARD_LEAD_DIAMD) {
-            lead.D = 13 - fut.score[i];
-            continue;
-         }
-         if (fut.suit[i] == SOL_CLUBS && fut.rank[i] == CARD_LEAD_CLUBS) {
-            lead.C = 13 - fut.score[i];
-            continue;
-         }
+   if (!config.postm.Is(WPM_OPENING_LEADS)) {
+      return;
+   }
+
+   // match lead cards to store trciks
+   for (int i = 0; i < fut.cards; i++) {
+      if (fut.suit[i] == SOL_SPADES && fut.rank[i] == config.leads.S) {
+         lead.S = 13 - fut.score[i];
+         continue;
+      }
+      if (fut.suit[i] == SOL_HEARTS && fut.rank[i] == config.leads.H) {
+         lead.H = 13 - fut.score[i];
+         continue;
+      }
+      if (fut.suit[i] == SOL_DIAMONDS && fut.rank[i] == config.leads.D) {
+         lead.D = 13 - fut.score[i];
+         continue;
+      }
+      if (fut.suit[i] == SOL_CLUBS && fut.rank[i] == config.leads.C) {
+         lead.C = 13 - fut.score[i];
+         continue;
       }
    }
 }

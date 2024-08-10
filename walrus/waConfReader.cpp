@@ -26,12 +26,15 @@
 
 char* WaConfig::Keywords::OpMode = "OPMODE: ";
 char* WaConfig::Keywords::Hand = "HAND: ";
+char* WaConfig::Keywords::Leads = "LEAD CARDS: ";
 char* WaConfig::Keywords::TName = "TASK NAME:";
 char* WaConfig::Keywords::Prima = "PRIMARY SCORER: ";
 char* WaConfig::Keywords::Secunda = "SECONDARY SCORER: ";
 char* WaConfig::Keywords::Postmortem = "POSTMORTEM: ";
 char* WaConfig::Keywords::Filters = "FILTERS:";
 char* WaConfig::Keywords::TEnd = "--------";
+char* WaConfig::Keywords::Delimiters = " ,.!:;()+-\n";
+
 
 static bool IsStartsWith(const char *str, const char *prefix) 
 {
@@ -130,10 +133,9 @@ void WaConfig::ReadPostmortemParams(char* line)
 {
    // parse the line
    int idx = 0;
-   const char* delimiters = " ,.!:;()+-\n";
-   for (char* token = std::strtok(line, delimiters);
+   for (char* token = std::strtok(line, key.Delimiters);
         token && isInitSuccess;
-        token = std::strtok(nullptr, delimiters), idx++) {
+        token = std::strtok(nullptr, key.Delimiters), idx++) {
       switch (idx) {
          case 0:
             RecognizePostmType(token);
@@ -157,6 +159,28 @@ void WaConfig::ReadPostmortemParams(char* line)
    }
 }
 
+extern int IsCard(const char cardChar);
+
+void WaConfig::ReadLeadCards(const char* line)
+{
+   // check format
+   bool ok = (strlen(line) >= 7) && 
+      line[1] == '.' &&
+      line[3] == '.' &&
+      line[5] == '.';
+   if (!ok) {
+      printf("Error: A short PBN notation (like A.5.T.2) is expected as leads. You line: %s", line);
+      MarkFail();
+      return;
+   }
+
+   // convert
+   leads.S = IsCard(line[0]);
+   leads.H = IsCard(line[2]);
+   leads.D = IsCard(line[4]);
+   leads.C = IsCard(line[6]);
+}
+
 void WaConfig::AnnounceTask()
 {
    if (IsInitFailed()) {
@@ -175,6 +199,7 @@ void WaConfig::AnnounceTask()
    }
 }
 
+
 EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
 {
    if (IsStartsWith(line, key.Filters)) {
@@ -186,17 +211,16 @@ EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
       return S_IDLE;
    } 
    
-   if (IsStartsWith(line, key.OpMode)) {
-      ChangeOpMode(line + strlen(key.OpMode));
-   } else if (IsStartsWith(line, key.Hand)) {
-      ReadHandPBN(line + strlen(key.Hand));
-   } else if (IsStartsWith(line, key.Prima)) {
-      ReadPrimaScorer(line + strlen(key.Prima));
-   } else if (IsStartsWith(line, key.Secunda)) {
-      ReadSecundaScorer(line + strlen(key.Secunda));
-   } else if (IsStartsWith(line, key.Postmortem)) {
-      ReadPostmortemParams(line + strlen(key.Postmortem));
-   } else if (strlen(line) > 2) {
+   #define KEYWORD_CALS(KEY, FUNC)  if (IsStartsWith(line, key.KEY)) { FUNC(line + strlen(key.KEY)); }
+   #define KEYWORD_CALL(KEY, FUNC)  else KEYWORD_CALS(KEY, FUNC)
+   
+   KEYWORD_CALS(OpMode,      ChangeOpMode)
+   KEYWORD_CALL(Hand,        ReadHandPBN)
+   KEYWORD_CALL(Leads,       ReadLeadCards)
+   KEYWORD_CALL(Prima,       ReadPrimaScorer)
+   KEYWORD_CALL(Secunda,     ReadSecundaScorer)
+   KEYWORD_CALL(Postmortem,  ReadPostmortemParams)
+   else if (strlen(line) > 2) {
       SAFE_ADD(titleBrief, line);
    }
 
@@ -270,13 +294,23 @@ void WaConfig::ReadTask(Walrus *walrus)
       }
    }
 
-   // ensure we visited some task
+   // cleanup
+   fclose(stream);
+
+   // ensure we've visited some task
    if (nameTask[0] && (opMode == OPMODE_NONE)) {
       printf("Error: Task '%s' not found in the config file\n", nameTask);
       MarkFail();
    }
 
-   // cleanup
-   fclose(stream);
+   // lead task should have leads
+   if (postm.Is(WPM_OPENING_LEADS)) {
+      auto sum = leads.S + leads.H + leads.D + leads.C;
+      if (!sum) {
+         printf("Error: '%s' line is missing or in a wrong format.\n", key.Leads);
+         MarkFail();
+      }
+   }
+
 }
 

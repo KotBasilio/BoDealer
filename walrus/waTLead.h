@@ -4,10 +4,6 @@
 
 #ifdef SEM_JUN24_LEAD_AK
    #define DETAILED_LEADS
-   #define CARD_LEAD_SPADE   K3
-   #define CARD_LEAD_HEARTS  K3
-   #define CARD_LEAD_DIAMD   K5
-   #define CARD_LEAD_CLUBS   KA
 #endif
 
 #ifdef SEMANTIC_JAN_PETYA_VS_3NT

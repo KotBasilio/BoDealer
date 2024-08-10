@@ -88,8 +88,9 @@ Fix a 8 hcp 5224; Bidding from RHO (S):
 Question: what to lead?
 
 HAND: W:J6532.63.54.AK96
-PRIMARY SCORER: V4H BY S
 POSTMORTEM: LEAD
+LEAD CARDS: 3.3.5.A
+PRIMARY SCORER: V4H BY S
 
 FILTERS:
    SOUTH: PointsRange 11, 14
