@@ -118,6 +118,11 @@ struct WaConfig {
    } postm;
    int   postmSuit, postmHand; 
 
+   // debug options
+   struct Debug {
+      bool viewBoardOnAdd = false;
+   } dbg;
+
    WaConfig();
    void ReadTask(class Walrus *walrus);
    void BuildNewFilters(class Walrus *walrus);
@@ -135,6 +140,7 @@ private:
    void ReadPrimaScorer(const char *line);
    void ReadSecundaScorer(const char *line);
    void ReadPostmortemParams(char *line);
+   void ReadDebugSetting(char *line);
    EConfigReaderState FSM_DoFiltersState(char* line);
    EConfigReaderState FSM_DoTaskState(char* line);
    EConfigReaderState FSM_Go2WaitTask(char* line);
@@ -152,6 +158,8 @@ private:
       static char* Filters;
       static char* TEnd;
       static char* Delimiters;
+      static char* Debug;
+      static char* ShowOnAdded;
    } key;
 };
 

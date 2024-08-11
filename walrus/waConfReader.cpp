@@ -24,6 +24,9 @@
 #define SAFE_ADD(TOSTR, ADDITION) \
    strncat(TOSTR, ADDITION, sizeof(TOSTR) - strlen(TOSTR))
 
+#define KEYWORD_CALS(KEY, FUNC)  if (IsStartsWith(line, key.KEY)) { FUNC(line + strlen(key.KEY)); }
+#define KEYWORD_CALL(KEY, FUNC)  else KEYWORD_CALS(KEY, FUNC)
+
 char* WaConfig::Keywords::OpMode = "OPMODE: ";
 char* WaConfig::Keywords::Hand = "HAND: ";
 char* WaConfig::Keywords::Leads = "LEAD CARDS: ";
@@ -33,8 +36,9 @@ char* WaConfig::Keywords::Secunda = "SECONDARY SCORER: ";
 char* WaConfig::Keywords::Postmortem = "POSTMORTEM: ";
 char* WaConfig::Keywords::Filters = "FILTERS:";
 char* WaConfig::Keywords::TEnd = "--------";
-char* WaConfig::Keywords::Delimiters = " ,.!:;()+-\n";
-
+char* WaConfig::Keywords::Debug = "DEBUG: ";
+char* WaConfig::Keywords::ShowOnAdded = "SHOW BOARD ON ADDED";
+char* WaConfig::Keywords::Delimiters = " ,.!:;[]()+-\n";
 
 static bool IsStartsWith(const char *str, const char *prefix) 
 {
@@ -93,6 +97,12 @@ EConfigReaderState WaConfig::FSM_DoFiltersState(char *line)
    }
 
    return S_FILTERS;
+}
+void WaConfig::ReadDebugSetting(char* line)
+{
+   if (IsStartsWith(line, key.ShowOnAdded)) {
+      dbg.viewBoardOnAdd = true;
+   }
 }
 
 void WaConfig::ReadHandPBN(const char* line)
@@ -211,15 +221,13 @@ EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
       return S_IDLE;
    } 
    
-   #define KEYWORD_CALS(KEY, FUNC)  if (IsStartsWith(line, key.KEY)) { FUNC(line + strlen(key.KEY)); }
-   #define KEYWORD_CALL(KEY, FUNC)  else KEYWORD_CALS(KEY, FUNC)
-   
    KEYWORD_CALS(OpMode,      ChangeOpMode)
    KEYWORD_CALL(Hand,        ReadHandPBN)
    KEYWORD_CALL(Leads,       ReadLeadCards)
    KEYWORD_CALL(Prima,       ReadPrimaScorer)
    KEYWORD_CALL(Secunda,     ReadSecundaScorer)
    KEYWORD_CALL(Postmortem,  ReadPostmortemParams)
+   KEYWORD_CALL(Debug,       ReadDebugSetting)
    else if (strlen(line) > 2) {
       SAFE_ADD(titleBrief, line);
    }
@@ -286,6 +294,7 @@ void WaConfig::ReadTask(Walrus *walrus)
             if (IsStartsWith(line, nameTask)) {
                fsm = FSM_GoInsideTask(line);
             } 
+            KEYWORD_CALL(Debug, ReadDebugSetting)
             break;
          }
 

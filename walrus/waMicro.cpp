@@ -650,15 +650,21 @@ uint WaFilter::PenaltyDoubleDiamonds(twContext* lay, const uint* par)
 
 uint WaFilter::WeakNT(twContext* lay, const uint* par)
 {
-   static uint shapeModelNT[]  = { 0, 3, 3, 4, 4 };
-   static uint shapeTricolor[] = { 0, 4, 4, 1, 4 };
+   static uint shapeModelNT_A[]  = { 0, 3, 3, 4, 3 };
+   static uint shapeModelNT_B[]  = { 0, 3, 3, 3, 4 };
+   static uint shapeTricolor[]   = { 0, 4, 4, 1, 4 };
 
    if (auto fail = PointsRange(lay, par)) {
       return fail;
    }
 
-   shapeModelNT[0] = par[0];
-   if (MIC_PASSED == ModelShape(lay, shapeModelNT)) {
+   shapeModelNT_A[0] = par[0];
+   if (MIC_PASSED == ModelShape(lay, shapeModelNT_A)) {
+      return MIC_PASSED;
+   }
+
+   shapeModelNT_B[0] = par[0];
+   if (MIC_PASSED == ModelShape(lay, shapeModelNT_B)) {
       return MIC_PASSED;
    }
 

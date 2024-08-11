@@ -69,9 +69,9 @@ void Walrus::SemanticsToOrbitFixedHand(void)
       sem.vecFilters = config.filtersLoaded;
    }
 
-#ifdef DBG_VIEW_ON_ADD
-   sem.onBoardAdded = &MiniUI::DisplayBoard;
-#endif
+   if (config.dbg.viewBoardOnAdd) {
+      sem.onBoardAdded = &MiniUI::DisplayBoard;
+   }
 
 #ifdef FIXED_HAND_WEST
    sem.onScanCenter = &Walrus::Scan3FixedWest;
