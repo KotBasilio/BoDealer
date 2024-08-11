@@ -28,12 +28,8 @@
 #endif 
 
 #ifdef SEM_MAY24_TENS_AND_NINES
-   #define TITLE_VERSION  "Fix a 10 hcp 3343;\n1c p 1NT\n2nt p ??\nQuestion: pass or 3NT?"
    #define SEEK_BIDDING_LEVEL
-   #define IO_HCP_MIN  24
-   #define IO_HCP_MAX  25
-   #define INPUT_TRUMPS    SOL_NOTRUMP
-   #define INPUT_ON_LEAD   EAST
+   #define SEM_ORBITING_FIXED_HAND
 #endif 
 
 #ifdef SEM_MAR24_5C_OR_3NT

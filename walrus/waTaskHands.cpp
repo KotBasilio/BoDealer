@@ -15,11 +15,6 @@
 // --------------------------------------------------------------------------------
 // input
 
-#ifdef SEM_MAY24_TENS_AND_NINES
-   char const taskHandPBN[] = "[N:JT6.KJ6.KJT7.J97]";
-  // char const taskHandPBN[] = "[N:JT9.KJT.KJT9.JT9]";
-#endif 
-
 #ifdef SEM_MAR24_5C_OR_3NT
    #define INPUT_TRUMPS    SOL_CLUBS
    #define INPUT_ON_LEAD   WEST

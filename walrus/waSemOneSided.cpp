@@ -291,35 +291,3 @@ void Walrus::FillSemantic(void)
 }
 #endif
 
-#ifdef SEM_MAY24_TENS_AND_NINES
-void Walrus::FillSemantic(void)
-{
-   SemanticsToOrbitFixedHand();
-   sem.SetOurPrimaryScorer  (cumulScore, "V3N ");
-   sem.SetOurSecondaryScorer(cumulScore, "V2N ");
-   sem.onPostmortem = &Walrus::PostmortemHCP;
-   sem.vecFilters.clear();
-   ADD_2PAR_FILTER(SOUTH, PointsRange, 14, 15);
-   ADD_2PAR_FILTER(SOUTH, ControlsRange, 2, 6);
-   ADD_2PAR_FILTER(SOUTH, SpadesLen, 2, 4);
-   ADD_2PAR_FILTER(SOUTH, HeartsLen, 2, 4);
-   ADD_2PAR_FILTER(SOUTH, ClubsLen, 2, 5);
-   ADD_2PAR_FILTER(SOUTH, DiamondsLen, 1, 5);
-
-   ADD_0PAR_FILTER(SOUTH, ExcludeCombination);
-      ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
-         ADD_2PAR_FILTER(SOUTH, PointsRange, 15, 15);
-         ADD_2PAR_FILTER(SOUTH, ControlsRange, 6, 6);
-      ADD_0PAR_FILTER(SOUTH, EndList);
-      ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
-         ADD_2PAR_FILTER(SOUTH, ClubsLen, 5, 5);
-         ADD_2PAR_FILTER(SOUTH, DiamondsLen, 5, 5);
-      ADD_0PAR_FILTER(SOUTH, EndList);
-   ADD_0PAR_FILTER(SOUTH, EndList);
-
-   ADD_0PAR_FILTER(WEST, NoOvercall);
-   ADD_0PAR_FILTER(EAST, NoOvercall);
-
-   ADD_0PAR_FILTER(SOUTH, NoPrecision2C);
-}
-#endif

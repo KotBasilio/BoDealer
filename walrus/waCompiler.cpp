@@ -43,7 +43,9 @@ static HandFilter ExportedHandFilters[] = {
 
    DESCRIBE_FILTER(ExactShape, 4),
    DESCRIBE_FILTER(ModelShape, 4),
+   DESCRIBE_FILTER(StrongNT, 2),
    DESCRIBE_FILTER(WeakNT, 2),
+   DESCRIBE_FILTER(WeakGroup, 2),
 
    DESCRIBE_FILTER(SpadesLen, 2),
    DESCRIBE_FILTER(HeartsLen, 2),

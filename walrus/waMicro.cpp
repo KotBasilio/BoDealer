@@ -648,10 +648,28 @@ uint WaFilter::PenaltyDoubleDiamonds(twContext* lay, const uint* par)
    return MIC_PASSED;
 }
 
+// normal basic shapes including 5332 with a minor
+static uint shapeModelNT_A[]  = { 0, 3, 3, 4, 3 };
+static uint shapeModelNT_B[]  = { 0, 3, 3, 3, 4 };
+
+uint WaFilter::StrongNT(twContext* lay, const uint* par)
+{
+   if (auto fail = PointsRange(lay, par)) {
+      return fail;
+   }
+
+   shapeModelNT_A[0] = par[0];
+   if (MIC_PASSED == ModelShape(lay, shapeModelNT_A)) {
+      return MIC_PASSED;
+   }
+
+   shapeModelNT_B[0] = par[0];
+   return ModelShape(lay, shapeModelNT_B);
+}
+
 uint WaFilter::WeakNT(twContext* lay, const uint* par)
 {
-   static uint shapeModelNT_A[]  = { 0, 3, 3, 4, 3 };
-   static uint shapeModelNT_B[]  = { 0, 3, 3, 3, 4 };
+   // we open weak NT also with =4414 systemically
    static uint shapeTricolor[]   = { 0, 4, 4, 1, 4 };
 
    if (auto fail = PointsRange(lay, par)) {
@@ -671,3 +689,10 @@ uint WaFilter::WeakNT(twContext* lay, const uint* par)
    shapeTricolor[0] = par[0];
    return ExactShape(lay, shapeTricolor);
 }
+
+uint WaFilter::WeakGroup(twContext* lay, const uint* par)
+{
+   // Polsih Clubs 1c weak group has the same shapes as weak-NT
+   return WeakNT(lay, par);
+}
+

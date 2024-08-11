@@ -2,17 +2,52 @@ The main selector in this config
 is a line that starts with "TASK NAME".
 So we can comment out them easily at the line start
 
+Competitive:
 //TASK NAME:AUG_TRICOLOR_OVER_OPP_3S
 //TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
-//TASK NAME:JUN24_LEAD_AK
 
 One sided:
-TASK NAME:MAY24_GLADIATOR
 //TASK NAME:MAY24_TRHEE_SUITED_BALANCE
+//TASK NAME:MAY24_GLADIATOR
+TASK NAME:MAY24_TENS_AND_NINES
+
+Leads:
+//TASK NAME:JUN24_LEAD_AK
 
 //DEBUG: SHOW BOARD ON ADDED
 //OPMODE: SEMI_STRAY
 //OPMODE: DEMO_STATISTICS
+
+-----------------------------------------------------------------------------------------------------------------------
+MAY24_TENS_AND_NINES Fix a 10 hcp 3343;
+   1c(14-16)  p 1NT p
+   2nt        p ??
+   
+Question: pass or 3NT?
+
+HAND: N:JT6.KJ6.KJT7.J97
+PRIMARY SCORER: V3N  BY NORTH
+POSTMORTEM: HCP 24, 25
+
+FILTERS:
+    SOUTH: WeakGroup, 14, 15
+    SOUTH: ControlsRange, 2, 6
+    
+    WEST: NoOvercall
+    EAST: NoOvercall
+
+    SOUTH: ExcludeCombination
+       SOUTH: AnyInListBelow {
+          SOUTH: PointsRange, 15, 15
+          SOUTH: ControlsRange, 6, 6
+       }
+       SOUTH: AnyInListBelow {
+          SOUTH: ClubsLen, 5, 5
+          SOUTH: DiamondsLen, 5, 5
+       }
+    }
+
+    SOUTH: NoPrecision2C
 
 -----------------------------------------------------------------------------------------------------------------------
 MAY24_GLADIATOR Fix a 7 hcp 5323;
@@ -199,8 +234,9 @@ FILTERS:
 ENDF
 
 -----------------------------------------------------------------------------------------------------------------------
-more stuff 
-
+(a pattern)
+HAND: N:...
+PRIMARY SCORER:  BY 
 FILTERS:
    SOUTH: PointsRange 14, 15
    SOUTH: ControlsRange 2, 6
@@ -212,6 +248,5 @@ FILTERS:
    NORTH: PointsRange 2, 15
    NORTH: ClubsLen 3, 6
    NORTH: HeartsLen 3, 4
-ENDF
 
 -- config end.

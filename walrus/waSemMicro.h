@@ -24,7 +24,9 @@ public:
    uint ControlsRange(twContext* lay, const uint* par);
    uint KeyCardsRange(twContext* lay, const uint* par);
    // -
+   uint StrongNT(twContext* lay, const uint *par);
    uint WeakNT(twContext* lay, const uint *par);
+   uint WeakGroup(twContext* lay, const uint *par);
    // -
    uint LineControlsRange(twContext* lay, const uint* par);
    uint LineAcesRange(twContext* lay, const uint* par);
