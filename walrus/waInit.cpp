@@ -220,12 +220,22 @@ void Semantics::SetSecondaryScorer(CumulativeScore &cs, s64& target, const char*
 
 void Semantics::SetOurSecondaryScorer(CumulativeScore &cs, const char* code)
 {
-   SetSecondaryScorer(cs, cs.ourOther, code);
+   if (isInitSuccess) {
+      SetSecondaryScorer(cs, cs.ourOther, code);
+      if (!isInitSuccess) {
+         printf("Semantics ERROR: the task suggest having our second scorer.\n");
+      }
+   }
 }
 
 void Semantics::SetTheirScorer(CumulativeScore& cs, const char* code)
 {
-   SetSecondaryScorer(cs, cs.oppContract, code);
+   if (isInitSuccess) {
+      SetSecondaryScorer(cs, cs.oppContract, code);
+      if (!isInitSuccess) {
+         printf("Semantics ERROR: the task suggest having their scorer.\n");
+      }
+   }
 }
 
 void Semantics::SetBiddingGameScorer(CumulativeScore& cs, const char* code)
