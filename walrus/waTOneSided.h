@@ -8,8 +8,6 @@
 
    #define SCORE_THE_OTHER_CONTRACT
    #define THE_OTHER_IS_OURS
-   #define OC_TRUMPS       SOL_NOTRUMP
-   #define OC_ON_LEAD      WEST
 
    #define SHOW_OPP_RESULTS
    #define SHOW_OPPS_ON_PASS_ONLY
@@ -25,10 +23,8 @@
 #endif 
 
 #ifdef SEM_MAY24_GLADIATOR
-   #define TITLE_VERSION  "Fix a 7 hcp 5323;\n1d 1s\n2nt ??\nQuestion: pass or 3NT?"
    #define SEEK_BIDDING_LEVEL
-   #define IO_HCP_MIN  23
-   #define IO_HCP_MAX  25
+   #define SEM_ORBITING_FIXED_HAND
 #endif 
 
 #ifdef SEM_MAY24_TENS_AND_NINES

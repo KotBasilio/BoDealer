@@ -18,7 +18,7 @@
 //#define SEMANTIC_1C_P_1H_2D_2H_MAR
 //#define SEM_MAR24_5C_OR_3NT
 //#define SEM_MAY24_TENS_AND_NINES
-//#define SEM_MAY24_GLADIATOR
+#define SEM_MAY24_GLADIATOR
 //#define SEM_MAY24_TRHEE_SUITED_BALANCE
 
 // Bidding decision competitive:
@@ -29,7 +29,7 @@
 //#define SEM_DU_MAR_1C_X_XX_1H_ETC_MAR
 //#define SEM_MIX_MAR24_INVITE_4S
 //#define SEM_AUG_PREEMPTIVE_ON_PART_1H
-#define SEM_AUG_TRICOLOR_OVER_OPP_3S
+//#define SEM_AUG_TRICOLOR_OVER_OPP_3S
 
 // Opening lead:
 //#define SEM_JUN24_LEAD_AK

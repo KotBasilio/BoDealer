@@ -2,17 +2,42 @@ The main selector in this config
 is a line that starts with "TASK NAME".
 So we can comment out them easily at the line start
 
-TASK NAME:AUG_TRICOLOR_OVER_OPP_3S
+//TASK NAME:AUG_TRICOLOR_OVER_OPP_3S
 //TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
 //TASK NAME:JUN24_LEAD_AK
+
+One sided:
+TASK NAME:MAY24_GLADIATOR
 //TASK NAME:MAY24_TRHEE_SUITED_BALANCE
-//TASK NAME:some old one
-//TASK NAME:also not actual
 
 //DEBUG: SHOW BOARD ON ADDED
-
 //OPMODE: SEMI_STRAY
-OPMODE: DEMO_STATISTICS
+//OPMODE: DEMO_STATISTICS
+
+-----------------------------------------------------------------------------------------------------------------------
+MAY24_GLADIATOR Fix a 7 hcp 5323;
+Bidding from part (S): 
+   1d 1s
+   2nt ??
+Other hand example S:5.KJ4.AKQJ73.Q74
+Question: pass or 3NT?
+
+HAND: N:KT965.A64.73.T74
+
+PRIMARY SCORER: V3N  BY SOUTH
+POSTMORTEM: HCP 20, 24
+
+FILTERS:
+   SOUTH, PointsRange, 14, 16
+   SOUTH, DiamondsLen, 6, 6
+   SOUTH, SpadesLen, 0, 2
+
+   WEST, NoOvercall
+   EAST, NoOvercall
+
+   SOUTH, PointsSuitAtLeast, DMD, 7
+   SOUTH, HeartsLen, 0, 4
+   SOUTH, ClubsLen, 0, 4
 
 -----------------------------------------------------------------------------------------------------------------------
 AUG_TRICOLOR_OVER_OPP_3S Fix 12 HCP 0544;

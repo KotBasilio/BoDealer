@@ -323,24 +323,3 @@ void Walrus::FillSemantic(void)
    ADD_0PAR_FILTER(SOUTH, NoPrecision2C);
 }
 #endif
-
-#ifdef SEM_MAY24_GLADIATOR
-void Walrus::FillSemantic(void)
-{
-   SemanticsToOrbitFixedHand();
-   sem.SetBiddingGameScorer(cumulScore, "V3N ");
-   sem.onPostmortem = &Walrus::PostmortemHCP;
-   sem.vecFilters.clear();
-   ADD_2PAR_FILTER(SOUTH, PointsRange, 14, 16);
-   //ADD_2PAR_FILTER(SOUTH, ControlsRange, 2, 6);
-   ADD_2PAR_FILTER(SOUTH, SpadesLen, 0, 2);
-   ADD_2PAR_FILTER(SOUTH, DiamondsLen, 6, 6);
-   ADD_2PAR_FILTER(SOUTH, PointsSuitAtLeast, DMD, 7);
-   ADD_2PAR_FILTER(SOUTH, HeartsLen, 0, 4);
-   ADD_2PAR_FILTER(SOUTH, ClubsLen, 0, 4);
-
-   //ADD_0PAR_FILTER(WEST, NoOvercall);
-   //ADD_0PAR_FILTER(EAST, NoOvercall);
-}
-#endif
-

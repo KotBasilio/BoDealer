@@ -357,13 +357,8 @@ private:
    CompilerContext& ctx;
    static const char* delimiters;
 
-   bool TryAcceptNumber()
+   bool StoreParsedArgument(int number)
    {
-      if (!IsDigitsOnly(token)) {
-         return false;
-      }
-
-      int number = atoi(token);
       ctx.AddArg(number);
       ctx.AddText(token);
       argsLeftExpected--;
@@ -371,13 +366,31 @@ private:
       return true;
    }
 
+   bool TryAcceptNumber()
+   {
+      if (!IsDigitsOnly(token)) {
+         return false;
+      }
+
+      int number = atoi(token);
+      return StoreParsedArgument(number);
+   }
+
    bool TryAcceptSuit()
    {
-      // TODO -- accept suits:
-      //#define SPD SOL_SPADES
-      //#define HRT SOL_HEARTS
-      //#define DMD SOL_DIAMONDS
-      //#define CLB SOL_CLUBS
+      if (IsToken("SPD")) {
+         return StoreParsedArgument(SOL_SPADES);
+      } 
+      if (IsToken("HRT")) {
+         return StoreParsedArgument(SOL_HEARTS);
+      } 
+      if (IsToken("DMD")) {
+         return StoreParsedArgument(SOL_DIAMONDS);
+      } 
+      if (IsToken("CLB")) {
+         return StoreParsedArgument(SOL_CLUBS);
+      }
+
       return false;
    }
 };
