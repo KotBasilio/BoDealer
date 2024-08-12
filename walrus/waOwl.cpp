@@ -332,7 +332,7 @@ static void FillVScreen(const deal& dl)
 
    // add HCP and controls
    uint ctrl;
-   sprintf(viscr[DDS_STATS_LINE  ] + DDS_STATS_OFFSET, "HCP : %d", WaCalcHCP(dl, ctrl));
+   sprintf(viscr[DDS_STATS_LINE  ] + DDS_STATS_OFFSET, "HCP : %d", CalcNSLineHCP(dl, ctrl));
    sprintf(viscr[DDS_STATS_LINE+1] + DDS_STATS_OFFSET, "CTRL: %d", ctrl);
 }
 

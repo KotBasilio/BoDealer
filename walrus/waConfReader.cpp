@@ -38,6 +38,8 @@ char* WaConfig::Keywords::Filters = "FILTERS:";
 char* WaConfig::Keywords::TEnd = "--------";
 char* WaConfig::Keywords::Debug = "DEBUG: ";
 char* WaConfig::Keywords::ShowOnAdded = "SHOW BOARD ON ADDED";
+char* WaConfig::Keywords::ShowOnReconstructed = "SHOW RECONSTRUCTED";
+char* WaConfig::Keywords::VerboseCompile = "VERBOSE COMPILING";
 char* WaConfig::Keywords::Delimiters = " ,.!:;[]()+-\n";
 
 static bool IsStartsWith(const char *str, const char *prefix) 
@@ -102,6 +104,12 @@ void WaConfig::ReadDebugSetting(char* line)
 {
    if (IsStartsWith(line, key.ShowOnAdded)) {
       dbg.viewBoardOnAdd = true;
+   }
+   if (IsStartsWith(line, key.ShowOnReconstructed)) {
+      dbg.viewBoardOnReconstruct = true;
+   }
+   if (IsStartsWith(line, key.VerboseCompile)) {
+      dbg.verboseCompile = true;
    }
 }
 

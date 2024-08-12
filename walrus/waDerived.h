@@ -11,7 +11,6 @@
 #ifdef DETAILED_LEADS
    #define SEM_ORBITING_FIXED_HAND
    #define FIXED_HAND_WEST
-   #define PARAM_SOLUTIONS_DDS   3
 #endif
 
 // Algorithm details --- how to solve and what to seek
@@ -89,14 +88,6 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
       #define ANSWER_ROW_IDX  0
    #endif
 #endif // PERCENTAGES_IN_ANSWER_ROW
-
-// DOC: solutions parameter
-// 1 -- Find the maximum number of tricks for the side to play. Return only one of the optimum cards and its score.
-// 2 -- Find the maximum number of tricks for the side to play. Return all optimum cards and their scores.
-// 3 -- Return all cards that can be legally played, with their scores in descending order.
-#ifndef PARAM_SOLUTIONS_DDS
-   #define PARAM_SOLUTIONS_DDS   1
-#endif
 
 // -----------------------------------------------------------------
 // --- Iterations count

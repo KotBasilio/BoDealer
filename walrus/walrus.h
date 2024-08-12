@@ -104,8 +104,9 @@ protected:
     void ScoreWithSecondary(DdsTricks &tr);
     void AddScorerValues(char* tail);
     void HitByTricks(DdsTricks &tr, uint made, uint row = IO_ROW_OUR_DOWN);
-    void PostmortemHCP(DdsTricks& tr, deal& cards);
-    void PostmortemSuit(DdsTricks& tr, deal& cards);
+    void AddMarksByHCP(DdsTricks& tr, deal& cards);
+    void AddMarksByOpLeads(DdsTricks& tr, deal& cards);
+    void AddMarksBySuit(DdsTricks& tr, deal& cards);
 
     // UI, progress and reports
     MiniUI ui;

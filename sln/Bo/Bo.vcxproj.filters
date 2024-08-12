@@ -171,7 +171,7 @@
     <ClCompile Include="..\..\walrus\waScore.cpp">
       <Filter>Source Files\walrus\Scoring</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\walrus\waSCumul.cpp">
+    <ClCompile Include="..\..\walrus\waMarks.cpp">
       <Filter>Source Files\walrus\Scoring</Filter>
     </ClCompile>
     <ClCompile Include="..\..\walrus\waShuffle.cpp">

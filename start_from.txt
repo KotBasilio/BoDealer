@@ -14,9 +14,11 @@ One sided:
 Leads:
 TASK NAME:JUN24_LEAD_AK
 
-//DEBUG: SHOW BOARD ON ADDED
 //OPMODE: SEMI_STRAY
 //OPMODE: DEMO_STATISTICS
+//DEBUG: SHOW BOARD ON ADDED
+//DEBUG: SHOW RECONSTRUCTED
+//DEBUG: VERBOSE COMPILING
 
 -----------------------------------------------------------------------------------------------------------------------
 MAY24_TENS_AND_NINES Fix a 10 hcp 3343;

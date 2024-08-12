@@ -103,7 +103,6 @@ void CumulativeScore::OpeningLead(DdsTricks &tr)
    leadH += prima.Get(tr.lead.H);
    leadD += prima.Get(tr.lead.D);
    leadC += prima.Get(tr.lead.C);
-
 }
 
 int CumulativeScore::LineScorer::Goal() const

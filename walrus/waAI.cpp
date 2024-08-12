@@ -70,7 +70,7 @@ void Walrus::SolveOneChunk(uint chunkStartIdx, uint boardsCount)
       DdsDeal dl(*sem.dlBase, mul.arrToSolve[chunkStartIdx + i]);
       _chunkBoards.deals[i] = dl.dl;
       _chunkBoards.target[i] = -1;
-      _chunkBoards.solutions[i] = PARAM_SOLUTIONS_DDS;
+      _chunkBoards.solutions[i] = config.ddsSolutions;
       _chunkBoards.mode[i] = 0;
    }
 
@@ -114,11 +114,9 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
       DdsTricks tr; tr.Init(fut);
       deal& cards(bo.deals[handno]);
 
-      // pass to basic statistics
+      // pass to statistics. any extra marks are on postmortem
       HitByTricks(tr, config.prim.goal);
       ScoreWithPrimary(tr);
-
-      // some detailed postmortem is possible
       (this->*sem.onPostmortem)(tr, cards);
 
       // ui

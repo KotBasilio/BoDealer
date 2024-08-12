@@ -79,6 +79,7 @@ void Walrus::SemanticsToOrbitFixedHand(void)
 
    if (config.postm.Is(WPM_OPENING_LEADS)) {
       sem.SetOpeningLeadScorer(cumulScore, config.primaScorerCode);
+      sem.onPostmortem = &Walrus::AddMarksByOpLeads;
    }
 
 #ifdef SEEK_DECISION_COMPETE
@@ -93,7 +94,7 @@ void Walrus::SemanticsToOrbitFixedHand(void)
    // hcp / ctrl postmortems
    if (config.postm.Is(WPM_HCP)) {
       if (config.postm.minHCP != config.postm.maxHCP) {
-         sem.onPostmortem = &Walrus::PostmortemHCP;
+         sem.onPostmortem = &Walrus::AddMarksByHCP;
       }
    }
 }
@@ -167,7 +168,7 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
       cards.trump = config.secondary.trump;
       cards.first = TWICE_ON_LEAD_INSPECT;
       target = -1;
-      res = SolveBoard(cards, target, solutions, mode, &futTheirs, threadIndex);
+      res = SolveBoard(cards, target, config.ddsSolutions, mode, &futTheirs, threadIndex);
       if (res != RETURN_NO_FAULT) {
          HandleErrorDDS(cards, res);
          return;
@@ -199,12 +200,11 @@ bool Walrus::Orb_ApproveByFly(deal& cards)
       // solve for the fly
       futureTricks fut;
       int target = -1;
-      int solutions = PARAM_SOLUTIONS_DDS;
       int mode = 0;
       int threadIndex = 0;
       deal flyDeal = cards;
       flyDeal.trump = config.secondary.trump;
-      int res = SolveBoard(flyDeal, target, solutions, mode, &fut, threadIndex);
+      int res = SolveBoard(flyDeal, target, config.ddsSolutions, mode, &fut, threadIndex);
       if (res != RETURN_NO_FAULT) {
          HandleErrorDDS(flyDeal, res);
          return false;

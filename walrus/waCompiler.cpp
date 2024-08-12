@@ -407,7 +407,9 @@ const char* Parser::delimiters = " ,.!:;(){";
 bool Semantics::CompileOneLine(CompilerContext &ctx)
 {
    // prepare
-   //printf("Line %2d: %s\n", ctx.idxLine + 1, ctx.line);
+   if (config.dbg.verboseCompile) {
+      printf("Line %2d: %s\n", ctx.idxLine + 1, ctx.line);
+   }
    EParserState fsmState = PS_IDLE;
 
    // parse all tokens
@@ -478,8 +480,6 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
    return parser.Fail("Unexpected end of line");
 }
 
-//#define DBG_REPORT_SIZES
-
 void WaConfig::BuildNewFilters(Walrus *walrus)
 {
    if (IsInitFailed()) {
@@ -490,12 +490,12 @@ void WaConfig::BuildNewFilters(Walrus *walrus)
       return;
    }
 
-   #ifdef DBG_REPORT_SIZES
+   if (dbg.verboseCompile) {
       printf("A filters source code is found in the config. Passing to compiler, size is %llu of %llu.\n", 
          sizeSourceCode, sizeof(sourceCodeFilters));
-   #else
+   } else {
       printf("Compiling filters...");
-   #endif
+   }
 
    if (!walrus->sem.Compile(sourceCodeFilters, sizeSourceCode, filtersLoaded)) {
       isInitSuccess = false;

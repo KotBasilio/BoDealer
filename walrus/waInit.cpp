@@ -84,6 +84,14 @@ WaConfig::WaConfig()
    secLongName[0] = 0;
    sourceCodeFilters[0] = 0;
    nameTask[0] = 0;
+
+   // DOC: solutions parameter
+   // 1 -- Find the maximum number of tricks for the side to play. Return only one of the optimum cards and its score.
+   // 2 -- Find the maximum number of tricks for the side to play. Return all optimum cards and their scores.
+   // 3 -- Return all cards that can be legally played, with their scores in descending order.
+   #ifdef DETAILED_LEADS
+      ddsSolutions = 3;
+   #endif
 }
 
 void Walrus::AllocFilteredTasksBuf()

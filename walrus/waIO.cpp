@@ -329,7 +329,7 @@ static const char *s_LeadNames[] = {
 void Walrus::ShowDetailedReportOpLeads()
 {
    UpdateFarColumnUI();
-   owl.Silent("\nA split of board results by a suit of an OPENING LEAD:\n");
+   owl.Silent("\nA split of board results by opening leads:\n");
 
    // for mid-rows
    u64 prevSum = 0;

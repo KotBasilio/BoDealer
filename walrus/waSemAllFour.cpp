@@ -28,7 +28,7 @@ void Walrus::FillSemantic(void)
 {
    FourHandsFillSem();
    sem.onSinglePrimary = &Walrus::Score_NV6Major;
-   sem.onPostmortem = &Walrus::PostmortemHCP;
+   sem.onPostmortem = &Walrus::AddMarksByHCP;
    sem.vecFilters.clear();
    ADD_4PAR_FILTER( NORTH, ExactShape, 4, 4, 4, 1);
    ADD_2PAR_FILTER( SOUTH, SpadesLen, 5, 6);
@@ -55,7 +55,7 @@ void Walrus::FillSemantic(void)
 {
    FourHandsFillSem();
    sem.onSinglePrimary = &Walrus::Score_3NT;
-   sem.onPostmortem = &Walrus::PostmortemHCP;
+   sem.onPostmortem = &Walrus::AddMarksByHCP;
    sem.vecFilters.clear();
    ADD_4PAR_FILTER(NORTH, ModelShape, 3, 3, 3, 4);
    ADD_4PAR_FILTER(SOUTH, ModelShape, 3, 3, 4, 3);
@@ -73,7 +73,7 @@ void Walrus::FillSemantic(void)
 {
    FourHandsFillSem();
    sem.onSinglePrimary = &Walrus::Score_NV6NoTrump;
-   sem.onPostmortem = &Walrus::PostmortemHCP;
+   sem.onPostmortem = &Walrus::AddMarksByHCP;
    sem.vecFilters.clear();
    ADD_4PAR_FILTER(NORTH, ModelShape, 3, 3, 3, 4);
    ADD_4PAR_FILTER(SOUTH, ModelShape, 3, 3, 4, 3);
@@ -94,7 +94,7 @@ void Walrus::FillSemantic(void)
 {
    FourHandsFillSem();
    sem.onSinglePrimary = &Walrus::Score_3NT;
-   sem.onPostmortem = &Walrus::PostmortemHCP;
+   sem.onPostmortem = &Walrus::AddMarksByHCP;
    sem.vecFilters.clear();
    ADD_4PAR_FILTER(NORTH, ModelShape, 3, 3, 3, 4);
    ADD_4PAR_FILTER(SOUTH, ModelShape, 3, 3, 4, 3);
@@ -118,7 +118,7 @@ void Walrus::FillSemantic(void)
    sem.onSinglePrimary = &Walrus::Score_2M;
    sem.onSinglePrimary = &Walrus::Score_4Major;
    sem.onSinglePrimary = &Walrus::Score_3NT;
-   sem.onPostmortem = &Walrus::PostmortemHCP;
+   sem.onPostmortem = &Walrus::AddMarksByHCP;
    sem.vecFilters.clear();
    ADD_4PAR_FILTER(NORTH, ExactShape, 5, 3, 3, 2);
    //ADD_2PAR_FILTER(NORTH, PointsRange, 9, 9);
@@ -142,8 +142,8 @@ void Walrus::FillSemantic(void)
    FourHandsFillSem();
    sem.onSinglePrimary = &Walrus::Score_NV_4Major;
    //sem.onSinglePrimary = &Walrus::Score_4Major;
-   sem.onPostmortem = &Walrus::PostmortemHCP;
-   //sem.onPostmortem = &Walrus::PostmortemSuit;
+   sem.onPostmortem = &Walrus::AddMarksByHCP;
+   //sem.onPostmortem = &Walrus::AddMarksBySuit;
    sem.vecFilters.clear();
    ADD_4PAR_FILTER(SOUTH, ExactShape, 4, 4, 3, 2);
 
@@ -179,8 +179,8 @@ void Walrus::FillSemantic(void)
    FourHandsFillSem();
 
    sem.onSinglePrimary = &CumulativeScore::Our4M;
-   sem.onPostmortem = &Walrus::PostmortemHCP;
-   sem.onPostmortem = &Walrus::PostmortemSuit;
+   sem.onPostmortem = &Walrus::AddMarksByHCP;
+   sem.onPostmortem = &Walrus::AddMarksBySuit;
    sem.vecFilters.clear();
 
    ADD_4PAR_FILTER(NORTH, ExactShape, 4, 2, 4, 3);
@@ -219,7 +219,7 @@ void Walrus::FillSemantic(void)
     FourHandsFillSem();
 
     sem.onSinglePrimary = &CumulativeScore::Our4M;
-    sem.onPostmortem = &Walrus::PostmortemHCP;
+    sem.onPostmortem = &Walrus::AddMarksByHCP;
     sem.vecFilters.clear();
 
     // prototype [N:83.QJ874.A5.A965]

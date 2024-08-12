@@ -101,6 +101,7 @@ struct WaConfig {
    };
    Contract prim;      // our primary contract
    Contract secondary; // either our secondary contract or their contract
+   int ddsSolutions = 1;
 
    // cards to lead for WPM_OPENING_LEADS
    struct Leads {
@@ -121,6 +122,8 @@ struct WaConfig {
    // debug options
    struct Debug {
       bool viewBoardOnAdd = false;
+      bool viewBoardOnReconstruct = false;
+      bool verboseCompile = false;
    } dbg;
 
    WaConfig();
@@ -160,6 +163,8 @@ private:
       static char* Delimiters;
       static char* Debug;
       static char* ShowOnAdded;
+      static char* ShowOnReconstructed;
+      static char* VerboseCompile;
    } key;
 };
 
