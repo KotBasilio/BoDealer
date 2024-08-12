@@ -338,14 +338,12 @@ void Walrus::DisplayGraphStatData(int idx)
    PictureTricksFrequences();
 }
 
-
-
 void Walrus::ShowAdvancedStatistics(int idx)
 {
    if (!ui.advancedStatistics) {
       return;
    }
-   int hcp = config.postm.HcpFromRow(idx);
+   int factor = config.postm.FactorFromRow(idx);
 
    // we get two lines that represent frequences in walrus-format
    //   idx for making contract
@@ -355,13 +353,22 @@ void Walrus::ShowAdvancedStatistics(int idx)
    AddMadeContracts(idx);
    AddSetContracts(idx - 1);
    if (ui.allStatGraphs) {
-      PictureTricksFrequences(hcp);
+      if (config.postm.Is(WPM_HCP)) {
+         PictureTricksFrequences(factor);
+      }
    }
    CalcAndDisplayStatistics(":");
 
-   // not the last line => done
-   if (hcp < config.postm.maxHCP) {
-      return;
+   // ensure we want to display overall
+   if (config.postm.Is(WPM_HCP)) {
+      if (factor < config.postm.maxHCP) {// not the last line
+         return;
+      }
+   }
+   if (config.postm.Is(WPM_OPENING_LEADS)) {
+      if (factor < SOL_CLUBS) {
+         return;
+      }
    }
 
    // it's time to display overall

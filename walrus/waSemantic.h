@@ -69,7 +69,7 @@ struct Progress {
    ucell GetDiscardedBoardsCount();
    ucell PeekByIPR(uint ip, uint reason) { return CellByIPR(ip, reason); }
    // -- on solving
-   void HitByTricks(uint amount, uint made, uint row = IO_ROW_OUR_BASE, bool isExtraMark = false);
+   void HitByTricks(uint amount, uint made, uint row, bool isExtraMark = true);
    void SolvedExtraMark(uint row, uint col);
 private:
    ucell hitsCount[HITS_LINES_SIZE][HITS_COLUMNS_SIZE];

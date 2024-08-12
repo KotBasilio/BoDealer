@@ -60,7 +60,7 @@ WaConfig::Postmortem::Postmortem()
 {
 }
 
-int WaConfig::Postmortem::HcpFromRow(int idx)
+int WaConfig::Postmortem::FactorFromRow(int idx)
 {
     return (idx - IO_ROW_POSTMORTEM) / 2 + minHCP;
 }

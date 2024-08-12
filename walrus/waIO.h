@@ -115,7 +115,7 @@ struct WaConfig {
       int            minControls;
       Postmortem();
       bool Is(WA_POSTM_TYPE t) { return (t == reportType); }
-      int  HcpFromRow(int idx);
+      int  FactorFromRow(int idx);
    } postm;
    int   postmSuit, postmHand; 
 

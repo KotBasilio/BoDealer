@@ -67,7 +67,7 @@ void Walrus::AddMarksByHCP(DdsTricks& tr, deal& cards)
 
    // proper row => add a mark in stat
    if (row < IO_ROW_FILTERING - 1) {
-      progress.HitByTricks(tr.plainScore, config.prim.goal, row, true);
+      progress.HitByTricks(tr.plainScore, config.prim.goal, row);
    }
 }
 
@@ -93,12 +93,15 @@ void Walrus::AddMarksBySuit(DdsTricks& tr, deal& cards)
 
    // proper row => add a mark in stat
    if (row < IO_ROW_FILTERING - 1) {
-      progress.HitByTricks(tr.plainScore, config.prim.goal, row, true);
+      progress.HitByTricks(tr.plainScore, config.prim.goal, row);
    }
 }
 
 void Walrus::AddMarksByOpLeads(DdsTricks& tr, deal& cards)
 {
    uint row = IO_ROW_POSTMORTEM;
-   auto suitHCP = CalcSuitHCP(cards, config.postmHand);
+   progress.HitByTricks(tr.lead.S, config.prim.goal, row); row += 2;
+   progress.HitByTricks(tr.lead.H, config.prim.goal, row); row += 2;
+   progress.HitByTricks(tr.lead.D, config.prim.goal, row); row += 2;
+   progress.HitByTricks(tr.lead.C, config.prim.goal, row);
 }

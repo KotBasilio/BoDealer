@@ -11,5 +11,7 @@
 /sln/Bo/Walrus/x64/*
 *.o
 *.d
+*.sqlite
+.vs/*
 /sln/Bo/.vs/*
 /sln/Oscar/.vs/*
