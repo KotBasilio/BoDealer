@@ -12,8 +12,9 @@
 
  // output rows: 
  // -- we down, we make, a blank line
-constexpr uint IO_ROW_OUR_DOWN   = 0;
-constexpr uint IO_ROW_OUR_MADE   = IO_ROW_OUR_DOWN + 1;
+constexpr uint IO_ROW_OUR_BASE   = 0;
+constexpr uint IO_ROW_OUR_DOWN   = IO_ROW_OUR_BASE;
+constexpr uint IO_ROW_OUR_MADE   = IO_ROW_OUR_BASE + 1;
 // -- they down, they make
 constexpr uint IO_ROW_CONTRACT_B = IO_ROW_OUR_MADE + 2;
 constexpr uint IO_ROW_THEIRS     = IO_ROW_CONTRACT_B;
@@ -21,7 +22,7 @@ constexpr uint IO_ROW_THEIRS     = IO_ROW_CONTRACT_B;
 constexpr uint IO_ROW_COMPARISON = IO_ROW_CONTRACT_B + 2;
 constexpr uint IO_ROW_MAGIC_FLY  = IO_ROW_COMPARISON;
 constexpr uint IO_ROW_SACRIFICE  = IO_ROW_COMPARISON;
-// -- hcp postmortem
+// -- extra marks like on hcp, controls, lead etc.
 constexpr uint IO_ROW_POSTMORTEM = 7;
 constexpr uint IO_SHIFT_FOR_EXTRA_MARKS = 27;
 // -- filtering
@@ -68,7 +69,7 @@ struct Progress {
    ucell GetDiscardedBoardsCount();
    ucell PeekByIPR(uint ip, uint reason) { return CellByIPR(ip, reason); }
    // -- on solving
-   void SolvedNormalMark(uint row, uint col);
+   void HitByTricks(uint amount, uint made, uint row = IO_ROW_OUR_BASE, bool isExtraMark = false);
    void SolvedExtraMark(uint row, uint col);
 private:
    ucell hitsCount[HITS_LINES_SIZE][HITS_COLUMNS_SIZE];

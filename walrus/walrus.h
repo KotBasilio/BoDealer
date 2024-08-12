@@ -98,19 +98,18 @@ protected:
     u64  Sum3rdHand();
     Semantics &sem;
 
-    // scoring
+    // scoring & progress
     CumulativeScore cumulScore;
     void ScoreWithPrimary(DdsTricks &tr);
     void ScoreWithSecondary(DdsTricks &tr);
     void AddScorerValues(char* tail);
-    void HitByTricks(DdsTricks &tr, uint made, uint row = IO_ROW_OUR_DOWN);
+    Progress progress;
     void AddMarksByHCP(DdsTricks& tr, deal& cards);
     void AddMarksByOpLeads(DdsTricks& tr, deal& cards);
     void AddMarksBySuit(DdsTricks& tr, deal& cards);
 
-    // UI, progress and reports
+    // UI progress and reports
     MiniUI ui;
-    Progress progress;
     void SummarizeFiltering();
     void ReportTime();
     void ReportAllLines();

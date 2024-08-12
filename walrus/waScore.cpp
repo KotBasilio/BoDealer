@@ -9,18 +9,6 @@
 #include "../dds-develop/include/dll.h"
 #include "../dds-develop/examples/hands.h"
 
-void Walrus::HitByTricks(DdsTricks &tr, uint made, uint row /*= IO_ROW_OUR_DOWN*/)
-{
-   uint camp = 0;
-   if (tr.plainScore >= made) {
-      row++;
-      camp = tr.plainScore - made;
-   } else {
-      camp = made - tr.plainScore - 1;
-   }
-   progress.SolvedNormalMark(row, camp);
-}
-
 CumulativeScore::LineScorer::LineScorer() 
    : linearBase(nullptr)
    , outSum(nullptr) 

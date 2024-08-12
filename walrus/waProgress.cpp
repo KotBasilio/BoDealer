@@ -461,15 +461,28 @@ ucell& Progress::CellByIPR(uint ip, uint reason)
 
 // ------ Marks on solving
 
-void Progress::SolvedNormalMark(uint row, uint col)
-{
-   hitsCount[row][col]++;
-}
-
 void Progress::SolvedExtraMark(uint row, uint col)
 {
    hitsCount[row][col]++;
    countExtraMarks++;
+}
+
+void Progress::HitByTricks(uint amount, uint made, uint row, bool isExtraMark)
+{
+   // get place
+   uint camp = 0;
+   if (amount >= made) {
+      row++;
+      camp = amount - made;
+   } else {
+      camp = made - amount - 1;
+   }
+
+   // apply
+   hitsCount[row][camp]++;
+   if (isExtraMark) {
+      countExtraMarks++;
+   }
 }
 
 
