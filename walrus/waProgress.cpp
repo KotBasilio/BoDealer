@@ -401,6 +401,7 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
       {
          case WPM_NONE:
          case WPM_OPENING_LEADS:
+            ShowDetailedReportOpLeads();
             break;
          case WPM_HCP:
          case WPM_CONTROLS:

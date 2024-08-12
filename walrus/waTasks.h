@@ -17,7 +17,7 @@
 //#define SEMANTIC_1H_1S_2H_MAR
 //#define SEMANTIC_1C_P_1H_2D_2H_MAR
 //#define SEM_MAR24_5C_OR_3NT
-#define SEM_MAY24_TENS_AND_NINES
+//#define SEM_MAY24_TENS_AND_NINES
 //#define SEM_MAY24_GLADIATOR
 //#define SEM_MAY24_TRHEE_SUITED_BALANCE
 
@@ -32,7 +32,7 @@
 //#define SEM_AUG_TRICOLOR_OVER_OPP_3S
 
 // Opening lead:
-//#define SEM_JUN24_LEAD_AK
+#define SEM_JUN24_LEAD_AK
 
 // One hand tasks:
 //#define SEMANTIC_KEYCARDS_10_12

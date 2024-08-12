@@ -127,13 +127,14 @@ protected:
     void ShowBiddingLevel(s64 sumRows);
     void ShowTheirScore(s64 doneTheirs);
     void ShowOptionalReports(s64 doneOurs, s64 doneTheirs);
-    void ShowDetailedReportHighcards();
     void AddOverallStats(int idx);
     void ShowAdvancedStatistics(int idx);
     void AddSetContracts(int idx);
     void AddMadeContracts(int idx);
     void DisplayGraphStatData(int idx);
+    void ShowDetailedReportHighcards();
     void ShowDetailedReportControls();
+    void ShowDetailedReportOpLeads();
     void ShowDetailedReportSuit();
     void ShowMiniHits(ucell* hitsRow, ucell* hitsCamp);
 

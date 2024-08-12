@@ -319,6 +319,56 @@ void Walrus::ShowDetailedReportControls()
    }
 }
 
+static const char *s_LeadNames[] = {
+   "spade lead",
+   "heart lead",
+   "diamond lead",
+   "club lead"
+};
+
+void Walrus::ShowDetailedReportOpLeads()
+{
+   UpdateFarColumnUI();
+   owl.Silent("\nA split of board results by a suit of an OPENING LEAD:\n");
+
+   // for mid-rows
+   u64 prevSum = 0;
+   for (int i = IO_ROW_POSTMORTEM; i < IO_ROW_FILTERING - 1; i++) {
+      // calc hcp for this row (row = 3 + (hcp - 21) * 2)
+      int h = (i - IO_ROW_POSTMORTEM) / 2 + config.postm.minHCP;
+      if (h > config.postm.maxHCP) {
+         break;
+      }
+
+      // ok start printing
+      bool down = (bool)(i & 1);
+      owl.Silent(down ? "(p %2d down): " : "(p %2d make): ", h);
+
+      // calc and print one line
+      // -- its body
+      u64 sumline = 0;
+      int j = 0;
+      for (; j <= ui.farCol; j++) {
+         owl.Silent(fmtCell, progress.hitsCount[i][j]);
+         sumline += progress.hitsCount[i][j];
+      }
+      // -- its sum
+      owl.Silent("   : ");
+      owl.Silent(fmtCell, sumline);
+      // -- percentage
+      if (sumline && !down) {
+         owl.Silent("  --> %2llu %%", sumline * 100 / (sumline + prevSum));
+      }
+      owl.Silent("\n");
+
+      prevSum = sumline;
+
+      if (!down) {
+         ShowAdvancedStatistics(i);
+      }
+   }
+}
+
 void Walrus::ShowDetailedReportSuit()
 {
    UpdateFarColumnUI();
