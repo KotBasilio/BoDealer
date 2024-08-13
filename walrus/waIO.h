@@ -77,6 +77,7 @@ struct WaConfig {
 
    // various texts
    struct Txt {
+      char nameTask[WA_TASK_NANE_LEN];
       char titleBrief[WA_TASK_BRIEF];   // a title and a brief
       char primaScorerCode[WA_SCORER_CODE_LEN];   // our main action in linear scorer format
       char secundaScorerCode[WA_SCORER_CODE_LEN]; // second action
@@ -86,9 +87,11 @@ struct WaConfig {
    } txt;
 
    // filters compiling
-   char   sourceCodeFilters[WA_SOURCE_CODE_BUF];
-   size_t sizeSourceCode, countFilters;
-   std::vector<MicroFilter> filtersLoaded;
+   struct Filters {
+      char   sourceCode[WA_SOURCE_CODE_BUF];
+      size_t sizeSourceCode;
+      std::vector<MicroFilter> compiled;
+   } filters;
 
    // contracts and its text representation
    struct Contract {
@@ -138,7 +141,6 @@ struct WaConfig {
    void MarkFail() { isInitSuccess = false; }
 private:
    bool isInitSuccess = true;
-   char nameTask[WA_TASK_NANE_LEN];
 
    void AnnounceTask();
    void ChangeOpMode(const char *line);

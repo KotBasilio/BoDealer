@@ -65,8 +65,8 @@ void Walrus::SemanticsToOrbitFixedHand(void)
    sem.scanCover = SYMM * ORBIT_PERMUTE_FACTOR;
    sem.onAfterMath = &Walrus::SolveSavedTasks;
 
-   if (!config.filtersLoaded.empty()) {
-      sem.vecFilters = config.filtersLoaded;
+   if (!config.filters.compiled.empty()) {
+      sem.vecFilters = config.filters.compiled;
    }
 
    if (config.dbg.viewBoardOnAdd) {

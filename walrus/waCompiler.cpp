@@ -485,25 +485,25 @@ void WaConfig::BuildNewFilters(Walrus *walrus)
    if (IsInitFailed()) {
       return;
    }
-   if (!sizeSourceCode) {
+   if (!filters.sizeSourceCode) {
       printf("No filters are found in the config.\n");
       return;
    }
 
    if (dbg.verboseCompile) {
       printf("A filters source code is found in the config. Passing to compiler, size is %llu of %llu.\n", 
-         sizeSourceCode, sizeof(sourceCodeFilters));
+         filters.sizeSourceCode, sizeof(filters.sourceCode));
    } else {
       printf("Compiling filters...");
    }
 
-   if (!walrus->sem.Compile(sourceCodeFilters, sizeSourceCode, filtersLoaded)) {
+   if (!walrus->sem.Compile(filters.sourceCode, filters.sizeSourceCode, filters.compiled)) {
       isInitSuccess = false;
       printf("Config ERROR: Failed to compile filters.\n");
       return;
    }
 
-   if (!walrus->sem.MiniLink(filtersLoaded)) {
+   if (!walrus->sem.MiniLink(filters.compiled)) {
       isInitSuccess = false;
       printf("Config ERROR: Failed to link filters.\n");
       return;

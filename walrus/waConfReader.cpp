@@ -90,9 +90,9 @@ EConfigReaderState WaConfig::FSM_DoFiltersState(char *line)
    }
 
    // add and control
-   strcat(sourceCodeFilters, line);
-   sizeSourceCode = strlen(sourceCodeFilters) + 1;
-   if (sizeSourceCode > sizeof(sourceCodeFilters)) {
+   strcat(filters.sourceCode, line);
+   filters.sizeSourceCode = strlen(filters.sourceCode) + 1;
+   if (filters.sizeSourceCode > sizeof(filters.sourceCode)) {
       printf("Error: exceeded source code size. Exiting.\n");
       PLATFORM_GETCH();
       exit(0);
@@ -207,7 +207,7 @@ void WaConfig::AnnounceTask()
       return;
    }
 
-   owl.Show("%s : %s", nameTask, txt.titleBrief);
+   owl.Show("%s : %s", txt.nameTask, txt.titleBrief);
    owl.Show("Fixed hand is %s\n", txt.taskHandPBN);
 
    if (txt.primaScorerCode[0]) {
@@ -247,7 +247,7 @@ EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
 
 EConfigReaderState WaConfig::FSM_GoInsideTask(char* line)
 {
-   line += strlen(nameTask) + 1;
+   line += strlen(txt.nameTask) + 1;
    strcpy_s(txt.titleBrief, sizeof(txt.titleBrief), line);
 
    opMode = OPMODE_FIXED_TASK;
@@ -258,7 +258,7 @@ EConfigReaderState WaConfig::FSM_GoInsideTask(char* line)
 EConfigReaderState WaConfig::FSM_Go2WaitTask(char* line)
 {
    line += strlen(key.TName);
-   SAFE_STR_BY_LINE(nameTask);
+   SAFE_STR_BY_LINE(txt.nameTask);
 
    return S_WAIT_TASK;
 }
@@ -282,7 +282,7 @@ void WaConfig::ReadTask(Walrus *walrus)
    txt.titleBrief[0] = 0;
    txt.primaScorerCode[0] = 0;
    txt.taskHandPBN[0] = 0;
-   sourceCodeFilters[0] = 0;
+   filters.sourceCode[0] = 0;
 
    // fsm on all lines
    EConfigReaderState fsm = S_IDLE;
@@ -301,7 +301,7 @@ void WaConfig::ReadTask(Walrus *walrus)
          }
 
          case S_WAIT_TASK: {
-            if (IsStartsWith(line, nameTask)) {
+            if (IsStartsWith(line, txt.nameTask)) {
                fsm = FSM_GoInsideTask(line);
             } 
             KEYWORD_CALL(Debug, ReadDebugSetting)
@@ -317,8 +317,8 @@ void WaConfig::ReadTask(Walrus *walrus)
    fclose(stream);
 
    // ensure we've visited some task
-   if (nameTask[0] && (opMode == OPMODE_NONE)) {
-      printf("Error: Task '%s' not found in the config file\n", nameTask);
+   if (txt.nameTask[0] && (opMode == OPMODE_NONE)) {
+      printf("Error: Task '%s' not found in the config file\n", txt.nameTask);
       MarkFail();
    }
 

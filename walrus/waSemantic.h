@@ -124,7 +124,7 @@ struct Semantics {
    bool IsClosingBracket(int idx);
    bool IsOpeningBracket(int idx);
 
-   bool Compile(const char* sourceCode, size_t sizeSourceCode, std::vector<MicroFilter>& filters);
+   bool Compile(const char* sourceCode, size_t sizeSourceCode, std::vector<MicroFilter>& out);
    bool MiniLink(std::vector<MicroFilter> &filters);
    void MiniLinkFilters();
 private:

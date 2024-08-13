@@ -69,21 +69,21 @@ WaConfig::WaConfig()
    : namesBase()
    , postmSuit(0)
    , postmHand(NORTH)
-   , sizeSourceCode(0)
-   , countFilters(0)
 {
    // texts
+   txt.nameTask[0] = 0;
    txt.titleBrief[0] = 0;
    txt.primaScorerCode[0] = 0;
    txt.secundaScorerCode[0] = 0;
    txt.taskHandPBN[0] = 0;
+   txt.secLongName[0] = 0;
+   txt.freqTitleFormat[0] = 0;
    prim.txtTrump[0] = 0;
    prim.txtBy[0] = 0;
    prim.txtAttacker[0] = 0;
    secondary.txtTrump[0] = 0;
-   txt.secLongName[0] = 0;
-   sourceCodeFilters[0] = 0;
-   nameTask[0] = 0;
+   filters.sourceCode[0] = 0;
+   filters.sizeSourceCode = 0;
 
    // DOC: solutions parameter
    // 1 -- Find the maximum number of tricks for the side to play. Return only one of the optimum cards and its score.
@@ -171,9 +171,6 @@ void Semantics::MiniLinkFilters()
       printf("Semantics ERROR: Failed to link filters.\n");
       return;
    }
-
-   // update config
-   config.countFilters = vecFilters.size();
 }
 
 bool Semantics::IsListStart(const MicroFilter& mic)
