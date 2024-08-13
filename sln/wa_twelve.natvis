@@ -33,5 +33,19 @@
    <Type Name="Parser">
       <DisplayString>t:{token,s} in:{backupLine,s}</DisplayString>
    </Type>
-
+    <Type Name="WaConfig::Txt">
+        <DisplayString>{nameTask,s} task</DisplayString>
+    </Type>
+    <Type Name="WaConfig::Filters">
+        <DisplayString>{compiled}</DisplayString>
+    </Type>
+    <Type Name="WaConfig::Solving">
+        <DisplayString>{opMode}</DisplayString>
+    </Type>
+    <Type Name="WaConfig::Contract">
+        <DisplayString>{goal} tricks in {txtTrump,s} by {txtBy,s}</DisplayString>
+    </Type>
+    <Type Name="WaConfig::Postmortem">
+        <DisplayString>{Type}</DisplayString>
+    </Type>
 </AutoVisualizer>

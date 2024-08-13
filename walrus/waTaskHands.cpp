@@ -227,19 +227,19 @@ void DdsTricks::Init(futureTricks& fut)
 
    // match lead cards to store trciks
    for (int i = 0; i < fut.cards; i++) {
-      if (fut.suit[i] == SOL_SPADES && fut.rank[i] == config.leads.S) {
+      if (fut.suit[i] == SOL_SPADES && fut.rank[i] == config.solve.leads.S) {
          lead.S = 13 - fut.score[i];
          continue;
       }
-      if (fut.suit[i] == SOL_HEARTS && fut.rank[i] == config.leads.H) {
+      if (fut.suit[i] == SOL_HEARTS && fut.rank[i] == config.solve.leads.H) {
          lead.H = 13 - fut.score[i];
          continue;
       }
-      if (fut.suit[i] == SOL_DIAMONDS && fut.rank[i] == config.leads.D) {
+      if (fut.suit[i] == SOL_DIAMONDS && fut.rank[i] == config.solve.leads.D) {
          lead.D = 13 - fut.score[i];
          continue;
       }
-      if (fut.suit[i] == SOL_CLUBS && fut.rank[i] == config.leads.C) {
+      if (fut.suit[i] == SOL_CLUBS && fut.rank[i] == config.solve.leads.C) {
          lead.C = 13 - fut.score[i];
          continue;
       }

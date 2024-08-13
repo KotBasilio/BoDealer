@@ -397,7 +397,7 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
    // list by hcp, controls, etc
    if (ui.reportRequested) {
       ui.reportRequested = false;
-      switch (config.postm.reportType)
+      switch (config.postm.Type)
       {
          case WPM_NONE:
          case WPM_OPENING_LEADS:

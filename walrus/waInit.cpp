@@ -30,7 +30,7 @@ Walrus::Walrus()
    , filter()
 {
    filter.Bind(this);
-   config.namesBase.Build();
+   config.txt.namesBase.Build();
    mainProgress = &progress;
    PrepareLinearScores();
    memset(progress.hitsCount, 0, sizeof(progress.hitsCount));
@@ -53,8 +53,14 @@ WaConfig::Contract::Contract()
    txtAttacker[0] = 0;
 }
 
+WaConfig::Filters::Filters()
+   : compiled()
+{
+   sourceCode[0] = 0;
+}
+
 WaConfig::Postmortem::Postmortem()
-   : reportType(WPM_NONE)
+   : Type(WPM_NONE)
    , minHCP(0), maxHCP(0)
    , minControls(0)
 {
@@ -66,8 +72,7 @@ int WaConfig::Postmortem::FactorFromRow(int idx)
 }
 
 WaConfig::WaConfig()
-   : namesBase()
-   , postmSuit(0)
+   : postmSuit(0)
    , postmHand(NORTH)
 {
    // texts
@@ -82,15 +87,13 @@ WaConfig::WaConfig()
    prim.txtBy[0] = 0;
    prim.txtAttacker[0] = 0;
    secondary.txtTrump[0] = 0;
-   filters.sourceCode[0] = 0;
-   filters.sizeSourceCode = 0;
 
    // DOC: solutions parameter
    // 1 -- Find the maximum number of tricks for the side to play. Return only one of the optimum cards and its score.
    // 2 -- Find the maximum number of tricks for the side to play. Return all optimum cards and their scores.
    // 3 -- Return all cards that can be legally played, with their scores in descending order.
    #ifdef DETAILED_LEADS
-      ddsSolutions = 3;
+      solve.ddsSol = 3;
    #endif
 }
 

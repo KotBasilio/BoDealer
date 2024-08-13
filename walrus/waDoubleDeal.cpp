@@ -149,7 +149,7 @@ void DdsDeal::Solve(uint handno)
    int mode = 0;
    int threadIndex = 0;
 
-   int res = SolveBoard(dl, target, config.ddsSolutions, mode, &fut, threadIndex);
+   int res = SolveBoard(dl, target, config.solve.ddsSol, mode, &fut, threadIndex);
    if (res != RETURN_NO_FAULT) {
       HandleErrorDDS(dl, res);
       PLATFORM_GETCH();

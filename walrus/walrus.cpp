@@ -51,7 +51,7 @@ CumulativeScore::CumulativeScore()
 
 void Walrus::Main()
 {
-   switch (config.opMode) {
+   switch (config.solve.opMode) {
       case OPMODE_FIXED_TASK: {
          ScanFixedTask();
          AfterMath();

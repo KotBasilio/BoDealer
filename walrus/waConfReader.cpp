@@ -73,7 +73,7 @@ void WaConfig::ChangeOpMode(const char* line)
 {
    for (auto& desc : OpModes) {
       if (IsStartsWith(line, desc.key)) {
-         opMode = desc.val;
+         solve.opMode = desc.val;
          printf("Recognized op-mode: %s", line);
       }
    }
@@ -133,14 +133,20 @@ void WaConfig::ReadSecundaScorer(const char* line)
 bool WaConfig::RecognizePostmType(const char* token)
 {
    if (IsStartsWith(token, "HCP")) {
-      postm.reportType = WPM_HCP;
+      postm.Type = WPM_HCP;
       strcpy(config.txt.freqTitleFormat, "TRICKS FREQUENCY FOR %d HCP");
       return true;
    }
 
    if (IsStartsWith(token, "LEAD")) {
-      postm.reportType = WPM_OPENING_LEADS;
+      postm.Type = WPM_OPENING_LEADS;
       strcpy(config.txt.freqTitleFormat, "TRICKS FREQUENCY FOR %s LEAD");
+      return true;
+   }
+
+   if (IsStartsWith(token, "SUIT")) {
+      postm.Type = WPM_SUIT;
+      strcpy(config.txt.freqTitleFormat, "TRICKS FREQUENCY FOR HCP in a suit (which?)");
       return true;
    }
 
@@ -195,10 +201,10 @@ void WaConfig::ReadLeadCards(const char* line)
    }
 
    // convert
-   leads.S = IsCard(line[0]);
-   leads.H = IsCard(line[2]);
-   leads.D = IsCard(line[4]);
-   leads.C = IsCard(line[6]);
+   solve.leads.S = IsCard(line[0]);
+   solve.leads.H = IsCard(line[2]);
+   solve.leads.D = IsCard(line[4]);
+   solve.leads.C = IsCard(line[6]);
 }
 
 void WaConfig::AnnounceTask()
@@ -250,7 +256,7 @@ EConfigReaderState WaConfig::FSM_GoInsideTask(char* line)
    line += strlen(txt.nameTask) + 1;
    strcpy_s(txt.titleBrief, sizeof(txt.titleBrief), line);
 
-   opMode = OPMODE_FIXED_TASK;
+   solve.opMode = OPMODE_FIXED_TASK;
 
    return S_IN_TASK;
 }
@@ -270,7 +276,7 @@ void WaConfig::ReadTask(Walrus *walrus)
    secondary.goal = 0;
 
    // ensure we have a file
-   const char* fname = namesBase.StartFrom;
+   const char* fname = txt.namesBase.StartFrom;
    printf("Reading config from: %s\n", fname);
    FILE* stream;
    if (fopen_s(&stream, fname, "r")) {// non-zero => failed to open
@@ -317,14 +323,14 @@ void WaConfig::ReadTask(Walrus *walrus)
    fclose(stream);
 
    // ensure we've visited some task
-   if (txt.nameTask[0] && (opMode == OPMODE_NONE)) {
+   if (txt.nameTask[0] && (solve.opMode == OPMODE_NONE)) {
       printf("Error: Task '%s' not found in the config file\n", txt.nameTask);
       MarkFail();
    }
 
    // lead task should have leads
    if (postm.Is(WPM_OPENING_LEADS)) {
-      auto sum = leads.S + leads.H + leads.D + leads.C;
+      auto sum = solve.leads.S + solve.leads.H + solve.leads.D + solve.leads.C;
       if (!sum) {
          printf("Error: '%s' line is missing or in a wrong format.\n", key.Leads);
          MarkFail();

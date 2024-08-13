@@ -72,11 +72,11 @@ constexpr size_t WA_SECONDARY_LNAME_LEN = WA_TASK_NANE_LEN * 2;
 constexpr size_t WA_HAND_LEN = 30;
 constexpr size_t WA_TXT_SEAT_SUIT = 10;
 struct WaConfig {
-   WA_OPERATION_MODE opMode = OPMODE_NONE;
-   waFileNames namesBase;
+   bool isInitSuccess = true;
 
    // various texts
    struct Txt {
+      waFileNames namesBase;
       char nameTask[WA_TASK_NANE_LEN];
       char titleBrief[WA_TASK_BRIEF];   // a title and a brief
       char primaScorerCode[WA_SCORER_CODE_LEN];   // our main action in linear scorer format
@@ -89,9 +89,20 @@ struct WaConfig {
    // filters compiling
    struct Filters {
       char   sourceCode[WA_SOURCE_CODE_BUF];
-      size_t sizeSourceCode;
+      size_t sizeSourceCode = 0;
       std::vector<MicroFilter> compiled;
+      Filters();
    } filters;
+
+   // solving
+   struct Solving {
+      WA_OPERATION_MODE opMode = OPMODE_NONE;
+      int ddsSol = 1;
+      // cards to lead for WPM_OPENING_LEADS
+      struct Leads {
+         int S=0, H=0, D=0, C=0;
+      } leads;
+   } solve;
 
    // contracts and its text representation
    struct Contract {
@@ -108,20 +119,14 @@ struct WaConfig {
    };
    Contract prim;      // our primary contract
    Contract secondary; // either our secondary contract or their contract
-   int ddsSolutions = 1;
 
-   // cards to lead for WPM_OPENING_LEADS
-   struct Leads {
-      int S=0, H=0, D=0, C=0;
-   } leads;
-
-   // adding axtra marks aka post-mortem 
+   // adding extra marks aka post-mortem 
    struct Postmortem {
-      WA_POSTM_TYPE reportType;
+      WA_POSTM_TYPE Type;
       int           minHCP, maxHCP;
       int           minControls;
       Postmortem();
-      bool Is(WA_POSTM_TYPE t) { return (t == reportType); }
+      bool Is(WA_POSTM_TYPE t) { return (t == Type); }
       int  FactorFromRow(int idx);
    } postm;
    int   postmSuit, postmHand; 
@@ -140,7 +145,6 @@ struct WaConfig {
    bool IsInitFailed() { return !isInitSuccess; }
    void MarkFail() { isInitSuccess = false; }
 private:
-   bool isInitSuccess = true;
 
    void AnnounceTask();
    void ChangeOpMode(const char *line);

@@ -70,7 +70,7 @@ void Walrus::SolveOneChunk(uint chunkStartIdx, uint boardsCount)
       DdsDeal dl(*sem.dlBase, mul.arrToSolve[chunkStartIdx + i]);
       _chunkBoards.deals[i] = dl.dl;
       _chunkBoards.target[i] = -1;
-      _chunkBoards.solutions[i] = config.ddsSolutions;
+      _chunkBoards.solutions[i] = config.solve.ddsSol;
       _chunkBoards.mode[i] = 0;
    }
 
