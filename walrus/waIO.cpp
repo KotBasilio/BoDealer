@@ -361,8 +361,8 @@ void Walrus::ShowDetailedReportSuit()
 static const char *s_LeadNames[] = {
    "spade lead",
    "heart lead",
-   "diamond lead",
-   "club lead"
+   "diamd lead",
+   " club lead"
 };
 
 void Walrus::ShowDetailedReportOpLeads()
@@ -381,7 +381,7 @@ void Walrus::ShowDetailedReportOpLeads()
 
       // ok start printing
       bool down = (bool)(i & 1);
-      owl.Silent(down ? "(%12s down): " : "(%12s make): ", s_LeadNames[suit]);
+      owl.Silent(down ? "(%10s down): " : "(%10s make): ", s_LeadNames[suit]);
 
       // calc and print one line
       // -- its body

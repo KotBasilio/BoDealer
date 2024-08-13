@@ -131,7 +131,7 @@ protected:
     void ShowAdvancedStatistics(int idx);
     void AddSetContracts(int idx);
     void AddMadeContracts(int idx);
-    void DisplayGraphStatData(int idx);
+    void ShowSummarizedExtraMarks();
     void ShowDetailedReportHighcards();
     void ShowDetailedReportControls();
     void ShowDetailedReportOpLeads();

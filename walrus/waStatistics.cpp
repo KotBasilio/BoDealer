@@ -156,7 +156,14 @@ extern void SilentViScreen(int count, char scr[][DDS_FULL_LINE]);
 constexpr int REL_GRAPH_LINES = 10;
 constexpr int REL_GRAPH_SCREEN = DDS_HAND_LINES;
 
-static void PictureTricksFrequences(int hcp = 0)
+static const char *s_CapsSuit[] = {
+   "SPADE",
+   "HEART",
+   "DIAMOND",
+   "CLUB"
+};
+
+static void PictureTricksFrequences(int factor = -1)
 {
    // ensure there's a data
    auto top = FREQ[0];
@@ -171,8 +178,12 @@ static void PictureTricksFrequences(int hcp = 0)
    ClearViScreen();
    // -- title
    auto locTitle = viscr[0] + 28;
-   if (hcp) {
-      sprintf(locTitle, "TRICKS FREQUENCY FOR %d HCP", hcp);
+   if (factor >= 0) {
+      if (config.postm.Is(WPM_OPENING_LEADS)) {
+         sprintf(locTitle, config.postm.freqTitleFormat, s_CapsSuit[factor]);
+      } else {
+         sprintf(locTitle, config.postm.freqTitleFormat, factor);
+      }
    } else {
       sprintf(locTitle, "OVERALL TRICKS FREQUENCY");
    }
@@ -293,13 +304,8 @@ void Walrus::AddOverallStats(int idx)
    }
 }
 
-void Walrus::DisplayGraphStatData(int idx)
+void Walrus::ShowSummarizedExtraMarks()
 {
-
-   // ok start printing
-   //bool down = (bool)(i & 1);
-   //owl.Silent(down ? "(p %2d down): " : "(p %2d make): ", h);
-
    // print setting line
    double prevSum = 0;
    owl.Silent("( all down): ");
@@ -334,8 +340,6 @@ void Walrus::DisplayGraphStatData(int idx)
    // add percentage
    owl.Silent("  --> %2.0lf %%", sumline * 100 / (sumline + prevSum));
    owl.Silent("\n\n");
-
-   PictureTricksFrequences();
 }
 
 void Walrus::ShowAdvancedStatistics(int idx)
@@ -352,16 +356,18 @@ void Walrus::ShowAdvancedStatistics(int idx)
    ClearFreqs();
    AddMadeContracts(idx);
    AddSetContracts(idx - 1);
+
+   // may draw a graph
    if (ui.allStatGraphs) {
-      if (config.postm.Is(WPM_HCP)) {
-         PictureTricksFrequences(factor);
-      }
+      PictureTricksFrequences(factor);
    }
+
+   // show values like Standard Deviation, Confidence Interval etc.
    CalcAndDisplayStatistics(":");
 
    // ensure we want to display overall
    if (config.postm.Is(WPM_HCP)) {
-      if (factor < config.postm.maxHCP) {// not the last line
+      if (factor < config.postm.maxHCP) {
          return;
       }
    }
@@ -371,10 +377,11 @@ void Walrus::ShowAdvancedStatistics(int idx)
       }
    }
 
-   // it's time to display overall
+   // so we've printed the last line
    ClearFreqs();
    AddOverallStats(idx);
-   DisplayGraphStatData(idx);
+   ShowSummarizedExtraMarks();
+   PictureTricksFrequences();
    CalcAndDisplayStatistics("Detailed statistics");
 }
 

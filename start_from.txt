@@ -3,7 +3,7 @@ is a line that starts with "TASK NAME".
 So we can comment out them easily at the line start
 
 Competitive:
-//TASK NAME:AUG_TRICOLOR_OVER_OPP_3S
+TASK NAME:AUG_TRICOLOR_OVER_OPP_3S
 //TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
 
 One sided:
@@ -12,7 +12,7 @@ One sided:
 //TASK NAME:MAY24_TENS_AND_NINES
 
 Leads:
-TASK NAME:JUN24_LEAD_AK
+//TASK NAME:JUN24_LEAD_AK
 
 //OPMODE: SEMI_STRAY
 //OPMODE: DEMO_STATISTICS

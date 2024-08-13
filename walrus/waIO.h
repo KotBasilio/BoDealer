@@ -108,11 +108,12 @@ struct WaConfig {
       int S=0, H=0, D=0, C=0;
    } leads;
 
-   // post-mortem
+   // adding axtra marks aka post-mortem 
    struct Postmortem {
       WA_POSTM_TYPE reportType;
-      int            minHCP, maxHCP;
-      int            minControls;
+      int           minHCP, maxHCP;
+      int           minControls;
+      char          freqTitleFormat[WA_TASK_NANE_LEN];
       Postmortem();
       bool Is(WA_POSTM_TYPE t) { return (t == reportType); }
       int  FactorFromRow(int idx);

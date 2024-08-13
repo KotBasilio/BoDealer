@@ -134,11 +134,13 @@ bool WaConfig::RecognizePostmType(const char* token)
 {
    if (IsStartsWith(token, "HCP")) {
       postm.reportType = WPM_HCP;
+      strcpy(config.postm.freqTitleFormat, "TRICKS FREQUENCY FOR %d HCP");
       return true;
    }
 
    if (IsStartsWith(token, "LEAD")) {
       postm.reportType = WPM_OPENING_LEADS;
+      strcpy(config.postm.freqTitleFormat, "TRICKS FREQUENCY FOR %s LEAD");
       return true;
    }
 
