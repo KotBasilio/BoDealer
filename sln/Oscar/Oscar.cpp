@@ -9,15 +9,26 @@
 #include "Oscar.h"
 #include HEADER_CURSES
 
+static const char* artOscar[] = {
+   "        |\\_______/|      \n",
+   "      / | [o] [o] | \\     \n",
+   "     / /|    V    |\\ \\   \n",
+   "        |         |      \n",
+   "        -ooo---ooo-      \n\n",
+};
+
+static void PaintOscar()
+{
+   printf("\n\n");
+   for (auto art : artOscar) {
+      printf(art);
+   }
+}
+
 struct OscarEcho {
    OscarEcho() : gossip() {
       // stdout is a way to display
-      printf("\n\n%s", 
-         "      |\\_______/|      \n"
-         "    / | [o] [o] | \\     \n"
-         "   / /|    V    |\\ \\   \n"
-         "      |         |      \n"
-         "      -ooo---ooo-      \n\n");
+      PaintOscar();
 
       // stderr is a pipe back to Walrus
       fprintf(stderr, "%s", "Oscar is watching\n");

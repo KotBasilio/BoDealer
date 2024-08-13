@@ -77,9 +77,25 @@ void Walrus::Main()
    }
 }
 
+static const char* artWalrus[] = {
+   "__        __    _                          ___  \n",
+   "\\ \\      / /_ _| |_ __ _   _ ___          /  .\\ \n",
+   " \\ \\ /\\ / / _` | | '__| | | / __|        /  =__|\n",
+   "  \\ V  V / (_| | | |  | |_| \\__ \\       /    || \n",
+   "   \\_/\\_/ \\__,_|_|_|   \\__,_|___/              \n\n",
+};
+
+static void PaintWalrus()
+{
+   for (auto art : artWalrus) {
+      printf(art);
+   }
+}
+
 int main(int argc, char *argv[])
 {
-   printf("Walter the Walrus is curious.\n");
+   PaintWalrus();
+
    ChronoStart();
 
    Walrus walter;

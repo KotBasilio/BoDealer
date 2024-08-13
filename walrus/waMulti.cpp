@@ -13,6 +13,8 @@
 
 extern u64 ChronoRound();
 
+void PaintWalrus();
+
 WaMulti::WaMulti()
    : isRunning(true)
    , shouldSignOut(false)
