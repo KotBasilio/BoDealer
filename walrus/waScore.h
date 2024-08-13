@@ -42,6 +42,7 @@ struct CumulativeScore {
       bool Init(s64 &out, const char* code);
       void TargetOut(s64 &out);
       bool IsEmpty() const;
+      bool HasDouble() const;
       s64  Get(uint tricks);
       void operator () (uint tricks);
       void FillUpon(s64 *ourBase, const LineScorer& other, const s64 *thatBase);

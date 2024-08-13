@@ -150,11 +150,11 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
    // -- params for re-solving
    futureTricks futUs;
    int target = -1;
-   int solutions = 3; // DOC: 3 -- Return all cards that can be legally played, with their scores in descending order.
+   int solEveryLead = 3; // DOC: 3 -- Return all cards that can be legally played, with their scores in descending order.
    int mode = 0;
    int threadIndex = 0;
    // -- re-solve & show
-   int res = SolveBoard(cards, target, solutions, mode, &futUs, threadIndex);
+   int res = SolveBoard(cards, target, solEveryLead, mode, &futUs, threadIndex);
    if (res != RETURN_NO_FAULT) {
       HandleErrorDDS(cards, res);
       return;
@@ -162,37 +162,41 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
 
    // single side solution => ok print
    #ifndef SOLVE_TWICE_HANDLED_CHUNK
+   {
       char lead[] = "";
       OwlOutBoard("example:\n", cards);
       OwlOneFut(lead, &futUs);
+      printf("shown to Oscar.");
+      return;
+   }
+   #endif
+
+   // score alternative contract
+   futureTricks futTheirs;
+   cards.trump = config.secondary.trump;
+   cards.first = TWICE_ON_LEAD_INSPECT;
+   target = -1;
+   res = SolveBoard(cards, target, solEveryLead, mode, &futTheirs, threadIndex);
+   if (res != RETURN_NO_FAULT) {
+      HandleErrorDDS(cards, res);
+      return;
+   }
+   DdsTricks tr;
+   tr.Init(futTheirs);
+
+   // build header
+   char header[60];
+   #ifdef SCORE_THE_OTHER_CONTRACT
+      sprintf(header, "%s has %d tricks.", config.txt.secLongName, tr.plainScore);
+   #elif defined(SEEK_MAGIC_FLY) 
+      sprintf(header, "NT contract has %d tricks.", tr.plainScore);
    #else 
-      // score alternative contract
-      futureTricks futTheirs;
-      cards.trump = config.secondary.trump;
-      cards.first = TWICE_ON_LEAD_INSPECT;
-      target = -1;
-      res = SolveBoard(cards, target, config.solve.ddsSol, mode, &futTheirs, threadIndex);
-      if (res != RETURN_NO_FAULT) {
-         HandleErrorDDS(cards, res);
-         return;
-      }
-      DdsTricks tr;
-      tr.Init(futTheirs);
+      sprintf(header, "<not filled title>");
+   #endif 
 
-      // build header
-      char header[60];
-      #ifdef SCORE_THE_OTHER_CONTRACT
-         sprintf(header, "%s has %d tricks.", config.txt.secLongName, tr.plainScore);
-      #elif defined(SEEK_MAGIC_FLY) 
-         sprintf(header, "NT contract has %d tricks.", tr.plainScore);
-      #else 
-         sprintf(header, "<not filled title>");
-      #endif 
-
-      // tricks for all possible leads
-      OwlOutBoard("example:\n", cards);
-      OwlTwoFut(header, &futUs, &futTheirs);
-   #endif // SOLVE_TWICE_HANDLED_CHUNK
+   // tricks for all possible leads
+   OwlOutBoard("example:\n", cards);
+   OwlTwoFut(header, &futUs, &futTheirs);
 
    printf("shown to Oscar.");
 }

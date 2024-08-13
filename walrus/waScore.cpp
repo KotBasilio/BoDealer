@@ -20,6 +20,16 @@ bool CumulativeScore::LineScorer::IsEmpty() const
    return outSum == nullptr;
 }
 
+bool CumulativeScore::LineScorer::HasDouble() const
+{
+   if (IsEmpty()) {
+      return false;
+   }
+
+   return title[3]=='X' || 
+          title[3]=='R';
+}
+
 bool CumulativeScore::LineScorer::Init(s64 &out, const char* code)
 {
    linearBase = FindLinearScore(code);

@@ -295,13 +295,6 @@ void Walrus::MiniReport(ucell toGo)
    }
 }
 
-void Walrus::ShowPercentages(s64 sumRows)
-{
-   float percGoDown = hitsRow[IO_ROW_OUR_DOWN] * 100.f / sumRows;
-   float percMake = hitsRow[IO_ROW_OUR_MADE] * 100.f / sumRows;
-   owl.OnDone("Chance to make = %3.1f%%\n", percMake);
-}
-
 void Walrus::ShowBiddingLevel(s64 sumRows)
 {
    #if defined(SEEK_BIDDING_LEVEL) || defined(SEEK_DENOMINATION) || defined(FOUR_HANDS_TASK)
@@ -321,7 +314,16 @@ void Walrus::ShowBiddingLevel(s64 sumRows)
             cumulScore.bidGame / sumRows,
             cumulScore.bidSlam / sumRows);
       }
-   #endif // SEEK_BIDDING_LEVEL
+   #else
+      owl.OnDone("Our avg = %lld. ", cumulScore.bidGame / sumRows);
+   #endif // SEEK_BIDDING_LEVEL & co
+}
+
+void Walrus::ShowPercentages(s64 sumRows)
+{
+   float percGoDown = hitsRow[IO_ROW_OUR_DOWN] * 100.f / sumRows;
+   float percMake = hitsRow[IO_ROW_OUR_MADE] * 100.f / sumRows;
+   owl.OnDone("Chance to make = %3.1f%%. \n", percMake);
 }
 
 void Walrus::ShowTheirScore(s64 doneTheirs)
@@ -335,8 +337,9 @@ void Walrus::ShowTheirScore(s64 doneTheirs)
          owl.OnDone("Their contract expectation average: passed = %lld, doubled = %lld.",
             cumulScore.oppContract / doneTheirs,
             cumulScore.oppCtrDoubled / doneTheirs);
-      #endif 
-         owl.OnDone(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / doneTheirs);
+      #endif
+
+      owl.OnDone(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / doneTheirs);
    #endif 
 }
 

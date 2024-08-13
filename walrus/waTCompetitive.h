@@ -19,6 +19,11 @@
 */
 #pragma once
 
+#ifdef SEM_AUG_BLITZ_VS_DIMULYA
+   #define SEEK_DECISION_BID_OR_DOUBLE
+   #define SEM_ORBITING_FIXED_HAND
+#endif 
+
 #ifdef SEM_AUG_TRICOLOR_OVER_OPP_3S
    #define SEEK_SACRIFICE_DECISION
    #define SEM_ORBITING_FIXED_HAND

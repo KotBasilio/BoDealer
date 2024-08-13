@@ -243,6 +243,9 @@ void Semantics::SetTheirScorer(CumulativeScore& cs, const char* code)
       if (!isInitSuccess) {
          printf("Semantics ERROR: the task suggest having their scorer.\n");
       }
+      if (cs.secunda.HasDouble()) {
+         cs.secunda.TargetOut(cs.oppCtrDoubled);
+      }
    }
 }
 

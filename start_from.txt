@@ -3,7 +3,8 @@ is a line that starts with "TASK NAME".
 So we can comment out them easily at the line start
 
 Competitive:
-TASK NAME:AUG_TRICOLOR_OVER_OPP_3S
+TASK NAME:AUG_BLITZ_VS_DIMULYA
+//TASK NAME:AUG_TRICOLOR_OVER_OPP_3S
 //TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
 
 One sided:
@@ -20,6 +21,35 @@ Leads:
 //DEBUG: SHOW RECONSTRUCTED
 //DEBUG: VERBOSE COMPILING
 
+-----------------------------------------------------------------------------------------------------------------------
+AUG_BLITZ_VS_DIMULYA Fix a 10 hcp 3514;
+Bidding from LHO:
+  1s    2d    pass  2h
+  pass  pass  2s    pass
+  pass  Dbl   pass  ??
+
+Question: pass or 3c?
+
+HAND: N:J54.QJT92.8.AQ83
+
+PRIMARY SCORER: N3C BY NORTH
+SECONDARY SCORER: V2SX BY EAST
+POSTMORTEM: HCP 21, 24
+
+FILTERS:
+    SOUTH: ExactShape, 2, 2, 5, 4
+    SOUTH: PointsRange, 12, 13
+
+    EAST: SpadesLen, 5, 5
+    EAST: PointsRange, 11, 14
+    EAST: SpadesNatural
+    EAST: ClubsLen, 0, 4
+
+    WEST: DiamondsLen, 5, 6
+    WEST: PointsRange, 5, 6
+    WEST: PointsSuitAtLeast, DMD, 2
+
+    SOUTH: ControlsRange, 3, 6
 -----------------------------------------------------------------------------------------------------------------------
 MAY24_TENS_AND_NINES Fix a 10 hcp 3343;
    1c(14-16)  p 1NT p

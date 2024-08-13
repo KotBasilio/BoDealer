@@ -55,7 +55,8 @@ void Walrus::DetectGoals()
    }
    config.SetupSeatsAndTrumps(cumulScore);
 
-   // display primary scorer
+   // we really test & display scorers, not just a linear values
+   // -- primary
    DdsTricks tr;
    char tail[128];
    CumulativeScore zeroes(cumulScore);
@@ -68,7 +69,7 @@ void Walrus::DetectGoals()
    }
    owl.Show("%s\n", tail);
 
-   // secondary
+   // -- secondary
    bool shouldSkipSecunda = cumulScore.secunda.IsEmpty() || (sem.onSinglePrimary == &CumulativeScore::BiddingLevel);
    if (!shouldSkipSecunda) {
       owl.Show("Contract-B scorer (%s, %d tr):", config.secondary.txtTrump, config.secondary.goal);
@@ -102,6 +103,11 @@ void Walrus::AddScorerValues(char* tail)
          sprintf(chunk, " %lld", -cumulScore.oppCtrDoubled);
          strcat(tail, chunk);
       }
+      return;
+   }
+
+   if (cumulScore.oppCtrDoubled) {
+      owl.Show(" %lld", -cumulScore.oppCtrDoubled);
       return;
    }
 

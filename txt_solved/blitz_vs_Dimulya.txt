@@ -1,0 +1,88 @@
+https://www.gambler.ru/tour/1025141/protocol?id=82535563&teamid=50073
+
+
+        |\_______/|
+      / | [o] [o] | \
+     / /|    V    |\ \
+        |         |
+        -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+AUG_BLITZ_VS_DIMULYA : Fix a 10 hcp 3514;
+Bidding from LHO:
+  1s    2d    pass  2h
+  pass  pass  2s    pass
+  pass  Dbl   pass  ??
+Question: pass or 3c?
+Fixed hand is [N:J54.QJT92.8.AQ83]
+Scorers to use are: N3C BY NORTH; V2SX BY EAST
+Primary scorer (clubs, 9 tr): -100 -50 110 130 150 170 190  /
+Contract-B scorer (spades, 8 tr): 200 -670 -870 -1070 -1270 -1470 -1670  /
+----
+29:    NORTH     EAST    SOUTH     WEST
+30:    30001,       0,   >MLRD,       0,  :   ExactShape 2 2 5 4 SOUTH
+31:        0,       0,     >XM,       0,  :   PointsRange 12 13 SOUTH
+32:        0,    >MLN,       0,       0,  :   SpadesLen 5 5 EAST
+33:        0,  790626,       0,       0,  :   PointsRange 11 14 EAST
+34:        0,   30903,       0,       0,  :   SpadesNatural EAST
+35:        0,       0,       0,       0,  :   ClubsLen 0 4 EAST
+36:        0,       0,       0,  197799,  :   DiamondsLen 5 6 WEST
+37:        0,       0,       0,   36519,  :   PointsRange 5 6 WEST
+38:        0,       0,       0,   13221,  :   PointsSuitAtLeast DMD 2 WEST
+39:        0,       0,      40,       0,  :   ControlsRange 3 6 SOUTH
+ 9 tricks board by North in clubs example:
+--------
+               J54         HCP : 22
+               QJT92       CTRL: 5
+               8
+               AQ83
+   732                     AT986
+   K53                     A74
+   KT642                   J5
+   95                      KT6
+               KQ
+               86
+               AQ973
+               J742
+                                     Their contract in spades has 8 tricks.
+    suit   rank   score              suit   rank   score
+      H      4      4                  C      2      5
+      H      7      4                  C      4      5
+      S      A      4                  C      7      5
+      H      A      4                  C      J      5
+      D      5      4                  D      A      5
+      D      J      4                  S      K      5
+      S      6      4                  H      6      5
+      S      T      4                  H      8      5
+      C      6      4                  D      3      4
+      C      T      4                  D      7      4
+      C      K      3                  D      9      4
+                                       D      Q      4
+
+    (we down):     3171,     188,       0,       0,       0,       0,       0,        3359
+    (we make):    13292,   12127,    1209,      14,       0,       0,       0,       26642
+       (----):        0,       0,       0,       0,       0,       0,       0,           0
+   (opp down):    14238,    4168,     507,       7,       0,       0,       0,       18920
+   (opp make):    10723,     358,       0,       0,       0,       0,       0,       11081
+(bid/refrain):        0,   11081,       0,   18920,       0,       0,       0,       30001
+Processed: 30001 total. East is on lead. Goal is 9 tricks in clubs.
+Our avg = 101. Chance to make = 88.8%.
+Their contract doubled, expectation average: 71. Chance to make = 36.9%
+To bid is better in: 36.9% cases
+
+A split of board results by HCP from 21 to 24:
+(p 21 down):        0,       0,       0,       0,   :        0,
+(p 21 make):        0,       0,       0,       0,   :        0,
+(p 22 down):     2105,     128,       0,       0,   :     2233,
+(p 22 make):     7760,    5538,     348,       1,   :    13647,  --> 85 %
+(p 23 down):     1066,      60,       0,       0,   :     1126,
+(p 23 make):     5532,    6589,     861,      13,   :    12995,  --> 92 %
+(p 24 down):        0,       0,       0,       0,   :        0,
+(p 24 make):        0,       0,       0,       0,   :        0,
+The search took 8.9 sec + an aftermath 17 min 33 sec.
+
+
+
+
+
+

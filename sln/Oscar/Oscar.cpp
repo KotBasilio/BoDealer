@@ -114,6 +114,7 @@ static void ShowAllScores()
    PrintCode("V7NR");
    PrintCode("V2C");
    PrintCode("V3NX");
+   PrintCode("V2SX");
 
    printf("Waiting for the club to start.\n");
    char tmpBuf[10];
