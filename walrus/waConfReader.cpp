@@ -115,32 +115,32 @@ void WaConfig::ReadDebugSetting(char* line)
 
 void WaConfig::ReadHandPBN(const char* line)
 {
-   strcpy(taskHandPBN, "[");
-   SAFE_ADD_BY_LINE(taskHandPBN);
-   SAFE_ADD(taskHandPBN, "]");
+   strcpy(txt.taskHandPBN, "[");
+   SAFE_ADD_BY_LINE(txt.taskHandPBN);
+   SAFE_ADD(txt.taskHandPBN, "]");
 }
 
 void WaConfig::ReadPrimaScorer(const char* line)
 {
-   SAFE_STR_BY_LINE(primaScorerCode);
+   SAFE_STR_BY_LINE(txt.primaScorerCode);
 }
 
 void WaConfig::ReadSecundaScorer(const char* line)
 {
-   SAFE_STR_BY_LINE(secundaScorerCode);
+   SAFE_STR_BY_LINE(txt.secundaScorerCode);
 }
 
 bool WaConfig::RecognizePostmType(const char* token)
 {
    if (IsStartsWith(token, "HCP")) {
       postm.reportType = WPM_HCP;
-      strcpy(config.postm.freqTitleFormat, "TRICKS FREQUENCY FOR %d HCP");
+      strcpy(config.txt.freqTitleFormat, "TRICKS FREQUENCY FOR %d HCP");
       return true;
    }
 
    if (IsStartsWith(token, "LEAD")) {
       postm.reportType = WPM_OPENING_LEADS;
-      strcpy(config.postm.freqTitleFormat, "TRICKS FREQUENCY FOR %s LEAD");
+      strcpy(config.txt.freqTitleFormat, "TRICKS FREQUENCY FOR %s LEAD");
       return true;
    }
 
@@ -207,14 +207,14 @@ void WaConfig::AnnounceTask()
       return;
    }
 
-   owl.Show("%s : %s", nameTask, titleBrief);
-   owl.Show("Fixed hand is %s\n", taskHandPBN);
+   owl.Show("%s : %s", nameTask, txt.titleBrief);
+   owl.Show("Fixed hand is %s\n", txt.taskHandPBN);
 
-   if (primaScorerCode[0]) {
-      if (secundaScorerCode[0]) {
-         owl.Show("Scorers to use are: %s; %s\n", primaScorerCode, secundaScorerCode);
+   if (txt.primaScorerCode[0]) {
+      if (txt.secundaScorerCode[0]) {
+         owl.Show("Scorers to use are: %s; %s\n", txt.primaScorerCode, txt.secundaScorerCode);
       } else {
-         owl.Show("Scorer to use is %s\n", primaScorerCode);
+         owl.Show("Scorer to use is %s\n", txt.primaScorerCode);
       }
    }
 }
@@ -239,7 +239,7 @@ EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
    KEYWORD_CALL(Postmortem,  ReadPostmortemParams)
    KEYWORD_CALL(Debug,       ReadDebugSetting)
    else if (strlen(line) > 2) {
-      SAFE_ADD(titleBrief, line);
+      SAFE_ADD(txt.titleBrief, line);
    }
 
    return S_IN_TASK;
@@ -248,7 +248,7 @@ EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
 EConfigReaderState WaConfig::FSM_GoInsideTask(char* line)
 {
    line += strlen(nameTask) + 1;
-   strcpy_s(titleBrief, sizeof(titleBrief), line);
+   strcpy_s(txt.titleBrief, sizeof(txt.titleBrief), line);
 
    opMode = OPMODE_FIXED_TASK;
 
@@ -279,9 +279,9 @@ void WaConfig::ReadTask(Walrus *walrus)
 
    // prepare
    char line[128];
-   titleBrief[0] = 0;
-   primaScorerCode[0] = 0;
-   taskHandPBN[0] = 0;
+   txt.titleBrief[0] = 0;
+   txt.primaScorerCode[0] = 0;
+   txt.taskHandPBN[0] = 0;
    sourceCodeFilters[0] = 0;
 
    // fsm on all lines

@@ -1,0 +1,59 @@
+
+      |\_______/|
+    / | [o] [o] | \
+   / /|    V    |\ \
+      |         |
+      -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+JUN24_LEAD_AK : lead from AK or a side suit
+Fix a 8 hcp 5224; Bidding from RHO (S):
+        (1h) p
+ (2c) p (2h) p
+ (3h) p (4h) all pass
+Question: what to lead?
+Fixed hand is [W:J6532.63.54.AK96]
+Scorer to use is V4H BY S
+Primary scorer (hearts, 10 tr): -300 -200 -100 620 650 680 710  /
+----
+29:    NORTH     EAST    SOUTH     WEST
+30:   120006,       0,    >XXM,       0,  :   PointsRange 11 14 SOUTH
+31:        0,       0,     >XM,       0,  :   HeartsLen 5 6 SOUTH
+32:        0,       0,    >MLN,       0,  :   HeartsNatural SOUTH
+33:        0,    >MLN,       0,       0,  :   NoOvercall EAST
+34:     >MLN,       0,       0,       0,  :   PointsRange 13 15 NORTH
+35:     >MLN,       0,       0,       0,  :   ClubsLen 5 6 NORTH
+36:   194232,       0,       0,       0,  :   HeartsLen 3 4 NORTH
+ 10 tricks board by South in hearts example:
+--------
+               Q           HCP : 26
+               AQJ8        CTRL: 7
+               QJ7
+               QJT43
+   J6532                   KT9874
+   63                      92
+   54                      K963
+   AK96                    2
+               A
+               KT754
+               AT82
+               875
+					
+					
+       (down):    13865,    1600,      91,       3,       0,       0,       0,       15559
+       (make):    41912,   41629,   17548,    3358,       0,       0,       0,      104447
+Processed: 120006 total. West is on lead. Goal is 10 tricks in hearts.
+Chance to make = 87.0%
+Averages: ideal = 546, lead Spade = 582, lead Hearts = 598, lead Diamonds = 578, lead Clubs = 559
+
+A split of board results by opening leads:
+(  spade lead down):    10033,     629,       0,       0,   :    10662,
+(  spade lead make):    35567,   44298,   23111,    6368,   :   109344,  --> 91 %
+(  heart lead down):     7728,     316,       2,       0,   :     8046,
+(  heart lead make):    38558,   45283,   22548,    5571,   :   111960,  --> 93 %
+(diamond lead down):     9853,    1201,      92,       1,   :    11147,
+(diamond lead make):    35637,   44717,   22460,    6045,   :   108859,  --> 90 %
+(   club lead down):    12798,     977,      90,       2,   :    13867,
+(   club lead make):    40565,   41251,   20127,    4196,   :   106139,  --> 88 %
+
+Answer: here the best if from AK

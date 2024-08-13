@@ -180,9 +180,9 @@ static void PictureTricksFrequences(int factor = -1)
    auto locTitle = viscr[0] + 28;
    if (factor >= 0) {
       if (config.postm.Is(WPM_OPENING_LEADS)) {
-         sprintf(locTitle, config.postm.freqTitleFormat, s_CapsSuit[factor]);
+         sprintf(locTitle, config.txt.freqTitleFormat, s_CapsSuit[factor]);
       } else {
-         sprintf(locTitle, config.postm.freqTitleFormat, factor);
+         sprintf(locTitle, config.txt.freqTitleFormat, factor);
       }
    } else {
       sprintf(locTitle, "OVERALL TRICKS FREQUENCY");

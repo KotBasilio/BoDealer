@@ -78,17 +78,17 @@ void Walrus::SemanticsToOrbitFixedHand(void)
 #endif
 
    if (config.postm.Is(WPM_OPENING_LEADS)) {
-      sem.SetOpeningLeadScorer(cumulScore, config.primaScorerCode);
+      sem.SetOpeningLeadScorer(cumulScore, config.txt.primaScorerCode);
       sem.onPostmortem = &Walrus::AddMarksByOpLeads;
    }
 
 #ifdef SEEK_DECISION_COMPETE
-   sem.SetOurPrimaryScorer(cumulScore, config.primaScorerCode);
-   sem.SetTheirScorer(cumulScore, config.secundaScorerCode);
+   sem.SetOurPrimaryScorer(cumulScore, config.txt.primaScorerCode);
+   sem.SetTheirScorer(cumulScore, config.txt.secundaScorerCode);
 #endif
 
 #ifdef SEEK_BIDDING_LEVEL
-   sem.SetBiddingGameScorer(cumulScore, config.primaScorerCode);
+   sem.SetBiddingGameScorer(cumulScore, config.txt.primaScorerCode);
 #endif
 
    // hcp / ctrl postmortems
@@ -179,7 +179,7 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
       // build header
       char header[60];
       #ifdef SCORE_THE_OTHER_CONTRACT
-         sprintf(header, "%s has %d tricks.", config.secLongName, tr.plainScore);
+         sprintf(header, "%s has %d tricks.", config.txt.secLongName, tr.plainScore);
       #elif defined(SEEK_MAGIC_FLY) 
          sprintf(header, "NT contract has %d tricks.", tr.plainScore);
       #else 

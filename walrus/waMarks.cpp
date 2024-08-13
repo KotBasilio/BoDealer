@@ -71,7 +71,7 @@ void Walrus::AddMarksByHCP(DdsTricks& tr, deal& cards)
    }
 }
 
-// additional postmortem statistics
+// additional marks by points in a suit -- experimental
 #ifdef CALC_CLUB_HITS_EXPERIMENTAL
    static twlHCP lastCalcHcp;
    lastCalcHcp = hcp; // in CalcNSLineHCP

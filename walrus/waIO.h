@@ -75,13 +75,17 @@ struct WaConfig {
    WA_OPERATION_MODE opMode = OPMODE_NONE;
    waFileNames namesBase;
 
-   char titleBrief[WA_TASK_BRIEF];   // title and a brief
-   char primaScorerCode[WA_SCORER_CODE_LEN];   // our main action in linear scorer format
-   char secundaScorerCode[WA_SCORER_CODE_LEN]; // second action
-   char taskHandPBN[WA_HAND_LEN];
-   char secLongName[WA_SECONDARY_LNAME_LEN];
+   // various texts
+   struct Txt {
+      char titleBrief[WA_TASK_BRIEF];   // a title and a brief
+      char primaScorerCode[WA_SCORER_CODE_LEN];   // our main action in linear scorer format
+      char secundaScorerCode[WA_SCORER_CODE_LEN]; // second action
+      char taskHandPBN[WA_HAND_LEN];
+      char secLongName[WA_SECONDARY_LNAME_LEN];
+      char freqTitleFormat[WA_TASK_NANE_LEN];
+   } txt;
 
-   // filtering
+   // filters compiling
    char   sourceCodeFilters[WA_SOURCE_CODE_BUF];
    size_t sizeSourceCode, countFilters;
    std::vector<MicroFilter> filtersLoaded;
@@ -113,7 +117,6 @@ struct WaConfig {
       WA_POSTM_TYPE reportType;
       int           minHCP, maxHCP;
       int           minControls;
-      char          freqTitleFormat[WA_TASK_NANE_LEN];
       Postmortem();
       bool Is(WA_POSTM_TYPE t) { return (t == reportType); }
       int  FactorFromRow(int idx);

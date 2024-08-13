@@ -64,7 +64,7 @@ void WaConfig::SetupSeatsAndTrumps(const CumulativeScore &cs)
       #elif defined(SEEK_BIDDING_LEVEL)
          whos = "Our";
       #endif
-      sprintf(secLongName, "%s contract in %s", whos, secondary.txtTrump);
+      sprintf(txt.secLongName, "%s contract in %s", whos, secondary.txtTrump);
    }
 }
 

@@ -73,15 +73,15 @@ WaConfig::WaConfig()
    , countFilters(0)
 {
    // texts
-   titleBrief[0] = 0;
-   primaScorerCode[0] = 0;
-   secundaScorerCode[0] = 0;
-   taskHandPBN[0] = 0;
+   txt.titleBrief[0] = 0;
+   txt.primaScorerCode[0] = 0;
+   txt.secundaScorerCode[0] = 0;
+   txt.taskHandPBN[0] = 0;
    prim.txtTrump[0] = 0;
    prim.txtBy[0] = 0;
    prim.txtAttacker[0] = 0;
    secondary.txtTrump[0] = 0;
-   secLongName[0] = 0;
+   txt.secLongName[0] = 0;
    sourceCodeFilters[0] = 0;
    nameTask[0] = 0;
 

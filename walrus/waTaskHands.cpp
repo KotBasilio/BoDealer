@@ -18,49 +18,49 @@
 #ifdef SEM_MAR24_5C_OR_3NT
    #define INPUT_TRUMPS    SOL_CLUBS
    #define INPUT_ON_LEAD   WEST
-   char const taskHandPBN[] = "[N:4.A954.KQ3.QJ985.]";
+   char const txt.taskHandPBN[] = "[N:4.A954.KQ3.QJ985.]";
 #endif 
 
 #ifdef SEM_MIX_MAR24_INVITE_4S
    #define INPUT_TRUMPS    SOL_SPADES
    #define INPUT_ON_LEAD   WEST
-   //char const taskHandPBN[] = "[N:AK97.432.2.AQJ84]";
+   //char const txt.taskHandPBN[] = "[N:AK97.432.2.AQJ84]";
 #endif 
 
 #ifdef SEM_DU_MAR_1C_X_XX_1H_ETC_MAR
    #define INPUT_TRUMPS    SOL_DIAMONDS
    #define INPUT_ON_LEAD   WEST
-   char const taskHandPBN[] = "[N:Q.874.AQ9654.653]";
+   char const txt.taskHandPBN[] = "[N:Q.874.AQ9654.653]";
 #endif 
 
 #ifdef SEMANTIC_1C_P_1H_2D_2H_MAR
    #define INPUT_TRUMPS    SOL_HEARTS
    #define INPUT_ON_LEAD   WEST
-   char const taskHandPBN[] = "[N:83.QJ874.A5.A965]";
+   char const txt.taskHandPBN[] = "[N:83.QJ874.A5.A965]";
 #endif 
 
 #ifdef SEMANTIC_1H_1S_2H_MAR
    #define INPUT_TRUMPS    SOL_HEARTS
    #define INPUT_ON_LEAD   WEST
-   char const taskHandPBN[] = "[N:QJ53.KJ8.953.AT7]";
+   char const txt.taskHandPBN[] = "[N:QJ53.KJ8.953.AT7]";
 #endif 
 
 #ifdef SEMANTIC_INV_AFTER_2H
    #define INPUT_TRUMPS    SOL_SPADES
    #define INPUT_ON_LEAD   WEST
-   char const taskHandPBN[] = "[N:9854.K96.Q65.AK8]";
+   char const txt.taskHandPBN[] = "[N:9854.K96.Q65.AK8]";
 #endif 
 
 #ifdef SEMANTIC_7D_OR_NT_FEB
    #define INPUT_TRUMPS    SOL_DIAMONDS
    #define INPUT_ON_LEAD   WEST
-   char const taskHandPBN[] = "[N:A7.AKJ8743.98.AK]";
+   char const txt.taskHandPBN[] = "[N:A7.AKJ8743.98.AK]";
 #endif 
 
 #ifdef SEMANTIC_4M_ON54_FEB_PATTON
    #define INPUT_TRUMPS    SOL_SPADES
    #define INPUT_ON_LEAD   WEST
-   char const taskHandPBN[] = "[N:KJT75.T73.K96.K8]";
+   char const txt.taskHandPBN[] = "[N:KJT75.T73.K96.K8]";
 #endif 
 
 #ifdef SEMANTIC_54M_FEB_PARTIZAN
@@ -68,46 +68,46 @@
 //   #define INPUT_TRUMPS    SOL_SPADES
    #define INPUT_TRUMPS    SOL_NOTRUMP
    #define INPUT_ON_LEAD   WEST
-   char const taskHandPBN[] = "[N:J532.AQ843.65.A5.]";
+   char const txt.taskHandPBN[] = "[N:J532.AQ843.65.A5.]";
 #endif 
 
 #ifdef SEMANTIC_TANJA_FEB_LONG_H
    #define INPUT_TRUMPS    SOL_HEARTS
    #define INPUT_ON_LEAD   EAST
-   char const taskHandPBN[] = "[N:AT.JT987532.K6.5.]";
+   char const txt.taskHandPBN[] = "[N:AT.JT987532.K6.5.]";
 #endif 
 
 #ifdef SEMANTIC_BASHA_NOV_NT
    #define INPUT_TRUMPS    SOL_NOTRUMP
    #define INPUT_ON_LEAD   EAST
-   char const taskHandPBN[] = "[N:85.A7.A63.KJT853.]";
+   char const txt.taskHandPBN[] = "[N:85.A7.A63.KJT853.]";
 #endif 
 
 #ifdef SEMANTIC_OCT_INDIAN_5C
    #define INPUT_TRUMPS    SOL_SPADES
    #define INPUT_ON_LEAD   EAST
-   //char const taskHandPBN[] = "[N:AQJ.KJT5.A763.95]";
-   char const taskHandPBN[] = "[N:QT985.K73.QJ653.]";
+   //char const txt.taskHandPBN[] = "[N:AQJ.KJT5.A763.95]";
+   char const txt.taskHandPBN[] = "[N:QT985.K73.QJ653.]";
 #endif 
 
 #ifdef SEMANTIC_JULY_MOROZOV_HAND_EVAL
    #define INPUT_TRUMPS    SOL_NOTRUMP
    #define INPUT_ON_LEAD   WEST
-   //char const taskHandPBN[] = "[N:AQJ.KJT5.A763.95]";
-   char const taskHandPBN[] = "[N:A95.KJT5.A763.QJ]";
+   //char const txt.taskHandPBN[] = "[N:AQJ.KJT5.A763.95]";
+   char const txt.taskHandPBN[] = "[N:A95.KJT5.A763.QJ]";
 #endif 
 
 #ifdef SEMANTIC_OCT_SEEK_6D
    #define INPUT_TRUMPS    SOL_DIAMONDS
    #define INPUT_ON_LEAD   WEST
-   char const taskHandPBN[] = "[N:K5.AQ96.K93.AK43]";
+   char const txt.taskHandPBN[] = "[N:K5.AQ96.K93.AK43]";
 #endif 
 
 #ifdef SEMANTIC_JUN_MINORS_VS_MAJORS
    // origin: Partizan, July 2023
    #define INPUT_TRUMPS    SOL_DIAMONDS
    #define INPUT_ON_LEAD   WEST
-   char const taskHandPBN[] = "[N:JT4.Q93.AT63.Q92]";
+   char const txt.taskHandPBN[] = "[N:JT4.Q93.AT63.Q92]";
 #endif
 
 
@@ -115,11 +115,11 @@
    // origin: Morozevic, Dec 2023
    #define INPUT_TRUMPS    SOL_CLUBS
    #define INPUT_ON_LEAD   EAST
-   char const taskHandPBN[] = "[N:.KJ5.T763.KQ9873]";
+   char const txt.taskHandPBN[] = "[N:.KJ5.T763.KQ9873]";
 #endif // SEMANTIC_OVERCALL_4C
 
 #ifdef FOUR_HANDS_TASK
-   char const taskHandPBN[] = "[N:234.567.AKQT.J98]";// just a dummy
+   char const txt.taskHandPBN[] = "[N:234.567.AKQT.J98]";// just a dummy
    #ifndef INPUT_TRUMPS
       #define INPUT_TRUMPS    SOL_HEARTS
    #endif
@@ -143,8 +143,8 @@ void Walrus::WithdrawByInput(void)
 {
    // convert to temp
    ddTableDeal pbnDeal;
-   if (ConvertFromPBN(config.taskHandPBN, pbnDeal.cards) != 1) {
-      printf("\nERROR: Cannot parse PBN: %s\n", config.taskHandPBN);
+   if (ConvertFromPBN(config.txt.taskHandPBN, pbnDeal.cards) != 1) {
+      printf("\nERROR: Cannot parse PBN: %s\n", config.txt.taskHandPBN);
       config.MarkFail();
       return;
    }
@@ -164,7 +164,7 @@ void Walrus::WithdrawByInput(void)
       }
    }
 
-   if (!shuf.AssertDeckSize(SYMM3, config.taskHandPBN)) {
+   if (!shuf.AssertDeckSize(SYMM3, config.txt.taskHandPBN)) {
       config.MarkFail();
    }
 }
