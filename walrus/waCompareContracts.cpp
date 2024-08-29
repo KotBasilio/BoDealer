@@ -6,10 +6,25 @@
 #include <string.h>
 
 #include "walrus.h"
-#include "../dds-develop/include/dll.h"
-#include "../dds-develop/examples/hands.h"
 
-#define min(a,b) (((a) < (b)) ? (a) : (b))
+static void DbgShowComparison(s64 gainPrima, s64 gainSecunda, s64 delta)
+{
+   if (!config.dbg.verboseComparisons) {
+      return;
+   }
+
+   printf("  Actions: A: %4lld; B: %4lld. ", gainPrima, gainSecunda);
+   const char* action = "A";
+   if (delta < 0) {
+      action = "B";
+      delta = -delta;
+   }
+   if (delta > 0) {
+      printf("%s is better by %lld points\n", action, delta);
+   } else {
+      printf("Any action is OK\n");
+   }
+}
 
 void Walrus::NoticeMagicFly(uint trickSuit, uint tricksNT)
 {
@@ -60,6 +75,8 @@ void Walrus::CompareOurContracts(uint tricksA, uint tricksB)
    // add up. may also convert to imps
    auto delta = gainPrima - gainSecunda;
    ui.primaBetterBy += delta;
+
+   DbgShowComparison(gainPrima, gainSecunda, delta);
 }
 
 //#define DBG_SHOW_EACH_COMPARISON
@@ -83,6 +100,7 @@ void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs)
 
    // debug
 #ifdef DBG_SHOW_EACH_COMPARISON
+   zzzDbgShowComparison(gainPrima, gainSecunda, delta);
    char *action = "Bidding   ";
    if (delta < 0) {
       action = "Refraining";
@@ -91,4 +109,7 @@ void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs)
    printf("   %4lld; %4lld. %s is better by %lld points\n", gainPrima, gainSecunda, action, delta);
 #endif 
 }
+
+// looks unused
+//#define min(a,b) (((a) < (b)) ? (a) : (b))
 

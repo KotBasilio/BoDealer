@@ -82,6 +82,11 @@ void Walrus::SemanticsToOrbitFixedHand(void)
    sem.SetTheirScorer(cumulScore, config.txt.secundaScorerCode);
 #endif
 
+#ifdef SEEK_DENOMINATION
+   sem.SetOurPrimaryScorer(cumulScore, config.txt.primaScorerCode);
+   sem.SetOurSecondaryScorer(cumulScore, config.txt.secundaScorerCode);
+#endif
+
 #ifdef SEEK_BIDDING_LEVEL
    sem.SetBiddingGameScorer(cumulScore, config.txt.primaScorerCode);
 #endif

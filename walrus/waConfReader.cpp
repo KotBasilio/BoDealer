@@ -38,6 +38,7 @@ char* WaConfig::Keywords::Filters = "FILTERS:";
 char* WaConfig::Keywords::TEnd = "--------";
 char* WaConfig::Keywords::Debug = "DEBUG: ";
 char* WaConfig::Keywords::ShowOnAdded = "SHOW BOARD ON ADDED";
+char* WaConfig::Keywords::ShowComparisons = "SHOW COMPARISONS";
 char* WaConfig::Keywords::ShowOnReconstructed = "SHOW RECONSTRUCTED";
 char* WaConfig::Keywords::VerboseCompile = "VERBOSE COMPILING";
 char* WaConfig::Keywords::Delimiters = " ,.!:;[]()+-\n";
@@ -110,6 +111,9 @@ void WaConfig::ReadDebugSetting(char* line)
    }
    if (IsStartsWith(line, key.VerboseCompile)) {
       dbg.verboseCompile = true;
+   }
+   if (IsStartsWith(line, key.ShowComparisons)) {
+      dbg.verboseComparisons = true;
    }
 }
 

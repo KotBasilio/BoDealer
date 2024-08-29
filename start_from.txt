@@ -3,11 +3,12 @@ is a line that starts with "TASK NAME".
 So we can comment out them easily at the line start
 
 Competitive:
-TASK NAME:AUG_BLITZ_VS_DIMULYA
+//TASK NAME:AUG_BLITZ_VS_DIMULYA
 //TASK NAME:AUG_TRICOLOR_OVER_OPP_3S
 //TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
 
 One sided:
+TASK NAME:AUG_JAGODINA_INVITE
 //TASK NAME:MAY24_TRHEE_SUITED_BALANCE
 //TASK NAME:MAY24_GLADIATOR
 //TASK NAME:MAY24_TENS_AND_NINES
@@ -20,8 +21,38 @@ Leads:
 //DEBUG: SHOW BOARD ON ADDED
 //DEBUG: SHOW RECONSTRUCTED
 //DEBUG: VERBOSE COMPILING
+//DEBUG: SHOW COMPARISONS
 
 -----------------------------------------------------------------------------------------------------------------------
+AUG_JAGODINA_INVITE Fix a 10 hcp 0535;
+Bidding: 1s p  2d(to h) p
+         2h p  ??
+Question: is there invit to 3NT?
+
+HAND: N:.AT753.Q32.A9763
+PRIMARY SCORER: V2N BY S
+SECONDARY SCORER: V2H BY S
+POSTMORTEM: HCP 20, 23
+
+FILTERS:
+    SOUTH: PointsRange, 10, 13
+    SOUTH: SpadesLen, 5, 5
+    SOUTH: SpadesNatural
+    SOUTH: HeartsLen, 1, 2
+
+    WEST: NoOvercall
+    EAST: NoOvercall
+
+-----------------------------------------------------------------------------------------------------------------------
+
+    SOUTH: ExcludeCombination
+       SOUTH: HeartsLen, 1, 1
+       SOUTH: AnyInListBelow {
+          SOUTH: ClubsLen, 5, 5
+          SOUTH: DiamondsLen, 5, 5
+       }
+    }
+
 AUG_BLITZ_VS_DIMULYA Fix a 10 hcp 3514;
 Bidding from LHO:
   1s    2d    pass  2h

@@ -136,6 +136,7 @@ struct WaConfig {
       bool viewBoardOnAdd = false;
       bool viewBoardOnReconstruct = false;
       bool verboseCompile = false;
+      bool verboseComparisons = false;
    } dbg;
 
    WaConfig();
@@ -173,6 +174,7 @@ private:
       static char* Delimiters;
       static char* Debug;
       static char* ShowOnAdded;
+      static char* ShowComparisons;
       static char* ShowOnReconstructed;
       static char* VerboseCompile;
    } key;

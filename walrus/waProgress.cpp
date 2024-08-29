@@ -164,16 +164,17 @@ void MiniUI::FillMiniRows()
 
    #ifdef SHOW_SACRIFICE_RESULTS
    {
-      sprintf(miniRowStart[IO_ROW_THEIRS+2], "(bid/refrain): ");
+      sprintf(miniRowStart[IO_ROW_COMPARISON], "(bid/refrain): ");
    }
    #endif 
 
    #ifdef SHOW_OUR_OTHER
    {
-      sprintf(miniRowStart[IO_ROW_OUR_DOWN], "  (ctrA down): ");
-      sprintf(miniRowStart[IO_ROW_OUR_MADE], "  (ctrA make): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS+0], "  (ctrB down): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS+1], "  (ctrB make): ");
+      sprintf(miniRowStart[IO_ROW_OUR_DOWN],   "  (ctrA down): ");
+      sprintf(miniRowStart[IO_ROW_OUR_MADE],   "  (ctrA make): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS+0],   "  (ctrB down): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS+1],   "  (ctrB make): ");
+      sprintf(miniRowStart[IO_ROW_COMPARISON], " (A, same, B): ");
    }
    #endif
 
@@ -181,7 +182,7 @@ void MiniUI::FillMiniRows()
    {
       sprintf(miniRowStart[IO_ROW_THEIRS + 0], "   (3NT down): ");
       sprintf(miniRowStart[IO_ROW_THEIRS + 1], "   (3NT make): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS + 2], "less, =, more: ");
+      sprintf(miniRowStart[IO_ROW_COMPARISON], "less, =, more: ");
    }
    #endif
 }
@@ -195,7 +196,7 @@ static bool IsRowSkippable(int i)
 
    // opp res => show theirs
    #if defined(SHOW_OPP_RESULTS) || defined(SHOW_OUR_OTHER)
-      return i > IO_ROW_THEIRS + 1;
+      return i > IO_ROW_COMPARISON;
    #endif
 
    // only our results => many are skippable
@@ -347,15 +348,19 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
 {
    // our other contract
    #ifdef SHOW_OUR_OTHER
-      owl.OnDone("The other contract: avg = %lld; ", cumulScore.ourOther / sumOppRows);
-      s64 sumBid = (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_PREFER_TO_BID];
-      s64 sumRef = (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_REFRAIN_BIDDING] + 
-                   (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_NO_DIFF];
-      s64 totalComparisons = __max(sumBid + sumRef, 1);
-      float percBetterBid = sumBid * 100.f / totalComparisons;
-      owl.OnDone("makes in %3.1f%% cases; superior in %3.1f%% cases\n", 
-         hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows, percBetterBid);
-         // todo ui.primaBetterBy / totalComparisons
+      owl.OnDone("The other contract: avg = %lld; makes in %3.1f%% cases\n", 
+         cumulScore.ourOther / sumOppRows, 
+         hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows);
+      s64 sumBid      = (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_PREFER_TO_BID];
+      s64 sumSame     = (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_NO_DIFF];
+      s64 sumRefrain  = (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_REFRAIN_BIDDING];
+      s64 totalComparisons = __max(sumBid + sumSame + sumRefrain, 1);
+      float posto = 100.f / totalComparisons;
+      owl.OnDone("Comparison: favor A %3.1f%%; same %3.1f%%; favor B %3.1f%%\n", 
+         sumBid * posto,
+         sumSame * posto,
+         sumRefrain * posto);
+      // todo ui.primaBetterBy / totalComparisons
    #endif
 
    // averages for opening lead
