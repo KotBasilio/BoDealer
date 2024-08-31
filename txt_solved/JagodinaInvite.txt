@@ -1,0 +1,177 @@
+
+        |\_______/|
+      / | [o] [o] | \
+     / /|    V    |\ \
+        |         |
+        -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+AUG_JAGODINA_INVITE : Fix a 10 hcp 0535;
+Bidding: 1s p  2d(to h) p
+         2h p  ??
+Question: is there invit to 3NT?
+Fixed hand is [N:.AT753.Q32.A9763]
+Scorers to use are: V2N BY S; V2H BY S
+Primary scorer (notrump, 8 tr): -100 120 150 180 210 240 270  /
+Contract-B scorer (hearts, 8 tr):                              /  -100 110 140 170 200 230 260
+----
+29:    NORTH     EAST    SOUTH     WEST
+30:    50514,       0,    >MLN,       0,  :   PointsRange 10 13 SOUTH
+31:        0,       0,    >MLN,       0,  :   SpadesLen 5 5 SOUTH
+32:        0,       0,   54326,       0,  :   SpadesNatural SOUTH
+33:        0,       0,  176080,       0,  :   HeartsLen 1 2 SOUTH
+34:        0,       0,       0,   42132,  :   NoOvercall WEST
+35:        0,   40244,       0,       0,  :   NoOvercall EAST
+36:        0,       0,    9318,       0,  :   SOUTH ExcludeCombination  {
+37:        0,       0,   49030,       0,  :     PointsRange 10 10 SOUTH
+38:        0,       0,    1754,       0,  :     ControlsRange 0 3 SOUTH
+39:        0,       0,       0,       0,  :   }
+40:        0,       0,     270,       0,  :   SOUTH ExcludeCombination  {
+41:        0,       0,   36166,       0,  :     PointsRange 11 11 SOUTH
+42:        0,       0,   14348,       0,  :     ControlsRange 0 1 SOUTH
+43:        0,       0,       0,       0,  :   }
+ 8 tricks board by South in notrump example:
+--------
+               -           HCP : 23
+               AT753       CTRL: 8
+               Q32
+               A9763
+   JT98                    K754
+   86                      KQ94
+   KT64                    J87
+   KJ2                     85
+               AQ632
+               J2
+               A95
+               QT4
+                                     A contract in hearts has 9 tricks.
+    suit   rank   score              suit   rank   score
+      H      6      5                  H      6      4
+      H      8      5                  H      8      4
+      D      4      4                  D      4      4
+      C      2      4                  D      6      4
+      D      6      4                  C      2      4
+      D      T      4                  D      T      4
+      D      K      4                  D      K      4
+      C      K      4                  C      K      4
+      S      J      4                  S      J      4
+      C      J      3                  C      J      3
+
+Seek 7 tricks board by South in notrump ... example:
+--------
+               -           HCP : 20
+               AT753       CTRL: 8
+               Q32
+               A9763
+   A93                     QJ652
+   Q986                    KJ2
+   KT4                     J95
+   JT4                     Q2
+               KT874
+               4
+               A876
+               K85
+                                     A contract in hearts has 8 tricks.
+    suit   rank   score              suit   rank   score
+      H      9      6                  H      6      5
+      H      6      6                  H      9      5
+      D      4      6                  H      Q      5
+      C      J      6                  D      4      5
+      D      T      6                  D      T      5
+      C      4      6                  D      K      5
+      D      K      6                  C      4      5
+      S      A      6                  C      J      5
+      S      3      6                  S      A      5
+      H      Q      5                  S      3      5
+      S      9      5                  S      9      5
+
+Seek 7 tricks board by South in notrump ... example:
+--------
+               -           HCP : 22
+               AT753       CTRL: 7
+               Q32
+               A9763
+   AT96                    KJ52
+   Q982                    J4
+   J9754                   K86
+   -                       K542
+               Q8743
+               K6
+               AT
+               QJT8
+                                     A contract in hearts has 8 tricks.
+    suit   rank   score              suit   rank   score
+      H      9      6                  H      9      5
+      D      7      5                  D      5      4
+      D      5      5                  D      7      4
+      D      9      5                  D      9      4
+      D      J      5                  D      J      4
+      H      2      5                  H      2      4
+      H      Q      5                  H      Q      4
+      S      6      5                  S      6      4
+      S      T      5                  S      T      4
+      S      A      5                  S      A      4
+
+  (ctrA down):     2761,     837,     105,      11,       1,       0,       0,        3715
+  (ctrA make):     2728,     884,      69,       4,       0,       0,       0,        3685
+       (----):        0,       0,       0,       0,       0,       0,       0,           0
+  (ctrB down):     1353,     258,      26,       4,       0,       0,       0,        1641
+  (ctrB make):     2744,    2088,     645,      71,      11,       0,       0,        5559
+ (A, same, B):        0,    2100,     751,    4349,       0,       0,       0,        7200
+Processed: 7400 total. West is on lead. Goal is 8 tricks in notrump.
+Averages: ideal = 0, bidGame = 0, partscore=0.   Chance to make = 49.8%.
+The other contract: avg = 72; makes in 77.2% cases
+Comparison: favor A 29.2%; same 10.4%; favor B 60.4%
+
+A split of board results by HCP from 20 to 23:
+(p 20 down):      102,      80,      23,       1,       0,   :      206,
+(p 20 make):       27,       1,       0,       0,       0,   :       28,  --> 11 %
+(p 21 down):     1066,     457,      57,       5,       1,   :     1586,
+(p 21 make):      432,      63,       5,       0,       0,   :      500,  --> 23 %
+(p 22 down):     1031,     231,      23,       3,       0,   :     1288,
+(p 22 make):     1013,     241,      19,       3,       0,   :     1276,  --> 49 %
+(p 23 down):      562,      69,       2,       2,       0,   :      635,
+(p 23 make):     1256,     579,      45,       1,       0,   :     1881,  --> 74 %
+The search took 0.1 sec + an aftermath 19 min 45 sec.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -30,7 +30,7 @@ Bidding: 1s p  2d(to h) p
 Question: is there invit to 3NT?
 
 HAND: N:.AT753.Q32.A9763
-PRIMARY SCORER: V2N BY S
+PRIMARY SCORER: V3C BY S
 SECONDARY SCORER: V2H BY S
 POSTMORTEM: HCP 20, 23
 
@@ -42,6 +42,21 @@ FILTERS:
 
     WEST: NoOvercall
     EAST: NoOvercall
+
+    SOUTH: ExcludeCombination
+       SOUTH: PointsRange, 10, 10
+       SOUTH: ControlsRange, 0, 3
+    }
+
+    SOUTH: ExcludeCombination
+       SOUTH: PointsRange, 11, 11
+       SOUTH: ControlsRange, 0, 1
+    }
+
+    SOUTH: ExcludeCombination
+       SOUTH: HeartsLen, 2, 2
+       SOUTH, ClubsLen, 0, 1
+    }
 
 -----------------------------------------------------------------------------------------------------------------------
 
