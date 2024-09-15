@@ -1,0 +1,88 @@
+
+        |\_______/|
+      / | [o] [o] | \
+     / /|    V    |\ \
+        |         |
+        -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+SEP_PARTIZAN_SPLIT_FIT : Fix a 13 hcp 3631;
+Bidding from part : p  p 1h p
+             2d(split) p ??
+Question: is there a game or an invit?
+//HAND: N:T64.AKQJT8.T82.K
+Fixed hand is [N:K64.AKQJT8.T82.T]
+Scorer to use is V4H BY N
+Primary scorer (hearts, 10 tr): -300 -200 -100 620 650 680 710  /
+----
+29:    NORTH     EAST    SOUTH     WEST
+30:    50022,       0,     >XM,       0,  :   PointsRange 8 10 SOUTH
+31:        0,       0,    >MLN,       0,  :   PassVul SOUTH
+32:        0,       0,    >MLN,       0,  :   HeartsLen 3 4 SOUTH
+33:        0,       0,       0,  823732,  :   NoOvercall WEST
+34:        0,  743452,       0,       0,  :   NoOvercall EAST
+35:        0,       0,   96734,       0,  :   SOUTH ExcludeCombination  {
+36:        0,       0,  442838,       0,  :     PointsRange 8 8 SOUTH
+37:        0,       0,  123506,       0,  :     SpadesLen 3 5 SOUTH
+38:        0,       0,   44448,       0,  :     ClubsLen 3 5 SOUTH
+39:        0,       0,   93960,       0,  :     DiamondsLen 3 5 SOUTH
+40:        0,       0,       0,       0,  :   }
+41:        0,       0,  654730,       0,  :   PointsSuitLimit CLB 0 SOUTH
+ 10 tricks board by North in hearts example:
+--------
+               K64         HCP : 21
+               AKQJT8      CTRL: 6
+               T82
+               T
+   Q853                    A2
+   -                       742
+   K53                     9764
+   KJ9863                  AQ54
+               JT97
+               9653
+               AQJ
+               72
+
+Seek 10 tricks board by North in hearts ... example:
+--------
+               K64         HCP : 22
+               AKQJT8      CTRL: 6
+               T82
+               T
+   AT872                   53
+   43                      96
+   4                       KJ976
+   AJ872                   KQ93
+               QJ9
+               752
+               AQ53
+               654
+
+  card suit   rank   equals score
+     0 C      3             3
+     1 C      9             3
+     2 C      K      Q      3
+     3 S      3             3
+     4 S      5             3
+     5 D      J             3
+     6 D      K             3
+     7 H      6             3
+     8 H      9             3
+     9 D      7      6      2
+    10 D      9             2
+	
+A split of board results by HCP from 21 to 23:
+(p 21 down):     8981,    1690,     158,      66,   :    10895,
+(p 21 make):    12785,    2658,       0,       0,   :    15443,  --> 58 %
+(p 22 down):     5964,     588,      96,      38,   :     6686,
+(p 22 make):     9659,    3681,       4,       0,   :    13344,  --> 66 %
+(p 23 down):      832,      62,      21,       8,   :      923,
+(p 23 make):     1835,     890,       6,       0,   :     2731,  --> 74 %
+The search took 0.3 sec + an aftermath 94.1 sec.
+
+    :  HITS COUNT   :
+       (down):    15769,    2340,     275,     112,       0,       0,       0,       18496
+       (make):    24267,    7227,      10,       0,       0,       0,       0,       31504
+Processed: 50000 total. East is on lead. Goal is 10 tricks in hearts.
+Averages: ideal = 0, bidGame = 351, partscore=0.   Chance to make = 63.0%.
+

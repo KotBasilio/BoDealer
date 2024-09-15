@@ -30,8 +30,9 @@ Bidding from part : p  p 1h p
              2d(split) p ??
 Question: is there a game or an invit?
 
-HAND: N:T64.AKQJT8.T82.K
-PRIMARY SCORER: V3N BY S
+//HAND: N:T64.AKQJT8.T82.K
+HAND: N:K64.AKQJT8.T82.T
+PRIMARY SCORER: V4H BY N
 POSTMORTEM: HCP 21, 23
 
 FILTERS:
@@ -48,6 +49,7 @@ FILTERS:
        SOUTH: ClubsLen, 3, 5
        SOUTH: DiamondsLen, 3, 5
     }
+    SOUTH: PointsSuitLimit, CLB, 0
 
 -----------------------------------------------------------------------------------------------------------------------
 AUG_JAGODINA_INVITE Fix a 10 hcp 0535;
