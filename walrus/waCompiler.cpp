@@ -78,6 +78,8 @@ static HandFilter ExportedHandFilters[] = {
    DESCRIBE_FILTER(No2SuitsAntiHeart, 0),
    DESCRIBE_FILTER(No2SuitsMinors, 0),
    DESCRIBE_FILTER(TakeoutOfClubs, 0),
+   DESCRIBE_FILTER(PassVul, 0),
+   DESCRIBE_FILTER(PassNV, 0),
 };
 
 bool Semantics::MiniLink(std::vector<MicroFilter>& filters)

@@ -59,6 +59,8 @@ public:
    uint No2SuitsAntiHeart(twContext* lay, const uint *par);
    uint No2SuitsMinors(twContext* lay, const uint* par);
    uint TakeoutOfClubs(twContext* lay, const uint* par);
+   uint PassVul(twContext* lay, const uint* par);
+   uint PassNV(twContext* lay, const uint* par);
    // -- branching
    uint AnyInListBelow(twContext* lay, const uint *par);
    uint ExcludeCombination(twContext* lay, const uint *par);
@@ -125,6 +127,12 @@ constexpr uint SKIP_BY_SANDWICH = SKIP_BY_OPP;
    auto seat = par[0];               \
    const auto &hcp(lay[seat].hcp);   \
    const auto &len(lay[seat].len)
+
+#define ACCESS_MICPARS_ALL           \
+   auto seat = par[0];               \
+   const auto &hcp(lay[seat].hcp);   \
+   const auto &len(lay[seat].len);   \
+   const auto &ctrl(lay[seat].ctrl)
 
 #define ACCESS_MICPAR_SUIT           \
    auto suit = par[1];

@@ -8,7 +8,8 @@ Competitive:
 //TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
 
 One sided:
-TASK NAME:AUG_JAGODINA_INVITE
+TASK NAME:SEP_PARTIZAN_SPLIT_FIT
+//TASK NAME:AUG_JAGODINA_INVITE
 //TASK NAME:MAY24_TRHEE_SUITED_BALANCE
 //TASK NAME:MAY24_GLADIATOR
 //TASK NAME:MAY24_TENS_AND_NINES
@@ -22,6 +23,31 @@ Leads:
 //DEBUG: SHOW RECONSTRUCTED
 //DEBUG: VERBOSE COMPILING
 //DEBUG: SHOW COMPARISONS
+
+-----------------------------------------------------------------------------------------------------------------------
+SEP_PARTIZAN_SPLIT_FIT Fix a 13 hcp 3631;
+Bidding from part : p  p 1h p
+             2d(split) p ??
+Question: is there a game or an invit?
+
+HAND: N:T64.AKQJT8.T82.K
+PRIMARY SCORER: V3N BY S
+POSTMORTEM: HCP 21, 23
+
+FILTERS:
+    SOUTH: PointsRange, 8, 10
+    SOUTH: PassVul
+    SOUTH: HeartsLen, 3, 4
+
+    WEST: NoOvercall
+    EAST: NoOvercall
+
+    SOUTH: ExcludeCombination
+       SOUTH: PointsRange, 8, 8
+       SOUTH: SpadesLen, 3, 5
+       SOUTH: ClubsLen, 3, 5
+       SOUTH: DiamondsLen, 3, 5
+    }
 
 -----------------------------------------------------------------------------------------------------------------------
 AUG_JAGODINA_INVITE Fix a 10 hcp 0535;

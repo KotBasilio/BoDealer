@@ -676,11 +676,13 @@ uint WaFilter::WeakNT(twContext* lay, const uint* par)
       return fail;
    }
 
+   // par[0] is seat, pass it
    shapeModelNT_A[0] = par[0];
    if (MIC_PASSED == ModelShape(lay, shapeModelNT_A)) {
       return MIC_PASSED;
    }
 
+   // par[0] is seat, pass it
    shapeModelNT_B[0] = par[0];
    if (MIC_PASSED == ModelShape(lay, shapeModelNT_B)) {
       return MIC_PASSED;
@@ -694,5 +696,73 @@ uint WaFilter::WeakGroup(twContext* lay, const uint* par)
 {
    // Polsih Clubs 1c weak group has the same shapes as weak-NT
    return WeakNT(lay, par);
+}
+
+uint WaFilter::PassNV(twContext* lay, const uint* par)
+{
+   ACCESS_MICPARS_ALL;
+
+   // we have additional weak openings
+   if (5 < hcp.total && hcp.total < 11) {
+      if (len.h > 3 && len.s > 3) {
+         return MIC_BLOCK;
+      }
+
+      if (7 < hcp.total) {
+         if (len.h > 4 || len.s > 4) {
+            if (ctrl.total > 1) {
+               return MIC_BLOCK;
+            }
+         }
+      }
+
+      if (hcp.total == 10 && (MIC_PASSED == WeakNT(lay, par))) {
+         return MIC_BLOCK;
+      }
+   }
+
+   // others are the same as VUL
+   return PassVul(lay, par);
+}
+
+uint WaFilter::PassVul(twContext* lay, const uint* par)
+{
+   ACCESS_MICPARS_ALL;
+
+   // get to 6-11
+   if (11 < hcp.total) {
+      return MIC_BLOCK;
+   }
+   if (hcp.total < 3) {
+      return MIC_PASSED;
+   }
+   if (hcp.total < 5) {
+      return No7Plus(lay, par);
+   }
+
+   // we open often 2 controls with 11 hcp
+   if (ctrl.total > 2) {
+      return MIC_BLOCK;
+   }
+
+   // account all weak openings
+   if (len.h > 5 || len.s > 5) {
+      return MIC_BLOCK;
+   }
+   if (len.c > 6 || len.d > 6) {
+      return MIC_BLOCK;
+   }
+   if (len.s > 4) {
+      if (len.h > 4 || len.d > 4 || len.c > 4) {
+         return MIC_BLOCK;
+      }
+   }
+   if (len.h > 4) {
+      if (len.d > 4 || len.c > 4) {
+         return MIC_BLOCK;
+      }
+   }
+
+   return MIC_PASSED;
 }
 
