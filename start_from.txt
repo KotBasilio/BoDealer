@@ -33,7 +33,7 @@ We have a weak hand with a short club.
 Question: Should we ask 2d or just pass?
 Example: (gambler)
 
-HAND: N:T642.A8532.T82.T
+HAND: N:T6542.A8753.T2.T
 PRIMARY SCORER: V2C BY S
 
 FILTERS:

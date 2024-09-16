@@ -96,7 +96,7 @@ const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
 // --- Iterations count
 typedef u64 ucell;
 #ifdef _DEBUG
-   //#define SKIP_HELPERS
+   #define SKIP_HELPERS
    //#define SOLVE_ONE_BY_ONE
    const ucell WALRUS_PERF_FRACTION = 2000;
 #else
@@ -116,11 +116,12 @@ const ucell MAX_ITERATION = 251000000;// a quarter of mlrd
 //const ucell MAX_ITERATION = 3000;
 
 const uint MAX_TASKS_TO_SOLVE = 200 * 1000;
+const uint AIM_TASKS_COUNT = MAX_TASKS_TO_SOLVE * 100;
 //const uint AIM_TASKS_COUNT = 150 * 1000;
 //const uint AIM_TASKS_COUNT = 120 * 1000;
 //const uint AIM_TASKS_COUNT = MAX_TASKS_TO_SOLVE / 2;
 //const uint AIM_TASKS_COUNT = 70 * 1000;
-const uint AIM_TASKS_COUNT = 50 * 1000;
+//const uint AIM_TASKS_COUNT = 50 * 1000;
 //const uint AIM_TASKS_COUNT = 30*1000;
 //const uint AIM_TASKS_COUNT = 20*1000;
 //const uint AIM_TASKS_COUNT = 5*1000;

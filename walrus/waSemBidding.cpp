@@ -111,6 +111,32 @@ void Walrus::FillSemantic(void)
 {
    SemanticsToOrbitFixedHand();
    sem.SetOurPrimaryScorer(cumulScore, config.txt.primaScorerCode);
+   sem.onBoardFound = &Walrus::GrabPrecisionVariant;
+   sem.onAfterMath = (&Walrus::NOP);
+   sem.onShareStart = (&Walrus::NOP);
+}
+
+void Walrus::GrabPrecisionVariant(twContext* lay)
+{
+   //const auto &hcp_N(lay[NORTH].hcp);
+   const auto &len_S(lay[SOUTH].len);
+   //const auto &ctr_S(lay[SOUTH].ctrl);
+
+   // having 4M
+   if (len_S.c == 5) {
+      if (len_S.h < 4 && len_S.s < 4) {
+         DEBUG_UNEXPECTED;
+      }
+      progress.SolvedExtraMark(IO_ROW_SACRIFICE, IO_CAMP_PREFER_TO_BID);
+   } else if (len_S.h < 4 && len_S.s < 4) {
+      progress.SolvedExtraMark(IO_ROW_SACRIFICE, IO_CAMP_REFRAIN_BIDDING);
+   } else {
+      progress.SolvedExtraMark(IO_ROW_SACRIFICE, IO_CAMP_PREFER_TO_BID);
+   }
+
+   // mark together all saved boards
+   progress.SelectedMark();
+   mul.countToSolve++;
 }
 #endif // SEP_RESPONCE_TO_2C
 

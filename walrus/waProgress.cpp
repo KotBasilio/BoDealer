@@ -408,6 +408,7 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
       switch (config.postm.Type)
       {
          case WPM_NONE:
+            break;
          case WPM_OPENING_LEADS:
             ShowDetailedReportOpLeads();
             break;

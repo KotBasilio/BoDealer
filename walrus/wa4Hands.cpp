@@ -120,6 +120,12 @@ void Walrus::ClassifyOnPermute(twContext* lay)
       return;
    }
 
+   // usually add the board
+   (this->*sem.onBoardFound)(lay);
+}
+
+void Walrus::AddForSolving(twContext* lay)
+{
    // save all three hands
    mul.SaveThreeHands(lay);
 

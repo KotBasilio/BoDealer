@@ -92,7 +92,9 @@ protected:
     void VoidPostmortem(DdsTricks& tr, deal& cards) {}
     void VoidSecondSolve(boards& bo, solvedBoards& solved) {}
     void VoidCompare(uint trickSuit, uint tricksNT) {}
+    void AddForSolving(twContext* lay);
     void GrabSplinterVariant(twContext* lay);
+    void GrabPrecisionVariant(twContext* lay);
     u64  SumFirstHand();
     u64  SumSecondHand();
     u64  Sum3rdHand();

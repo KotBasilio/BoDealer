@@ -90,6 +90,7 @@ typedef void (CumulativeScore::* SemGenScoring)(DdsTricks &tr);
 typedef void (CumulativeScore::* SemSingleScoring)(uint tricks);
 typedef void (Walrus::*          SemComparing)(uint trickSuit, uint tricksNT);
 typedef void (Walrus::*          SemPostMortem)(DdsTricks& tr, deal& cards);
+typedef void (Walrus::*          SemOnBoardFound)(twContext* lay);
 typedef void (MiniUI::*          SemOnBoardAdded)(twContext* lay);
 typedef void (Walrus::*          SemSecondSolver)(struct boards& bo, struct solvedBoards& solved);
 struct Semantics {
@@ -98,6 +99,7 @@ struct Semantics {
    SemFuncType              onScanCenter;
    SemShufflerFunc          fillFlipover;
    std::vector<MicroFilter> vecFilters;
+   SemOnBoardFound          onBoardFound;
    SemOnBoardAdded          onBoardAdded;
    SemFuncType              onAfterMath;
    SemSecondSolver          solveSecondTime;
