@@ -266,7 +266,7 @@ void Semantics::SetBiddingGameScorer(CumulativeScore& cs, const char* code)
    }
 
    // allow to compare
-   onSinglePrimary = &CumulativeScore::BiddingLevel;
+   onPrimaryScoring = &CumulativeScore::BiddingLevel;
 }
 
 void Semantics::SetOpeningLeadScorer(CumulativeScore& cs, const char* code)

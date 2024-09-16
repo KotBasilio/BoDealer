@@ -9,8 +9,8 @@ Competitive:
 
 One sided:
 //TASK NAME:COPILTOT
-TASK NAME:SEP_RESPONCE_TO_2C
-//TASK NAME:SEP_PARTIZAN_SPLIT_FIT
+//TASK NAME:SEP_RESPONCE_TO_2C
+TASK NAME:SEP_PARTIZAN_SPLIT_FIT
 //TASK NAME:AUG_JAGODINA_INVITE
 //TASK NAME:MAY24_TRHEE_SUITED_BALANCE
 //TASK NAME:MAY24_GLADIATOR
@@ -25,6 +25,19 @@ Leads:
 //DEBUG: SHOW RECONSTRUCTED
 //DEBUG: VERBOSE COMPILING
 //DEBUG: SHOW COMPARISONS
+
+-----------------------------------------------------------------------------------------------------------------------
+COPILTOT Playing on Gambler
+no bids, no questions
+
+HAND: N:K64.AKQJT8.T82.T
+PRIMARY SCORER: V4H BY N
+POSTMORTEM: HCP 21, 23
+
+FILTERS:
+    SOUTH: PointsRange, 8, 10
+    SOUTH: PassVul
+    SOUTH: HeartsLen, 3, 4
 
 -----------------------------------------------------------------------------------------------------------------------
 SEP_RESPONCE_TO_2C A general question. 
@@ -49,19 +62,6 @@ FILTERS:
        SOUTH: SpadesLen, 0, 3
        SOUTH: HeartsLen, 0, 3
     }
-
------------------------------------------------------------------------------------------------------------------------
-COPILTOT Playing on Ganbler
-no bids, no questions
-
-HAND: N:K64.AKQJT8.T82.T
-PRIMARY SCORER: V4H BY N
-POSTMORTEM: HCP 21, 23
-
-FILTERS:
-    SOUTH: PointsRange, 8, 10
-    SOUTH: PassVul
-    SOUTH: HeartsLen, 3, 4
 
 -----------------------------------------------------------------------------------------------------------------------
 SEP_PARTIZAN_SPLIT_FIT Fix a 13 hcp 3631;

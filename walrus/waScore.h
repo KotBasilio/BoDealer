@@ -61,8 +61,8 @@ struct CumulativeScore {
    void Primary        (DdsTricks &tr) { prima  (tr.plainScore); }
    void Secondary      (DdsTricks &tr) { secunda(tr.plainScore); }
    void Tertiary       (DdsTricks &tr) { tertia (tr.plainScore); }
-   void BiddingLevel(uint tricks);
-   void OpeningLead (DdsTricks &tr);
+   void BiddingLevel   (DdsTricks &tr);
+   void OpeningLead    (DdsTricks &tr);
    void FillSameLinears(const CumulativeScore &other);
 };
 

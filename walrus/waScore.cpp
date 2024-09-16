@@ -79,9 +79,10 @@ void CumulativeScore::LineScorer::FillUpon(s64* ourBase, const LineScorer& other
    outSum = ourBase + offset;
 }
 
-void CumulativeScore::BiddingLevel(uint tricks)
+void CumulativeScore::BiddingLevel(DdsTricks& tr)
 {
    // find out ideal
+   uint tricks = tr.plainScore;
    auto gainGame = prima.Get(tricks);
    auto gainPartscore = secunda.Get(tricks);
    ideal += gainGame > gainPartscore ? gainGame : gainPartscore;
