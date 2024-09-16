@@ -36,6 +36,20 @@ Example: (gambler)
 HAND: N:T642.A8532.T82.T
 PRIMARY SCORER: V2C BY S
 
+FILTERS:
+    WEST: NoOvercall
+
+    SOUTH: PointsRange, 11, 16
+    SOUTH: ClubsLen, 5, 7
+    SOUTH: SpadesLen, 0, 4
+    SOUTH: DiamondsLen, 0, 4
+    SOUTH: HeartsLen, 0, 4
+    SOUTH: ExcludeCombination {
+       SOUTH: ClubsLen, 5, 5
+       SOUTH: SpadesLen, 0, 3
+       SOUTH: HeartsLen, 0, 3
+    }
+
 -----------------------------------------------------------------------------------------------------------------------
 COPILTOT Playing on Ganbler
 no bids, no questions
@@ -68,7 +82,7 @@ FILTERS:
     WEST: NoOvercall
     EAST: NoOvercall
 
-    SOUTH: ExcludeCombination
+    SOUTH: ExcludeCombination {
        SOUTH: PointsRange, 8, 8
        SOUTH: SpadesLen, 3, 5
        SOUTH: ClubsLen, 3, 5

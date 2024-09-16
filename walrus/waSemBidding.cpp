@@ -106,3 +106,11 @@ void Walrus::FillSemantic(void)
 }
 #endif 
 
+#ifdef SEP_RESPONCE_TO_2C
+void Walrus::FillSemantic(void)
+{
+   SemanticsToOrbitFixedHand();
+   sem.SetOurPrimaryScorer(cumulScore, config.txt.primaScorerCode);
+}
+#endif // SEP_RESPONCE_TO_2C
+
