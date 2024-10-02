@@ -115,19 +115,22 @@ static void ShowAllScores()
    PrintCode("V2C");
    PrintCode("V3NX");
    PrintCode("V2SX");
-
-   printf("Waiting for the club to start.\n");
-   char tmpBuf[10];
-   gets_s(tmpBuf, 5);
 }
 
-void TrainingTask();
+//void TrainingTask();
+extern void LibZipTask();
 
 int main(int argc, char* argv[])
 {
    if (argc < 2) {
       ShowAllScores();
+      //LibZipTask();
       //TrainingTask();
+      //printf("Waiting for the club to start.\n");
+      printf("Enter to exit.\n");
+      char tmpBuf[10];
+      gets_s(tmpBuf, 5);
+
       return 0;
    }
 
@@ -137,32 +140,3 @@ int main(int argc, char* argv[])
    return 0;
 }
 
-void TrainingTask()
-{
-   int R = 0, A = 1000;
-   printf("We will search a min of a sequence. End with a negative number.\n");
-
-   do {
-      printf("Enter next number --->");
-      auto howMuch = scanf("%d", &R);
-
-      if (howMuch > 0) {
-         if (R >= 0) {
-            if (R < A) {
-               A = R;
-               printf("Accepted: %d. A min has changed\n", R);
-            } else {
-               printf("Accepted: %d. A min stays\n", R);
-            }
-         }
-      } else {
-         char garbage[128];
-         scanf("%s", garbage);
-         printf("Cannot read '%s'. A min stays\n", garbage);
-      }
-
-   } while (R >= 0);
-
-   printf("End of the task. Minimum is  %d\n", A);
-
-}

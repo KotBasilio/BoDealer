@@ -8,13 +8,15 @@
 typedef unsigned int uint;
 typedef signed long long s64;
 
-constexpr uint SCO_ACTIONS = 3; // Pass, Dbl, ReDbl
-constexpr uint SCO_LEVELS  = 7; // 1..7
-constexpr uint SCO_DENOMS  = 3; // m, M, NT
-constexpr uint SCO_TRICKS  = 14;// 0..13
-constexpr uint SCO_VUL     = 2; // nv, V
+constexpr uint SCO_ACTIONS     = 3; // Pass, Dbl, ReDbl
+constexpr uint SCO_LEVELS      = 7; // 1..7
+constexpr uint SCO_DENOMS      = 3; // m, M, NT
+constexpr uint SCO_TRICKS      = 14;// 0..13
+constexpr uint SCO_VUL         = 2; // nv, V
 constexpr uint SIZE_LINEAR_SCORES = SCO_ACTIONS * SCO_LEVELS * SCO_DENOMS * SCO_VUL * SCO_TRICKS ;
-s64  gLinearScores[SIZE_LINEAR_SCORES + SCO_TRICKS];
+constexpr uint SCO_DEBUG_TAIL  = 5;
+s64  gLinearScores[SIZE_LINEAR_SCORES + SCO_DEBUG_TAIL];
+uint gSizeLinearScores = SIZE_LINEAR_SCORES;
 
 static void MinorPartscore(s64*& cur, int level)
 {

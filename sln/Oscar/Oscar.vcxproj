@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClCompile Include="OsBook.cpp" />
     <ClCompile Include="Oscar.cpp" />
+    <ClCompile Include="TestLibZip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Oscar.h" />
