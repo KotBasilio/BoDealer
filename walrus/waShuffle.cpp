@@ -260,3 +260,22 @@ u64 Shuffler::Sum3rdHand()
    );
 }
 
+void Shuffler::WithdrawHolding(uint hld, uint waPosByDds)
+{
+   // scan cards
+   u64 waSuit = 1LL << waPosByDds;
+   WithdrawDeuce(hld & R2, waSuit);
+   WithdrawRank (hld & R3, waSuit, waPosByDds);
+   WithdrawRank (hld & R4, waSuit, waPosByDds);
+   WithdrawRank (hld & R5, waSuit, waPosByDds);
+   WithdrawRank (hld & R6, waSuit, waPosByDds);
+   WithdrawRank (hld & R7, waSuit, waPosByDds);
+   WithdrawRank (hld & R8, waSuit, waPosByDds);
+   WithdrawRank (hld & R9, waSuit, waPosByDds);
+   WithdrawRank (hld & RT, waSuit, waPosByDds);
+   WithdrawRank (hld & RJ, waSuit, waPosByDds);
+   WithdrawRank (hld & RQ, waSuit, waPosByDds);
+   WithdrawRank (hld & RK, waSuit, waPosByDds);
+   WithdrawRank (hld & RA, waSuit, waPosByDds);
+}
+

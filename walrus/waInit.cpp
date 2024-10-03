@@ -137,14 +137,15 @@ Semantics::Semantics()
    , onBoardFound        (&Walrus::AddForSolving)
    , onBoardAdded        (&MiniUI::VoidAdded)
    , onScanCenter        (&Walrus::NOP)
-   , onAfterMath         (&Walrus::NOP) 
    , onPrimaryScoring    (&CumulativeScore::VoidGenScoring)
    , onSinglePrimary     (&CumulativeScore::VoidSingleScoring)
    , onSecondScoring     (&CumulativeScore::VoidGenScoring)
    , onSingleSecondary   (&CumulativeScore::VoidSingleScoring)
+   , onAfterMath         (&Walrus::NOP) 
    , onMarkAfterSolve    (&Walrus::VoidFirstMarks)
    , solveSecondTime     (&Walrus::VoidSecondSolve)
    , onCompareContracts  (&Walrus::VoidCompare)
+   , onSecondMarks       (&Walrus::VoidSecondMarks)
    , scanCover(ACTUAL_CARDS_COUNT)
    , dlBase(nullptr)
 {
@@ -163,6 +164,7 @@ Semantics::Semantics()
       onCompareContracts = &Walrus::NoticeMagicFly;
    #elif defined(THE_OTHER_IS_OURS)
       onCompareContracts = &Walrus::CompareOurContracts;
+      onSecondMarks = &Walrus::AddMarksByCamp;
    #endif
 
 }
@@ -299,22 +301,4 @@ void Walrus::InitDeck(void)
    sem.PrepareBaseDeal();
 }
 
-void Walrus::WithdrawHolding(uint hld, uint waPosByDds)
-{
-   // scan cards
-   u64 waSuit = 1LL << waPosByDds;
-   WithdrawDeuce(hld & R2, waSuit);
-   WithdrawRank (hld & R3, waSuit, waPosByDds);
-   WithdrawRank (hld & R4, waSuit, waPosByDds);
-   WithdrawRank (hld & R5, waSuit, waPosByDds);
-   WithdrawRank (hld & R6, waSuit, waPosByDds);
-   WithdrawRank (hld & R7, waSuit, waPosByDds);
-   WithdrawRank (hld & R8, waSuit, waPosByDds);
-   WithdrawRank (hld & R9, waSuit, waPosByDds);
-   WithdrawRank (hld & RT, waSuit, waPosByDds);
-   WithdrawRank (hld & RJ, waSuit, waPosByDds);
-   WithdrawRank (hld & RQ, waSuit, waPosByDds);
-   WithdrawRank (hld & RK, waSuit, waPosByDds);
-   WithdrawRank (hld & RA, waSuit, waPosByDds);
-}
 

@@ -37,26 +37,6 @@ void Walrus::NoticeMagicFly(uint trickSuit, uint tricksNT, const deal& cards)
    }
 }
 
-void Walrus::CompareSlams(uint tricksA, uint tricksB, const deal& cards)
-{
-   // detect score
-   auto gainPrima   = cumulScore.prima.Get(tricksA);
-   auto gainSecunda = cumulScore.secunda.Get(tricksB);
-
-   // mark
-   if (gainPrima > gainSecunda) {
-      progress.SolvedExtraMark(IO_ROW_COMPARISON,IO_CAMP_PREFER_PRIMA);
-   } else if (gainPrima == gainSecunda) {
-      progress.SolvedExtraMark(IO_ROW_SACRIFICE,IO_CAMP_NO_DIFF);
-   } else {
-      progress.SolvedExtraMark(IO_ROW_COMPARISON,IO_CAMP_PREFER_SECUNDA);
-   }
-
-   // add up. may also convert to imps
-   auto delta = gainPrima - gainSecunda;
-   ui.primaBetterBy += delta;
-}
-
 void Walrus::CompareOurContracts(uint tricksA, uint tricksB, const deal& cards)
 {
    // detect score
@@ -64,18 +44,16 @@ void Walrus::CompareOurContracts(uint tricksA, uint tricksB, const deal& cards)
    auto gainSecunda = cumulScore.secunda.Get(tricksB);
 
    // mark
-   if (gainPrima > gainSecunda) {
-      progress.SolvedExtraMark(IO_ROW_COMPARISON,IO_CAMP_PREFER_PRIMA);
-   } else if (gainPrima == gainSecunda) {
-      progress.SolvedExtraMark(IO_ROW_SACRIFICE,IO_CAMP_NO_DIFF);
-   } else {
-      progress.SolvedExtraMark(IO_ROW_COMPARISON,IO_CAMP_PREFER_SECUNDA);
-   }
+   uint camp = (gainPrima >  gainSecunda) ? IO_CAMP_PREFER_PRIMA :
+               (gainPrima == gainSecunda) ? IO_CAMP_NO_DIFF : IO_CAMP_PREFER_SECUNDA;
+   progress.SolvedExtraMark(IO_ROW_COMPARISON, camp);
+   AddMarksByCamp(camp, cards);
 
    // add up. may also convert to imps
    auto delta = gainPrima - gainSecunda;
    ui.primaBetterBy += delta;
 
+   // dbg
    DbgShowComparison(gainPrima, gainSecunda, delta);
 }
 

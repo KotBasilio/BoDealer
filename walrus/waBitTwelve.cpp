@@ -95,21 +95,21 @@ uint Walrus::CountKeyCards(SplitBits &hand)
 }
 
 // -----------------------------------------------------------------------
-// input to walrus
-void Walrus::WithdrawDeuce(uint rankBit, u64 waSuit)
+// input to Shuffler
+void Shuffler::WithdrawDeuce(uint rankBit, u64 waSuit)
 {
    // deuce has no bit
    if (rankBit) {
-      shuf.WithdrawCard(waSuit);
+      WithdrawCard(waSuit);
    }
 }
 
-void Walrus::WithdrawRank(uint rankBit, u64 waSuit, uint waSuitByDds)
+void Shuffler::WithdrawRank(uint rankBit, u64 waSuit, uint waSuitByDds)
 {
    // other bits positions are 1 pos up from DDS
    if (rankBit) {
       u64 waBit = ((u64)rankBit) << (waSuitByDds + 1);
-      shuf.WithdrawCard(waSuit + waBit);
+      WithdrawCard(waSuit + waBit);
    }
 }
 

@@ -124,7 +124,7 @@ void Walrus::FillSemantic(void)
    SemanticsToOrbitFixedHand();
    sem.onSinglePrimary = &CumulativeScore::OurNV7m;
    sem.onSingleSecondary = &CumulativeScore::Our2_NV7NT;
-   sem.onCompareContracts = &Walrus::CompareSlams;
+   sem.onCompareContracts = &Walrus::CompareOurContracts; // was CompareSlams
    sem.onMarkAfterSolve = &Walrus::AddMarksByHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 13);

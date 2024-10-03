@@ -160,7 +160,7 @@ void Walrus::WithdrawByInput(void)
    for (int h = 0; h < DDS_HANDS; h++) {
       for (int s = 0; s < DDS_SUITS; s++) {
          auto hld = (*input_holdings)[s][h];
-         WithdrawHolding(hld, wa_PosByDds[s]);
+         shuf.WithdrawHolding(hld, wa_PosByDds[s]);
       }
    }
 

@@ -42,101 +42,98 @@ protected:
    // inits
    bool StartOscar();
    void InitDeck(void);
+   void WithdrawByInput();
    void DetectGoals();
 
-    // withdrawals
-    void WithdrawByInput();
-    void WithdrawHolding(uint hld, uint waSuitByDds);
-    void WithdrawDeuce(uint rankBit, u64 waSuit);
-    void WithdrawRank(uint rankBit, u64 waSuit, uint waSuitByDds);
+   // scans
+   void ScanTrivial();
+   void ScanKeycards();
+   void Scan4Hands();
+   void Scan3FixedWest();
+   void Scan3FixedNorth();
 
-    // scans
-    void ScanTrivial();
-    void ScanKeycards();
-    void Scan4Hands();
-    void Scan3FixedWest();
-    void Scan3FixedNorth();
+   // solving
+   void AllocFilteredTasksBuf();
+   void SolveSavedTasks();
+   void SolveOneByOne(struct deal &dlBase);
+   void SolveInChunks();
+   void SolveOneChunk(uint i, uint step);
+   void HandleSolvedChunk(struct boards& bo, struct solvedBoards& chunk);
+   void SolveSecondTime(struct boards& bo, const struct solvedBoards& chunk);
+   void NoticeMagicFly(uint trickSuit, uint tricksNT, const deal& cards);
+   void NoticeBidProfit(uint tOurs, uint tTheirs, const deal& cards);
+   void CompareOurContracts(uint tricksA, uint tricksB, const deal& cards);
+   void HandleDDSFail(int res);
 
-    // solving
-    void AllocFilteredTasksBuf();
-    void SolveSavedTasks();
-    void SolveOneByOne(struct deal &dlBase);
-    void SolveInChunks();
-    void SolveOneChunk(uint i, uint step);
-    void HandleSolvedChunk(struct boards& bo, struct solvedBoards& chunk);
-    void SolveSecondTime(struct boards& bo, const struct solvedBoards& chunk);
-    void NoticeMagicFly(uint trickSuit, uint tricksNT, const deal& cards);
-    void NoticeBidProfit(uint tOurs, uint tTheirs, const deal& cards);
-    void CompareOurContracts(uint tricksA, uint tricksB, const deal& cards);
-    void CompareSlams(uint tricksA, uint tricksB, const deal& cards);
-    void HandleDDSFail(int res);
+   // multi-thread & joined effort
+   void  LaunchHelpers();
+   void  ShowEffortSplit(Walrus &hA, Walrus &hB);
+   ucell DoTheShare();
+   void  DoIteration();
+   void  Supervise(void);
+   void  CoWork(Walrus * other);
+   void  MergeResults(Walrus *other);
+   void  ClearHelpers();
+   const char *GetName() const { return mul.nameHlp; }
+   uint  NumFiltered() const   { return mul.countToSolve; }
+   WaMulti mul;
 
-    // multi-thread & joined effort
-    void  LaunchHelpers();
-    void  ShowEffortSplit(Walrus &hA, Walrus &hB);
-    ucell DoTheShare();
-    void  DoIteration();
-    void  Supervise(void);
-    void  CoWork(Walrus * other);
-    void  MergeResults(Walrus *other);
-    void  ClearHelpers();
-    const char *GetName() const { return mul.nameHlp; }
-    uint  NumFiltered() const   { return mul.countToSolve; }
-    WaMulti mul;
+   // semantics
+   bool InitSemantics();
+   void FillSemantic(void);
+   void AddForSolving(twContext* lay);
+   void GrabSplinterVariant(twContext* lay);
+   void GrabPrecisionVariant(twContext* lay);
+   Semantics &sem;
+   // -- no-operations in semantics
+   void NOP() {}
+   void VoidSingleScoring(DdsTricks &tr) {}
+   void VoidFirstMarks(DdsTricks& tr, const deal& cards) {}
+   void VoidSecondMarks(uint camp, const deal& cards) {}
+   void VoidSecondSolve(boards& bo, const solvedBoards& solved) {}
+   void VoidCompare(uint trickSuit, uint tricksNT, const deal& cards) {}
 
-    // semantics
-    bool InitSemantics();
-    void FillSemantic(void);
-    void AddForSolving(twContext* lay);
-    void GrabSplinterVariant(twContext* lay);
-    void GrabPrecisionVariant(twContext* lay);
-    Semantics &sem;
-    // -- no-operations in semantics
-    void NOP() {}
-    void VoidSingleScoring(DdsTricks &tr) {}
-    void VoidFirstMarks(DdsTricks& tr, const deal& cards) {}
-    void VoidSecondSolve(boards& bo, const solvedBoards& solved) {}
-    void VoidCompare(uint trickSuit, uint tricksNT, const deal& cards) {}
+   // scoring & progress
+   CumulativeScore cumulScore;
+   void ScoreWithPrimary(DdsTricks &tr);
+   void ScoreWithSecondary(DdsTricks &tr);
+   void AddScorerValues(char* tail);
+   Progress progress;
+   void AddMarksByHCP(DdsTricks& tr, const deal& cards);
+   void AddMarksByOpLeads(DdsTricks& tr, const deal& cards);
+   void AddMarksBySuit(DdsTricks& tr, const deal& cards);
+   void AddMarksByCamp(uint camp, const deal& cards);
 
-    // scoring & progress
-    CumulativeScore cumulScore;
-    void ScoreWithPrimary(DdsTricks &tr);
-    void ScoreWithSecondary(DdsTricks &tr);
-    void AddScorerValues(char* tail);
-    Progress progress;
-    void AddMarksByHCP(DdsTricks& tr, const deal& cards);
-    void AddMarksByOpLeads(DdsTricks& tr, const deal& cards);
-    void AddMarksBySuit(DdsTricks& tr, const deal& cards);
-
-    // UI progress and reports
-    MiniUI ui;
-    void SummarizeFiltering();
-    void ReportTime();
-    void ReportAllLines();
-    bool ConsiderDashOutLine(ucell sumline);
-    void DisplaySolvingStats(int i, ucell sumline);
-    void DisplayFilterNumbers(uint ip);
-    void DisplayStatCell(ucell cell);
-    void RepeatLineWithPercentages(int i, ucell sumline);
-    void HandleFilterLine(uint ip);
-    void MiniReport(ucell toGo);
-    void ShowProgress(ucell idx);
-    bool RegularBalanceCheck();
-    void UpdateFarColumnUI();
-    void ShowPercentages(s64 sumRows);
-    void ShowBiddingLevel(s64 sumRows);
-    void ShowTheirScore(s64 doneTheirs);
-    void ShowOptionalReports(s64 doneOurs, s64 doneTheirs);
-    void AddOverallStats(int idx);
-    void ShowAdvancedStatistics(int idx);
-    void AddSetContracts(int idx);
-    void AddMadeContracts(int idx);
-    void ShowSummarizedExtraMarks();
-    void ShowDetailedReportHighcards();
-    void ShowDetailedReportControls();
-    void ShowDetailedReportOpLeads();
-    void ShowDetailedReportSuit();
-    void ShowMiniHits(ucell* hitsRow, ucell* hitsCamp);
+   // UI progress and reports
+   MiniUI ui;
+   void SummarizeFiltering();
+   void ReportTime();
+   void ReportAllLines();
+   bool ConsiderDashOutLine(ucell sumline);
+   void DisplaySolvingStats(int i, ucell sumline);
+   void DisplayFilterNumbers(uint ip);
+   void DisplayStatCell(ucell cell);
+   void RepeatLineWithPercentages(int i, ucell sumline);
+   void HandleFilterLine(uint ip);
+   void MiniReport(ucell toGo);
+   void ShowProgress(ucell idx);
+   bool RegularBalanceCheck();
+   void UpdateFarColumnUI();
+   void ShowPercentages(s64 sumRows);
+   void ShowBiddingLevel(s64 sumRows);
+   void ShowTheirScore(s64 doneTheirs);
+   void ShowOptionalReports(s64 doneOurs, s64 doneTheirs);
+   void AddOverallStats(int idx);
+   void ShowAdvancedStatistics(int idx);
+   void AddSetContracts(int idx);
+   void AddMadeContracts(int idx);
+   void ShowSummarizedExtraMarks();
+   void ShowDetailedReportHighcards();
+   void ShowDetailedReportCompWithHcp();
+   void ShowDetailedReportControls();
+   void ShowDetailedReportOpLeads();
+   void ShowDetailedReportSuit();
+   void ShowMiniHits(ucell* hitsRow, ucell* hitsCamp);
 
 private:
    Shuffler shuf;

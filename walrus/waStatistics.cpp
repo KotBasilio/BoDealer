@@ -366,7 +366,8 @@ void Walrus::ShowAdvancedStatistics(int idx)
    CalcAndDisplayStatistics(":");
 
    // ensure we want to display overall
-   if (config.postm.Is(WPM_HCP_SINGLE_SCORER)) {
+   if (config.postm.Is(WPM_HCP_SINGLE_SCORER) ||
+       config.postm.Is(WPM_COMPARISON_WITH_HCP) ) {
       if (factor < config.postm.maxHCP) {
          return;
       }

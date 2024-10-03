@@ -90,6 +90,7 @@ void Walrus::SolveOneChunk(uint chunkStartIdx, uint boardsCount)
 
 void Walrus::ScoreWithPrimary(DdsTricks& tr)
 {
+   // respect old tasks (backward compatibility)
    #ifdef USE_ONLY_SINGLE_SCORING
       (cumulScore.*sem.onSinglePrimary)(tr.plainScore);
    #else
@@ -99,7 +100,8 @@ void Walrus::ScoreWithPrimary(DdsTricks& tr)
 
 void Walrus::ScoreWithSecondary(DdsTricks& tr)
 {
-   #ifdef USE_ONLY_SINGLE_SCORING
+   // respect old tasks (backward compatibility)
+   #ifdef USE_ONLY_SINGLE_SCORING 
       (cumulScore.*sem.onSingleSecondary)(tr.plainScore);
    #else
       (cumulScore.*sem.onSecondScoring)(tr);

@@ -1,0 +1,74 @@
+A split of comparison results by HCP from 23 to 28:
+              go A     same     go B
+(hcp 23):     3628,    7845,    9889,   :    21362,  --> 16% to 46%
+(hcp 24):     5735,    7793,    8156,   :    21684,  --> 26% to 37%
+(hcp 25):     7441,    6834,    5293,   :    19568,  --> 38% to 27%
+(hcp 26):     8467,    4712,    3543,   :    16722,  --> 50% to 21%
+(hcp 27):     7558,    2395,    1609,   :    11562,  --> 65% to 13%
+(hcp 28):     7283,    1111,     800,   :     9194,  --> 79% to  8%
+The search took 0.2 sec + an aftermath 22 min 40 sec.
+
+
+
+        |\_______/|
+      / | [o] [o] | \
+     / /|    V    |\ \
+        |         |
+        -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+OCT_MINOR_SUPERFIT : To be a 4-hand task:
+Our line has 5-5 fit in a minor. Let's compare 3NT and 5C.
+For now, a bidding is like
+   2c(part) 2d
+   2s       ??
+Fixed hand is [N:64.KJ83.K8.AJ876]
+Scorers to use are: V3N BY N; V5C BY S
+Primary scorer (notrump, 9 tr): -200 -100 600 630 660 690 720  /
+Contract-B scorer (clubs, 11 tr):                              /  -400 -300 -200 -100 600 620 640
+----
+29:    NORTH     EAST    SOUTH     WEST
+30:   100092,       0,     >XM,       0,  :   PointsRange 11 16 SOUTH
+31:        0,       0,     >XM,       0,  :   ClubsLen 5 7 SOUTH
+32:        0,       0,  646098,       0,  :   SpadesLen 4 4 SOUTH
+33:        0,       0,    4054,       0,  :   HeartsLen 0 3 SOUTH
+34:        0,       0,       0,   34984,  :   NoOvercall WEST
+35:        0,   31158,       0,       0,  :   NoOvercall EAST
+ 9 tricks board by North in notrump example:
+--------
+               64          HCP : 25
+               KJ83        CTRL: 9
+               K8
+               AJ876
+   KQ53                    T98
+   642                     AQT975
+   Q732                    T954
+   Q2                      -
+               AJ72
+               -
+               AJ6
+               KT9543
+                                     A contract in clubs has 12 tricks.
+    suit   rank   score              suit   rank   score
+      S      T      4                  S      K      1
+      D      T      4                  C      2      1
+      D      5      3                  C      Q      1
+      H      A      2                  H      2      1
+      H      5      2                  H      4      1
+      H      7      2                  H      6      1
+      H      T      2                  D      3      0
+      H      Q      2                  D      7      0
+                                       D      Q      0
+                                       S      3      0
+                                       S      5      0
+
+  (ctrA down):    21554,   11011,    7299,    1333,     650,     261,      44,       1,       0,       42153
+  (ctrA make):    25975,   21247,    7728,    2977,      12,       0,       0,       0,       0,       57939
+       (----):        0,       0,       0,       0,       0,       0,       0,       0,       0,           0
+  (ctrB down):    33967,    7713,     628,      21,       0,       0,       0,       0,       0,       42329
+  (ctrB make):    42041,   14203,    1519,       0,       0,       0,       0,       0,       0,       57763
+ (A, same, B):        0,   40112,   30690,   29290,       0,       0,       0,       0,       0,      100092
+Processed: 100092 total. East is on lead. Goal is 9 tricks in notrump.
+Averages: ideal = 0, bidGame = 285, partscore=0.   Chance to make = 57.9%.
+The other contract: avg = 298; makes in 57.7% cases
+Comparison: favor A 40.1%; same 30.7%; favor B 29.3%

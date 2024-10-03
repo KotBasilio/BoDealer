@@ -82,15 +82,15 @@ extern Progress *mainProgress;
 
 struct MiniUI;
 
-// a class to rule task logic. fill them on init. 
-// then values are constant through all solving
+// A class to rule task logic. Its values are constant through entire solving.
+// So it should be filled on init. Preferrably -- fully configurable. 
 typedef void (Shuffler::*        SemShufflerFunc)();
 typedef void (Walrus::*          SemFuncType)();
 typedef void (CumulativeScore::* SemGenScoring)(DdsTricks &tr);
 typedef void (CumulativeScore::* SemSingleScoring)(uint tricks);
 typedef void (Walrus::*          SemComparing)(uint trickA, uint tricksB, const deal& cards);
 typedef void (Walrus::*          SemFirstMarks)(DdsTricks& tr, const deal& cards);
-typedef void (Walrus::*          SemSecondMarks)(uint trickA, uint tricksB, const deal& cards);
+typedef void (Walrus::*          SemSecondMarks)(uint camp, const deal& cards);
 typedef void (Walrus::*          SemOnBoardFound)(twContext* lay);
 typedef void (MiniUI::*          SemOnBoardAdded)(twContext* lay);
 typedef void (Walrus::*          SemSecondSolver)(struct boards& bo, const struct solvedBoards& solved);
@@ -106,6 +106,7 @@ struct Semantics {
    SemSecondSolver          solveSecondTime;
    SemComparing             onCompareContracts;
    SemFirstMarks            onMarkAfterSolve;
+   SemSecondMarks           onSecondMarks;
    // scorers:
    // -- primary
    SemGenScoring            onPrimaryScoring;

@@ -124,13 +124,15 @@ void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)
       return;
    }
 
-   // fly can look for specific condition
-   if (ui.irFly != IO_CAMP_OFF) {
-      bool fits = Orb_ApproveByFly(cards);
-      if (!fits) {
-         return;
+   // a fly can look for specific condition
+   #ifdef SEEK_MAGIC_FLY
+      if (ui.irFly != IO_CAMP_OFF) {
+         bool fits = Orb_ApproveByFly(cards);
+         if (!fits) {
+            return;
+         }
       }
-   }
+   #endif
 
    // relay
    Orb_ReSolveAndShow(cards);
@@ -213,32 +215,30 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
 
 bool Walrus::Orb_ApproveByFly(const deal& cards)
 {
-   #ifdef SEEK_MAGIC_FLY
-      // solve for the fly
-      futureTricks fut;
-      int target = -1;
-      int mode = 0;
-      int threadIndex = 0;
-      deal flyDeal = cards;
-      flyDeal.trump = config.secondary.trump;
-      int res = SolveBoard(flyDeal, target, config.solve.ddsSol, mode, &fut, threadIndex);
-      if (res != RETURN_NO_FAULT) {
-         HandleErrorDDS(flyDeal, res);
-         return false;
-      }
-      DdsTricks tr;
-      tr.Init(fut);
+   // solve for the fly
+   futureTricks fut;
+   int target = -1;
+   int mode = 0;
+   int threadIndex = 0;
+   deal flyDeal = cards;
+   flyDeal.trump = config.secondary.trump;
+   int res = SolveBoard(flyDeal, target, config.solve.ddsSol, mode, &fut, threadIndex);
+   if (res != RETURN_NO_FAULT) {
+      HandleErrorDDS(flyDeal, res);
+      return false;
+   }
+   DdsTricks tr;
+   tr.Init(fut);
 
-      // may accept
-      switch (ui.irFly) {
-         case IO_CAMP_MORE_NT:
-            return (int)tr.plainScore > ui.irGoal;
-         case IO_CAMP_SAME_NT:
-            return (int)tr.plainScore == ui.irGoal;
-         case IO_CAMP_PREFER_SUIT:
-            return (int)tr.plainScore < ui.irGoal;
-      }
-   #endif // SEEK_MAGIC_FLY
+   // may accept
+   switch (ui.irFly) {
+      case IO_CAMP_MORE_NT:
+         return (int)tr.plainScore > ui.irGoal;
+      case IO_CAMP_SAME_NT:
+         return (int)tr.plainScore == ui.irGoal;
+      case IO_CAMP_PREFER_SUIT:
+         return (int)tr.plainScore < ui.irGoal;
+   }
 
    return false;
 }

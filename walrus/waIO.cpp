@@ -276,6 +276,46 @@ void Walrus::ShowDetailedReportHighcards()
    //PLATFORM_GETCH();
 }
 
+void Walrus::ShowDetailedReportCompWithHcp()
+{
+   owl.Silent(
+      "\nA split of comparison results by HCP from %d to %d:"
+      "\n              go A     same     go B\n", 
+      config.postm.minHCP, config.postm.maxHCP
+   );
+
+   // for mid-rows
+   for (int i = IO_ROW_POSTMORTEM; i < IO_ROW_FILTERING - 1; i++) {
+      // calc hcp for this row (row = 3 + (hcp - 21) * 2)
+      int h = (i - IO_ROW_POSTMORTEM) + config.postm.minHCP;
+      if (h > config.postm.maxHCP) {
+         break;
+      }
+
+      // ok start printing
+      owl.Silent("(hcp %2d): ", h);
+
+      // calc and print one line
+      // -- its body
+      u64 sumline = 0;
+      for (int j = IO_CAMP_PREFER_PRIMA; j <= IO_CAMP_PREFER_SECUNDA; j++) {
+         owl.Silent(fmtCell, progress.hitsCount[i][j]);
+         sumline += progress.hitsCount[i][j];
+      }
+      // -- its sum
+      owl.Silent("   : ");
+      owl.Silent(fmtCell, sumline);
+      // -- percentage
+      if (sumline) {
+         owl.Silent("  --> %2llu%% to %2llu%%", 
+            progress.hitsCount[i][IO_CAMP_PREFER_PRIMA] * 100 / sumline,
+            progress.hitsCount[i][IO_CAMP_PREFER_SECUNDA] * 100 / sumline
+         );
+      }
+      owl.Silent("\n");
+   }
+}
+
 void Walrus::ShowDetailedReportControls()
 {
    UpdateFarColumnUI();

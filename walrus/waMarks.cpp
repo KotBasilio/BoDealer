@@ -2,6 +2,19 @@
  * Walrus project                                        2020
  * Extra marks
  *
+   // an experimental code to enhance AddMarksBySuit()
+   #ifdef CALC_CLUB_HITS_EXPERIMENTAL
+      static twlHCP lastCalcHcp;
+      lastCalcHcp = hcp; // in CalcNSLineHCP
+      {
+         row = IO_ROW_POSTMORTEM + (config.postm.maxHCP - config.postm.minHCP) * 2;
+         if (lastCalcHcp.c > 8) {
+            progress.SolvedExtraMark(row, 0);
+         } else {
+            progress.SolvedExtraMark(row + 1, 0);
+         }
+      }
+   #endif
  ************************************************************/
 
 #define  _CRT_SECURE_NO_WARNINGS
@@ -12,11 +25,10 @@
 // ret: HCP on NS line
 uint CalcNSLineHCP(const deal& dl, uint& ctrl)
 {
-   // not a complex task, knowing that
-   // #define RJ     0x0800
-   // #define RQ     0x1000
-   // #define RK     0x2000
-   // #define RA     0x4000
+   // not a complex task, knowing that 
+   // RA | RK | RQ | RJ -- are in nearby bits
+   // from RJ = 0x0800 to RA = 0x4000
+   // so we construct a hand with face cards only
    const auto &cards = dl.remainCards;
    u64 facecards (RA | RK | RQ | RJ);
    SplitBits reducedHand (
@@ -25,10 +37,11 @@ uint CalcNSLineHCP(const deal& dl, uint& ctrl)
       (((cards[SOUTH][SOL_DIAMONDS] | cards[NORTH][SOL_DIAMONDS]) & facecards) << (1 + 16*1)) |
       (((cards[SOUTH][SOL_CLUBS   ] | cards[NORTH][SOL_CLUBS   ]) & facecards) << (1))
    );
-   twlHCP hcp(reducedHand);
-   twlControls onReduced(reducedHand);
-   ctrl = onReduced.total;
 
+   twlControls controls(reducedHand);
+   ctrl = controls.total;
+
+   twlHCP hcp(reducedHand);
    return hcp.total;
 }
 
@@ -49,9 +62,8 @@ static uint CalcSuitHCP(const deal& cards, uint seat)
 
 void Walrus::AddMarksByHCP(DdsTricks& tr, const deal& cards)
 {
-   // detect row and column
-   uint row = 0;
-   uint ctrl;
+   // detect row
+   uint row = 0, ctrl = 0;
    int hcp = CalcNSLineHCP(cards, ctrl);
    if (config.postm.minControls) {
       if (ctrl < (uint)config.postm.minControls) {
@@ -71,20 +83,6 @@ void Walrus::AddMarksByHCP(DdsTricks& tr, const deal& cards)
    }
 }
 
-// additional marks by points in a suit -- experimental
-#ifdef CALC_CLUB_HITS_EXPERIMENTAL
-   static twlHCP lastCalcHcp;
-   lastCalcHcp = hcp; // in CalcNSLineHCP
-   {
-      row = IO_ROW_POSTMORTEM + (config.postm.maxHCP - config.postm.minHCP) * 2;
-      if (lastCalcHcp.c > 8) {
-         progress.SolvedExtraMark(row, 0);
-      } else {
-         progress.SolvedExtraMark(row + 1, 0);
-      }
-   }
-#endif
-
 void Walrus::AddMarksBySuit(DdsTricks& tr, const deal& cards)
 {
    // calc
@@ -94,6 +92,22 @@ void Walrus::AddMarksBySuit(DdsTricks& tr, const deal& cards)
    // proper row => add a mark in stat
    if (row < IO_ROW_FILTERING - 1) {
       progress.HitByTricks(tr.plainScore, config.prim.goal, row);
+   }
+}
+
+void Walrus::AddMarksByCamp(uint camp, const deal& cards)
+{
+   // detect row
+   uint ctrl = 0;
+   int hcp = CalcNSLineHCP(cards, ctrl);
+   if (hcp < config.postm.minHCP || config.postm.maxHCP < hcp) {
+      return;
+   }
+   uint row = IO_ROW_POSTMORTEM + (hcp - config.postm.minHCP);
+
+   // proper row => add a mark in stat
+   if (row < IO_ROW_FILTERING - 1) {
+      progress.SolvedExtraMark(row, camp);
    }
 }
 

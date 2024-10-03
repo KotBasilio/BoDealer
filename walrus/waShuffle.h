@@ -21,6 +21,11 @@ struct Shuffler {
    void Shuffle();
    void NOP() {}
 
+   // withdrawals
+   void WithdrawHolding(uint hld, uint waSuitByDds);
+   void WithdrawDeuce(uint rankBit, u64 waSuit);
+   void WithdrawRank(uint rankBit, u64 waSuit, uint waSuitByDds);
+
    // combining
    u64  SumFirstHand();
    u64  SumSecondHand();
