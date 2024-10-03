@@ -21,6 +21,11 @@ struct Shuffler {
    void Shuffle();
    void NOP() {}
 
+   // combining
+   u64  SumFirstHand();
+   u64  SumSecondHand();
+   u64  Sum3rdHand();
+
    // controlling
    void StoreCheckSum();
    void VerifyCheckSum();

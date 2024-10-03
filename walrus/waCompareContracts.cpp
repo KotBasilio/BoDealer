@@ -26,7 +26,7 @@ static void DbgShowComparison(s64 gainPrima, s64 gainSecunda, s64 delta)
    }
 }
 
-void Walrus::NoticeMagicFly(uint trickSuit, uint tricksNT)
+void Walrus::NoticeMagicFly(uint trickSuit, uint tricksNT, const deal& cards)
 {
    if (tricksNT > trickSuit) {
       progress.SolvedExtraMark(IO_ROW_MAGIC_FLY, IO_CAMP_MORE_NT);
@@ -37,7 +37,7 @@ void Walrus::NoticeMagicFly(uint trickSuit, uint tricksNT)
    }
 }
 
-void Walrus::CompareSlams(uint tricksA, uint tricksB)
+void Walrus::CompareSlams(uint tricksA, uint tricksB, const deal& cards)
 {
    // detect score
    auto gainPrima   = cumulScore.prima.Get(tricksA);
@@ -57,7 +57,7 @@ void Walrus::CompareSlams(uint tricksA, uint tricksB)
    ui.primaBetterBy += delta;
 }
 
-void Walrus::CompareOurContracts(uint tricksA, uint tricksB)
+void Walrus::CompareOurContracts(uint tricksA, uint tricksB, const deal& cards)
 {
    // detect score
    auto gainPrima   = cumulScore.prima.Get(tricksA);
@@ -81,7 +81,7 @@ void Walrus::CompareOurContracts(uint tricksA, uint tricksB)
 
 //#define DBG_SHOW_EACH_COMPARISON
 
-void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs)
+void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs, const deal& cards)
 {
    // detect score
    auto gainPrima   = cumulScore.prima.Get(tOurs);

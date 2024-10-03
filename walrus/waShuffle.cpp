@@ -200,3 +200,63 @@ void Shuffler::WithdrawCard(u64 jo)
    DEBUG_UNEXPECTED;
 }
 
+u64 Shuffler::SumFirstHand()
+{
+   // sum up the first 13 cards -- kind of unrolled loop
+   return (
+      deck[ 0].card.jo +
+      deck[ 1].card.jo +
+      deck[ 2].card.jo +
+      deck[ 3].card.jo +
+      deck[ 4].card.jo +
+      deck[ 5].card.jo +
+      deck[ 6].card.jo +
+      deck[ 7].card.jo +
+      deck[ 8].card.jo +
+      deck[ 9].card.jo +
+      deck[10].card.jo +
+      deck[11].card.jo +
+      deck[12].card.jo
+   );
+}
+
+u64 Shuffler::SumSecondHand()
+{
+   // sum up next 13 cards
+   return (
+      deck[13].card.jo +
+      deck[14].card.jo +
+      deck[15].card.jo +
+      deck[16].card.jo +
+      deck[17].card.jo +
+      deck[18].card.jo +
+      deck[19].card.jo +
+      deck[20].card.jo +
+      deck[21].card.jo +
+      deck[22].card.jo +
+      deck[23].card.jo +
+      deck[24].card.jo +
+      deck[25].card.jo
+   );
+}
+
+u64 Shuffler::Sum3rdHand()
+{
+   // sum up yet next 13 cards
+   return (
+      deck[26].card.jo +
+      deck[27].card.jo +
+      deck[28].card.jo +
+      deck[29].card.jo +
+      deck[30].card.jo +
+      deck[31].card.jo +
+      deck[32].card.jo +
+      deck[33].card.jo +
+      deck[34].card.jo +
+      deck[35].card.jo +
+      deck[36].card.jo +
+      deck[37].card.jo +
+      deck[38].card.jo
+   );
+}
+

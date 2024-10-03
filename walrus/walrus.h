@@ -65,10 +65,10 @@ protected:
     void SolveOneChunk(uint i, uint step);
     void HandleSolvedChunk(struct boards& bo, struct solvedBoards& chunk);
     void SolveSecondTime(struct boards& bo, const struct solvedBoards& chunk);
-    void NoticeMagicFly(uint trickSuit, uint tricksNT);
-    void NoticeBidProfit(uint tOurs, uint tTheirs);
-    void CompareOurContracts(uint tricksA, uint tricksB);
-    void CompareSlams(uint tricksA, uint tricksB);
+    void NoticeMagicFly(uint trickSuit, uint tricksNT, const deal& cards);
+    void NoticeBidProfit(uint tOurs, uint tTheirs, const deal& cards);
+    void CompareOurContracts(uint tricksA, uint tricksB, const deal& cards);
+    void CompareSlams(uint tricksA, uint tricksB, const deal& cards);
     void HandleDDSFail(int res);
 
     // multi-thread & joined effort
@@ -87,18 +87,16 @@ protected:
     // semantics
     bool InitSemantics();
     void FillSemantic(void);
-    void NOP() {}
-    void VoidSingleScoring(DdsTricks &tr) {}
-    void VoidPostmortem(DdsTricks& tr, deal& cards) {}
-    void VoidSecondSolve(boards& bo, const solvedBoards& solved) {}
-    void VoidCompare(uint trickSuit, uint tricksNT) {}
     void AddForSolving(twContext* lay);
     void GrabSplinterVariant(twContext* lay);
     void GrabPrecisionVariant(twContext* lay);
-    u64  SumFirstHand();
-    u64  SumSecondHand();
-    u64  Sum3rdHand();
     Semantics &sem;
+    // -- no-operations in semantics
+    void NOP() {}
+    void VoidSingleScoring(DdsTricks &tr) {}
+    void VoidFirstMarks(DdsTricks& tr, const deal& cards) {}
+    void VoidSecondSolve(boards& bo, const solvedBoards& solved) {}
+    void VoidCompare(uint trickSuit, uint tricksNT, const deal& cards) {}
 
     // scoring & progress
     CumulativeScore cumulScore;
@@ -106,9 +104,9 @@ protected:
     void ScoreWithSecondary(DdsTricks &tr);
     void AddScorerValues(char* tail);
     Progress progress;
-    void AddMarksByHCP(DdsTricks& tr, deal& cards);
-    void AddMarksByOpLeads(DdsTricks& tr, deal& cards);
-    void AddMarksBySuit(DdsTricks& tr, deal& cards);
+    void AddMarksByHCP(DdsTricks& tr, const deal& cards);
+    void AddMarksByOpLeads(DdsTricks& tr, const deal& cards);
+    void AddMarksBySuit(DdsTricks& tr, const deal& cards);
 
     // UI progress and reports
     MiniUI ui;
@@ -152,7 +150,7 @@ private:
    // -- 3-hands scan is like orbiting around a hand
    void SemanticsToOrbitFixedHand(void);
    void Orb_Interrogate(DdsTricks &tr, deal &cards, struct futureTricks &fut);
-   bool Orb_ApproveByFly(deal& cards);
+   bool Orb_ApproveByFly(const deal& cards);
    void Orb_ReSolveAndShow(deal &cards);
    void OrbNorthClassify(twContext *lay);
    // -- 4-hands scan

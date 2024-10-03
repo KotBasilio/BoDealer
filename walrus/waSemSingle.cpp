@@ -18,7 +18,7 @@ void Walrus::FillSemantic(void)
 void Walrus::ScanKeycards()
 {
    // we have some cards starting from each position
-   SplitBits sum(SumFirstHand());
+   SplitBits sum(shuf.SumFirstHand());
    for (int idxHandStart = 0;;) {
       // a dummy part, count nothing, just check total
       uint bar = 0;

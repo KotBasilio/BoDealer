@@ -17,7 +17,7 @@
 void Walrus::ScanTrivial()
 {
    // we have some cards starting from each position
-   SplitBits sum(SumFirstHand());
+   SplitBits sum(shuf.SumFirstHand());
    for (int idxHandStart = 0;;) {
       // a dummy part, count nothing, just check total
       uint foo = 0;
@@ -40,8 +40,8 @@ void Walrus::ScanTrivial()
 void Walrus::Scan3FixedWest()
 {
    // we have some cards starting from each position
-   SplitBits sum(SumFirstHand());
-   SplitBits sec(SumSecondHand());
+   SplitBits sum(shuf.SumFirstHand());
+   SplitBits sec(shuf.SumSecondHand());
    for (u64 idxHandStart = 0; idxHandStart < SYMM;) {
       // do all permutations of 3 hands around W
       SplitBits third(shuf.CheckSum() - sum.card.jo - sec.card.jo);
@@ -69,10 +69,6 @@ void Walrus::SemanticsToOrbitFixedHand(void)
       sem.vecFilters = config.filters.compiled;
    }
 
-   if (config.dbg.viewBoardOnAdd) {
-      sem.onBoardAdded = &MiniUI::DisplayBoard;
-   }
-
 #ifdef FIXED_HAND_WEST
    sem.onScanCenter = &Walrus::Scan3FixedWest;
 #endif
@@ -91,19 +87,28 @@ void Walrus::SemanticsToOrbitFixedHand(void)
    sem.SetBiddingGameScorer(cumulScore, config.txt.primaScorerCode);
 #endif
 
-   // set what's depend on postmortems
-   if (config.postm.Is(WPM_OPENING_LEADS)) {
-      sem.SetOpeningLeadScorer(cumulScore, config.txt.primaScorerCode);
-      sem.onPostmortem = &Walrus::AddMarksByOpLeads;
-}
+   // POSTMORTEM setup
+   {
+      if (config.postm.Is(WPM_OPENING_LEADS)) {
+         sem.SetOpeningLeadScorer(cumulScore, config.txt.primaScorerCode);
+         sem.onMarkAfterSolve = &Walrus::AddMarksByOpLeads;
+      }
 
-   if (config.postm.Is(WPM_HCP_SINGLE_SCORER)) {
-      if (config.postm.minHCP != config.postm.maxHCP) {
-         sem.onPostmortem = &Walrus::AddMarksByHCP;
+      if (config.postm.Is(WPM_HCP_SINGLE_SCORER)) {
+         sem.onMarkAfterSolve = &Walrus::AddMarksByHCP;
+         if (config.postm.minHCP == config.postm.maxHCP) {
+            // TODO: make a separate function for controls. Now it's same, &Walrus::AddMarksByHCP
+         }
+      }
+
+      if (config.postm.Is(WPM_SUIT)) {
+         sem.onMarkAfterSolve = &Walrus::AddMarksBySuit;
       }
    }
-   if (config.postm.Is(WPM_SUIT)) {
-      sem.onPostmortem = &Walrus::AddMarksBySuit;
+
+   // DEBUG setup
+   if (config.dbg.viewBoardOnAdd) {
+      sem.onBoardAdded = &MiniUI::DisplayBoard;
    }
 }
 
@@ -206,7 +211,7 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
    printf("shown to Oscar.");
 }
 
-bool Walrus::Orb_ApproveByFly(deal& cards)
+bool Walrus::Orb_ApproveByFly(const deal& cards)
 {
    #ifdef SEEK_MAGIC_FLY
       // solve for the fly
@@ -242,8 +247,8 @@ void Walrus::Scan3FixedNorth()
 {
    // we have some cards starting from each position
    SplitBits fixedN(shuf.thrownOut);
-   SplitBits sum(SumFirstHand());
-   SplitBits sec(SumSecondHand());
+   SplitBits sum(shuf.SumFirstHand());
+   SplitBits sec(shuf.SumSecondHand());
    SplitBits stop(sec);
    int idxHandStart = 0;
    for (; sum != stop;) {

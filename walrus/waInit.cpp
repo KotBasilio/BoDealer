@@ -142,7 +142,7 @@ Semantics::Semantics()
    , onSinglePrimary     (&CumulativeScore::VoidSingleScoring)
    , onSecondScoring     (&CumulativeScore::VoidGenScoring)
    , onSingleSecondary   (&CumulativeScore::VoidSingleScoring)
-   , onPostmortem        (&Walrus::VoidPostmortem)
+   , onMarkAfterSolve    (&Walrus::VoidFirstMarks)
    , solveSecondTime     (&Walrus::VoidSecondSolve)
    , onCompareContracts  (&Walrus::VoidCompare)
    , scanCover(ACTUAL_CARDS_COUNT)
@@ -297,66 +297,6 @@ void Walrus::InitDeck(void)
    shuf.SeedRand();
 
    sem.PrepareBaseDeal();
-}
-
-u64 Walrus::SumFirstHand()
-{
-   // sum up the first 13 cards -- kind of unrolled loop
-   return (
-      shuf.deck[ 0].card.jo +
-      shuf.deck[ 1].card.jo +
-      shuf.deck[ 2].card.jo +
-      shuf.deck[ 3].card.jo +
-      shuf.deck[ 4].card.jo +
-      shuf.deck[ 5].card.jo +
-      shuf.deck[ 6].card.jo +
-      shuf.deck[ 7].card.jo +
-      shuf.deck[ 8].card.jo +
-      shuf.deck[ 9].card.jo +
-      shuf.deck[10].card.jo +
-      shuf.deck[11].card.jo +
-      shuf.deck[12].card.jo
-   );
-}
-
-u64 Walrus::SumSecondHand()
-{
-   // sum up next 13 cards
-   return (
-      shuf.deck[13].card.jo +
-      shuf.deck[14].card.jo +
-      shuf.deck[15].card.jo +
-      shuf.deck[16].card.jo +
-      shuf.deck[17].card.jo +
-      shuf.deck[18].card.jo +
-      shuf.deck[19].card.jo +
-      shuf.deck[20].card.jo +
-      shuf.deck[21].card.jo +
-      shuf.deck[22].card.jo +
-      shuf.deck[23].card.jo +
-      shuf.deck[24].card.jo +
-      shuf.deck[25].card.jo
-   );
-}
-
-u64 Walrus::Sum3rdHand()
-{
-   // sum up yet next 13 cards
-   return (
-      shuf.deck[26].card.jo +
-      shuf.deck[27].card.jo +
-      shuf.deck[28].card.jo +
-      shuf.deck[29].card.jo +
-      shuf.deck[30].card.jo +
-      shuf.deck[31].card.jo +
-      shuf.deck[32].card.jo +
-      shuf.deck[33].card.jo +
-      shuf.deck[34].card.jo +
-      shuf.deck[35].card.jo +
-      shuf.deck[36].card.jo +
-      shuf.deck[37].card.jo +
-      shuf.deck[38].card.jo
-   );
 }
 
 void Walrus::WithdrawHolding(uint hld, uint waPosByDds)

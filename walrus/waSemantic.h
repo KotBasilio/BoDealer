@@ -88,8 +88,9 @@ typedef void (Shuffler::*        SemShufflerFunc)();
 typedef void (Walrus::*          SemFuncType)();
 typedef void (CumulativeScore::* SemGenScoring)(DdsTricks &tr);
 typedef void (CumulativeScore::* SemSingleScoring)(uint tricks);
-typedef void (Walrus::*          SemComparing)(uint trickSuit, uint tricksNT);
-typedef void (Walrus::*          SemPostMortem)(DdsTricks& tr, deal& cards);
+typedef void (Walrus::*          SemComparing)(uint trickA, uint tricksB, const deal& cards);
+typedef void (Walrus::*          SemFirstMarks)(DdsTricks& tr, const deal& cards);
+typedef void (Walrus::*          SemSecondMarks)(uint trickA, uint tricksB, const deal& cards);
 typedef void (Walrus::*          SemOnBoardFound)(twContext* lay);
 typedef void (MiniUI::*          SemOnBoardAdded)(twContext* lay);
 typedef void (Walrus::*          SemSecondSolver)(struct boards& bo, const struct solvedBoards& solved);
@@ -104,7 +105,7 @@ struct Semantics {
    SemFuncType              onAfterMath;
    SemSecondSolver          solveSecondTime;
    SemComparing             onCompareContracts;
-   SemPostMortem            onPostmortem;
+   SemFirstMarks            onMarkAfterSolve;
    // scorers:
    // -- primary
    SemGenScoring            onPrimaryScoring;

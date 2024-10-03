@@ -106,25 +106,25 @@ void Walrus::ScoreWithSecondary(DdsTricks& tr)
    #endif
 }
 
-void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
+void Walrus::HandleSolvedChunk(boards& arrSrc, solvedBoards& solved)
 {
    // pass to statistics and/or UI
    for (int handno = 0; handno < solved.noOfBoards; handno++) {
       futureTricks& fut = solved.solvedBoard[handno];
       DdsTricks tr; tr.Init(fut);
-      deal& cards(bo.deals[handno]);
+      deal& cards(arrSrc.deals[handno]);
 
       // pass to statistics. any extra marks are on postmortem
       progress.HitByTricks(tr.plainScore, config.prim.goal, IO_ROW_OUR_BASE, false);
       ScoreWithPrimary(tr);
-      (this->*sem.onPostmortem)(tr, cards);
+      (this->*sem.onMarkAfterSolve)(tr, cards);
 
       // ui
       Orb_Interrogate(tr, cards, fut);
    }
 }
 
-void Walrus::SolveSecondTime(boards& bo, const solvedBoards& chunk)
+void Walrus::SolveSecondTime(boards& arrSrc, const solvedBoards& chunk)
 {
    // show a life sign and allow early quit
    printf(".");
@@ -134,13 +134,13 @@ void Walrus::SolveSecondTime(boards& bo, const solvedBoards& chunk)
    }
 
    // overwrite trumps and lead
-   for (int i = 0; i < bo.noOfBoards; i++) {
-      bo.deals[i].trump = config.secondary.trump;
-      bo.deals[i].first = config.secondary.first;
+   for (int i = 0; i < arrSrc.noOfBoards; i++) {
+      arrSrc.deals[i].trump = config.secondary.trump;
+      arrSrc.deals[i].first = config.secondary.first;
    }
 
    // solve second time
-   int res = SolveAllBoardsN(bo, _twiceSolved);
+   int res = SolveAllBoardsN(arrSrc, _twiceSolved);
    HandleDDSFail(res);
 
    // score the other contract and maybe compare them
@@ -152,8 +152,9 @@ void Walrus::SolveSecondTime(boards& bo, const solvedBoards& chunk)
       ScoreWithSecondary(trSecond);
 
       // pass to comparison
+      deal& cards(arrSrc.deals[handno]);
       trFirst.Init(chunk.solvedBoard[handno]);
-      (this->*sem.onCompareContracts)(trFirst.plainScore, trSecond.plainScore);
+      (this->*sem.onCompareContracts)(trFirst.plainScore, trSecond.plainScore, cards);
 
       // may monitor TNT -- TODO
       //deal& cards(bo.deals[handno]);

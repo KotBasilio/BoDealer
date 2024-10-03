@@ -24,9 +24,9 @@
 void Walrus::Scan4Hands()
 {
    // we have some cards starting from each position
-   SplitBits sum(SumFirstHand());
-   SplitBits sec(SumSecondHand());
-   SplitBits third(Sum3rdHand());
+   SplitBits sum(shuf.SumFirstHand());
+   SplitBits sec(shuf.SumSecondHand());
+   SplitBits third(shuf.Sum3rdHand());
    SplitBits stop(sum, sec, third);
    for (int idxHandStart = 0; third != stop;) {
       // do all permutation of 4 hands
