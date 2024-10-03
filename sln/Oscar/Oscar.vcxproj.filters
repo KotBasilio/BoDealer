@@ -21,9 +21,6 @@
     <ClCompile Include="OsBook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestLibZip.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Oscar.h">

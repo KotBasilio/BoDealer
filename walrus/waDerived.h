@@ -116,10 +116,10 @@ const ucell MAX_ITERATION = 251000000;// a quarter of mlrd
 //const ucell MAX_ITERATION = 3000;
 
 const uint MAX_TASKS_TO_SOLVE = 200 * 1000;
-//const uint AIM_TASKS_COUNT = MAX_TASKS_TO_SOLVE * 100;
+//const uint AIM_TASKS_COUNT = MAX_TASKS_TO_SOLVE;
 //const uint AIM_TASKS_COUNT = 150 * 1000;
 //const uint AIM_TASKS_COUNT = 120 * 1000;
-//const uint AIM_TASKS_COUNT = MAX_TASKS_TO_SOLVE / 2;
+//const uint AIM_TASKS_COUNT = 100 * 1000;
 //const uint AIM_TASKS_COUNT = 70 * 1000;
 //const uint AIM_TASKS_COUNT = 50 * 1000;
 //const uint AIM_TASKS_COUNT = 30*1000;

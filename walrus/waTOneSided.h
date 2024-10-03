@@ -28,6 +28,14 @@
 #endif 
 
 #ifdef SEM_AUG_JAGODINA_INVITE
+   #define SEM_ONE_SIDED_DENOMINATION
+#endif 
+
+#ifdef OCT_MINOR_SUPERFIT
+   #define SEM_ONE_SIDED_DENOMINATION
+#endif 
+
+#ifdef SEM_ONE_SIDED_DENOMINATION
    #define SEEK_DENOMINATION
    #define SEM_ORBITING_FIXED_HAND
 #endif 

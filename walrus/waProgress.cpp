@@ -412,13 +412,16 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
          case WPM_OPENING_LEADS:
             ShowDetailedReportOpLeads();
             break;
-         case WPM_HCP:
+         case WPM_HCP_SINGLE_SCORER:
          case WPM_CONTROLS:
             if (config.postm.minControls) {
                ShowDetailedReportControls();
             } else {
                ShowDetailedReportHighcards();
             }
+            break;
+         case WPM_COMPARISON_WITH_HCP:
+            // TODO
             break;
          case WPM_SUIT:
             ShowDetailedReportSuit();

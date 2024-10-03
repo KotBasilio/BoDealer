@@ -64,7 +64,7 @@ protected:
     void SolveInChunks();
     void SolveOneChunk(uint i, uint step);
     void HandleSolvedChunk(struct boards& bo, struct solvedBoards& chunk);
-    void SolveSecondTime(struct boards& bo, struct solvedBoards& chunk);
+    void SolveSecondTime(struct boards& bo, const struct solvedBoards& chunk);
     void NoticeMagicFly(uint trickSuit, uint tricksNT);
     void NoticeBidProfit(uint tOurs, uint tTheirs);
     void CompareOurContracts(uint tricksA, uint tricksB);
@@ -90,7 +90,7 @@ protected:
     void NOP() {}
     void VoidSingleScoring(DdsTricks &tr) {}
     void VoidPostmortem(DdsTricks& tr, deal& cards) {}
-    void VoidSecondSolve(boards& bo, solvedBoards& solved) {}
+    void VoidSecondSolve(boards& bo, const solvedBoards& solved) {}
     void VoidCompare(uint trickSuit, uint tricksNT) {}
     void AddForSolving(twContext* lay);
     void GrabSplinterVariant(twContext* lay);

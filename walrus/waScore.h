@@ -15,7 +15,7 @@ struct DdsTricks
    } lead;
 
    DdsTricks() : plainScore(0) {}
-   void Init(struct futureTricks &fut);
+   void Init(const struct futureTricks &fut);
 };
 
 

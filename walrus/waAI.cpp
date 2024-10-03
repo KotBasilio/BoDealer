@@ -124,7 +124,7 @@ void Walrus::HandleSolvedChunk(boards& bo, solvedBoards& solved)
    }
 }
 
-void Walrus::SolveSecondTime(boards& bo, solvedBoards& chunk)
+void Walrus::SolveSecondTime(boards& bo, const solvedBoards& chunk)
 {
    // show a life sign and allow early quit
    printf(".");

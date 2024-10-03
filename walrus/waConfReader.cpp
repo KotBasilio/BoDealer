@@ -137,7 +137,7 @@ void WaConfig::ReadSecundaScorer(const char* line)
 bool WaConfig::RecognizePostmType(const char* token)
 {
    if (IsStartsWith(token, "HCP")) {
-      postm.Type = WPM_HCP;
+      postm.Type = WPM_HCP_SINGLE_SCORER;
       strcpy(config.txt.freqTitleFormat, "TRICKS FREQUENCY FOR %d HCP");
       return true;
    }

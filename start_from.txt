@@ -8,9 +8,10 @@ Competitive:
 //TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
 
 One sided:
+TASK NAME:OCT_MINOR_SUPERFIT
 //TASK NAME:COPILTOT
 //TASK NAME:SEP_RESPONCE_TO_2C
-TASK NAME:SEP_PARTIZAN_SPLIT_FIT
+//TASK NAME:SEP_PARTIZAN_SPLIT_FIT
 //TASK NAME:AUG_JAGODINA_INVITE
 //TASK NAME:MAY24_TRHEE_SUITED_BALANCE
 //TASK NAME:MAY24_GLADIATOR
@@ -25,6 +26,28 @@ Leads:
 //DEBUG: SHOW RECONSTRUCTED
 //DEBUG: VERBOSE COMPILING
 //DEBUG: SHOW COMPARISONS
+
+-----------------------------------------------------------------------------------------------------------------------
+OCT_MINOR_SUPERFIT To be a 4-hand task:
+Our line has 5-5 fit in a minor. Let's compare 3NT and 5C.
+For now, a bidding is like
+   2c(part) 2d
+   2s       ??
+
+HAND: N:64.KJ83.K8.AJ876
+PRIMARY SCORER: V3N BY N
+SECONDARY SCORER: V5C BY S
+POSTMORTEM: HCP 23, 29
+
+FILTERS:
+    SOUTH: PointsRange, 11, 16
+    SOUTH: ClubsLen, 5, 7
+    SOUTH: SpadesLen, 4, 4
+    SOUTH: DiamondsLen, 0, 4
+    SOUTH: HeartsLen, 0, 3
+
+    WEST: NoOvercall
+    EAST: NoOvercall
 
 -----------------------------------------------------------------------------------------------------------------------
 COPILTOT Playing on Gambler

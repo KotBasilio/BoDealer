@@ -18,8 +18,12 @@
 //#define SEMANTIC_1C_P_1H_2D_2H_MAR
 //#define SEM_MAR24_5C_OR_3NT
 //#define SEM_AUG_JAGODINA_INVITE
-#define SEM_ONE_SIDED_BIDDING_LEVEL
 //#define SEP_RESPONCE_TO_2C
+#define OCT_MINOR_SUPERFIT
+
+// generalized one-level:
+//#define SEM_ONE_SIDED_BIDDING_LEVEL
+//#define SEM_ONE_SIDED_DENOMINATION
 
 // Bidding decision competitive:
 //#define SEMANTIC_JUN_MINORS_VS_MAJORS

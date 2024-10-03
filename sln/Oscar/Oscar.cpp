@@ -124,7 +124,7 @@ int main(int argc, char* argv[])
 {
    if (argc < 2) {
       ShowAllScores();
-      //LibZipTask();
+      //LibZipTask(); -- needs \sln\Oscar\TestLibZip.cpp
       //TrainingTask();
       //printf("Waiting for the club to start.\n");
       printf("Enter to exit.\n");

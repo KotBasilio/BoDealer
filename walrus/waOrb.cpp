@@ -97,7 +97,7 @@ void Walrus::SemanticsToOrbitFixedHand(void)
       sem.onPostmortem = &Walrus::AddMarksByOpLeads;
 }
 
-   if (config.postm.Is(WPM_HCP)) {
+   if (config.postm.Is(WPM_HCP_SINGLE_SCORER)) {
       if (config.postm.minHCP != config.postm.maxHCP) {
          sem.onPostmortem = &Walrus::AddMarksByHCP;
       }

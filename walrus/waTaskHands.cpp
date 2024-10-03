@@ -215,7 +215,7 @@ void Semantics::PrepareBaseDeal()
    }
 }
 
-void DdsTricks::Init(futureTricks& fut)
+void DdsTricks::Init(const futureTricks& fut)
 {
    // plainScore is good for any goal
    plainScore = 13 - fut.score[0];
