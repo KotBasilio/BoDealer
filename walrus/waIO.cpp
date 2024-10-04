@@ -39,6 +39,10 @@ void Walrus::ReportState()
 
 void Walrus::ReportAllLines()
 {
+   if (progress.isDoneAll) {
+      owl.OnProgress("\n");
+   }
+
    // prepare ui
    UpdateFarColumnUI();
    ui.shownDashes = false;
@@ -311,6 +315,10 @@ void Walrus::ShowDetailedReportCompWithHcp()
             progress.hitsCount[i][IO_CAMP_PREFER_PRIMA] * 100 / sumline,
             progress.hitsCount[i][IO_CAMP_PREFER_SECUNDA] * 100 / sumline
          );
+         auto primaBetterBy = (s64)(progress.hitsCount[i][IO_CAMP_IMPS_PRIMA]) - 
+                              (s64)(progress.hitsCount[i][IO_CAMP_IMPS_SECUNDA]);
+         float posto = 100.f / sumline;
+         owl.Silent(", avg 100 boards give %3.0f IMPs", primaBetterBy * posto);
       }
       owl.Silent("\n");
    }

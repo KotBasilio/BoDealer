@@ -78,7 +78,7 @@ void Walrus::AddMarksByHCP(DdsTricks& tr, const deal& cards)
    }
 
    // proper row => add a mark in stat
-   if (row < IO_ROW_FILTERING - 1) {
+   if (row < IO_ROW_FILTERING) {
       progress.HitByTricks(tr.plainScore, config.prim.goal, row);
    }
 }
@@ -90,12 +90,12 @@ void Walrus::AddMarksBySuit(DdsTricks& tr, const deal& cards)
    uint row = IO_ROW_POSTMORTEM + suitHCP*2;
 
    // proper row => add a mark in stat
-   if (row < IO_ROW_FILTERING - 1) {
+   if (row < IO_ROW_FILTERING) {
       progress.HitByTricks(tr.plainScore, config.prim.goal, row);
    }
 }
 
-void Walrus::AddMarksByCamp(uint camp, const deal& cards)
+void Walrus::AddMarksByComparison(const deal& cards, uint camp, s64 impsPrima)
 {
    // detect row
    uint ctrl = 0;
@@ -105,9 +105,17 @@ void Walrus::AddMarksByCamp(uint camp, const deal& cards)
    }
    uint row = IO_ROW_POSTMORTEM + (hcp - config.postm.minHCP);
 
-   // proper row => add a mark in stat
-   if (row < IO_ROW_FILTERING - 1) {
-      progress.SolvedExtraMark(row, camp);
+   // skip improper row
+   if (row >= IO_ROW_FILTERING) {
+      return;
+   }
+
+   // add marks in stat
+   progress.SolvedExtraMark(row, camp);
+   if (impsPrima > 0) {
+      progress.AddImps(row, IO_CAMP_IMPS_PRIMA, (ucell)impsPrima);
+   } else if (impsPrima < 0) {
+      progress.AddImps(row, IO_CAMP_IMPS_SECUNDA, (ucell)(- impsPrima));
    }
 }
 

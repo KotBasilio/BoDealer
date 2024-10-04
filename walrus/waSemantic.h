@@ -35,6 +35,9 @@ constexpr uint IO_CAMP_OFF = 0;
 constexpr uint IO_CAMP_PREFER_PRIMA = 1;
 constexpr uint IO_CAMP_NO_DIFF = 2;
 constexpr uint IO_CAMP_PREFER_SECUNDA = 3;
+// -- a match
+constexpr uint IO_CAMP_IMPS_PRIMA = 5;
+constexpr uint IO_CAMP_IMPS_SECUNDA = 6;
 // -- derived from that comparison
 constexpr uint IO_CAMP_PREFER_SUIT = IO_CAMP_PREFER_PRIMA;
 constexpr uint IO_CAMP_SAME_NT     = IO_CAMP_NO_DIFF;
@@ -71,6 +74,7 @@ struct Progress {
    // -- on solving
    void HitByTricks(uint amount, uint made, uint row, bool isExtraMark = true);
    void SolvedExtraMark(uint row, uint col);
+   void AddImps(uint row, uint col, ucell imps);
 private:
    ucell hitsCount[HITS_LINES_SIZE][HITS_COLUMNS_SIZE];
    ucell countExtraMarks;

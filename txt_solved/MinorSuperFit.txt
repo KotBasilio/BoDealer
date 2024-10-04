@@ -1,3 +1,4 @@
+Fixed hand is [N:64.KJ83.K8.AJ876]
 A split of comparison results by HCP from 23 to 28:
               go A     same     go B
 (hcp 23):     3628,    7845,    9889,   :    21362,  --> 16% to 46%
@@ -8,7 +9,38 @@ A split of comparison results by HCP from 23 to 28:
 (hcp 28):     7283,    1111,     800,   :     9194,  --> 79% to  8%
 The search took 0.2 sec + an aftermath 22 min 40 sec.
 
+Fixed hand is [N:64.KJ83.K8.KQ876]
+A split of comparison results by HCP from 23 to 28:
+              go A     same     go B
+(hcp 23):     2172,    7384,   10496,   :    20052,  --> 10% to 52%
+(hcp 24):     3822,    8480,    9008,   :    21310,  --> 17% to 42%
+(hcp 25):     5772,    7488,    6196,   :    19456,  --> 29% to 31%
+(hcp 26):     7234,    5289,    4187,   :    16710,  --> 43% to 25%
+(hcp 27):     8062,    2843,    2011,   :    12916,  --> 62% to 15%
+(hcp 28):     7524,    1208,     878,   :     9610,  --> 78% to  9%
+The search took 0.2 sec + an aftermath 22 min 8 sec.
 
+  (ctrA down):    18911,   10037,    6741,    1394,     645,     223,      45,       2,       0,       37998
+  (ctrA make):    20755,   14986,    4068,     993,       0,       0,       0,       0,       0,       40802
+       (----):        0,       0,       0,       0,       0,       0,       0,       0,       0,           0
+  (ctrB down):    29860,    7051,     537,      21,       0,       0,       0,       0,       0,       37469
+  (ctrB make):    32262,    8086,     783,       0,       0,       0,       0,       0,       0,       41131
+ (A, same, B):        0,   27055,   25599,   25946,       0,       0,       0,       0,       0,       78600
+Processed: 78800 total. East is on lead. Goal is 9 tricks in notrump.
+Averages: ideal = 0, bidGame = 232, partscore=0.   Chance to make = 51.8%.
+The other contract: avg = 258; makes in 52.3% cases
+Comparison: favor A 34.4%; same 32.6%; favor B 33.0%
+A huge match: -47569 IMPs; about -61 IMPs/hub
+
+A split of comparison results by HCP from 23 to 28:
+              go A     same     go B
+(hcp 23):     1792,    5838,    8596,   :    16226,  --> 11% to 52%, avg 100 boards give -199 IMPs
+(hcp 24):     3062,    6630,    7278,   :    16970,  --> 18% to 42%, avg 100 boards give -133 IMPs
+(hcp 25):     4605,    5930,    4755,   :    15290,  --> 30% to 31%, avg 100 boards give -38 IMPs
+(hcp 26):     5648,    4106,    3134,   :    12888,  --> 43% to 24%, avg 100 boards give  10 IMPs
+(hcp 27):     6106,    2146,    1454,   :     9706,  --> 62% to 14%, avg 100 boards give  57 IMPs
+(hcp 28):     5842,     949,     729,   :     7520,  --> 77% to  9%, avg 100 boards give  83 IMPs
+The search took 0.3 sec + an aftermath 17 min 10 sec.
 
         |\_______/|
       / | [o] [o] | \

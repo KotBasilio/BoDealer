@@ -164,7 +164,7 @@ Semantics::Semantics()
       onCompareContracts = &Walrus::NoticeMagicFly;
    #elif defined(THE_OTHER_IS_OURS)
       onCompareContracts = &Walrus::CompareOurContracts;
-      onSecondMarks = &Walrus::AddMarksByCamp;
+      //onSecondMarks = &Walrus::AddMarksByComparison;
    #endif
 
 }

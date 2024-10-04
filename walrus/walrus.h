@@ -102,7 +102,7 @@ protected:
    void AddMarksByHCP(DdsTricks& tr, const deal& cards);
    void AddMarksByOpLeads(DdsTricks& tr, const deal& cards);
    void AddMarksBySuit(DdsTricks& tr, const deal& cards);
-   void AddMarksByCamp(uint camp, const deal& cards);
+   void AddMarksByComparison(const deal& cards, uint camp, s64 impsPrima);
 
    // UI progress and reports
    MiniUI ui;

@@ -350,7 +350,8 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
    #ifdef SHOW_OUR_OTHER
       owl.OnDone("The other contract: avg = %lld; makes in %3.1f%% cases\n", 
          cumulScore.ourOther / sumOppRows, 
-         hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows);
+         hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows
+      );
       s64 sumBid      = (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_PREFER_TO_BID];
       s64 sumSame     = (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_NO_DIFF];
       s64 sumRefrain  = (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_REFRAIN_BIDDING];
@@ -359,8 +360,11 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
       owl.OnDone("Comparison: favor A %3.1f%%; same %3.1f%%; favor B %3.1f%%\n", 
          sumBid * posto,
          sumSame * posto,
-         sumRefrain * posto);
-      // todo ui.primaBetterBy / totalComparisons
+         sumRefrain * posto
+      );
+      owl.OnDone("A huge match: %lld IMPs; about %3.0f IMPs/hub\n",
+         ui.primaBetterBy, ui.primaBetterBy * posto
+      );
    #endif
 
    // averages for opening lead
@@ -477,6 +481,12 @@ void Progress::SolvedExtraMark(uint row, uint col)
 {
    hitsCount[row][col]++;
    countExtraMarks++;
+}
+
+void Progress::AddImps(uint row, uint col, ucell imps)
+{
+   hitsCount[row][col] += imps;
+   countExtraMarks += imps;
 }
 
 void Progress::HitByTricks(uint amount, uint made, uint row, bool isExtraMark)
