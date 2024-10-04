@@ -59,7 +59,7 @@ void Walrus::Scan3FixedWest()
 void Walrus::SemanticsToOrbitFixedHand(void)
 {
    sem.onInit = &Walrus::WithdrawByInput;
-   sem.onShareStart = &Walrus::AllocFilteredTasksBuf;
+   sem.onShareStart = &WaMulti::AllocFilteredTasksBuf;
    sem.fillFlipover = &Shuffler::FillFO_39Double;
    sem.onScanCenter = &Walrus::Scan3FixedNorth;
    sem.scanCover = SYMM * ORBIT_PERMUTE_FACTOR;

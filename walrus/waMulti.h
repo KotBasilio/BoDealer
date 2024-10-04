@@ -6,6 +6,9 @@ class Walrus;
 
 struct WaMulti {
    WaMulti();
+   void NOP() {}
+   void Setup(const char *nameH, ucell ourShare);
+   void AllocFilteredTasksBuf();
    void ShowLiveSigns(uint oneCover);
    void SaveThreeHands(twContext* lay);
    void StopHelpersSuddenly();
@@ -28,8 +31,9 @@ struct WaMulti {
 };
 
 // co-working on filtering
-const uint COWORK_CHUNK = 10;
-const uint COWORK_REASONABLE = COWORK_CHUNK * ACTUAL_CARDS_COUNT * 2;
+constexpr uint COWORK_CHUNK = 10;
+constexpr uint COWORK_REASONABLE = COWORK_CHUNK * ACTUAL_CARDS_COUNT * 2;
+constexpr uint MAX_TASKS_TO_SOLVE = 200 * 1000;
 
 // Oscar interactions
 #define GRIFFINS_CLUB_RUNS       "Lights are on"

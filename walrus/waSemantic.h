@@ -90,6 +90,7 @@ struct MiniUI;
 // So it should be filled on init. Preferrably -- fully configurable. 
 typedef void (Shuffler::*        SemShufflerFunc)();
 typedef void (Walrus::*          SemFuncType)();
+typedef void (WaMulti::*         SemMultiStart)();
 typedef void (CumulativeScore::* SemGenScoring)(DdsTricks &tr);
 typedef void (CumulativeScore::* SemSingleScoring)(uint tricks);
 typedef void (Walrus::*          SemComparing)(uint trickA, uint tricksB, const deal& cards);
@@ -100,7 +101,7 @@ typedef void (MiniUI::*          SemOnBoardAdded)(twContext* lay);
 typedef void (Walrus::*          SemSecondSolver)(struct boards& bo, const struct solvedBoards& solved);
 struct Semantics {
    SemFuncType              onInit;
-   SemFuncType              onShareStart;
+   SemMultiStart            onShareStart;
    SemFuncType              onScanCenter;
    SemShufflerFunc          fillFlipover;
    std::vector<MicroFilter> vecFilters;

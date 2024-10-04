@@ -36,6 +36,7 @@ char* WaConfig::Keywords::Secunda = "SECONDARY SCORER: ";
 char* WaConfig::Keywords::Postmortem = "POSTMORTEM: ";
 char* WaConfig::Keywords::Filters = "FILTERS:";
 char* WaConfig::Keywords::TEnd = "--------";
+char* WaConfig::Keywords::Scale = "SCALE: ";
 char* WaConfig::Keywords::Debug = "DEBUG: ";
 char* WaConfig::Keywords::ShowOnAdded = "SHOW BOARD ON ADDED";
 char* WaConfig::Keywords::ShowComparisons = "SHOW COMPARISONS";
@@ -115,6 +116,22 @@ void WaConfig::ReadDebugSetting(char* line)
    if (IsStartsWith(line, key.ShowComparisons)) {
       dbg.verboseComparisons = true;
    }
+}
+
+void WaConfig::ReadScaleSetting(char* line)
+{
+   if (IsStartsWith(line, "MAX")) {
+      solve.aimTaskCount = MAX_TASKS_TO_SOLVE;
+      return;
+   }
+
+   auto kilos = atoi(line);
+   if (kilos > 0) {
+      solve.aimTaskCount = min(kilos * 1000, MAX_TASKS_TO_SOLVE); 
+      return;
+   }
+
+   printf("Warning: cannot read task scale from line: %s", line);
 }
 
 void WaConfig::ReadHandPBN(const char* line)
@@ -204,7 +221,7 @@ void WaConfig::ReadLeadCards(const char* line)
       line[3] == '.' &&
       line[5] == '.';
    if (!ok) {
-      printf("Error: A short PBN notation (like A.5.T.2) is expected as leads. You line: %s", line);
+      printf("Error: A short PBN notation is expected as leads. Example: like A.5.T.2\n Your line is: %s", line);
       MarkFail();
       return;
    }
@@ -320,6 +337,7 @@ void WaConfig::ReadTask(Walrus *walrus)
                fsm = FSM_GoInsideTask(line);
             } 
             KEYWORD_CALL(Debug, ReadDebugSetting)
+            KEYWORD_CALL(Scale, ReadScaleSetting)
             break;
          }
 

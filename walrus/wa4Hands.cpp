@@ -138,11 +138,15 @@ void Walrus::AddForSolving(twContext* lay)
 
 void WaMulti::SaveThreeHands(twContext* lay)
 {
-   if (countToSolve < maxTasksToSolve) {
-      arrToSolve[countToSolve++].Init(lay);
-   } else {
+   // ensure we have a room to place a task found
+   if (countToSolve >= maxTasksToSolve) {
       shouldSignOut = true;
+      return;
    }
+
+   // sometimes we actually save only two hands since one hand is fixed
+   // this detail is in WaTask structure
+   arrToSolve[countToSolve++].Init(lay);
 }
 
 void WaTask3::Init(twContext* lay) 
@@ -161,9 +165,23 @@ void WaTask2::Init(twContext* lay)
 void Walrus::FourHandsFillSem(void)
 {
    sem.fillFlipover = &Shuffler::FillFO_MaxDeck;
-   sem.onShareStart = &Walrus::AllocFilteredTasksBuf;
+   sem.onShareStart = &WaMulti::AllocFilteredTasksBuf;
    sem.onScanCenter = &Walrus::Scan4Hands;
    sem.onAfterMath = &Walrus::SolveSavedTasks;
    sem.scanCover = SYMM * PERMUTE_FACTOR;
+}
+
+void WaMulti::Setup(const char* nameH, ucell ourShare)
+{
+   // get name and appointment
+   nameHlp = nameH;
+   countShare = ourShare;
+
+   // as a helper, our obligation is a share of 1/3 tasks
+   // we take 3/8 to allow for a margin
+   // see also WaMulti::SaveThreeHands()
+   maxTasksToSolve = MAX_TASKS_TO_SOLVE;
+   maxTasksToSolve >>= 3;
+   maxTasksToSolve *= 3; 
 }
 

@@ -113,7 +113,7 @@ void Walrus::FillSemantic(void)
    sem.SetOurPrimaryScorer(cumulScore, config.txt.primaScorerCode);
    sem.onBoardFound = &Walrus::GrabPrecisionVariant;
    sem.onAfterMath = (&Walrus::NOP);
-   sem.onShareStart = (&Walrus::NOP);
+   sem.onShareStart = (&WaMulti::NOP);
 }
 
 void Walrus::GrabPrecisionVariant(twContext* lay)

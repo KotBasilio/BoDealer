@@ -20,6 +20,8 @@ TASK NAME:OCT_MINOR_SUPERFIT
 Leads:
 //TASK NAME:JUN24_LEAD_AK
 
+-----------------------------------------------------------------------------------------------------------------------
+SCALE: 100
 //OPMODE: SEMI_STRAY
 //OPMODE: DEMO_STATISTICS
 //DEBUG: SHOW BOARD ON ADDED

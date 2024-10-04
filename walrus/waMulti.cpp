@@ -32,6 +32,7 @@ WaMulti::WaMulti()
 {
 }
 
+// Constructing a helper
 Walrus::Walrus(Walrus *other, const char *nameH, ucell ourShare) : sem(semShared)
 {
    // duplicate fully
@@ -43,18 +44,8 @@ Walrus::Walrus(Walrus *other, const char *nameH, ucell ourShare) : sem(semShared
    // but take another random seed
    shuf.StepAsideRand(100 * 42);
 
-   // get name and appointment
-   mul.nameHlp = nameH;
-   mul.countShare = ourShare;
-
-   // helpers need 1/3 of max tasks
-   const size_t oneK = 1024;
-   mul.maxTasksToSolve = MAX_TASKS_TO_SOLVE;
-   size_t bsize = mul.maxTasksToSolve * sizeof(WaTask);
-   if (bsize > 250 * oneK) {
-      mul.maxTasksToSolve >>= 3;
-      mul.maxTasksToSolve *= 3; // that's 3/8 -- about 1/3
-   }
+   // setup multi for reduced amount of tasks
+   mul.Setup(nameH, ourShare);
 }
 
 void Walrus::ScanAsHelper()
@@ -193,7 +184,7 @@ ucell Walrus::DoTheShare()
    shuf.VerifyCheckSum();
 
    // any last-train init
-   (this->*sem.onShareStart)();
+   (mul.*sem.onShareStart)();
 
    // iterate until stopped
    do {
@@ -211,7 +202,7 @@ ucell Walrus::DoTheShare()
       // watch for helper done his share natural
       if (mul.hA || mul.shouldSignOut) {
       } else { // may decide to work more
-         if (NumFiltered() < (AIM_TASKS_COUNT * 32) / 100) {
+         if (NumFiltered() < (config.solve.aimTaskCount * 32) / 100) {
             while (mul.countIterations >= mul.countShare) {
                mul.countShare += ADDITION_STEP_ITERATIONS;
             }
@@ -307,7 +298,7 @@ void WaMulti::ShowLiveSigns(uint oneCover)
 
    if (!hA) {
       #ifdef SKIP_HELPERS
-         if ( NumFiltered() > AIM_TASKS_COUNT) {
+         if ( NumFiltered() > config.solve.aimTaskCount) {
             printf("found.");
             countShare = countIterations;
          }
@@ -321,7 +312,7 @@ void WaMulti::ShowLiveSigns(uint oneCover)
 
    // got enough => sign out to stop
    uint acc = NumFiltered() + hA->NumFiltered() + hB->NumFiltered();
-   if (acc > AIM_TASKS_COUNT) {
+   if (acc > config.solve.aimTaskCount) {
       printf("found.");
       countShare = countIterations;
       StopHelpersSuddenly();
@@ -337,7 +328,7 @@ void WaMulti::ShowLiveSigns(uint oneCover)
 
    // first sign is a title
    if (!shownFirstLiveSign) {
-      printf("A progress in finding %dK boards: ", AIM_TASKS_COUNT / 1000);
+      printf("A progress in finding %dK boards: ", config.solve.aimTaskCount / 1000);
       shownFirstLiveSign = true;
    }
 
@@ -346,7 +337,7 @@ void WaMulti::ShowLiveSigns(uint oneCover)
 
    // consider extension of the search unless we're 98% close
    if (countIterations + ADDITION_STEP_ITERATIONS > countShare &&
-      acc < (AIM_TASKS_COUNT * 98) / 100) {
+      acc < (config.solve.aimTaskCount * 98) / 100) {
       countShare += ADDITION_STEP_ITERATIONS;
       hA->mul.countShare += ADDITION_STEP_ITERATIONS;
       hB->mul.countShare += ADDITION_STEP_ITERATIONS;

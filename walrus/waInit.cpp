@@ -13,7 +13,7 @@
 #include <memory.h> // memset
 #include "waSemMicro.h"
 
-//#define DBG_SHOW_ALLOCS
+#define DBG_SHOW_ALLOCS
 
 SplitBits sbBlank;
 Semantics semShared;
@@ -97,15 +97,15 @@ WaConfig::WaConfig()
    #endif
 }
 
-void Walrus::AllocFilteredTasksBuf()
+void WaMulti::AllocFilteredTasksBuf()
 {
    // determine size
-   size_t bsize = mul.maxTasksToSolve * sizeof(WaTask);
+   size_t bsize = maxTasksToSolve * sizeof(WaTask);
 
    // alloc
-   mul.arrToSolve = (WaTask *)malloc(bsize);
-   if (!mul.arrToSolve) {
-      printf("%s: alloc failed %llu bytes\n", mul.nameHlp, bsize);
+   arrToSolve = (WaTask *)malloc(bsize);
+   if (!arrToSolve) {
+      printf("%s: alloc failed %llu bytes\n", nameHlp, bsize);
       PLATFORM_GETCH();
       exit(0);
    }
@@ -115,9 +115,9 @@ void Walrus::AllocFilteredTasksBuf()
       const size_t oneK = 1024;
       const size_t oneM = 1024 * oneK;
       if (bsize > oneM) {
-         printf("Memory %lluM in %s\n", bsize / oneM, mul.nameHlp);
+         printf("Memory %lluM in %s\n", bsize / oneM, nameHlp);
       } else {
-         printf("Memory %lluK in %s\n", bsize / oneK, mul.nameHlp);
+         printf("Memory %lluK in %s\n", bsize / oneK, nameHlp);
       }
    #endif
 }
@@ -132,7 +132,7 @@ Walrus::~Walrus()
 
 Semantics::Semantics()
    : onInit              (&Walrus::NOP)
-   , onShareStart        (&Walrus::NOP)
+   , onShareStart        (&WaMulti::NOP)
    , fillFlipover        (&Shuffler::NOP)
    , onBoardFound        (&Walrus::AddForSolving)
    , onBoardAdded        (&MiniUI::VoidAdded)

@@ -97,10 +97,10 @@ struct WaConfig {
 
    // solving
    struct Solving {
+      uint aimTaskCount = 20*1000;
       WA_OPERATION_MODE opMode = OPMODE_NONE;
       int ddsSol = 1;
-      // cards to lead for WPM_OPENING_LEADS
-      struct Leads {
+      struct Leads { // cards to lead for WPM_OPENING_LEADS
          int S=0, H=0, D=0, C=0;
       } leads;
    } solve;
@@ -156,6 +156,7 @@ private:
    void ReadSecundaScorer(const char *line);
    void ReadPostmortemParams(char *line);
    void ReadDebugSetting(char *line);
+   void ReadScaleSetting(char *line);
    EConfigReaderState FSM_DoFiltersState(char* line);
    EConfigReaderState FSM_DoTaskState(char* line);
    EConfigReaderState FSM_Go2WaitTask(char* line);
@@ -171,6 +172,7 @@ private:
       static char* Prima, *Secunda;
       static char* Postmortem;
       static char* Filters;
+      static char* Scale;
       static char* TEnd;
       static char* Delimiters;
       static char* Debug;

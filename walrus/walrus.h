@@ -7,8 +7,8 @@
 #include "waAI.h"
 #include "waScore.h"
 #include "waShuffle.h"
-#include "waSemantic.h"
 #include "waMulti.h"
+#include "waSemantic.h"
 #include "waIO.h"
 
 // The main class -- named after Walter the Walrus, whose expertise in and devotion to 
@@ -53,7 +53,6 @@ protected:
    void Scan3FixedNorth();
 
    // solving
-   void AllocFilteredTasksBuf();
    void SolveSavedTasks();
    void SolveOneByOne(struct deal &dlBase);
    void SolveInChunks();
