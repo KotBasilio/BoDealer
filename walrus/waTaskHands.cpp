@@ -118,16 +118,6 @@
    char const txt.taskHandPBN[] = "[N:.KJ5.T763.KQ9873]";
 #endif // SEMANTIC_OVERCALL_4C
 
-#ifdef FOUR_HANDS_TASK
-   char const txt.taskHandPBN[] = "[N:234.567.AKQT.J98]";// just a dummy
-   #ifndef INPUT_TRUMPS
-      #define INPUT_TRUMPS    SOL_HEARTS
-   #endif
-   #ifndef INPUT_ON_LEAD
-      #define INPUT_ON_LEAD   EAST
-   #endif
-#endif // FOUR_HANDS_TASK
-
 uint zero_holdings[DDS_HANDS][DDS_SUITS] =
 { // North    East        South       West
    { 0,       0,          0,         0  } , // spades

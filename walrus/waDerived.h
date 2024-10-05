@@ -66,7 +66,7 @@
 #ifdef SEEK_BIDDING_LEVEL
    #define FIXED_HAND_NORTH
 #endif
-#ifdef SEEK_DENOMINATION
+#ifdef SEM_ONE_SIDED_DENOMINATION
    #define FIXED_HAND_NORTH
 #endif
 

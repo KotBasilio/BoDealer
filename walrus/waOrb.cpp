@@ -65,51 +65,9 @@ void Walrus::SemanticsToOrbitFixedHand(void)
    sem.scanCover = SYMM * ORBIT_PERMUTE_FACTOR;
    sem.onAfterMath = &Walrus::SolveSavedTasks;
 
-   if (!config.filters.compiled.empty()) {
-      sem.vecFilters = config.filters.compiled;
-   }
-
 #ifdef FIXED_HAND_WEST
    sem.onScanCenter = &Walrus::Scan3FixedWest;
 #endif
-
-#ifdef SEEK_DECISION_COMPETE
-   sem.SetOurPrimaryScorer(cumulScore, config.txt.primaScorerCode);
-   sem.SetTheirScorer(cumulScore, config.txt.secundaScorerCode);
-#endif
-
-#ifdef SEEK_DENOMINATION
-   sem.SetOurPrimaryScorer(cumulScore, config.txt.primaScorerCode);
-   sem.SetOurSecondaryScorer(cumulScore, config.txt.secundaScorerCode);
-#endif
-
-#ifdef SEEK_BIDDING_LEVEL
-   sem.SetBiddingGameScorer(cumulScore, config.txt.primaScorerCode);
-#endif
-
-   // POSTMORTEM setup
-   {
-      if (config.postm.Is(WPM_OPENING_LEADS)) {
-         sem.SetOpeningLeadScorer(cumulScore, config.txt.primaScorerCode);
-         sem.onMarkAfterSolve = &Walrus::AddMarksByOpLeads;
-      }
-
-      if (config.postm.Is(WPM_HCP_SINGLE_SCORER)) {
-         sem.onMarkAfterSolve = &Walrus::AddMarksByHCP;
-         if (config.postm.minHCP == config.postm.maxHCP) {
-            // TODO: make a separate function for controls. Now it's same, &Walrus::AddMarksByHCP
-         }
-      }
-
-      if (config.postm.Is(WPM_SUIT)) {
-         sem.onMarkAfterSolve = &Walrus::AddMarksBySuit;
-      }
-   }
-
-   // DEBUG setup
-   if (config.dbg.viewBoardOnAdd) {
-      sem.onBoardAdded = &MiniUI::DisplayBoard;
-   }
 }
 
 void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)

@@ -268,3 +268,11 @@ void Walrus::FillSemantic(void)
     //config.postm.Type = WPM_SUIT;
 }
 #endif 
+
+#ifdef FOUR_HANDS_TASK
+void Walrus::FillSemantic(void)
+{
+   FourHandsFillSem();
+}
+#endif // FOUR_HANDS_TASK
+

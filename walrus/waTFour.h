@@ -73,3 +73,8 @@
 	#define INPUT_ON_LEAD   WEST
 #endif
 
+#ifdef SEM_4_HAND_MINOR_SUPERFIT
+   #define FOUR_HANDS_TASK
+   #define SEEK_DENOMINATION
+#endif
+

@@ -20,14 +20,46 @@ TASK NAME:OCT_MINOR_SUPERFIT
 Leads:
 //TASK NAME:JUN24_LEAD_AK
 
+No fixed hand:
+//TASK NAME:4_HAND_MINOR_SUPERFIT
+
 -----------------------------------------------------------------------------------------------------------------------
-SCALE: 100
+SCALE: 20
 //OPMODE: SEMI_STRAY
 //OPMODE: DEMO_STATISTICS
 //DEBUG: SHOW BOARD ON ADDED
 //DEBUG: SHOW RECONSTRUCTED
 //DEBUG: VERBOSE COMPILING
 //DEBUG: SHOW COMPARISONS
+
+-----------------------------------------------------------------------------------------------------------------------
+4_HAND_MINOR_SUPERFIT A 4-hand task:
+Our line has 5-5 fit in a minor. Let's compare 3NT, 5C nad 6C.
+A bidding is like
+   2c(part) 2d
+   2s       ??
+
+PRIMARY SCORER: V3N BY N
+SECONDARY SCORER: V5C BY S
+POSTMORTEM: HCP 22, 29
+
+FILTERS:
+    NORTH: PointsRange 11, 13
+    NORTH: ClubsLen 5, 5
+    NORTH: HeartsLen 4, 4
+
+    SOUTH: PointsRange, 11, 16
+    SOUTH: ClubsLen, 5, 7
+    SOUTH: SpadesLen, 4, 4
+    SOUTH: HeartsLen, 0, 3
+
+    WEST: NoOvercall
+    EAST: NoOvercall
+
+    SOUTH: ExcludeCombination {
+       NORTH: PointsRange 11, 11
+       SOUTH: PointsRange, 11, 12
+    }
 
 -----------------------------------------------------------------------------------------------------------------------
 OCT_MINOR_SUPERFIT To be a 4-hand task:

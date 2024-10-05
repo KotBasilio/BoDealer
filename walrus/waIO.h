@@ -165,20 +165,20 @@ private:
 
    // keywords used in parsing
    struct Keywords {
-      static char* OpMode;
+      static char* Debug;
+      static char* Delimiters;
+      static char* Filters;
       static char* Hand;
       static char* Leads;
-      static char* TName;
-      static char* Prima, *Secunda;
+      static char* OpMode;
       static char* Postmortem;
-      static char* Filters;
+      static char* Prima, *Secunda;
       static char* Scale;
-      static char* TEnd;
-      static char* Delimiters;
-      static char* Debug;
-      static char* ShowOnAdded;
       static char* ShowComparisons;
+      static char* ShowOnAdded;
       static char* ShowOnReconstructed;
+      static char* TEnd;
+      static char* TName;
       static char* VerboseCompile;
    } key;
 };
