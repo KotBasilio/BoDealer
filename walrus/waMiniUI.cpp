@@ -35,7 +35,6 @@ MiniUI::MiniUI()
    , primaBetterBy(0)
    , farCol(HITS_COLUMNS_SIZE)
 {
-   FillMiniRows();
 }
 
 void WaConfig::Contract::Init(const CumulativeScore::LineScorer& scorer)

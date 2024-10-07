@@ -21,7 +21,8 @@ Leads:
 //TASK NAME:JUN24_LEAD_AK
 
 No fixed hand:
-TASK NAME:4_HAND_MINOR_SUPERFIT
+//TASK NAME:4_HAND_MINOR_SUPERFIT
+TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
 
 -----------------------------------------------------------------------------------------------------------------------
 SCALE: 102
@@ -33,8 +34,36 @@ SCALE: 102
 //DEBUG: SHOW COMPARISONS
 
 -----------------------------------------------------------------------------------------------------------------------
+4_HAND_SLAM_ON_MINOR_SUPERFIT A 4-hand task:
+Our line has 5-5 fit in a minor. Let's compare 3NT, and 6C.
+A bidding is like
+   2c(part) 2d
+   2s       ??
+
+PRIMARY SCORER: V3N BY N
+SECONDARY SCORER: V6C BY S
+POSTMORTEM: HCP 22, 29
+
+FILTERS:
+    SOUTH: LinePointsRange, NORTH, 26, 29
+    SOUTH: LineKeyCardsSuit, NORTH, CLB, 4, 5
+
+    SOUTH: PointsRange, 11, 16
+    SOUTH: ClubsLen, 5, 7
+    SOUTH: SpadesLen, 4, 4
+    SOUTH: HeartsLen, 0, 3
+
+    NORTH: PointsRange 11, 13
+    NORTH: ClubsLen 5, 5
+    NORTH: HeartsLen 4, 4
+    NORTH: PointsSuitAtLeast, DMD, 3
+
+    WEST: NoOvercall
+    EAST: NoOvercall
+
+-----------------------------------------------------------------------------------------------------------------------
 4_HAND_MINOR_SUPERFIT A 4-hand task:
-Our line has 5-5 fit in a minor. Let's compare 3NT, 5C nad 6C.
+Our line has 5-5 fit in a minor. Let's compare 3NT, 5C and 6C.
 A bidding is like
    2c(part) 2d
    2s       ??

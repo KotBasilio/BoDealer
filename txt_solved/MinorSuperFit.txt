@@ -1,3 +1,71 @@
+No fixed hand:
+
+
+        |\_______/|
+      / | [o] [o] | \
+     / /|    V    |\ \
+        |         |
+        -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+4_HAND_MINOR_SUPERFIT : A 4-hand task:
+Our line has 5-5 fit in a minor. Let's compare 3NT, 5C nad 6C.
+A bidding is like
+   2c(part) 2d
+   2s       ??
+Fixed hand is
+Scorers to use are: V3N BY N; V5C BY S
+Primary scorer (notrump, 9 tr): -200 -100 600 630 660 690 720  /
+Contract-B scorer (clubs, 11 tr):   -400 -300 -200 -100 600 620 640
+----
+29:    NORTH     EAST    SOUTH     WEST
+30:   100394,       0,     >XR,       0,  :   PointsRange 11 16 SOUTH
+31:        0,       0,   >MLRD,       0,  :   ClubsLen 5 7 SOUTH
+32:        0,       0,   >MLRD,       0,  :   SpadesLen 4 4 SOUTH
+33:        0,       0,    >MLN,       0,  :   HeartsLen 0 3 SOUTH
+
+34:     >XXM,       0,       0,       0,  :   PointsRange 11 13 NORTH
+35:      >XM,       0,       0,       0,  :   ClubsLen 5 5 NORTH
+36:     >MLN,       0,       0,       0,  :   HeartsLen 4 4 NORTH
+37:   238062,       0,       0,       0,  :   PointsSuitAtLeast DMD 3 NORTH
+
+38:        0,       0,       0,   39710,  :   NoOvercall WEST
+39:        0,   34886,       0,       0,  :   NoOvercall EAST
+
+40:        0,       0,   14558,       0,  :   SOUTH ExcludeCombination  {
+41:        0,       0,   68982,       0,  :     PointsRange 11 12 SOUTH
+42:    34428,       0,       0,       0,  :     PointsRange 11 11 NORTH
+43:        0,       0,       0,       0,  :   }
+44:        0,       0,    3016,       0,  :   SOUTH ExcludeCombination  {
+45:        0,       0,   92328,       0,  :     PointsRange 16 16 SOUTH
+46:     8066,       0,       0,       0,  :     PointsRange 13 13 NORTH
+47:        0,       0,       0,       0,  :   }
+
+(ctrA:3N down):    23140,   10100,    3822,     780,     253,     101,      26,       0,       38222
+(ctrA:3N make):    29466,   22901,    7926,    1766,     113,       0,       0,       0,       62172
+        (----):        0,       0,       0,       0,       0,       0,       0,       0,           0
+(ctrB:5C down):    18783,    3641,     237,       5,       0,       0,       0,       0,       22666
+(ctrB:5C make):    39375,   31228,    7125,       0,       0,       0,       0,       0,       77728
+  (A, same, B):        0,   35226,   23289,   41879,       0,       0,       0,       0,      100394
+Processed: 100394 total. East is on lead. Goal is 9 tricks in notrump.
+Averages: ideal = 0, bidGame = 325, partscore=0.   Chance to make = 61.9%.
+The other contract: avg = 446; makes in 77.4% cases
+Comparison: favor A 35.1%; same 23.2%; favor B 41.7%
+A huge match: -209003 IMPs; about -208 IMPs/hub
+
+A split of comparison results by HCP from 22 to 29:
+              go A     same     go B
+(hcp 22):        0,       0,       0,   :        0,
+(hcp 23):      916,    2421,    5145,   :     8482,  --> 10% to 60%, avg 100 boards give -437 IMPs
+(hcp 24):     4377,    7132,   13145,   :    24654,  --> 17% to 53%, avg 100 boards give -354 IMPs
+(hcp 25):     6591,    6434,   10557,   :    23582,  --> 27% to 44%, avg 100 boards give -233 IMPs
+(hcp 26):     8274,    4323,    7149,   :    19746,  --> 41% to 36%, avg 100 boards give -118 IMPs
+(hcp 27):     9118,    2351,    4295,   :    15764,  --> 57% to 27%, avg 100 boards give -47 IMPs
+(hcp 28):     5950,     628,    1588,   :     8166,  --> 72% to 19%, avg 100 boards give 10  IMPs
+(hcp 29):        0,       0,       0,   :        0,
+The search took 54.4 sec + an aftermath 37 min 37 sec.
+==============================================================
+
 Fixed hand is [N:64.KJ83.K8.AJ876]
 A split of comparison results by HCP from 23 to 28:
               go A     same     go B

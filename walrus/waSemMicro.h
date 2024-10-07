@@ -30,7 +30,7 @@ public:
    // -
    uint LineControlsRange(twContext* lay, const uint* par);
    uint LineAcesRange(twContext* lay, const uint* par);
-   uint LineKeyCardsSpade(twContext* lay, const uint* par);
+   uint LineKeyCardsSuit(twContext* lay, const uint* par);
    uint LinePointsRange(twContext* lay, const uint *par);
    // -
    uint PointsSuitLimit(twContext* lay, const uint* par);

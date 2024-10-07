@@ -50,6 +50,7 @@ Walrus::Walrus()
    mainProgress = &progress;
    PrepareLinearScores();
    memset(progress.hitsCount, 0, sizeof(progress.hitsCount));
+   ui.FillMiniRows();
 }
 
 void WaFilter::Bind(class Walrus* _walrus) 

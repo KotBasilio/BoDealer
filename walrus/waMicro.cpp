@@ -171,34 +171,20 @@ uint WaFilter::KeyCardsRange(twContext* lay, const uint* par)
    return KeyCardsRange(jo, kc_mask, par[2], par[3]) ? MIC_PASSED : MIC_BLOCK;
 }
 
-uint WaFilter::LineKeyCardsSpade(twContext* lay, const uint* par)
-{// obsolete and early version. see more generic
-   auto seat     = par[0];
+uint WaFilter::LineKeyCardsSuit(twContext* lay, const uint* par)
+{
+   ACCESS_MICPAR_JO;
+
+   // combine cards of the line 
    auto seatPart = par[1];
-
+   u64 line = jo + lay[seatPart].hand.card.jo;
+   
    // which king do we need
-   u64 kc_mask = ANY_ACE | sKingBit[SOL_SPADES];
+   auto sol_suit = par[2];
+   u64 kc_mask = ANY_ACE | sKingBit[sol_suit];
 
-   // combine the line
-   u64 line = lay[seat    ].hand.card.jo +
-              lay[seatPart].hand.card.jo;
-
-   // get keycards
-   u64 keycards = line & kc_mask;
-
-   // sum bits
-   auto x =  (keycards & 0xF000000000000000LL) >> (16*3 + 12 + 2);
-   auto y = ((keycards & 0x0000F00000000000LL) >> (16*2 + 12 + 3)) +
-            ((keycards & 0x00000000F0000000LL) >> (16   + 12 + 3)) +
-            ((keycards & 0x000000000000F000LL) >> (       12 + 3));
-
-   // require in range
-   auto sum = (x & 0x1) + ((x & 0x2) >> 1) + y;
-   if (par[2] <= sum && sum <= par[3]) {
-      return MIC_PASSED;
-   }
-
-   return MIC_BLOCK;
+   // relay
+   return KeyCardsRange(line, kc_mask, par[3], par[4]) ? MIC_PASSED : MIC_BLOCK;
 }
 
 uint WaFilter::LinePointsRange(twContext* lay, const uint* par)

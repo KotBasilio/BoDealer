@@ -54,7 +54,7 @@ static HandFilter ExportedHandFilters[] = {
 
    DESCRIBE_FILTER(LineControlsRange, 3),
    DESCRIBE_FILTER(LineAcesRange, 3),
-   DESCRIBE_FILTER(LineKeyCardsSpade, 3),
+   DESCRIBE_FILTER(LineKeyCardsSuit, 4),
    DESCRIBE_FILTER(LinePointsRange, 3),
 
    DESCRIBE_FILTER(PointsSuitLimit, 2),
@@ -361,6 +361,10 @@ struct Parser
          return true;
       }
 
+      if (TryAcceptPosition()) {
+         return true;
+      }
+
       return false;
    }
 
@@ -403,6 +407,24 @@ private:
       if (IsToken("CLB")) {
          return StoreParsedArgument(SOL_CLUBS);
       }
+
+      return false;
+   }
+
+   bool TryAcceptPosition()
+   {
+      if (IsToken("SOUTH")) {
+         return StoreParsedArgument(SOUTH);
+      } 
+      if (IsToken("WEST")) {
+         return StoreParsedArgument(WEST);
+      } 
+      if (IsToken("NORTH")) {
+         return StoreParsedArgument(NORTH);
+      } 
+      if (IsToken("EAST")) {
+         return StoreParsedArgument(EAST);
+      } 
 
       return false;
    }
