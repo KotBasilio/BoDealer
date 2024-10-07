@@ -187,6 +187,28 @@ uint WaFilter::LineKeyCardsSuit(twContext* lay, const uint* par)
    return KeyCardsRange(line, kc_mask, par[3], par[4]) ? MIC_PASSED : MIC_BLOCK;
 }
 
+uint WaFilter::LineSuitAnyCuebid(twContext* lay, const uint* par)
+{
+   ACCESS_MICPAR_LINE;
+   auto suit = par[2];
+
+   // a control => a cuebid
+   if (ctxOur.ctrl.arr[suit] + ctxPart.ctrl.arr[suit] > 0) {
+      return MIC_PASSED;
+   }
+
+   // a shortage => a cuebid
+   if (ctxOur.len.arr[suit] < 2) {
+      return MIC_PASSED;
+   }
+   if (ctxPart.len.arr[suit] < 2) {
+      return MIC_PASSED;
+   }
+
+   // no cuebid
+   return MIC_BLOCK;
+}
+
 uint WaFilter::LinePointsRange(twContext* lay, const uint* par)
 {
    ACCESS_MICPAR_HCP;

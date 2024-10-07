@@ -65,6 +65,90 @@ A split of comparison results by HCP from 22 to 29:
 (hcp 29):        0,       0,       0,   :        0,
 The search took 54.4 sec + an aftermath 37 min 37 sec.
 ==============================================================
+Naive slam calculation:
+
+Senior kibitzer Oscar is observing a task:
+4_HAND_SLAM_ON_MINOR_SUPERFIT : A 4-hand task:
+Our line has 5-5 fit in a minor. Let's compare 3NT, and 6C.
+A bidding is like
+   2c(part) 2d
+   2s       ??
+Fixed hand is
+Scorers to use are: V3N BY N; V6C BY S
+Primary scorer (notrump, 9 tr): -200 -100 600 630 660 690 720  /
+Contract-B scorer (clubs, 12 tr): -500 -400 -300 -200 -100 1370 1390
+----
+29:    NORTH     EAST    SOUTH     WEST
+30:   100022,       0,     >XR,       0,  :   LinePointsRange NORTH 26 29 SOUTH
+31:        0,       0,   >MLRD,       0,  :   LineKeyCardsSuit NORTH CLB 4 5 SOUTH
+32:        0,       0,   >MLRD,       0,  :   PointsRange 11 16 SOUTH
+33:        0,       0,   >MLRD,       0,  :   ClubsLen 5 7 SOUTH
+34:        0,       0,    >XXM,       0,  :   SpadesLen 4 4 SOUTH
+35:        0,       0,    >MLN,       0,  :   HeartsLen 0 3 SOUTH
+36:      >XM,       0,       0,       0,  :   PointsRange 11 13 NORTH
+37:      >XM,       0,       0,       0,  :   ClubsLen 5 5 NORTH
+38:     >MLN,       0,       0,       0,  :   HeartsLen 4 4 NORTH
+39:   145718,       0,       0,       0,  :   PointsSuitAtLeast DMD 3 NORTH
+40:        0,       0,       0,   15735,  :   NoOvercall WEST
+41:        0,   13891,       0,       0,  :   NoOvercall EAST
+ 9 tricks board by North in notrump example:
+--------
+               J2          HCP : 26
+               AQT6        CTRL: 8
+               A3
+               QT985
+   T763                    AQ4
+   J74                     K832
+   KT95                    87642
+   J4                      2
+               K985
+               95
+               QJ
+               AK763
+                                     A contract in clubs has 11 tricks.
+    suit   rank   score              suit   rank   score
+      D      2      4                  H      4      2
+      D      4      4                  H      7      2
+      D      8      4                  H      J      2
+      S      A      3                  D      5      2
+      C      2      3                  S      3      2
+      S      Q      3                  D      T      2
+      H      8      2                  S      7      2
+      H      3      2                  D      K      2
+      H      K      2                  S      T      2
+      S      4      2                  C      4      2
+                                       C      J      2
+(ctrA:3N down):    10472,    2354,      13,       0,       0,       0,       0,       12839
+(ctrA:3N make):    25202,   36621,   19402,    5522,     436,       0,       0,       87183
+        (----):        0,       0,       0,       0,       0,       0,       0,           0
+(ctrB:6C down):    28389,    4990,     169,       0,       0,       0,       0,       33548
+(ctrB:6C make):    50629,   15845,       0,       0,       0,       0,       0,       66474
+  (A, same, B):        0,   28105,    4513,   67404,       0,       0,       0,      100022
+Processed: 100022 total. East is on lead. Goal is 9 tricks in notrump.
+Averages: ideal = 0, bidGame = 535, partscore=0.   Chance to make = 87.2%.
+The other contract: avg = 874; makes in 66.5% cases
+Comparison: favor A 28.1%; same 4.5%; favor B 67.4%
+A huge match: -516869 IMPs; about -517 IMPs/hub
+
+A split of comparison results by HCP from 22 to 29:
+              go A     same     go B
+(hcp 22):        0,       0,       0,   :        0,
+(hcp 23):        0,       0,       0,   :        0,
+(hcp 24):        0,       0,       0,   :        0,
+(hcp 25):        0,       0,       0,   :        0,
+(hcp 26):    12995,    2897,   22172,   :    38064,  --> 34% to 58%, avg 100 boards give -359 IMPs
+(hcp 27):     9747,    1261,   23174,   :    34182,  --> 28% to 67%, avg 100 boards give -512 IMPs
+(hcp 28):     4217,     306,   15375,   :    19898,  --> 21% to 77%, avg 100 boards give -693 IMPs
+(hcp 29):     1146,      49,    6683,   :     7878,  --> 14% to 84%, avg 100 boards give -854 IMPs
+The search took 159.8 sec + an aftermath 43 min 44 sec.
+==============================================================
+Preliminary runs without IMPs:
+
+        |\_______/|
+      / | [o] [o] | \
+     / /|    V    |\ \
+        |         |
+        -ooo---ooo-
 
 Fixed hand is [N:64.KJ83.K8.AJ876]
 A split of comparison results by HCP from 23 to 28:

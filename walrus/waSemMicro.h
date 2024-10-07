@@ -28,10 +28,11 @@ public:
    uint WeakNT(twContext* lay, const uint *par);
    uint WeakGroup(twContext* lay, const uint *par);
    // -
+   uint LinePointsRange(twContext* lay, const uint *par);
    uint LineControlsRange(twContext* lay, const uint* par);
    uint LineAcesRange(twContext* lay, const uint* par);
    uint LineKeyCardsSuit(twContext* lay, const uint* par);
-   uint LinePointsRange(twContext* lay, const uint *par);
+   uint LineSuitAnyCuebid(twContext* lay, const uint *par);
    // -
    uint PointsSuitLimit(twContext* lay, const uint* par);
    uint PointsSuitAtLeast(twContext* lay, const uint* par);
@@ -122,6 +123,12 @@ constexpr uint SKIP_BY_SANDWICH = SKIP_BY_OPP;
 #define ACCESS_MICPAR_JO             \
    auto seat = par[0];               \
    u64 jo(lay[seat].hand.card.jo)
+
+#define ACCESS_MICPAR_LINE                \
+   auto seat = par[0];                    \
+   auto seatPart = par[1];                \
+   const auto& ctxOur = lay[seat];        \
+   const auto& ctxPart = lay[seatPart]
 
 #define ACCESS_MICPARS_HL            \
    auto seat = par[0];               \

@@ -35,15 +35,42 @@ SCALE: 102
 
 -----------------------------------------------------------------------------------------------------------------------
 4_HAND_SLAM_ON_MINOR_SUPERFIT A 4-hand task:
-Our line has 5-5 fit in a minor. Let's compare 3NT, and 6C.
-A bidding is like
+Our line has 5-5 fit in a minor. A bidding is like
    2c(part) 2d
    2s       ??
+Despite RESP has a diamond stopper. Let's compare 6C and 3NT, 
+having in mind following bidding sequences:
+   ...      2NT(inq)               ...        2NT(inq)
+   3c       5c                     (max)      4c
+                                   (cuebids)  5c/6c
 
-PRIMARY SCORER: V3N BY N
-SECONDARY SCORER: V6C BY S
-POSTMORTEM: HCP 22, 29
+PRIMARY SCORER: V6C BY S
+SECONDARY SCORER: V3N BY N
+POSTMORTEM: HCP 25, 31
 
+FILTERS:
+    SOUTH: LinePointsRange, NORTH, 26, 30
+    SOUTH: LineKeyCardsSuit, NORTH, CLB, 4, 5
+
+    SOUTH: PointsRange, 13, 16
+    SOUTH: ClubsLen, 5, 7
+    SOUTH: SpadesLen, 4, 4
+    SOUTH: HeartsLen, 0, 3
+
+    SOUTH: LineSuitAnyCuebid, NORTH, SPD
+    SOUTH: LineSuitAnyCuebid, NORTH, HRT
+    SOUTH: LineSuitAnyCuebid, NORTH, DMD
+
+    NORTH: PointsRange 12, 14
+    NORTH: ClubsLen 5, 5
+    NORTH: HeartsLen 4, 4
+    NORTH: PointsSuitAtLeast, DMD, 3
+
+    WEST: NoOvercall
+    EAST: NoOvercall
+
+-----------------------------------------------------------------------------------------------------------------------
+naive variant
 FILTERS:
     SOUTH: LinePointsRange, NORTH, 26, 29
     SOUTH: LineKeyCardsSuit, NORTH, CLB, 4, 5
@@ -78,10 +105,10 @@ FILTERS:
     SOUTH: SpadesLen, 4, 4
     SOUTH: HeartsLen, 0, 3
 
-    NORTH: PointsRange 11, 13
     NORTH: ClubsLen 5, 5
     NORTH: HeartsLen 4, 4
     NORTH: PointsSuitAtLeast, DMD, 3
+    NORTH: PointsRange 11, 13
 
     WEST: NoOvercall
     EAST: NoOvercall

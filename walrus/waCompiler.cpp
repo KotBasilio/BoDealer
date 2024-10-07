@@ -52,10 +52,11 @@ static HandFilter ExportedHandFilters[] = {
    DESCRIBE_FILTER(DiamondsLen, 2),
    DESCRIBE_FILTER(ClubsLen, 2),
 
+   DESCRIBE_FILTER(LinePointsRange, 3),
    DESCRIBE_FILTER(LineControlsRange, 3),
    DESCRIBE_FILTER(LineAcesRange, 3),
    DESCRIBE_FILTER(LineKeyCardsSuit, 4),
-   DESCRIBE_FILTER(LinePointsRange, 3),
+   DESCRIBE_FILTER(LineSuitAnyCuebid, 2),
 
    DESCRIBE_FILTER(PointsSuitLimit, 2),
    DESCRIBE_FILTER(PointsSuitAtLeast, 2),
@@ -475,7 +476,7 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
             } else if (parser.AcceptHandFilter()) {
                fsmState = PS_ARGUMENTS;
             } else {
-               return parser.FailTok("Unrecognized hand filter ");
+               return parser.FailTok("Unrecognized filter name");
             }
             break;
 
