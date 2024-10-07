@@ -13,11 +13,26 @@
 #include <memory.h> // memset
 #include "waSemMicro.h"
 
-#define DBG_SHOW_ALLOCS
+//#define DBG_SHOW_ALLOCS
 
 SplitBits sbBlank;
 Semantics semShared;
 WaConfig config;
+
+static const char* artWalrus[] = {
+   "  __        __    _                          ___  \n",
+   "  \\ \\      / /_ _| |_ __ _   _ ___          /  .\\ \n",
+   "   \\ \\ /\\ / / _` | | '__| | | / __|        /  =__|\n",
+   "    \\ V  V / (_| | | |  | |_| \\__ \\       /    || \n",
+   "     \\_/\\_/ \\__,_|_|_|   \\__,_|___/              \n\n",
+};
+
+static void PaintWalrus()
+{
+   for (auto art : artWalrus) {
+      printf(art);
+   }
+}
 
 Walrus::Walrus()
    // highBitscounts as many two cards in any suit. easily detected. doesn't cause an overflow
@@ -29,6 +44,7 @@ Walrus::Walrus()
    , shuf()
    , filter()
 {
+   PaintWalrus();
    filter.Bind(this);
    config.txt.namesBase.Build();
    mainProgress = &progress;

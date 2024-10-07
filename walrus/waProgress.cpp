@@ -126,7 +126,7 @@ bool Walrus::RegularBalanceCheck()
 // ------------------------------------------------------------------------------------------
 const int MAX_CAMPS = 15;
 const int MINI_ROWS = 13;
-const int PREFIX_LEN = 16;
+const int PREFIX_LEN = 18;
 char miniRowStart[MINI_ROWS][PREFIX_LEN];
 
 // output alignments
@@ -175,6 +175,7 @@ void MiniUI::AdaptMiniRows(Walrus* wal)
    {
       sprintf(miniRowStart[IO_ROW_OUR_DOWN],   "(ctrA%s down): ", config.txt.primaShort);
       sprintf(miniRowStart[IO_ROW_OUR_MADE],   "(ctrA%s make): ", config.txt.primaShort);
+      sprintf(miniRowStart[IO_ROW_OUR_MADE+1], "        (----): ");
       sprintf(miniRowStart[IO_ROW_THEIRS+0],   "(ctrB%s down): ", config.txt.secundaShort);
       sprintf(miniRowStart[IO_ROW_THEIRS+1],   "(ctrB%s make): ", config.txt.secundaShort);
       sprintf(miniRowStart[IO_ROW_COMPARISON], "  (A, same, B): ");

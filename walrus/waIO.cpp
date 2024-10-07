@@ -318,7 +318,7 @@ void Walrus::ShowDetailedReportCompWithHcp()
          auto primaBetterBy = (s64)(progress.hitsCount[i][IO_CAMP_IMPS_PRIMA]) - 
                               (s64)(progress.hitsCount[i][IO_CAMP_IMPS_SECUNDA]);
          float posto = 100.f / sumline;
-         owl.Silent(", avg 100 boards give %3.0f IMPs", primaBetterBy * posto);
+         owl.Silent(", avg 100 boards give %-3.0f IMPs", primaBetterBy * posto);
       }
       owl.Silent("\n");
    }

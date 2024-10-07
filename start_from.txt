@@ -8,7 +8,7 @@ Competitive:
 //TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
 
 One sided:
-TASK NAME:OCT_MINOR_SUPERFIT
+//TASK NAME:OCT_MINOR_SUPERFIT
 //TASK NAME:COPILTOT
 //TASK NAME:SEP_RESPONCE_TO_2C
 //TASK NAME:SEP_PARTIZAN_SPLIT_FIT
@@ -21,10 +21,10 @@ Leads:
 //TASK NAME:JUN24_LEAD_AK
 
 No fixed hand:
-//TASK NAME:4_HAND_MINOR_SUPERFIT
+TASK NAME:4_HAND_MINOR_SUPERFIT
 
 -----------------------------------------------------------------------------------------------------------------------
-SCALE: 20
+SCALE: 102
 //OPMODE: SEMI_STRAY
 //OPMODE: DEMO_STATISTICS
 //DEBUG: SHOW BOARD ON ADDED
@@ -44,21 +44,27 @@ SECONDARY SCORER: V5C BY S
 POSTMORTEM: HCP 22, 29
 
 FILTERS:
-    NORTH: PointsRange 11, 13
-    NORTH: ClubsLen 5, 5
-    NORTH: HeartsLen 4, 4
-
     SOUTH: PointsRange, 11, 16
     SOUTH: ClubsLen, 5, 7
     SOUTH: SpadesLen, 4, 4
     SOUTH: HeartsLen, 0, 3
 
+    NORTH: PointsRange 11, 13
+    NORTH: ClubsLen 5, 5
+    NORTH: HeartsLen 4, 4
+    NORTH: PointsSuitAtLeast, DMD, 3
+
     WEST: NoOvercall
     EAST: NoOvercall
 
     SOUTH: ExcludeCombination {
-       NORTH: PointsRange 11, 11
        SOUTH: PointsRange, 11, 12
+       NORTH: PointsRange 11, 11
+    }
+
+    SOUTH: ExcludeCombination {
+       SOUTH: PointsRange, 16, 16
+       NORTH: PointsRange 13, 13
     }
 
 -----------------------------------------------------------------------------------------------------------------------

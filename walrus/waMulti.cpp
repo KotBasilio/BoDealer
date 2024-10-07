@@ -131,6 +131,7 @@ void Walrus::ScanFixedTask(void)
    MergeResults(mul.hB);
 
    // don't work all day! have a dinner break ;-)
+   RegularBalanceCheck();
    PLATFORM_SLEEP(20);
    printf("\n   main: %-10llu done\n", mul.countSolo);
    ClearHelpers();
@@ -209,6 +210,7 @@ ucell Walrus::DoTheShare()
          }
       }
    } while (mul.countIterations < mul.countShare);
+   RegularBalanceCheck();
 
    // signal
    mul.isRunning = false;

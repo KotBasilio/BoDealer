@@ -226,6 +226,15 @@ bool Semantics::Compile(const char* sourceCode, size_t size, std::vector<MicroFi
       }
    }
 
+   // require first line to filter E/S/W: (see Progress::StoreCountToGo)
+   if (filters.size()) {
+      const auto& first = filters[0];
+      if (first.params[0] == NORTH) {
+         printf("\nFailed: The first filter shouldn't be for NORTH.\n");
+         return false;
+      }
+   }
+
    return true;
 }
 

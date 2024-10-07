@@ -125,6 +125,11 @@ void WaConfig::ReadScaleSetting(char* line)
       return;
    }
 
+   if (IsStartsWith(line, "MIN")) {
+      solve.aimTaskCount = 100;
+      return;
+   }
+
    auto kilos = atoi(line);
    if (kilos > 0) {
       solve.aimTaskCount = min(kilos * 1000, MAX_TASKS_TO_SOLVE); 
