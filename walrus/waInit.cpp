@@ -234,7 +234,7 @@ void Semantics::SetOurSecondaryScorer(CumulativeScore &cs, const char* code)
    if (isInitSuccess) {
       SetSecondaryScorer(cs, cs.ourOther, code);
       if (!isInitSuccess) {
-         printf("Semantics ERROR: the task suggest having our second scorer.\n");
+         printf("Semantics ERROR: the task suggests having our second scorer.\n");
       }
    }
 }
@@ -244,7 +244,7 @@ void Semantics::SetTheirScorer(CumulativeScore& cs, const char* code)
    if (isInitSuccess) {
       SetSecondaryScorer(cs, cs.oppContract, code);
       if (!isInitSuccess) {
-         printf("Semantics ERROR: the task suggest having their scorer.\n");
+         printf("Semantics ERROR: the task suggests having their scorer.\n");
       }
       if (cs.secunda.HasDouble()) {
          cs.secunda.TargetOut(cs.oppCtrDoubled);

@@ -37,6 +37,7 @@ struct MiniUI {
    void DisplayBoard(twContext* lay);
    void WaitAnyKey();
    void FillMiniRows();
+   void AdaptMiniRows(Walrus* wal);
    void Run();
 };
 
@@ -66,12 +67,13 @@ enum EConfigReaderState {
 };
 
 constexpr size_t WA_SCORER_CODE_LEN = 32;
-constexpr size_t WA_SOURCE_CODE_BUF = 2 * 1024;
+constexpr size_t WA_SHORT_SCORER_LEN = 4;
 constexpr size_t WA_TASK_BRIEF = 1024;
 constexpr size_t WA_TASK_NANE_LEN = 64;
 constexpr size_t WA_SECONDARY_LNAME_LEN = WA_TASK_NANE_LEN * 2;
 constexpr size_t WA_HAND_LEN = 30;
 constexpr size_t WA_TXT_SEAT_SUIT = 10;
+constexpr size_t WA_SOURCE_CODE_BUF = 2 * 1024;
 struct WaConfig {
    bool isInitSuccess = true;
 
@@ -82,6 +84,8 @@ struct WaConfig {
       char titleBrief[WA_TASK_BRIEF];   // a title and a brief
       char primaScorerCode[WA_SCORER_CODE_LEN];   // our main action in linear scorer format
       char secundaScorerCode[WA_SCORER_CODE_LEN]; // second action
+      char primaShort[WA_SHORT_SCORER_LEN];
+      char secundaShort[WA_SHORT_SCORER_LEN];
       char taskHandPBN[WA_HAND_LEN];
       char secLongName[WA_SECONDARY_LNAME_LEN];
       char freqTitleFormat[WA_TASK_NANE_LEN];
@@ -154,6 +158,7 @@ private:
    void ReadLeadCards(const char *line);
    void ReadPrimaScorer(const char *line);
    void ReadSecundaScorer(const char *line);
+   void FillShortScorer(const char *from, char *to);
    void ReadPostmortemParams(char *line);
    void ReadDebugSetting(char *line);
    void ReadScaleSetting(char *line);

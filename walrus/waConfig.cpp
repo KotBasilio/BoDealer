@@ -212,6 +212,7 @@ bool Walrus::InitByConfig()
    // other preparations basing on config
    DetectGoals();
    InitDeck();
+   ui.AdaptMiniRows(this);
    if (config.IsInitFailed()) {
       owl.Show("Failed on semantic-dependent init\n");
       return false;

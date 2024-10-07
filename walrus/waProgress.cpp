@@ -151,7 +151,10 @@ void MiniUI::FillMiniRows()
    for (int i = 3; i < MINI_ROWS; i++) {
       sprintf(miniRowStart[i], "       (%4d): ", i);
    }
+}
 
+void MiniUI::AdaptMiniRows(Walrus* wal)
+{
    // may rewrite some lines
    #ifdef SHOW_OPP_RESULTS
    {
@@ -170,11 +173,11 @@ void MiniUI::FillMiniRows()
 
    #ifdef SHOW_OUR_OTHER
    {
-      sprintf(miniRowStart[IO_ROW_OUR_DOWN],   "  (ctrA down): ");
-      sprintf(miniRowStart[IO_ROW_OUR_MADE],   "  (ctrA make): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS+0],   "  (ctrB down): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS+1],   "  (ctrB make): ");
-      sprintf(miniRowStart[IO_ROW_COMPARISON], " (A, same, B): ");
+      sprintf(miniRowStart[IO_ROW_OUR_DOWN],   "(ctrA%s down): ", config.txt.primaShort);
+      sprintf(miniRowStart[IO_ROW_OUR_MADE],   "(ctrA%s make): ", config.txt.primaShort);
+      sprintf(miniRowStart[IO_ROW_THEIRS+0],   "(ctrB%s down): ", config.txt.secundaShort);
+      sprintf(miniRowStart[IO_ROW_THEIRS+1],   "(ctrB%s make): ", config.txt.secundaShort);
+      sprintf(miniRowStart[IO_ROW_COMPARISON], "  (A, same, B): ");
    }
    #endif
 

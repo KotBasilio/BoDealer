@@ -144,11 +144,23 @@ void WaConfig::ReadHandPBN(const char* line)
 void WaConfig::ReadPrimaScorer(const char* line)
 {
    SAFE_STR_BY_LINE(txt.primaScorerCode);
+   FillShortScorer(txt.primaScorerCode, txt.primaShort);
 }
 
 void WaConfig::ReadSecundaScorer(const char* line)
 {
    SAFE_STR_BY_LINE(txt.secundaScorerCode);
+   FillShortScorer(txt.secundaScorerCode, txt.secundaShort);
+}
+
+void WaConfig::FillShortScorer(const char* from, char* to)
+{
+   if (strlen(from) > 4) {
+      to[0] = ':';
+      to[1] = from[1];
+      to[2] = from[2];
+      to[3] = 0;
+   }
 }
 
 bool WaConfig::RecognizePostmType(const char* token)

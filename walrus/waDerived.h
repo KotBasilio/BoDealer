@@ -17,8 +17,7 @@
 #ifdef SEEK_MAGIC_FLY
    #define FIXED_HAND_NORTH
    #define SOLVE_TWICE_HANDLED_CHUNK
-   #define TWICE_ON_LEAD_INSPECT   cards.first
-   #define TWICE_ON_LEAD_CHUNK     bo.deals[i].first
+   #define ON_LEAD_INTERROGATED   cards.first
    #define SHOW_MY_FLY_RESULTS
 #endif
 
@@ -40,8 +39,7 @@
 
 #ifdef SCORE_THE_OTHER_CONTRACT
    #define SOLVE_TWICE_HANDLED_CHUNK
-   #define TWICE_ON_LEAD_INSPECT   config.secondary.first
-   #define TWICE_ON_LEAD_CHUNK     config.secondary.first
+   #define ON_LEAD_INTERROGATED   config.secondary.first
    #ifdef THE_OTHER_IS_OURS
       #define SHOW_OUR_OTHER
    #else
@@ -49,9 +47,8 @@
    #endif
 #endif
 
-#ifndef TWICE_ON_LEAD_INSPECT
-   #define TWICE_ON_LEAD_INSPECT   SOL_CLUBS
-   #define TWICE_ON_LEAD_CHUNK     NORTH
+#ifndef ON_LEAD_INTERROGATED
+   #define ON_LEAD_INTERROGATED   WEST
 #endif
 
 // tasks without a fixed hand (no specifics)
