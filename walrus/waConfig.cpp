@@ -116,17 +116,12 @@ void Walrus::AddScorerValues(char* tail)
       if (cumulScore.bidPartscore) {
          sprintf(chunk, " %lld", cumulScore.bidPartscore);
          strcat(tail, chunk);
-      } else if (cumulScore.bidSlam) {
-         sprintf(chunk, " %lld", cumulScore.bidSlam);
-         strcat(tail, chunk);
       }
       return;
    }
 
    if (cumulScore.ourOther) {
-      owl.Show("    ");
-      sprintf(chunk, " %lld", cumulScore.ourOther);
-      strcat(tail, chunk);
+      owl.Show(" %lld", cumulScore.ourOther);
       return;
    }
 

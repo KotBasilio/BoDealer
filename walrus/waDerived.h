@@ -54,9 +54,6 @@
 // tasks without a fixed hand (no specifics)
 
 // User interface --- how to display
-#ifndef SHOW_OPP_RESULTS
-   #define SHOW_PARTSCORE_STATLINE
-#endif
 
 // -----------------------------------------------------------------
 // more resolutions on a fixed hand

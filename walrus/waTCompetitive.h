@@ -13,7 +13,6 @@
 
    #define SHOW_OPPS_ON_PASS_ONLY
    #define SHOW_OPPS_ON_DOUBLE_ONLY
-   #define SHOW_PARTSCORE_STATLINE
 
    #define FOUR_HANDS_TASK
 */

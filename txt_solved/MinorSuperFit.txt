@@ -142,6 +142,446 @@ A split of comparison results by HCP from 22 to 29:
 (hcp 29):     1146,      49,    6683,   :     7878,  --> 14% to 84%, avg 100 boards give -854 IMPs
 The search took 159.8 sec + an aftermath 43 min 44 sec.
 ==============================================================
+Slam with cuebids
+
+        |\_______/|
+      / | [o] [o] | \
+     / /|    V    |\ \
+        |         |
+        -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+4_HAND_SLAM_ON_MINOR_SUPERFIT : A 4-hand task:
+Our line has 5-5 fit in a minor. A bidding is like
+   2c(part) 2d
+   2s       ??
+Despite RESP has a diamond stopper. Let's compare 6C and 3NT,
+having in mind following bidding sequences:
+   ...      2NT(inq)               ...        2NT(inq)
+   3c       5c                     (max)      4c
+                                   (cuebids)  5c/6c
+Fixed hand is
+Scorers to use are: V6C BY S; V3N BY N
+Primary scorer (clubs, 12 tr): -500 -400 -300 -200 -100 1370 1390  /
+Contract-B scorer (notrump, 9 tr):  /  -200 -100 600 630 660 690 720
+----
+29:    NORTH     EAST    SOUTH     WEST
+30:   100076,       0,     >XR,       0,  :   LinePointsRange NORTH 26 30 SOUTH
+31:        0,       0,   >MLRD,       0,  :   LineKeyCardsSuit NORTH CLB 4 5 SOUTH
+32:        0,       0,   >MLRD,       0,  :   PointsRange 13 16 SOUTH
+33:        0,       0,   >MLRD,       0,  :   ClubsLen 5 7 SOUTH
+34:        0,       0,    >XXM,       0,  :   SpadesLen 4 4 SOUTH
+35:        0,       0,    >MLN,       0,  :   HeartsLen 0 3 SOUTH
+36:        0,       0,  984878,       0,  :   LineSuitAnyCuebid NORTH SPD SOUTH
+37:        0,       0,    >MLN,       0,  :   LineSuitAnyCuebid NORTH HRT SOUTH
+38:        0,       0,    >MLN,       0,  :   LineSuitAnyCuebid NORTH DMD SOUTH
+39:      >XM,       0,       0,       0,  :   PointsRange 12 14 NORTH
+40:      >XM,       0,       0,       0,  :   ClubsLen 5 5 NORTH
+41:   884528,       0,       0,       0,  :   HeartsLen 4 4 NORTH
+42:   110728,       0,       0,       0,  :   PointsSuitAtLeast DMD 3 NORTH
+43:        0,       0,       0,   13598,  :   NoOvercall WEST
+44:        0,   12100,       0,       0,  :   NoOvercall EAST
+ 12 tricks board by South in clubs example:
+--------
+               Q9          HCP : 29
+               K984        CTRL: 10
+               AJ
+               A7652
+   J76                     8542
+   J62                     T53
+   K986                    Q75432
+   KJ3                     -
+               AKT3
+               AQ7
+               T
+               QT984
+                                     A contract in notrump has 10 tricks.
+    suit   rank   score              suit   rank   score
+      D      6      1                  D      5      3
+      D      9      1                  D      Q      3
+      D      K      1                  D      7      2
+      S      7      1                  S      2      1
+      H      2      1                  S      8      1
+      S      J      1                  S      5      1
+      H      6      1                  H      3      1
+      H      J      1                  H      5      1
+      C      3      1                  H      T      1
+      C      K      1
+      C      J      0
+
+Seek 12 tricks board by South in clubs ... example:
+--------
+               743         HCP : 28
+               J874        CTRL: 9
+               K
+               AKQ72
+   T52                     J96
+   K3                      AQT952
+   J9863                   T754
+   J96                     -
+               AKQ8
+               6
+               AQ2
+               T8543
+                                     A contract in notrump has 7 tricks.
+    suit   rank   score              suit   rank   score
+      H      3      1                  H      2      6
+      H      K      1                  H      5      6
+      D      3      1                  H      T      6
+      D      6      1                  H      Q      3
+      D      9      1                  H      A      2
+      D      J      1                  D      7      1
+      S      2      1                  D      5      1
+      S      5      1                  D      T      1
+      S      T      1                  S      6      1
+      C      6      1                  S      9      1
+      C      9      1                  S      J      1
+      C      J      1
+
+Seek 12 tricks board by South in clubs ... example:
+--------
+               J3          HCP : 29
+               KT65        CTRL: 9
+               A6
+               KQ875
+   Q984                    T75
+   A84                     J732
+   KJ752                   T983
+   2                       43
+               AK62
+               Q9
+               Q4
+               AJT96
+                                     A contract in notrump has 8 tricks.
+    suit   rank   score              suit   rank   score
+      D      2      1                  D      3      5
+      D      5      1                  D      T      5
+      H      A      1                  H      3      2
+      D      7      1                  H      7      2
+      D      J      1                  S      5      2
+      D      K      1                  H      J      2
+      S      4      1                  S      7      2
+      H      4      1                  S      T      2
+      S      9      1                  C      4      2
+      S      Q      1
+      H      8      1
+      C      2      1
+
+Seek 13 tricks board by South in clubs ... example:
+--------
+               87          HCP : 27
+               AT96        CTRL: 9
+               AQ
+               Q7432
+   632                     KT94
+   KJ87                    Q542
+   KJT973                  85
+   -                       T96
+               AQJ5
+               3
+               642
+               AKJ85
+                                     A contract in notrump has 11 tricks.
+    suit   rank   score              suit   rank   score
+      H      8      0                  H      2      2
+      H      J      0                  H      5      2
+      H      K      0                  H      Q      2
+      D      3      0                  S      T      2
+      D      7      0                  S      4      2
+      D      J      0                  D      5      2
+      D      K      0                  D      8      2
+      S      3      0                  S      K      2
+      S      6      0                  C      T      2
+                                       C      6      2
+
+Seek 11 tricks board by South in clubs ... example:
+--------
+               K           HCP : 27
+               AT75        CTRL: 8
+               QJ4
+               AT975
+   832                     JT765
+   863                     K94
+   T8765                   AK93
+   Q4                      3
+               AQ94
+               QJ2
+               2
+               KJ862
+                                     A contract in notrump has 10 tricks.
+    suit   rank   score              suit   rank   score
+      D      8      2                  S      7      3
+      D      T      2                  C      3      3
+      H      3      2                  D      A      2
+      H      6      2                  S      J      2
+      H      8      2                  D      3      2
+      S      3      2                  D      9      2
+      S      8      2                  H      4      1
+      C      4      2                  H      9      1
+      C      Q      2                  H      K      1
+(ctrA:6C down):    21421,    2602,      70,       1,       0,       0,       0,       24094
+(ctrA:6C make):    55513,   20469,       0,       0,       0,       0,       0,       75982
+        (----):        0,       0,       0,       0,       0,       0,       0,           0
+(ctrB:3N down):     8080,    2051,       5,       0,       0,       0,       0,       10136
+(ctrB:3N make):    19747,   35069,   24542,    9699,     883,       0,       0,       89940
+  (A, same, B):        0,   76851,    3131,   20094,       0,       0,       0,      100076
+Processed: 100076 total. West is on lead. Goal is 12 tricks in clubs.
+Averages: ideal = 0, bidGame = 1017, slam=0; Chance to make = 75.9%.
+The other contract: avg = 562; makes in 89.9% cases
+Comparison: favor A 76.8%; same 3.1%; favor B 20.1%
+A huge match: 717734 IMPs; about 717 IMPs/hub
+
+A split of comparison results by HCP from 25 to 31:
+              go A     same     go B
+(hcp 25):        0,       0,       0,   :        0,
+(hcp 26):    14020,    1639,    5993,   :    21652,  --> 64% to 27%, avg 100 boards give 515 IMPs
+(hcp 27):    23718,    1087,    7429,   :    32234,  --> 73% to 23%, avg 100 boards give 649 IMPs
+(hcp 28):    21550,     341,    4553,   :    26444,  --> 81% to 17%, avg 100 boards give 793 IMPs
+(hcp 29):    12816,      63,    1751,   :    14630,  --> 87% to 11%, avg 100 boards give 919 IMPs
+(hcp 30):     4747,       1,     368,   :     5116,  --> 92% to  7%, avg 100 boards give 1034 IMPs
+(hcp 31):        0,       0,       0,   :        0,
+The search took 150.1 sec + an aftermath 44 min 6 sec.
+==============================================================
+Slam search that includes 25 points
+
+
+        |\_______/|
+      / | [o] [o] | \
+     / /|    V    |\ \
+        |         |
+        -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+4_HAND_SLAM_ON_MINOR_SUPERFIT : A 4-hand task:
+Our line has 5-5 fit in a minor. A bidding is like
+   2c(part) 2d
+   2s       ??
+Despite RESP has a diamond stopper. Let's compare 6C and 3NT,
+having in mind following bidding sequences:
+   ...      2NT(inq)               ...        2NT(inq)
+   3c       5c                     (max)      4c
+                                   (cuebids)  5c/6c
+Fixed hand is
+Scorers to use are: V6C BY S; V3N BY N
+Primary scorer (clubs, 12 tr): -500 -400 -300 -200 -100 1370 1390  /
+Contract-B scorer (notrump, 9 tr):                              /  -200 -100 600 630 660 690 720
+----
+29:    NORTH     EAST    SOUTH     WEST
+30:   100040,       0,     >XR,       0,  :   LinePointsRange NORTH 25 30 SOUTH
+31:        0,       0,   >MLRD,       0,  :   LineKeyCardsSuit NORTH CLB 4 5 SOUTH
+32:        0,       0,   >MLRD,       0,  :   PointsRange 13 16 SOUTH
+33:        0,       0,   >MLRD,       0,  :   ClubsLen 5 7 SOUTH
+34:        0,       0,    >XXM,       0,  :   SpadesLen 4 4 SOUTH
+35:        0,       0,    >MLN,       0,  :   HeartsLen 0 3 SOUTH
+36:        0,       0,    >MLN,       0,  :   LineSuitAnyCuebid NORTH SPD SOUTH
+37:        0,       0,    >MLN,       0,  :   LineSuitAnyCuebid NORTH HRT SOUTH
+38:        0,       0,    >MLN,       0,  :   LineSuitAnyCuebid NORTH DMD SOUTH
+39:      >XM,       0,       0,       0,  :   PointsRange 11 14 NORTH
+40:      >XM,       0,       0,       0,  :   ClubsLen 5 5 NORTH
+41:   968410,       0,       0,       0,  :   HeartsLen 4 4 NORTH
+42:   127244,       0,       0,       0,  :   PointsSuitAtLeast DMD 3 NORTH
+43:        0,       0,       0,   15733,  :   NoOvercall WEST
+44:        0,   14065,       0,       0,  :   NoOvercall EAST
+ 12 tricks board by South in clubs example:
+--------
+               Q3          HCP : 29
+               T654        CTRL: 10
+               AK
+               AT853
+   T92                     J654
+   A                       QJ9873
+   J97542                  Q86
+   962                     -
+               AK87
+               K2
+               T3
+               KQJ74
+                                     A contract in notrump has 11 tricks.
+    suit   rank   score              suit   rank   score
+      D      2      1                  S      6      2
+      D      5      1                  H      3      1
+      D      7      1                  H      9      1
+      D      9      1                  H      Q      1
+      D      J      1                  D      6      1
+      H      A      1                  D      8      1
+      S      2      1                  D      Q      1
+      S      T      1                  S      J      1
+      C      2      1
+      C      6      1
+      C      9      1
+
+A split of comparison results by HCP from 24 to 31:
+              go A     same     go B
+(hcp 24):        0,       0,       0,   :        0,
+(hcp 25):      450,     121,     261,   :      832,  --> 54% to 31%, avg 100 boards give 360 IMPs
+(hcp 26):      879,     107,     362,   :     1348,  --> 65% to 26%, avg 100 boards give 535 IMPs
+(hcp 27):     1217,      70,     391,   :     1678,  --> 72% to 23%, avg 100 boards give 641 IMPs
+(hcp 28):      900,      12,     202,   :     1114,  --> 80% to 18%, avg 100 boards give 778 IMPs
+(hcp 29):      514,       4,      78,   :      596,  --> 86% to 13%, avg 100 boards give 893 IMPs
+(hcp 30):      212,       1,      19,   :      232,  --> 91% to  8%, avg 100 boards give 1011 IMPs
+(hcp 31):        0,       0,       0,   :        0,
+
+Seek 12 tricks board by South in clubs ... example:
+--------
+               Q7          HCP : 27
+               T643        CTRL: 9
+               AQ
+               AJ752
+   9854                    J62
+   K85                     Q972
+   J985                    KT762
+   K8                      9
+               AKT3
+               AJ
+               43
+               QT643
+                                     A contract in notrump has 11 tricks.
+    suit   rank   score              suit   rank   score
+      D      5      1                  H      2      2
+      D      9      1                  H      7      2
+      D      J      1                  H      9      2
+      H      5      1                  S      2      2
+      H      8      1                  S      6      2
+      H      K      1                  S      J      2
+      S      5      1                  C      9      2
+      S      9      1                  H      Q      1
+      C      8      1                  D      2      1
+      C      K      1                  D      7      1
+                                       D      T      1
+                                       D      K      1
+
+Seek 11 tricks board by South in clubs ... example:
+--------
+               54          HCP : 27
+               A743        CTRL: 10
+               KT
+               AQT62
+   A8732                   QJ
+   QT                      J9865
+   QJ9542                  8763
+   -                       94
+               KT96
+               K2
+               A
+               KJ8753
+                                     A contract in notrump has 11 tricks.
+    suit   rank   score              suit   rank   score
+      D      2      2                  D      3      2
+      D      5      2                  D      8      2
+      D      9      2                  S      Q      2
+      D      Q      2                  H      9      2
+      H      T      2                  H      6      2
+      H      Q      2                  H      J      2
+      S      A      1                  C      4      2
+      S      3      1                  C      9      2
+      S      8      1
+
+Seek 13 tricks board by South in clubs ... example:
+--------
+               Q4          HCP : 28
+               T875        CTRL: 9
+               AJ
+               AJT52
+   76                      T9832
+   AQ962                   KJ43
+   87643                   Q2
+   9                       73
+               AKJ5
+               -
+               KT95
+               KQ864
+                                     A contract in notrump has 8 tricks.
+    suit   rank   score              suit   rank   score
+      D      4      0                  H      4      5
+      S      7      0                  H      J      5
+      D      8      0                  H      K      5
+      C      9      0                  S      T      0
+      H      2      0                  S      3      0
+      H      6      0                  D      2      0
+      H      9      0                  D      Q      0
+      H      Q      0                  C      3      0
+      H      A      0                  C      7      0
+
+Seek 13 tricks board by South in clubs ... example:
+--------
+               K5          HCP : 26
+               AJ52        CTRL: 9
+               QJ
+               98643
+   QJ2                     T876
+   QT98                    K7643
+   8765                    K42
+   T7                      K
+               A943
+               -
+               AT93
+               AQJ52
+                                     A contract in notrump has 12 tricks.
+    suit   rank   score              suit   rank   score
+      S      2      0                  D      2      1
+      D      8      0                  D      4      1
+      S      Q      0                  D      K      1
+      C      7      0                  S      8      1
+      C      T      0                  S      T      1
+      H      T      0                  C      K      1
+      H      Q      0                  H      7      1
+                                       H      4      1
+                                       H      K      1
+
+Seek 12 tricks board by South in clubs ... example:
+--------
+               J           HCP : 29
+               AQT6        CTRL: 10
+               A85
+               Q8732
+   T32                     Q9765
+   K953                    J874
+   KJT96                   43
+   6                       J5
+               AK84
+               2
+               Q72
+               AKT94
+                                     A contract in notrump has 10 tricks.
+    suit   rank   score              suit   rank   score
+      H      3      1                  S      Q      3
+      H      5      1                  D      4      3
+      H      9      1                  C      5      3
+      H      K      1                  C      J      3
+      S      3      1                  H      4      2
+      S      T      1                  H      8      2
+      C      6      1                  H      J      2
+      D      6      0                  S      7      1
+      D      J      0                  S      9      1
+      D      K      0
+(ctrA:6C down):    24285,    3823,     145,       1,       0,       0,       0,       28254
+(ctrA:6C make):    53450,   18336,       0,       0,       0,       0,       0,       71786
+        (----):        0,       0,       0,       0,       0,       0,       0,           0
+(ctrB:3N down):    11341,    2735,      27,       3,       0,       0,       0,       14106
+(ctrB:3N make):    23353,   33585,   20682,    7546,     768,       0,       0,       85934
+  (A, same, B):        0,   72870,    5025,   22145,       0,       0,       0,      100040
+Processed: 100040 total. West is on lead. Goal is 12 tricks in clubs.
+Averages: ideal = 0, bidGame = 954, slam=0; Chance to make = 71.8%.
+The other contract: avg = 528; makes in 85.9% cases
+Comparison: favor A 72.8%; same 5.0%; favor B 22.1%
+A huge match: 656839 IMPs; about 657 IMPs/hub
+
+A split of comparison results by HCP from 24 to 31:
+              go A     same     go B
+(hcp 24):        0,       0,       0,   :        0,
+(hcp 25):     7686,    1964,    4064,   :    13714,  --> 56% to 29%, avg 100 boards give 419 IMPs
+(hcp 26):    14550,    1725,    6165,   :    22440,  --> 64% to 27%, avg 100 boards give 518 IMPs
+(hcp 27):    21682,     996,    6878,   :    29556,  --> 73% to 23%, avg 100 boards give 644 IMPs
+(hcp 28):    15925,     278,    3481,   :    19684,  --> 80% to 17%, avg 100 boards give 781 IMPs
+(hcp 29):     9438,      48,    1262,   :    10748,  --> 87% to 11%, avg 100 boards give 926 IMPs
+(hcp 30):     3589,      14,     295,   :     3898,  --> 92% to  7%, avg 100 boards give 1019 IMPs
+(hcp 31):        0,       0,       0,   :        0,
+The search took 108.3 sec + an aftermath 44 min 52 sec.
+
+
+
+
+==============================================================
 Preliminary runs without IMPs:
 
         |\_______/|

@@ -173,11 +173,11 @@ void MiniUI::AdaptMiniRows(Walrus* wal)
 
    #ifdef SHOW_OUR_OTHER
    {
-      sprintf(miniRowStart[IO_ROW_OUR_DOWN],   "(ctrA%s down): ", config.txt.primaShort);
-      sprintf(miniRowStart[IO_ROW_OUR_MADE],   "(ctrA%s make): ", config.txt.primaShort);
+      sprintf(miniRowStart[IO_ROW_OUR_DOWN],   "(ctrA:%s down): ", config.txt.primaShort);
+      sprintf(miniRowStart[IO_ROW_OUR_MADE],   "(ctrA:%s make): ", config.txt.primaShort);
       sprintf(miniRowStart[IO_ROW_OUR_MADE+1], "        (----): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS+0],   "(ctrB%s down): ", config.txt.secundaShort);
-      sprintf(miniRowStart[IO_ROW_THEIRS+1],   "(ctrB%s make): ", config.txt.secundaShort);
+      sprintf(miniRowStart[IO_ROW_THEIRS+0],   "(ctrB:%s down): ", config.txt.secundaShort);
+      sprintf(miniRowStart[IO_ROW_THEIRS+1],   "(ctrB:%s make): ", config.txt.secundaShort);
       sprintf(miniRowStart[IO_ROW_COMPARISON], "  (A, same, B): ");
    }
    #endif
@@ -302,26 +302,16 @@ void Walrus::MiniReport(ucell toGo)
 
 void Walrus::ShowBiddingLevel(s64 sumRows)
 {
-   #if defined(SEEK_BIDDING_LEVEL) || defined(SEEK_DENOMINATION) || defined(FOUR_HANDS_TASK)
-      // slam/game/partscore
-      if (config.prim.goal < 12) {
-         owl.OnDone("Averages: ideal = %lld, bidGame = %lld",
-            cumulScore.ideal / sumRows,
-            cumulScore.bidGame / sumRows);
-            #ifdef SHOW_PARTSCORE_STATLINE
-               owl.OnDone(", partscore=%lld.   ", cumulScore.bidPartscore / sumRows);
-            #else
-         owl.OnDone(".   ");
-         #endif 
-      } else {
-         owl.OnDone("Averages: ideal = %lld, bidGame = %lld, slam=%lld; ",
-            cumulScore.ideal / sumRows,
-            cumulScore.bidGame / sumRows,
-            cumulScore.bidSlam / sumRows);
-      }
-   #else
-      owl.OnDone("Our avg = %lld. ", cumulScore.bidGame / sumRows);
-   #endif // SEEK_BIDDING_LEVEL & co
+   // game/partscore
+   owl.OnDone("Averages: ");
+   if (cumulScore.ideal) {
+      owl.OnDone("ideal = % lld, ", cumulScore.ideal / sumRows);
+   }
+   owl.OnDone("%s = %lld", config.txt.primaShort, cumulScore.bidGame / sumRows);
+   if (cumulScore.bidPartscore) {
+      owl.OnDone(", partscore=%lld", cumulScore.bidPartscore / sumRows);
+   }
+   owl.OnDone(".   ");
 }
 
 void Walrus::ShowPercentages(s64 sumRows)
@@ -352,7 +342,8 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
 {
    // our other contract
    #ifdef SHOW_OUR_OTHER
-      owl.OnDone("The other contract: avg = %lld; makes in %3.1f%% cases\n", 
+      owl.OnDone("%s: avg = %lld; makes in %3.1f%% cases\n", 
+         config.txt.secundaShort,
          cumulScore.ourOther / sumOppRows, 
          hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows
       );
@@ -361,12 +352,14 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
       s64 sumRefrain  = (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_REFRAIN_BIDDING];
       s64 totalComparisons = __max(sumBid + sumSame + sumRefrain, 1);
       float posto = 100.f / totalComparisons;
-      owl.OnDone("Comparison: favor A %3.1f%%; same %3.1f%%; favor B %3.1f%%\n", 
+      owl.OnDone("Comparison: favor %s %3.1f%%; same %3.1f%%; favor %s %3.1f%%\n", 
+         config.txt.primaShort,
          sumBid * posto,
          sumSame * posto,
+         config.txt.secundaShort,
          sumRefrain * posto
       );
-      owl.OnDone("A huge match: %lld IMPs; about %3.0f IMPs/hub\n",
+      owl.OnDone("A huge match: %+lld IMPs; about %3.0f IMPs/hub\n",
          ui.primaBetterBy, ui.primaBetterBy * posto
       );
    #endif

@@ -25,7 +25,8 @@ No fixed hand:
 TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
 
 -----------------------------------------------------------------------------------------------------------------------
-SCALE: 102
+SCALE: 20
+//SCALE: MIN
 //OPMODE: SEMI_STRAY
 //OPMODE: DEMO_STATISTICS
 //DEBUG: SHOW BOARD ON ADDED
@@ -46,10 +47,10 @@ having in mind following bidding sequences:
 
 PRIMARY SCORER: V6C BY S
 SECONDARY SCORER: V3N BY N
-POSTMORTEM: HCP 25, 31
+POSTMORTEM: HCP 24, 31
 
 FILTERS:
-    SOUTH: LinePointsRange, NORTH, 26, 30
+    SOUTH: LinePointsRange, NORTH, 25, 30
     SOUTH: LineKeyCardsSuit, NORTH, CLB, 4, 5
 
     SOUTH: PointsRange, 13, 16
@@ -61,7 +62,7 @@ FILTERS:
     SOUTH: LineSuitAnyCuebid, NORTH, HRT
     SOUTH: LineSuitAnyCuebid, NORTH, DMD
 
-    NORTH: PointsRange 12, 14
+    NORTH: PointsRange 11, 14
     NORTH: ClubsLen 5, 5
     NORTH: HeartsLen 4, 4
     NORTH: PointsSuitAtLeast, DMD, 3

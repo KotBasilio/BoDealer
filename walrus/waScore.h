@@ -18,11 +18,10 @@ struct DdsTricks
    void Init(const struct futureTricks &fut);
 };
 
-
 struct CumulativeScore {
    CumulativeScore();
    s64    ideal;
-   s64    bidPartscore, bidGame, bidSlam;
+   s64    bidPartscore, bidGame;
    union {
       struct {
          s64    leadS, leadH, leadD, leadC;

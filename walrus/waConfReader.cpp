@@ -132,7 +132,7 @@ void WaConfig::ReadScaleSetting(char* line)
 
    auto kilos = atoi(line);
    if (kilos > 0) {
-      solve.aimTaskCount = min(kilos * 1000, MAX_TASKS_TO_SOLVE); 
+      solve.aimTaskCount = __min(kilos * 1000, MAX_TASKS_TO_SOLVE); 
       return;
    }
 
@@ -161,10 +161,9 @@ void WaConfig::ReadSecundaScorer(const char* line)
 void WaConfig::FillShortScorer(const char* from, char* to)
 {
    if (strlen(from) > 4) {
-      to[0] = ':';
-      to[1] = from[1];
-      to[2] = from[2];
-      to[3] = 0;
+      to[0] = from[1];
+      to[1] = from[2];
+      to[2] = 0;
    }
 }
 
