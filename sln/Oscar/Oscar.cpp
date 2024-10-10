@@ -17,6 +17,8 @@ static const char* artOscar[] = {
    "        -ooo---ooo-      \n\n",
 };
 
+#define LOGFILE_NAME "oscar_log.txt"
+
 static void PaintOscar()
 {
    printf("\n\n");
@@ -32,6 +34,9 @@ struct OscarEcho {
 
       // stderr is a pipe back to Walrus
       fprintf(stderr, "%s", "Oscar is watching\n");
+
+      // Delete the file after the loop ends
+      remove(LOGFILE_NAME);
    }
 
    bool Retell();
@@ -76,6 +81,15 @@ bool OscarEcho::Retell()
    if (NewsAre(GRIFFINS_CLUB_IS_CLOSING) || IsFeelingLost()) {
       return false;
    }
+
+   // Append gossip to a file
+   FILE* file = fopen(LOGFILE_NAME, "a");
+   if (!file) {
+      printf("Failed to open " LOGFILE_NAME "\n");
+      return false;
+   }
+   fprintf(file, "%s\n", gossip);
+   fclose(file);
 
    // TODO: recognize other commands
 
