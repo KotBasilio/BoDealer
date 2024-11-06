@@ -136,6 +136,11 @@ struct WaConfig {
    } postm;
    int   postmSuit, postmHand; 
 
+   // display options
+   struct Output {
+      bool showHugeMatch = false;
+   } io;
+
    // debug options
    struct Debug {
       bool viewBoardOnAdd = false;

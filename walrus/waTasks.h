@@ -21,7 +21,7 @@
 //#define SEP_RESPONCE_TO_2C
 //#define OCT_MINOR_SUPERFIT
 
-// generalized one-level:
+// generalized one-sided:
 //#define SEM_ONE_SIDED_BIDDING_LEVEL
 //#define SEM_ONE_SIDED_DENOMINATION
 
@@ -34,8 +34,7 @@
 //#define SEMANTIC_4M_ON54_BIG
 //#define SEMANTIC_ALL4_1H_1S_2H_MAR
 //#define SEM_ALL4_1C_P_1H_2D_2H_MAR
-
-#define SEM_4_HAND_MINOR_SUPERFIT
+//#define SEM_4_HAND_MINOR_SUPERFIT
 
 // Bidding decision competitive:
 //#define SEMANTIC_JUN_MINORS_VS_MAJORS
@@ -47,6 +46,11 @@
 //#define SEM_AUG_PREEMPTIVE_ON_PART_1H
 //#define SEM_AUG_TRICOLOR_OVER_OPP_3S
 //#define SEM_AUG_BLITZ_VS_DIMULYA
+//#define SEM_NOV_65_OGNJEN
+
+// generalized competitive:
+#define SEM_COMPETITIVE_GENERIC
+
 
 // Opening lead:
 //#define SEM_JUN24_LEAD_AK

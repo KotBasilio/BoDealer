@@ -60,8 +60,7 @@ protected:
    void HandleSolvedChunk(struct boards& bo, struct solvedBoards& chunk);
    void SolveSecondTime(struct boards& bo, const struct solvedBoards& chunk);
    void NoticeMagicFly(uint trickSuit, uint tricksNT, const deal& cards);
-   void NoticeBidProfit(uint tOurs, uint tTheirs, const deal& cards);
-   void CompareOurContracts(uint tricksA, uint tricksB, const deal& cards);
+   void ComparePrimaSecunda(uint tricksA, uint tricksB, const deal& cards);
    void HandleDDSFail(int res);
 
    // multi-thread & joined effort

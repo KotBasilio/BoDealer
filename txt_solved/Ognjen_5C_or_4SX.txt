@@ -1,0 +1,190 @@
+
+
+        |\_______/|
+      / | [o] [o] | \
+     / /|    V    |\ \
+        |         |
+        -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+NOV_65_OGNJEN : seven spades on North
+Bidding from LHO. Partner is on S:
+  pass 1c   pass   1h
+  1s   pass 2s     3c
+  pass 3NT  4s     ??
+Question: pass (forcing, to leave it in if part doubles) or 5c?
+Fixed hand is [N:.AQ985.J5.AKJ876]
+Scorers to use are: V5C BY S; N4SX BY WEST
+Primary scorer (clubs, 11 tr): -400 -300 -200 -100 600 620 640  /
+Contract-B scorer (spades, 10 tr): 500 300 100 -590 -690 -790 -890  /
+----
+29:    NORTH     EAST    SOUTH     WEST
+30:   100006,     >XM,       0,       0,  :   PassVul EAST
+31:        0,     >XM,       0,       0,  :   SpadesLen 4 5 EAST
+32:        0,       0,       0,     >XM,  :   NoOvercall WEST
+33:        0,       0,     >XM,       0,  :   WeakGroup 12 13 SOUTH
+34:        0,       0,  883796,       0,  :   SpadesLen 3 3 SOUTH
+35:        0,       0,  193915,       0,  :   HeartsLen 2 3 SOUTH
+36:        0,       0,  416673,       0,  :   PointsSuitAtLeast SPD 6 SOUTH
+37:        0,       0,    6001,       0,  :   ClubsLen 2 4 SOUTH
+ 11 tricks board by South in clubs example:
+--------
+               -           HCP : 27
+               AQ985       CTRL: 9
+               J5
+               AKJ876
+   T97632                  J854
+   4                       JT76
+   A874                    KQ2
+   Q9                      52
+               AKQ
+               K32
+               T963
+               T43
+                                     Their contract in spades has 7 tricks.
+    suit   rank   score              suit   rank   score
+      D      4      2                  H      5      6
+      D      8      2                  H      9      6
+      D      A      2                  H      Q      6
+      H      4      0                  H      A      6
+      C      9      0                  C      A      6
+      C      Q      0                  D      5      6
+      S      3      0                  D      J      6
+      S      7      0                  C      8      5
+      S      T      0                  C      J      5
+    (we down):     8512,    1011,     117,       5,       0,       0,       0,       0,        9645
+    (we make):    37290,   38588,   14483,       0,       0,       0,       0,       0,       90361
+       (----):        0,       0,       0,       0,       0,       0,       0,       0,           0
+   (opp down):     5524,   20663,   34665,   27261,    9527,    1535,     103,       0,       99278
+   (opp make):      675,      53,       0,       0,       0,       0,       0,       0,         728
+(bid/refrain):        0,   53359,       0,   46647,       0,       0,       0,       0,      100006
+Processed: 100006 total. West is on lead. Goal is 11 tricks in clubs.
+Averages: 5C = 544.   Chance to make = 90.4%.
+Their contract doubled, expectation average: -582. Chance to make = 0.7%
+To bid is better in: 53.4% cases
+The search took 1.2 sec + an aftermath 41 min 36 sec.
+
+---------------------------------
+
+        |\_______/|
+      / | [o] [o] | \
+     / /|    V    |\ \
+        |         |
+        -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+NOV_65_OGNJEN : seven spades on North
+Bidding from LHO. Partner is on S:
+  pass 1c   pass   1h
+  1s   pass 2s     3c
+  pass 3NT  4s     ??
+Question: pass (forcing, to leave it in if part doubles) or 5c?
+Fixed hand is [N:.AQ985.J5.AKJ876]
+Scorers to use are: V5C BY S; N4SX BY WEST
+Primary scorer (clubs, 11 tr): -400 -300 -200 -100 600 620 640  /
+Contract-B scorer (spades, 10 tr): 500 300 100 -590 -690 -790 -890  /
+----
+29:    NORTH     EAST    SOUTH     WEST
+30:   100038,     >XM,       0,       0,  :   PassVul EAST
+31:        0,     >XM,       0,       0,  :   SpadesLen 4 5 EAST
+32:        0,       0,       0,     >XM,  :   NoOvercall WEST
+33:        0,       0,     >XM,       0,  :   WeakGroup 12 13 SOUTH
+34:        0,       0,  884073,       0,  :   SpadesLen 3 3 SOUTH
+35:        0,       0,  192859,       0,  :   HeartsLen 2 3 SOUTH
+36:        0,       0,  418172,       0,  :   PointsSuitAtLeast SPD 6 SOUTH
+37:        0,       0,    5912,       0,  :   ClubsLen 2 4 SOUTH
+ 11 tricks board by South in clubs example:
+--------
+               -           HCP : 28
+               AQ985       CTRL: 9
+               J5
+               AKJ876
+   QT975                   J6432
+   K764                    2
+   A96                     T742
+   2                       Q93
+               AK8
+               JT3
+               KQ83
+               T54
+                                     Their contract in spades has 7 tricks.
+    suit   rank   score              suit   rank   score
+      D      A      2                  C      A      6
+      C      2      2                  H      A      6
+      H      K      2                  D      5      6
+      H      4      1                  D      J      6
+      H      7      1                  C      8      5
+      D      6      1                  C      J      5
+      D      9      1                  H      5      5
+      S      5      1                  H      9      5
+      S      7      1                  H      Q      5
+      S      T      1
+      S      Q      1
+
+Seek 11 tricks board by South in clubs ... example:
+--------
+               -           HCP : 28
+               AQ985       CTRL: 8
+               J5
+               AKJ876
+   KJ8732                  9654
+   J6                      743
+   A62                     K874
+   54                      93
+               AQT
+               KT2
+               QT93
+               QT2
+                                     Their contract in spades has 6 tricks.
+    suit   rank   score              suit   rank   score
+      D      2      2                  H      5      7
+      D      6      2                  H      9      7
+      D      A      2                  H      Q      7
+      C      5      1                  H      A      7
+      H      6      1                  C      A      7
+      H      J      1                  C      8      7
+      S      3      0                  C      J      7
+      S      8      0                  D      5      7
+      S      J      0                  D      J      7
+      S      K      0
+
+Seek 10 tricks board by South in clubs ... example:
+--------
+               -           HCP : 27
+               AQ985       CTRL: 10
+               J5
+               AKJ876
+   J9632                   QT854
+   T72                     K3
+   KQT7                    42
+   T                       Q952
+               AK7
+               J64
+               A9863
+               43
+                                     Their contract in spades has 8 tricks.
+    suit   rank   score              suit   rank   score
+      H      2      3                  H      A      5
+      H      7      3                  C      A      5
+      H      T      3                  D      5      5
+      D      K      3                  D      J      5
+      D      7      3                  H      5      5
+      C      T      3                  H      9      5
+      D      T      3                  H      Q      5
+      S      3      3                  C      8      4
+      S      6      3                  C      J      4
+      S      9      3
+      S      J      3
+
+    (we down):     5168,     628,      59,       1,       0,       0,       0,       0,       0,        5856
+    (we make):    22791,   23929,    8824,       0,       0,       0,       0,       0,       0,       55544
+       (----):        0,       0,       0,       0,       0,       0,       0,       0,       0,           0
+   (opp down):     3298,   12669,   21350,   16808,    5585,     995,      55,       1,       0,       60761
+   (opp make):      416,      23,       0,       0,       0,       0,       0,       0,       0,         439
+(bid/refrain):        0,   32757,       0,   28443,       0,       0,       0,       0,       0,       61200
+Processed: 61400 total. West is on lead. Goal is 11 tricks in clubs.
+Averages: 5C = 545.   Chance to make = 90.5%.
+Their contract doubled, expectation average: -582. Chance to make = 0.7%
+Comparison: favor bidding 53.5%; same 0.0%; favor defending 46.5%
+A huge match: -34037 IMPs; about -56 IMPs/hub
+The search took 1.2 sec + an aftermath 25 min 12 sec.

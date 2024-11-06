@@ -70,11 +70,14 @@ void Walrus::NoticeMagicFly(uint trickSuit, uint tricksNT, const deal& cards)
    }
 }
 
-void Walrus::CompareOurContracts(uint tricksA, uint tricksB, const deal& cards)
+void Walrus::ComparePrimaSecunda(uint tricksA, uint tricksB, const deal& cards)
 {
    // detect score
    auto gainPrima   = cumulScore.prima.Get(tricksA);
    auto gainSecunda = cumulScore.secunda.Get(tricksB);
+   #ifdef SEEK_DECISION_COMPETE
+      gainSecunda = -gainSecunda;
+   #endif
 
    // mark
    uint camp = (gainPrima >  gainSecunda) ? IO_CAMP_PREFER_PRIMA :
@@ -91,37 +94,6 @@ void Walrus::CompareOurContracts(uint tricksA, uint tricksB, const deal& cards)
 
    // dbg
    DbgShowComparison(gainPrima, gainSecunda, delta);
-}
-
-//#define DBG_SHOW_EACH_COMPARISON
-
-void Walrus::NoticeBidProfit(uint tOurs, uint tTheirs, const deal& cards)
-{
-   // detect score
-   auto gainPrima   = cumulScore.prima.Get(tOurs);
-   auto gainSecunda = - cumulScore.secunda.Get(tTheirs);
-
-   // mark 
-   if (gainPrima > gainSecunda) {
-      progress.SolvedExtraMark(IO_ROW_SACRIFICE, IO_CAMP_PREFER_TO_BID);
-   } else {
-      progress.SolvedExtraMark(IO_ROW_SACRIFICE, IO_CAMP_REFRAIN_BIDDING);
-   }
-
-   // add up. may also convert to imps
-   auto delta = gainPrima - gainSecunda;
-   ui.primaBetterBy += delta;
-
-   // debug
-#ifdef DBG_SHOW_EACH_COMPARISON
-   zzzDbgShowComparison(gainPrima, gainSecunda, delta);
-   char *action = "Bidding   ";
-   if (delta < 0) {
-      action = "Refraining";
-      delta = -delta;
-   }
-   printf("   %4lld; %4lld. %s is better by %lld points\n", gainPrima, gainSecunda, action, delta);
-#endif 
 }
 
 // looks unused

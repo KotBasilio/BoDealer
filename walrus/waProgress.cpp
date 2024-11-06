@@ -340,30 +340,6 @@ void Walrus::ShowTheirScore(s64 doneTheirs)
 
 void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
 {
-   // our other contract
-   #ifdef SHOW_OUR_OTHER
-      owl.OnDone("%s: avg = %lld; makes in %3.1f%% cases\n", 
-         config.txt.secundaShort,
-         cumulScore.ourOther / sumOppRows, 
-         hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows
-      );
-      s64 sumBid      = (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_PREFER_TO_BID];
-      s64 sumSame     = (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_NO_DIFF];
-      s64 sumRefrain  = (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_REFRAIN_BIDDING];
-      s64 totalComparisons = __max(sumBid + sumSame + sumRefrain, 1);
-      float posto = 100.f / totalComparisons;
-      owl.OnDone("Comparison: favor %s %3.1f%%; same %3.1f%%; favor %s %3.1f%%\n", 
-         config.txt.primaShort,
-         sumBid * posto,
-         sumSame * posto,
-         config.txt.secundaShort,
-         sumRefrain * posto
-      );
-      owl.OnDone("A huge match: %+lld IMPs; about %3.0f IMPs/hub\n",
-         ui.primaBetterBy, ui.primaBetterBy * posto
-      );
-   #endif
-
    // averages for opening lead
    if (config.postm.Is(WPM_OPENING_LEADS)) {
       owl.OnDone("Averages: ideal = %lld, lead Spade = %lld, lead Hearts = %lld, lead Diamonds = %lld, lead Clubs = %lld\n",
@@ -373,6 +349,12 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
          cumulScore.leadD / sumRows,
          cumulScore.leadC / sumRows);
    }
+
+   s64 sumBid      = (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_PREFER_TO_BID];
+   s64 sumSame     = (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_NO_DIFF];
+   s64 sumRefrain  = (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_REFRAIN_BIDDING];
+   s64 totalComparisons = __max(sumBid + sumSame + sumRefrain, 1);
+   float posto = 100.f / totalComparisons;
 
    // keycards split
    #ifdef SEMANTIC_KEYCARDS_10_12
@@ -387,7 +369,7 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
    // a magic fly
    #ifdef SHOW_MY_FLY_RESULTS
       ucell sumNT =   progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_MORE_NT] +
-                      progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_SAME_NT];
+                        progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_SAME_NT];
       ucell sumSuit = progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_PREFER_SUIT];
       sumRows = __max(sumNT + sumSuit, 1);
       float percBetterNT = sumNT * 100.f / sumRows;
@@ -396,12 +378,35 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
 
    // a sacrifice
    #ifdef SHOW_SACRIFICE_RESULTS
-      s64 sumBid  = (s64)progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_PREFER_TO_BID];
-      s64 sumDefd = (s64)progress.hitsCount[IO_ROW_SACRIFICE][IO_CAMP_REFRAIN_BIDDING];
-      sumRows = __max(sumBid + sumDefd, 1);
-      float percBetterBid = sumBid * 100.f / sumRows;
-      owl.OnDone("To bid is better in: %3.1f%% cases\n", percBetterBid);
+      owl.OnDone("Comparison: favor bidding %3.1f%%; same %3.1f%%; favor defending %3.1f%%\n", 
+         sumBid * posto,
+         sumSame * posto,
+         sumRefrain * posto
+      );
    #endif
+
+   // our other contract
+   #ifdef SHOW_OUR_OTHER
+      owl.OnDone("%s: avg = %lld; makes in %3.1f%% cases\n", 
+         config.txt.secundaShort,
+         cumulScore.ourOther / sumOppRows, 
+         hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows
+      );
+      owl.OnDone("Comparison: favor %s %3.1f%%; same %3.1f%%; favor %s %3.1f%%\n", 
+         config.txt.primaShort,
+         sumBid * posto,
+         sumSame * posto,
+         config.txt.secundaShort,
+         sumRefrain * posto
+      );
+   #endif
+
+   // huge match
+   if (config.io.showHugeMatch) {
+      owl.OnDone("A huge match: %+lld IMPs; about %3.0f IMPs/hub\n",
+         ui.primaBetterBy, ui.primaBetterBy * posto
+      );
+   }
 
    // list by hcp, controls, etc
    if (ui.reportRequested) {

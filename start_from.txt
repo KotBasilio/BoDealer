@@ -6,6 +6,7 @@ Competitive:
 //TASK NAME:AUG_BLITZ_VS_DIMULYA
 //TASK NAME:AUG_TRICOLOR_OVER_OPP_3S
 //TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
+TASK NAME:NOV_65_OGNJEN
 
 One sided:
 //TASK NAME:OCT_MINOR_SUPERFIT
@@ -22,10 +23,10 @@ Leads:
 
 No fixed hand:
 //TASK NAME:4_HAND_MINOR_SUPERFIT
-TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
+//TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
 
 -----------------------------------------------------------------------------------------------------------------------
-SCALE: 20
+SCALE: 100
 //SCALE: MIN
 //OPMODE: SEMI_STRAY
 //OPMODE: DEMO_STATISTICS
@@ -33,6 +34,31 @@ SCALE: 20
 //DEBUG: SHOW RECONSTRUCTED
 //DEBUG: VERBOSE COMPILING
 //DEBUG: SHOW COMPARISONS
+
+-----------------------------------------------------------------------------------------------------------------------
+NOV_65_OGNJEN seven spades on North
+Bidding from LHO. Partner is on S: 
+  pass 1c   pass   1h
+  1s   pass 2s     3c
+  pass 3NT  4s     ??
+Question: pass (forcing, to leave it in if part doubles) or 5c?
+
+HAND: N:.AQ985.J5.AKJ876
+
+PRIMARY SCORER: V5C BY S
+SECONDARY SCORER: N4SX BY WEST
+
+FILTERS:
+    EAST: PassVul
+    EAST: SpadesLen 4, 5
+
+    WEST: NoOvercall
+
+    SOUTH: WeakGroup, 12, 13
+    SOUTH: SpadesLen 3, 3
+    SOUTH: HeartsLen 2, 3
+    SOUTH: PointsSuitAtLeast, SPD, 6
+    SOUTH: ClubsLen 2, 4
 
 -----------------------------------------------------------------------------------------------------------------------
 4_HAND_SLAM_ON_MINOR_SUPERFIT A 4-hand task:

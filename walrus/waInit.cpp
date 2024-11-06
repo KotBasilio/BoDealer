@@ -175,15 +175,13 @@ Semantics::Semantics()
       solveSecondTime = &Walrus::SolveSecondTime;
    #endif
 
-   #ifdef SEEK_DECISION_COMPETE
-      onCompareContracts = &Walrus::NoticeBidProfit;
-   #elif defined(SEEK_MAGIC_FLY)
+   #ifdef SEEK_MAGIC_FLY 
       onCompareContracts = &Walrus::NoticeMagicFly;
-   #elif defined(THE_OTHER_IS_OURS)
-      onCompareContracts = &Walrus::CompareOurContracts;
+   #elif defined(THE_OTHER_IS_OURS) || defined(SEEK_DECISION_COMPETE)
+      onCompareContracts = &Walrus::ComparePrimaSecunda;
+      config.io.showHugeMatch = true;
       //onSecondMarks = &Walrus::AddMarksByComparison;
-   #endif
-
+#endif
 }
 
 void Semantics::MiniLinkFilters()

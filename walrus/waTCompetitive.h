@@ -19,6 +19,10 @@
 #pragma once
 
 #ifdef SEM_AUG_BLITZ_VS_DIMULYA
+   #define SEM_COMPETITIVE_GENERIC
+#endif 
+
+#ifdef SEM_COMPETITIVE_GENERIC
    #define SEEK_DECISION_BID_OR_DOUBLE
    #define SEM_ORBITING_FIXED_HAND
 #endif 
