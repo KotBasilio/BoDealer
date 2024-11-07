@@ -156,54 +156,43 @@ void MiniUI::FillMiniRows()
 void MiniUI::AdaptMiniRows(Walrus* wal)
 {
    // may rewrite some lines
-   #ifdef SHOW_OPP_RESULTS
-   {
-      sprintf(miniRowStart[IO_ROW_OUR_DOWN], "    (we down): ");
-      sprintf(miniRowStart[IO_ROW_OUR_MADE], "    (we make): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS+0], "   (opp down): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS+1], "   (opp make): ");
-   }
-   #endif
-
-   #ifdef SHOW_SACRIFICE_RESULTS
-   {
-      sprintf(miniRowStart[IO_ROW_COMPARISON], "(bid/refrain): ");
-   }
-   #endif 
-
-   #ifdef SHOW_OUR_OTHER
-   {
+   if (config.io.showOurOther) {
       sprintf(miniRowStart[IO_ROW_OUR_DOWN],   "(ctrA:%s down): ", config.txt.primaShort);
       sprintf(miniRowStart[IO_ROW_OUR_MADE],   "(ctrA:%s make): ", config.txt.primaShort);
       sprintf(miniRowStart[IO_ROW_OUR_MADE+1], "        (----): ");
       sprintf(miniRowStart[IO_ROW_THEIRS+0],   "(ctrB:%s down): ", config.txt.secundaShort);
       sprintf(miniRowStart[IO_ROW_THEIRS+1],   "(ctrB:%s make): ", config.txt.secundaShort);
       sprintf(miniRowStart[IO_ROW_COMPARISON], "  (A, same, B): ");
-   }
-   #endif
-
-   #ifdef SHOW_MY_FLY_RESULTS
-   {
+   } else if (config.io.showMagicFly) {
       sprintf(miniRowStart[IO_ROW_THEIRS + 0], "   (3NT down): ");
       sprintf(miniRowStart[IO_ROW_THEIRS + 1], "   (3NT make): ");
       sprintf(miniRowStart[IO_ROW_COMPARISON], "less, =, more: ");
+   } else if (config.io.showOppResults) {
+      sprintf(miniRowStart[IO_ROW_OUR_DOWN], "    (we down): ");
+      sprintf(miniRowStart[IO_ROW_OUR_MADE], "    (we make): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS+0], "   (opp down): ");
+      sprintf(miniRowStart[IO_ROW_THEIRS+1], "   (opp make): ");
    }
-   #endif
+
+   // often we compare contracts
+   if (config.io.seekDecisionCompete) {
+      sprintf(miniRowStart[IO_ROW_COMPARISON], "(bid/refrain): ");
+   }
 }
 
 static bool IsRowSkippable(int i)
 {
-   // fly => biggest result
-   #if defined(SHOW_MY_FLY_RESULTS) || defined(SHOW_SACRIFICE_RESULTS)
-      return i > IO_ROW_MAGIC_FLY;
-   #endif
-
    // opp res => show theirs
-   #if defined(SHOW_OPP_RESULTS) || defined(SHOW_OUR_OTHER)
+   if (config.io.DisplayingOtherContract()) {
       return i > IO_ROW_COMPARISON;
-   #endif
+   }
 
-   // only our results => many are skippable
+   // fly => include that row
+   if (config.io.showMagicFly) {
+      return i > IO_ROW_MAGIC_FLY;
+   }
+
+   // only our results => shortest result
    return i > IO_ROW_OUR_MADE;
 }
 
@@ -222,10 +211,9 @@ void Walrus::ShowMiniHits(ucell * hitsRow, ucell * hitsCamp) // OUT: hitsRow[], 
    auto miniCamps = MAX_CAMPS / 2;
    for (; miniCamps < MAX_CAMPS; miniCamps++) {
       if (progress.hitsCount[IO_ROW_OUR_DOWN][miniCamps - 1] == 0) {
-         #ifdef SHOW_OPP_RESULTS
-         if (progress.hitsCount[IO_ROW_THEIRS][miniCamps - 1] == 0) // intended incomplete
-         #endif
+         if (!config.io.showOppResults || (progress.hitsCount[IO_ROW_THEIRS][miniCamps - 1] == 0)) {
             break;
+         }
       }
    }
 
@@ -323,19 +311,18 @@ void Walrus::ShowPercentages(s64 sumRows)
 
 void Walrus::ShowTheirScore(s64 doneTheirs)
 {
-   #ifdef SHOW_OPP_RESULTS
-      #ifdef SHOW_OPPS_ON_PASS_ONLY
+   if (config.io.showOppResults) {
+      if (config.io.oppsOnlyPassed) {
          owl.OnDone("Their contract expectation average: %lld.", cumulScore.oppContract / doneTheirs);
-      #elif defined(SHOW_OPPS_ON_DOUBLE_ONLY)
+      } else if (config.io.oppsOnlyDoubled) {
          owl.OnDone("Their contract doubled, expectation average: %lld.", cumulScore.oppCtrDoubled / doneTheirs);
-      #else
+      } else {
          owl.OnDone("Their contract expectation average: passed = %lld, doubled = %lld.",
             cumulScore.oppContract / doneTheirs,
             cumulScore.oppCtrDoubled / doneTheirs);
-      #endif
-
+      }
       owl.OnDone(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / doneTheirs);
-   #endif 
+   }
 }
 
 void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
@@ -367,39 +354,35 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
    #endif
 
    // a magic fly
-   #ifdef SHOW_MY_FLY_RESULTS
-      ucell sumNT =   progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_MORE_NT] +
-                        progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_SAME_NT];
+   if (config.io.showMagicFly) {
+      ucell sumNT = progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_MORE_NT] +
+         progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_SAME_NT];
       ucell sumSuit = progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_PREFER_SUIT];
       sumRows = __max(sumNT + sumSuit, 1);
       float percBetterNT = sumNT * 100.f / sumRows;
       owl.OnDone("NT is better in: %3.1f%% cases\n", percBetterNT);
-   #endif
+   }
 
-   // a sacrifice
-   #ifdef SHOW_SACRIFICE_RESULTS
+   // a bid/refrain decision
+   if (config.io.seekDecisionCompete) {
       owl.OnDone("Comparison: favor bidding %3.1f%%; same %3.1f%%; favor defending %3.1f%%\n", 
-         sumBid * posto,
-         sumSame * posto,
-         sumRefrain * posto
+         sumBid * posto, sumSame * posto, sumRefrain * posto
       );
-   #endif
+   }
 
    // our other contract
-   #ifdef SHOW_OUR_OTHER
-      owl.OnDone("%s: avg = %lld; makes in %3.1f%% cases\n", 
+   if (config.io.showOurOther) {
+      owl.OnDone("%s: avg = %lld; makes in %3.1f%% cases\n",
          config.txt.secundaShort,
-         cumulScore.ourOther / sumOppRows, 
+         cumulScore.ourOther / sumOppRows,
          hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows
       );
-      owl.OnDone("Comparison: favor %s %3.1f%%; same %3.1f%%; favor %s %3.1f%%\n", 
-         config.txt.primaShort,
-         sumBid * posto,
+      owl.OnDone("Comparison: favor %s %3.1f%%; same %3.1f%%; favor %s %3.1f%%\n",
+         config.txt.primaShort, sumBid * posto,
          sumSame * posto,
-         config.txt.secundaShort,
-         sumRefrain * posto
+         config.txt.secundaShort, sumRefrain * posto
       );
-   #endif
+   }
 
    // huge match
    if (config.io.showHugeMatch) {
@@ -438,7 +421,8 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
    }
 }
 
-// ------ Marks on filtering
+// --------------------------------------------------------------------
+// A progress as adding marks on filtering
 
 void Progress::SelectedMark()
 {
@@ -477,7 +461,8 @@ ucell& Progress::CellByIPR(uint ip, uint reason)
    //return hitsCount[IO_ROW_FILTERING + ip][reason - 1];
 }
 
-// ------ Marks on solving
+// --------------------------------------------------------------------
+// A progress as adding marks on solving
 
 void Progress::SolvedExtraMark(uint row, uint col)
 {

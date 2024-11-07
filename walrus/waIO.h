@@ -140,6 +140,13 @@ struct WaConfig {
    // display options
    struct Output {
       bool showHugeMatch = false;
+      bool showOurOther = false;
+      bool showOppResults = false;
+      bool oppsOnlyDoubled = false;
+      bool oppsOnlyPassed = false;
+      bool seekDecisionCompete = false;
+      bool showMagicFly = false;
+      bool DisplayingOtherContract() { return showOppResults || showOurOther || seekDecisionCompete; }
    } io;
 
    // debug options

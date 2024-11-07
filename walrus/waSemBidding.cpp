@@ -114,6 +114,7 @@ void Walrus::FillSemantic(void)
    sem.onBoardFound = &Walrus::GrabPrecisionVariant;
    sem.onAfterMath = (&Walrus::NOP);
    sem.onShareStart = (&WaMulti::NOP);
+   config.io.seekDecisionCompete = true;
 }
 
 void Walrus::GrabPrecisionVariant(twContext* lay)

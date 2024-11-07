@@ -16,8 +16,8 @@
 //#define DBG_SHOW_ALLOCS
 
 SplitBits sbBlank;
+WaConfig  config;
 Semantics semShared;
-WaConfig config;
 
 static const char* artWalrus[] = {
    "  __        __    _                          ___  \n",
@@ -88,32 +88,6 @@ int WaConfig::Postmortem::FactorFromRow(int idx)
     return (idx - IO_ROW_POSTMORTEM) / 2 + minHCP;
 }
 
-WaConfig::WaConfig()
-   : postmSuit(0)
-   , postmHand(NORTH)
-{
-   // texts
-   txt.nameTask[0] = 0;
-   txt.titleBrief[0] = 0;
-   txt.primaScorerCode[0] = 0;
-   txt.secundaScorerCode[0] = 0;
-   txt.taskHandPBN[0] = 0;
-   txt.secLongName[0] = 0;
-   txt.freqTitleFormat[0] = 0;
-   prim.txtTrump[0] = 0;
-   prim.txtBy[0] = 0;
-   prim.txtAttacker[0] = 0;
-   secondary.txtTrump[0] = 0;
-
-   // DOC: solutions parameter
-   // 1 -- Find the maximum number of tricks for the side to play. Return only one of the optimum cards and its score.
-   // 2 -- Find the maximum number of tricks for the side to play. Return all optimum cards and their scores.
-   // 3 -- Return all cards that can be legally played, with their scores in descending order.
-   #ifdef DETAILED_LEADS
-      solve.ddsSol = 3;
-   #endif
-}
-
 void WaMulti::AllocFilteredTasksBuf()
 {
    // determine size
@@ -166,18 +140,69 @@ Semantics::Semantics()
    , scanCover(ACTUAL_CARDS_COUNT)
    , dlBase(nullptr)
 {
-   // reject all. should analyze config later and fill 
+   // filters -- reject all. filled on config reading and then on MiniLink
    vecFilters.reserve(10);
    vecFilters.push_back( MicroFilter(&WaFilter::RejectAll, "RejectAll"));
 
    #ifdef SEEK_MAGIC_FLY 
       onCompareContracts = &Walrus::NoticeMagicFly;
-      config.solve.shouldSolveTwice = true;
    #elif defined(THE_OTHER_IS_OURS) || defined(SEEK_DECISION_COMPETE)
       onCompareContracts = &Walrus::ComparePrimaSecunda;
-      config.solve.shouldSolveTwice = true;
-      config.io.showHugeMatch = true;
       //onSecondMarks = &Walrus::AddMarksByComparison;
+   #endif
+}
+
+WaConfig::WaConfig()
+   : postmSuit(0)
+   , postmHand(NORTH)
+{
+   // texts
+   txt.nameTask[0] = 0;
+   txt.titleBrief[0] = 0;
+   txt.primaScorerCode[0] = 0;
+   txt.secundaScorerCode[0] = 0;
+   txt.taskHandPBN[0] = 0;
+   txt.secLongName[0] = 0;
+   txt.freqTitleFormat[0] = 0;
+   prim.txtTrump[0] = 0;
+   prim.txtBy[0] = 0;
+   prim.txtAttacker[0] = 0;
+   secondary.txtTrump[0] = 0;
+
+   // DOC: solutions parameter
+   // 1 -- Find the maximum number of tricks for the side to play. Return only one of the optimum cards and its score.
+   // 2 -- Find the maximum number of tricks for the side to play. Return all optimum cards and their scores.
+   // 3 -- Return all cards that can be legally played, with their scores in descending order.
+   #ifdef SEEK_OPENING_LEAD
+      solve.ddsSol = 3;
+   #endif
+
+   #ifdef SEEK_MAGIC_FLY 
+      solve.shouldSolveTwice = true;
+   #elif defined(THE_OTHER_IS_OURS) || defined(SEEK_DECISION_COMPETE)
+      solve.shouldSolveTwice = true;
+      io.showHugeMatch = true;
+   #endif
+
+   #ifdef SHOW_OUR_OTHER
+      io.showOurOther = true;
+   #endif
+
+   #ifdef SHOW_OPP_RESULTS
+      io.showOppResults = true;
+      #ifdef SHOW_OPPS_ON_PASS_ONLY
+         io.oppsOnlyDoubled = true;
+      #elif defined(SHOW_OPPS_ON_DOUBLE_ONLY)
+         io.oppsOnlyDoubled = true;
+      #endif
+   #endif
+
+   #ifdef SEEK_DECISION_COMPETE
+      io.seekDecisionCompete = true;
+   #endif
+
+   #ifdef SEEK_MAGIC_FLY
+      io.showMagicFly = true;
    #endif
 }
 

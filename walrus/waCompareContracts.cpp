@@ -75,9 +75,11 @@ void Walrus::ComparePrimaSecunda(uint tricksA, uint tricksB, const deal& cards)
    // detect score
    auto gainPrima   = cumulScore.prima.Get(tricksA);
    auto gainSecunda = cumulScore.secunda.Get(tricksB);
-   #ifdef SEEK_DECISION_COMPETE
+
+   // the second scorer can be for the other side
+   if (config.io.seekDecisionCompete) {
       gainSecunda = -gainSecunda;
-   #endif
+   }
 
    // mark
    uint camp = (gainPrima >  gainSecunda) ? IO_CAMP_PREFER_PRIMA :

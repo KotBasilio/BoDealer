@@ -141,17 +141,18 @@ bool Walrus::InitSemantics()
       FillSemantic();
    #endif
 
-   // to move to config analisys
-   if (config.solve.shouldSolveTwice) {
-      sem.solveSecondTime = &Walrus::SolveSecondTime;
-   }
-
-   // common part
+   // FILTERS setup
    if (!config.filters.compiled.empty()) {
       sem.vecFilters = config.filters.compiled;
    }
    sem.MiniLinkFilters();
 
+   // SOLVING setup
+   if (config.solve.shouldSolveTwice) {
+      sem.solveSecondTime = &Walrus::SolveSecondTime;
+   }
+
+   // SCORER setup
    #ifdef SEEK_DECISION_COMPETE
       sem.SetOurPrimaryScorer(cumulScore, config.txt.primaScorerCode);
       sem.SetTheirScorer(cumulScore, config.txt.secundaScorerCode);

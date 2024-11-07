@@ -8,10 +8,6 @@
 
    #define THE_OTHER_IS_OURS
 
-   #define SHOW_OPP_RESULTS
-   #define SHOW_OPPS_ON_PASS_ONLY
-   #define SHOW_OPPS_ON_DOUBLE_ONLY
-
    #define FOUR_HANDS_TASK
 */
 
@@ -22,7 +18,6 @@
 
 #ifdef SEP_RESPONCE_TO_2C
    #define SEEK_BIDDING_LEVEL
-   #define SHOW_SACRIFICE_RESULTS
 #endif 
 
 #ifdef SEM_AUG_JAGODINA_INVITE

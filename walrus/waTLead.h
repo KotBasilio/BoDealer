@@ -3,40 +3,40 @@
 // -------------------------------------------------------- 
 
 #ifdef SEM_JUN24_LEAD_AK
-   #define DETAILED_LEADS
+   #define SEEK_OPENING_LEAD
 #endif
 
 #ifdef SEMANTIC_JAN_PETYA_VS_3NT
    #define TITLE_VERSION  "Fix a 10 hcp ;\n 1NT - 3NT\nQuestion: what to lead?\nVer 2.0 "
-   #define SEEK_OPENING_LEAD
+   #define DEP_SEEK_OPENING_LEAD
 #endif
 
 // ---
 #ifdef SEMANTIC_AUG_LEAD_VS_3H
    #define TITLE_VERSION  "Fix a hand with an ace;\n....s\nQuestion: what to lead?\nVer 2.0 "
-   #define SEEK_OPENING_LEAD
+   #define DEP_SEEK_OPENING_LEAD
 #endif 
 
 // ---
 #ifdef SEMANTIC_IMPS_LEAD_LEVKOVICH
    #define TITLE_VERSION  "Fix a hand with an 3-4 majors;\n3d-p-3NTs\nQuestion: what to lead?\nVer 2.0 "
-   #define SEEK_OPENING_LEAD
+   #define DEP_SEEK_OPENING_LEAD
    #define PERCENTAGES_IN_ANSWER_ROW
 #endif 
 
 #ifdef SEMANTIC_JUNE_MAX_5D_LEAD
    #define TITLE_VERSION  "Fix a strong hand;\n(p)-p-(1d)-1h\n(3d)-3h-(p)-4h\n(p)-p-(5d)-X-all pass\nQuestion: what to lead?\nVer 2.0 "
-   #define SEEK_OPENING_LEAD
+   #define DEP_SEEK_OPENING_LEAD
 #endif 
 
 #ifdef SEMANTIC_JUNE_LEAD_3343
    #define TITLE_VERSION  "Fix a weak hand;\np-(p)-p-(1s)\np-(1NT)-p-(3NT)-all pass\nQuestion: what to lead?\nVer 2.0 "
-   #define SEEK_OPENING_LEAD
+   #define DEP_SEEK_OPENING_LEAD
 #endif 
 
 #ifdef SEMANTIC_JUNE_ZAKHAROVY_PREC_3NT
    #define TITLE_VERSION  "Fix a weak hand;\n(2c)-p-(3NT)-all pass\nQuestion: what to lead?\nVer 2.0 "
-   #define SEEK_OPENING_LEAD
+   #define DEP_SEEK_OPENING_LEAD
 #endif 
 
 /// -----------------------------------------------------------------

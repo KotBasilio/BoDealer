@@ -35,12 +35,16 @@
    #error Get rid of IO_HCP_MAX define. Use "POSTMORTEM: HCP" in config, then config.postm.maxHCP
 #endif
 
-#ifdef SEEK_OPENING_LEAD
-   #error Get rid of SEEK_OPENING_LEAD define. Use "POSTMORTEM: LEAD" in config + DETAILED_LEADS define. 
+#ifdef DEP_SEEK_OPENING_LEAD
+   #error Get rid of DEP_SEEK_OPENING_LEAD define. Use "POSTMORTEM: LEAD" in config + SEEK_OPENING_LEAD define. 
 #endif
 
 #ifdef SOLVE_TWICE_HANDLED_CHUNK
    #error Get rid of SOLVE_TWICE_HANDLED_CHUNK define. Use config.solve.shouldSolveTwice
+#endif
+
+#ifdef SHOW_SACRIFICE_RESULTS
+   #error Get rid of SHOW_SACRIFICE_RESULTS define. Use config.io.seekDecisionCompete
 #endif
 
 //#ifdef 

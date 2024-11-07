@@ -2,22 +2,22 @@
  * Walrus project -- derived definitions and constants   13.08.2022
  ************************************************************/
 
- // what hand is fixed? (if any)
+// Algorithm details:
+// -- what hand is fixed, if any
+// -- how to solve and what to seek
 #ifdef SEEK_DENOMINATION
    #define SCORE_THE_OTHER_CONTRACT
    #define THE_OTHER_IS_OURS
 #endif
 
-#ifdef DETAILED_LEADS
+#ifdef SEEK_OPENING_LEAD
    #define SEM_ORBITING_FIXED_HAND
    #define FIXED_HAND_WEST
 #endif
 
-// Algorithm details --- how to solve and what to seek
 #ifdef SEEK_MAGIC_FLY
    #define FIXED_HAND_NORTH
    #define ON_LEAD_INTERROGATED   cards.first
-   #define SHOW_MY_FLY_RESULTS
 #endif
 
 #ifdef SEEK_SACRIFICE_DECISION
@@ -32,7 +32,6 @@
 
 #ifdef SEEK_DECISION_COMPETE
    #define SCORE_THE_OTHER_CONTRACT
-   #define SHOW_SACRIFICE_RESULTS
    #define FIXED_HAND_NORTH
 #endif
 
@@ -50,8 +49,6 @@
 #endif
 
 // tasks without a fixed hand (no specifics)
-
-// User interface --- how to display
 
 // -----------------------------------------------------------------
 // more resolutions on a fixed hand
