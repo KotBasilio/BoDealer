@@ -134,6 +134,7 @@ char fmtCell[]      = "%8llu,";
 char fmtCellStr[]   = "%8s,";
 char fmtStatCell[]  = "%8.0lf,";
 char fmtCellFloat[] = "%8.1f,";
+char fmtCellShortPercent[] = "%8.0f%%";
 char fmtCellDouble[] = "%-.2lf";
 
 // hats
@@ -249,19 +250,17 @@ void Walrus::ShowMiniHits(ucell * hitsRow, ucell * hitsCamp) // OUT: hitsRow[], 
       hitsRow[i] = sumline;
 
       // may add percentages
-      #ifdef PERCENTAGES_IN_ANSWER_ROW
-      if (i == ANSWER_ROW_IDX) {
+      if (config.io.showPercentages && (i == config.io.rowPercentage)) {
          if (!sumline) {
             sumline = 1;
          }
-         owl.OnDone("(  %% ):  ");
+         owl.OnDone("    (      %%): ");
          for (int j = 0; j < miniCamps; j++) {
             float percent = progress.hitsCount[i][j] * 100.f / sumline;
-            owl.OnDone(fmtCellFloat, percent);
+            owl.OnDone(fmtCellShortPercent, percent);
          }
          owl.OnDone("\n");
       }
-      #endif // PERCENTAGES_IN_ANSWER_ROW
    }
 }
 

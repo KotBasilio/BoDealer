@@ -14,6 +14,7 @@
 extern char fmtCell[];
 extern char fmtCellStr[];
 extern char fmtCellFloat[];
+extern char fmtCellShortPercent[];
 
 void Walrus::ReportState()
 {
@@ -182,19 +183,17 @@ bool Walrus::ConsiderDashOutLine(ucell sumline)
 void Walrus::RepeatLineWithPercentages(int i, ucell sumline)
 {
    // percentages are optional
-   #ifdef PERCENTAGES_IN_ANSWER_ROW
-   if (i < 20) {
+   if (config.io.showPercentages && i < 20) {
       if (!sumline) {
          sumline = 1;
       }
-      owl.OnProgress(" %%:  ");
+      owl.OnProgress(" %%: ");
       for (int j = 0; j < ui.farCol; j++) {
          float percent = progress.hitsCount[i][j] * 100.f / sumline;
-         owl.OnProgress(fmtCellFloat, percent);
+         owl.OnProgress(fmtCellShortPercent, percent);
       }
       owl.OnProgress("\n");
    }
-   #endif
 }
 
 void Walrus::DisplayStatCell(ucell cell)

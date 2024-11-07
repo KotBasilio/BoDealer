@@ -75,12 +75,6 @@ const uint SOURCE_CARDS_COUNT = SYMM * 4;
 #endif // any FIXED_HAND_...
 const uint ACTUAL_CARDS_COUNT = SOURCE_CARDS_COUNT - REMOVED_CARDS_COUNT;
 
-#ifdef PERCENTAGES_IN_ANSWER_ROW
-   #ifndef ANSWER_ROW_IDX
-      #define ANSWER_ROW_IDX  0
-   #endif
-#endif // PERCENTAGES_IN_ANSWER_ROW
-
 // -----------------------------------------------------------------
 // --- Iterations count
 typedef u64 ucell;

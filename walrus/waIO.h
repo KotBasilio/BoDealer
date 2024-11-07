@@ -146,6 +146,8 @@ struct WaConfig {
       bool oppsOnlyPassed = false;
       bool seekDecisionCompete = false;
       bool showMagicFly = false;
+      bool showPercentages = false;
+      int  rowPercentage = 0;
       bool DisplayingOtherContract() { return showOppResults || showOurOther || seekDecisionCompete; }
    } io;
 

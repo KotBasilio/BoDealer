@@ -173,13 +173,22 @@ WaConfig::WaConfig()
    #ifdef SEEK_MAGIC_FLY 
       solve.shouldSolveTwice = true;
       io.showMagicFly = true;
+      io.rowPercentage = IO_ROW_MAGIC_FLY;
    #elif defined(THE_OTHER_IS_OURS) || defined(SEEK_DECISION_COMPETE)
       solve.shouldSolveTwice = true;
       io.showHugeMatch = true;
+      io.rowPercentage = IO_ROW_COMPARISON;
    #endif
 
    #ifdef SHOW_OUR_OTHER
       io.showOurOther = true;
+   #endif
+
+   #ifdef PERCENTAGES_IN_ANSWER_ROW
+      io.showPercentages = true;
+      #ifdef ANSWER_ROW_IDX
+         io.rowPercentage = ANSWER_ROW_IDX;
+      #endif
    #endif
 
    #ifdef SHOW_OPP_RESULTS
