@@ -107,6 +107,7 @@ struct WaConfig {
       struct Leads { // cards to lead for WPM_OPENING_LEADS
          int S=0, H=0, D=0, C=0;
       } leads;
+      bool shouldSolveTwice = false;
    } solve;
 
    // contracts and its text representation

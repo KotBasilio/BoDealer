@@ -1,6 +1,5 @@
-The main selector in this config 
-is a line that starts with "TASK NAME".
-So we can comment out them easily at the line start
+The main selector in this config is a line that starts with "TASK NAME".
+So we usually comment out old tasks at the line start
 
 Competitive:
 //TASK NAME:AUG_BLITZ_VS_DIMULYA

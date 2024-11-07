@@ -141,6 +141,11 @@ bool Walrus::InitSemantics()
       FillSemantic();
    #endif
 
+   // to move to config analisys
+   if (config.solve.shouldSolveTwice) {
+      sem.solveSecondTime = &Walrus::SolveSecondTime;
+   }
+
    // common part
    if (!config.filters.compiled.empty()) {
       sem.vecFilters = config.filters.compiled;

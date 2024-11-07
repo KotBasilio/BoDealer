@@ -109,12 +109,10 @@ void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)
 void Walrus::Orb_ReSolveAndShow(deal &cards)
 {
    // auto show may be very short
-   #ifndef SOLVE_TWICE_HANDLED_CHUNK
-   if (ui.firstAutoShow) {
+   if (ui.firstAutoShow && !config.solve.shouldSolveTwice) {
       OwlOutBoard("example:\n", cards);
       return;
    }
-   #endif
 
    // to show leads we need to re-solve it
    // -- params for re-solving
@@ -131,15 +129,13 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
    }
 
    // single side solution => ok print
-   #ifndef SOLVE_TWICE_HANDLED_CHUNK
-   {
+   if (!config.solve.shouldSolveTwice) {
       char lead[] = "";
       OwlOutBoard("example:\n", cards);
       OwlOneFut(lead, &futUs);
       printf("shown to Oscar.");
       return;
    }
-   #endif
 
    // score alternative contract
    futureTricks futTheirs;

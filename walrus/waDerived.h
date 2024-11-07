@@ -16,7 +16,6 @@
 // Algorithm details --- how to solve and what to seek
 #ifdef SEEK_MAGIC_FLY
    #define FIXED_HAND_NORTH
-   #define SOLVE_TWICE_HANDLED_CHUNK
    #define ON_LEAD_INTERROGATED   cards.first
    #define SHOW_MY_FLY_RESULTS
 #endif
@@ -38,7 +37,6 @@
 #endif
 
 #ifdef SCORE_THE_OTHER_CONTRACT
-   #define SOLVE_TWICE_HANDLED_CHUNK
    #define ON_LEAD_INTERROGATED   config.secondary.first
    #ifdef THE_OTHER_IS_OURS
       #define SHOW_OUR_OTHER

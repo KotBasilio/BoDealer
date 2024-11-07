@@ -170,18 +170,15 @@ Semantics::Semantics()
    vecFilters.reserve(10);
    vecFilters.push_back( MicroFilter(&WaFilter::RejectAll, "RejectAll"));
 
-   // to move to config analisys
-   #ifdef SOLVE_TWICE_HANDLED_CHUNK
-      solveSecondTime = &Walrus::SolveSecondTime;
-   #endif
-
    #ifdef SEEK_MAGIC_FLY 
       onCompareContracts = &Walrus::NoticeMagicFly;
+      config.solve.shouldSolveTwice = true;
    #elif defined(THE_OTHER_IS_OURS) || defined(SEEK_DECISION_COMPETE)
       onCompareContracts = &Walrus::ComparePrimaSecunda;
+      config.solve.shouldSolveTwice = true;
       config.io.showHugeMatch = true;
       //onSecondMarks = &Walrus::AddMarksByComparison;
-#endif
+   #endif
 }
 
 void Semantics::MiniLinkFilters()

@@ -1,6 +1,6 @@
 /************************************************************
  * Walrus project                                        2020
- * Deprecatep parts and diagnostics
+ * Deprecated parts and diagnostics
  *
  ************************************************************/
 #include "walrus.h"
@@ -37,6 +37,10 @@
 
 #ifdef SEEK_OPENING_LEAD
    #error Get rid of SEEK_OPENING_LEAD define. Use "POSTMORTEM: LEAD" in config + DETAILED_LEADS define. 
+#endif
+
+#ifdef SOLVE_TWICE_HANDLED_CHUNK
+   #error Get rid of SOLVE_TWICE_HANDLED_CHUNK define. Use config.solve.shouldSolveTwice
 #endif
 
 //#ifdef 

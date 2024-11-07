@@ -3,6 +3,7 @@
 *.suo
 *.wsuo
 *.json
+oscar_log.*
 /exe/*
 /intermediate/*
 /sln/Bo/x64/*
