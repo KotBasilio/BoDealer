@@ -143,13 +143,6 @@ Semantics::Semantics()
    // filters -- reject all. filled on config reading and then on MiniLink
    vecFilters.reserve(10);
    vecFilters.push_back( MicroFilter(&WaFilter::RejectAll, "RejectAll"));
-
-   #ifdef SEEK_MAGIC_FLY 
-      onCompareContracts = &Walrus::NoticeMagicFly;
-   #elif defined(THE_OTHER_IS_OURS) || defined(SEEK_DECISION_COMPETE)
-      onCompareContracts = &Walrus::ComparePrimaSecunda;
-      //onSecondMarks = &Walrus::AddMarksByComparison;
-   #endif
 }
 
 WaConfig::WaConfig()
@@ -179,6 +172,7 @@ WaConfig::WaConfig()
 
    #ifdef SEEK_MAGIC_FLY 
       solve.shouldSolveTwice = true;
+      io.showMagicFly = true;
    #elif defined(THE_OTHER_IS_OURS) || defined(SEEK_DECISION_COMPETE)
       solve.shouldSolveTwice = true;
       io.showHugeMatch = true;
@@ -199,10 +193,6 @@ WaConfig::WaConfig()
 
    #ifdef SEEK_DECISION_COMPETE
       io.seekDecisionCompete = true;
-   #endif
-
-   #ifdef SEEK_MAGIC_FLY
-      io.showMagicFly = true;
    #endif
 }
 

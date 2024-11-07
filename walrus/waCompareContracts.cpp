@@ -92,7 +92,7 @@ void Walrus::ComparePrimaSecunda(uint tricksA, uint tricksB, const deal& cards)
    ui.primaBetterBy += impsPrima;
 
    // store in the row
-   AddMarksByComparison(cards, camp, impsPrima);
+   AddMarksInHugeMatch(cards, camp, impsPrima);
 
    // dbg
    DbgShowComparison(gainPrima, gainSecunda, delta);

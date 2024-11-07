@@ -154,12 +154,11 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
    char header[60];
    if (config.io.DisplayingOtherContract()) {
       sprintf(header, "%s has %d tricks.", config.txt.secLongName, tr.plainScore);
+   } else if (config.io.showMagicFly) {
+      sprintf(header, "NT contract has %d tricks.", tr.plainScore);
+   } else {
+      DEBUG_UNEXPECTED;
    }
-   //#elif defined(SEEK_MAGIC_FLY) 
-   //   sprintf(header, "NT contract has %d tricks.", tr.plainScore);
-   //#else 
-   //   DEBUG_UNEXPECTED;
-   //#endif 
 
    // tricks for all possible leads
    OwlOutBoard("example:\n", cards);

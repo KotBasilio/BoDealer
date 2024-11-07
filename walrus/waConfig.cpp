@@ -150,13 +150,18 @@ bool Walrus::InitSemantics()
    // SOLVING setup
    if (config.solve.shouldSolveTwice) {
       sem.solveSecondTime = &Walrus::SolveSecondTime;
+      if (config.io.showMagicFly) {
+         sem.onCompareContracts = &Walrus::NoticeMagicFly;
+      } else {
+         sem.onCompareContracts = &Walrus::ComparePrimaSecunda;
+      }
    }
 
    // SCORER setup
-   #ifdef SEEK_DECISION_COMPETE
+   if (config.io.seekDecisionCompete) {
       sem.SetOurPrimaryScorer(cumulScore, config.txt.primaScorerCode);
       sem.SetTheirScorer(cumulScore, config.txt.secundaScorerCode);
-   #endif
+   }
 
    #ifdef SEEK_DENOMINATION
       sem.SetOurPrimaryScorer(cumulScore, config.txt.primaScorerCode);

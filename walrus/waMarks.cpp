@@ -95,7 +95,7 @@ void Walrus::AddMarksBySuit(DdsTricks& tr, const deal& cards)
    }
 }
 
-void Walrus::AddMarksByComparison(const deal& cards, uint camp, s64 impsPrima)
+void Walrus::AddMarksInHugeMatch(const deal& cards, uint camp, s64 impsPrima)
 {
    // detect row
    uint ctrl = 0;
