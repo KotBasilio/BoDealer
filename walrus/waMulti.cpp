@@ -367,4 +367,16 @@ void WaMulti::StopHelpersSuddenly()
    }
 }
 
+const char* WaMulti::SizeToReadable(const size_t bsize)
+{
+   static char displayBuf[10];
+   const size_t oneK = 1024;
+   const size_t oneM = 1024 * oneK;
+   if (bsize > oneM) {
+      sprintf_s(displayBuf, sizeof(displayBuf), "%lluM", bsize / oneM);
+   } else {
+      sprintf_s(displayBuf, sizeof(displayBuf), "%lluK", bsize / oneK);
+   }
+   return displayBuf;
+}
 

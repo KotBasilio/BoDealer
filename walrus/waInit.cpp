@@ -102,15 +102,9 @@ void WaMulti::AllocFilteredTasksBuf()
    }
 
    // may report
-   #ifdef DBG_SHOW_ALLOCS
-      const size_t oneK = 1024;
-      const size_t oneM = 1024 * oneK;
-      if (bsize > oneM) {
-         printf("Memory %lluM in %s\n", bsize / oneM, nameHlp);
-      } else {
-         printf("Memory %lluK in %s\n", bsize / oneK, nameHlp);
-      }
-   #endif
+   if (config.dbg.verboseMemory) {
+      printf("Memory %s in %s\n", SizeToReadable(bsize), nameHlp);
+   }
 }
 
 Walrus::~Walrus()

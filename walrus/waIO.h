@@ -156,6 +156,7 @@ struct WaConfig {
       bool viewBoardOnAdd = false;
       bool viewBoardOnReconstruct = false;
       bool verboseCompile = false;
+      bool verboseMemory = false;
       bool verboseComparisons = false;
    } dbg;
 
@@ -200,6 +201,7 @@ private:
       static char* TEnd;
       static char* TName;
       static char* VerboseCompile;
+      static char* VerboseMemory;
    } key;
 };
 

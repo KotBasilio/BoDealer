@@ -105,7 +105,7 @@ protected:
    // UI progress and reports
    MiniUI ui;
    void SummarizeFiltering();
-   void ReportTime();
+   void ReportTimeMem();
    void ReportAllLines();
    bool ConsiderDashOutLine(ucell sumline);
    void DisplaySolvingStats(int i, ucell sumline);

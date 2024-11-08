@@ -16,6 +16,7 @@ struct WaMulti {
    uint NumFiltered() const    { return countToSolve; }
    ucell CloudSize() const     { return countShare; }
    ucell Remains() const       { return (countIterations < CloudSize()) ? CloudSize() - countIterations : 0; }
+   const char *SizeToReadable(const size_t bsize);
 
    // main scan part
    bool             isRunning, shouldSignOut, shownFirstLiveSign;

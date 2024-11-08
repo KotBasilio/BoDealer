@@ -42,6 +42,7 @@ char* WaConfig::Keywords::ShowOnAdded = "SHOW BOARD ON ADDED";
 char* WaConfig::Keywords::ShowComparisons = "SHOW COMPARISONS";
 char* WaConfig::Keywords::ShowOnReconstructed = "SHOW RECONSTRUCTED";
 char* WaConfig::Keywords::VerboseCompile = "VERBOSE COMPILING";
+char* WaConfig::Keywords::VerboseMemory = "VERBOSE MEMORY";
 char* WaConfig::Keywords::Delimiters = " ,.!:;[]()+-\n";
 
 static bool IsStartsWith(const char *str, const char *prefix) 
@@ -112,6 +113,9 @@ void WaConfig::ReadDebugSetting(char* line)
    }
    if (IsStartsWith(line, key.VerboseCompile)) {
       dbg.verboseCompile = true;
+   }
+   if (IsStartsWith(line, key.VerboseMemory)) {
+      dbg.verboseMemory = true;
    }
    if (IsStartsWith(line, key.ShowComparisons)) {
       dbg.verboseComparisons = true;
@@ -285,7 +289,6 @@ EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
    KEYWORD_CALL(Prima,       ReadPrimaScorer)
    KEYWORD_CALL(Secunda,     ReadSecundaScorer)
    KEYWORD_CALL(Postmortem,  ReadPostmortemParams)
-   KEYWORD_CALL(Debug,       ReadDebugSetting)
    else if (strlen(line) > 2) {
       SAFE_ADD(txt.titleBrief, line);
    }
@@ -352,14 +355,15 @@ void WaConfig::ReadTask(Walrus *walrus)
             if (IsStartsWith(line, txt.nameTask)) {
                fsm = FSM_GoInsideTask(line);
             } 
-            KEYWORD_CALL(Debug, ReadDebugSetting)
-            KEYWORD_CALL(Scale, ReadScaleSetting)
             break;
          }
 
          case S_IN_TASK: fsm = FSM_DoTaskState(line);    break;
          case S_FILTERS: fsm = FSM_DoFiltersState(line); break;
       }
+
+      KEYWORD_CALS(Debug, ReadDebugSetting)
+      KEYWORD_CALL(Scale, ReadScaleSetting)
    }
 
    // cleanup

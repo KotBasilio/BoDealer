@@ -420,6 +420,29 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
    }
 }
 
+const char* Progress::TimeToReadable(u64 ms)
+{
+   static char displayBuf[32];
+
+   u64 seconds = ms / 1000;
+   if (seconds < 100) {
+      sprintf_s(displayBuf, sizeof(displayBuf), "%llu.%llu sec", seconds, (ms % 1000) / 100);
+      return displayBuf;
+   } 
+
+   u64 minutes = seconds / 60;
+   seconds -= minutes * 60;
+   if (minutes < 60) {
+      sprintf_s(displayBuf, sizeof(displayBuf), "%llu min %llu sec", minutes, seconds);
+      return displayBuf;
+   } 
+
+   u64 hours = minutes / 60;
+   minutes -= hours * 60;
+   sprintf_s(displayBuf, sizeof(displayBuf), "%llu h %llu min", hours, minutes);
+   return displayBuf;
+}
+
 // --------------------------------------------------------------------
 // A progress as adding marks on filtering
 

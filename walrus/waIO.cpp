@@ -35,7 +35,7 @@ void Walrus::ReportState()
       ui.reportRequested = true;
       MiniReport(0);
    }
-   ReportTime();
+   ReportTimeMem();
 }
 
 void Walrus::ReportAllLines()
@@ -98,29 +98,23 @@ void Walrus::UpdateFarColumnUI()
    }
 }
 
-void Walrus::ReportTime()
+void Walrus::ReportTimeMem()
 {
-   u64 delta1 = progress.delta1;
-   u64 delta2 = progress.delta2;
+   u64 searchTime = progress.delta1;
+   u64 solveTime = progress.delta2;
 
-   if (!delta2) {
-      owl.OnDone("The search is done in %llu.%llu sec.\n"
-         , delta1 / 1000, (delta1 % 1000) / 100);
+   // a search usually takes seconds
+   if (!solveTime) {
+      size_t bsize = NumFiltered() * sizeof(WaTask);
+      owl.OnDone("The search is done in %s. Memory consumed: %s.\n", 
+         progress.TimeToReadable(searchTime), mul.SizeToReadable(bsize)
+      );
       return;
    }
 
-   u64 seconds = delta2 / 1000;
-   if (seconds < 100) {
-      owl.OnDone("The search took %llu.%llu sec + an aftermath %llu.%llu sec.\n"
-         , delta1 / 1000, (delta1 % 1000) / 100
-         , seconds, (delta2 % 1000) / 100);
-      return;
-   }
-
-   u64 minutes = seconds / 60;
-   owl.OnDone("The search took %llu.%llu sec + an aftermath %llu min %llu sec.\n"
-      , delta1 / 1000, (delta1 % 1000) / 100
-      , minutes, seconds - minutes * 60);
+   // solving is a matter of minutes
+   owl.OnDone("The search took %s ",  progress.TimeToReadable(searchTime));
+   owl.OnDone("+ an aftermath %s.\n", progress.TimeToReadable(solveTime));
 }
 
 constexpr int SIGN_INDENT_PLUS_A = 'IynA';

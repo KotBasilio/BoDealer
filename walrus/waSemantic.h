@@ -61,6 +61,7 @@ struct Progress {
    bool Step();
    void Up(ucell idx);
    void StoreCountToGo(ucell count);
+   const char *TimeToReadable(u64 ms);
 
    // operating marks
    // -- on filtering

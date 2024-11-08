@@ -25,16 +25,6 @@ No fixed hand:
 //TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
 
 -----------------------------------------------------------------------------------------------------------------------
-SCALE: 100
-//SCALE: MIN
-//OPMODE: SEMI_STRAY
-//OPMODE: DEMO_STATISTICS
-//DEBUG: SHOW BOARD ON ADDED
-//DEBUG: SHOW RECONSTRUCTED
-//DEBUG: VERBOSE COMPILING
-//DEBUG: SHOW COMPARISONS
-
------------------------------------------------------------------------------------------------------------------------
 NOV_65_OGNJEN seven spades on North
 Bidding from LHO. Partner is on S: 
   pass 1c   pass   1h
@@ -539,4 +529,14 @@ FILTERS:
    NORTH: ClubsLen 3, 6
    NORTH: HeartsLen 3, 4
 
--- config end.
+-----------------------------------------------------------------------------------------------------------------------
+SCALE: 100
+//SCALE: MIN
+//OPMODE: SEMI_STRAY
+//OPMODE: DEMO_STATISTICS
+//DEBUG: SHOW BOARD ON ADDED
+//DEBUG: SHOW RECONSTRUCTED
+//DEBUG: SHOW COMPARISONS
+//DEBUG: VERBOSE COMPILING
+//DEBUG: VERBOSE MEMORY
+
