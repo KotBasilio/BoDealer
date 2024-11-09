@@ -224,6 +224,7 @@
     <ClInclude Include="..\..\walrus\waTOneSided.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\carp\Carpenter.cu" />
     <None Include="..\..\dds-develop\src\COMMENT" />
     <None Include="..\..\dds-develop\src\Exports.def" />
   </ItemGroup>
