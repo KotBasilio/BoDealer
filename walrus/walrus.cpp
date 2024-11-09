@@ -85,8 +85,8 @@ int main(int argc, char *argv[])
       walter.Main();
    }
 
-   printf("Press any key.\n");
    DoSelfTests();
+   printf("Press any key.\n");
    PLATFORM_GETCH();
    owl.Goodbye();
 

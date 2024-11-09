@@ -25,12 +25,12 @@ No fixed hand:
 //TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
 
 -----------------------------------------------------------------------------------------------------------------------
-NOV_65_OGNJEN seven spades on North
+NOV_65_OGNJEN compete over 4S
 Bidding from LHO. Partner is on S: 
   pass 1c   pass   1h
   1s   pass 2s     3c
   pass 3NT  4s     ??
-Question: pass (forcing, to leave it in if part doubles) or 5c?
+Question: pass (forcing, to leave it in if partner doubles) or 5C?
 
 HAND: N:.AQ985.J5.AKJ876
 

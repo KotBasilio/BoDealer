@@ -51,7 +51,6 @@
 // generalized competitive:
 #define SEM_COMPETITIVE_GENERIC
 
-
 // Opening lead:
 //#define SEM_JUN24_LEAD_AK
 

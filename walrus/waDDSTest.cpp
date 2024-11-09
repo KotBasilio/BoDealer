@@ -34,6 +34,80 @@ unsigned int tds_holdings[4][4] =
    { RT|R8,                RJ|R5|R4|R6|R7,  RA|RK,         RQ|R9|R3|R2  }   // clubs
 };
 
+extern unsigned short int dbitMapRank[16];
+extern unsigned char dcardRank[16];
+
+static void qaPrintHand(char title[], const deal& dl)
+{
+    int c, h, s, r;
+    char text[DDS_HAND_LINES][DDS_FULL_LINE];
+
+    // clear virtual screen
+    for (int l = 0; l < DDS_HAND_LINES; l++)
+    {
+        memset(text[l], ' ', DDS_FULL_LINE);
+        text[l][DDS_FULL_LINE - 1] = '\0';
+    }
+
+    // for each hand
+    for (h = 0; h < DDS_HANDS; h++)
+    {
+        // detect location
+        int offset, line;
+        if (h == 0) {
+            offset = DDS_HAND_OFFSET;
+            line = 0;
+        }
+        else if (h == 1) {
+            offset = 2 * DDS_HAND_OFFSET;
+            line = 4;
+        }
+        else if (h == 2) {
+            offset = DDS_HAND_OFFSET;
+            line = 8;
+        }
+        else {
+            offset = 0;
+            line = 4;
+        }
+
+        // print hand to v-screen
+        for (s = 0; s < DDS_SUITS; s++) {
+            c = offset;
+            for (r = 14; r >= 2; r--) {
+                if ((dl.remainCards[h][s] >> 2) & dbitMapRank[r])
+                    text[line + s][c++] = static_cast<char>(dcardRank[r]);
+            }
+
+            if (c == offset)
+                text[line + s][c++] = '-';
+
+            if (h == SOUTH || h == EAST)
+                text[line + s][c] = '\0';
+        }
+    }
+
+    // print HCP and controls
+    //uint ctrl;
+    //sprintf(text[DDS_STATS_LINE] + DDS_STATS_OFFSET, "HCP : %d", WaCalcHCP(dl, ctrl));
+    //sprintf(text[DDS_STATS_LINE + 1] + DDS_STATS_OFFSET, "CTRL: %d", ctrl);
+
+    // start with title and underline it
+    printf("%s", title);
+    char dashes[80];
+    int l = static_cast<int>(strlen(title)) - 1;
+    for (int i = 0; i < l; i++)
+        dashes[i] = '-';
+    dashes[l] = '\0';
+    printf("%s\n", dashes);
+
+    // print the v-screen
+    for (int i = 0; i < DDS_HAND_LINES; i++)
+        printf("   %s\n", text[i]);
+    //printf("\n\n");
+}
+
+
 void sample_main_JK_Solve()
 {
    SetMaxThreads(0);
@@ -66,7 +140,7 @@ void sample_main_JK_Solve()
 
    sprintf(line, "SolveBoard, hand %d: leads %s, trumps: %s\n", handno,
       haPlayerToStr(dl.first), haTrumpToStr(dl.trump) );
-   PrintHand(line, dl);
+   qaPrintHand(line, dl);
 
    target = -1;
    solutions = 3;
@@ -115,7 +189,7 @@ void sample_main_SolveBoard_S1()
 
       sprintf(line, "SolveBoard, hand %d: leads %s, trumps: %s\n", handno,
          haPlayerToStr(dl.first), haTrumpToStr(dl.trump) );
-      PrintHand(line, dl);
+      qaPrintHand(line, dl);
 
       target = -1;
       solutions = 1;
@@ -135,7 +209,7 @@ void sample_main_SolveBoard_S1()
       dl.first = NORTH;
       sprintf(line, "SolveBoard, hand %d: leads %s, trumps: %s\n", handno,
          haPlayerToStr(dl.first), haTrumpToStr(dl.trump) );
-      PrintHand(line, dl);
+      qaPrintHand(line, dl);
 
       target = -1;
       solutions = 1;
@@ -154,6 +228,9 @@ void sample_main_SolveBoard_S1()
 
 void sample_main_SolveBoard()
 {
+   printf("Testing SolveBoard().\n");
+   bool isAllright = true;
+
    SetMaxThreads(0);
 
    deal dl;
@@ -216,14 +293,17 @@ void sample_main_SolveBoard()
          handno + 1,
          (match3 ? "OK" : "ERROR"),
          (match2 ? "OK" : "ERROR"));
-
-      PrintHand(line, dl);
+      qaPrintHand(line, dl);
+      isAllright = isAllright && match2 && match3;
 
       sprintf(line, "solutions == 3 leads %s, trumps: %s\n",  haPlayerToStr(dl.first), haTrumpToStr(dl.trump) );
       PrintFut(line, &fut3);
       sprintf(line, "solutions == 2 leads %s, trumps: %s\n",  haPlayerToStr(dl.first), haTrumpToStr(dl.trump) );
       PrintFut(line, &fut2);
    }
+
+   printf("\n =======================================\nThe testing ended with: %s\n",
+      (isAllright ? "SUCCESS" : "FAIL"));
 }
 
 extern unsigned char dcardSuit[5], dcardRank[16];
@@ -333,9 +413,12 @@ void TestHeap(void)
 
 void DoSelfTests()
 {
+   //TestHeap();
+
    //sample_main_PlayBin();
    //sample_main_SolveBoard();
    //sample_main_SolveBoard_S1();
    //sample_main_JK_Solve();
+
    TestHeap();
 }
