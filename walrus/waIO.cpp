@@ -113,8 +113,7 @@ void Walrus::ReportTimeMem()
    }
 
    // solving is a matter of minutes
-   owl.OnDone("The search took %s ",  progress.TimeToReadable(searchTime));
-   owl.OnDone("+ an aftermath %s.\n", progress.TimeToReadable(solveTime));
+   progress.ShowSolvingTime();
 }
 
 constexpr int SIGN_INDENT_PLUS_A = 'IynA';

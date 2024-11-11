@@ -7,6 +7,7 @@
    See LICENSE and README.
 */
 #define _CRT_SECURE_NO_WARNINGS
+#define DDS_THREADS_WINAPI
 
 #include <iostream>
 #include <iomanip>

@@ -76,6 +76,7 @@ struct Progress {
    void HitByTricks(uint amount, uint made, uint row, bool isExtraMark = true);
    void SolvedExtraMark(uint row, uint col);
    void AddImps(uint row, uint col, ucell imps);
+   void ShowSolvingTime();
 private:
    ucell hitsCount[HITS_LINES_SIZE][HITS_COLUMNS_SIZE];
    ucell countExtraMarks;

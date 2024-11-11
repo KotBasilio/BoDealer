@@ -287,6 +287,17 @@ void Walrus::MiniReport(ucell toGo)
    }
 }
 
+void Progress::ShowSolvingTime()
+{
+   u64 searchTime = delta1;
+   u64 solveTime = delta2;
+   owl.OnDone("The search took %s ", TimeToReadable(searchTime));
+   owl.OnDone("+ an aftermath %s --> ", TimeToReadable(solveTime));
+   float revMin = 1000.f * 60.f / solveTime;
+   s64 doneOurs = (s64)(__max( hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE  ], 1));
+   owl.OnDone("~%4.0f boards per minute.\n", doneOurs * revMin);
+}
+
 void Walrus::ShowBiddingLevel(s64 sumRows)
 {
    // game/partscore

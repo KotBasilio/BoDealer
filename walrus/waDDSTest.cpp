@@ -89,7 +89,7 @@ static void qaPrintHand(char title[], const deal& dl)
 
     // print HCP and controls
     //uint ctrl;
-    //sprintf(text[DDS_STATS_LINE] + DDS_STATS_OFFSET, "HCP : %d", WaCalcHCP(dl, ctrl));
+    //sprintf(text[DDS_STATS_LINE] + DDS_STATS_OFFSET, "HCP : %d", CalcNSLineHCP(dl, ctrl));
     //sprintf(text[DDS_STATS_LINE + 1] + DDS_STATS_OFFSET, "CTRL: %d", ctrl);
 
     // start with title and underline it
