@@ -32,7 +32,7 @@ void Walrus::AfterMath()
 {
    // relay, then measure perf
    (this->*sem.onAfterMath)();
-   progress.delta2 = ChronoRound();
+   progress.solveTime = ChronoRound();
    progress.isDoneAll = true;
 }
 

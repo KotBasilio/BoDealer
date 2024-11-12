@@ -16,9 +16,6 @@ Progress *mainProgress;
 Progress::Progress()
    : countExtraMarks(0)
    , step(42), went(42), margin(42)
-   , delta1(0)
-   , delta2(0)
-   , isDoneAll(false)
 {
 }
 
@@ -197,8 +194,11 @@ static bool IsRowSkippable(int i)
    return i > IO_ROW_OUR_MADE;
 }
 
+static ucell hitsRow[MINI_ROWS];
+static ucell hitsCamp[MAX_CAMPS];
 
-void Walrus::ShowMiniHits(ucell * hitsRow, ucell * hitsCamp) // OUT: hitsRow[], hitsCamp[]
+// OUT: hitsRow[], hitsCamp[]
+void Progress::ShowMiniHits()
 {
    // zero hit sums
    for (int i = 0; i < MINI_ROWS; i++) {
@@ -211,15 +211,15 @@ void Walrus::ShowMiniHits(ucell * hitsRow, ucell * hitsCamp) // OUT: hitsRow[], 
    // detect optimal camps
    auto miniCamps = MAX_CAMPS / 2;
    for (; miniCamps < MAX_CAMPS; miniCamps++) {
-      if (progress.hitsCount[IO_ROW_OUR_DOWN][miniCamps - 1] == 0) {
-         if (!config.io.showOppResults || (progress.hitsCount[IO_ROW_THEIRS][miniCamps - 1] == 0)) {
+      if (hitsCount[IO_ROW_OUR_DOWN][miniCamps - 1] == 0) {
+         if (!config.io.showOppResults || (hitsCount[IO_ROW_THEIRS][miniCamps - 1] == 0)) {
             break;
          }
       }
    }
 
    // hat
-   if (!progress.isDoneAll) {
+   if (!isDoneAll) {
       if (config.postm.Is(WPM_OPENING_LEADS)) {
          printf("\n%s", tblHat);// TODO -- use the other hat. And what do we store for leads?
       } else {
@@ -241,9 +241,9 @@ void Walrus::ShowMiniHits(ucell * hitsRow, ucell * hitsCamp) // OUT: hitsRow[], 
       u64 sumline = 0;
       int j = 0;
       for (; j < miniCamps; j++) {
-         if (showRow) owl.OnDone(fmt, progress.hitsCount[i][j]);
-         sumline     += progress.hitsCount[i][j];
-         hitsCamp[j] += progress.hitsCount[i][j];
+         if (showRow) owl.OnDone(fmt, hitsCount[i][j]);
+         sumline     += hitsCount[i][j];
+         hitsCamp[j] += hitsCount[i][j];
       }
       // -- its sum
       if (showRow) owl.OnDone("%12llu\n", sumline);
@@ -256,7 +256,7 @@ void Walrus::ShowMiniHits(ucell * hitsRow, ucell * hitsCamp) // OUT: hitsRow[], 
          }
          owl.OnDone("    (      %%): ");
          for (int j = 0; j < miniCamps; j++) {
-            float percent = progress.hitsCount[i][j] * 100.f / sumline;
+            float percent = hitsCount[i][j] * 100.f / sumline;
             owl.OnDone(fmtCellShortPercent, percent);
          }
          owl.OnDone("\n");
@@ -264,38 +264,19 @@ void Walrus::ShowMiniHits(ucell * hitsRow, ucell * hitsCamp) // OUT: hitsRow[], 
    }
 }
 
-static ucell hitsRow[MINI_ROWS];
-static ucell hitsCamp[MAX_CAMPS];
-
-void Walrus::MiniReport(ucell toGo)
+s64 Progress::UpdateDoneStats()
 {
-   // small tables
-   ShowMiniHits(hitsRow, hitsCamp);
-
-   // signature
-   s64 doneOurs   = (s64)(__max( hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE  ], 1));
-   s64 doneTheirs = (s64)( __max(hitsRow[IO_ROW_THEIRS  ] + hitsRow[IO_ROW_THEIRS + 1], 1));
-   owl.OnDone("Processed: %lld total. %s is on lead. Goal is %d tricks in %s.\n", doneOurs, config.prim.txtAttacker, config.prim.goal, config.prim.txtTrump);
-
-   // other stuff
-   ShowBiddingLevel(doneOurs);
-   ShowPercentages(doneOurs);
-   ShowTheirScore(doneTheirs);
-   ShowOptionalReports(doneOurs, doneTheirs);
-   if (toGo) {
-      printf("Yet more %llu to go:", toGo);
-   }
+   doneOurs   = (s64)(__max( hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE  ], 1));
+   doneTheirs = (s64)( __max(hitsRow[IO_ROW_THEIRS  ] + hitsRow[IO_ROW_THEIRS + 1], 1));
+   return doneOurs;
 }
 
 void Progress::ShowSolvingTime()
 {
-   u64 searchTime = delta1;
-   u64 solveTime = delta2;
-   owl.OnDone("The search took %s ", TimeToReadable(searchTime));
+   owl.OnDone("The search took %s ",    TimeToReadable(searchTime));
    owl.OnDone("+ an aftermath %s --> ", TimeToReadable(solveTime));
-   float revMin = 1000.f * 60.f / solveTime;
-   s64 doneOurs = (s64)(__max( hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE  ], 1));
-   owl.OnDone("~%4.0f boards per minute.\n", doneOurs * revMin);
+   float revMinutes = 60.f / solveTime;
+   owl.OnDone("~%.1fK boards per minute.\n", doneOurs * revMinutes);
 }
 
 void Walrus::ShowBiddingLevel(s64 sumRows)

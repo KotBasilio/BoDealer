@@ -55,13 +55,14 @@ struct Progress {
    friend class Walrus;
    Progress();
    ucell step, went, margin;
-   u64  delta1, delta2;
-   bool isDoneAll;
-   void Init(ucell _step);
-   bool Step();
-   void Up(ucell idx);
-   void StoreCountToGo(ucell count);
-   const char *TimeToReadable(u64 ms);
+   u64   searchTime = 0, solveTime = 0;
+   s64   doneOurs = 0, doneTheirs = 0;
+   bool  isDoneAll = false;
+   void  Init(ucell _step);
+   bool  Step();
+   void  Up(ucell idx);
+   void  StoreCountToGo(ucell count);
+   const char* ReadableSearchTime() { return TimeToReadable(searchTime); }
 
    // operating marks
    // -- on filtering
@@ -76,11 +77,15 @@ struct Progress {
    void HitByTricks(uint amount, uint made, uint row, bool isExtraMark = true);
    void SolvedExtraMark(uint row, uint col);
    void AddImps(uint row, uint col, ucell imps);
+   // -- stats
+   s64  UpdateDoneStats();
    void ShowSolvingTime();
+   void ShowMiniHits();
 private:
    ucell hitsCount[HITS_LINES_SIZE][HITS_COLUMNS_SIZE];
    ucell countExtraMarks;
    ucell& CellByIPR(uint ip, uint reason);
+   const char* TimeToReadable(u64 ms);
 };
 extern Progress *mainProgress;
 

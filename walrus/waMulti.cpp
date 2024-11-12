@@ -137,7 +137,7 @@ void Walrus::ScanFixedTask(void)
    ClearHelpers();
 
    // perf
-   progress.delta1 = ChronoRound();
+   progress.searchTime = ChronoRound();
 }
 
 void Walrus::ScanStray(void)

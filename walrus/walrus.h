@@ -131,7 +131,6 @@ protected:
    void ShowDetailedReportControls();
    void ShowDetailedReportOpLeads();
    void ShowDetailedReportSuit();
-   void ShowMiniHits(ucell* hitsRow, ucell* hitsCamp);
 
 private:
    Shuffler shuf;

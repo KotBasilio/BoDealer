@@ -38,6 +38,26 @@ void Walrus::ReportState()
    ReportTimeMem();
 }
 
+void Walrus::MiniReport(ucell toGo)
+{
+   // small tables
+   progress.ShowMiniHits();
+
+   // signature
+   s64 doneOurs = progress.UpdateDoneStats();
+   owl.OnDone("Processed: %lld total. %s is on lead. Goal is %d tricks in %s.\n", 
+      doneOurs, config.prim.txtAttacker, config.prim.goal, config.prim.txtTrump);
+
+   // other stuff
+   ShowBiddingLevel(doneOurs);
+   ShowPercentages(doneOurs);
+   ShowTheirScore(progress.doneTheirs);
+   ShowOptionalReports(doneOurs, progress.doneTheirs);
+   if (toGo) {
+      printf("Yet more %llu to go:", toGo);
+   }
+}
+
 void Walrus::ReportAllLines()
 {
    if (progress.isDoneAll) {
@@ -100,14 +120,11 @@ void Walrus::UpdateFarColumnUI()
 
 void Walrus::ReportTimeMem()
 {
-   u64 searchTime = progress.delta1;
-   u64 solveTime = progress.delta2;
-
    // a search usually takes seconds
-   if (!solveTime) {
+   if (!progress.solveTime) {
       size_t bsize = NumFiltered() * sizeof(WaTask);
       owl.OnDone("The search is done in %s. Memory consumed: %s.\n", 
-         progress.TimeToReadable(searchTime), mul.SizeToReadable(bsize)
+         progress.ReadableSearchTime(), mul.SizeToReadable(bsize)
       );
       return;
    }
