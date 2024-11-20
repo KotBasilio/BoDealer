@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
-  <Type Name="DdsTricks">
-    <DisplayString>Tricks {plainScore}</DisplayString>
-  </Type>
+   <Type Name="DdsTricks">
+        <DisplayString>Tricks {plainScore}</DisplayString>
+   </Type>
+   <Type Name="futureTricks">
+        <DisplayString>{score[0]} tr: {rank[0]}of{suit[0]}</DisplayString>
+   </Type>
    <Type Name="DdsDeal">
-      <DisplayString>{tr}</DisplayString>
+        <DisplayString>{tr}</DisplayString>
    </Type>
    <Type Name="Walrus">
       <DisplayString>{mul.nameHlp,s} {mul.countToSolve} toSolve; Done {mul.countIterations}/{mul.countShare}</DisplayString>

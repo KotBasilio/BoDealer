@@ -5,14 +5,10 @@
  ************************************************************/
 #include "waDoubleDeal.h"
 
-static boards _chunkBoards;
-static solvedBoards _solved;
-static solvedBoards _twiceSolved;
-
 #ifdef _DEBUG
-   const uint WALRUS_CHUNK_SIZE = 20;
+   const uint WALRUS_CHUNK_SIZE = 100;
 #else
-   const uint WALRUS_CHUNK_SIZE = 200;
+   const uint WALRUS_CHUNK_SIZE = MAXNOOFBOARDS;
 #endif
 
 void Walrus::SolveSavedTasks()
@@ -65,6 +61,7 @@ void Walrus::SolveOneChunk(uint chunkStartIdx, uint boardsCount)
    // a chunk of tasks lies in arrToSolve. Indices are: from chunkStartIdx, boardsCount tasks
 
    // reconstruct all deals to fill the chunk
+   static boards _chunkBoards;
    _chunkBoards.noOfBoards = (int)boardsCount;
    for (int i = 0; i < _chunkBoards.noOfBoards; i++) {
       DdsDeal dl(*sem.dlBase, mul.arrToSolve[chunkStartIdx + i]);
@@ -75,6 +72,7 @@ void Walrus::SolveOneChunk(uint chunkStartIdx, uint boardsCount)
    }
 
    // solve in parallel
+   static solvedBoards _solved;
    int res = SolveAllBoardsN(_chunkBoards, _solved);
    HandleDDSFail(res);
 
@@ -142,6 +140,7 @@ void Walrus::SolveSecondTime(boards& arrSrc, const solvedBoards& chunk)
    }
 
    // solve second time
+   static solvedBoards _twiceSolved;
    int res = SolveAllBoardsN(arrSrc, _twiceSolved);
    HandleDDSFail(res);
 
