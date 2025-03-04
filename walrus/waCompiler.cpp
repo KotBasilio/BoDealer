@@ -73,6 +73,7 @@ static HandFilter ExportedHandFilters[] = {
 
    DESCRIBE_FILTER(NoOvcOn1LevOpen, 0),
    DESCRIBE_FILTER(NoOvercall, 0),
+   DESCRIBE_FILTER(NoOvercall2ndLevel, 0),
    DESCRIBE_FILTER(NoPrecision2C, 0),
    DESCRIBE_FILTER(No7Plus, 0),
    DESCRIBE_FILTER(No2SuiterAntiSpade, 0),

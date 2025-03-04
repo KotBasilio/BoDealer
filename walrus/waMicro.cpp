@@ -354,6 +354,26 @@ uint WaFilter::NoOvcOn1LevOpen(twContext* lay, const uint* par)
 }
 
 
+uint WaFilter::NoOvercall2ndLevel(twContext* lay, const uint* par)
+{
+   ACCESS_MICPARS_HL;
+
+   // many points => fail
+   if (hcp.total >= 14) {
+      return MIC_BLOCK;
+   }
+
+   // no 6 with 10+pts
+   if (hcp.total >= 12) {
+      if (len.s > 5 || len.h > 5 || len.d > 5 || len.c > 5) {
+         return MIC_BLOCK;
+      }
+   }
+
+   // relay
+   return No7Plus(lay, par);
+}
+
 uint WaFilter::NoOvercall(twContext* lay, const uint* par)
 {
    ACCESS_MICPARS_HL;

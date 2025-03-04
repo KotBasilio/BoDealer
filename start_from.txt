@@ -5,9 +5,10 @@ Competitive:
 //TASK NAME:AUG_BLITZ_VS_DIMULYA
 //TASK NAME:AUG_TRICOLOR_OVER_OPP_3S
 //TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
-TASK NAME:NOV_65_OGNJEN
+//TASK NAME:NOV_65_OGNJEN
 
 One sided:
+TASK NAME:FEB25_MAJORS_RESPONCE_PRECISION
 //TASK NAME:OCT_MINOR_SUPERFIT
 //TASK NAME:COPILTOT
 //TASK NAME:SEP_RESPONCE_TO_2C
@@ -23,6 +24,35 @@ Leads:
 No fixed hand:
 //TASK NAME:4_HAND_MINOR_SUPERFIT
 //TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
+
+-----------------------------------------------------------------------------------------------------------------------
+FEB25_MAJORS_RESPONCE_PRECISION Fix a 5 hcp 5620;
+Bidding from part : 2c  p 2h p
+                    2s  p ??
+Question: is there a game or an invit?
+
+HAND: N:J9864.JT8765.K2.
+PRIMARY SCORER: V4S BY N
+POSTMORTEM: HCP 16, 21
+
+FILTERS:
+    SOUTH: PointsRange, 11, 16
+    SOUTH: HeartsLen, 0, 1
+    SOUTH: ClubsLen, 5, 7
+    SOUTH: SpadesLen, 4, 4
+
+    WEST: NoOvercall2ndLevel
+    EAST: NoOvercall2ndLevel
+
+-----------------------------------------------------------------------------------------------------------------------
+AJ
+AK654
+43
+AQ65
+
+1c 1d
+1h 1NT
+??
 
 -----------------------------------------------------------------------------------------------------------------------
 NOV_65_OGNJEN compete over 4S
