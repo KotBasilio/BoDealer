@@ -1,0 +1,81 @@
+
+
+        |\_______/|
+      / | [o] [o] | \
+     / /|    V    |\ \
+        |         |
+        -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+JUN25_ONE_SIDE_HEARTS_CLUBS : Fix some 4 hcp 3343;
+Bidding from RHO : p  p  p  1c
+                   1d p  1s 2d
+                   p  ??
+Question: is there a game or an invit?
+Fixed hand is [N:J64.QJ9.8765.T98]
+Scorer to use is V4H BY N
+Primary scorer (hearts, 10 tr): -300 -200 -100 620 650 680 710  /  -200 -100 140 170 200 230 260
+----
+29:    NORTH     EAST    SOUTH     WEST
+30:    29657,       0,     >XR,       0,  :   PointsRange 17 19 SOUTH
+31:        0,       0,   >MLRD,       0,  :   HeartsLen 5 5 SOUTH
+32:        0,       0,    >XXM,       0,  :   ClubsLen 5 5 SOUTH
+33:        0,       0,       0,    >MLN,  :   PassVul WEST
+34:        0,       0,       0,    >MLN,  :   DiamondsLen 5 5 WEST
+35:        0,  581579,       0,       0,  :   PassVul EAST
+36:        0,    2522,       0,       0,  :   SpadesLen 4 6 EAST
+ 10 tricks board by North in hearts example:
+--------
+               J64         HCP : 22
+               QJ9         CTRL: 8
+               8765
+               T98
+   Q982                    KT75
+   74                      K32
+   AJT42                   Q93
+   63                      QJ7
+               A3
+               AT865
+               K
+               AK542
+       (down):     3848,     574,      30,       0,       0,       0,       0,        4452
+       (make):    15615,    9287,     297,       6,       0,       0,       0,       25205
+Processed: 29657 total. East is on lead. Goal is 10 tricks in hearts.
+Averages: ideal =  552, 4H = 519, partscore=170.   Chance to make = 85.0%.
+
+A split of board results by HCP from 21 to 23:
+(p 21 down):      252,      33,       1,       0,   :      286,
+(p 21 make):      627,      13,       0,       0,   :      640,  --> 69 %
+(p 22 down):     2358,     379,      23,       0,   :     2760,
+(p 22 make):     7496,    2086,      36,       1,   :     9619,  --> 77 %
+(p 23 down):     1238,     162,       6,       0,   :     1406,
+(p 23 make):     7492,    7188,     261,       5,   :    14946,  --> 91 %
+The search took 64.6 sec + an aftermath 25.7 sec --> ~69.1K boards per minute.
+
+
+               J64         HCP : 22
+               QJ9         CTRL: 8
+               8765
+               T98
+   QT5                     9732
+   KT7                     52
+   KQT43                   AJ92
+   J3                      Q65
+               AK8
+               A8643
+               -
+               AK742
+       (down):     3805,     581,      27,       0,       0,       0,       0,        4413
+       (make):    15498,    9284,     275,       2,       0,       0,       0,       25059
+Processed: 29472 total. East is on lead. Goal is 10 tricks in hearts.
+Averages: ideal =  553, 4H = 520, partscore=170.   Chance to make = 85.0%.
+
+A split of board results by HCP from 21 to 23:
+(p 21 down):      269,      40,       2,       0,   :      311,
+(p 21 make):      664,       8,       0,       0,   :      672,  --> 68 %
+(p 22 down):     2298,     372,      20,       0,   :     2690,
+(p 22 make):     7356,    2098,      36,       0,   :     9490,  --> 77 %
+(p 23 down):     1238,     169,       5,       0,   :     1412,
+(p 23 make):     7478,    7178,     239,       2,   :    14897,  --> 91 %
+The search took 66.1 sec + an aftermath 26.5 sec --> ~66.7K boards per minute.
+
