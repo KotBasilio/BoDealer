@@ -28,9 +28,9 @@ No fixed hand:
 //TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
 
 -----------------------------------------------------------------------------------------------------------------------
-JUN25_ONE_SIDE_HEARTS_CLUBS Fix some 4 hcp 3343;
-Bidding from RHO : p  p  p  1c  
-                   1d p  1s 2d
+JUN25_ONE_SIDE_HEARTS_CLUBS RHO starts Fix some 4 hcp 3343;
+Bidding from RHO : p  p  p  1c(Polish club)  
+                   1d p  1s 2d(5+ hearts, 5+ clubs, 17+)
                    p  ??
 Question: is there a game or an invit?
 
