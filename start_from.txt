@@ -18,7 +18,9 @@ One sided:
 //TASK NAME:MAY24_TRHEE_SUITED_BALANCE
 //TASK NAME:MAY24_GLADIATOR
 //TASK NAME:MAY24_TENS_AND_NINES
-TASK NAME:JUN25_ONE_SIDE_HEARTS_CLUBS
+//TASK NAME:JUN25_ONE_SIDE_HEARTS_CLUBS
+TASK NAME:OCT25_TROFEY_OFFER_3NT
+//TASK NAME:OCT25_POSSIBLY_INSANE_BUTLER
 
 Leads:
 //TASK NAME:JUN24_LEAD_AK
@@ -28,13 +30,65 @@ No fixed hand:
 //TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
 
 -----------------------------------------------------------------------------------------------------------------------
+OCT25_POSSIBLY_INSANE_BUTLER  one sided
+Bidding from part: 2NT p 3d p
+                   3h  p 4c p
+                   4h  p ??
+Question: do we try slam?
+
+HAND: N:J7.AQJ43.2.86532
+PRIMARY SCORER: V6H BY S
+
+POSTMORTEM: HCP 28, 29
+
+FILTERS:
+    SOUTH: PointsRange, 20, 21
+    SOUTH: ClubsLen, 2, 3
+    SOUTH: HeartsLen, 3, 3
+    SOUTH: DiamondsLen, 2, 5
+    SOUTH: SpadesLen 2, 5
+
+    SOUTH: LineKeyCardsSuit, NORTH, HRT, 4, 5
+    SOUTH: LineSuitAnyCuebid, NORTH, SPD
+    SOUTH: LineSuitAnyCuebid, NORTH, CLB
+
+    EAST: PassVul
+    WEST: NoOvercall
+
+-----------------------------------------------------------------------------------------------------------------------
+OCT25_TROFEY_OFFER_3NT  one sided
+Bidding from part: 1c p 1h p
+                   2h p ??
+Question: do you offer 3NT or prefer to play 4H?
+
+HAND: N:Q3.KJ98.A95.K763
+PRIMARY SCORER: V3N BY N
+SECONDARY SCORER: V4H BY N
+
+POSTMORTEM: HCP 24, 27
+
+FILTERS:
+    SOUTH: PointsRange, 11, 14
+    SOUTH: HeartsLen, 4, 4
+    SOUTH: DiamondsLen, 3, 3
+    SOUTH: ClubsLen, 3, 3
+
+    SOUTH: LineKeyCardsSuit, NORTH, HRT, 4, 5
+
+    WEST: PassVul
+
+    EAST: PassVul
+
+-----------------------------------------------------------------------------------------------------------------------
 JUN25_ONE_SIDE_HEARTS_CLUBS RHO starts Fix some 4 hcp 3343;
 Bidding from RHO : p  p  p  1c(Polish club)  
                    1d p  1s 2d(5+ hearts, 5+ clubs, 17+)
                    p  ??
 Question: is there a game or an invit?
 
-HAND: N:J64.QJ9.8765.T98
+// HAND: N:J64.987.QJ65.T98
+//HAND: N:J64.QJ9.8765.T98
+HAND: N:J64.329.8765.QJ8
 PRIMARY SCORER: V4H BY N
 POSTMORTEM: HCP 21, 23
 
@@ -610,13 +664,13 @@ FILTERS:
    NORTH: HeartsLen 3, 4
 
 -----------------------------------------------------------------------------------------------------------------------
-SCALE: 30
+SCALE: 20
 //SCALE: MIN
 //OPMODE: SEMI_STRAY
 //OPMODE: DEMO_STATISTICS
-//DEBUG: SHOW BOARD ON ADDED
 //DEBUG: SHOW RECONSTRUCTED
 //DEBUG: SHOW COMPARISONS
 //DEBUG: VERBOSE COMPILING
 //DEBUG: VERBOSE MEMORY
+//DEBUG: SHOW BOARD ON ADDED
 
