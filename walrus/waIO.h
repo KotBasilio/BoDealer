@@ -213,6 +213,7 @@ private:
       static char* TName;
       static char* VerboseCompile;
       static char* VerboseMemory;
+      static char* PostmHCP;
    } key;
 };
 

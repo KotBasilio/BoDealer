@@ -43,6 +43,7 @@ char* WaConfig::Keywords::ShowComparisons = "SHOW COMPARISONS";
 char* WaConfig::Keywords::ShowOnReconstructed = "SHOW RECONSTRUCTED";
 char* WaConfig::Keywords::VerboseCompile = "VERBOSE COMPILING";
 char* WaConfig::Keywords::VerboseMemory = "VERBOSE MEMORY";
+char* WaConfig::Keywords::PostmHCP = "HCP";
 char* WaConfig::Keywords::Delimiters = " ,.!:;[]()+-\n";
 
 static bool IsStartsWith(const char *str, const char *prefix) 
@@ -173,26 +174,27 @@ void WaConfig::FillShortScorer(const char* from, char* to)
 
 bool WaConfig::RecognizePostmType(const char* token)
 {
-   if (IsStartsWith(token, "HCP")) {
+   if (IsStartsWith(token, key.PostmHCP)) {
       #ifdef SEEK_DENOMINATION
          postm.Type = WPM_COMPARISON_WITH_HCP;
-         strcpy(config.txt.freqTitleFormat, "COMPARISON RESULTS FOR %d HCP");
       #else
          postm.Type = WPM_HCP_SINGLE_SCORER;
-         strcpy(config.txt.freqTitleFormat, "TRICKS FREQUENCY FOR %d HCP");
       #endif
       return true;
    }
 
    if (IsStartsWith(token, "LEAD")) {
       postm.Type = WPM_OPENING_LEADS;
-      strcpy(config.txt.freqTitleFormat, "TRICKS FREQUENCY FOR %s LEAD");
       return true;
    }
 
    if (IsStartsWith(token, "SUIT")) {
       postm.Type = WPM_SUIT;
-      strcpy(config.txt.freqTitleFormat, "TRICKS FREQUENCY FOR HCP in a suit (which?)");
+      return true;
+   }
+
+   if (IsStartsWith(token, "AUTO")) {
+      postm.Type = WPM_AUTO;
       return true;
    }
 
@@ -390,9 +392,18 @@ void WaConfig::ResolvePostmortemType()
 
    // announce; resolve auto 
    printf("Postmortem type: ");
-   if (postm.Type == WPM_NONE) {
+   if (postm.Type == WPM_HCP_SINGLE_SCORER) {
+      //printf("(deprecated; consider using AUTO) ");
+   } else if (postm.Type == WPM_AUTO) {
       printf("Auto --> ");
-      // TODO: POSTMORTEM: AUTO
+      RecognizePostmType(key.PostmHCP);
+      // TODO: extract data, maybe later
+      // +		taskHandPBN				0x00007ff7dc848569 "[N:J7.AQJ43.2.86532]"	char[30]
+         //WithdrawByInput() Line 136	C++
+         //InitDeck() Line 341	C++
+         //InitByConfig() Line 247	C++
+      // +		filters.sourceCode	0x00007ff7dc848648 "    SOUTH: PointsRange, 20, 21..."
+      // see 
    }
 
    // final types
@@ -404,11 +415,13 @@ void WaConfig::ResolvePostmortemType()
          } else {
             printf("HCP single scorer: %d to %d\n", postm.minHCP, postm.maxHCP);
          }
+         strcpy(config.txt.freqTitleFormat, "TRICKS FREQUENCY FOR %d HCP");
          checkRange = true;
          break;
 
       case WPM_COMPARISON_WITH_HCP:
          printf("A to B comparator with HCP %d to %d\n", postm.minHCP, postm.maxHCP);
+         strcpy(config.txt.freqTitleFormat, "COMPARISON RESULTS FOR %d HCP");
          checkRange = true;
          break;
 
@@ -421,11 +434,12 @@ void WaConfig::ResolvePostmortemType()
                MarkFail();
             }
          }
+         strcpy(config.txt.freqTitleFormat, "TRICKS FREQUENCY FOR %s LEAD");
          break;
 
       case WPM_SUIT:
          printf("Suit\n");
-         // nothing to check
+         strcpy(config.txt.freqTitleFormat, "TRICKS FREQUENCY FOR HCP in a suit (which?)");
          break;
 
       default:
