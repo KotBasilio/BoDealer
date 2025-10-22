@@ -62,9 +62,6 @@
 // -----------------------------------------------------------------
 // common constants, biggest symmetry in bridge
 constexpr uint SYMM = 13;
-
-// -----------------------------------------------------------------
-// --- Derivative constants
 constexpr uint SYMM2 = SYMM * 2;
 constexpr uint SYMM3 = SYMM * 3;
 constexpr uint SOURCE_CARDS_COUNT = SYMM * 4;

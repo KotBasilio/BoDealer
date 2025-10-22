@@ -39,9 +39,9 @@ struct Shuffler {
    // preparations
    void InitDeck(void);
    void WithdrawCard(u64 jo);
-   void FillFO_MaxDeck();
-   void FillFO_39Single();
-   void FillFO_39Double();
+   void FillFlipOverMaxDeck();
+   void FillFlipOver39Single();
+   void FillFlipOver39Double();
    void ClearFlipover();
 
 private:

@@ -291,6 +291,7 @@ EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
    KEYWORD_CALL(Postmortem,  ReadPostmortemParams)
    else if (strlen(line) > 2) {
       SAFE_ADD(txt.titleBrief, line);
+      // TODO: when line starts with  "//" we may consider it a comment and skip it
    }
 
    return S_IN_TASK;
@@ -383,6 +384,8 @@ void WaConfig::ReadTask(Walrus *walrus)
          MarkFail();
       }
    }
+
+   // TODO: POSTMORTEM: AUTO
 
 }
 

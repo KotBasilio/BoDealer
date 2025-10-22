@@ -202,12 +202,32 @@ bool Walrus::InitSemantics()
    return sem.IsInitOK();
 }
 
+void WaConfig::InitCardsCount()
+{
+   // how many cards are removed from deck
+   #if defined(FIXED_HAND_NORTH) || defined(FIXED_HAND_WEST)
+      deck.cardsRemoved = SYMM;
+   #else
+      deck.cardsRemoved = 0;
+   #endif
+
+   // how many cards left
+   deck.cardsCount = SOURCE_CARDS_COUNT - deck.cardsRemoved;
+}
+
+bool WaConfig::OrdinaryRead(Walrus* walrus)
+{
+   config.ReadTask(walrus);
+   config.InitCardsCount();
+   config.BuildNewFilters(walrus);
+
+   return isInitSuccess;
+}
+
 bool Walrus::InitByConfig()
 {
    // may read something
-   config.ReadTask(this);
-   config.BuildNewFilters(this);
-   if (config.IsInitFailed()) {
+   if (!config.OrdinaryRead(this)) {
       owl.Show("Failed to init configuration\n");
       return false;
    }
@@ -229,4 +249,5 @@ bool Walrus::InitByConfig()
 
    return StartOscar();
 }
+
 

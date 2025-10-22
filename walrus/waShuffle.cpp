@@ -89,7 +89,7 @@ void Shuffler::TestSeed(const char* nameHlp)
 }
 
 // ----------------------- FLIP-OUT-fills
-void Shuffler::FillFO_MaxDeck() // when we pick one hand only
+void Shuffler::FillFlipOverMaxDeck() // when we pick one hand only
 {
    for (int i = FLIP_OVER_START_IDX, j = 0; i < DECK_ARR_SIZE; i++, j++) {
       deck[i] = deck[j];
@@ -97,7 +97,7 @@ void Shuffler::FillFO_MaxDeck() // when we pick one hand only
    // no need to place highBits -- it's always in place after the deck end
 }
 
-void Shuffler::FillFO_39Single() // when we pick one hand, then the other hand. total of two
+void Shuffler::FillFlipOver39Single() // when we pick one hand, then the other hand. total of two
 {
    uint i = FLIP_OVER_START_IDX, j = 0;
    auto limit = config.deck.cardsRemoved - 1;
@@ -107,7 +107,7 @@ void Shuffler::FillFO_39Single() // when we pick one hand, then the other hand. 
    deck[i] = highBits;
 }
 
-void Shuffler::FillFO_39Double() // when we pick one hand, then the other, then the next one
+void Shuffler::FillFlipOver39Double() // when we pick one hand, then the other, then the next one
 {
    uint i = FLIP_OVER_START_IDX, j = 0;
    auto limit = 2 * config.deck.cardsRemoved - 1;
@@ -199,8 +199,8 @@ void Shuffler::WithdrawCard(u64 jo)
       }
    }
 
-   printf("card to withdraw is not found.\n");
-   DEBUG_UNEXPECTED;
+   printf("WTF ERROR: card to withdraw is already not in deck.\n");
+   config.MarkFail();
 }
 
 u64 Shuffler::SumFirstHand()

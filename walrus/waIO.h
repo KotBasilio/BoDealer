@@ -168,7 +168,7 @@ struct WaConfig {
       bool verboseComparisons = false;
    } dbg;
 
-   void ReadTask(class Walrus *walrus);
+   bool OrdinaryRead(Walrus* walrus);
    void BuildNewFilters(class Walrus *walrus);
    void SetupSeatsAndTrumps(const struct CumulativeScore &cs);
    void MarkFail() { isInitSuccess = false; }
@@ -177,6 +177,8 @@ private:
 
    void AnnounceTask();
    void ChangeOpMode(const char *line);
+   void ReadTask(class Walrus *walrus);
+   void InitCardsCount();
    void ReadHandPBN(const char *line);
    void ReadLeadCards(const char *line);
    void ReadPrimaScorer(const char *line);

@@ -154,7 +154,7 @@ void Walrus::WithdrawByInput(void)
       }
    }
 
-   if (!shuf.AssertDeckSize(SYMM3, config.txt.taskHandPBN)) {
+   if (!shuf.AssertDeckSize(config.deck.cardsCount, config.txt.taskHandPBN)) {
       config.MarkFail();
    }
 }

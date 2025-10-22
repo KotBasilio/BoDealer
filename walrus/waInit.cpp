@@ -154,14 +154,6 @@ WaConfig::WaConfig()
    prim.txtAttacker[0] = 0;
    secondary.txtTrump[0] = 0;
 
-   // shuffling
-   #if defined(FIXED_HAND_NORTH) || defined(FIXED_HAND_WEST)
-      deck.cardsRemoved = SYMM;
-   #else
-      deck.cardsRemoved = = 0;
-   #endif
-   deck.cardsCount = SOURCE_CARDS_COUNT - deck.cardsRemoved;
-
    // DOC: solutions parameter
    // 1 -- Find the maximum number of tricks for the side to play. Return only one of the optimum cards and its score.
    // 2 -- Find the maximum number of tricks for the side to play. Return all optimum cards and their scores.

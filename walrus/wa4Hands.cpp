@@ -164,7 +164,7 @@ void WaTask2::Init(twContext* lay)
 
 void Walrus::FourHandsFillSem(void)
 {
-   sem.fillFlipover = &Shuffler::FillFO_MaxDeck;
+   sem.fillFlipover = &Shuffler::FillFlipOverMaxDeck;
    sem.onShareStart = &WaMulti::AllocFilteredTasksBuf;
    sem.onScanCenter = &Walrus::Scan4Hands;
    sem.onAfterMath = &Walrus::SolveSavedTasks;

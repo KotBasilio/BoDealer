@@ -10,7 +10,7 @@
 #ifdef SEMANTIC_KEYCARDS_10_12
 void Walrus::FillSemantic(void)
 {
-   sem.fillFlipover = &Shuffler::FillFO_MaxDeck;
+   sem.fillFlipover = &Shuffler::FillFlipOverMaxDeck;
    sem.onScanCenter = &Walrus::ScanKeycards;
    sem.scanCover = config.deck.cardsCount;
 }
