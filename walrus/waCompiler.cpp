@@ -521,7 +521,7 @@ void WaConfig::BuildNewFilters(Walrus *walrus)
       return;
    }
    if (!filters.sizeSourceCode) {
-      printf("No filters are found in the config.\n");
+      printf("WARNING: No filters are found in the config.\n");
       return;
    }
 

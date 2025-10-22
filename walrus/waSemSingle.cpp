@@ -12,7 +12,7 @@ void Walrus::FillSemantic(void)
 {
    sem.fillFlipover = &Shuffler::FillFO_MaxDeck;
    sem.onScanCenter = &Walrus::ScanKeycards;
-   sem.scanCover = ACTUAL_CARDS_COUNT;
+   sem.scanCover = config.deck.cardsCount;
 }
 
 void Walrus::ScanKeycards()

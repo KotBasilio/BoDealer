@@ -10,6 +10,7 @@
 #include HEADER_CURSES
 
 #define HIBITS  ((BO_SPADS+BO_HEART+BO_DIAMD+BO_CLUBS) << 1) // it counts as a hand with two deuces in each suit -- easily detected and doesn't cause an overflow
+#define FLIP_OVER_START_IDX config.deck.cardsCount
 
 Shuffler::Shuffler()
    : highBits(HIBITS) 
@@ -98,8 +99,9 @@ void Shuffler::FillFO_MaxDeck() // when we pick one hand only
 
 void Shuffler::FillFO_39Single() // when we pick one hand, then the other hand. total of two
 {
-   int i = FLIP_OVER_START_IDX, j = 0;
-   for (; j < REMOVED_CARDS_COUNT - 1; i++, j++) {
+   uint i = FLIP_OVER_START_IDX, j = 0;
+   auto limit = config.deck.cardsRemoved - 1;
+   for (; j < limit; i++, j++) {
       deck[i] = deck[j];
    }
    deck[i] = highBits;
@@ -107,8 +109,9 @@ void Shuffler::FillFO_39Single() // when we pick one hand, then the other hand. 
 
 void Shuffler::FillFO_39Double() // when we pick one hand, then the other, then the next one
 {
-   int i = FLIP_OVER_START_IDX, j = 0;
-   for (; j < 2*REMOVED_CARDS_COUNT - 1; i++, j++) {
+   uint i = FLIP_OVER_START_IDX, j = 0;
+   auto limit = 2 * config.deck.cardsRemoved - 1;
+   for (; j < limit; i++, j++) {
       deck[i] = deck[j];
    }
    // no need to place highBits -- it's always in place after the deck end
@@ -145,7 +148,7 @@ void Shuffler::Roll(uint i)
 void Shuffler::Shuffle()
 {
    // full indices
-   for (uint i = 0; i < ACTUAL_CARDS_COUNT; i += RIDX_SIZE) {
+   for (uint i = 0; i < config.deck.cardsCount; i += RIDX_SIZE) {
       RandIndices();
       Roll(i);
    }
@@ -153,8 +156,8 @@ void Shuffler::Shuffle()
 
    // compact down
    uint low = 0;
-   uint high = ACTUAL_CARDS_COUNT;
-   for (int high = ACTUAL_CARDS_COUNT; high < DECK_ARR_SIZE; high++) {
+   uint high = config.deck.cardsCount;
+   for (int high = config.deck.cardsCount; high < DECK_ARR_SIZE; high++) {
       if (deck[high].IsBlank()) {
          continue;
       }

@@ -3,10 +3,9 @@
  ************************************************************/
 
  // all cards + flip over 12 cards
-const uint FLIP_OVER_SIZE = 12;
-const uint FLIP_OVER_START_IDX = ACTUAL_CARDS_COUNT;
-const uint DECK_ARR_SIZE = 64;// random does work to this range
-const uint RIDX_SIZE = 4;
+constexpr uint FLIP_OVER_SIZE = 12;
+constexpr uint DECK_ARR_SIZE = 64;// random does work to this range
+constexpr uint RIDX_SIZE = 4;
 
 struct Shuffler {
    Shuffler();

@@ -127,8 +127,8 @@ struct Semantics {
    SemGenScoring            onSecondScoring;
    SemSingleScoring         onSingleSecondary;
 
-   uint scanCover; // how much iterations covers one scan
-   struct deal* dlBase;
+   uint scanCover = 0; // how much boards covers one scan
+   struct deal* dlBase = nullptr;
    Semantics();
    void SetOurPrimaryScorer(CumulativeScore &cs, const char* code);
    void SetOurSecondaryScorer(CumulativeScore &cs, const char* code);
@@ -136,7 +136,8 @@ struct Semantics {
    void SetBiddingGameScorer(CumulativeScore &cs, const char* code);
    void SetOpeningLeadScorer(CumulativeScore &cs, const char* code);
    void PrepareBaseDeal();
-   bool IsInitOK() { return isInitSuccess; }
+   bool IsInitOK() const { return isInitSuccess; }
+   void MarkFail(const char* reason);
    bool IsClosingBracket(int idx);
    bool IsOpeningBracket(int idx);
 
@@ -148,6 +149,7 @@ private:
    bool CompileOneLine(struct CompilerContext &ctx);
    bool IsListStart(const MicroFilter& mic);
    bool isInitSuccess = true;
+   bool IsInitFailed() const { return !isInitSuccess; }
 };
 
 extern Semantics semShared;

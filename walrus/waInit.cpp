@@ -131,8 +131,6 @@ Semantics::Semantics()
    , solveSecondTime     (&Walrus::VoidSecondSolve)
    , onCompareContracts  (&Walrus::VoidCompare)
    , onSecondMarks       (&Walrus::VoidSecondMarks)
-   , scanCover(ACTUAL_CARDS_COUNT)
-   , dlBase(nullptr)
 {
    // filters -- reject all. filled on config reading and then on MiniLink
    vecFilters.reserve(10);
@@ -156,6 +154,14 @@ WaConfig::WaConfig()
    prim.txtAttacker[0] = 0;
    secondary.txtTrump[0] = 0;
 
+   // shuffling
+   #if defined(FIXED_HAND_NORTH) || defined(FIXED_HAND_WEST)
+      deck.cardsRemoved = SYMM;
+   #else
+      deck.cardsRemoved = = 0;
+   #endif
+   deck.cardsCount = SOURCE_CARDS_COUNT - deck.cardsRemoved;
+
    // DOC: solutions parameter
    // 1 -- Find the maximum number of tricks for the side to play. Return only one of the optimum cards and its score.
    // 2 -- Find the maximum number of tricks for the side to play. Return all optimum cards and their scores.
@@ -164,6 +170,7 @@ WaConfig::WaConfig()
       solve.ddsSol = 3;
    #endif
 
+   // i/o : display options
    #ifdef SEEK_MAGIC_FLY 
       solve.shouldSolveTwice = true;
       io.showMagicFly = true;
@@ -203,9 +210,20 @@ void Semantics::MiniLinkFilters()
 {
    // relay
    if (!MiniLink(vecFilters)) {
-      isInitSuccess = false;
-      printf("Semantics ERROR: Failed to link filters.\n");
+      MarkFail("Failed to link filters");
       return;
+   }
+
+   // sanity
+   if (vecFilters.empty()) {
+      MarkFail("No filters at all");
+      return;
+   }
+   if (vecFilters.size() == 1) {
+      if (vecFilters[0].func == &WaFilter::RejectAll) {
+         MarkFail("Most likely FILTERS keyword is missing");
+         return;
+      }
    }
 }
 
@@ -213,6 +231,13 @@ bool Semantics::IsListStart(const MicroFilter& mic)
 {
    return mic.func == &WaFilter::AnyInListBelow ||
           mic.func == &WaFilter::ExcludeCombination;
+}
+
+void Semantics::MarkFail(const char* reason) 
+{ 
+   isInitSuccess = false;
+   auto safeReason = reason ? reason : "..";
+   printf("Semantics ERROR: %s.\n", safeReason);
 }
 
 bool Semantics::IsOpeningBracket(int idx)
@@ -236,7 +261,7 @@ bool Semantics::IsClosingBracket(int idx)
 void Semantics::SetOurPrimaryScorer(CumulativeScore &cs, const char* code)
 {
    if (!cs.prima.Init(cs.bidGame, code)) {
-      isInitSuccess = false;
+      MarkFail("Failed to init prima scorer");
       return;
    }
 
@@ -249,7 +274,7 @@ void Semantics::SetOurPrimaryScorer(CumulativeScore &cs, const char* code)
 void Semantics::SetSecondaryScorer(CumulativeScore &cs, s64& target, const char* code)
 {
    if (!cs.secunda.Init(target, code)) {
-      isInitSuccess = false;
+      MarkFail("Failed to init secondary scorer");
       return;
    }
 
@@ -261,9 +286,9 @@ void Semantics::SetSecondaryScorer(CumulativeScore &cs, s64& target, const char*
 
 void Semantics::SetOurSecondaryScorer(CumulativeScore &cs, const char* code)
 {
-   if (isInitSuccess) {
+   if (IsInitOK()) {
       SetSecondaryScorer(cs, cs.ourOther, code);
-      if (!isInitSuccess) {
+      if (IsInitFailed()) {
          printf("Semantics ERROR: the task suggests having our second scorer.\n");
       }
    }
@@ -271,9 +296,9 @@ void Semantics::SetOurSecondaryScorer(CumulativeScore &cs, const char* code)
 
 void Semantics::SetTheirScorer(CumulativeScore& cs, const char* code)
 {
-   if (isInitSuccess) {
+   if (IsInitOK()) {
       SetSecondaryScorer(cs, cs.oppContract, code);
-      if (!isInitSuccess) {
+      if (IsInitFailed()) {
          printf("Semantics ERROR: the task suggests having their scorer.\n");
       }
       if (cs.secunda.HasDouble()) {
@@ -293,7 +318,7 @@ void Semantics::SetBiddingGameScorer(CumulativeScore& cs, const char* code)
    SetOurSecondaryScorer(cs, codePartscore);
 
    cs.secunda.TargetOut(cs.bidPartscore);
-   if (!isInitSuccess) {
+   if (IsInitFailed()) {
       return;
    }
 
@@ -305,7 +330,7 @@ void Semantics::SetOpeningLeadScorer(CumulativeScore& cs, const char* code)
 {
    SetOurPrimaryScorer(cs, code);
    cs.prima.TargetOut(cs.ideal);
-   if (!isInitSuccess) {
+   if (IsInitFailed()) {
       return;
    }
 

@@ -32,8 +32,6 @@ struct WaMulti {
 };
 
 // co-working on filtering
-constexpr uint COWORK_CHUNK = 10;
-constexpr uint COWORK_REASONABLE = COWORK_CHUNK * ACTUAL_CARDS_COUNT * 2;
 constexpr uint MAX_TASKS_TO_SOLVE = 200 * 1000;
 
 // Oscar interactions

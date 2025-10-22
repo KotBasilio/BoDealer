@@ -74,7 +74,9 @@ constexpr size_t WA_SECONDARY_LNAME_LEN = WA_TASK_NANE_LEN * 2;
 constexpr size_t WA_HAND_LEN = 30;
 constexpr size_t WA_TXT_SEAT_SUIT = 10;
 constexpr size_t WA_SOURCE_CODE_BUF = 2 * 1024;
+
 struct WaConfig {
+   WaConfig();
    bool isInitSuccess = true;
 
    // various texts
@@ -98,6 +100,12 @@ struct WaConfig {
       std::vector<MicroFilter> compiled;
       Filters();
    } filters;
+
+   // deck
+   struct Deck {
+      uint cardsCount = SOURCE_CARDS_COUNT;
+      uint cardsRemoved = 0;
+   } deck;
 
    // solving
    struct Solving {
@@ -160,12 +168,11 @@ struct WaConfig {
       bool verboseComparisons = false;
    } dbg;
 
-   WaConfig();
    void ReadTask(class Walrus *walrus);
    void BuildNewFilters(class Walrus *walrus);
    void SetupSeatsAndTrumps(const struct CumulativeScore &cs);
-   bool IsInitFailed() { return !isInitSuccess; }
    void MarkFail() { isInitSuccess = false; }
+   bool IsInitFailed() { return !isInitSuccess; }
 private:
 
    void AnnounceTask();

@@ -140,6 +140,9 @@ bool Walrus::InitSemantics()
    #else // other tasks, older approach
       FillSemantic();
    #endif
+   if (!sem.scanCover) {
+      sem.MarkFail("Don't know how much boards covers one scan");
+   }
 
    // FILTERS setup
    if (!config.filters.compiled.empty()) {

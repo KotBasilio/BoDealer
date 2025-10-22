@@ -12,7 +12,6 @@
 //#define SHOW_EFFORT_SPLIT
 
 extern u64 ChronoRound();
-
 void PaintWalrus();
 
 WaMulti::WaMulti()
@@ -267,6 +266,9 @@ void Walrus::CoWork(Walrus *slowHelper)
 
 void Walrus::Supervise()
 {
+   constexpr uint COWORK_CHUNK = 10;
+   const uint COWORK_REASONABLE = COWORK_CHUNK * config.deck.cardsCount * 2;
+
    Walrus* helperA = mul.hA;
    Walrus* helperB = mul.hB;
    if (!helperA) {
