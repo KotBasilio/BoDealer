@@ -65,16 +65,27 @@ void Walrus::AddMarksByHCP(DdsTricks& tr, const deal& cards)
    // detect row
    uint row = 0, ctrl = 0;
    int hcp = CalcNSLineHCP(cards, ctrl);
-   if (config.postm.minControls) {
-      if (ctrl < (uint)config.postm.minControls) {
-         row = IO_ROW_POSTMORTEM;
-      } else {
-         row = IO_ROW_POSTMORTEM + (ctrl - config.postm.minControls) * 2;
-      }
-   } else if (hcp < config.postm.minHCP || config.postm.maxHCP < hcp) {
+   if (hcp < config.postm.minHCP || config.postm.maxHCP < hcp) {
       return;
    } else {
       row = IO_ROW_POSTMORTEM + (hcp - config.postm.minHCP) * 2;
+   }
+
+   // proper row => add a mark in stat
+   if (row < IO_ROW_FILTERING) {
+      progress.HitByTricks(tr.plainScore, config.prim.goal, row);
+   }
+}
+
+void Walrus::AddMarksByControls(DdsTricks& tr, const deal& cards)
+{
+   // detect row
+   uint row = 0, ctrl = 0;
+   int hcp = CalcNSLineHCP(cards, ctrl);
+   if (ctrl < (uint)config.postm.minControls) {
+      row = IO_ROW_POSTMORTEM;
+   } else {
+      row = IO_ROW_POSTMORTEM + (ctrl - config.postm.minControls) * 2;
    }
 
    // proper row => add a mark in stat

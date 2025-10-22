@@ -403,8 +403,8 @@ void WaConfig::ResolvePostmortemType()
             printf("Controls for %d hcp\n", postm.minHCP);
          } else {
             printf("HCP single scorer: %d to %d\n", postm.minHCP, postm.maxHCP);
-            checkRange = true;
          }
+         checkRange = true;
          break;
 
       case WPM_COMPARISON_WITH_HCP:

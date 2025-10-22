@@ -184,14 +184,13 @@ bool Walrus::InitSemantics()
       }
 
       if (config.postm.Is(WPM_HCP_SINGLE_SCORER)) {
-         sem.onMarkAfterSolve = &Walrus::AddMarksByHCP;
          assert(!config.postm.minControls);
+         sem.onMarkAfterSolve = &Walrus::AddMarksByHCP;
       }
 
       if (config.postm.Is(WPM_CONTROLS)) {
          assert(config.postm.minControls);
-         // TODO: make a separate function for controls. Now it's same, &Walrus::AddMarksByHCP
-         sem.onMarkAfterSolve = &Walrus::AddMarksByHCP;
+         sem.onMarkAfterSolve = &Walrus::AddMarksByControls;
       }
 
       if (config.postm.Is(WPM_SUIT)) {

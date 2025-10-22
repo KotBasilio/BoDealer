@@ -98,6 +98,7 @@ protected:
    void AddScorerValues(char* tail);
    Progress progress;
    void AddMarksByHCP(DdsTricks& tr, const deal& cards);
+   void AddMarksByControls(DdsTricks& tr, const deal& cards);
    void AddMarksByOpLeads(DdsTricks& tr, const deal& cards);
    void AddMarksBySuit(DdsTricks& tr, const deal& cards);
    void AddMarksInHugeMatch(const deal& cards, uint camp, s64 impsPrima);
