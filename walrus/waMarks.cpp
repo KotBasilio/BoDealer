@@ -22,21 +22,25 @@
 #include "waDoubleDeal.h"
 #include "../dds-develop/examples/hands.h"
 
-// ret: HCP on NS line
-uint CalcNSLineHCP(const deal& dl, uint& ctrl)
+SplitBits BuildReducedNSHand(const unsigned int cards[][DDS_SUITS])
 {
    // not a complex task, knowing that 
    // RA | RK | RQ | RJ -- are in nearby bits
    // from RJ = 0x0800 to RA = 0x4000
    // so we construct a hand with face cards only
-   const auto &cards = dl.remainCards;
    u64 facecards (RA | RK | RQ | RJ);
-   SplitBits reducedHand (
+   return SplitBits (
       (((cards[SOUTH][SOL_SPADES  ] | cards[NORTH][SOL_SPADES  ]) & facecards) << (1 + 16*3)) |
       (((cards[SOUTH][SOL_HEARTS  ] | cards[NORTH][SOL_HEARTS  ]) & facecards) << (1 + 16*2)) |
       (((cards[SOUTH][SOL_DIAMONDS] | cards[NORTH][SOL_DIAMONDS]) & facecards) << (1 + 16*1)) |
       (((cards[SOUTH][SOL_CLUBS   ] | cards[NORTH][SOL_CLUBS   ]) & facecards) << (1))
    );
+}
+
+// ret: HCP on NS line
+uint CalcNSLineHCP(const deal& dl, uint& ctrl)
+{
+   auto reducedHand = BuildReducedNSHand(dl.remainCards);
 
    twlControls controls(reducedHand);
    ctrl = controls.total;

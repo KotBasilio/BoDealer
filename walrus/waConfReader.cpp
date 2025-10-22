@@ -224,13 +224,6 @@ void WaConfig::ReadPostmortemParams(char* line)
             break;
       }
    }
-
-   // may detect controls
-   if (postm.minHCP) {
-      if (postm.minHCP == postm.maxHCP) {
-         postm.minControls = (postm.minHCP * 4) / 10 - 6;
-      }
-   }
 }
 
 extern int IsCard(const char cardChar);
@@ -377,9 +370,6 @@ void WaConfig::ReadTask(Walrus *walrus)
       printf("Error: Task '%s' not found in the config file\n", txt.nameTask);
       MarkFail();
    }
-
-   // pm
-   ResolvePostmortemType();
 }
 
 void WaConfig::ResolvePostmortemType()
@@ -388,25 +378,36 @@ void WaConfig::ResolvePostmortemType()
    if (postm.Type == WPM_NONE) {
       return;
    }
-   bool checkRange = false;
+   if (IsInitFailed()) {
+      return;
+   }
 
    // announce; resolve auto 
    printf("Postmortem type: ");
-   if (postm.Type == WPM_HCP_SINGLE_SCORER) {
-      //printf("(deprecated; consider using AUTO) ");
+   if (postm.Type == WPM_HCP_SINGLE_SCORER ||
+       postm.Type == WPM_COMPARISON_WITH_HCP) {
+      printf("(deprecated; consider using AUTO) ");
    } else if (postm.Type == WPM_AUTO) {
       printf("Auto --> ");
       RecognizePostmType(key.PostmHCP);
-      // TODO: extract data, maybe later
-      // +		taskHandPBN				0x00007ff7dc848569 "[N:J7.AQJ43.2.86532]"	char[30]
-         //WithdrawByInput() Line 136	C++
-         //InitDeck() Line 341	C++
-         //InitByConfig() Line 247	C++
-      // +		filters.sourceCode	0x00007ff7dc848648 "    SOUTH: PointsRange, 20, 21..."
-      // see 
+      if (!filters.FindHCPRange(SOUTH, postm.minHCP, postm.maxHCP)) {
+         printf("Error: missing PointsRange for SOUTH\n");
+         MarkFail();
+         return;
+      }
+      postm.minHCP += postm.hcpFixedHand.total;
+      postm.maxHCP += postm.hcpFixedHand.total;
+   }
+
+   // may detect controls
+   if (postm.minHCP) {
+      if (postm.minHCP == postm.maxHCP) {
+         postm.minControls = (postm.minHCP * 4) / 10 - 6;
+      }
    }
 
    // final types
+   bool checkRange = false;
    switch (postm.Type) {
       case WPM_HCP_SINGLE_SCORER:
          if (postm.minControls) {

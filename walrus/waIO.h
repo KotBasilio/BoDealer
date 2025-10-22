@@ -100,6 +100,7 @@ struct WaConfig {
       size_t sizeSourceCode = 0;
       std::vector<MicroFilter> compiled;
       Filters();
+      bool FindHCPRange(int hand, int &from, int &to);
    } filters;
 
    // deck
@@ -137,9 +138,10 @@ struct WaConfig {
 
    // adding extra marks aka post-mortem 
    struct Postmortem {
-      WA_POSTM_TYPE Type;
-      int           minHCP, maxHCP;
-      int           minControls;
+      WA_POSTM_TYPE  Type;
+      int            minHCP, maxHCP;
+      int            minControls;
+      twlHCP         hcpFixedHand;
       Postmortem();
       bool Is(WA_POSTM_TYPE t) { return (t == Type); }
       int  FactorFromRow(int idx);
@@ -171,6 +173,7 @@ struct WaConfig {
 
    bool OrdinaryRead(Walrus* walrus);
    void BuildNewFilters(class Walrus *walrus);
+   void ResolvePostmortemType();
    void SetupSeatsAndTrumps(const struct CumulativeScore &cs);
    void MarkFail() { isInitSuccess = false; }
    bool IsInitFailed() { return !isInitSuccess; }
@@ -179,7 +182,6 @@ private:
    void AnnounceTask();
    void ChangeOpMode(const char *line);
    void ReadTask(class Walrus *walrus);
-   void ResolvePostmortemType();
    void InitCardsCount();
    void ReadHandPBN(const char *line);
    void ReadLeadCards(const char *line);

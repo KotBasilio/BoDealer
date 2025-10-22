@@ -104,7 +104,7 @@ extern SplitBits sbBlank;
 // twelve-layout lets counting some parameters in parallel, then queried
 // -- high-card points
 struct twlHCP {
-   twlHCP() {}
+   twlHCP() {} // intentional, for perf
    twlHCP(const SplitBits &hand);
    union {
       struct {
@@ -112,6 +112,7 @@ struct twlHCP {
       };
       uint arr[5];
    };
+   void Zero() { s = h = d = c = total = 0; }
 };
 // -- lengths
 struct twLengths {

@@ -110,7 +110,6 @@
    char const txt.taskHandPBN[] = "[N:JT4.Q93.AT63.Q92]";
 #endif
 
-
 #ifdef SEMANTIC_OVERCALL_4C
    // origin: Morozevic, Dec 2023
    #define INPUT_TRUMPS    SOL_CLUBS
@@ -129,13 +128,25 @@ uint(*input_holdings)[DDS_HANDS][DDS_SUITS] = &zero_holdings;
 
 u64  wa_SuitByDds[DDS_SUITS] = { BO_SPADS, BO_HEART, BO_DIAMD, BO_CLUBS };
 uint wa_PosByDds [DDS_SUITS] = {    48,    32,    16,     0 };
-void Walrus::WithdrawByInput(void)
+
+extern SplitBits BuildReducedNSHand(const unsigned int cards[][DDS_SUITS]);
+
+ddTableDeal pbnDeal;
+void Walrus::ParsePbnDeal()
 {
-   // convert to temp
-   ddTableDeal pbnDeal;
    if (ConvertFromPBN(config.txt.taskHandPBN, pbnDeal.cards) != 1) {
       printf("\nERROR: Cannot parse PBN: %s\n", config.txt.taskHandPBN);
       config.MarkFail();
+      return;
+   }
+
+   auto reducedNS = BuildReducedNSHand(pbnDeal.cards);
+   config.postm.hcpFixedHand = twlHCP(reducedNS);
+}
+
+void Walrus::WithdrawByInput(void)
+{
+   if (config.IsInitFailed()) {
       return;
    }
 

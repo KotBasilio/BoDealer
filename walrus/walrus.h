@@ -41,7 +41,8 @@ protected:
 
    // inits
    bool StartOscar();
-   void InitDeck(void);
+   void InitDeck();
+   void ParsePbnDeal();
    void WithdrawByInput();
    void DetectGoals();
 

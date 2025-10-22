@@ -76,11 +76,27 @@ WaConfig::Filters::Filters()
    sourceCode[0] = 0;
 }
 
+bool WaConfig::Filters::FindHCPRange(int hand, int& from, int& to)
+{
+   for (uint ip = 0; ip < compiled.size(); ip++) {
+      auto& mic = compiled[ip];
+      if (mic.params[0] == hand &&
+          mic.func == &WaFilter::PointsRange) {
+         from = mic.params[1];
+         to = mic.params[2];
+         return true;
+      }
+   }
+
+   return false;
+}
+
 WaConfig::Postmortem::Postmortem()
    : Type(WPM_NONE)
    , minHCP(0), maxHCP(0)
    , minControls(0)
 {
+   hcpFixedHand.Zero();
 }
 
 int WaConfig::Postmortem::FactorFromRow(int idx)
@@ -347,5 +363,4 @@ void Walrus::InitDeck(void)
 
    sem.PrepareBaseDeal();
 }
-
 

@@ -223,7 +223,9 @@ bool WaConfig::OrdinaryRead(Walrus* walrus)
 {
    config.ReadTask(walrus);
    config.InitCardsCount();
+   walrus->ParsePbnDeal();
    config.BuildNewFilters(walrus);
+   config.ResolvePostmortemType();
 
    return isInitSuccess;
 }
