@@ -43,6 +43,7 @@ struct MiniUI {
 
 enum WA_POSTM_TYPE {
    WPM_NONE = 0,
+   WPM_AUTO,
    WPM_HCP_SINGLE_SCORER,
    WPM_COMPARISON_WITH_HCP,
    WPM_CONTROLS,
@@ -178,6 +179,7 @@ private:
    void AnnounceTask();
    void ChangeOpMode(const char *line);
    void ReadTask(class Walrus *walrus);
+   void ResolvePostmortemType();
    void InitCardsCount();
    void ReadHandPBN(const char *line);
    void ReadLeadCards(const char *line);

@@ -385,24 +385,26 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
    // list by hcp, controls, etc
    if (ui.reportRequested) {
       ui.reportRequested = false;
-      switch (config.postm.Type)
-      {
+      switch (config.postm.Type) {
          case WPM_NONE:
             break;
+
          case WPM_OPENING_LEADS:
             ShowDetailedReportOpLeads();
             break;
+
          case WPM_HCP_SINGLE_SCORER:
-         case WPM_CONTROLS:
-            if (config.postm.minControls) {
-               ShowDetailedReportControls();
-            } else {
-               ShowDetailedReportHighcards();
-            }
+            ShowDetailedReportHighcards();
             break;
+
+         case WPM_CONTROLS:
+            ShowDetailedReportControls();
+            break;
+
          case WPM_COMPARISON_WITH_HCP:
             ShowDetailedReportCompWithHcp();
             break;
+
          case WPM_SUIT:
             ShowDetailedReportSuit();
             break;

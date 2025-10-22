@@ -22,8 +22,8 @@
 //#define OCT_MINOR_SUPERFIT
 
 // generalized one-sided:
-//#define SEM_ONE_SIDED_BIDDING_LEVEL
-#define SEM_ONE_SIDED_DENOMINATION
+#define SEM_ONE_SIDED_BIDDING_LEVEL
+//#define SEM_ONE_SIDED_DENOMINATION
 //#define SEM_COMPETITIVE_GENERIC
 
 // 4 hands tasks:

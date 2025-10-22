@@ -8,6 +8,7 @@
 #include HEADER_SLEEP
 #include HEADER_CURSES
 #include "walrus.h"
+#include <assert.h>
 
 void waFileNames::Build()
 {
@@ -175,7 +176,7 @@ bool Walrus::InitSemantics()
       sem.SetBiddingGameScorer(cumulScore, config.txt.primaScorerCode);
    #endif
 
-   // POSTMORTEM setup
+   // POSTMORTEM semantics
    {
       if (config.postm.Is(WPM_OPENING_LEADS)) {
          sem.SetOpeningLeadScorer(cumulScore, config.txt.primaScorerCode);
@@ -184,9 +185,13 @@ bool Walrus::InitSemantics()
 
       if (config.postm.Is(WPM_HCP_SINGLE_SCORER)) {
          sem.onMarkAfterSolve = &Walrus::AddMarksByHCP;
-         if (config.postm.minHCP == config.postm.maxHCP) {
-            // TODO: make a separate function for controls. Now it's same, &Walrus::AddMarksByHCP
-         }
+         assert(!config.postm.minControls);
+      }
+
+      if (config.postm.Is(WPM_CONTROLS)) {
+         assert(config.postm.minControls);
+         // TODO: make a separate function for controls. Now it's same, &Walrus::AddMarksByHCP
+         sem.onMarkAfterSolve = &Walrus::AddMarksByHCP;
       }
 
       if (config.postm.Is(WPM_SUIT)) {

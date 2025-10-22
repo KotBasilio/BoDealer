@@ -376,16 +376,69 @@ void WaConfig::ReadTask(Walrus *walrus)
       MarkFail();
    }
 
-   // lead task should have leads
-   if (postm.Is(WPM_OPENING_LEADS)) {
-      auto sum = solve.leads.S + solve.leads.H + solve.leads.D + solve.leads.C;
-      if (!sum) {
-         printf("Error: '%s' line is missing or in a wrong format.\n", key.Leads);
+   // pm
+   ResolvePostmortemType();
+}
+
+void WaConfig::ResolvePostmortemType()
+{
+   // none is ok
+   if (postm.Type == WPM_NONE) {
+      return;
+   }
+   bool checkRange = false;
+
+   // announce; resolve auto 
+   printf("Postmortem type: ");
+   if (postm.Type == WPM_NONE) {
+      printf("Auto --> ");
+      // TODO: POSTMORTEM: AUTO
+   }
+
+   // final types
+   switch (postm.Type) {
+      case WPM_HCP_SINGLE_SCORER:
+         if (postm.minControls) {
+            postm.Type = WPM_CONTROLS;
+            printf("Controls for %d hcp\n", postm.minHCP);
+         } else {
+            printf("HCP single scorer: %d to %d\n", postm.minHCP, postm.maxHCP);
+            checkRange = true;
+         }
+         break;
+
+      case WPM_COMPARISON_WITH_HCP:
+         printf("A to B comparator with HCP %d to %d\n", postm.minHCP, postm.maxHCP);
+         checkRange = true;
+         break;
+
+      case WPM_OPENING_LEADS:// lead task should have lead cards specified
+         printf("Opening Leads\n");
+         if (postm.Is(WPM_OPENING_LEADS)) {
+            auto sum = solve.leads.S + solve.leads.H + solve.leads.D + solve.leads.C;
+            if (!sum) {
+               printf("Error: '%s' line is missing or in a wrong format.\n", key.Leads);
+               MarkFail();
+            }
+         }
+         break;
+
+      case WPM_SUIT:
+         printf("Suit\n");
+         // nothing to check
+         break;
+
+      default:
+         printf("unrecognized in final: %d\n", postm.Type);
+         MarkFail();
+         break;
+   }
+
+   if (checkRange) {
+      if ((postm.minHCP < 0) || (postm.maxHCP < 0) || (postm.minHCP > postm.maxHCP)) {
+         printf("Error: invalid HCP range in postmortem: min=%d, max=%d\n", postm.minHCP, postm.maxHCP);
          MarkFail();
       }
    }
-
-   // TODO: POSTMORTEM: AUTO
-
 }
 
