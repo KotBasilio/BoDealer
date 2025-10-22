@@ -221,11 +221,10 @@ void WaConfig::InitCardsCount()
 
 bool WaConfig::OrdinaryRead(Walrus* walrus)
 {
-   config.ReadTask(walrus);
-   config.InitCardsCount();
-   walrus->ParsePbnDeal();
-   config.BuildNewFilters(walrus);
-   config.ResolvePostmortemType();
+   ReadTask(walrus);
+   InitCardsCount();
+   BuildNewFilters(walrus);
+   ResolvePostmortemType(walrus);
 
    return isInitSuccess;
 }

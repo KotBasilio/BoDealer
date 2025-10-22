@@ -132,16 +132,16 @@ uint wa_PosByDds [DDS_SUITS] = {    48,    32,    16,     0 };
 extern SplitBits BuildReducedNSHand(const unsigned int cards[][DDS_SUITS]);
 
 ddTableDeal pbnDeal;
-void Walrus::ParsePbnDeal()
+twlHCP Walrus::ParsePbnDeal()
 {
    if (ConvertFromPBN(config.txt.taskHandPBN, pbnDeal.cards) != 1) {
       printf("\nERROR: Cannot parse PBN: %s\n", config.txt.taskHandPBN);
       config.MarkFail();
-      return;
+      return twlHCP();
    }
 
    auto reducedNS = BuildReducedNSHand(pbnDeal.cards);
-   config.postm.hcpFixedHand = twlHCP(reducedNS);
+   return twlHCP(reducedNS);
 }
 
 void Walrus::WithdrawByInput(void)

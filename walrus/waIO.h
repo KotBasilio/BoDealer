@@ -173,7 +173,6 @@ struct WaConfig {
 
    bool OrdinaryRead(Walrus* walrus);
    void BuildNewFilters(class Walrus *walrus);
-   void ResolvePostmortemType();
    void SetupSeatsAndTrumps(const struct CumulativeScore &cs);
    void MarkFail() { isInitSuccess = false; }
    bool IsInitFailed() { return !isInitSuccess; }
@@ -183,6 +182,7 @@ private:
    void ChangeOpMode(const char *line);
    void ReadTask(class Walrus *walrus);
    void InitCardsCount();
+   void ResolvePostmortemType(Walrus* walrus);
    void ReadHandPBN(const char *line);
    void ReadLeadCards(const char *line);
    void ReadPrimaScorer(const char *line);

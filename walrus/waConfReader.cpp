@@ -372,13 +372,18 @@ void WaConfig::ReadTask(Walrus *walrus)
    }
 }
 
-void WaConfig::ResolvePostmortemType()
+void WaConfig::ResolvePostmortemType(Walrus* walrus)
 {
-   // none is ok
-   if (postm.Type == WPM_NONE) {
+   // failed before
+   if (IsInitFailed()) {
       return;
    }
-   if (IsInitFailed()) {
+
+   // always read board 
+   postm.hcpFixedHand = walrus->ParsePbnDeal();
+
+   // pm none is ok
+   if (postm.Type == WPM_NONE) {
       return;
    }
 
@@ -408,6 +413,7 @@ void WaConfig::ResolvePostmortemType()
 
    // final types
    bool checkRange = false;
+   bool checkLeads = false;
    switch (postm.Type) {
       case WPM_HCP_SINGLE_SCORER:
          if (postm.minControls) {
@@ -428,14 +434,8 @@ void WaConfig::ResolvePostmortemType()
 
       case WPM_OPENING_LEADS:// lead task should have lead cards specified
          printf("Opening Leads\n");
-         if (postm.Is(WPM_OPENING_LEADS)) {
-            auto sum = solve.leads.S + solve.leads.H + solve.leads.D + solve.leads.C;
-            if (!sum) {
-               printf("Error: '%s' line is missing or in a wrong format.\n", key.Leads);
-               MarkFail();
-            }
-         }
          strcpy(config.txt.freqTitleFormat, "TRICKS FREQUENCY FOR %s LEAD");
+         checkLeads = true;
          break;
 
       case WPM_SUIT:
@@ -444,14 +444,22 @@ void WaConfig::ResolvePostmortemType()
          break;
 
       default:
-         printf("unrecognized in final: %d\n", postm.Type);
+         printf("unrecognized pm: %d\n", postm.Type);
          MarkFail();
          break;
    }
 
+   // final checks
    if (checkRange) {
       if ((postm.minHCP < 0) || (postm.maxHCP < 0) || (postm.minHCP > postm.maxHCP)) {
          printf("Error: invalid HCP range in postmortem: min=%d, max=%d\n", postm.minHCP, postm.maxHCP);
+         MarkFail();
+      }
+   }
+   if (checkLeads) {
+      auto sum = solve.leads.S + solve.leads.H + solve.leads.D + solve.leads.C;
+      if (!sum) {
+         printf("Error: '%s' line is missing or in a wrong format.\n", key.Leads);
          MarkFail();
       }
    }
