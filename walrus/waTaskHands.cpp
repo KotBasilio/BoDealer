@@ -131,7 +131,7 @@ uint wa_PosByDds [DDS_SUITS] = {    48,    32,    16,     0 };
 
 extern SplitBits BuildReducedNSHand(const unsigned int cards[][DDS_SUITS]);
 
-ddTableDeal pbnDeal;
+static ddTableDeal pbnDeal;
 twlHCP Walrus::ParsePbnDeal()
 {
    if (ConvertFromPBN(config.txt.taskHandPBN, pbnDeal.cards) != 1) {

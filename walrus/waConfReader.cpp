@@ -161,6 +161,7 @@ void WaConfig::ReadSecundaScorer(const char* line)
 {
    SAFE_STR_BY_LINE(txt.secundaScorerCode);
    FillShortScorer(txt.secundaScorerCode, txt.secundaShort);
+   solve.shouldSolveTwice = true;
 }
 
 void WaConfig::FillShortScorer(const char* from, char* to)
@@ -175,11 +176,11 @@ void WaConfig::FillShortScorer(const char* from, char* to)
 bool WaConfig::RecognizePostmType(const char* token)
 {
    if (IsStartsWith(token, key.PostmHCP)) {
-      #ifdef SEEK_DENOMINATION
-         postm.Type = WPM_COMPARISON_WITH_HCP;
-      #else
+      if (solve.shouldSolveTwice) {
+         postm.Type = WPM_A_TO_B;
+      } else {
          postm.Type = WPM_HCP_SINGLE_SCORER;
-      #endif
+      }
       return true;
    }
 
@@ -211,15 +212,15 @@ void WaConfig::ReadPostmortemParams(char* line)
         token && isInitSuccess;
         token = std::strtok(nullptr, key.Delimiters), idx++) {
       switch (idx) {
-         case 0:
+         case 0:// name
             RecognizePostmType(token);
             break;
 
-         case 1:
+         case 1:// 1st arg
             postm.minHCP = atoi(token);
             break;
 
-         case 2:
+         case 2:// 2nd arg
             postm.maxHCP = atoi(token);
             break;
       }
@@ -390,7 +391,7 @@ void WaConfig::ResolvePostmortemType(Walrus* walrus)
    // announce; resolve auto 
    printf("Postmortem type: ");
    if (postm.Type == WPM_HCP_SINGLE_SCORER ||
-       postm.Type == WPM_COMPARISON_WITH_HCP) {
+       postm.Type == WPM_A_TO_B) {
       printf("(deprecated; consider using AUTO) ");
    } else if (postm.Type == WPM_AUTO) {
       printf("Auto --> ");
@@ -426,7 +427,7 @@ void WaConfig::ResolvePostmortemType(Walrus* walrus)
          checkRange = true;
          break;
 
-      case WPM_COMPARISON_WITH_HCP:
+      case WPM_A_TO_B:
          printf("A to B comparator with HCP %d to %d\n", postm.minHCP, postm.maxHCP);
          strcpy(config.txt.freqTitleFormat, "COMPARISON RESULTS FOR %d HCP");
          checkRange = true;

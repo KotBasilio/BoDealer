@@ -401,7 +401,7 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
             ShowDetailedReportControls();
             break;
 
-         case WPM_COMPARISON_WITH_HCP:
+         case WPM_A_TO_B:
             ShowDetailedReportCompWithHcp();
             break;
 

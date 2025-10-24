@@ -1,11 +1,20 @@
 /************************************************************
  * Walrus project -- tasks definitions only        29.11.2020
- * --- TASKS, pick only one define of the list below
- * Only micro-filters versions -- 3.0 and later
+ * 
+ * TASKS, pick only one define of the list below
+ * 
+ * Only micro-filters based versions -- 3.0 and later
  * See previous tasks in archive 2.0 branch
  ************************************************************/
 #pragma once
 
+// generalized config-based tasks:
+//#define SEM_ONE_SIDED_BIDDING_LEVEL
+//#define SEM_ONE_SIDED_DENOMINATION
+#define SEM_COMPETITIVE_GENERIC
+
+/// -----------------------------------------------------------------
+// old format, #define-based 
 // Bidding decision one-sided:
 //#define SEMANTIC_JULY_MOROZOV_HAND_EVAL
 //#define SEMANTIC_OCT_SEEK_6D
@@ -20,11 +29,6 @@
 //#define SEM_AUG_JAGODINA_INVITE
 //#define SEP_RESPONCE_TO_2C
 //#define OCT_MINOR_SUPERFIT
-
-// generalized one-sided:
-//#define SEM_ONE_SIDED_BIDDING_LEVEL
-#define SEM_ONE_SIDED_DENOMINATION
-//#define SEM_COMPETITIVE_GENERIC
 
 // 4 hands tasks:
 //#define SEMANTIC_SPLINTER_SHAPE
