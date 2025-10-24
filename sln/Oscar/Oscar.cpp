@@ -5,6 +5,8 @@
 //
 
 #define  _CRT_SECURE_NO_WARNINGS
+#include <windows.h>
+#include <wincon.h>
 #include "walrus.h"
 #include "Oscar.h"
 #include HEADER_CURSES
@@ -30,6 +32,7 @@ static void PaintOscar()
 struct OscarEcho {
    OscarEcho() : gossip() {
       // stdout is a way to display
+      SetupConsoleColors();
       PaintOscar();
 
       // stderr is a pipe back to Walrus
@@ -44,6 +47,7 @@ struct OscarEcho {
 private:
    bool NewsAre(const char *test);
    bool IsFeelingLost();
+   void SetupConsoleColors();
 
    int countEmpty = 0;
    char gossip[512];
@@ -51,6 +55,14 @@ private:
 extern void PrepareLinearScores();
 extern s64  gLinearScores[];
 const s64* FindLinearScore(const char* code);
+
+void OscarEcho::SetupConsoleColors()
+{
+   HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+   if (hConsole != INVALID_HANDLE_VALUE) {
+      SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+   }
+}
 
 bool OscarEcho::IsFeelingLost()
 {
