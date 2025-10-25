@@ -6,6 +6,7 @@
 oscar_log.*
 /exe/*
 /intermediate/*
+/build/*
 /sln/Bo/x64/*
 /sln/Oscar/x64/*
 /sln/Bo/Oscar/x64/*

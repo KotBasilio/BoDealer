@@ -19,8 +19,10 @@ char viscr[DDS_HAND_LINES][DDS_FULL_LINE]{};
 
 #ifdef _DEBUG
    #define OWL_CONFIG_SUFFIX  "\\x64\\Debug"
+   #define OWL_VSCODE_SUFFIX  "\\sln\\Bo\\x64\\Debug"
 #else
    #define OWL_CONFIG_SUFFIX  "\\x64\\Release"
+   #define OWL_VSCODE_SUFFIX  "\\sln\\Bo\\x64\\Release"
 #endif
 
 OscarTheOwl::OscarTheOwl()
@@ -35,7 +37,7 @@ static BOOL _AttemptStartOscar(CHAR *workDirPath, CHAR* suffix, STARTUPINFO& siS
    strcpy(oscarPath, workDirPath);
    strcat(oscarPath, suffix);
 
-   //printf("Attempt path to Oscar: %s\n", oscarPath);
+   printf("Attempt path to Oscar: %s\n", oscarPath);
 
    // Create the child process.
    return CreateProcess(oscarPath,
@@ -100,10 +102,12 @@ bool Walrus::StartOscar()
    siStartInfo.hStdError = g_hChildStd_OUT_Wr;
    siStartInfo.dwFlags |= STARTF_USESTDHANDLES;
 
-   if (   !_AttemptStartOscar(oscarPath,                   "\\Oscar.exe", siStartInfo, piProcInfo)) {
-      if (!_AttemptStartOscar(oscarPath, OWL_CONFIG_SUFFIX "\\Oscar.exe", siStartInfo, piProcInfo)) {
-         printf("Oscar is absent.\n");
-         return false;
+   if (      !_AttemptStartOscar(oscarPath,                   "\\Oscar.exe", siStartInfo, piProcInfo)) {
+      if (   !_AttemptStartOscar(oscarPath, OWL_CONFIG_SUFFIX "\\Oscar.exe", siStartInfo, piProcInfo)) {
+         if (!_AttemptStartOscar(oscarPath, OWL_VSCODE_SUFFIX "\\Oscar.exe", siStartInfo, piProcInfo)) {
+            printf("Oscar is absent.\n");
+            return false;
+         }
       }
    }
 
