@@ -183,6 +183,7 @@ private:
    void ReadTask(class Walrus *walrus);
    void InitCardsCount();
    void ResolvePostmortemType(Walrus* walrus);
+   void SetupOutputOptions();
    void ReadHandPBN(const char *line);
    void ReadLeadCards(const char *line);
    void ReadPrimaScorer(const char *line);

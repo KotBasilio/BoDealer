@@ -135,16 +135,6 @@ void Walrus::AddScorerValues(char* tail)
 
 bool Walrus::InitSemantics()
 {
-   // many tasks fully relay on config
-   #ifdef SEM_ORBITING_FIXED_HAND
-      SemanticsToOrbitFixedHand();
-   #else // other tasks, older approach
-      FillSemantic();
-   #endif
-   if (!sem.scanCover) {
-      sem.MarkFail("Don't know how much boards covers one scan");
-   }
-
    // FILTERS setup
    if (!config.filters.compiled.empty()) {
       sem.vecFilters = config.filters.compiled;
@@ -162,21 +152,19 @@ bool Walrus::InitSemantics()
    }
 
    // SCORER setup
-   if (config.io.seekDecisionCompete) {
-      sem.SetOurPrimaryScorer(cumulScore, config.txt.primaScorerCode);
-      sem.SetTheirScorer(cumulScore, config.txt.secundaScorerCode);
+   if (config.solve.shouldSolveTwice) {
+      if (config.io.seekDecisionCompete) {
+         sem.SetOurPrimaryScorer(cumulScore, config.txt.primaScorerCode);
+         sem.SetTheirScorer     (cumulScore, config.txt.secundaScorerCode);
+      } else {
+         sem.SetOurPrimaryScorer  (cumulScore, config.txt.primaScorerCode);
+         sem.SetOurSecondaryScorer(cumulScore, config.txt.secundaScorerCode);
+      }
+   } else {
+      sem.SetBiddingGameScorer(cumulScore, config.txt.primaScorerCode);
    }
 
-   #ifdef SEEK_DENOMINATION
-      sem.SetOurPrimaryScorer(cumulScore, config.txt.primaScorerCode);
-      sem.SetOurSecondaryScorer(cumulScore, config.txt.secundaScorerCode);
-   #endif
-
-   #ifdef SEEK_BIDDING_LEVEL
-      sem.SetBiddingGameScorer(cumulScore, config.txt.primaScorerCode);
-   #endif
-
-   // POSTMORTEM semantics
+   // POSTMORTEM is about extra marks after solving
    {
       if (config.postm.Is(WPM_OPENING_LEADS)) {
          sem.SetOpeningLeadScorer(cumulScore, config.txt.primaScorerCode);
@@ -203,6 +191,18 @@ bool Walrus::InitSemantics()
       sem.onBoardAdded = &MiniUI::DisplayBoard;
    }
 
+   // custom semantics have final word
+   #ifdef SEM_ORBITING_FIXED_HAND
+      // many tasks fully relay on config
+      SemanticsToOrbitFixedHand();
+   #else // other tasks, older approach
+      FillSemantic();
+      sem.MiniLinkFilters();
+   #endif
+   if (!sem.scanCover) {
+      sem.MarkFail("Don't know how much boards covers one scan");
+   }
+
    return sem.IsInitOK();
 }
 
@@ -225,6 +225,7 @@ bool WaConfig::OrdinaryRead(Walrus* walrus)
    InitCardsCount();
    BuildNewFilters(walrus);
    ResolvePostmortemType(walrus);
+   SetupOutputOptions();
 
    return isInitSuccess;
 }

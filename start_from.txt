@@ -4,9 +4,9 @@ So we usually comment out old tasks at the line start
 Competitive:
 //TASK NAME:AUG_BLITZ_VS_DIMULYA
 //TASK NAME:AUG_TRICOLOR_OVER_OPP_3S
-//TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
+TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
 //TASK NAME:NOV_65_OGNJEN
-TASK NAME:JUN25_HEARTS_CLUBS
+//TASK NAME:JUN25_HEARTS_CLUBS
 
 One sided:
 //TASK NAME:FEB25_MAJORS_RESPONCE_PRECISION
@@ -28,6 +28,16 @@ Leads:
 No fixed hand:
 //TASK NAME:4_HAND_MINOR_SUPERFIT
 //TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
+
+-----------------------------------------------------------------------------------------------------------------------
+AJ
+AK654
+43
+AQ65
+
+1c 1d
+1h 1NT
+??
 
 -----------------------------------------------------------------------------------------------------------------------
 OCT25_POSSIBLY_INSANE_BUTLER  one sided
@@ -145,16 +155,6 @@ FILTERS:
 
     WEST: NoOvercall2ndLevel
     EAST: NoOvercall2ndLevel
-
------------------------------------------------------------------------------------------------------------------------
-AJ
-AK654
-43
-AQ65
-
-1c 1d
-1h 1NT
-??
 
 -----------------------------------------------------------------------------------------------------------------------
 NOV_65_OGNJEN compete over 4S

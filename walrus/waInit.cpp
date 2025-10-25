@@ -178,13 +178,18 @@ WaConfig::WaConfig()
       solve.ddsSol = 3;
    #endif
 
-   // i/o : display options
    #ifdef SEEK_MAGIC_FLY 
       solve.shouldSolveTwice = true;
+   #endif
+}
+
+void WaConfig::SetupOutputOptions()
+{
+   // i/o : display options
+   #ifdef SEEK_MAGIC_FLY 
       io.showMagicFly = true;
       io.rowPercentage = IO_ROW_MAGIC_FLY;
    #elif defined(THE_OTHER_IS_OURS) || defined(SEEK_DECISION_COMPETE)
-      solve.shouldSolveTwice = true;
       io.showHugeMatch = true;
       io.rowPercentage = IO_ROW_COMPARISON;
    #endif

@@ -2,6 +2,10 @@
 * Walrus project                                        2023
 * Config reader
 *
+* TODO: https://docs.github.com/en/copilot/how-tos/configure-custom-instructions/add-repository-instructions
+* Copilot Chat          Repository-wide instructions (using the .github/copilot-instructions.md file).
+* Copilot coding agent  Repository-wide instructions, path-specific instructions, and agent instructions (using AGENTS.md, CLAUDE.md or GEMINI.md files).
+* Copilot code review   Repository-wide instructions and path-specific instructions (using .github/instructions/../NAME.instructions.md files).
 ************************************************************/
 #define  _CRT_SECURE_NO_WARNINGS
 #include "waCrossPlatform.h"
