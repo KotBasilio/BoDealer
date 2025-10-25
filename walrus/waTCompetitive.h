@@ -1,7 +1,6 @@
 /* ---------------------------------------------------------------- -
    --- DESCRIPTIONS with useful defines:
    #define SEEK_BIDDING_LEVEL
-   #define SEEK_MAGIC_FLY
    #define SEEK_DENOMINATION
    #define SEEK_DECISION_BID_OR_DOUBLE
    #define SEEK_SACRIFICE_DECISION

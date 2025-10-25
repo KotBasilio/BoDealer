@@ -141,7 +141,7 @@ void MiniUI::Run()
 void MiniUI::RecognizeCommands(int inchar)
 {
    switch (inchar) {
-      // primary:
+      // primary scorer:
       // -- just made
       case ' ': irGoal = config.prim.goal; break;
       // -- overtricks

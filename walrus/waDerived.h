@@ -15,11 +15,6 @@
    #define FIXED_HAND_WEST
 #endif
 
-#ifdef SEEK_MAGIC_FLY
-   #define FIXED_HAND_NORTH
-   #define ON_LEAD_INTERROGATED   cards.first
-#endif
-
 #ifdef SEEK_SACRIFICE_DECISION
    #define SHOW_OPPS_ON_PASS_ONLY
    #define SEEK_DECISION_COMPETE
@@ -36,16 +31,11 @@
 #endif
 
 #ifdef SCORE_THE_OTHER_CONTRACT
-   #define ON_LEAD_INTERROGATED   config.secondary.first
    #ifdef THE_OTHER_IS_OURS
       #define SHOW_OUR_OTHER
    #else
       #define SHOW_OPP_RESULTS
    #endif
-#endif
-
-#ifndef ON_LEAD_INTERROGATED
-   #define ON_LEAD_INTERROGATED   WEST
 #endif
 
 // tasks without a fixed hand (no specifics)

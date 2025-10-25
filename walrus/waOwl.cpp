@@ -37,7 +37,7 @@ static BOOL _AttemptStartOscar(CHAR *workDirPath, CHAR* suffix, STARTUPINFO& siS
    strcpy(oscarPath, workDirPath);
    strcat(oscarPath, suffix);
 
-   printf("Attempt path to Oscar: %s\n", oscarPath);
+   //printf("Attempt path to Oscar: %s\n", oscarPath);
 
    // Create the child process.
    return CreateProcess(oscarPath,

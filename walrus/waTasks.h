@@ -12,6 +12,7 @@
 //#define SEM_ONE_SIDED_BIDDING_LEVEL
 #define SEM_ONE_SIDED_DENOMINATION
 //#define SEM_COMPETITIVE_GENERIC
+#define SEEK_MAGIC_FLY
 
 /// -----------------------------------------------------------------
 // old format, #define-based 
