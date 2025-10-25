@@ -161,7 +161,7 @@ bool Walrus::InitSemantics()
          sem.SetOurSecondaryScorer(cumulScore, config.txt.secundaScorerCode);
       }
    } else {
-      sem.SetBiddingGameScorer(cumulScore, config.txt.primaScorerCode);
+      sem.SetBiddingLevelScorer(cumulScore);
    }
 
    // POSTMORTEM is about extra marks after solving
@@ -204,6 +204,14 @@ bool Walrus::InitSemantics()
    }
 
    return sem.IsInitOK();
+}
+
+void WaConfig::MakeSecondaryScrorerForBiddingLevel()
+{
+   char* hedge = config.txt.secundaScorerCode;
+   strcpy(hedge, config.txt.primaScorerCode);
+   hedge[1]--;
+   FillShortScorer(hedge, txt.secundaShort);
 }
 
 void WaConfig::InitCardsCount()

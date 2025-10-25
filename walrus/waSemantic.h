@@ -133,7 +133,7 @@ struct Semantics {
    void SetOurPrimaryScorer(CumulativeScore &cs, const char* code);
    void SetOurSecondaryScorer(CumulativeScore &cs, const char* code);
    void SetTheirScorer(CumulativeScore &cs, const char* code);
-   void SetBiddingGameScorer(CumulativeScore &cs, const char* code);
+   void SetBiddingLevelScorer(CumulativeScore &cs);
    void SetOpeningLeadScorer(CumulativeScore &cs, const char* code);
    void PrepareBaseDeal();
    bool IsInitOK() const { return isInitSuccess; }

@@ -281,14 +281,15 @@ void Progress::ShowSolvingTime()
 
 void Walrus::ShowBiddingLevel(s64 sumRows)
 {
-   // game/partscore
+   // game/partscore or slam/game
    owl.OnDone("Averages: ");
    if (cumulScore.ideal) {
-      owl.OnDone("ideal = % lld, ", cumulScore.ideal / sumRows);
+      owl.OnDone("ideal = %lld, ", cumulScore.ideal / sumRows);
    }
    owl.OnDone("%s = %lld", config.txt.primaShort, cumulScore.bidGame / sumRows);
    if (cumulScore.bidPartscore) {
-      owl.OnDone(", partscore=%lld", cumulScore.bidPartscore / sumRows);
+      auto val = cumulScore.bidPartscore / sumRows;
+      owl.OnDone(", %s = %lld", config.txt.secundaShort, val);
    }
    owl.OnDone(".   ");
 }

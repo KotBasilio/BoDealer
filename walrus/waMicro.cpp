@@ -338,12 +338,16 @@ uint WaFilter::NoOvcOn1LevOpen(twContext* lay, const uint* par)
       return MIC_BLOCK;
    }
 
-   // no 6 with 10+pts
+   // exclude 6m with 10+pts
    if (hcp.total >= 10) {
       if (len.s > 5 || len.h > 5 || len.d > 5 || len.c > 5) {
          return MIC_BLOCK;
       }
-   } else if (hcp.total >= 7) {// no half-preempts (6M with 7+pts)
+   } else if (hcp.total >= 9) {// exclude 5M with 9+pts
+      if (len.s > 4 || len.h > 4) {
+         return MIC_BLOCK;
+      }
+   } else if (hcp.total >= 7) {// exclude 6M with 7+pts (half-preempts)
       if (len.s > 5 || len.h > 5) {
          return MIC_BLOCK;
       }

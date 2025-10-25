@@ -10,8 +10,8 @@
 
 // generalized config-based tasks:
 //#define SEM_ONE_SIDED_BIDDING_LEVEL
-//#define SEM_ONE_SIDED_DENOMINATION
-#define SEM_COMPETITIVE_GENERIC
+#define SEM_ONE_SIDED_DENOMINATION
+//#define SEM_COMPETITIVE_GENERIC
 
 /// -----------------------------------------------------------------
 // old format, #define-based 

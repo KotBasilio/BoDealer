@@ -371,7 +371,10 @@ void WaConfig::ReadTask(Walrus *walrus)
    fclose(stream);
 
    // ensure we've visited some task
-   if (txt.nameTask[0] && (solve.opMode == OPMODE_NONE)) {
+   if (!txt.nameTask[0]) {
+      printf("Error: No task in selected in the config file\n");
+      MarkFail();
+   } else if (solve.opMode == OPMODE_NONE) {
       printf("Error: Task '%s' not found in the config file\n", txt.nameTask);
       MarkFail();
    }

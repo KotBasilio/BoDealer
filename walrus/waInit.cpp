@@ -273,6 +273,7 @@ bool Semantics::IsClosingBracket(int idx)
 
 void Semantics::SetOurPrimaryScorer(CumulativeScore &cs, const char* code)
 {
+   // aim at bidGame in CumulativeScore
    if (!cs.prima.Init(cs.bidGame, code)) {
       MarkFail("Failed to init prima scorer");
       return;
@@ -299,6 +300,7 @@ void Semantics::SetSecondaryScorer(CumulativeScore &cs, s64& target, const char*
 
 void Semantics::SetOurSecondaryScorer(CumulativeScore &cs, const char* code)
 {
+   // aim at ourOther in CumulativeScore
    if (IsInitOK()) {
       SetSecondaryScorer(cs, cs.ourOther, code);
       if (IsInitFailed()) {
@@ -309,6 +311,7 @@ void Semantics::SetOurSecondaryScorer(CumulativeScore &cs, const char* code)
 
 void Semantics::SetTheirScorer(CumulativeScore& cs, const char* code)
 {
+   // aim at oppContract in CumulativeScore
    if (IsInitOK()) {
       SetSecondaryScorer(cs, cs.oppContract, code);
       if (IsInitFailed()) {
@@ -320,16 +323,17 @@ void Semantics::SetTheirScorer(CumulativeScore& cs, const char* code)
    }
 }
 
-void Semantics::SetBiddingGameScorer(CumulativeScore& cs, const char* code)
+void Semantics::SetBiddingLevelScorer(CumulativeScore& cs)
 {
-   // setup both scorers
+   // prima scorer aims at "bidGame"
+   const char* code = config.txt.primaScorerCode;
    SetOurPrimaryScorer(cs, code);
 
-   static char codePartscore[8];
-   strcpy(codePartscore, code);
-   codePartscore[1]--;
-   SetOurSecondaryScorer(cs, codePartscore);
+   // make permanent other scorer code
+   config.MakeSecondaryScrorerForBiddingLevel();
+   SetOurSecondaryScorer(cs, config.txt.secundaScorerCode);
 
+   // secunda scorer aims at "bidPartscore"
    cs.secunda.TargetOut(cs.bidPartscore);
    if (IsInitFailed()) {
       return;

@@ -47,6 +47,21 @@
    #error Get rid of SHOW_SACRIFICE_RESULTS define. Use config.io.seekDecisionCompete
 #endif
 
+#ifdef SEM_ONE_SIDED_BIDDING_LEVEL
+   #ifdef SEM_ONE_SIDED_DENOMINATION
+      #error Conflicting defines SEM_ONE_SIDED_BIDDING_LEVEL and SEM_ONE_SIDED_DENOMINATION. Choose only one.
+   #endif
+   #ifdef SEM_COMPETITIVE_GENERIC
+      #error Conflicting defines SEM_ONE_SIDED_BIDDING_LEVEL and SEM_COMPETITIVE_GENERIC. Choose only one.
+   #endif
+#endif
+
+#ifdef SEM_ONE_SIDED_DENOMINATION
+   #ifdef SEM_COMPETITIVE_GENERIC
+      #error Conflicting defines SEM_ONE_SIDED_DENOMINATION and SEM_COMPETITIVE_GENERIC. Choose only one.
+   #endif
+#endif
+
 //#ifdef 
 //   #error Get rid of  define. Use  in config.
 //#endif

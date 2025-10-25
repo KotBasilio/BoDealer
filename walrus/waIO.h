@@ -174,6 +174,7 @@ struct WaConfig {
    bool OrdinaryRead(Walrus* walrus);
    void BuildNewFilters(class Walrus *walrus);
    void SetupSeatsAndTrumps(const struct CumulativeScore &cs);
+   void MakeSecondaryScrorerForBiddingLevel();
    void MarkFail() { isInitSuccess = false; }
    bool IsInitFailed() { return !isInitSuccess; }
 private:

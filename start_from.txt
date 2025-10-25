@@ -4,7 +4,7 @@ So we usually comment out old tasks at the line start
 Competitive:
 //TASK NAME:AUG_BLITZ_VS_DIMULYA
 //TASK NAME:AUG_TRICOLOR_OVER_OPP_3S
-TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
+//TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
 //TASK NAME:NOV_65_OGNJEN
 //TASK NAME:JUN25_HEARTS_CLUBS
 
@@ -16,7 +16,7 @@ One sided:
 //TASK NAME:SEP_PARTIZAN_SPLIT_FIT
 //TASK NAME:AUG_JAGODINA_INVITE
 //TASK NAME:MAY24_TRHEE_SUITED_BALANCE
-//TASK NAME:MAY24_GLADIATOR
+TASK NAME:MAY24_GLADIATOR
 //TASK NAME:MAY24_TENS_AND_NINES
 //TASK NAME:JUN25_ONE_SIDE_HEARTS_CLUBS
 //TASK NAME:OCT25_TROFEY_OFFER_3NT
@@ -73,7 +73,7 @@ Question: do you offer 3NT or prefer to play 4H?
 HAND: N:Q3.KJ98.A95.K763
 PRIMARY SCORER: V3N BY N
 SECONDARY SCORER: V4H BY N
-POSTMORTEM: AUTO
+//POSTMORTEM: AUTO
 
 FILTERS:
     SOUTH: PointsRange, 11, 14
@@ -467,19 +467,22 @@ Bidding from part (S):
    1d 1s
    2nt ??
 Other hand example S:5.KJ4.AKQJ73.Q74
-Question: pass or 3NT?
+Question: pass or 3NT? or 3D
 
-HAND: N:KT965.A64.73.T74
+HAND: N:KT965.A64.72.T74
+//HAND: N:KT965.A64.J7.T74
+//HAND: N:KT965.K64.Q2.T74
 
 PRIMARY SCORER: V3N  BY SOUTH
-POSTMORTEM: HCP 20, 24
+SECONDARY SCORER: V3D BY SOUTH
+POSTMORTEM: AUTO
 
 FILTERS:
-   SOUTH, PointsRange, 14, 16
+   SOUTH, PointsRange, 15, 16
    SOUTH, DiamondsLen, 6, 6
    SOUTH, SpadesLen, 0, 2
 
-   WEST, NoOvercall
+   WEST, NoOvcOn1LevOpen
    EAST, NoOvercall
 
    SOUTH, PointsSuitAtLeast, DMD, 7
@@ -662,7 +665,7 @@ FILTERS:
    NORTH: HeartsLen 3, 4
 
 -----------------------------------------------------------------------------------------------------------------------
-SCALE: 20
+SCALE: 30
 //SCALE: MIN
 //OPMODE: SEMI_STRAY
 //OPMODE: DEMO_STATISTICS
