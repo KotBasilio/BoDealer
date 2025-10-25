@@ -20,7 +20,6 @@ constexpr uint IO_ROW_CONTRACT_B = IO_ROW_OUR_MADE + 2;
 constexpr uint IO_ROW_THEIRS     = IO_ROW_CONTRACT_B;
 // -- comparison
 constexpr uint IO_ROW_COMPARISON = IO_ROW_CONTRACT_B + 2;
-constexpr uint IO_ROW_MAGIC_FLY  = IO_ROW_COMPARISON;
 constexpr uint IO_ROW_SACRIFICE  = IO_ROW_COMPARISON;
 // -- extra marks like on hcp, controls, lead etc.
 constexpr uint IO_ROW_POSTMORTEM = 7;

@@ -185,11 +185,6 @@ static bool IsRowSkippable(int i)
       return i > IO_ROW_COMPARISON;
    }
 
-   // fly => include that row
-   if (config.io.showMagicFly) {
-      return i > IO_ROW_MAGIC_FLY;
-   }
-
    // only our results => shortest result
    return i > IO_ROW_OUR_MADE;
 }
@@ -347,9 +342,9 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
 
    // a magic fly
    if (config.io.showMagicFly) {
-      ucell sumNT = progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_MORE_NT] +
-         progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_SAME_NT];
-      ucell sumSuit = progress.hitsCount[IO_ROW_MAGIC_FLY][IO_CAMP_PREFER_SUIT];
+      ucell sumNT =   progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_MORE_NT] +
+                      progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_SAME_NT];
+      ucell sumSuit = progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_PREFER_SUIT];
       sumRows = __max(sumNT + sumSuit, 1);
       float percBetterNT = sumNT * 100.f / sumRows;
       owl.OnDone("NT is better in: %3.1f%% cases\n", percBetterNT);

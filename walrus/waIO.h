@@ -138,7 +138,8 @@ struct WaConfig {
 
    // adding extra marks aka post-mortem 
    struct Postmortem {
-      WA_POSTM_TYPE  Type;
+      WA_POSTM_TYPE  Type = WPM_NONE;
+      int            idxHand, idxSuit;// for WPM_SUIT
       int            minHCP, maxHCP;
       int            minControls;
       twlHCP         hcpFixedHand;
@@ -146,7 +147,6 @@ struct WaConfig {
       bool Is(WA_POSTM_TYPE t) { return (t == Type); }
       int  FactorFromRow(int idx);
    } postm;
-   int   postmSuit, postmHand; 
 
    // display options
    struct Output {

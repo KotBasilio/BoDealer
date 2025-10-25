@@ -62,11 +62,11 @@ static void DbgShowComparison(s64 gainPrima, s64 gainSecunda, s64 delta)
 void Walrus::NoticeMagicFly(uint trickSuit, uint tricksNT, const deal& cards)
 {
    if (tricksNT > trickSuit) {
-      progress.SolvedExtraMark(IO_ROW_MAGIC_FLY, IO_CAMP_MORE_NT);
+      progress.SolvedExtraMark(IO_ROW_COMPARISON, IO_CAMP_MORE_NT);
    } else if (tricksNT == trickSuit) {
-      progress.SolvedExtraMark(IO_ROW_MAGIC_FLY, IO_CAMP_SAME_NT);
+      progress.SolvedExtraMark(IO_ROW_COMPARISON, IO_CAMP_SAME_NT);
    } else {
-      progress.SolvedExtraMark(IO_ROW_MAGIC_FLY, IO_CAMP_PREFER_SUIT);
+      progress.SolvedExtraMark(IO_ROW_COMPARISON, IO_CAMP_PREFER_SUIT);
    }
 }
 

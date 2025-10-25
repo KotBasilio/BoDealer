@@ -93,6 +93,8 @@ bool WaConfig::Filters::FindHCPRange(int hand, int& from, int& to)
 
 WaConfig::Postmortem::Postmortem()
    : Type(WPM_NONE)
+   , idxHand(NORTH)
+   , idxSuit(SOL_HEARTS)
    , minHCP(0), maxHCP(0)
    , minControls(0)
 {
@@ -154,8 +156,6 @@ Semantics::Semantics()
 }
 
 WaConfig::WaConfig()
-   : postmSuit(0)
-   , postmHand(NORTH)
 {
    // texts
    txt.nameTask[0] = 0;
@@ -169,18 +169,6 @@ WaConfig::WaConfig()
    prim.txtBy[0] = 0;
    prim.txtAttacker[0] = 0;
    secondary.txtTrump[0] = 0;
-
-   // DOC: solutions parameter
-   // 1 -- Find the maximum number of tricks for the side to play. Return only one of the optimum cards and its score.
-   // 2 -- Find the maximum number of tricks for the side to play. Return all optimum cards and their scores.
-   // 3 -- Return all cards that can be legally played, with their scores in descending order.
-   #ifdef SEEK_OPENING_LEAD
-      solve.ddsSol = 3;
-   #endif
-
-   #ifdef SEEK_MAGIC_FLY 
-      solve.shouldSolveTwice = true;
-   #endif
 }
 
 void WaConfig::SetupOutputOptions()
@@ -188,7 +176,8 @@ void WaConfig::SetupOutputOptions()
    // i/o : display options
    #ifdef SEEK_MAGIC_FLY 
       io.showMagicFly = true;
-      io.rowPercentage = IO_ROW_MAGIC_FLY;
+      io.showOurOther = true;
+      io.rowPercentage = IO_ROW_COMPARISON;
    #elif defined(THE_OTHER_IS_OURS) || defined(SEEK_DECISION_COMPETE)
       io.showHugeMatch = true;
       io.rowPercentage = IO_ROW_COMPARISON;

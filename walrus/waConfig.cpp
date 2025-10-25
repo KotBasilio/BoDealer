@@ -225,6 +225,14 @@ void WaConfig::InitCardsCount()
 
    // how many cards left
    deck.cardsCount = SOURCE_CARDS_COUNT - deck.cardsRemoved;
+
+   // DOC: solutions parameter
+   // 1 -- Find the maximum number of tricks for the side to play. Return only one of the optimum cards and its score.
+   // 2 -- Find the maximum number of tricks for the side to play. Return all optimum cards and their scores.
+   // 3 -- Return all cards that can be legally played, with their scores in descending order.
+   #ifdef SEEK_OPENING_LEAD
+      solve.ddsSol = 3;
+   #endif
 }
 
 bool WaConfig::OrdinaryRead(Walrus* walrus)

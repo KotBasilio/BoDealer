@@ -50,7 +50,7 @@ uint CalcNSLineHCP(const deal& dl, uint& ctrl)
 }
 
 // ret: HCP on seat position
-static uint CalcSuitHCP(const deal& cards, uint seat)
+static uint CalcSuitHCP(const deal& cards, int seat, int suit)
 {
    const auto& remain = cards.remainCards;
    u64 facecards(RA | RK | RQ | RJ);
@@ -61,7 +61,13 @@ static uint CalcSuitHCP(const deal& cards, uint seat)
       ((remain[seat][SOL_CLUBS]    & facecards) << (1))
    );
    twlHCP hcp(reducedHand);
-   return hcp.arr[config.postmSuit];
+   return hcp.arr[suit];
+}
+static uint CalcPostmHCP(const deal& cards)
+{
+   return CalcSuitHCP(cards, 
+      config.postm.idxHand,
+      config.postm.idxSuit);
 }
 
 void Walrus::AddMarksByHCP(DdsTricks& tr, const deal& cards)
@@ -101,7 +107,7 @@ void Walrus::AddMarksByControls(DdsTricks& tr, const deal& cards)
 void Walrus::AddMarksBySuit(DdsTricks& tr, const deal& cards)
 {
    // calc
-   auto suitHCP = CalcSuitHCP(cards, config.postmHand);
+   auto suitHCP = CalcPostmHCP(cards);
    uint row = IO_ROW_POSTMORTEM + suitHCP*2;
 
    // proper row => add a mark in stat
