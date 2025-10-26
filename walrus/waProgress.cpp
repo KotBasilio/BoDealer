@@ -161,10 +161,6 @@ void MiniUI::AdaptMiniRows(Walrus* wal)
       sprintf(miniRowStart[IO_ROW_THEIRS+0],   "(ctrB:%s down): ", config.txt.secundaShort);
       sprintf(miniRowStart[IO_ROW_THEIRS+1],   "(ctrB:%s make): ", config.txt.secundaShort);
       sprintf(miniRowStart[IO_ROW_COMPARISON], "  (A, same, B): ");
-   } else if (config.io.showMagicFly) {
-      sprintf(miniRowStart[IO_ROW_THEIRS + 0], "   (3NT down): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS + 1], "   (3NT make): ");
-      sprintf(miniRowStart[IO_ROW_COMPARISON], "less, =, more: ");
    } else if (config.io.showOppResults) {
       sprintf(miniRowStart[IO_ROW_OUR_DOWN], "    (we down): ");
       sprintf(miniRowStart[IO_ROW_OUR_MADE], "    (we make): ");
@@ -339,16 +335,6 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
       owl.OnDone("Keycards: 0->%3.1f%%  1->%3.1f%%  2->%3.1f%%  3->%3.1f%%\n",
          key0, key1, key2, key3);
    #endif
-
-   // a magic fly
-   if (config.io.showMagicFly) {
-      ucell sumNT =   progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_MORE_NT] +
-                      progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_SAME_NT];
-      ucell sumSuit = progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_PREFER_SUIT];
-      sumRows = __max(sumNT + sumSuit, 1);
-      float percBetterNT = sumNT * 100.f / sumRows;
-      owl.OnDone("NT is better in: %3.1f%% cases\n", percBetterNT);
-   }
 
    // a bid/refrain decision
    if (config.io.seekDecisionCompete) {

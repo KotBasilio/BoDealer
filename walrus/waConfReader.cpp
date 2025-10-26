@@ -155,17 +155,46 @@ void WaConfig::ReadHandPBN(const char* line)
    SAFE_ADD(txt.taskHandPBN, "]");
 }
 
+void WaConfig::DetectTwoScorers()
+{
+   // both scorers must be present
+   if (!txt.primaShort[0]) {
+      return;
+   }
+   if (!txt.secundaShort[0]) {
+      return;
+   }
+
+   // found both
+   solve.shouldSolveTwice = true;
+
+   // TODO: are they on the same line?
+
+   // are they for magic fly?
+   if ((txt.secundaShort[0] == '3') &&
+       (txt.secundaShort[1] == 'N')) {
+      if (    txt.primaShort[0] == '4') {
+         if ((txt.primaShort[1] == 'H') ||
+             (txt.primaShort[1] == 'S')) {
+            printf("Search for magic fly is detected -- zero IMPs difference.\n");
+            io.showMagicFly = true;
+         }
+      }
+   }
+}
+
 void WaConfig::ReadPrimaScorer(const char* line)
 {
    SAFE_STR_BY_LINE(txt.primaScorerCode);
    FillShortScorer(txt.primaScorerCode, txt.primaShort);
+   DetectTwoScorers();
 }
 
 void WaConfig::ReadSecundaScorer(const char* line)
 {
    SAFE_STR_BY_LINE(txt.secundaScorerCode);
    FillShortScorer(txt.secundaScorerCode, txt.secundaShort);
-   solve.shouldSolveTwice = true;
+   DetectTwoScorers();
 }
 
 void WaConfig::FillShortScorer(const char* from, char* to)

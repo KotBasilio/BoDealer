@@ -141,16 +141,6 @@ bool Walrus::InitSemantics()
    }
    sem.MiniLinkFilters();
 
-   // SOLVING setup
-   if (config.solve.shouldSolveTwice) {
-      sem.solveSecondTime = &Walrus::SolveSecondTime;
-      if (config.io.showMagicFly) {
-         sem.onCompareContracts = &Walrus::NoticeMagicFly;
-      } else {
-         sem.onCompareContracts = &Walrus::ComparePrimaSecunda;
-      }
-   }
-
    // SCORER setup
    if (config.solve.shouldSolveTwice) {
       if (config.io.seekDecisionCompete) {
@@ -162,6 +152,12 @@ bool Walrus::InitSemantics()
       }
    } else {
       sem.SetBiddingLevelScorer(cumulScore);
+   }
+
+   // SOLVING setup
+   if (config.solve.shouldSolveTwice) {
+      sem.solveSecondTime = &Walrus::SolveSecondTime;
+      sem.onCompareContracts = &Walrus::ComparePrimaSecunda;
    }
 
    // POSTMORTEM is about extra marks after solving

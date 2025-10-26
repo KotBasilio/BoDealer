@@ -83,14 +83,14 @@ void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)
    }
 
    // a fly can look for specific condition
-   #ifdef SEEK_MAGIC_FLY
+   if (config.io.showMagicFly) {
       if (ui.irFly != IO_CAMP_OFF) {
          bool fits = Orb_ApproveByFly(cards);
          if (!fits) {
             return;
          }
       }
-   #endif
+   }
 
    // relay
    Orb_ReSolveAndShow(cards);
@@ -128,42 +128,35 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
       return;
    }
 
-   // single side solution => ok print
-   if (!config.solve.shouldSolveTwice) {
-      char lead[] = "";
-      OwlOutBoard("example:\n", cards);
-      OwlOneFut(lead, &futUs);
-      printf("shown to Oscar.");
-      return;
-   }
-
-   // score alternative contract
-   futureTricks futTheirs;
-   cards.trump = config.secondary.trump;
-   cards.first = config.secondary.first;
-   target = -1;
-   res = SolveBoard(cards, target, solEveryLead, mode, &futTheirs, threadIndex);
-   if (res != RETURN_NO_FAULT) {
-      HandleErrorDDS(cards, res);
-      return;
-   }
-   DdsTricks tr;
-   tr.Init(futTheirs);
-
-   // build header
-   char header[60];
-   if (config.io.DisplayingOtherContract()) {
-      sprintf(header, "%s has %d tricks.", config.txt.secLongName, tr.plainScore);
-   } else if (config.io.showMagicFly) {
-      sprintf(header, "NT contract has %d tricks.", tr.plainScore);
-   } else {
-      DEBUG_UNEXPECTED;
-   }
-
-   // tricks for all possible leads
+   // the board
    OwlOutBoard("example:\n", cards);
-   OwlTwoFut(header, &futUs, &futTheirs);
 
+   // leads
+   if (config.solve.shouldSolveTwice) {
+      // score alternative contract
+      futureTricks futTheirs;
+      cards.trump = config.secondary.trump;
+      cards.first = config.secondary.first;
+      target = -1;
+      res = SolveBoard(cards, target, solEveryLead, mode, &futTheirs, threadIndex);
+      if (res != RETURN_NO_FAULT) {
+         HandleErrorDDS(cards, res);
+         return;
+      }
+      DdsTricks tr;
+      tr.Init(futTheirs);
+
+      // tricks for all possible leads
+      char header[60];
+      sprintf(header, "%s has %d tricks.", config.txt.secLongName, tr.plainScore);
+      OwlTwoFut(header, &futUs, &futTheirs);
+   } else {
+      // single side solution => ok print
+      char lead[] = "";
+      OwlOneFut(lead, &futUs);
+   }
+
+   // done
    printf("shown to Oscar.");
 }
 

@@ -189,6 +189,7 @@ private:
    void ReadLeadCards(const char *line);
    void ReadPrimaScorer(const char *line);
    void ReadSecundaScorer(const char *line);
+   void DetectTwoScorers();
    void FillShortScorer(const char *from, char *to);
    void ReadPostmortemParams(char *line);
    void ReadDebugSetting(char *line);

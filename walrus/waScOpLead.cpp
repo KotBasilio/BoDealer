@@ -5,6 +5,23 @@
  ************************************************************/
 #include "walrus.h"
 
+// catch conflicting task defines
+#ifdef SEM_ONE_SIDED_BIDDING_LEVEL
+   #ifdef SEM_ONE_SIDED_DENOMINATION
+      #error Conflicting defines SEM_ONE_SIDED_BIDDING_LEVEL and SEM_ONE_SIDED_DENOMINATION. Choose only one.
+   #endif
+   #ifdef SEM_COMPETITIVE_GENERIC
+      #error Conflicting defines SEM_ONE_SIDED_BIDDING_LEVEL and SEM_COMPETITIVE_GENERIC. Choose only one.
+   #endif
+#endif
+
+#ifdef SEM_ONE_SIDED_DENOMINATION
+   #ifdef SEM_COMPETITIVE_GENERIC
+      #error Conflicting defines SEM_ONE_SIDED_DENOMINATION and SEM_COMPETITIVE_GENERIC. Choose only one.
+   #endif
+#endif
+
+// catch old-style task defines
 #ifdef INPUT_TRUMPS
    #error Get rid of INPUT_TRUMPS define. Use primary linear scorer.
 #endif
@@ -40,26 +57,15 @@
 #endif
 
 #ifdef SOLVE_TWICE_HANDLED_CHUNK
-   #error Get rid of SOLVE_TWICE_HANDLED_CHUNK define. Use config.solve.shouldSolveTwice
+   #error Get rid of SOLVE_TWICE_HANDLED_CHUNK define. Use config.solve.shouldSolveTwice -- autodetected by scorer codes.
 #endif
 
 #ifdef SHOW_SACRIFICE_RESULTS
-   #error Get rid of SHOW_SACRIFICE_RESULTS define. Use config.io.seekDecisionCompete
+   #error Get rid of SHOW_SACRIFICE_RESULTS define. Use config.io.seekDecisionCompete -- autodetected by scorer codes. 
 #endif
 
-#ifdef SEM_ONE_SIDED_BIDDING_LEVEL
-   #ifdef SEM_ONE_SIDED_DENOMINATION
-      #error Conflicting defines SEM_ONE_SIDED_BIDDING_LEVEL and SEM_ONE_SIDED_DENOMINATION. Choose only one.
-   #endif
-   #ifdef SEM_COMPETITIVE_GENERIC
-      #error Conflicting defines SEM_ONE_SIDED_BIDDING_LEVEL and SEM_COMPETITIVE_GENERIC. Choose only one.
-   #endif
-#endif
-
-#ifdef SEM_ONE_SIDED_DENOMINATION
-   #ifdef SEM_COMPETITIVE_GENERIC
-      #error Conflicting defines SEM_ONE_SIDED_DENOMINATION and SEM_COMPETITIVE_GENERIC. Choose only one.
-   #endif
+#ifdef SEEK_MAGIC_FLY 
+   #error Get rid of SEEK_MAGIC_FLY define. Use config.io.showMagicFly -- autodetected by scorer codes.
 #endif
 
 //#ifdef 

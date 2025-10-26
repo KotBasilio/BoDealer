@@ -174,13 +174,15 @@ WaConfig::WaConfig()
 void WaConfig::SetupOutputOptions()
 {
    // i/o : display options
-   #ifdef SEEK_MAGIC_FLY 
-      io.showMagicFly = true;
-      io.showOurOther = true;
-      io.rowPercentage = IO_ROW_COMPARISON;
-   #elif defined(THE_OTHER_IS_OURS) || defined(SEEK_DECISION_COMPETE)
+   #ifdef SEEK_DECISION_COMPETE
+      io.seekDecisionCompete = true;
+   #endif
+
+   #if defined(THE_OTHER_IS_OURS) || defined(SEEK_DECISION_COMPETE)
+   if (solve.shouldSolveTwice) {
       io.showHugeMatch = true;
       io.rowPercentage = IO_ROW_COMPARISON;
+   }
    #endif
 
    #ifdef SHOW_OUR_OTHER
@@ -201,10 +203,6 @@ void WaConfig::SetupOutputOptions()
       #elif defined(SHOW_OPPS_ON_DOUBLE_ONLY)
          io.oppsOnlyDoubled = true;
       #endif
-   #endif
-
-   #ifdef SEEK_DECISION_COMPETE
-      io.seekDecisionCompete = true;
    #endif
 }
 
