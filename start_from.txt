@@ -9,10 +9,11 @@ Competitive:
 //TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
 
 One sided:
-TASK NAME:OCT25_TROFEY_OFFER_3NT
+//TASK NAME:OCT25_ON_MULTI
+//TASK NAME:OCT25_TROFEY_OFFER_3NT
 //TASK NAME:OCT25_POSSIBLY_INSANE_BUTLER
 //TASK NAME:JUN25_ONE_SIDE_HEARTS_CLUBS
-//TASK NAME:FEB25_MAJORS_RESPONCE_PRECISION
+TASK NAME:FEB25_MAJORS_RESPONCE_PRECISION
 //TASK NAME:OCT_MINOR_SUPERFIT
 //TASK NAME:COPILOT
 //TASK NAME:SEP_RESPONCE_TO_2C
@@ -28,6 +29,24 @@ Leads:
 No fixed hand:
 //TASK NAME:4_HAND_MINOR_SUPERFIT
 //TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
+
+
+-----------------------------------------------------------------------------------------------------------------------
+OCT25_ON_MULTI
+Bidding from part: 2d p ??
+
+Question: is there a game or an invit?
+
+HAND: N:AK92.KT9.QJ965.9
+PRIMARY SCORER: V4H BY N
+POSTMORTEM: AUTO
+
+FILTERS:
+    SOUTH: PointsRange, 5, 6
+    SOUTH: HeartsLen, 6, 6
+    SOUTH: SpadesLen 0, 3
+
+    WEST: NoOvercall
 
 -----------------------------------------------------------------------------------------------------------------------
 OCT25_POSSIBLY_INSANE_BUTLER  one sided
@@ -136,7 +155,7 @@ Question: is there a game or an invit?
 
 HAND: N:J9864.JT8765.K2.
 PRIMARY SCORER: V4S BY N
-POSTMORTEM: HCP 16, 21
+POSTMORTEM: AUTO
 
 FILTERS:
     SOUTH: PointsRange, 11, 16
@@ -661,7 +680,7 @@ SCALE: 30
 //OPMODE: SEMI_STRAY
 //OPMODE: DEMO_STATISTICS
 //DEBUG: SHOW RECONSTRUCTED
-DEBUG: SHOW COMPARISONS
+//DEBUG: SHOW COMPARISONS
 //DEBUG: VERBOSE COMPILING
 //DEBUG: VERBOSE MEMORY
 //DEBUG: SHOW BOARD ON ADDED
