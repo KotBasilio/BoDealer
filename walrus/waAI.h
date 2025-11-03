@@ -5,24 +5,14 @@
 
 #include "waLayout.h"
 
-// =======================
-struct CodedTricks
-{
-   CodedTricks() : jo(0) {}
-
-   u64 jo;// TODO
-};
-
-// a task version when we need to store only two hands
-// It's usefult for:
-// -- bidding decisions. Then a fixed hand is North
-// -- opening lead decisions. Then a fixed hand is West
+// A task version when we need to store only two hands
+// It's useful for:
+// -- bidding decisions.      Then the fixed hand is North
+// -- opening lead decisions. Then the fixed hand is West
 struct WaTask2 
 {
    SplitBits partner;
    SplitBits oneOpp;
-
-   CodedTricks tricks;
 
    WaTask2() {}
    void Init(SplitBits& a, SplitBits& b) { partner = a; oneOpp = b; }
@@ -40,7 +30,7 @@ struct WaTask3
    SplitBits north, east, south;
 
    WaTask3() {}
-   void Init(SplitBits& a, SplitBits& b) { DEBUG_UNEXPECTED; }
+   void Init(SplitBits& a, SplitBits& b);
    void Init(twContext* lay);
 };
 
@@ -74,5 +64,3 @@ void sample_main_SolveBoard();
 void sample_main_SolveBoard_S1();
 void sample_main_PlayBin();
 void sample_main_JK_Solve();
-
-

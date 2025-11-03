@@ -7,6 +7,7 @@
  // NB1: we combine cards by adding and subtracting card.jo, so it goes super-fast and parallel
  // NB2: low bytes first, so we never get an overflow
  ************************************************************/
+#pragma once
 
 // DDS layout -- suitable for fast conversion from Walrus format. see twSuit::Decrypt()
 #define R2     0x0004

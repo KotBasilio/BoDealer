@@ -30,6 +30,11 @@ No fixed hand:
 //TASK NAME:4_HAND_MINOR_SUPERFIT
 //TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
 
+-----------------------------------------------------------------------------------------------------------------------
+TASK_TYPE:ONE_SIDED_BIDDING_LEVEL
+//TASK_TYPE:ONE_SIDED_DENOMINATION
+//TASK_TYPE:COMPETITIVE_GENERIC
+//TASK_TYPE:SEEK_OPENING_LEAD
 
 -----------------------------------------------------------------------------------------------------------------------
 OCT25_ON_MULTI

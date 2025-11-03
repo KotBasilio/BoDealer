@@ -12,7 +12,7 @@
 
 #ifdef SEEK_OPENING_LEAD
    #define SEM_ORBITING_FIXED_HAND
-   #define FIXED_HAND_WEST
+   //#define FIXED_HAND_WEST
 #endif
 
 #ifdef SEEK_SACRIFICE_DECISION
@@ -39,15 +39,6 @@
 #endif
 
 // tasks without a fixed hand (no specifics)
-
-// -----------------------------------------------------------------
-// more resolutions on a fixed hand
-#ifdef SEEK_BIDDING_LEVEL
-   #define FIXED_HAND_NORTH
-#endif
-#ifdef SEM_ONE_SIDED_DENOMINATION
-   #define FIXED_HAND_NORTH
-#endif
 
 // -----------------------------------------------------------------
 // common constants, biggest symmetry in bridge

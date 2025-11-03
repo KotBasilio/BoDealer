@@ -212,12 +212,28 @@ void WaConfig::MakeSecondaryScrorerForBiddingLevel()
 
 void WaConfig::InitCardsCount()
 {
+   // decide what hand is fixed
+   switch (solve.taskType) {  
+      case TTYPE_ONE_SIDED_BIDDING_LEVEL:
+      case TTYPE_ONE_SIDED_DENOMINATION:
+      case TTYPE_COMPETITIVE_GENERIC:
+         deck.fixedHand = NORTH;
+         break;  
+      case TTYPE_SEEK_OPENING_LEAD:
+         deck.fixedHand = WEST;  
+         break;  
+      case TTYPE_NONE:
+      default:
+         deck.fixedHand = -1;
+         break;
+   }  
+
    // how many cards are removed from deck
-   #if defined(FIXED_HAND_NORTH) || defined(FIXED_HAND_WEST)
-      deck.cardsRemoved = SYMM;
-   #else
+   if (deck.fixedHand < 0) {
       deck.cardsRemoved = 0;
-   #endif
+   } else { // NORTH or WEST
+      deck.cardsRemoved = SYMM;
+   }
 
    // how many cards left
    deck.cardsCount = SOURCE_CARDS_COUNT - deck.cardsRemoved;

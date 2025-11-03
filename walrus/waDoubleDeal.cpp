@@ -9,6 +9,7 @@
 #include "waDoubleDeal.h"
 #include "../dds-develop/examples/hands.h"
 #include HEADER_CURSES
+#include <assert.h>
 
 //#define  DBG_VIEW_ON_RECONSTRUCTION
 
@@ -89,21 +90,19 @@ void DdsDeal::FillByFixedNorth(WaTask2& task)
    ReconstructWest(SOL_CLUBS);
 }
 
-#ifdef FIXED_HAND_NORTH
-   #define FILL_BY_TASK_WITH_FIXED_HAND  FillByFixedNorth(task)
-#elif defined( FIXED_HAND_WEST )
-   #define FILL_BY_TASK_WITH_FIXED_HAND  FillByFixedWest(task)
-#else
-   #define FILL_BY_TASK_WITH_FIXED_HAND  DEBUG_UNEXPECTED
-#endif 
-
 DdsDeal::DdsDeal(const deal &dlBase, WaTask2 &task)
 {
    // base deal contains a denomination to solve and 
    memcpy(&dl, &dlBase, sizeof(dl));
 
    // task-2 contains 2 hands, enough for reconstruction
-   FILL_BY_TASK_WITH_FIXED_HAND;
+   if (config.deck.fixedHand == NORTH) {
+      FillByFixedNorth(task);
+   } else if (config.deck.fixedHand == WEST) {
+      FillByFixedWest(task);
+   } else {
+      assert(0);
+   }
 
    // may see
    if (config.dbg.viewBoardOnReconstruct) {

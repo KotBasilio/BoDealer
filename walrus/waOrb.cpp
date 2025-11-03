@@ -10,6 +10,7 @@
 #include "../dds-develop/examples/hands.h"
 #include "walrus.h"
 #include HEADER_CURSES
+#include <assert.h>
 
 #define ORBIT_PERMUTE_FACTOR 6
 
@@ -61,13 +62,17 @@ void Walrus::SemanticsToOrbitFixedHand(void)
    sem.onInit = &Walrus::WithdrawByInput;
    sem.onShareStart = &WaMulti::AllocFilteredTasksBuf;
    sem.fillFlipover = &Shuffler::FillFlipOver39Double;
-   sem.onScanCenter = &Walrus::Scan3FixedNorth;
    sem.scanCover = SYMM * ORBIT_PERMUTE_FACTOR;
    sem.onAfterMath = &Walrus::SolveSavedTasks;
 
-#ifdef FIXED_HAND_WEST
-   sem.onScanCenter = &Walrus::Scan3FixedWest;
-#endif
+   if (config.deck.fixedHand == NORTH) {
+      sem.onScanCenter = &Walrus::Scan3FixedNorth;
+   } else if (config.deck.fixedHand == WEST) {
+      sem.onScanCenter = &Walrus::Scan3FixedWest;
+   } else {
+      assert(0);
+   }
+
 }
 
 void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)

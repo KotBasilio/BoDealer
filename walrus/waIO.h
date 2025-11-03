@@ -59,6 +59,14 @@ enum WA_OPERATION_MODE {
    OPMODE_DEMO_STATISTICS,
 };
 
+enum WA_TASK_TYPE {
+   TTYPE_NONE = 0,
+   TTYPE_ONE_SIDED_BIDDING_LEVEL,
+   TTYPE_ONE_SIDED_DENOMINATION,
+   TTYPE_COMPETITIVE_GENERIC,
+   TTYPE_SEEK_OPENING_LEAD
+};
+
 enum EConfigReaderState {
    S_IDLE = 0,
    S_WAIT_TASK,
@@ -107,12 +115,14 @@ struct WaConfig {
    struct Deck {
       uint cardsCount = SOURCE_CARDS_COUNT;
       uint cardsRemoved = 0;
+      int  fixedHand = -1; // or NORTH or WEST
    } deck;
 
    // solving
    struct Solving {
       uint aimTaskCount = 20*1000;
       WA_OPERATION_MODE opMode = OPMODE_NONE;
+      WA_TASK_TYPE taskType = TTYPE_NONE;
       int ddsSol = 1;
       struct Leads { // cards to lead for WPM_OPENING_LEADS
          int S=0, H=0, D=0, C=0;
@@ -180,8 +190,9 @@ struct WaConfig {
 private:
 
    void AnnounceTask();
-   void ChangeOpMode(const char *line);
    void ReadTask(class Walrus *walrus);
+   void ChangeOpMode(const char* line);
+   void ReadTaskType(const char* line);
    void InitCardsCount();
    void ResolvePostmortemType(Walrus* walrus);
    void SetupOutputOptions();
@@ -215,7 +226,7 @@ private:
       static char* ShowOnAdded;
       static char* ShowOnReconstructed;
       static char* TEnd;
-      static char* TName;
+      static char* TName, *TType;
       static char* VerboseCompile;
       static char* VerboseMemory;
       static char* PostmHCP;

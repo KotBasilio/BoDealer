@@ -7,6 +7,7 @@
 ************************************************************/
 
 #include "walrus.h"
+#include <assert.h>
 
 #ifndef IO_ROW_FILTERING
    #define IO_ROW_FILTERING 3
@@ -149,7 +150,12 @@ void WaMulti::SaveThreeHands(twContext* lay)
    arrToSolve[countToSolve++].Init(lay);
 }
 
-void WaTask3::Init(twContext* lay) 
+void WaTask3::Init(SplitBits& a, SplitBits& b) 
+{ 
+   assert(0);
+}
+
+void WaTask3::Init(twContext* lay)
 { 
    north = lay[NORTH].hand; 
    east  = lay[EAST].hand; 

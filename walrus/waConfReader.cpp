@@ -35,6 +35,7 @@ char* WaConfig::Keywords::OpMode = "OPMODE: ";
 char* WaConfig::Keywords::Hand = "HAND: ";
 char* WaConfig::Keywords::Leads = "LEAD CARDS: ";
 char* WaConfig::Keywords::TName = "TASK NAME:";
+char* WaConfig::Keywords::TType = "TASK_TYPE:";
 char* WaConfig::Keywords::Prima = "PRIMARY SCORER: ";
 char* WaConfig::Keywords::Secunda = "SECONDARY SCORER: ";
 char* WaConfig::Keywords::Postmortem = "POSTMORTEM: ";
@@ -62,19 +63,29 @@ static bool IsStartsWith(const char *str, const char *prefix)
    return strncmp(str, prefix, lenPrefix) == 0;
 }
 
-struct OpModeDesc {
-   WA_OPERATION_MODE val;
+template<typename T>
+struct ValDesc {
+   T val;
    const char* key;
 };
 
-#define DESCRIBE_OPMODE(NAME)     {OPMODE_##NAME, #NAME}
+#define DESCRIBE_OPMODE(NAME)        {OPMODE_##NAME, #NAME}
+#define DESCRIBE_TASK_TYPE(NAME)     { TTYPE_##NAME, #NAME}
 
-static OpModeDesc OpModes[] =
+static ValDesc<WA_OPERATION_MODE> OpModes[] =
 {
    DESCRIBE_OPMODE(FIXED_TASK),
    DESCRIBE_OPMODE(SEMI_STRAY),
    DESCRIBE_OPMODE(STRAY),
    DESCRIBE_OPMODE(DEMO_STATISTICS)
+};
+
+static ValDesc<WA_TASK_TYPE> TaskTypes[] =
+{
+   DESCRIBE_TASK_TYPE(ONE_SIDED_BIDDING_LEVEL),
+   DESCRIBE_TASK_TYPE(ONE_SIDED_DENOMINATION),
+   DESCRIBE_TASK_TYPE(COMPETITIVE_GENERIC),
+   DESCRIBE_TASK_TYPE(SEEK_OPENING_LEAD),
 };
 
 void WaConfig::ChangeOpMode(const char* line)
@@ -83,6 +94,16 @@ void WaConfig::ChangeOpMode(const char* line)
       if (IsStartsWith(line, desc.key)) {
          solve.opMode = desc.val;
          printf("Recognized op-mode: %s", line);
+      }
+   }
+}
+
+void WaConfig::ReadTaskType(const char* line)
+{
+   for (auto& desc : TaskTypes) {
+      if (IsStartsWith(line, desc.key)) {
+         solve.taskType = desc.val;
+         printf("Recognized task-type: %s", line);
       }
    }
 }
@@ -312,8 +333,7 @@ EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
       return S_IDLE;
    } 
    
-   KEYWORD_CALS(OpMode,      ChangeOpMode)
-   KEYWORD_CALL(Hand,        ReadHandPBN)
+   KEYWORD_CALS(Hand,        ReadHandPBN)
    KEYWORD_CALL(Leads,       ReadLeadCards)
    KEYWORD_CALL(Prima,       ReadPrimaScorer)
    KEYWORD_CALL(Secunda,     ReadSecundaScorer)
@@ -378,6 +398,7 @@ void WaConfig::ReadTask(Walrus *walrus)
             if (IsStartsWith(line, key.TName)) {
                fsm = FSM_Go2WaitTask(line);
             }
+
             break;
          }
 
@@ -392,8 +413,10 @@ void WaConfig::ReadTask(Walrus *walrus)
          case S_FILTERS: fsm = FSM_DoFiltersState(line); break;
       }
 
-      KEYWORD_CALS(Debug, ReadDebugSetting)
-      KEYWORD_CALL(Scale, ReadScaleSetting)
+      KEYWORD_CALS(Debug,  ReadDebugSetting)
+      KEYWORD_CALL(Scale,  ReadScaleSetting)
+      KEYWORD_CALL(TType,  ReadTaskType)
+      KEYWORD_CALL(OpMode, ChangeOpMode)
    }
 
    // cleanup

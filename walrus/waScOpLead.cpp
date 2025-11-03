@@ -68,6 +68,12 @@
    #error Get rid of SEEK_MAGIC_FLY define. Use config.io.showMagicFly -- autodetected by scorer codes.
 #endif
 
+#ifdef FIXED_HAND_NORTH
+   #error Get rid of FIXED_HAND_NORTH define. Use config.deck.fixedHand -- autodetected by task type.
+#elif defined( FIXED_HAND_WEST )
+   #error Get rid of FIXED_HAND_WEST define. Use config.deck.fixedHand -- autodetected by task type.
+#endif 
+
 //#ifdef 
 //   #error Get rid of  define. Use  in config.
 //#endif
