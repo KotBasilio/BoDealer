@@ -6,6 +6,7 @@
 ************************************************************/
 
 #include "walrus.h"
+#include <assert.h>
 
 #ifdef SEMANTIC_SPLINTER_SHAPE
 void Walrus::GrabSplinterVariant(twContext* lay)
@@ -273,6 +274,11 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    FourHandsFillSem();
+}
+#else
+void Walrus::FillSemantic(void)
+{
+   assert(0);
 }
 #endif // FOUR_HANDS_TASK
 

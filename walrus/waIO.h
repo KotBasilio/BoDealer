@@ -128,6 +128,7 @@ struct WaConfig {
          int S=0, H=0, D=0, C=0;
       } leads;
       bool shouldSolveTwice = false;
+      bool customSemantic = false;
    } solve;
 
    // contracts and its text representation
@@ -190,6 +191,7 @@ struct WaConfig {
 private:
 
    void AnnounceTask();
+   void AnalyzeTaskType();
    void ReadTask(class Walrus *walrus);
    void ChangeOpMode(const char* line);
    void ReadTaskType(const char* line);

@@ -12,7 +12,6 @@
 
 #ifdef SEM_ONE_SIDED_BIDDING_LEVEL
    #define SEEK_BIDDING_LEVEL
-   #define SEM_ORBITING_FIXED_HAND
 #endif 
 
 #ifdef SEP_RESPONCE_TO_2C
@@ -29,7 +28,6 @@
 
 #ifdef SEM_ONE_SIDED_DENOMINATION
    #define SEEK_DENOMINATION
-   #define SEM_ORBITING_FIXED_HAND
 #endif 
 
 #ifdef SEM_MAR24_5C_OR_3NT

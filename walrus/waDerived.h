@@ -10,11 +10,6 @@
    #define THE_OTHER_IS_OURS
 #endif
 
-#ifdef SEEK_OPENING_LEAD
-   #define SEM_ORBITING_FIXED_HAND
-   //#define FIXED_HAND_WEST
-#endif
-
 #ifdef SEEK_SACRIFICE_DECISION
    #define SHOW_OPPS_ON_PASS_ONLY
    #define SEEK_DECISION_COMPETE

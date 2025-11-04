@@ -53,7 +53,7 @@
 #endif
 
 #ifdef DEP_SEEK_OPENING_LEAD
-   #error Get rid of DEP_SEEK_OPENING_LEAD define. Use "POSTMORTEM: LEAD" in config + SEEK_OPENING_LEAD define. 
+   #error Get rid of DEP_SEEK_OPENING_LEAD define. Use "POSTMORTEM: LEAD" in config + TTYPE_SEEK_OPENING_LEAD. 
 #endif
 
 #ifdef SOLVE_TWICE_HANDLED_CHUNK

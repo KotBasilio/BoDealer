@@ -187,14 +187,13 @@ bool Walrus::InitSemantics()
       sem.onBoardAdded = &MiniUI::DisplayBoard;
    }
 
-   // custom semantics have final word
-   #ifdef SEM_ORBITING_FIXED_HAND
-      // many tasks fully relay on config
-      SemanticsToOrbitFixedHand();
-   #else // other tasks, older approach
+   // many tasks fully relay on config
+   if (config.solve.customSemantic) {// custom semantics have final word
       FillSemantic();
       sem.MiniLinkFilters();
-   #endif
+   } else { 
+      SemanticsToOrbitFixedHand();
+   }
    if (!sem.scanCover) {
       sem.MarkFail("Don't know how much boards covers one scan");
    }
@@ -210,24 +209,35 @@ void WaConfig::MakeSecondaryScrorerForBiddingLevel()
    FillShortScorer(hedge, txt.secundaShort);
 }
 
-void WaConfig::InitCardsCount()
+void WaConfig::AnalyzeTaskType()
 {
-   // decide what hand is fixed
-   switch (solve.taskType) {  
+   // decide what hand is fixed and other specifics
+   switch (solve.taskType) {
       case TTYPE_ONE_SIDED_BIDDING_LEVEL:
       case TTYPE_ONE_SIDED_DENOMINATION:
       case TTYPE_COMPETITIVE_GENERIC:
          deck.fixedHand = NORTH;
-         break;  
+         break;
+
       case TTYPE_SEEK_OPENING_LEAD:
-         deck.fixedHand = WEST;  
-         break;  
+         deck.fixedHand = WEST;
+         // DOC: solutions parameter
+         // 1 -- Find the maximum number of tricks for the side to play. Return only one of the optimum cards and its score.
+         // 2 -- Find the maximum number of tricks for the side to play. Return all optimum cards and their scores.
+         // 3 -- Return all cards that can be legally played, with their scores in descending order.
+         solve.ddsSol = 3;
+         break;
+
       case TTYPE_NONE:
       default:
          deck.fixedHand = -1;
+         solve.customSemantic = true;
          break;
-   }  
+   }
+}
 
+void WaConfig::InitCardsCount()
+{
    // how many cards are removed from deck
    if (deck.fixedHand < 0) {
       deck.cardsRemoved = 0;
@@ -237,19 +247,12 @@ void WaConfig::InitCardsCount()
 
    // how many cards left
    deck.cardsCount = SOURCE_CARDS_COUNT - deck.cardsRemoved;
-
-   // DOC: solutions parameter
-   // 1 -- Find the maximum number of tricks for the side to play. Return only one of the optimum cards and its score.
-   // 2 -- Find the maximum number of tricks for the side to play. Return all optimum cards and their scores.
-   // 3 -- Return all cards that can be legally played, with their scores in descending order.
-   #ifdef SEEK_OPENING_LEAD
-      solve.ddsSol = 3;
-   #endif
 }
 
 bool WaConfig::OrdinaryRead(Walrus* walrus)
 {
    ReadTask(walrus);
+   AnalyzeTaskType();
    InitCardsCount();
    BuildNewFilters(walrus);
    ResolvePostmortemType(walrus);

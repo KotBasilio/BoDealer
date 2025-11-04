@@ -321,7 +321,6 @@ void WaConfig::AnnounceTask()
    }
 }
 
-
 EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
 {
    if (IsStartsWith(line, key.Filters)) {

@@ -60,6 +60,8 @@
 //#define SEMANTIC_KEYCARDS_10_12
 //#define SEMANTIC_SPADE_4_WHEN_1H
 
+#define SEM_ORBITING_FIXED_HAND
+
 // -----------------------------------------------------------------
 // task descriptions
 #include "waTOneSided.h"
