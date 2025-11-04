@@ -185,23 +185,23 @@ void WaConfig::SetupOutputOptions()
    }
    #endif
 
-   #ifdef SHOW_OUR_OTHER
-      io.showOurOther = true;
+   #ifdef SCORE_THE_OTHER_CONTRACT
+      #ifdef THE_OTHER_IS_OURS
+         io.showOurOther = true;
+      #else
+         io.showOppResults = true;
+         #ifdef SHOW_OPPS_ON_PASS_ONLY
+            io.oppsOnlyPassed = true;
+         #elif defined(SHOW_OPPS_ON_DOUBLE_ONLY)
+            io.oppsOnlyDoubled = true;
+         #endif
+      #endif
    #endif
 
    #ifdef PERCENTAGES_IN_ANSWER_ROW
       io.showPercentages = true;
-      #ifdef ANSWER_ROW_IDX
-         io.rowPercentage = ANSWER_ROW_IDX;
-      #endif
-   #endif
-
-   #ifdef SHOW_OPP_RESULTS
-      io.showOppResults = true;
-      #ifdef SHOW_OPPS_ON_PASS_ONLY
-         io.oppsOnlyDoubled = true;
-      #elif defined(SHOW_OPPS_ON_DOUBLE_ONLY)
-         io.oppsOnlyDoubled = true;
+      #ifdef SINGLE_HAND_TASK
+         io.rowPercentage = IO_ROW_OUR_MADE;
       #endif
    #endif
 }

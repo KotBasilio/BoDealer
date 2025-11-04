@@ -19,6 +19,15 @@ struct WaTask2
    void Init(twContext* lay);
 };
 
+// A task version when store CodedTricks as well -- so we can refilter later
+struct WaTaskStray : public WaTask2 {
+   u64 tricks = 0;// TODO some coded arithmetics like in SplitBits
+
+   WaTaskStray() : WaTask2() {}
+   void Init(SplitBits& a, SplitBits& b) { partner = a; oneOpp = b; }
+   void Init(twContext* lay);
+};
+
 // a task version with 3 hands stored
 #ifdef _DEBUG
    #define DEBUG_UNEXPECTED printf("\nwtf?")

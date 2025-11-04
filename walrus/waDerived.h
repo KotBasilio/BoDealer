@@ -25,14 +25,6 @@
    #define FIXED_HAND_NORTH
 #endif
 
-#ifdef SCORE_THE_OTHER_CONTRACT
-   #ifdef THE_OTHER_IS_OURS
-      #define SHOW_OUR_OTHER
-   #else
-      #define SHOW_OPP_RESULTS
-   #endif
-#endif
-
 // tasks without a fixed hand (no specifics)
 
 // -----------------------------------------------------------------

@@ -60,9 +60,10 @@ void WaConfig::SetupSeatsAndTrumps(const CumulativeScore &cs)
       const char* whos = "Their";
       #ifdef THE_OTHER_IS_OURS
          whos = "A";
-      #elif defined(SEEK_BIDDING_LEVEL)
-         whos = "Our";
       #endif
+      if (solve.taskType == TTYPE_ONE_SIDED_BIDDING_LEVEL) {
+         whos = "Our";
+      }
       sprintf(txt.secLongName, "%s contract in %s", whos, secondary.txtTrump);
    }
 }

@@ -1,6 +1,5 @@
 /* ---------------------------------------------------------------- -
    --- DESCRIPTIONS with useful defines:
-   #define SEEK_BIDDING_LEVEL
    #define SEEK_DENOMINATION
    #define SEEK_DECISION_BID_OR_DOUBLE
    #define SEEK_SACRIFICE_DECISION
@@ -9,10 +8,6 @@
 
    #define FOUR_HANDS_TASK
 */
-
-#ifdef SEM_ONE_SIDED_BIDDING_LEVEL
-   #define SEEK_BIDDING_LEVEL
-#endif 
 
 #ifdef SEP_RESPONCE_TO_2C
    #define SEEK_BIDDING_LEVEL

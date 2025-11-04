@@ -74,6 +74,14 @@
    #error Get rid of FIXED_HAND_WEST define. Use config.deck.fixedHand -- autodetected by task type.
 #endif 
 
+#ifdef SEEK_BIDDING_LEVEL
+   #error Get rid of SEEK_BIDDING_LEVEL define. Use (config.solve.taskType == TTYPE_ONE_SIDED_BIDDING_LEVEL) in 
+#endif
+
+#ifdef SEM_ONE_SIDED_BIDDING_LEVEL
+   #error Get rid of SEM_ONE_SIDED_BIDDING_LEVEL define. Use config.solve.taskType
+#endif
+
 //#ifdef 
 //   #error Get rid of  define. Use  in config.
 //#endif
