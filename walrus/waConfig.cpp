@@ -209,10 +209,21 @@ void WaConfig::MakeSecondaryScrorerForBiddingLevel()
    FillShortScorer(hedge, txt.secundaShort);
 }
 
+WA_TASK_TYPE WaConfig::DetectOneHandVariant()
+{
+   // TODO: analyze both Scorers
+   return TTYPE_ONE_SIDED_BIDDING_LEVEL;
+}
+
 void WaConfig::AnalyzeTaskType()
 {
    // decide what hand is fixed and other specifics
    switch (solve.taskType) {
+      case TTYPE_FIXED_ONE_HAND:
+         solve.taskType = DetectOneHandVariant();
+         AnalyzeTaskType();
+         break;
+      // one hand variants
       case TTYPE_ONE_SIDED_BIDDING_LEVEL:
       case TTYPE_ONE_SIDED_DENOMINATION:
       case TTYPE_COMPETITIVE_GENERIC:
@@ -229,6 +240,8 @@ void WaConfig::AnalyzeTaskType()
          break;
 
       case TTYPE_NONE:
+      case TTYPE_FOUR_HANDS_TASK:
+      case TTYPE_FILTERING_ONLY:
       default:
          deck.fixedHand = -1;
          solve.customSemantic = true;

@@ -152,7 +152,7 @@ void WaMulti::SaveThreeHands(twContext* lay)
 
 void WaTask3::Init(SplitBits& a, SplitBits& b) 
 { 
-   assert(0);
+   WRONG_CODE_PATH("Task3 needs 3 hands");
 }
 
 void WaTask3::Init(twContext* lay)

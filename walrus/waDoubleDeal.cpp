@@ -101,7 +101,7 @@ DdsDeal::DdsDeal(const deal &dlBase, WaTask2 &task)
    } else if (config.deck.fixedHand == WEST) {
       FillByFixedWest(task);
    } else {
-      assert(0);
+      WRONG_CODE_PATH("No fixed hand");
    }
 
    // may see

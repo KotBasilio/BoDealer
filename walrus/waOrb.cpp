@@ -70,9 +70,8 @@ void Walrus::SemanticsToOrbitFixedHand(void)
    } else if (config.deck.fixedHand == WEST) {
       sem.onScanCenter = &Walrus::Scan3FixedWest;
    } else {
-      assert(0);
+      WRONG_CODE_PATH("No fixed hand");
    }
-
 }
 
 void Walrus::Orb_Interrogate(DdsTricks &tr, deal &cards, futureTricks &fut)

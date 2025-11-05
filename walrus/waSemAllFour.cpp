@@ -278,7 +278,7 @@ void Walrus::FillSemantic(void)
 #else
 void Walrus::FillSemantic(void)
 {
-   assert(0);
+   WRONG_CODE_PATH("See Walrus::InitSemantics(). Should not call a custom one.");
 }
 #endif // FOUR_HANDS_TASK
 

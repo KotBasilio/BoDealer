@@ -82,6 +82,9 @@ static ValDesc<WA_OPERATION_MODE> OpModes[] =
 
 static ValDesc<WA_TASK_TYPE> TaskTypes[] =
 {
+   DESCRIBE_TASK_TYPE(FIXED_ONE_HAND),
+   DESCRIBE_TASK_TYPE(FOUR_HANDS_TASK),
+   DESCRIBE_TASK_TYPE(FILTERING_ONLY),
    DESCRIBE_TASK_TYPE(ONE_SIDED_BIDDING_LEVEL),
    DESCRIBE_TASK_TYPE(ONE_SIDED_DENOMINATION),
    DESCRIBE_TASK_TYPE(COMPETITIVE_GENERIC),
@@ -338,8 +341,11 @@ EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
    KEYWORD_CALL(Secunda,     ReadSecundaScorer)
    KEYWORD_CALL(Postmortem,  ReadPostmortemParams)
    else if (strlen(line) > 2) {
-      SAFE_ADD(txt.titleBrief, line);
-      // TODO: when line starts with  "//" we may consider it a comment and skip it
+      if (IsStartsWith(line, "//")) {
+         // we may consider it a comment and skip it
+      } else {
+         SAFE_ADD(txt.titleBrief, line);
+      }
    }
 
    return S_IN_TASK;

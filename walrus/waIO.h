@@ -61,7 +61,12 @@ enum WA_OPERATION_MODE {
 
 enum WA_TASK_TYPE {
    TTYPE_NONE = 0,
-   TTYPE_ONE_SIDED_BIDDING_LEVEL,
+   // how many hands are involved
+   TTYPE_FIXED_ONE_HAND,
+   TTYPE_FOUR_HANDS_TASK,
+   TTYPE_FILTERING_ONLY,
+   // one hand variants
+   TTYPE_ONE_SIDED_BIDDING_LEVEL = 10,
    TTYPE_ONE_SIDED_DENOMINATION,
    TTYPE_COMPETITIVE_GENERIC,
    TTYPE_SEEK_OPENING_LEAD
@@ -190,8 +195,6 @@ struct WaConfig {
    bool IsInitFailed() { return !isInitSuccess; }
 private:
 
-   void AnnounceTask();
-   void AnalyzeTaskType();
    void ReadTask(class Walrus *walrus);
    void ChangeOpMode(const char* line);
    void ReadTaskType(const char* line);
@@ -212,6 +215,9 @@ private:
    EConfigReaderState FSM_Go2WaitTask(char* line);
    EConfigReaderState FSM_GoInsideTask(char* line);
    bool RecognizePostmType(const char* token);
+   void AnalyzeTaskType();
+   WA_TASK_TYPE DetectOneHandVariant();
+   void AnnounceTask();
 
    // keywords used in parsing
    struct Keywords {

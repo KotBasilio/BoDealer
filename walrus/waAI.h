@@ -30,9 +30,11 @@ struct WaTaskStray : public WaTask2 {
 
 // a task version with 3 hands stored
 #ifdef _DEBUG
-   #define DEBUG_UNEXPECTED printf("\nwtf?")
+   #define DEBUG_UNEXPECTED      printf("\nwtf?")
+   #define WRONG_CODE_PATH(txt)  assert(0)
 #else
    #define DEBUG_UNEXPECTED
+   #define WRONG_CODE_PATH
 #endif
 struct WaTask3
 {
