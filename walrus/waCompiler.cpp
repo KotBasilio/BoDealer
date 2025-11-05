@@ -433,6 +433,30 @@ private:
 };
 const char* Parser::delimiters = " ,.!:;(){";
 
+bool Semantics::IsListStart(const MicroFilter& mic)
+{
+   return mic.func == &WaFilter::AnyInListBelow ||
+          mic.func == &WaFilter::ExcludeCombination;
+}
+
+bool Semantics::IsOpeningBracket(int idx)
+{
+   if (idx < 0 || vecFilters.size() <= idx) {
+      return false;
+   }
+
+   return IsListStart(vecFilters[idx]);
+}
+
+bool Semantics::IsClosingBracket(int idx)
+{
+   if (idx < 0 || vecFilters.size() <= idx) {
+      return false;
+   }
+
+   return vecFilters[idx].func == &WaFilter::EndList;
+}
+
 #define ACCEPT_POS(NAME) if (parser.IsToken(#NAME)) {  \
             ctx.AddArg(NAME);                          \
             parser.NoticeTokenIsPosition();            \

@@ -46,93 +46,6 @@ void waFileNames::Build()
    strcat(Solution, OUT_FNAME);
 }
 
-void Walrus::DetectGoals()
-{
-   // ensure we have a scorer
-   if (cumulScore.prima.IsEmpty()) {
-      printf("\nERROR: No primary scorer found\n");
-      config.MarkFail();
-      return;
-   }
-   config.SetupSeatsAndTrumps(cumulScore);
-
-   // we really test & display scorers, not just a linear values
-   // -- primary
-   DdsTricks tr;
-   char tail[128];
-   CumulativeScore zeroes(cumulScore);
-   owl.Show("Primary scorer (%s, %d tr):", config.prim.txtTrump, config.prim.goal);
-   strcpy(tail, "  / ");
-   for (tr.plainScore = 7; tr.plainScore <= 13 ; tr.plainScore++) {
-      cumulScore = zeroes;
-      ScoreWithPrimary(tr);
-      AddScorerValues(tail);
-   }
-   owl.Show("%s\n", tail);
-
-   // -- secondary
-   bool shouldSkipSecunda = cumulScore.secunda.IsEmpty() || (sem.onPrimaryScoring == &CumulativeScore::BiddingLevel);
-   if (!shouldSkipSecunda) {
-      owl.Show("Contract-B scorer (%s, %d tr):", config.secondary.txtTrump, config.secondary.goal);
-      strcpy(tail, "  / ");
-      for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
-         cumulScore = zeroes;
-         ScoreWithSecondary(tr);
-         AddScorerValues(tail);
-      }
-      owl.Show("%s\n", tail);
-   }
-
-   // final cleanup
-   cumulScore = zeroes;
-}
-
-void Walrus::AddScorerValues(char* tail)
-{
-   char chunk[20];
-
-   if (config.postm.Is(WPM_OPENING_LEADS)) {
-      if (cumulScore.ideal) {
-         owl.Show(" %lld", cumulScore.ideal);
-         return;
-      }
-   }
-
-   if (cumulScore.oppContract) {
-      owl.Show(" %lld", -cumulScore.oppContract);
-      if (cumulScore.oppCtrDoubled) {
-         sprintf(chunk, " %lld", -cumulScore.oppCtrDoubled);
-         strcat(tail, chunk);
-      }
-      return;
-   }
-
-   if (cumulScore.oppCtrDoubled) {
-      owl.Show(" %lld", -cumulScore.oppCtrDoubled);
-      return;
-   }
-
-   if (cumulScore.bidGame) {
-      owl.Show(" %lld", cumulScore.bidGame);
-      if (cumulScore.bidPartscore) {
-         sprintf(chunk, " %lld", cumulScore.bidPartscore);
-         strcat(tail, chunk);
-      }
-      return;
-   }
-
-   if (cumulScore.ourOther) {
-      owl.Show(" %lld", cumulScore.ourOther);
-      return;
-   }
-
-   if (cumulScore.bidPartscore) {
-      sprintf(chunk, " %lld", cumulScore.bidPartscore);
-      strcat(tail, chunk);
-      return;
-   }
-}
-
 bool Walrus::InitSemantics()
 {
    // FILTERS setup
@@ -201,20 +114,6 @@ bool Walrus::InitSemantics()
    return sem.IsInitOK();
 }
 
-void WaConfig::MakeSecondaryScrorerForBiddingLevel()
-{
-   char* hedge = config.txt.secundaScorerCode;
-   strcpy(hedge, config.txt.primaScorerCode);
-   hedge[1]--;
-   FillShortScorer(hedge, txt.secundaShort);
-}
-
-WA_TASK_TYPE WaConfig::DetectOneHandVariant()
-{
-   // TODO: analyze both Scorers
-   return TTYPE_ONE_SIDED_BIDDING_LEVEL;
-}
-
 void WaConfig::AnalyzeTaskType()
 {
    // decide what hand is fixed and other specifics
@@ -223,6 +122,7 @@ void WaConfig::AnalyzeTaskType()
          solve.taskType = DetectOneHandVariant();
          AnalyzeTaskType();
          break;
+
       // one hand variants
       case TTYPE_ONE_SIDED_BIDDING_LEVEL:
       case TTYPE_ONE_SIDED_DENOMINATION:
@@ -289,7 +189,7 @@ bool Walrus::InitByConfig()
    }
 
    // other preparations basing on config
-   DetectGoals();
+   DetectScorerGoals();
    InitDeck();
    ui.AdaptMiniRows(this);
    if (config.IsInitFailed()) {
@@ -299,5 +199,3 @@ bool Walrus::InitByConfig()
 
    return StartOscar();
 }
-
-

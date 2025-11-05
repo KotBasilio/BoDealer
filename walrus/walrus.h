@@ -44,7 +44,7 @@ protected:
    void InitDeck();
    twlHCP ParsePbnDeal();
    void WithdrawByInput();
-   void DetectGoals();
+   void DetectScorerGoals();
 
    // scans
    void ScanTrivial();

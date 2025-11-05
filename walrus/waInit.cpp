@@ -227,119 +227,11 @@ void Semantics::MiniLinkFilters()
    }
 }
 
-bool Semantics::IsListStart(const MicroFilter& mic)
-{
-   return mic.func == &WaFilter::AnyInListBelow ||
-          mic.func == &WaFilter::ExcludeCombination;
-}
-
 void Semantics::MarkFail(const char* reason) 
 { 
    isInitSuccess = false;
    auto safeReason = reason ? reason : "..";
    printf("Semantics ERROR: %s.\n", safeReason);
-}
-
-bool Semantics::IsOpeningBracket(int idx)
-{
-   if (idx < 0 || vecFilters.size() <= idx) {
-      return false;
-   }
-
-   return IsListStart(vecFilters[idx]);
-}
-
-bool Semantics::IsClosingBracket(int idx)
-{
-   if (idx < 0 || vecFilters.size() <= idx) {
-      return false;
-   }
-
-   return vecFilters[idx].func == &WaFilter::EndList;
-}
-
-void Semantics::SetOurPrimaryScorer(CumulativeScore &cs, const char* code)
-{
-   // aim at bidGame in CumulativeScore
-   if (!cs.prima.Init(cs.bidGame, code)) {
-      MarkFail("Failed to init prima scorer");
-      return;
-   }
-
-   // ok
-   onPrimaryScoring = &CumulativeScore::Primary;
-   config.prim.goal = cs.prima.Goal();
-   onSinglePrimary = &CumulativeScore::DepPrimary;
-}
-
-void Semantics::SetSecondaryScorer(CumulativeScore &cs, s64& target, const char* code)
-{
-   if (!cs.secunda.Init(target, code)) {
-      MarkFail("Failed to init secondary scorer");
-      return;
-   }
-
-   // ok
-   onSecondScoring = &CumulativeScore::Secondary;
-   config.secondary.goal = cs.secunda.Goal();
-   onSingleSecondary = &CumulativeScore::DepSecondary;
-}
-
-void Semantics::SetOurSecondaryScorer(CumulativeScore &cs, const char* code)
-{
-   // aim at ourOther in CumulativeScore
-   if (IsInitOK()) {
-      SetSecondaryScorer(cs, cs.ourOther, code);
-      if (IsInitFailed()) {
-         printf("Semantics ERROR: the task suggests having our second scorer.\n");
-      }
-   }
-}
-
-void Semantics::SetTheirScorer(CumulativeScore& cs, const char* code)
-{
-   // aim at oppContract in CumulativeScore
-   if (IsInitOK()) {
-      SetSecondaryScorer(cs, cs.oppContract, code);
-      if (IsInitFailed()) {
-         printf("Semantics ERROR: the task suggests having their scorer.\n");
-      }
-      if (cs.secunda.HasDouble()) {
-         cs.secunda.TargetOut(cs.oppCtrDoubled);
-      }
-   }
-}
-
-void Semantics::SetBiddingLevelScorer(CumulativeScore& cs)
-{
-   // prima scorer aims at "bidGame"
-   const char* code = config.txt.primaScorerCode;
-   SetOurPrimaryScorer(cs, code);
-
-   // make permanent other scorer code
-   config.MakeSecondaryScrorerForBiddingLevel();
-   SetOurSecondaryScorer(cs, config.txt.secundaScorerCode);
-
-   // secunda scorer aims at "bidPartscore"
-   cs.secunda.TargetOut(cs.bidPartscore);
-   if (IsInitFailed()) {
-      return;
-   }
-
-   // allow to compare
-   onPrimaryScoring = &CumulativeScore::BiddingLevel;
-}
-
-void Semantics::SetOpeningLeadScorer(CumulativeScore& cs, const char* code)
-{
-   SetOurPrimaryScorer(cs, code);
-   cs.prima.TargetOut(cs.ideal);
-   if (IsInitFailed()) {
-      return;
-   }
-
-   // allow to count for all leads
-   onPrimaryScoring = &CumulativeScore::OpeningLead;
 }
 
 void Walrus::InitDeck(void)
