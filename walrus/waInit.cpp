@@ -174,18 +174,10 @@ WaConfig::WaConfig()
 void WaConfig::SetupOutputOptions()
 {
    // i/o : display options
-   #ifdef SEEK_DECISION_COMPETE
-      io.seekDecisionCompete = true;
-   #endif
-
-   #if defined(THE_OTHER_IS_OURS) || defined(SEEK_DECISION_COMPETE)
    if (solve.shouldSolveTwice) {
       io.showHugeMatch = true;
       io.rowPercentage = IO_ROW_COMPARISON;
-   }
-   #endif
 
-   #ifdef SCORE_THE_OTHER_CONTRACT
       #ifdef THE_OTHER_IS_OURS
          io.showOurOther = true;
       #else
@@ -196,7 +188,7 @@ void WaConfig::SetupOutputOptions()
             io.oppsOnlyDoubled = true;
          #endif
       #endif
-   #endif
+   }
 
    #ifdef PERCENTAGES_IN_ANSWER_ROW
       io.showPercentages = true;

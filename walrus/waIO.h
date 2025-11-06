@@ -133,6 +133,8 @@ struct WaConfig {
          int S=0, H=0, D=0, C=0;
       } leads;
       bool shouldSolveTwice = false;
+      bool seekDecisionCompete = false;
+      bool scorersSameLine = true;
       bool customSemantic = false;
    } solve;
 
@@ -171,12 +173,11 @@ struct WaConfig {
       bool showOppResults = false;
       bool oppsOnlyDoubled = false;
       bool oppsOnlyPassed = false;
-      bool seekDecisionCompete = false;
       bool showMagicFly = false;
       bool showPercentages = false;
       int  rowPercentage = 0;
-      bool DisplayingOtherContract() { return showOppResults || showOurOther || seekDecisionCompete; }
    } io;
+   bool DisplayingOtherContract() { return io.showOppResults || io.showOurOther || solve.seekDecisionCompete; }
 
    // debug options
    struct Debug {

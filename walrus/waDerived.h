@@ -6,7 +6,6 @@
 // -- what hand is fixed, if any
 // -- how to solve and what to seek
 #ifdef SEEK_DENOMINATION
-   #define SCORE_THE_OTHER_CONTRACT
    #define THE_OTHER_IS_OURS
 #endif
 
@@ -18,11 +17,6 @@
 #ifdef SEEK_DECISION_BID_OR_DOUBLE
    #define SHOW_OPPS_ON_DOUBLE_ONLY
    #define SEEK_DECISION_COMPETE
-#endif
-
-#ifdef SEEK_DECISION_COMPETE
-   #define SCORE_THE_OTHER_CONTRACT
-   #define FIXED_HAND_NORTH
 #endif
 
 // tasks without a fixed hand (no specifics)

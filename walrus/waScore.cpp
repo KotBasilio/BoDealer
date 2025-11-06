@@ -325,6 +325,14 @@ void Semantics::SetOpeningLeadScorer(CumulativeScore& cs, const char* code)
 
 WA_TASK_TYPE WaConfig::DetectOneHandVariant()
 {
+   if (!solve.shouldSolveTwice) {
+      return TTYPE_ONE_SIDED_BIDDING_LEVEL;
+   }
+
+#ifdef SEEK_DECISION_COMPETE
+   solve.seekDecisionCompete = true;
+#endif
+
    // TODO: analyze both Scorers
-   return TTYPE_ONE_SIDED_BIDDING_LEVEL;
+   return TTYPE_ONE_SIDED_DENOMINATION;
 }

@@ -61,7 +61,7 @@
 #endif
 
 #ifdef SHOW_SACRIFICE_RESULTS
-   #error Get rid of SHOW_SACRIFICE_RESULTS define. Use config.io.seekDecisionCompete -- autodetected by scorer codes. 
+   #error Get rid of SHOW_SACRIFICE_RESULTS define. Use config.solve.seekDecisionCompete -- autodetected by scorer codes. 
 #endif
 
 #ifdef SEEK_MAGIC_FLY 
@@ -80,6 +80,10 @@
 
 #ifdef SEM_ONE_SIDED_BIDDING_LEVEL
    #error Get rid of SEM_ONE_SIDED_BIDDING_LEVEL define. Use config.solve.taskType
+#endif
+
+#ifdef SEEK_DECISION_COMPETE
+   #error Get rid of SEEK_DECISION_COMPETE define. Use config.solve.seekDecisionCompete
 #endif
 
 //#ifdef 

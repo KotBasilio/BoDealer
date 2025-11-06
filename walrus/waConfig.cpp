@@ -56,7 +56,7 @@ bool Walrus::InitSemantics()
 
    // SCORER setup
    if (config.solve.shouldSolveTwice) {
-      if (config.io.seekDecisionCompete) {
+      if (config.solve.seekDecisionCompete) {
          sem.SetOurPrimaryScorer(cumulScore, config.txt.primaScorerCode);
          sem.SetTheirScorer     (cumulScore, config.txt.secundaScorerCode);
       } else {

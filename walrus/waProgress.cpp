@@ -169,7 +169,7 @@ void MiniUI::AdaptMiniRows(Walrus* wal)
    }
 
    // often we compare contracts
-   if (config.io.seekDecisionCompete) {
+   if (config.solve.seekDecisionCompete) {
       sprintf(miniRowStart[IO_ROW_COMPARISON], "(bid/refrain): ");
    }
 }
@@ -177,7 +177,7 @@ void MiniUI::AdaptMiniRows(Walrus* wal)
 static bool IsRowSkippable(int i)
 {
    // opp res => show theirs
-   if (config.io.DisplayingOtherContract()) {
+   if (config.DisplayingOtherContract()) {
       return i > IO_ROW_COMPARISON;
    }
 
@@ -337,7 +337,7 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
    #endif
 
    // a bid/refrain decision
-   if (config.io.seekDecisionCompete) {
+   if (config.solve.seekDecisionCompete) {
       owl.OnDone("Comparison: favor bidding %3.1f%%; same %3.1f%%; favor defending %3.1f%%\n", 
          sumBid * posto, sumSame * posto, sumRefrain * posto
       );
