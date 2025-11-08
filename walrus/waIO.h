@@ -136,6 +136,7 @@ struct WaConfig {
       bool seekDecisionCompete = false;
       bool scorersSameLine = true;
       bool customSemantic = false;
+      bool TheOtherIsOurs() const { return shouldSolveTwice && !seekDecisionCompete; }
    } solve;
 
    // contracts and its text representation
@@ -149,7 +150,8 @@ struct WaConfig {
       char txtBy[WA_TXT_SEAT_SUIT];
       char txtAttacker[WA_TXT_SEAT_SUIT];
       Contract();
-      void Init(const CumulativeScore::LineScorer& scorer);
+      void Init(const LineScorer& scorer);
+      void CheckTheSetup(const LineScorer& scorer);
    };
    Contract prim;      // our primary contract
    Contract secondary; // either our secondary contract or their contract
@@ -193,6 +195,7 @@ struct WaConfig {
    void SetupSeatsAndTrumps(const struct CumulativeScore &cs);
    void MakeSecondaryScrorerForBiddingLevel();
    void MarkFail() { isInitSuccess = false; }
+   void MarkFail(const char* reason);
    bool IsInitFailed() { return !isInitSuccess; }
 private:
 

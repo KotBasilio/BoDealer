@@ -10,20 +10,6 @@
 #include "../dds-develop/examples/hands.h"
 #include HEADER_CURSES
 
-static const char *s_TrumpNames[] = {
-   "spades",
-   "hearts",
-   "diamonds",
-   "clubs",
-   "notrump"
-};
-static const char *s_SeatNames[] = {
-   "North",
-   "East",
-   "South",
-   "West"
-};
-
 MiniUI::MiniUI()
    : exitRequested(false)
    , reportRequested(false)
@@ -37,30 +23,15 @@ MiniUI::MiniUI()
 {
 }
 
-void WaConfig::Contract::Init(const CumulativeScore::LineScorer& scorer)
-{
-   trump = scorer.Trump();
-   goal = scorer.Goal();
-   by = scorer.Decl();
-   first = (by + 1) % 4;
-
-   strcpy(txtTrump,    s_TrumpNames[trump]);
-   strcpy(txtAttacker, s_SeatNames [first]);
-   strcpy(txtBy,       s_SeatNames [by]);
-}
-
 void WaConfig::SetupSeatsAndTrumps(const CumulativeScore &cs)
 {
    // primary
-   prim.Init(cs.prima);
+   prim.CheckTheSetup(cs.prima);
 
    // secondary
    if (!cs.secunda.IsEmpty()) {
-      secondary.Init(cs.secunda);
-      const char* whos = "Their";
-      #ifdef THE_OTHER_IS_OURS
-         whos = "A";
-      #endif
+      secondary.CheckTheSetup(cs.secunda);
+      const char* whos = solve.seekDecisionCompete ? "Their" : "A";
       if (solve.taskType == TTYPE_ONE_SIDED_BIDDING_LEVEL) {
          whos = "Our";
       }

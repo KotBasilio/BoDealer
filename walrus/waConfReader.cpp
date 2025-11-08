@@ -63,6 +63,13 @@ static bool IsStartsWith(const char *str, const char *prefix)
    return strncmp(str, prefix, lenPrefix) == 0;
 }
 
+void WaConfig::MarkFail(const char* reason)
+{
+   isInitSuccess = false;
+   auto safeReason = reason ? reason : "..";
+   printf("Parsing ERROR: %s.\n", safeReason);
+}
+
 template<typename T>
 struct ValDesc {
    T val;
@@ -202,6 +209,7 @@ void WaConfig::DetectTwoScorers()
              (txt.primaShort[1] == 'S')) {
             printf("Search for magic fly is detected -- zero IMPs difference.\n");
             io.showMagicFly = true;
+            solve.seekDecisionCompete = false;
          }
       }
    }
@@ -209,15 +217,29 @@ void WaConfig::DetectTwoScorers()
 
 void WaConfig::ReadPrimaScorer(const char* line)
 {
+   CumulativeScore attempt;
+
    SAFE_STR_BY_LINE(txt.primaScorerCode);
    FillShortScorer(txt.primaScorerCode, txt.primaShort);
+   if (!attempt.prima.Init(attempt.bidGame, txt.primaScorerCode)) {
+      MarkFail("Failed to parse prima scorer");
+      return;
+   }
+   prim.Init(attempt.prima);
    DetectTwoScorers();
 }
 
 void WaConfig::ReadSecundaScorer(const char* line)
 {
+   CumulativeScore attempt;
+
    SAFE_STR_BY_LINE(txt.secundaScorerCode);
    FillShortScorer(txt.secundaScorerCode, txt.secundaShort);
+   if (!attempt.secunda.Init(attempt.bidGame, txt.secundaScorerCode)) {
+      MarkFail("Failed to parse secunda scorer");
+      return;
+   }
+   secondary.Init(attempt.secunda);
    DetectTwoScorers();
 }
 

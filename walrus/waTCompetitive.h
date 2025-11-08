@@ -6,7 +6,6 @@
 
    #define OC_TRUMPS       SOL_NOTRUMP
    #define OC_ON_LEAD      WEST
-   #define THE_OTHER_IS_OURS
 
    #define SHOW_OPPS_ON_PASS_ONLY
    #define SHOW_OPPS_ON_DOUBLE_ONLY

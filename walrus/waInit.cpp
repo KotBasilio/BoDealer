@@ -178,16 +178,16 @@ void WaConfig::SetupOutputOptions()
       io.showHugeMatch = true;
       io.rowPercentage = IO_ROW_COMPARISON;
 
-      #ifdef THE_OTHER_IS_OURS
+      if (solve.TheOtherIsOurs()) {
          io.showOurOther = true;
-      #else
+      } else {
          io.showOppResults = true;
          #ifdef SHOW_OPPS_ON_PASS_ONLY
             io.oppsOnlyPassed = true;
          #elif defined(SHOW_OPPS_ON_DOUBLE_ONLY)
             io.oppsOnlyDoubled = true;
          #endif
-      #endif
+      }
    }
 
    #ifdef PERCENTAGES_IN_ANSWER_ROW

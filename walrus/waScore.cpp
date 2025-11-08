@@ -9,19 +9,20 @@
 #include "walrus.h"
 #include "../dds-develop/include/dll.h"
 #include "../dds-develop/examples/hands.h"
+#include <assert.h>
 
-CumulativeScore::LineScorer::LineScorer() 
+LineScorer::LineScorer() 
    : linearBase(nullptr)
    , outSum(nullptr) 
    , title("none")
 {}
 
-bool CumulativeScore::LineScorer::IsEmpty() const
+bool LineScorer::IsEmpty() const
 {
    return outSum == nullptr;
 }
 
-bool CumulativeScore::LineScorer::HasDouble() const
+bool LineScorer::HasDouble() const
 {
    if (IsEmpty()) {
       return false;
@@ -31,7 +32,7 @@ bool CumulativeScore::LineScorer::HasDouble() const
           title[3]=='R';
 }
 
-bool CumulativeScore::LineScorer::Init(s64 &out, const char* code)
+bool LineScorer::Init(s64 &out, const char* code)
 {
    linearBase = FindLinearScore(code);
    if (linearBase) {
@@ -44,17 +45,17 @@ bool CumulativeScore::LineScorer::Init(s64 &out, const char* code)
    return false;
 }
 
-void CumulativeScore::LineScorer::TargetOut(s64& out)
+void LineScorer::TargetOut(s64& out)
 {
    outSum = &out;
 }
 
-s64 CumulativeScore::LineScorer::Get(uint tricks)
+s64 LineScorer::Get(uint tricks)
 {
    return linearBase[tricks];
 }
 
-void CumulativeScore::LineScorer::operator()(uint tricks)
+void LineScorer::operator()(uint tricks)
 {
    *outSum += Get(tricks);
 }
@@ -66,7 +67,7 @@ void CumulativeScore::FillSameLinears(const CumulativeScore& other)
    tertia. FillUpon(&ideal, other.tertia,  &other.ideal);
 }
 
-void CumulativeScore::LineScorer::FillUpon(s64* ourBase, const LineScorer& other, const s64* thatBase)
+void LineScorer::FillUpon(s64* ourBase, const LineScorer& other, const s64* thatBase)
 {
    if (other.IsEmpty()) {
       return;
@@ -105,14 +106,14 @@ void CumulativeScore::OpeningLead(DdsTricks &tr)
    leadC += prima.Get(tr.lead.C);
 }
 
-int CumulativeScore::LineScorer::Goal() const
+int LineScorer::Goal() const
 {
    // see FindLinearScore()
    uint level = title[1] - '0';
    return level + 6;
 }
 
-int CumulativeScore::LineScorer::Trump() const
+int LineScorer::Trump() const
 {
    // see FindLinearScore()
    switch (title[2]) {
@@ -127,7 +128,7 @@ int CumulativeScore::LineScorer::Trump() const
    return SOL_NOTRUMP;
 }
 
-int CumulativeScore::LineScorer::Decl() const
+int LineScorer::Decl() const
 {
    auto place = strstr(title, "BY ");
    if (!place) {
@@ -142,6 +143,40 @@ int CumulativeScore::LineScorer::Decl() const
    }
 
    return SOUTH;
+}
+
+static const char* s_TrumpNames[] = {
+   "spades",
+   "hearts",
+   "diamonds",
+   "clubs",
+   "notrump"
+};
+static const char* s_SeatNames[] = {
+   "North",
+   "East",
+   "South",
+   "West"
+};
+
+void WaConfig::Contract::Init(const LineScorer& scorer)
+{
+   trump = scorer.Trump();
+   goal = scorer.Goal();
+   by = scorer.Decl();
+   first = (by + 1) % 4;
+
+   strcpy(txtTrump, s_TrumpNames[trump]);
+   strcpy(txtAttacker, s_SeatNames[first]);
+   strcpy(txtBy, s_SeatNames[by]);
+}
+
+void WaConfig::Contract::CheckTheSetup(const LineScorer& scorer)
+{
+   assert(trump == scorer.Trump());
+   assert(goal == scorer.Goal());
+   assert(by == scorer.Decl());
+   assert(first == (by + 1) % 4);
 }
 
 void Walrus::DetectScorerGoals()
@@ -159,7 +194,7 @@ void Walrus::DetectScorerGoals()
    DdsTricks tr;
    char tail[128];
    CumulativeScore zeroes(cumulScore);
-   owl.Show("Primary scorer (%s, %d tr):", config.prim.txtTrump, config.prim.goal);
+      owl.Show("Primary scorer (%s, %d tr):", config.prim.txtTrump, config.prim.goal);
    strcpy(tail, "  / ");
    for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
       cumulScore = zeroes;
@@ -241,7 +276,7 @@ void Semantics::SetOurPrimaryScorer(CumulativeScore& cs, const char* code)
 
    // ok
    onPrimaryScoring = &CumulativeScore::Primary;
-   config.prim.goal = cs.prima.Goal();
+   assert(config.prim.goal == cs.prima.Goal());
    onSinglePrimary = &CumulativeScore::DepPrimary;
 }
 
@@ -254,7 +289,7 @@ void Semantics::SetSecondaryScorer(CumulativeScore& cs, s64& target, const char*
 
    // ok
    onSecondScoring = &CumulativeScore::Secondary;
-   config.secondary.goal = cs.secunda.Goal();
+   assert(config.secondary.goal == cs.secunda.Goal());
    onSingleSecondary = &CumulativeScore::DepSecondary;
 }
 
@@ -305,8 +340,8 @@ void Semantics::SetBiddingLevelScorer(CumulativeScore& cs)
 
 void WaConfig::MakeSecondaryScrorerForBiddingLevel()
 {
-   char* hedge = config.txt.secundaScorerCode;
-   strcpy(hedge, config.txt.primaScorerCode);
+   char* hedge = txt.secundaScorerCode;
+   strcpy(hedge, txt.primaScorerCode);
    hedge[1]--;
    FillShortScorer(hedge, txt.secundaShort);
 }

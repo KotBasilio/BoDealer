@@ -4,8 +4,6 @@
    #define SEEK_DECISION_BID_OR_DOUBLE
    #define SEEK_SACRIFICE_DECISION
 
-   #define THE_OTHER_IS_OURS
-
    #define FOUR_HANDS_TASK
 */
 

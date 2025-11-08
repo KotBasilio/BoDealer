@@ -18,6 +18,24 @@ struct DdsTricks
    void Init(const struct futureTricks &fut);
 };
 
+struct LineScorer {
+   LineScorer();
+   bool Init(s64& out, const char* code);
+   void TargetOut(s64& out);
+   bool IsEmpty() const;
+   bool HasDouble() const;
+   s64  Get(uint tricks);
+   void operator () (uint tricks);
+   void FillUpon(s64* ourBase, const LineScorer& other, const s64* thatBase);
+   int  Goal() const;
+   int  Trump() const;
+   int  Decl() const;
+private:
+   const char* title;
+   const s64* linearBase;
+   s64* outSum;
+};
+
 struct CumulativeScore {
    CumulativeScore();
    s64    ideal;
@@ -36,23 +54,6 @@ struct CumulativeScore {
    void VoidSingleScoring(uint tricks) {}
 
    // linear-score oriented
-   struct LineScorer {
-      LineScorer();
-      bool Init(s64 &out, const char* code);
-      void TargetOut(s64 &out);
-      bool IsEmpty() const;
-      bool HasDouble() const;
-      s64  Get(uint tricks);
-      void operator () (uint tricks);
-      void FillUpon(s64 *ourBase, const LineScorer& other, const s64 *thatBase);
-      int  Goal() const;
-      int  Trump() const;
-      int  Decl() const;
-   private:
-      const char* title;
-      const s64* linearBase;
-      s64* outSum;
-   };
    LineScorer  prima, secunda, tertia;
    void DepPrimary     (uint tricks)   { prima  (tricks); }
    void DepSecondary   (uint tricks)   { secunda(tricks); }

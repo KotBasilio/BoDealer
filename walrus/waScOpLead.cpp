@@ -86,6 +86,10 @@
    #error Get rid of SEEK_DECISION_COMPETE define. Use config.solve.seekDecisionCompete
 #endif
 
+#ifdef THE_OTHER_IS_OURS
+   #error Get rid of THE_OTHER_IS_OURS define. Use config.solve.TheOtherIsOurs()
+#endif
+
 //#ifdef 
 //   #error Get rid of  define. Use  in config.
 //#endif
