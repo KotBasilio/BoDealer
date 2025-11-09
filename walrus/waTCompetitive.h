@@ -1,14 +1,7 @@
 /* ---------------------------------------------------------------- -
    --- DESCRIPTIONS with useful defines:
-   #define SEEK_DENOMINATION
-   #define SEEK_DECISION_BID_OR_DOUBLE
-   #define SEEK_SACRIFICE_DECISION
-
    #define OC_TRUMPS       SOL_NOTRUMP
    #define OC_ON_LEAD      WEST
-
-   #define SHOW_OPPS_ON_PASS_ONLY
-   #define SHOW_OPPS_ON_DOUBLE_ONLY
 
    #define FOUR_HANDS_TASK
 */
@@ -16,10 +9,6 @@
 
 #ifdef SEM_AUG_BLITZ_VS_DIMULYA
    #define SEM_COMPETITIVE_GENERIC
-#endif 
-
-#ifdef SEM_COMPETITIVE_GENERIC
-   #define SEEK_DECISION_BID_OR_DOUBLE
 #endif 
 
 #ifdef SEM_AUG_TRICOLOR_OVER_OPP_3S

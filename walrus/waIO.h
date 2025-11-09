@@ -174,8 +174,7 @@ struct WaConfig {
       bool showHugeMatch = false;
       bool showOurOther = false;
       bool showOppResults = false;
-      bool oppsOnlyDoubled = false;
-      bool oppsOnlyPassed = false;
+      bool oppsAreDoubled = false, weAreDoubled = false;
       bool showMagicFly = false;
       bool showPercentages = false;
       int  rowPercentage = 0;

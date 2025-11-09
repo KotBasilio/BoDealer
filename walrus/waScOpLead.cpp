@@ -82,12 +82,28 @@
    #error Get rid of SEM_ONE_SIDED_BIDDING_LEVEL define. Use config.solve.taskType
 #endif
 
+#ifdef SEM_ONE_SIDED_DENOMINATION
+   #error Get rid of SEM_ONE_SIDED_DENOMINATION define. Use config.solve.taskType
+#endif
+
+#ifdef SEM_COMPETITIVE_GENERIC
+   #error Get rid of SEM_COMPETITIVE_GENERIC define. Use Use config.solve.taskType
+#endif 
+
 #ifdef SEEK_DECISION_COMPETE
    #error Get rid of SEEK_DECISION_COMPETE define. Use config.solve.seekDecisionCompete
 #endif
 
 #ifdef THE_OTHER_IS_OURS
    #error Get rid of THE_OTHER_IS_OURS define. Use config.solve.TheOtherIsOurs()
+#endif
+
+#if defined(SEEK_DECISION_BID_OR_DOUBLE) || defined(SHOW_OPPS_ON_DOUBLE_ONLY)
+   #error Use config.io.areOppsDoubled
+#endif
+
+#if defined(SEEK_SACRIFICE_DECISION) || defined(SHOW_OPPS_ON_PASS_ONLY)
+   #error Use !config.io.areOppsDoubled
 #endif
 
 //#ifdef 

@@ -295,15 +295,15 @@ void Walrus::ShowPercentages(s64 sumRows)
 void Walrus::ShowTheirScore(s64 doneTheirs)
 {
    if (config.io.showOppResults) {
-      if (config.io.oppsOnlyPassed) {
-         owl.OnDone("Their contract expectation average: %lld.", cumulScore.oppContract / doneTheirs);
-      } else if (config.io.oppsOnlyDoubled) {
+      if (config.io.oppsAreDoubled) {
          owl.OnDone("Their contract doubled, expectation average: %lld.", cumulScore.oppCtrDoubled / doneTheirs);
       } else {
-         owl.OnDone("Their contract expectation average: passed = %lld, doubled = %lld.",
-            cumulScore.oppContract / doneTheirs,
-            cumulScore.oppCtrDoubled / doneTheirs);
-      }
+         owl.OnDone("Their contract expectation average: %lld.", cumulScore.oppContract / doneTheirs);
+      } 
+      // both values
+      // owl.OnDone("Their contract expectation average: passed = %lld, doubled = %lld.",
+      //   cumulScore.oppContract / doneTheirs,
+      //   cumulScore.oppCtrDoubled / doneTheirs);
       owl.OnDone(" Chance to make = %3.1f%%\n", hitsRow[IO_ROW_THEIRS + 1] * 100.f / doneTheirs);
    }
 }
@@ -369,11 +369,11 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
       bool onMaxPrima = (sumBid >= sumRefrain);
       bool onImpPrima = (ui.primaBetterBy >= 0);
       if (onMaxPrima == onImpPrima) {
-         owl.OnDone("Verdict:   prefer %s",
+         owl.OnDone("Verdict:   prefer %s\n",
             onMaxPrima ? config.txt.primaShort : config.txt.secundaShort
          );
       } else {
-         owl.OnDone("Verdict:   ON MAX: prefer %s      ON IMPS: prefer %s",
+         owl.OnDone("Verdict:   ON MAX: prefer %s      ON IMPS: prefer %s\n",
             onMaxPrima ? config.txt.primaShort : config.txt.secundaShort,
             onImpPrima ? config.txt.primaShort : config.txt.secundaShort
          );

@@ -9,9 +9,7 @@
 #pragma once
 
 // generalized config-based tasks:
-//#define SEM_ONE_SIDED_BIDDING_LEVEL
-#define SEM_ONE_SIDED_DENOMINATION
-//#define SEM_COMPETITIVE_GENERIC
+#define SEM_ORBITING_FIXED_HAND
 
 /// -----------------------------------------------------------------
 // old format, #define-based 
@@ -59,8 +57,6 @@
 // One hand tasks:
 //#define SEMANTIC_KEYCARDS_10_12
 //#define SEMANTIC_SPADE_4_WHEN_1H
-
-#define SEM_ORBITING_FIXED_HAND
 
 // -----------------------------------------------------------------
 // task descriptions

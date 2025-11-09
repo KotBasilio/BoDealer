@@ -265,6 +265,7 @@ void WaConfig::ReadPrimaScorer(const char* line)
       MarkFail("Pls setup primary scorer for N/S line");
       return;
    }
+   io.weAreDoubled = attempt.prima.HasDouble();
    DetectTwoScorers();
 }
 
@@ -279,6 +280,7 @@ void WaConfig::ReadSecundaScorer(const char* line)
       return;
    }
    secondary.Init(attempt.secunda);
+   io.oppsAreDoubled = attempt.secunda.HasDouble();
    DetectTwoScorers();
 }
 

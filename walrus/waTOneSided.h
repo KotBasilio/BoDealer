@@ -1,9 +1,5 @@
 /* ---------------------------------------------------------------- -
    --- DESCRIPTIONS with useful defines:
-   #define SEEK_DENOMINATION
-   #define SEEK_DECISION_BID_OR_DOUBLE
-   #define SEEK_SACRIFICE_DECISION
-
    #define FOUR_HANDS_TASK
 */
 
@@ -17,10 +13,6 @@
 
 #ifdef OCT_MINOR_SUPERFIT
    #define SEM_ONE_SIDED_DENOMINATION
-#endif 
-
-#ifdef SEM_ONE_SIDED_DENOMINATION
-   #define SEEK_DENOMINATION
 #endif 
 
 #ifdef SEM_MAR24_5C_OR_3NT

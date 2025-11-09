@@ -182,11 +182,6 @@ void WaConfig::SetupOutputOptions()
          io.showOurOther = true;
       } else {
          io.showOppResults = true;
-         #ifdef SHOW_OPPS_ON_PASS_ONLY
-            io.oppsOnlyPassed = true;
-         #elif defined(SHOW_OPPS_ON_DOUBLE_ONLY)
-            io.oppsOnlyDoubled = true;
-         #endif
       }
    }
 

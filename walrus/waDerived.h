@@ -2,19 +2,6 @@
  * Walrus project -- derived definitions and constants   13.08.2022
  ************************************************************/
 
-// Algorithm details:
-// -- what hand is fixed, if any
-// -- how to solve and what to seek
-#ifdef SEEK_SACRIFICE_DECISION
-   #define SHOW_OPPS_ON_PASS_ONLY
-#endif
-
-#ifdef SEEK_DECISION_BID_OR_DOUBLE
-   #define SHOW_OPPS_ON_DOUBLE_ONLY
-#endif
-
-// tasks without a fixed hand (no specifics)
-
 // -----------------------------------------------------------------
 // common constants, biggest symmetry in bridge
 constexpr uint SYMM = 13;
