@@ -173,6 +173,7 @@ void WaConfig::Contract::Init(const LineScorer& scorer)
 
 void WaConfig::Contract::CheckTheSetup(const LineScorer& scorer)
 {
+   // any fail => see ReadPrimaScorer / ReadSecundaScorer
    assert(trump == scorer.Trump());
    assert(goal == scorer.Goal());
    assert(by == scorer.Decl());
@@ -364,10 +365,9 @@ WA_TASK_TYPE WaConfig::DetectOneHandVariant()
       return TTYPE_ONE_SIDED_BIDDING_LEVEL;
    }
 
-#ifdef SEEK_DECISION_COMPETE
-   solve.seekDecisionCompete = true;
-#endif
+   if (solve.seekDecisionCompete) {
+      return TTYPE_COMPETITIVE_GENERIC;
+   }
 
-   // TODO: analyze both Scorers
    return TTYPE_ONE_SIDED_DENOMINATION;
 }

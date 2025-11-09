@@ -7,12 +7,10 @@
 // -- how to solve and what to seek
 #ifdef SEEK_SACRIFICE_DECISION
    #define SHOW_OPPS_ON_PASS_ONLY
-   #define SEEK_DECISION_COMPETE
 #endif
 
 #ifdef SEEK_DECISION_BID_OR_DOUBLE
    #define SHOW_OPPS_ON_DOUBLE_ONLY
-   #define SEEK_DECISION_COMPETE
 #endif
 
 // tasks without a fixed hand (no specifics)

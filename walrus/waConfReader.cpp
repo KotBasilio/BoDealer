@@ -98,6 +98,16 @@ static ValDesc<WA_TASK_TYPE> TaskTypes[] =
    DESCRIBE_TASK_TYPE(SEEK_OPENING_LEAD),
 };
 
+const char* WaConfig::TaskTypeText(WA_TASK_TYPE type)
+{
+   for (auto& desc : TaskTypes) {
+      if (type == desc.val) {
+         return desc.key;
+      }
+   }
+   return "Unknown";
+}
+
 void WaConfig::ChangeOpMode(const char* line)
 {
    for (auto& desc : OpModes) {
@@ -113,7 +123,9 @@ void WaConfig::ReadTaskType(const char* line)
    for (auto& desc : TaskTypes) {
       if (IsStartsWith(line, desc.key)) {
          solve.taskType = desc.val;
-         printf("Recognized task-type: %s", line);
+         if (solve.taskType != TTYPE_FIXED_ONE_HAND) {
+            printf("Recognized task-type: %s", line);
+         }
       }
    }
 }
@@ -186,6 +198,32 @@ void WaConfig::ReadHandPBN(const char* line)
    SAFE_ADD(txt.taskHandPBN, "]");
 }
 
+bool WaConfig::Txt::IsMagicFly()
+{
+   // are the short scorers for magic fly?
+   if ((secundaShort[0] == '3') && 
+       (secundaShort[1] == 'N')) {
+      if (primaShort[0] == '4') {
+         if ((primaShort[1] == 'H') ||
+             (primaShort[1] == 'S')) {
+            return true;
+         }
+      }
+   }
+
+   if ((primaShort[0] == '3') && 
+       (primaShort[1] == 'N')) {
+      if (secundaShort[0] == '4') {
+         if ((secundaShort[1] == 'H') ||
+             (secundaShort[1] == 'S')) {
+            return true;
+         }
+      }
+   }
+
+   return false;
+}
+
 void WaConfig::DetectTwoScorers()
 {
    // both scorers must be present
@@ -199,19 +237,15 @@ void WaConfig::DetectTwoScorers()
    // found both
    solve.shouldSolveTwice = true;
 
-   // TODO: are they on the same line?
-
-   // are they for magic fly?
-   if ((txt.secundaShort[0] == '3') &&
-       (txt.secundaShort[1] == 'N')) {
-      if (    txt.primaShort[0] == '4') {
-         if ((txt.primaShort[1] == 'H') ||
-             (txt.primaShort[1] == 'S')) {
-            printf("Search for magic fly is detected -- zero IMPs difference.\n");
-            io.showMagicFly = true;
-            solve.seekDecisionCompete = false;
-         }
+   // are they on the same line?
+   if (secondary.by == NORTH || secondary.by == SOUTH) {
+      solve.seekDecisionCompete = false;
+      if (txt.IsMagicFly()) {
+         //printf("Search for magic fly is detected -- zero IMPs difference.\n");
+         io.showMagicFly = true;
       }
+   } else {
+      solve.seekDecisionCompete = true;
    }
 }
 
@@ -226,6 +260,10 @@ void WaConfig::ReadPrimaScorer(const char* line)
       return;
    }
    prim.Init(attempt.prima);
+   if (prim.by != NORTH && prim.by != SOUTH) {
+      MarkFail("Pls setup primary scorer for N/S line");
+      return;
+   }
    DetectTwoScorers();
 }
 
@@ -414,7 +452,7 @@ void WaConfig::ReadTask(Walrus *walrus)
 
    // fsm on all lines
    EConfigReaderState fsm = S_IDLE;
-   while (!feof(stream)) {
+   while (!feof(stream) && isInitSuccess) {
       if (!fgets(line, sizeof(line), stream)) {
          break;
       }

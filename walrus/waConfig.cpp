@@ -120,6 +120,7 @@ void WaConfig::AnalyzeTaskType()
    switch (solve.taskType) {
       case TTYPE_FIXED_ONE_HAND:
          solve.taskType = DetectOneHandVariant();
+         owl.Show("Recognized a fixed hand task type: %s\n", TaskTypeText(solve.taskType));
          AnalyzeTaskType();
          break;
 

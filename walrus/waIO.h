@@ -105,6 +105,7 @@ struct WaConfig {
       char taskHandPBN[WA_HAND_LEN];
       char secLongName[WA_SECONDARY_LNAME_LEN];
       char freqTitleFormat[WA_TASK_NANE_LEN];
+      bool IsMagicFly();
    } txt;
 
    // filters compiling
@@ -218,6 +219,7 @@ private:
    EConfigReaderState FSM_DoTaskState(char* line);
    EConfigReaderState FSM_Go2WaitTask(char* line);
    EConfigReaderState FSM_GoInsideTask(char* line);
+   const char* TaskTypeText(WA_TASK_TYPE key);
    bool RecognizePostmType(const char* token);
    void AnalyzeTaskType();
    WA_TASK_TYPE DetectOneHandVariant();
