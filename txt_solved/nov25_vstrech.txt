@@ -1,0 +1,146 @@
+
+
+        |\_______/|
+      / | [o] [o] | \
+     / /|    V    |\ \
+        |         |
+        -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+NOV25_MEETING_1S : Bidding from part: 1c 1s ??
+    We select from 2h or DBL.
+    2h way can be passed around (minimal hand, =3h)
+    DBL way can lead on same hands to 3NT.
+Question: is there a game or an invit?
+Fixed hand is [N:J.9763.KQ542.A83]
+Scorers to use are: V2H BY N; V3N BY S
+Recognized a fixed hand task type: ONE_SIDED_DENOMINATION
+Primary scorer (hearts, 8 tr): -100 110 140 170 200 230 260  /
+Contract-B scorer (notrump, 9 tr): -200 -100 600 630 660 690 720  /
+----
+29:    NORTH     EAST    SOUTH     WEST
+30:    30010,       0,     >XM,       0,  :   PointsRange 14 14 SOUTH
+31:        0,       0,    >MLN,       0,  :   HeartsLen 3 3 SOUTH
+32:        0,       0,  386800,       0,  :   SpadesLen 3 4 SOUTH
+33:        0,       0,   97996,       0,  :   PointsSuitAtLeast SPD 3 SOUTH
+34:        0,       0,   18340,       0,  :   ClubsLen 2 5 SOUTH
+35:        0,       0,   33078,       0,  :   DiamondsLen 2 4 SOUTH
+36:        0,       0,       0,  198436,  :   PointsRange 10 14 WEST
+37:        0,       0,       0,   56396,  :   SpadesLen 5 6 WEST
+ 8 tricks board by North in hearts example:
+--------
+               J           HCP : 24
+               9763        CTRL: 9
+               KQ542
+               A83
+   AQT985                  743
+   Q8                      JT54
+   T9                      J76
+   KQJ                     942
+               K62
+               AK2
+               A83
+               T765
+                                     A contract in notrump has 9 tricks.
+    suit   rank   score              suit   rank   score
+      S      4      5                  C      K      4
+      S      7      5                  S      A      4
+      C      2      5                  H      8      4
+      C      4      5                  D      T      4
+      C      9      5                  H      Q      4
+      H      5      5                  S      Q      4
+      D      7      5                  S      5      3
+      D      J      5                  S      T      3
+      H      J      4
+(ctrA:2H down):     4281,     578,     118,      32,      14,       0,       0,        5023
+(ctrA:2H make):    12716,   10307,    1842,     116,       6,       0,       0,       24987
+        (----):        0,       0,       0,       0,       0,       0,       0,           0
+(ctrB:3N down):    11899,    4940,    1004,      95,      14,       3,       0,       17955
+(ctrB:3N make):     9692,    2225,     136,       2,       0,       0,       0,       12055
+  (A, same, B):        0,   15656,    1988,   12366,       0,       0,       0,       30010
+Processed: 30010 total. East is on lead. Goal is 8 tricks in hearts.
+Averages: 2H = 85.   Chance to make = 83.3%.
+3N: avg = 159; makes in 40.2% cases
+Comparison: favor 2H 52.2%; same 6.6%; favor 3N 41.2%
+A huge match: -32705 IMPs; about -109 IMPs/hub
+
+A split of comparison results by HCP from 24 to 24:
+              go A     same     go B
+(hcp 24):    15656,    1988,   12366,   :    30010,  --> 52% to 41%, avg 100 boards give -109 IMPs
+The search took 0.4 sec + an aftermath 2 min 49 sec --> ~10.6K boards per minute.
+
+
+
+
+        |\_______/|
+      / | [o] [o] | \
+     / /|    V    |\ \
+        |         |
+        -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+NOV25_MEETING_1S : Bidding from part: 1c 1s ??
+    We select from 2h or DBL.
+    2h way can be passed around (minimal hand, =3h)
+    DBL way can lead on same hands to 3NT.
+Question: is there a game or an invit?
+Fixed hand is [N:J.9763.KQ542.A83]
+Scorers to use are: N2H BY N; N3N BY S
+Recognized a fixed hand task type: ONE_SIDED_DENOMINATION
+Primary scorer (hearts, 8 tr): -50 110 140 170 200 230 260  /
+Contract-B scorer (notrump, 9 tr): -100 -50 400 430 460 490 520  /
+----
+29:    NORTH     EAST    SOUTH     WEST
+30:    30011,       0,     >XM,       0,  :   PointsRange 14 14 SOUTH
+31:        0,       0,    >MLN,       0,  :   HeartsLen 3 3 SOUTH
+32:        0,       0,  375498,       0,  :   SpadesLen 3 4 SOUTH
+33:        0,       0,   94212,       0,  :   PointsSuitAtLeast SPD 3 SOUTH
+34:        0,       0,   17998,       0,  :   ClubsLen 2 5 SOUTH
+35:        0,       0,   33110,       0,  :   DiamondsLen 2 4 SOUTH
+36:        0,       0,       0,  193872,  :   PointsRange 10 14 WEST
+37:        0,       0,       0,   55179,  :   SpadesLen 5 6 WEST
+ 8 tricks board by North in hearts example:
+--------
+               J           HCP : 24
+               9763        CTRL: 9
+               KQ542
+               A83
+   KQ842                   953
+   KQ85                    J2
+   J8                      63
+   65                      KJT972
+               AT76
+               AT4
+               AT97
+               Q4
+                                     A contract in notrump has 9 tricks.
+    suit   rank   score              suit   rank   score
+      S      3      5                  C      6      4
+      S      5      5                  S      K      4
+      S      9      5                  H      K      4
+      H      2      4                  H      5      4
+      H      J      4                  H      8      4
+      D      3      4                  D      8      4
+      D      6      4                  D      J      4
+      C      2      3                  S      2      3
+      C      7      3                  S      4      3
+      C      J      3                  S      8      3
+      C      K      3
+(ctrA:2H down):     4363,     647,     113,      38,      14,       0,       1,       0,        5176
+(ctrA:2H make):    12612,   10245,    1850,     117,      11,       0,       0,       0,       24835
+        (----):        0,       0,       0,       0,       0,       0,       0,       0,           0
+(ctrB:3N down):    11903,    5075,     960,     109,      21,       0,       0,       0,       18068
+(ctrB:3N make):     9495,    2291,     157,       0,       0,       0,       0,       0,       11943
+  (A, same, B):        0,   15642,    2119,   12250,       0,       0,       0,       0,       30011
+Processed: 30011 total. East is on lead. Goal is 8 tricks in hearts.
+Averages: 2H = 94.   Chance to make = 82.8%.
+3N: avg = 119; makes in 39.8% cases
+Comparison: favor 2H 52.1%; same 7.1%; favor 3N 40.8%
+A huge match: -12046 IMPs; about -40 IMPs/hub
+
+A split of comparison results by HCP from 24 to 24:
+              go A     same     go B
+(hcp 24):    15642,    2119,   12250,   :    30011,  --> 52% to 40%, avg 100 boards give -40 IMPs
+The search took 0.4 sec + an aftermath 2 min 51 sec --> ~10.5K boards per minute.
+
+

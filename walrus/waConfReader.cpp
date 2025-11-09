@@ -154,6 +154,7 @@ EConfigReaderState WaConfig::FSM_DoFiltersState(char *line)
 void WaConfig::ReadDebugSetting(char* line)
 {
    if (IsStartsWith(line, key.ShowOnAdded)) {
+      printf("DEBUG: Will show every added board.\n");
       dbg.viewBoardOnAdd = true;
    }
    if (IsStartsWith(line, key.ShowOnReconstructed)) {

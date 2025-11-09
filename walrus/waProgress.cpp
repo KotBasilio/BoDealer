@@ -351,8 +351,8 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
          hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows
       );
       owl.OnDone("Comparison: favor %s %3.1f%%; same %3.1f%%; favor %s %3.1f%%\n",
-         config.txt.primaShort, sumBid * posto,
-         sumSame * posto,
+         config.txt.primaShort,   sumBid     * posto,
+                                  sumSame    * posto,
          config.txt.secundaShort, sumRefrain * posto
       );
    }
@@ -362,6 +362,22 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
       owl.OnDone("A huge match: %+lld IMPs; about %3.0f IMPs/hub\n",
          ui.primaBetterBy, ui.primaBetterBy * posto
       );
+   }
+
+   // verdict
+   if (progress.isDoneAll && config.io.showHugeMatch) {
+      bool onMaxPrima = (sumBid >= sumRefrain);
+      bool onImpPrima = (ui.primaBetterBy >= 0);
+      if (onMaxPrima == onImpPrima) {
+         owl.OnDone("Verdict:   prefer %s",
+            onMaxPrima ? config.txt.primaShort : config.txt.secundaShort
+         );
+      } else {
+         owl.OnDone("Verdict:   ON MAX: prefer %s      ON IMPS: prefer %s",
+            onMaxPrima ? config.txt.primaShort : config.txt.secundaShort,
+            onImpPrima ? config.txt.primaShort : config.txt.secundaShort
+         );
+      }
    }
 
    // list by hcp, controls, etc

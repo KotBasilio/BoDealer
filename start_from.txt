@@ -2,13 +2,14 @@ The main selector in this config is a line that starts with "TASK NAME".
 So we usually comment out old tasks at the line start
 
 Competitive:
-TASK NAME:JUN25_HEARTS_CLUBS
+//TASK NAME:JUN25_HEARTS_CLUBS
 //TASK NAME:NOV_65_OGNJEN
 //TASK NAME:AUG_BLITZ_VS_DIMULYA
 //TASK NAME:AUG_TRICOLOR_OVER_OPP_3S
 //TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
 
 One sided:
+TASK NAME:NOV25_MEETING_1S
 //TASK NAME:OCT25_ON_MULTI
 //TASK NAME:OCT25_TROFEY_OFFER_3NT
 //TASK NAME:OCT25_POSSIBLY_INSANE_BUTLER
@@ -31,12 +32,30 @@ No fixed hand:
 //TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
 
 -----------------------------------------------------------------------------------------------------------------------
-TASK_TYPE:FIXED_ONE_HAND
-// below are task types that can be as well auto-detected for FIXED_ONE_HAND
-//TASK_TYPE:ONE_SIDED_BIDDING_LEVEL
-//TASK_TYPE:ONE_SIDED_DENOMINATION
-//TASK_TYPE:COMPETITIVE_GENERIC
-//TASK_TYPE:SEEK_OPENING_LEAD
+NOV25_MEETING_1S
+Bidding from part: 1c 1s ??
+    We select from 2h or DBL.
+    2h way can be passed around (minimal hand, =3h)
+    DBL way can lead on same hands to 3NT.
+Question: is there a game or an invit?
+
+HAND: N:J.9763.KQ542.A83
+//HAND: N:Q.9763.KQ542.A83
+PRIMARY SCORER: V2H BY N
+SECONDARY SCORER: V3N BY S
+POSTMORTEM: AUTO
+
+FILTERS:
+    SOUTH: PointsRange, 14, 14
+    SOUTH: HeartsLen, 3, 3
+    SOUTH: SpadesLen, 3, 4
+    SOUTH: PointsSuitAtLeast, SPD, 3
+    SOUTH: ClubsLen, 2, 5
+    SOUTH: DiamondsLen, 2, 4
+
+    WEST: PointsRange, 10, 14
+    WEST: SpadesLen, 5, 6
+
 -----------------------------------------------------------------------------------------------------------------------
 OCT25_ON_MULTI
 Bidding from part: 2d p ??
@@ -681,6 +700,23 @@ FILTERS:
    NORTH: HeartsLen 3, 4
 
 -----------------------------------------------------------------------------------------------------------------------
+AJ
+AK654
+43
+AQ65
+
+1c 1d
+1h 1NT
+??
+-----------------------------------------------------------------------------------------------------------------------
+TASK_TYPE:FIXED_ONE_HAND
+// below are task types that can be as well auto-detected for FIXED_ONE_HAND
+//TASK_TYPE:ONE_SIDED_BIDDING_LEVEL
+//TASK_TYPE:ONE_SIDED_DENOMINATION
+//TASK_TYPE:COMPETITIVE_GENERIC
+//TASK_TYPE:SEEK_OPENING_LEAD
+
+-----------------------------------------------------------------------------------------------------------------------
 SCALE: 30
 //SCALE: MIN
 //OPMODE: SEMI_STRAY
@@ -690,14 +726,4 @@ SCALE: 30
 //DEBUG: VERBOSE COMPILING
 //DEBUG: VERBOSE MEMORY
 //DEBUG: SHOW BOARD ON ADDED
-
------------------------------------------------------------------------------------------------------------------------
-AJ
-AK654
-43
-AQ65
-
-1c 1d
-1h 1NT
-??
 
