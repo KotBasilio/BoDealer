@@ -38,6 +38,7 @@ char* WaConfig::Keywords::TName = "TASK NAME:";
 char* WaConfig::Keywords::TType = "TASK_TYPE:";
 char* WaConfig::Keywords::Prima = "PRIMARY SCORER: ";
 char* WaConfig::Keywords::Secunda = "SECONDARY SCORER: ";
+char* WaConfig::Keywords::MultiScorer = "MULTI SCORER: ";
 char* WaConfig::Keywords::Postmortem = "POSTMORTEM: ";
 char* WaConfig::Keywords::Filters = "FILTERS:";
 char* WaConfig::Keywords::TEnd = "--------";
@@ -151,6 +152,25 @@ EConfigReaderState WaConfig::FSM_DoFiltersState(char *line)
 
    return S_FILTERS;
 }
+
+EConfigReaderState WaConfig::FSM_DoMulScorerState(char* line)
+{
+   if (IsStartsWith(line, key.Filters)) {
+      return S_FILTERS;
+   }
+
+   // add and control
+   strcat(txt.mulScorerSourceCode, line);
+   txt.sizeMulScorerSourceCode = strlen(txt.mulScorerSourceCode) + 1;
+   if (txt.sizeMulScorerSourceCode > sizeof(txt.mulScorerSourceCode)) {
+      printf("Error: exceeded multi-scorer source code size. Exiting.\n");
+      PLATFORM_GETCH();
+      exit(0);
+   }
+
+   return S_MULTI_SCORER;
+}
+
 void WaConfig::ReadDebugSetting(char* line)
 {
    if (IsStartsWith(line, key.ShowOnAdded)) {
@@ -204,7 +224,7 @@ bool WaConfig::Txt::IsMagicFly()
    // are the short scorers for magic fly?
    if ((secundaShort[0] == '3') && 
        (secundaShort[1] == 'N')) {
-      if (primaShort[0] == '4') {
+      if (    primaShort[0] == '4') {
          if ((primaShort[1] == 'H') ||
              (primaShort[1] == 'S')) {
             return true;
@@ -214,7 +234,7 @@ bool WaConfig::Txt::IsMagicFly()
 
    if ((primaShort[0] == '3') && 
        (primaShort[1] == 'N')) {
-      if (secundaShort[0] == '4') {
+      if (    secundaShort[0] == '4') {
          if ((secundaShort[1] == 'H') ||
              (secundaShort[1] == 'S')) {
             return true;
@@ -242,11 +262,15 @@ void WaConfig::DetectTwoScorers()
    if (secondary.by == NORTH || secondary.by == SOUTH) {
       solve.seekDecisionCompete = false;
       if (txt.IsMagicFly()) {
-         //printf("Search for magic fly is detected -- zero IMPs difference.\n");
          io.showMagicFly = true;
       }
-   } else {
+   } else {// different lines
       solve.seekDecisionCompete = true;
+   }
+
+   // log
+   if (io.showMagicFly) {
+      //printf("Search for magic fly is detected -- zero IMPs difference.\n");
    }
 }
 
@@ -392,7 +416,12 @@ EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
    if (IsStartsWith(line, key.Filters)) {
       AnnounceTask();
       return S_FILTERS; 
-   } 
+   }
+
+   if (IsStartsWith(line, key.MultiScorer)) {
+      AnnounceTask();
+      return S_MULTI_SCORER;
+   }
    
    if (IsStartsWith(line, key.TEnd)) {
       return S_IDLE;
@@ -462,7 +491,7 @@ void WaConfig::ReadTask(Walrus *walrus)
       //printf(line);
 
       switch (fsm) {
-         case S_IDLE: {
+         case S_IDLE: {// parse to fill task name
             if (IsStartsWith(line, key.TName)) {
                fsm = FSM_Go2WaitTask(line);
             }
@@ -470,15 +499,16 @@ void WaConfig::ReadTask(Walrus *walrus)
             break;
          }
 
-         case S_WAIT_TASK: {
+         case S_WAIT_TASK: {// wait for our task, ignoring others
             if (IsStartsWith(line, txt.nameTask)) {
                fsm = FSM_GoInsideTask(line);
             } 
             break;
          }
 
-         case S_IN_TASK: fsm = FSM_DoTaskState(line);    break;
-         case S_FILTERS: fsm = FSM_DoFiltersState(line); break;
+         case S_IN_TASK:      fsm = FSM_DoTaskState     (line); break;
+         case S_MULTI_SCORER: fsm = FSM_DoMulScorerState(line); break;
+         case S_FILTERS:      fsm = FSM_DoFiltersState  (line); break;
       }
 
       KEYWORD_CALS(Debug,  ReadDebugSetting)

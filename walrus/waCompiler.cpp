@@ -571,3 +571,27 @@ void WaConfig::BuildNewFilters(Walrus *walrus)
    printf("Success on filters compiling and linking.\n");
 }
 
+void WaConfig::BuildMultiScorer(Walrus* walrus)
+{
+   if (IsInitFailed()) {
+      return;
+   }
+   if (!txt.sizeMulScorerSourceCode) {
+      return;
+   }
+
+   if (dbg.verboseCompile) {
+      printf("A multi-scorer source code is found in the config. Passing to compiler, size is %llu of %llu.\n",
+         txt.sizeMulScorerSourceCode, sizeof(txt.mulScorerSourceCode));
+   } else {
+      printf("Building multi-scorer...");
+   }
+
+   //if (!walrus->mul.BuildFromSource(txt.mulScorerSourceCode, txt.sizeMulScorerSourceCode, walrus)) {
+   //   isInitSuccess = false;
+   //   printf("Config ERROR: Failed to build multi-scorer.\n");
+   //   return;
+   //}
+   printf("Success.\n");
+}
+

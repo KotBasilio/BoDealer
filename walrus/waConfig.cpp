@@ -127,11 +127,7 @@ void WaConfig::AnalyzeTaskType()
       // one hand variants
       case TTYPE_ONE_SIDED_BIDDING_LEVEL:
       case TTYPE_ONE_SIDED_DENOMINATION:
-         deck.fixedHand = NORTH;
-         break;
-
       case TTYPE_COMPETITIVE_GENERIC:
-         solve.seekDecisionCompete = true;
          deck.fixedHand = NORTH;
          break;
 
@@ -173,6 +169,7 @@ bool WaConfig::OrdinaryRead(Walrus* walrus)
    AnalyzeTaskType();
    InitCardsCount();
    BuildNewFilters(walrus);
+   BuildMultiScorer(walrus);
    ResolvePostmortemType(walrus);
    SetupOutputOptions();
 

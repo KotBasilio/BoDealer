@@ -362,13 +362,16 @@ void Semantics::SetOpeningLeadScorer(CumulativeScore& cs, const char* code)
 
 WA_TASK_TYPE WaConfig::DetectOneHandVariant()
 {
-   if (!solve.shouldSolveTwice) {
-      return TTYPE_ONE_SIDED_BIDDING_LEVEL;
+   // comparative
+   if (solve.shouldSolveTwice) {
+      if (solve.seekDecisionCompete) {
+         return TTYPE_COMPETITIVE_GENERIC;
+      }
+      return TTYPE_ONE_SIDED_DENOMINATION;
    }
 
-   if (solve.seekDecisionCompete) {
-      return TTYPE_COMPETITIVE_GENERIC;
-   }
+   // TODO: detect opening lead task
 
-   return TTYPE_ONE_SIDED_DENOMINATION;
+   // basic
+   return TTYPE_ONE_SIDED_BIDDING_LEVEL;
 }

@@ -3,12 +3,13 @@ So we usually comment out old tasks at the line start
 
 Competitive:
 //TASK NAME:JUN25_HEARTS_CLUBS
-TASK NAME:NOV_65_OGNJEN
+//TASK NAME:NOV_65_OGNJEN
 //TASK NAME:AUG_BLITZ_VS_DIMULYA
 //TASK NAME:AUG_TRICOLOR_OVER_OPP_3S
 //TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
 
 One sided:
+TASK NAME:NOV25_DIAMONDS_MILTISCORER
 //TASK NAME:NOV25_MEETING_1S
 //TASK NAME:OCT25_ON_MULTI
 //TASK NAME:OCT25_TROFEY_OFFER_3NT
@@ -30,6 +31,34 @@ Leads:
 No fixed hand:
 //TASK NAME:4_HAND_MINOR_SUPERFIT
 //TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
+
+-----------------------------------------------------------------------------------------------------------------------
+NOV25_DIAMONDS_MILTISCORER
+
+Bidding from part: 1d 1h 
+                   2d ??
+The first path is to pass and play 2D.
+The second path is to big 3D that can lead to 3 possible contracts: 3D, 4H, 3NT.
+Question: which way to go?
+
+HAND: N:7.QT943.AT4.AT87
+PRIMARY SCORER: V2D BY S
+SECONDARY SCORER: V3N BY S
+POSTMORTEM: AUTO
+
+MULTI SCORER: 
+    SOUTH: PointsRange, 11, 12  --> V3D BY S
+    SOUTH: HeartsLen, 3, 3      --> V4H BY N
+
+FILTERS:
+    SOUTH: PointsRange, 11, 14
+    SOUTH: HeartsLen, 0, 3
+    SOUTH: SpadesLen, 0, 3
+    SOUTH: DiamondsLen, 6, 7
+    SOUTH: ClubsLen, 0, 4
+
+    WEST: NoOvercall2ndLevel
+    EAST: NoOvercall2ndLevel
 
 -----------------------------------------------------------------------------------------------------------------------
 NOV25_MEETING_1S
@@ -725,5 +754,5 @@ SCALE: 30
 //DEBUG: SHOW COMPARISONS
 //DEBUG: VERBOSE COMPILING
 //DEBUG: VERBOSE MEMORY
-//DEBUG: SHOW BOARD ON ADDED
+DEBUG: SHOW BOARD ON ADDED
 

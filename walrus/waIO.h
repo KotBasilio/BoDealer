@@ -77,7 +77,7 @@ enum EConfigReaderState {
    S_WAIT_TASK,
    S_IN_TASK,
    S_FILTERS,
-   S_GOALS
+   S_MULTI_SCORER
 };
 
 constexpr size_t WA_SCORER_CODE_LEN = 32;
@@ -105,6 +105,8 @@ struct WaConfig {
       char taskHandPBN[WA_HAND_LEN];
       char secLongName[WA_SECONDARY_LNAME_LEN];
       char freqTitleFormat[WA_TASK_NANE_LEN];
+      char mulScorerSourceCode[WA_TASK_BRIEF];
+      size_t sizeMulScorerSourceCode = 0;
       bool IsMagicFly();
    } txt;
 
@@ -200,6 +202,7 @@ struct WaConfig {
 private:
 
    void ReadTask(class Walrus *walrus);
+   void BuildMultiScorer(class Walrus* walrus);
    void ChangeOpMode(const char* line);
    void ReadTaskType(const char* line);
    void InitCardsCount();
@@ -215,6 +218,7 @@ private:
    void ReadDebugSetting(char *line);
    void ReadScaleSetting(char *line);
    EConfigReaderState FSM_DoFiltersState(char* line);
+   EConfigReaderState FSM_DoMulScorerState(char* line);
    EConfigReaderState FSM_DoTaskState(char* line);
    EConfigReaderState FSM_Go2WaitTask(char* line);
    EConfigReaderState FSM_GoInsideTask(char* line);
@@ -233,7 +237,7 @@ private:
       static char* Leads;
       static char* OpMode;
       static char* Postmortem;
-      static char* Prima, *Secunda;
+      static char* Prima, *Secunda, *MultiScorer;
       static char* Scale;
       static char* ShowComparisons;
       static char* ShowOnAdded;
