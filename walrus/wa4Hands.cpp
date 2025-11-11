@@ -88,7 +88,7 @@ void twPermutedFullFlip::LayPattern(uint dest, uint iNewD)
    const twContext& xD(lay[iNewD]);
 
    // (A,B,C) is in place
-   // copy to form a the same order:
+   // copy to form the same order:
    // A-B-C-A-B-A-C-B-A-D
    // 0 1 2 3 4 5 6 7 8 9
    lay[dest + 3] = xA;

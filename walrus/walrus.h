@@ -89,10 +89,12 @@ protected:
    void VoidSingleScoring(DdsTricks &tr) {}
    void VoidFirstMarks(DdsTricks& tr, const deal& cards) {}
    void VoidSecondSolve(boards& bo, const solvedBoards& solved) {}
+   void VoidFlipper(const deal& cards) {}
    void VoidCompare(uint trickSuit, uint tricksNT, const deal& cards) {}
 
    // scoring & progress
    CumulativeScore cumulScore;
+   void FlipSecByMultiLens(const deal& cards);
    void ScoreWithPrimary(DdsTricks &tr);
    Progress progress;
    void AddMarksByHCP(DdsTricks& tr, const deal& cards);

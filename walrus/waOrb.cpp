@@ -44,7 +44,7 @@ void Walrus::Scan3FixedWest()
    SplitBits sum(shuf.SumFirstHand());
    SplitBits sec(shuf.SumSecondHand());
    for (u64 idxHandStart = 0; idxHandStart < SYMM;) {
-      // do all permutations of 3 hands around W
+      // do all permutations of 3 hands around WEST
       SplitBits third(shuf.CheckSum() - sum.card.jo - sec.card.jo);
       Permute6(sum, sec, third);
 
@@ -216,7 +216,7 @@ void Walrus::Scan3FixedNorth()
    }
 }
 
-// a chunk for watching permutations in debugger
+// DEBUG: a chunk for watching permutations in debugger
 // xA.hand.card.jo = 0xaaaaaaaaaaaaaaaaLL;
 // xB.hand.card.jo = 0xbbbbbbbbbbbbbbbbLL;
 // xC.hand.card.jo = 0xccccccccccccccccLL;
@@ -226,21 +226,20 @@ twPermutedContexts::twPermutedContexts
    : xA(a), xB(b), xC(c)
 {
    // after constructors above work, we have lay[0..2] in place
+   // let's copy to form a certain order:
+   // A-B-C-D-B-C-B-D-C-B
+   // 0 1 2 3 4 5 6 7 8 9
+   // this will allow us to pull A along the array forward
+   // and this way to get all permutations consequently
+   lay[ 3] = twContext( SplitBits(a, b, c) );
+   lay[ 4] = xB;
+   lay[ 5] = xC;
+   lay[ 6] = xB;
+   lay[ 7] = lay[3]; // hand D
+   lay[ 8] = xC;
+   lay[ 9] = xB;
 
-   if (fixed == NORTH) {
-      // let's copy to form a certain order:
-      // A-B-C-D-B-C-B-D-C-B
-      // 0 1 2 3 4 5 6 7 8 9
-      lay[ 3] = twContext( SplitBits(a, b, c) );
-      lay[ 4] = xB;
-      lay[ 5] = xC;
-      lay[ 6] = xB;
-      lay[ 7] = lay[3];
-      lay[ 8] = xC;
-      lay[ 9] = xB;
-   } else {
-      DEBUG_UNEXPECTED;
-   }
+   assert(fixed == NORTH);
 }
 
 twPermutedContexts::twPermutedContexts
@@ -252,13 +251,15 @@ twPermutedContexts::twPermutedContexts
    // let's copy to form a certain order:
    // A-B-C-A-B-A-C-B-A-D
    // 0 1 2 3 4 5 6 7 8 9
+   // this will allow us to pull D along the array backwards
+   // and this way to get all permutations consequently
    lay[ 3] = xA;
    lay[ 4] = xB;
    lay[ 5] = xA;
    lay[ 6] = xC;
    lay[ 7] = xB;
    lay[ 8] = xA;
-   lay[ 9] = twContext( SplitBits(a, b, c) );
+   lay[ 9] = twContext( SplitBits(a, b, c) ); // D hand
 }
 
 void Walrus::OrbNorthClassify(twContext * lay)

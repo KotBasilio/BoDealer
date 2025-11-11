@@ -116,10 +116,26 @@ void WaConfig::AllLenses::SimpleSecondary(deal& dl)
    dl.first = a.secondary.first;
 }
 
-void WaConfig::AllLenses::MultiTrumpFill(deal& dl)
+void WaConfig::AllLenses::TrumpFillMultiLens(deal& dl)
 {
+   // @@ idea: create twContext lay by the deal.
+   // it's reversal of DdsDeal::DdsDeal(twContext* lay)
+   // then apply filters on lay (see WaFilter::ScanOut)
+   // then we know which scorer to take.
+
+   // proof of concept:
+   twContext lay(dl, SOUTH);
+
    dl.trump = a.secondary.trump;
    dl.first = a.secondary.first;
+}
+
+void Walrus::FlipSecByMultiLens(const deal& dl)
+{
+   // it's enough to analyze trumps and first
+   //CumulativeScore temp = cumulScore;
+   //cumulScore.secunda = temp.prima;
+   //cumulScore.prima = temp.secunda;
 }
 
 void Walrus::SolveSecondTime(boards& arrSrc, const solvedBoards& chunk)
@@ -152,6 +168,7 @@ void Walrus::SolveSecondTime(boards& arrSrc, const solvedBoards& chunk)
 
       // score the second contract
       deal& cards(arrSrc.deals[handno]);
+      (this->*sem.flipSecondScorer)(cards);
       (cumulScore.*sem.onSecondScoring)(trSecond);
 
       // pass to comparison

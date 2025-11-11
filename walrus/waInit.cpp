@@ -143,10 +143,11 @@ Semantics::Semantics()
    , onPrimaryScoring    (&CumulativeScore::VoidGenScoring)
    , onSecondScoring     (&CumulativeScore::VoidGenScoring)
    , onAfterMath         (&Walrus::NOP) 
-   , onFirstMarks    (&Walrus::VoidFirstMarks)
+   , onFirstMarks        (&Walrus::VoidFirstMarks)
    , solveSecondTime     (&Walrus::VoidSecondSolve)
    , onCompareContracts  (&Walrus::VoidCompare)
    , onTrumpFill         (&WaConfig::AllLenses::SimpleSecondary)
+   , flipSecondScorer    (&Walrus::VoidFlipper)
 {
    // filters -- reject all. filled on config reading and then on MiniLink
    vecFilters.reserve(10);

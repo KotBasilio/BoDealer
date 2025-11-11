@@ -206,3 +206,16 @@ DdsDeal::DdsDeal(twContext* lay)
    ReconstructWest(SOL_CLUBS);
 }
 
+twContext::twContext(const deal& dl, uint seat)
+   : hand(0)
+{
+   // fill only requested seat hand
+   hand += SplitBits(dl.remainCards[seat][SOL_SPADES]  , WPOS_SPADS);
+   hand += SplitBits(dl.remainCards[seat][SOL_HEARTS]  , WPOS_HEART);
+   hand += SplitBits(dl.remainCards[seat][SOL_DIAMONDS], WPOS_DIAMD);
+   hand += SplitBits(dl.remainCards[seat][SOL_CLUBS]   , WPOS_CLUBS);
+
+   // count all params
+   *this = twContext(hand);
+}
+

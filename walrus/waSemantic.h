@@ -93,7 +93,7 @@ extern Progress *mainProgress;
 typedef void (Shuffler::* SemShufflerFunc)();
 typedef void (WaMulti::* SemMultiStart)();
 typedef void (Walrus::* SemFuncType)();
-typedef void (Walrus::* SemScorerFlipper)(twContext* lay);
+typedef void (Walrus::* SemScorerFlipper)(const deal& cards);
 typedef void (Walrus::* SemComparing)(uint trickA, uint tricksB, const deal& cards);
 typedef void (Walrus::* SemFirstMarks)(DdsTricks& tr, const deal& cards);
 typedef void (Walrus::* SemSecondMarks)(uint camp, const deal& cards);
@@ -116,9 +116,10 @@ struct Semantics {
    SemFirstMarks  onFirstMarks;
    SemComparing   onCompareContracts;
    // scorers:
-   SemGenScoring  onPrimaryScoring;
-   SemGenScoring  onSecondScoring;
-   SemTrumpFill   onTrumpFill;
+   SemGenScoring     onPrimaryScoring;
+   SemGenScoring     onSecondScoring;
+   SemTrumpFill      onTrumpFill;
+   SemScorerFlipper  flipSecondScorer;
 
    uint scanCover = 0; // how much boards covers one scan
    struct deal* dlBase = nullptr;

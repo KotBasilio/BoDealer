@@ -81,7 +81,8 @@ struct SplitBits {
    SplitBits(uint hld, uint waPos);
    SplitBits(const SplitBits &a, const SplitBits &b, const SplitBits &c);
    void AsComplement(u64 jo);
-   bool operator != (const SplitBits &other) const { return card.jo != other.card.jo; }
+   bool operator != (const SplitBits& other) const { return card.jo != other.card.jo; }
+   void operator += (const SplitBits &other) { card.jo += other.card.jo; }
    u16 CountAll();
    bool IsBlank() { return (card.jo == 0L); }
    u16 IsEndIter() { return (CountAll() & (u16)(0x10)); }
@@ -101,6 +102,12 @@ extern SplitBits sbBlank;
 #define BO_DIAMD   0x0000000000010000LL
 #define BO_CLUBS   0x0000000000000001LL
 #define ANY_ACE    0x8000800080008000LL
+
+#define WPOS_SPADS   48
+#define WPOS_HEART   32
+#define WPOS_DIAMD   16
+#define WPOS_CLUBS   0
+
 
 // twelve-layout lets counting some parameters in parallel, then queried
 // -- high-card points
@@ -147,6 +154,7 @@ struct twContext {
    twlControls ctrl;
    twContext() : hand(0) {}
    twContext(const SplitBits& h): hand(h), len(h), hcp(h), ctrl(h) {}
+   twContext(const struct deal& dl, uint seat);
 };
 
 // now we combine permuted context for filtering with one hand fixed

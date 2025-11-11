@@ -60,9 +60,9 @@ twlHCP::twlHCP(const SplitBits &hand)
    x -= y + z; 
 
    // fill out
-   s = (uint)((x & 0xF000000000000000LL) >> (12 + 48));
-   h = (uint)((x & 0x0000F00000000000LL) >> (12 + 32));
-   d = (uint)((x & 0x00000000F0000000LL) >> (12 + 16));
+   s = (uint)((x & 0xF000000000000000LL) >> (12 + WPOS_SPADS));
+   h = (uint)((x & 0x0000F00000000000LL) >> (12 + WPOS_HEART));
+   d = (uint)((x & 0x00000000F0000000LL) >> (12 + WPOS_DIAMD));
    c = (uint)((x & 0x000000000000F000LL) >>  12);
    total = s + h + d + c;
 }
@@ -74,18 +74,18 @@ twlControls::twlControls(const SplitBits &hand)
    u64 x = hand.card.jo & 0xC000C000C000C000LL;
 
    // fill out
-   s = (uint)((x & 0xF000000000000000LL) >> (14 + 48));
-   h = (uint)((x & 0x0000F00000000000LL) >> (14 + 32));
-   d = (uint)((x & 0x00000000F0000000LL) >> (14 + 16));
+   s = (uint)((x & 0xF000000000000000LL) >> (14 + WPOS_SPADS));
+   h = (uint)((x & 0x0000F00000000000LL) >> (14 + WPOS_HEART));
+   d = (uint)((x & 0x00000000F0000000LL) >> (14 + WPOS_DIAMD));
    c = (uint)((x & 0x000000000000F000LL) >>  14);
    total = s + h + d + c;
 }
 
 twLengths::twLengths(const SplitBits &hand)
 {
-   s = (uint)((hand.card.jo & 0x000F000000000000LL) >> 48);
-   h = (uint)((hand.card.jo & 0x0000000F00000000LL) >> 32);
-   d = (uint)((hand.card.jo & 0x00000000000F0000LL) >> 16);
+   s = (uint)((hand.card.jo & 0x000F000000000000LL) >> WPOS_SPADS);
+   h = (uint)((hand.card.jo & 0x0000000F00000000LL) >> WPOS_HEART);
+   d = (uint)((hand.card.jo & 0x00000000000F0000LL) >> WPOS_DIAMD);
    c = (uint)((hand.card.jo & 0x000000000000000FLL) );
 }
 
