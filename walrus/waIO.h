@@ -3,6 +3,8 @@
 *
 ************************************************************/
 
+#include "WaSemMicro.h"
+
 // file names
 #define START_FROM_FNAME "start_from.txt"
 #define COMMAND_FNAME    "in_cmd.txt"
@@ -172,6 +174,8 @@ struct WaConfig {
       int countLenses = 0;
       std::vector<MicroFilter> when;
       AllLenses() : a(), when() {}
+      void SimpleSecondary(struct deal& dl);
+      void MultiSelector(struct deal& dl);
    } lens;
 
    // adding extra marks aka post-mortem 

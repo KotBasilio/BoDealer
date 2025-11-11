@@ -66,6 +66,7 @@ bool Walrus::InitSemantics()
    } else {
       sem.SetBiddingLevelScorer(cumulScore);
    }
+   sem.onTrumpFill = &WaConfig::AllLenses::SimpleSecondary;
 
    // SOLVING setup
    if (config.solve.shouldSolveTwice) {

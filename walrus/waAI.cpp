@@ -4,6 +4,7 @@
  *
  ************************************************************/
 #include "waDoubleDeal.h"
+#include <assert.h>
 
 #ifdef _DEBUG
    const uint WALRUS_CHUNK_SIZE = 100;
@@ -109,6 +110,18 @@ void Walrus::HandleSolvedChunk(boards& arrSrc, solvedBoards& solved)
    }
 }
 
+void WaConfig::AllLenses::SimpleSecondary(deal& dl)
+{
+   dl.trump = a.secondary.trump;
+   dl.first = a.secondary.first;
+}
+
+void WaConfig::AllLenses::MultiSelector(deal& dl)
+{
+   dl.trump = a.secondary.trump;
+   dl.first = a.secondary.first;
+}
+
 void Walrus::SolveSecondTime(boards& arrSrc, const solvedBoards& chunk)
 {
    // show a life sign and allow early quit
@@ -120,8 +133,9 @@ void Walrus::SolveSecondTime(boards& arrSrc, const solvedBoards& chunk)
 
    // overwrite trumps and lead
    for (int i = 0; i < arrSrc.noOfBoards; i++) {
-      arrSrc.deals[i].trump = config.lens.a.secondary.trump;
-      arrSrc.deals[i].first = config.lens.a.secondary.first;
+      (config.lens.*sem.onTrumpFill)(arrSrc.deals[i]);
+      assert(arrSrc.deals[i].trump == config.lens.a.secondary.trump);
+      assert(arrSrc.deals[i].first == config.lens.a.secondary.first);
    }
 
    // solve second time

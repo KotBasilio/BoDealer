@@ -68,7 +68,7 @@ public:
    uint ExcludeCombination(twContext* lay, const uint *par);
    uint EndList(twContext* lay, const uint *par);
 private:
-   Progress *progress;
+   struct Progress *progress;
    struct Semantics* sem;
    uint LineKeyCardsRange(twContext* lay, const uint* par, u64 kc_mask);
    bool KeyCardsRange(u64 jo, u64 kc_mask, uint from, uint to);

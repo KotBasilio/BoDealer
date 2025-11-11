@@ -250,9 +250,11 @@ void WaConfig::DetectTwoScorers()
 {
    // both scorers must be present
    if (!txt.primaShort[0]) {
+      lens.countLenses = 1;
       return;
    }
    if (!txt.secundaShort[0]) {
+      lens.countLenses = 1;
       return;
    }
    lens.countLenses = 2;

@@ -88,23 +88,20 @@ private:
 };
 extern Progress *mainProgress;
 
-#include "WaSemMicro.h"
-
-struct MiniUI;
-
 // A class to rule task logic. Its values are constant through entire solving.
 // So it should be filled on init. Preferrably -- fully configurable. 
-typedef void (Shuffler::*        SemShufflerFunc)();
-typedef void (Walrus::*          SemFuncType)();
-typedef void (WaMulti::*         SemMultiStart)();
-typedef void (CumulativeScore::* SemGenScoring)(DdsTricks &tr);
-typedef void (Walrus::*          SemComparing)(uint trickA, uint tricksB, const deal& cards);
-typedef void (Walrus::*          SemFirstMarks)(DdsTricks& tr, const deal& cards);
-typedef void (Walrus::*          SemSecondMarks)(uint camp, const deal& cards);
-typedef void (Walrus::*          SemOnBoardFound)(twContext* lay);
-typedef void (MiniUI::*          SemOnBoardAdded)(twContext* lay);
-typedef void (Walrus::*          SemSecondSolver)(struct boards& bo, const struct solvedBoards& solved);
-struct Semantics {
+typedef void (Shuffler::* SemShufflerFunc)();
+typedef void (WaMulti::* SemMultiStart)();
+typedef void (Walrus::* SemFuncType)();
+typedef void (Walrus::* SemComparing)(uint trickA, uint tricksB, const deal& cards);
+typedef void (Walrus::* SemFirstMarks)(DdsTricks& tr, const deal& cards);
+typedef void (Walrus::* SemSecondMarks)(uint camp, const deal& cards);
+typedef void (Walrus::* SemOnBoardFound)(twContext* lay);
+typedef void (MiniUI::* SemOnBoardAdded)(twContext* lay);
+typedef void (Walrus::* SemSecondSolver)(struct boards& bo, const struct solvedBoards& solved);
+typedef void (CumulativeScore::* SemGenScoring)(DdsTricks& tr);
+typedef void (WaConfig::AllLenses::* SemTrumpFill)(struct deal& dl);
+   struct Semantics {
    SemFuncType              onInit;
    SemMultiStart            onShareStart;
    SemFuncType              onScanCenter;
@@ -116,11 +113,12 @@ struct Semantics {
    SemSecondSolver          solveSecondTime;
    SemComparing             onCompareContracts;
    // marks:
-   SemFirstMarks            onMarkAfterSolve;
-   SemSecondMarks           onSecondMarks;
+   SemFirstMarks  onMarkAfterSolve;
+   SemSecondMarks onSecondMarks;
    // scorers:
-   SemGenScoring            onPrimaryScoring;
-   SemGenScoring            onSecondScoring;
+   SemGenScoring  onPrimaryScoring;
+   SemGenScoring  onSecondScoring;
+   SemTrumpFill   onTrumpFill;
 
    uint scanCover = 0; // how much boards covers one scan
    struct deal* dlBase = nullptr;
