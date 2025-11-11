@@ -341,10 +341,19 @@ void Semantics::SetBiddingLevelScorer(CumulativeScore& cs)
 
 void WaConfig::MakeSecondaryScrorerForBiddingLevel()
 {
+   // construct
    char* hedge = txt.secundaScorerCode;
    strcpy(hedge, txt.primaScorerCode);
    hedge[1]--;
+
+   // act as in ReadSecundaScorer()
+   CumulativeScore attempt;
    FillShortScorer(hedge, txt.secundaShort);
+   if (!attempt.secunda.Init(attempt.ourOther, hedge)) {
+      MarkFail("Failed to parse constructed scorer");
+      return;
+   }
+   lens.a.secondary.Init(attempt.secunda);
 }
 
 void Semantics::SetOpeningLeadScorer(CumulativeScore& cs, const char* code)

@@ -175,7 +175,7 @@ struct WaConfig {
       std::vector<MicroFilter> when;
       AllLenses() : a(), when() {}
       void SimpleSecondary(struct deal& dl);
-      void MultiSelector(struct deal& dl);
+      void MultiTrumpFill(struct deal& dl);
    } lens;
 
    // adding extra marks aka post-mortem 

@@ -66,12 +66,12 @@ bool Walrus::InitSemantics()
    } else {
       sem.SetBiddingLevelScorer(cumulScore);
    }
-   sem.onTrumpFill = &WaConfig::AllLenses::SimpleSecondary;
 
    // SOLVING setup
    if (config.solve.shouldSolveTwice) {
       sem.solveSecondTime = &Walrus::SolveSecondTime;
       sem.onCompareContracts = &Walrus::ComparePrimaSecunda;
+      // @@ sem.onTrumpFill = &WaConfig::AllLenses::SimpleSecondary;
    }
 
    // POSTMORTEM is about extra marks after solving

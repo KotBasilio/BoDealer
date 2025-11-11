@@ -116,7 +116,7 @@ void WaConfig::AllLenses::SimpleSecondary(deal& dl)
    dl.first = a.secondary.first;
 }
 
-void WaConfig::AllLenses::MultiSelector(deal& dl)
+void WaConfig::AllLenses::MultiTrumpFill(deal& dl)
 {
    dl.trump = a.secondary.trump;
    dl.first = a.secondary.first;
@@ -154,7 +154,7 @@ void Walrus::SolveSecondTime(boards& arrSrc, const solvedBoards& chunk)
       // pass to comparison
       deal& cards(arrSrc.deals[handno]);
       trFirst.Init(chunk.solvedBoard[handno]);
-      (this->*sem.onCompareContracts)(trFirst.plainScore, trSecond.plainScore, cards);
+      ComparePrimaSecunda(trFirst.plainScore, trSecond.plainScore, cards);
 
       // may monitor TNT -- TODO
       //deal& cards(bo.deals[handno]);

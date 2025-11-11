@@ -93,6 +93,7 @@ extern Progress *mainProgress;
 typedef void (Shuffler::* SemShufflerFunc)();
 typedef void (WaMulti::* SemMultiStart)();
 typedef void (Walrus::* SemFuncType)();
+typedef void (Walrus::* SemScorerFlipper)(twContext* lay);
 typedef void (Walrus::* SemComparing)(uint trickA, uint tricksB, const deal& cards);
 typedef void (Walrus::* SemFirstMarks)(DdsTricks& tr, const deal& cards);
 typedef void (Walrus::* SemSecondMarks)(uint camp, const deal& cards);
@@ -100,8 +101,8 @@ typedef void (Walrus::* SemOnBoardFound)(twContext* lay);
 typedef void (MiniUI::* SemOnBoardAdded)(twContext* lay);
 typedef void (Walrus::* SemSecondSolver)(struct boards& bo, const struct solvedBoards& solved);
 typedef void (CumulativeScore::* SemGenScoring)(DdsTricks& tr);
-typedef void (WaConfig::AllLenses::* SemTrumpFill)(struct deal& dl);
-   struct Semantics {
+typedef void (WaConfig::AllLenses::* SemTrumpFill)(deal& dl);
+struct Semantics {
    SemFuncType              onInit;
    SemMultiStart            onShareStart;
    SemFuncType              onScanCenter;

@@ -7,7 +7,7 @@
 
 #include "walrus.h"
 
-static s64 SingleIMP(s64 diff) 
+static s64 SingleComparisonIMP(s64 diff) 
 {
    s64 sign = (diff > 0) ? 1 : -1;
    s64 x = diff * sign;
@@ -53,7 +53,7 @@ static void DbgShowComparison(s64 gainPrima, s64 gainSecunda, s64 delta)
       delta = -delta;
    }
    if (delta > 0) {
-      printf("%s is better by %lld points, %lld IMPs\n", action, delta, SingleIMP(delta));
+      printf("%s is better by %lld points, %lld IMPs\n", action, delta, SingleComparisonIMP(delta));
    } else {
       printf("Any action is OK\n");
    }
@@ -88,7 +88,7 @@ void Walrus::ComparePrimaSecunda(uint tricksA, uint tricksB, const deal& cards)
 
    // add up, converting to imps
    auto delta = gainPrima - gainSecunda;
-   auto impsPrima = SingleIMP(delta);
+   auto impsPrima = SingleComparisonIMP(delta);
    ui.primaBetterBy += impsPrima;
 
    // store in the row
