@@ -240,6 +240,80 @@ bool Semantics::Compile(const char* sourceCode, size_t size, std::vector<MicroFi
    return true;
 }
 
+bool Semantics::BuildMultiScorer(const char* sourceCode, size_t size, CumulativeScore &cumul)
+{
+   // no code => no problem
+   if (!sourceCode || !sourceCode[0]) {
+      return true;
+   }
+
+   // scan via context
+   CompilerContext ctx(sourceCode, size, config.lens.when);
+   char* posEndl(ctx.Buf());
+   for (; posEndl && ctx.IsLineInRange(); ctx.NextLineAt(posEndl + 1)) {
+      // detach line
+      posEndl = strchr(ctx.line, '\n');
+      if (posEndl) {
+         *posEndl = 0;
+      }
+
+      // empty line => skip
+      if (!ctx.line[0]) {
+         continue;
+      }
+
+      // find implication
+      char* posImply = strstr(ctx.line, config.key.Imply);
+      if (posImply) {
+         *posImply = 0;
+      } else {
+         printf("\nFailed: Missing '%s' in multi-scorer line #%d: %s\n", config.key.Imply, ctx.idxLine + 1, ctx.line);
+         return false;
+      }
+
+      // get filter part
+      if (!CompileOneLine(ctx)) {
+         return false;
+      }
+
+      // ensure space
+      if (config.lens.countLenses >= WA_MAX_LENSES) {
+         printf("Exceeded max lenses: %lld\n", WA_MAX_LENSES);
+         return false;
+      }
+
+      // get scorer part
+      auto scorerCode = config.lens.arrLenses[config.lens.countLenses].txtCode;
+      strcpy(scorerCode, posImply + strlen(config.key.Imply));
+      if (config.dbg.verboseCompile) {
+         printf("Scorer %2d: %s\n", ctx.idxLine + 1, scorerCode);
+      }
+
+      // parse
+      if (!cumul.tertia.Init(cumul.ourOther, scorerCode)) {
+         printf("Parsing multi-scorer failed on line #%d\n", ctx.idxLine + 1);
+         return false;
+      }
+
+      // store
+      config.lens.arrLenses[config.lens.countLenses].Init(cumul.tertia);
+      config.lens.countLenses++;
+   }
+
+   // require all filters to be for SOUTH, see TrumpFillMultiLens()
+   if (ctx.out.size()) {
+      for (auto& filter : ctx.out) {
+         if (filter.params[0] != SOUTH) {
+            printf("\nFailed: multi-scorer filters must be for SOUTH so far.\n");
+            return false;
+         }
+         filter.params[0] = 0;
+      }
+   }
+
+   return true;
+}
+
 static bool IsDigitsOnly(const char* str) 
 {
    if (str == nullptr) {
@@ -467,7 +541,7 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
 {
    // prepare
    if (config.dbg.verboseCompile) {
-      printf("Line %2d: %s\n", ctx.idxLine + 1, ctx.line);
+      printf("Line   %2d: %s\n", ctx.idxLine + 1, ctx.line);
    }
    EParserState fsmState = PS_IDLE;
 
@@ -501,7 +575,7 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
             } else if (parser.AcceptHandFilter()) {
                fsmState = PS_ARGUMENTS;
             } else {
-               return parser.FailTok("Unrecognized filter name");
+               return parser.FailTok("Unrecognized filter name ");
             }
             break;
 
@@ -557,14 +631,12 @@ void WaConfig::BuildNewFilters(Walrus *walrus)
    }
 
    if (!walrus->sem.Compile(filters.sourceCode, filters.sizeSourceCode, filters.compiled)) {
-      isInitSuccess = false;
-      printf("Config ERROR: Failed to compile filters.\n");
+      MarkFail("Failed to compile filters");
       return;
    }
 
    if (!walrus->sem.MiniLink(filters.compiled)) {
-      isInitSuccess = false;
-      printf("Config ERROR: Failed to link filters.\n");
+      MarkFail("Failed to compile link filters");
       return;
    }
 
@@ -587,11 +659,11 @@ void WaConfig::BuildMultiScorer(Walrus* walrus)
       printf("Building multi-scorer...");
    }
 
-   //if (!walrus->mul.BuildFromSource(txt.mulScorerSourceCode, txt.sizeMulScorerSourceCode, walrus)) {
-   //   isInitSuccess = false;
-   //   printf("Config ERROR: Failed to build multi-scorer.\n");
-   //   return;
-   //}
+   if (!walrus->sem.BuildMultiScorer(txt.mulScorerSourceCode, txt.sizeMulScorerSourceCode, walrus->cumulScore)) {
+      MarkFail();
+      return;
+   }
+
    printf("Success.\n");
 }
 

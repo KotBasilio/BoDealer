@@ -138,6 +138,7 @@ struct Semantics {
    bool Compile(const char* sourceCode, size_t sizeSourceCode, std::vector<MicroFilter>& out);
    bool MiniLink(std::vector<MicroFilter> &filters);
    void MiniLinkFilters();
+   bool BuildMultiScorer(const char* sourceCode, size_t sizeSourceCode, CumulativeScore& cumul);
 private:
    void SetSecondaryScorer(CumulativeScore &cs, s64 &target, const char* code);
    bool CompileOneLine(struct CompilerContext &ctx);

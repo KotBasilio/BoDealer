@@ -84,13 +84,12 @@ enum EConfigReaderState {
 
 constexpr size_t WA_SCORER_CODE_LEN = 32;
 constexpr size_t WA_SHORT_SCORER_LEN = 4;
-constexpr size_t WA_TASK_BRIEF = 1024;
+constexpr size_t WA_TASK_BRIEF = 512;
 constexpr size_t WA_TASK_NANE_LEN = 64;
 constexpr size_t WA_SECONDARY_LNAME_LEN = WA_TASK_NANE_LEN * 2;
 constexpr size_t WA_HAND_LEN = 30;
 constexpr size_t WA_TXT_SEAT_SUIT = 10;
 constexpr size_t WA_SOURCE_CODE_BUF = 2 * 1024;
-constexpr size_t WA_MAX_LENSES = 6;
 
 struct WaConfig {
    WaConfig();
@@ -155,6 +154,7 @@ struct WaConfig {
       char txtTrump[WA_TXT_SEAT_SUIT];
       char txtBy[WA_TXT_SEAT_SUIT];
       char txtAttacker[WA_TXT_SEAT_SUIT];
+      char txtCode[WA_SCORER_CODE_LEN];
       Contract();
       void Init(const LineScorer& scorer);
       void CheckTheSetup(const LineScorer& scorer);
@@ -163,17 +163,18 @@ struct WaConfig {
       bool IsEmpty()  const { return (goal == 0); }
    };
    struct AllLenses {
-      struct Two {
-         Contract prim;      // our primary contract
-         Contract secondary; // either our secondary contract or their contract
-      };
-      union {                // all contracts lenses together
-         Two      a;
-         Contract arrLenses[WA_MAX_LENSES];
+      union {// all contracts lenses together
+         struct {
+            Contract prim;      // our primary contract
+            Contract secondary; // either our secondary contract or their contract
+         };
+         struct {
+            Contract arrLenses[WA_MAX_LENSES];
+         };
       };
       int countLenses = 0;
       std::vector<MicroFilter> when;
-      AllLenses() : a(), when() {}
+      AllLenses() : when() {}
       void SimpleSecondary(struct deal& dl);
       void TrumpFillMultiLens(struct deal& dl);
    } lens;
@@ -247,6 +248,7 @@ private:
    WA_TASK_TYPE DetectOneHandVariant();
    void AnnounceTask();
 
+public:
    // keywords used in parsing
    struct Keywords {
       static char* Debug;
@@ -261,7 +263,7 @@ private:
       static char* ShowComparisons;
       static char* ShowOnAdded;
       static char* ShowOnReconstructed;
-      static char* TEnd;
+      static char* TEnd, *Imply;
       static char* TName, *TType;
       static char* VerboseCompile;
       static char* VerboseMemory;

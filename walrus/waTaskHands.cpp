@@ -193,8 +193,8 @@ void Semantics::PrepareBaseDeal()
 
    // common fields
    memset(dlBase, 0, sizeof(*dlBase));
-   dlBase->trump = config.lens.a.prim.trump;
-   dlBase->first = config.lens.a.prim.first;
+   dlBase->trump = config.lens.prim.trump;
+   dlBase->first = config.lens.prim.first;
 
    // done for 4-hand tasks. We'll fill each hand
    #ifdef FOUR_HANDS_TASK

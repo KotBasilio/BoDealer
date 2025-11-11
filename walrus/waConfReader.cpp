@@ -39,6 +39,7 @@ char* WaConfig::Keywords::TType = "TASK_TYPE:";
 char* WaConfig::Keywords::Prima = "PRIMARY SCORER: ";
 char* WaConfig::Keywords::Secunda = "SECONDARY SCORER: ";
 char* WaConfig::Keywords::MultiScorer = "MULTI SCORER: ";
+char* WaConfig::Keywords::Imply = "--> ";
 char* WaConfig::Keywords::Postmortem = "POSTMORTEM: ";
 char* WaConfig::Keywords::Filters = "FILTERS:";
 char* WaConfig::Keywords::TEnd = "--------";
@@ -263,7 +264,7 @@ void WaConfig::DetectTwoScorers()
    solve.shouldSolveTwice = true;
 
    // are they on the same line?
-   if (lens.a.secondary.IsNSLine()) {
+   if (lens.secondary.IsNSLine()) {
       solve.seekDecisionCompete = false;
       if (txt.IsMagicFly()) {
          io.showMagicFly = true;
@@ -289,8 +290,8 @@ void WaConfig::ReadPrimaScorer(const char* line)
       return;
    }
 
-   lens.a.prim.Init(attempt.prima);
-   if (!lens.a.prim.IsNSLine()) {
+   lens.prim.Init(attempt.prima);
+   if (!lens.prim.IsNSLine()) {
       MarkFail("Pls setup primary scorer for N/S line");
       return;
    }
@@ -311,11 +312,11 @@ void WaConfig::ReadSecundaScorer(const char* line)
       MarkFail("Failed to parse secunda scorer");
       return;
    }
-   lens.a.secondary.Init(attempt.secunda);
+   lens.secondary.Init(attempt.secunda);
    DetectTwoScorers();
 
    // use attempt to detect doubled opponents
-   if (!lens.a.secondary.IsNSLine()) {
+   if (!lens.secondary.IsNSLine()) {
       io.oppsAreDoubled = attempt.secunda.HasDouble();
    }
 }
@@ -478,8 +479,8 @@ EConfigReaderState WaConfig::FSM_Go2WaitTask(char* line)
 void WaConfig::ReadTask(Walrus *walrus)
 {
    // drop goals
-   lens.a.prim.goal = 0;
-   lens.a.secondary.goal = 0;
+   lens.prim.goal = 0;
+   lens.secondary.goal = 0;
 
    // ensure we have a file
    const char* fname = txt.namesBase.StartFrom;

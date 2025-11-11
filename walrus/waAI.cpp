@@ -101,7 +101,7 @@ void Walrus::HandleSolvedChunk(boards& arrSrc, solvedBoards& solved)
       deal& cards(arrSrc.deals[handno]);
 
       // pass to statistics. any extra marks are on postmortem
-      progress.HitByTricks(tr.plainScore, config.lens.a.prim.goal, IO_ROW_OUR_BASE, false);
+      progress.HitByTricks(tr.plainScore, config.lens.prim.goal, IO_ROW_OUR_BASE, false);
       ScoreWithPrimary(tr);
       (this->*sem.onFirstMarks)(tr, cards);
 
@@ -112,8 +112,8 @@ void Walrus::HandleSolvedChunk(boards& arrSrc, solvedBoards& solved)
 
 void WaConfig::AllLenses::SimpleSecondary(deal& dl)
 {
-   dl.trump = a.secondary.trump;
-   dl.first = a.secondary.first;
+   dl.trump = secondary.trump;
+   dl.first = secondary.first;
 }
 
 void WaConfig::AllLenses::TrumpFillMultiLens(deal& dl)
@@ -124,15 +124,32 @@ void WaConfig::AllLenses::TrumpFillMultiLens(deal& dl)
    // then we know which scorer to take.
 
    // proof of concept:
+   static WaFilter loc;
    twContext lay(dl, SOUTH);
 
-   dl.trump = a.secondary.trump;
-   dl.first = a.secondary.first;
+   MicroFilter &mic0 = when[0];
+   if (!(loc.*mic0.func)(&lay, mic0.params)) {
+      dl.trump = arrLenses[2].trump;
+      dl.first = arrLenses[2].first;
+      return;
+   }
+
+   MicroFilter& mic1 = when[1];
+   if (!(loc.*mic1.func)(&lay, mic1.params)) {
+      dl.trump = arrLenses[3].trump;
+      dl.first = arrLenses[3].first;
+      return;
+   }
+
+   // default
+   SimpleSecondary(dl);
 }
 
 void Walrus::FlipSecByMultiLens(const deal& dl)
 {
    // it's enough to analyze trumps and first
+   
+   // proof of concept:
    //CumulativeScore temp = cumulScore;
    //cumulScore.secunda = temp.prima;
    //cumulScore.prima = temp.secunda;
@@ -150,8 +167,6 @@ void Walrus::SolveSecondTime(boards& arrSrc, const solvedBoards& chunk)
    // overwrite trumps and lead
    for (int i = 0; i < arrSrc.noOfBoards; i++) {
       (config.lens.*sem.onTrumpFill)(arrSrc.deals[i]);
-      assert(arrSrc.deals[i].trump == config.lens.a.secondary.trump);
-      assert(arrSrc.deals[i].first == config.lens.a.secondary.first);
    }
 
    // solve second time
@@ -164,7 +179,7 @@ void Walrus::SolveSecondTime(boards& arrSrc, const solvedBoards& chunk)
    for (int handno = 0; handno < _twiceSolved.noOfBoards; handno++) {
       // pass to basic statistics
       trSecond.Init(_twiceSolved.solvedBoard[handno]);
-      progress.HitByTricks(trSecond.plainScore, config.lens.a.secondary.goal, IO_ROW_THEIRS);
+      progress.HitByTricks(trSecond.plainScore, config.lens.secondary.goal, IO_ROW_THEIRS);
 
       // score the second contract
       deal& cards(arrSrc.deals[handno]);
@@ -215,7 +230,7 @@ void Walrus::SolveOneByOne(deal& dlBase)
 // unused chunk to cater for unplayable boards -- we change board result on some percentage boards
 #ifdef UNPLAYABLE_ONE_OF
 bool isDecimated = false;
-if (tr.plainScore == config.lens.a.prim.goal) {
+if (tr.plainScore == config.lens.prim.goal) {
    static int cycleCatering = UNPLAYABLE_ONE_OF;
    if (0 == --cycleCatering) {
       tr.plainScore--;

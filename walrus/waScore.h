@@ -18,6 +18,8 @@ struct DdsTricks
    void Init(const struct futureTricks &fut);
 };
 
+constexpr size_t WA_MAX_LENSES = 6;
+
 struct LineScorer {
    LineScorer();
    bool Init(s64& out, const char* code);
@@ -53,8 +55,16 @@ struct CumulativeScore {
    void VoidGenScoring(DdsTricks& tr) {}
 
    // linear-score oriented
-   LineScorer  prima, secunda, tertia;
-   void Primary        (DdsTricks &tr) { prima  (tr.plainScore); }
+   union {
+      struct {
+         LineScorer  prima, secunda, tertia;
+      };
+      struct {
+         LineScorer  allScorers[WA_MAX_LENSES];
+      };
+   };
+   
+   void Primary        (DdsTricks& tr) { prima  (tr.plainScore); }
    void Secondary      (DdsTricks &tr) { secunda(tr.plainScore); }
    void Tertiary       (DdsTricks &tr) { tertia (tr.plainScore); }
    void BiddingLevel   (DdsTricks &tr);

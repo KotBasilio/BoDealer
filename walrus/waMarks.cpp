@@ -83,7 +83,7 @@ void Walrus::AddMarksByHCP(DdsTricks& tr, const deal& cards)
 
    // proper row => add a mark in stat
    if (row < IO_ROW_FILTERING) {
-      progress.HitByTricks(tr.plainScore, config.lens.a.prim.goal, row);
+      progress.HitByTricks(tr.plainScore, config.lens.prim.goal, row);
    }
 }
 
@@ -100,7 +100,7 @@ void Walrus::AddMarksByControls(DdsTricks& tr, const deal& cards)
 
    // proper row => add a mark in stat
    if (row < IO_ROW_FILTERING) {
-      progress.HitByTricks(tr.plainScore, config.lens.a.prim.goal, row);
+      progress.HitByTricks(tr.plainScore, config.lens.prim.goal, row);
    }
 }
 
@@ -112,7 +112,7 @@ void Walrus::AddMarksBySuit(DdsTricks& tr, const deal& cards)
 
    // proper row => add a mark in stat
    if (row < IO_ROW_FILTERING) {
-      progress.HitByTricks(tr.plainScore, config.lens.a.prim.goal, row);
+      progress.HitByTricks(tr.plainScore, config.lens.prim.goal, row);
    }
 }
 
@@ -143,8 +143,8 @@ void Walrus::AddMarksInHugeMatch(const deal& cards, uint camp, s64 impsPrima)
 void Walrus::AddMarksByOpLeads(DdsTricks& tr, const deal& cards)
 {
    uint row = IO_ROW_POSTMORTEM;
-   progress.HitByTricks(tr.lead.S, config.lens.a.prim.goal, row); row += 2;
-   progress.HitByTricks(tr.lead.H, config.lens.a.prim.goal, row); row += 2;
-   progress.HitByTricks(tr.lead.D, config.lens.a.prim.goal, row); row += 2;
-   progress.HitByTricks(tr.lead.C, config.lens.a.prim.goal, row);
+   progress.HitByTricks(tr.lead.S, config.lens.prim.goal, row); row += 2;
+   progress.HitByTricks(tr.lead.H, config.lens.prim.goal, row); row += 2;
+   progress.HitByTricks(tr.lead.D, config.lens.prim.goal, row); row += 2;
+   progress.HitByTricks(tr.lead.C, config.lens.prim.goal, row);
 }

@@ -195,7 +195,7 @@ void Walrus::DetectScorerGoals()
    DdsTricks tr;
    char tail[128];
    CumulativeScore zeroes(cumulScore);
-      owl.Show("Primary scorer (%s, %d tr):", config.lens.a.prim.txtTrump, config.lens.a.prim.goal);
+      owl.Show("Primary scorer (%s, %d tr):", config.lens.prim.txtTrump, config.lens.prim.goal);
    strcpy(tail, "  / ");
    for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
       cumulScore = zeroes;
@@ -208,7 +208,7 @@ void Walrus::DetectScorerGoals()
    // @@ decide for bidding level task
    // @@ bool shouldSkipSecunda = cumulScore.secunda.IsEmpty() || (sem.onPrimaryScoring == &CumulativeScore::BiddingLevel);
    if (!cumulScore.secunda.IsEmpty()) {
-      owl.Show("Contract-B scorer (%s, %d tr):", config.lens.a.secondary.txtTrump, config.lens.a.secondary.goal);
+      owl.Show("Contract-B scorer (%s, %d tr):", config.lens.secondary.txtTrump, config.lens.secondary.goal);
       strcpy(tail, "  / ");
       for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
          cumulScore = zeroes;
@@ -278,7 +278,7 @@ void Semantics::SetOurPrimaryScorer(CumulativeScore& cs, const char* code)
 
    // ok
    onPrimaryScoring = &CumulativeScore::Primary;
-   assert(config.lens.a.prim.goal == cs.prima.Goal());
+   assert(config.lens.prim.goal == cs.prima.Goal());
 }
 
 void Semantics::SetSecondaryScorer(CumulativeScore& cs, s64& target, const char* code)
@@ -290,7 +290,7 @@ void Semantics::SetSecondaryScorer(CumulativeScore& cs, s64& target, const char*
 
    // ok
    onSecondScoring = &CumulativeScore::Secondary;
-   assert(config.lens.a.secondary.goal == cs.secunda.Goal());
+   assert(config.lens.secondary.goal == cs.secunda.Goal());
 }
 
 void Semantics::SetOurSecondaryScorer(CumulativeScore& cs, const char* code)
@@ -353,7 +353,7 @@ void WaConfig::MakeSecondaryScrorerForBiddingLevel()
       MarkFail("Failed to parse constructed scorer");
       return;
    }
-   lens.a.secondary.Init(attempt.secunda);
+   lens.secondary.Init(attempt.secunda);
 }
 
 void Semantics::SetOpeningLeadScorer(CumulativeScore& cs, const char* code)

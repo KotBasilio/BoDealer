@@ -139,8 +139,8 @@ void Walrus::Orb_ReSolveAndShow(deal &cards)
    if (config.solve.shouldSolveTwice) {
       // score alternative contracts
       futureTricks futTheirs;
-      cards.trump = config.lens.a.secondary.trump;
-      cards.first = config.lens.a.secondary.first;
+      cards.trump = config.lens.secondary.trump;
+      cards.first = config.lens.secondary.first;
       target = -1;
       res = SolveBoard(cards, target, solEveryLead, mode, &futTheirs, threadIndex);
       if (res != RETURN_NO_FAULT) {
@@ -172,7 +172,7 @@ bool Walrus::Orb_ApproveByFly(const deal& cards)
    int mode = 0;
    int threadIndex = 0;
    deal flyDeal = cards;
-   flyDeal.trump = config.lens.a.secondary.trump;
+   flyDeal.trump = config.lens.secondary.trump;
    int res = SolveBoard(flyDeal, target, config.solve.ddsSol, mode, &fut, threadIndex);
    if (res != RETURN_NO_FAULT) {
       HandleErrorDDS(flyDeal, res);

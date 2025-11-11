@@ -12,6 +12,7 @@
 #include HEADER_CURSES
 #include <memory.h> // memset
 #include "waSemMicro.h"
+#include "waSemantic.h"
 
 //#define DBG_SHOW_ALLOCS
 
@@ -68,6 +69,7 @@ WaConfig::Contract::Contract()
    txtTrump[0] = 0;
    txtBy[0] = 0;
    txtAttacker[0] = 0;
+   txtCode[0] = 0;
 }
 
 WaConfig::Filters::Filters()
