@@ -200,19 +200,20 @@ void Walrus::DetectScorerGoals()
    for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
       cumulScore = zeroes;
       ScoreWithPrimary(tr);
-      AddScorerValues(tail);
+      cumulScore.ShowValues(tail);
    }
    owl.Show("%s\n", tail);
 
    // -- secondary
-   bool shouldSkipSecunda = cumulScore.secunda.IsEmpty() || (sem.onPrimaryScoring == &CumulativeScore::BiddingLevel);
-   if (!shouldSkipSecunda) {
+   // @@ decide for bidding level task
+   // @@ bool shouldSkipSecunda = cumulScore.secunda.IsEmpty() || (sem.onPrimaryScoring == &CumulativeScore::BiddingLevel);
+   if (!cumulScore.secunda.IsEmpty()) {
       owl.Show("Contract-B scorer (%s, %d tr):", config.lens.a.secondary.txtTrump, config.lens.a.secondary.goal);
       strcpy(tail, "  / ");
       for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
          cumulScore = zeroes;
-         ScoreWithSecondary(tr);
-         AddScorerValues(tail);
+         (cumulScore.*sem.onSecondScoring)(tr);
+         cumulScore.ShowValues(tail);
       }
       owl.Show("%s\n", tail);
    }
@@ -221,47 +222,47 @@ void Walrus::DetectScorerGoals()
    cumulScore = zeroes;
 }
 
-void Walrus::AddScorerValues(char* tail)
+void CumulativeScore::ShowValues(char* tail)
 {
    char chunk[20];
 
    if (config.postm.Is(WPM_OPENING_LEADS)) {
-      if (cumulScore.ideal) {
-         owl.Show(" %lld", cumulScore.ideal);
+      if (ideal) {
+         owl.Show(" %lld", ideal);
          return;
       }
    }
 
-   if (cumulScore.oppContract) {
-      owl.Show(" %lld", -cumulScore.oppContract);
-      if (cumulScore.oppCtrDoubled) {
-         sprintf(chunk, " %lld", -cumulScore.oppCtrDoubled);
+   if (oppContract) {
+      owl.Show(" %lld", -oppContract);
+      if (oppCtrDoubled) {
+         sprintf(chunk, " %lld", -oppCtrDoubled);
          strcat(tail, chunk);
       }
       return;
    }
 
-   if (cumulScore.oppCtrDoubled) {
-      owl.Show(" %lld", -cumulScore.oppCtrDoubled);
+   if (oppCtrDoubled) {
+      owl.Show(" %lld", -oppCtrDoubled);
       return;
    }
 
-   if (cumulScore.bidGame) {
-      owl.Show(" %lld", cumulScore.bidGame);
-      if (cumulScore.bidPartscore) {
-         sprintf(chunk, " %lld", cumulScore.bidPartscore);
+   if (bidGame) {
+      owl.Show(" %lld", bidGame);
+      if (bidPartscore) {
+         sprintf(chunk, " %lld", bidPartscore);
          strcat(tail, chunk);
       }
       return;
    }
 
-   if (cumulScore.ourOther) {
-      owl.Show(" %lld", cumulScore.ourOther);
+   if (ourOther) {
+      owl.Show(" %lld", ourOther);
       return;
    }
 
-   if (cumulScore.bidPartscore) {
-      sprintf(chunk, " %lld", cumulScore.bidPartscore);
+   if (bidPartscore) {
+      sprintf(chunk, " %lld", bidPartscore);
       strcat(tail, chunk);
       return;
    }
@@ -278,7 +279,6 @@ void Semantics::SetOurPrimaryScorer(CumulativeScore& cs, const char* code)
    // ok
    onPrimaryScoring = &CumulativeScore::Primary;
    assert(config.lens.a.prim.goal == cs.prima.Goal());
-   onSinglePrimary = &CumulativeScore::DepPrimary;
 }
 
 void Semantics::SetSecondaryScorer(CumulativeScore& cs, s64& target, const char* code)
@@ -291,7 +291,6 @@ void Semantics::SetSecondaryScorer(CumulativeScore& cs, s64& target, const char*
    // ok
    onSecondScoring = &CumulativeScore::Secondary;
    assert(config.lens.a.secondary.goal == cs.secunda.Goal());
-   onSingleSecondary = &CumulativeScore::DepSecondary;
 }
 
 void Semantics::SetOurSecondaryScorer(CumulativeScore& cs, const char* code)

@@ -88,22 +88,7 @@ void Walrus::SolveOneChunk(uint chunkStartIdx, uint boardsCount)
 
 void Walrus::ScoreWithPrimary(DdsTricks& tr)
 {
-   // respect old tasks (backward compatibility)
-   #ifdef USE_ONLY_SINGLE_SCORING
-      (cumulScore.*sem.onSinglePrimary)(tr.plainScore);
-   #else
-      (cumulScore.*sem.onPrimaryScoring)(tr);
-   #endif
-}
-
-void Walrus::ScoreWithSecondary(DdsTricks& tr)
-{
-   // respect old tasks (backward compatibility)
-   #ifdef USE_ONLY_SINGLE_SCORING 
-      (cumulScore.*sem.onSingleSecondary)(tr.plainScore);
-   #else
-      (cumulScore.*sem.onSecondScoring)(tr);
-   #endif
+   (cumulScore.*sem.onPrimaryScoring)(tr);
 }
 
 void Walrus::HandleSolvedChunk(boards& arrSrc, solvedBoards& solved)
@@ -150,7 +135,7 @@ void Walrus::SolveSecondTime(boards& arrSrc, const solvedBoards& chunk)
       // pass to basic statistics
       trSecond.Init(_twiceSolved.solvedBoard[handno]);
       progress.HitByTricks(trSecond.plainScore, config.lens.a.secondary.goal, IO_ROW_THEIRS);
-      ScoreWithSecondary(trSecond);
+      (cumulScore.*sem.onSecondScoring)(trSecond);
 
       // pass to comparison
       deal& cards(arrSrc.deals[handno]);
@@ -182,7 +167,7 @@ void Walrus::SolveOneByOne(deal& dlBase)
       dl.Solve(i);
 
       // pass
-      (cumulScore.*sem.onSinglePrimary)(dl.tr.plainScore);
+      ScoreWithPrimary(dl.tr);
 
       // may report
       if (!(i & 0xf)) {

@@ -106,6 +106,10 @@
    #error Use !config.io.areOppsDoubled
 #endif
 
+#ifdef USE_ONLY_SINGLE_SCORING // backward compatibility single-value scoring
+   #error Get rid of USE_ONLY_SINGLE_SCORING define. Use config-based semantics.
+#endif
+
 //#ifdef 
 //   #error Get rid of  define. Use  in config.
 //#endif

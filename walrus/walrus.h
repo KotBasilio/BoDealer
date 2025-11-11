@@ -95,8 +95,6 @@ protected:
    // scoring & progress
    CumulativeScore cumulScore;
    void ScoreWithPrimary(DdsTricks &tr);
-   void ScoreWithSecondary(DdsTricks &tr);
-   void AddScorerValues(char* tail);
    Progress progress;
    void AddMarksByHCP(DdsTricks& tr, const deal& cards);
    void AddMarksByControls(DdsTricks& tr, const deal& cards);

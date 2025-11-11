@@ -51,19 +51,23 @@ struct CumulativeScore {
    };
    // -- our contracts
    void VoidGenScoring(DdsTricks& tr) {}
-   void VoidSingleScoring(uint tricks) {}
 
    // linear-score oriented
    LineScorer  prima, secunda, tertia;
-   void DepPrimary     (uint tricks)   { prima  (tricks); }
-   void DepSecondary   (uint tricks)   { secunda(tricks); }
-   void DepTertiary    (uint tricks)   { tertia (tricks); }
    void Primary        (DdsTricks &tr) { prima  (tr.plainScore); }
    void Secondary      (DdsTricks &tr) { secunda(tr.plainScore); }
    void Tertiary       (DdsTricks &tr) { tertia (tr.plainScore); }
    void BiddingLevel   (DdsTricks &tr);
    void OpeningLead    (DdsTricks &tr);
    void FillSameLinears(const CumulativeScore &other);
+
+   // deprecated
+   void DepPrimary     (uint tricks)   { prima  (tricks); } 
+   void DepSecondary   (uint tricks)   { secunda(tricks); }
+   void DepTertiary    (uint tricks)   { tertia (tricks); }
+
+   // UX/UI
+   void ShowValues(char* tail);
 };
 
 extern void PrepareLinearScores();
