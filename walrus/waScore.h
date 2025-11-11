@@ -57,24 +57,24 @@ struct CumulativeScore {
    // linear-score oriented
    union {
       struct {
-         LineScorer  prima, secunda, tertia;
+         LineScorer  prima, secunda;
       };
       struct {
          LineScorer  allScorers[WA_MAX_LENSES];
       };
    };
-   
+   uint idxVariator = 1; // secondary
+
    void Primary        (DdsTricks& tr) { prima  (tr.plainScore); }
    void Secondary      (DdsTricks &tr) { secunda(tr.plainScore); }
-   void Tertiary       (DdsTricks &tr) { tertia (tr.plainScore); }
+   void Variator       (DdsTricks &tr) { allScorers[idxVariator](tr.plainScore); }
+   s64  GetFromVariator(uint tricks)   { return allScorers[idxVariator].Get(tricks); }
    void BiddingLevel   (DdsTricks &tr);
    void OpeningLead    (DdsTricks &tr);
-   void FillSameLinears(const CumulativeScore &other);
 
    // deprecated
    void DepPrimary     (uint tricks)   { prima  (tricks); } 
    void DepSecondary   (uint tricks)   { secunda(tricks); }
-   void DepTertiary    (uint tricks)   { tertia (tricks); }
 
    // UX/UI
    void ShowValues(char* tail);

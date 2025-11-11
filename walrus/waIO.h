@@ -172,11 +172,12 @@ struct WaConfig {
             Contract arrLenses[WA_MAX_LENSES];
          };
       };
-      int countLenses = 0;
+      uint countLenses = 0;
       std::vector<MicroFilter> when;
       AllLenses() : when() {}
       void SimpleSecondary(struct deal& dl);
       void TrumpFillMultiLens(struct deal& dl);
+      bool IsManyLenses() { return (countLenses > 2); }
    } lens;
 
    // adding extra marks aka post-mortem 

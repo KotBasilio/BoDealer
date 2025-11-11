@@ -51,4 +51,7 @@
     <Type Name="WaConfig::Postmortem">
         <DisplayString>{Type}</DisplayString>
     </Type>
+    <Type Name="LineScorer">
+        <DisplayString>{title} -> {*outSum}</DisplayString>
+    </Type>
 </AutoVisualizer>

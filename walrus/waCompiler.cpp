@@ -240,6 +240,35 @@ bool Semantics::Compile(const char* sourceCode, size_t size, std::vector<MicroFi
    return true;
 }
 
+bool Semantics::CompileScorerPart(struct CompilerContext& ctx, CumulativeScore& cumul, char* posImply)
+{
+   // ensure space
+   if (config.lens.countLenses >= WA_MAX_LENSES) {
+      printf("Exceeded max lenses: %lld\n", WA_MAX_LENSES);
+      return false;
+   }
+
+   // get scorer part
+   auto scorerCode = config.lens.arrLenses[config.lens.countLenses].txtCode;
+   strcpy(scorerCode, posImply + strlen(config.key.Imply));
+   if (config.dbg.verboseCompile) {
+      printf("Scorer %2d: %s\n", ctx.idxLine + 1, scorerCode);
+   }
+
+   // parse
+   LineScorer& outLin = cumul.allScorers[config.lens.countLenses];
+   if (!outLin.Init(cumul.ourOther, scorerCode)) {
+      printf("Parsing multi-scorer failed on line #%d\n", ctx.idxLine + 1);
+      return false;
+   }
+
+   // store
+   config.lens.arrLenses[config.lens.countLenses].Init(outLin);
+   config.lens.countLenses++;
+
+   return true;
+}
+
 bool Semantics::BuildMultiScorer(const char* sourceCode, size_t size, CumulativeScore &cumul)
 {
    // no code => no problem
@@ -276,28 +305,10 @@ bool Semantics::BuildMultiScorer(const char* sourceCode, size_t size, Cumulative
          return false;
       }
 
-      // ensure space
-      if (config.lens.countLenses >= WA_MAX_LENSES) {
-         printf("Exceeded max lenses: %lld\n", WA_MAX_LENSES);
-         return false;
-      }
-
       // get scorer part
-      auto scorerCode = config.lens.arrLenses[config.lens.countLenses].txtCode;
-      strcpy(scorerCode, posImply + strlen(config.key.Imply));
-      if (config.dbg.verboseCompile) {
-         printf("Scorer %2d: %s\n", ctx.idxLine + 1, scorerCode);
-      }
-
-      // parse
-      if (!cumul.tertia.Init(cumul.ourOther, scorerCode)) {
-         printf("Parsing multi-scorer failed on line #%d\n", ctx.idxLine + 1);
+      if (!CompileScorerPart(ctx, cumul, posImply)) {
          return false;
       }
-
-      // store
-      config.lens.arrLenses[config.lens.countLenses].Init(cumul.tertia);
-      config.lens.countLenses++;
    }
 
    // require all filters to be for SOUTH, see TrumpFillMultiLens()

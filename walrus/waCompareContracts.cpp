@@ -74,7 +74,7 @@ void Walrus::ComparePrimaSecunda(uint tricksA, uint tricksB, const deal& cards)
 {
    // detect score
    auto gainPrima   = cumulScore.prima.Get(tricksA);
-   auto gainSecunda = cumulScore.secunda.Get(tricksB);
+   auto gainSecunda = cumulScore.GetFromVariator(tricksB);
 
    // the second scorer can be for the other side
    if (config.solve.seekDecisionCompete) {

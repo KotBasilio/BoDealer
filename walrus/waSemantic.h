@@ -142,6 +142,7 @@ struct Semantics {
 private:
    void SetSecondaryScorer(CumulativeScore &cs, s64 &target, const char* code);
    bool CompileOneLine(struct CompilerContext &ctx);
+   bool CompileScorerPart(struct CompilerContext& ctx, CumulativeScore& cumul, char* posImply);
    bool IsListStart(const MicroFilter& mic);
    bool isInitSuccess = true;
    bool IsInitFailed() const { return !isInitSuccess; }

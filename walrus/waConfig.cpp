@@ -71,7 +71,10 @@ bool Walrus::InitSemantics()
    if (config.solve.shouldSolveTwice) {
       sem.solveSecondTime = &Walrus::SolveSecondTime;
       sem.onCompareContracts = &Walrus::ComparePrimaSecunda;
-      // @@ sem.onTrumpFill = &WaConfig::AllLenses::SimpleSecondary;
+      if (config.lens.IsManyLenses()) {
+         sem.onTrumpFill = &WaConfig::AllLenses::TrumpFillMultiLens;
+         sem.flipSecondScorer = &Walrus::FlipSecByMultiLens;
+      }
    }
 
    // POSTMORTEM is about extra marks after solving

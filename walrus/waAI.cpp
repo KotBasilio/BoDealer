@@ -118,27 +118,17 @@ void WaConfig::AllLenses::SimpleSecondary(deal& dl)
 
 void WaConfig::AllLenses::TrumpFillMultiLens(deal& dl)
 {
-   // @@ idea: create twContext lay by the deal.
-   // it's reversal of DdsDeal::DdsDeal(twContext* lay)
-   // then apply filters on lay (see WaFilter::ScanOut)
-   // then we know which scorer to take.
-
-   // proof of concept:
+   // Basic idea: we create twContext lay by the deal.
+   // then we apply filters on lay to know which scorer to take.
    static WaFilter loc;
    twContext lay(dl, SOUTH);
-
-   MicroFilter &mic0 = when[0];
-   if (!(loc.*mic0.func)(&lay, mic0.params)) {
-      dl.trump = arrLenses[2].trump;
-      dl.first = arrLenses[2].first;
-      return;
-   }
-
-   MicroFilter& mic1 = when[1];
-   if (!(loc.*mic1.func)(&lay, mic1.params)) {
-      dl.trump = arrLenses[3].trump;
-      dl.first = arrLenses[3].first;
-      return;
+   for (uint i = 2; i < config.lens.countLenses; i++) {
+      MicroFilter& mic = when[i-2];
+      if (!(loc.*mic.func)(&lay, mic.params)) {
+         dl.trump = arrLenses[i].trump;
+         dl.first = arrLenses[i].first;
+         return;
+      }
    }
 
    // default
@@ -148,11 +138,17 @@ void WaConfig::AllLenses::TrumpFillMultiLens(deal& dl)
 void Walrus::FlipSecByMultiLens(const deal& dl)
 {
    // it's enough to analyze trumps and first
-   
-   // proof of concept:
-   //CumulativeScore temp = cumulScore;
-   //cumulScore.secunda = temp.prima;
-   //cumulScore.prima = temp.secunda;
+   for (uint i = 2; i < config.lens.countLenses; i++) {
+      auto const& lens = config.lens.arrLenses[i];
+      if (lens.trump == dl.trump &&
+          lens.first == dl.first) {
+         cumulScore.idxVariator = i;
+         return;
+      }
+   }
+
+   // default
+   cumulScore.idxVariator = 1; 
 }
 
 void Walrus::SolveSecondTime(boards& arrSrc, const solvedBoards& chunk)
@@ -188,7 +184,7 @@ void Walrus::SolveSecondTime(boards& arrSrc, const solvedBoards& chunk)
 
       // pass to comparison
       trFirst.Init(chunk.solvedBoard[handno]);
-      ComparePrimaSecunda(trFirst.plainScore, trSecond.plainScore, cards);
+      (this->*sem.onCompareContracts)(trFirst.plainScore, trSecond.plainScore, cards);
 
       // may monitor TNT -- TODO
       //deal& cards(bo.deals[handno]);

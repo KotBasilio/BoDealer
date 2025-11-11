@@ -60,13 +60,6 @@ void LineScorer::operator()(uint tricks)
    *outSum += Get(tricks);
 }
 
-void CumulativeScore::FillSameLinears(const CumulativeScore& other)
-{
-   prima.  FillUpon(&ideal, other.prima,   &other.ideal);
-   secunda.FillUpon(&ideal, other.secunda, &other.ideal);
-   tertia. FillUpon(&ideal, other.tertia,  &other.ideal);
-}
-
 void LineScorer::FillUpon(s64* ourBase, const LineScorer& other, const s64* thatBase)
 {
    if (other.IsEmpty()) {
@@ -205,9 +198,8 @@ void Walrus::DetectScorerGoals()
    owl.Show("%s\n", tail);
 
    // -- secondary
-   // @@ decide for bidding level task
-   // @@ bool shouldSkipSecunda = cumulScore.secunda.IsEmpty() || (sem.onPrimaryScoring == &CumulativeScore::BiddingLevel);
-   if (!cumulScore.secunda.IsEmpty()) {
+   bool shouldSkipSecunda = cumulScore.secunda.IsEmpty() || (sem.onPrimaryScoring == &CumulativeScore::BiddingLevel);
+   if (!shouldSkipSecunda) {
       owl.Show("Contract-B scorer (%s, %d tr):", config.lens.secondary.txtTrump, config.lens.secondary.goal);
       strcpy(tail, "  / ");
       for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
@@ -291,6 +283,11 @@ void Semantics::SetSecondaryScorer(CumulativeScore& cs, s64& target, const char*
    // ok
    onSecondScoring = &CumulativeScore::Secondary;
    assert(config.lens.secondary.goal == cs.secunda.Goal());
+
+   // multi-lens
+   if (config.lens.IsManyLenses()) {
+      onSecondScoring = &CumulativeScore::Variator;
+   }
 }
 
 void Semantics::SetOurSecondaryScorer(CumulativeScore& cs, const char* code)
