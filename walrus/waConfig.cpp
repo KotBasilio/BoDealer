@@ -78,21 +78,21 @@ bool Walrus::InitSemantics()
    {
       if (config.postm.Is(WPM_OPENING_LEADS)) {
          sem.SetOpeningLeadScorer(cumulScore, config.txt.primaScorerCode);
-         sem.onMarkAfterSolve = &Walrus::AddMarksByOpLeads;
+         sem.onFirstMarks = &Walrus::AddMarksByOpLeads;
       }
 
       if (config.postm.Is(WPM_HCP_SINGLE_SCORER)) {
          assert(!config.postm.minControls);
-         sem.onMarkAfterSolve = &Walrus::AddMarksByHCP;
+         sem.onFirstMarks = &Walrus::AddMarksByHCP;
       }
 
       if (config.postm.Is(WPM_CONTROLS)) {
          assert(config.postm.minControls);
-         sem.onMarkAfterSolve = &Walrus::AddMarksByControls;
+         sem.onFirstMarks = &Walrus::AddMarksByControls;
       }
 
       if (config.postm.Is(WPM_SUIT)) {
-         sem.onMarkAfterSolve = &Walrus::AddMarksBySuit;
+         sem.onFirstMarks = &Walrus::AddMarksBySuit;
       }
    }
 

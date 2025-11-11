@@ -112,10 +112,9 @@ struct Semantics {
    SemOnBoardAdded          onBoardAdded;
    SemFuncType              onAfterMath;
    SemSecondSolver          solveSecondTime;
-   SemComparing             onCompareContracts;
    // marks:
-   SemFirstMarks  onMarkAfterSolve;
-   SemSecondMarks onSecondMarks;
+   SemFirstMarks  onFirstMarks;
+   SemComparing   onCompareContracts;
    // scorers:
    SemGenScoring  onPrimaryScoring;
    SemGenScoring  onSecondScoring;

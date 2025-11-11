@@ -88,7 +88,6 @@ protected:
    void NOP() {}
    void VoidSingleScoring(DdsTricks &tr) {}
    void VoidFirstMarks(DdsTricks& tr, const deal& cards) {}
-   void VoidSecondMarks(uint camp, const deal& cards) {}
    void VoidSecondSolve(boards& bo, const solvedBoards& solved) {}
    void VoidCompare(uint trickSuit, uint tricksNT, const deal& cards) {}
 

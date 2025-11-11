@@ -103,7 +103,7 @@ void Walrus::HandleSolvedChunk(boards& arrSrc, solvedBoards& solved)
       // pass to statistics. any extra marks are on postmortem
       progress.HitByTricks(tr.plainScore, config.lens.a.prim.goal, IO_ROW_OUR_BASE, false);
       ScoreWithPrimary(tr);
-      (this->*sem.onMarkAfterSolve)(tr, cards);
+      (this->*sem.onFirstMarks)(tr, cards);
 
       // ui
       Orb_Interrogate(tr, cards, fut);
@@ -149,10 +149,12 @@ void Walrus::SolveSecondTime(boards& arrSrc, const solvedBoards& chunk)
       // pass to basic statistics
       trSecond.Init(_twiceSolved.solvedBoard[handno]);
       progress.HitByTricks(trSecond.plainScore, config.lens.a.secondary.goal, IO_ROW_THEIRS);
+
+      // score the second contract
+      deal& cards(arrSrc.deals[handno]);
       (cumulScore.*sem.onSecondScoring)(trSecond);
 
       // pass to comparison
-      deal& cards(arrSrc.deals[handno]);
       trFirst.Init(chunk.solvedBoard[handno]);
       ComparePrimaSecunda(trFirst.plainScore, trSecond.plainScore, cards);
 

@@ -28,7 +28,7 @@ void Walrus::FillSemantic(void)
 {
    SemanticsToOrbitFixedHand();
    sem.onSinglePrimary = &Walrus::Score_NV6Minor;
-   sem.onMarkAfterSolve = &Walrus::AddMarksByHCP;
+   sem.onFirstMarks = &Walrus::AddMarksByHCP;
    sem.vecFilters.clear();
    ADD_4PAR_FILTER(SOUTH, ExactShape, 3, 2, 5, 3);
    ADD_2PAR_FILTER(SOUTH, PointsRange, 10, 10);
@@ -45,7 +45,7 @@ void Walrus::FillSemantic(void)
 {
    SemanticsToOrbitFixedHand();
    sem.onSinglePrimary = &Walrus::Score_3NT;
-   sem.onMarkAfterSolve = &Walrus::AddMarksByHCP;
+   sem.onFirstMarks = &Walrus::AddMarksByHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 10, 11);
    ADD_0PAR_FILTER(EAST, TakeoutOfClubs);
@@ -64,7 +64,7 @@ void Walrus::FillSemantic(void)
 {
    SemanticsToOrbitFixedHand();
    sem.onSinglePrimary = &Walrus::Score_4Major;
-   sem.onMarkAfterSolve = &Walrus::AddMarksByHCP;
+   sem.onFirstMarks = &Walrus::AddMarksByHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 12);
    ADD_0PAR_FILTER(EAST, NoOvercall);
@@ -81,7 +81,7 @@ void Walrus::FillSemantic(void)
    SemanticsToOrbitFixedHand();
    //sem.onSinglePrimary = &Walrus::Score_4Major;
    sem.onSinglePrimary = &Walrus::Score_3NT;
-   sem.onMarkAfterSolve = &Walrus::AddMarksByHCP;
+   sem.onFirstMarks = &Walrus::AddMarksByHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 12, 13);
    ADD_0PAR_FILTER(EAST, NoOvercall);
@@ -98,7 +98,7 @@ void Walrus::FillSemantic(void)
 {
    SemanticsToOrbitFixedHand();
    sem.onSinglePrimary = &CumulativeScore::Our4M;
-   sem.onMarkAfterSolve = &Walrus::AddMarksByHCP;
+   sem.onFirstMarks = &Walrus::AddMarksByHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 12, 13);
    ADD_0PAR_FILTER(EAST, NoOvercall);
@@ -125,7 +125,7 @@ void Walrus::FillSemantic(void)
    sem.onSinglePrimary = &CumulativeScore::OurNV7m;
    sem.onSingleSecondary = &CumulativeScore::Our2_NV7NT;
    sem.onCompareContracts = &Walrus::ComparePrimaSecunda;
-   sem.onMarkAfterSolve = &Walrus::AddMarksByHCP;
+   sem.onFirstMarks = &Walrus::AddMarksByHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 13);
    ADD_2PAR_FILTER(SOUTH, DiamondsLen, 6, 7);
@@ -142,7 +142,7 @@ void Walrus::FillSemantic(void)
 {
    SemanticsToOrbitFixedHand();
    sem.onSinglePrimary = &CumulativeScore::Our4M;
-   sem.onMarkAfterSolve = &Walrus::AddMarksByHCP;
+   sem.onFirstMarks = &Walrus::AddMarksByHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 10, 13);
    ADD_2PAR_FILTER(SOUTH, SpadesLen, 5, 6);
@@ -178,7 +178,7 @@ void Walrus::FillSemantic(void)
 {
    SemanticsToOrbitFixedHand();
    sem.onSinglePrimary = &CumulativeScore::Our4M;
-   sem.onMarkAfterSolve = &Walrus::AddMarksByHCP;
+   sem.onFirstMarks = &Walrus::AddMarksByHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 12);
    ADD_2PAR_FILTER(SOUTH, SpadesLen, 0, 4);
@@ -203,7 +203,7 @@ void Walrus::FillSemantic(void)
 {
    SemanticsToOrbitFixedHand();
    sem.onSinglePrimary = &CumulativeScore::Our4M;
-   sem.onMarkAfterSolve = &Walrus::AddMarksByHCP;
+   sem.onFirstMarks = &Walrus::AddMarksByHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 12);
    ADD_0PAR_FILTER(SOUTH, AnyInListBelow);
@@ -246,7 +246,7 @@ void Walrus::FillSemantic(void)
    SemanticsToOrbitFixedHand();
 
    sem.onSinglePrimary = &CumulativeScore::Our4M;
-   sem.onMarkAfterSolve = &Walrus::AddMarksByHCP;
+   sem.onFirstMarks = &Walrus::AddMarksByHCP;
    sem.vecFilters.clear();
 
    //"Fix a 14 hcp 4315;\np 1c p 1d\n1h 1s 2h 2s p ??\nQuestion: how often s game makes?"
@@ -279,7 +279,7 @@ void Walrus::FillSemantic(void)
    SemanticsToOrbitFixedHand();
    sem.SetOurPrimaryScorer  (cumulScore, "V5C ");
    sem.SetOurSecondaryScorer(cumulScore, "V3N ");
-   sem.onMarkAfterSolve = &Walrus::AddMarksByHCP;
+   sem.onFirstMarks = &Walrus::AddMarksByHCP;
    sem.vecFilters.clear();
    ADD_2PAR_FILTER(SOUTH, PointsRange, 11, 16);
    ADD_2PAR_FILTER(SOUTH, ClubsLen, 6, 6);
