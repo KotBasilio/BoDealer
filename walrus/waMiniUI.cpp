@@ -26,16 +26,16 @@ MiniUI::MiniUI()
 void WaConfig::SetupSeatsAndTrumps(const CumulativeScore &cs)
 {
    // primary
-   prim.CheckTheSetup(cs.prima);
+   lens.a.prim.CheckTheSetup(cs.prima);
 
    // secondary
    if (!cs.secunda.IsEmpty()) {
-      secondary.CheckTheSetup(cs.secunda);
+      lens.a.secondary.CheckTheSetup(cs.secunda);
       const char* whos = solve.seekDecisionCompete ? "Their" : "A";
       if (solve.taskType == TTYPE_ONE_SIDED_BIDDING_LEVEL) {
          whos = "Our";
       }
-      sprintf(txt.secLongName, "%s contract in %s", whos, secondary.txtTrump);
+      sprintf(txt.secLongName, "%s contract in %s", whos, lens.a.secondary.txtTrump);
    }
 }
 
@@ -83,7 +83,7 @@ void MiniUI::Run()
 
       // check whether we've handled this key
       if (irGoal) {
-         owl.Show("\nSeek %d tricks board by %s in %s ", irGoal, config.prim.txtBy, config.prim.txtTrump);
+         owl.Show("\nSeek %d tricks board by %s in %s ", irGoal, config.lens.a.prim.txtBy, config.lens.a.prim.txtTrump);
          switch (irFly) {
             case IO_CAMP_MORE_NT:
                owl.Show("where NT gives more tricks ");
@@ -105,8 +105,8 @@ void MiniUI::Run()
 
    // auto-command
    if (firstAutoShow && !irGoal) {
-      irGoal = config.prim.goal;
-      owl.Show(" %d tricks board by %s in %s ", irGoal, config.prim.txtBy, config.prim.txtTrump);
+      irGoal = config.lens.a.prim.goal;
+      owl.Show(" %d tricks board by %s in %s ", irGoal, config.lens.a.prim.txtBy, config.lens.a.prim.txtTrump);
    }
 }
 
@@ -115,28 +115,28 @@ void MiniUI::RecognizeCommands(int inchar)
    switch (inchar) {
       // primary scorer:
       // -- just made
-      case ' ': irGoal = config.prim.goal; break;
+      case ' ': irGoal = config.lens.a.prim.goal; break;
       // -- overtricks
-      case '1': irGoal = config.prim.goal + 1; break;
-      case '2': irGoal = config.prim.goal + 2; break;
-      case '3': irGoal = config.prim.goal + 3; break;
-      case '4': irGoal = config.prim.goal + 4; break;
+      case '1': irGoal = config.lens.a.prim.goal + 1; break;
+      case '2': irGoal = config.lens.a.prim.goal + 2; break;
+      case '3': irGoal = config.lens.a.prim.goal + 3; break;
+      case '4': irGoal = config.lens.a.prim.goal + 4; break;
       // -- down some
-      case 'q': irGoal = config.prim.goal - 1;  break;
-      case 'w': irGoal = config.prim.goal - 2;  break;
-      case 'e': irGoal = config.prim.goal - 3;  break;
-      case 'r': irGoal = config.prim.goal - 4;  break;
-      case 't': irGoal = config.prim.goal - 5;  break;
-      case 'y': irGoal = config.prim.goal - 6;  break;
-      case 'u': irGoal = config.prim.goal - 7;  break;
-      case 'i': irGoal = config.prim.goal - 8;  break;
+      case 'q': irGoal = config.lens.a.prim.goal - 1;  break;
+      case 'w': irGoal = config.lens.a.prim.goal - 2;  break;
+      case 'e': irGoal = config.lens.a.prim.goal - 3;  break;
+      case 'r': irGoal = config.lens.a.prim.goal - 4;  break;
+      case 't': irGoal = config.lens.a.prim.goal - 5;  break;
+      case 'y': irGoal = config.lens.a.prim.goal - 6;  break;
+      case 'u': irGoal = config.lens.a.prim.goal - 7;  break;
+      case 'i': irGoal = config.lens.a.prim.goal - 8;  break;
 
       // secondary TODO
 
       // fly comparison
-      case '=': irGoal = config.prim.goal; irFly = IO_CAMP_SAME_NT;     break;
-      case '[': irGoal = config.prim.goal; irFly = IO_CAMP_PREFER_SUIT; break;
-      case ']': irGoal = config.prim.goal; irFly = IO_CAMP_MORE_NT;     break;
+      case '=': irGoal = config.lens.a.prim.goal; irFly = IO_CAMP_SAME_NT;     break;
+      case '[': irGoal = config.lens.a.prim.goal; irFly = IO_CAMP_PREFER_SUIT; break;
+      case ']': irGoal = config.lens.a.prim.goal; irFly = IO_CAMP_MORE_NT;     break;
 
       // report hits
       case 's': // report + all graphs

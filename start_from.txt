@@ -33,8 +33,7 @@ No fixed hand:
 //TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
 
 -----------------------------------------------------------------------------------------------------------------------
-NOV25_DIAMONDS_MILTISCORER
-
+NOV25_DIAMONDS_MILTISCORER  ...
 Bidding from part: 1d 1h 
                    2d ??
 The first path is to pass and play 2D.
@@ -754,5 +753,5 @@ SCALE: 30
 //DEBUG: SHOW COMPARISONS
 //DEBUG: VERBOSE COMPILING
 //DEBUG: VERBOSE MEMORY
-DEBUG: SHOW BOARD ON ADDED
+//DEBUG: SHOW BOARD ON ADDED
 

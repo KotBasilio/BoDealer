@@ -165,10 +165,6 @@ WaConfig::WaConfig()
    txt.taskHandPBN[0] = 0;
    txt.secLongName[0] = 0;
    txt.freqTitleFormat[0] = 0;
-   prim.txtTrump[0] = 0;
-   prim.txtBy[0] = 0;
-   prim.txtAttacker[0] = 0;
-   secondary.txtTrump[0] = 0;
 }
 
 void WaConfig::SetupOutputOptions()

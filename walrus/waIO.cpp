@@ -46,7 +46,7 @@ void Walrus::MiniReport(ucell toGo)
    // signature
    s64 doneOurs = progress.UpdateDoneStats();
    owl.OnDone("Processed: %lld total. %s is on lead. Goal is %d tricks in %s.\n", 
-      doneOurs, config.prim.txtAttacker, config.prim.goal, config.prim.txtTrump);
+      doneOurs, config.lens.a.prim.txtAttacker, config.lens.a.prim.goal, config.lens.a.prim.txtTrump);
 
    // other stuff
    ShowBiddingLevel(doneOurs);

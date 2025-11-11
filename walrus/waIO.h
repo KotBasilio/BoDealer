@@ -88,6 +88,7 @@ constexpr size_t WA_SECONDARY_LNAME_LEN = WA_TASK_NANE_LEN * 2;
 constexpr size_t WA_HAND_LEN = 30;
 constexpr size_t WA_TXT_SEAT_SUIT = 10;
 constexpr size_t WA_SOURCE_CODE_BUF = 2 * 1024;
+constexpr size_t WA_MAX_LENSES = 6;
 
 struct WaConfig {
    WaConfig();
@@ -155,9 +156,23 @@ struct WaConfig {
       Contract();
       void Init(const LineScorer& scorer);
       void CheckTheSetup(const LineScorer& scorer);
+      bool IsNSLine() const { return (by == NORTH) || (by == SOUTH); }
+      bool IsEWLine() const { return (by == EAST)  || (by == WEST); }
+      bool IsEmpty()  const { return (goal == 0); }
    };
-   Contract prim;      // our primary contract
-   Contract secondary; // either our secondary contract or their contract
+   struct AllLenses {
+      struct Two {
+         Contract prim;      // our primary contract
+         Contract secondary; // either our secondary contract or their contract
+      };
+      union {                // all contracts lenses together
+         Two      a;
+         Contract arrLenses[WA_MAX_LENSES];
+      };
+      int countLenses = 0;
+      std::vector<MicroFilter> when;
+      AllLenses() : a(), when() {}
+   } lens;
 
    // adding extra marks aka post-mortem 
    struct Postmortem {

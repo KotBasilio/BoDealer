@@ -195,7 +195,7 @@ void Walrus::DetectScorerGoals()
    DdsTricks tr;
    char tail[128];
    CumulativeScore zeroes(cumulScore);
-      owl.Show("Primary scorer (%s, %d tr):", config.prim.txtTrump, config.prim.goal);
+      owl.Show("Primary scorer (%s, %d tr):", config.lens.a.prim.txtTrump, config.lens.a.prim.goal);
    strcpy(tail, "  / ");
    for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
       cumulScore = zeroes;
@@ -207,7 +207,7 @@ void Walrus::DetectScorerGoals()
    // -- secondary
    bool shouldSkipSecunda = cumulScore.secunda.IsEmpty() || (sem.onPrimaryScoring == &CumulativeScore::BiddingLevel);
    if (!shouldSkipSecunda) {
-      owl.Show("Contract-B scorer (%s, %d tr):", config.secondary.txtTrump, config.secondary.goal);
+      owl.Show("Contract-B scorer (%s, %d tr):", config.lens.a.secondary.txtTrump, config.lens.a.secondary.goal);
       strcpy(tail, "  / ");
       for (tr.plainScore = 7; tr.plainScore <= 13; tr.plainScore++) {
          cumulScore = zeroes;
@@ -277,7 +277,7 @@ void Semantics::SetOurPrimaryScorer(CumulativeScore& cs, const char* code)
 
    // ok
    onPrimaryScoring = &CumulativeScore::Primary;
-   assert(config.prim.goal == cs.prima.Goal());
+   assert(config.lens.a.prim.goal == cs.prima.Goal());
    onSinglePrimary = &CumulativeScore::DepPrimary;
 }
 
@@ -290,7 +290,7 @@ void Semantics::SetSecondaryScorer(CumulativeScore& cs, s64& target, const char*
 
    // ok
    onSecondScoring = &CumulativeScore::Secondary;
-   assert(config.secondary.goal == cs.secunda.Goal());
+   assert(config.lens.a.secondary.goal == cs.secunda.Goal());
    onSingleSecondary = &CumulativeScore::DepSecondary;
 }
 

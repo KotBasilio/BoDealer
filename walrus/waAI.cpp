@@ -115,7 +115,7 @@ void Walrus::HandleSolvedChunk(boards& arrSrc, solvedBoards& solved)
       deal& cards(arrSrc.deals[handno]);
 
       // pass to statistics. any extra marks are on postmortem
-      progress.HitByTricks(tr.plainScore, config.prim.goal, IO_ROW_OUR_BASE, false);
+      progress.HitByTricks(tr.plainScore, config.lens.a.prim.goal, IO_ROW_OUR_BASE, false);
       ScoreWithPrimary(tr);
       (this->*sem.onMarkAfterSolve)(tr, cards);
 
@@ -135,8 +135,8 @@ void Walrus::SolveSecondTime(boards& arrSrc, const solvedBoards& chunk)
 
    // overwrite trumps and lead
    for (int i = 0; i < arrSrc.noOfBoards; i++) {
-      arrSrc.deals[i].trump = config.secondary.trump;
-      arrSrc.deals[i].first = config.secondary.first;
+      arrSrc.deals[i].trump = config.lens.a.secondary.trump;
+      arrSrc.deals[i].first = config.lens.a.secondary.first;
    }
 
    // solve second time
@@ -149,7 +149,7 @@ void Walrus::SolveSecondTime(boards& arrSrc, const solvedBoards& chunk)
    for (int handno = 0; handno < _twiceSolved.noOfBoards; handno++) {
       // pass to basic statistics
       trSecond.Init(_twiceSolved.solvedBoard[handno]);
-      progress.HitByTricks(trSecond.plainScore, config.secondary.goal, IO_ROW_THEIRS);
+      progress.HitByTricks(trSecond.plainScore, config.lens.a.secondary.goal, IO_ROW_THEIRS);
       ScoreWithSecondary(trSecond);
 
       // pass to comparison
@@ -171,6 +171,7 @@ void Walrus::SolveSecondTime(boards& arrSrc, const solvedBoards& chunk)
 
 // a mode only for sessions to debug solver integration. 
 // the mode doesn't support a lot of new features.
+// for example, no secondary scoring, no extra marks, no comparisons.
 void Walrus::SolveOneByOne(deal& dlBase)
 {
    uint freqMiniReport = 0x3f; // 0xff to make rare
@@ -196,7 +197,7 @@ void Walrus::SolveOneByOne(deal& dlBase)
 // unused chunk to cater for unplayable boards -- we change board result on some percentage boards
 #ifdef UNPLAYABLE_ONE_OF
 bool isDecimated = false;
-if (tr.plainScore == config.prim.goal) {
+if (tr.plainScore == config.lens.a.prim.goal) {
    static int cycleCatering = UNPLAYABLE_ONE_OF;
    if (0 == --cycleCatering) {
       tr.plainScore--;

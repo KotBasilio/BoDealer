@@ -156,6 +156,7 @@ EConfigReaderState WaConfig::FSM_DoFiltersState(char *line)
 EConfigReaderState WaConfig::FSM_DoMulScorerState(char* line)
 {
    if (IsStartsWith(line, key.Filters)) {
+      AnnounceTask();
       return S_FILTERS;
    }
 
@@ -254,12 +255,13 @@ void WaConfig::DetectTwoScorers()
    if (!txt.secundaShort[0]) {
       return;
    }
+   lens.countLenses = 2;
 
    // found both
    solve.shouldSolveTwice = true;
 
    // are they on the same line?
-   if (secondary.by == NORTH || secondary.by == SOUTH) {
+   if (lens.a.secondary.IsNSLine()) {
       solve.seekDecisionCompete = false;
       if (txt.IsMagicFly()) {
          io.showMagicFly = true;
@@ -284,13 +286,17 @@ void WaConfig::ReadPrimaScorer(const char* line)
       MarkFail("Failed to parse prima scorer");
       return;
    }
-   prim.Init(attempt.prima);
-   if (prim.by != NORTH && prim.by != SOUTH) {
+
+   lens.a.prim.Init(attempt.prima);
+   if (!lens.a.prim.IsNSLine()) {
       MarkFail("Pls setup primary scorer for N/S line");
       return;
    }
-   io.weAreDoubled = attempt.prima.HasDouble();
+
    DetectTwoScorers();
+
+   // use attempt to detect our line is doubled
+   io.weAreDoubled = attempt.prima.HasDouble();
 }
 
 void WaConfig::ReadSecundaScorer(const char* line)
@@ -303,9 +309,13 @@ void WaConfig::ReadSecundaScorer(const char* line)
       MarkFail("Failed to parse secunda scorer");
       return;
    }
-   secondary.Init(attempt.secunda);
-   io.oppsAreDoubled = attempt.secunda.HasDouble();
+   lens.a.secondary.Init(attempt.secunda);
    DetectTwoScorers();
+
+   // use attempt to detect doubled opponents
+   if (!lens.a.secondary.IsNSLine()) {
+      io.oppsAreDoubled = attempt.secunda.HasDouble();
+   }
 }
 
 void WaConfig::FillShortScorer(const char* from, char* to)
@@ -419,7 +429,9 @@ EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
    }
 
    if (IsStartsWith(line, key.MultiScorer)) {
-      AnnounceTask();
+      if (lens.countLenses < 2) {
+         MarkFail("both primary and secondary scorers setup is required before multi");
+      }
       return S_MULTI_SCORER;
    }
    
@@ -464,8 +476,8 @@ EConfigReaderState WaConfig::FSM_Go2WaitTask(char* line)
 void WaConfig::ReadTask(Walrus *walrus)
 {
    // drop goals
-   prim.goal = 0;
-   secondary.goal = 0;
+   lens.a.prim.goal = 0;
+   lens.a.secondary.goal = 0;
 
    // ensure we have a file
    const char* fname = txt.namesBase.StartFrom;
