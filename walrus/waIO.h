@@ -100,16 +100,11 @@ struct WaConfig {
       waFileNames namesBase;
       char nameTask[WA_TASK_NANE_LEN];
       char titleBrief[WA_TASK_BRIEF];   // a title and a brief
-      char primaScorerCode[WA_SCORER_CODE_LEN];   // our main action in linear scorer format
-      char secundaScorerCode[WA_SCORER_CODE_LEN]; // second action
-      char primaShort[WA_SHORT_SCORER_LEN];
-      char secundaShort[WA_SHORT_SCORER_LEN];
       char taskHandPBN[WA_HAND_LEN];
       char secLongName[WA_SECONDARY_LNAME_LEN];
       char freqTitleFormat[WA_TASK_NANE_LEN];
       char mulScorerSourceCode[WA_TASK_BRIEF];
       size_t sizeMulScorerSourceCode = 0;
-      bool IsMagicFly();
    } txt;
 
    // filters compiling
@@ -155,6 +150,7 @@ struct WaConfig {
       char txtBy[WA_TXT_SEAT_SUIT];
       char txtAttacker[WA_TXT_SEAT_SUIT];
       char txtCode[WA_SCORER_CODE_LEN];
+      char txtShort[WA_SHORT_SCORER_LEN];
       Contract();
       void Init(const LineScorer& scorer);
       void CheckTheSetup(const LineScorer& scorer);
@@ -178,6 +174,7 @@ struct WaConfig {
       void SimpleSecondary(struct deal& dl);
       void TrumpFillMultiLens(struct deal& dl);
       bool IsManyLenses() { return (countLenses > 2); }
+      bool IsMagicFly();
    } lens;
 
    // adding extra marks aka post-mortem 
@@ -234,7 +231,6 @@ private:
    void ReadPrimaScorer(const char *line);
    void ReadSecundaScorer(const char *line);
    void DetectTwoScorers();
-   void FillShortScorer(const char *from, char *to);
    void ReadPostmortemParams(char *line);
    void ReadDebugSetting(char *line);
    void ReadScaleSetting(char *line);

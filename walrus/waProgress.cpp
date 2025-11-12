@@ -155,11 +155,11 @@ void MiniUI::AdaptMiniRows(Walrus* wal)
 {
    // may rewrite some lines
    if (config.io.showOurOther) {
-      sprintf(miniRowStart[IO_ROW_OUR_DOWN],   "(ctrA:%s down): ", config.txt.primaShort);
-      sprintf(miniRowStart[IO_ROW_OUR_MADE],   "(ctrA:%s make): ", config.txt.primaShort);
+      sprintf(miniRowStart[IO_ROW_OUR_DOWN],   "(ctrA:%s down): ", config.lens.prim.txtShort);
+      sprintf(miniRowStart[IO_ROW_OUR_MADE],   "(ctrA:%s make): ", config.lens.prim.txtShort);
       sprintf(miniRowStart[IO_ROW_OUR_MADE+1], "        (----): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS+0],   "(ctrB:%s down): ", config.txt.secundaShort);
-      sprintf(miniRowStart[IO_ROW_THEIRS+1],   "(ctrB:%s make): ", config.txt.secundaShort);
+      sprintf(miniRowStart[IO_ROW_THEIRS+0],   "(ctrB:%s down): ", config.lens.secondary.txtShort);
+      sprintf(miniRowStart[IO_ROW_THEIRS+1],   "(ctrB:%s make): ", config.lens.secondary.txtShort);
       sprintf(miniRowStart[IO_ROW_COMPARISON], "  (A, same, B): ");
    } else if (config.io.showOppResults) {
       sprintf(miniRowStart[IO_ROW_OUR_DOWN], "    (we down): ");
@@ -277,10 +277,10 @@ void Walrus::ShowBiddingLevel(s64 sumRows)
    if (cumulScore.ideal) {
       owl.OnDone("ideal = %lld, ", cumulScore.ideal / sumRows);
    }
-   owl.OnDone("%s = %lld", config.txt.primaShort, cumulScore.bidGame / sumRows);
+   owl.OnDone("%s = %lld", config.lens.prim.txtShort, cumulScore.bidGame / sumRows);
    if (cumulScore.bidPartscore) {
       auto val = cumulScore.bidPartscore / sumRows;
-      owl.OnDone(", %s = %lld", config.txt.secundaShort, val);
+      owl.OnDone(", %s = %lld", config.lens.secondary.txtShort, val);
    }
    owl.OnDone(".   ");
 }
@@ -346,14 +346,14 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
    // our other contract
    if (config.io.showOurOther) {
       owl.OnDone("%s: avg = %lld; makes in %3.1f%% cases\n",
-         config.txt.secundaShort,
+         config.lens.secondary.txtShort,
          cumulScore.ourOther / sumOppRows,
          hitsRow[IO_ROW_THEIRS + 1] * 100.f / sumOppRows
       );
       owl.OnDone("Comparison: favor %s %3.1f%%; same %3.1f%%; favor %s %3.1f%%\n",
-         config.txt.primaShort,   sumBid     * posto,
+         config.lens.prim.txtShort,   sumBid     * posto,
                                   sumSame    * posto,
-         config.txt.secundaShort, sumRefrain * posto
+         config.lens.secondary.txtShort, sumRefrain * posto
       );
    }
 
@@ -370,12 +370,12 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
       bool onImpPrima = (ui.primaBetterBy >= 0);
       if (onMaxPrima == onImpPrima) {
          owl.OnDone("Verdict:   prefer %s\n",
-            onMaxPrima ? config.txt.primaShort : config.txt.secundaShort
+            onMaxPrima ? config.lens.prim.txtShort : config.lens.secondary.txtShort
          );
       } else {
          owl.OnDone("Verdict:   ON MAX: prefer %s      ON IMPS: prefer %s\n",
-            onMaxPrima ? config.txt.primaShort : config.txt.secundaShort,
-            onImpPrima ? config.txt.primaShort : config.txt.secundaShort
+            onMaxPrima ? config.lens.prim.txtShort : config.lens.secondary.txtShort,
+            onImpPrima ? config.lens.prim.txtShort : config.lens.secondary.txtShort
          );
       }
    }

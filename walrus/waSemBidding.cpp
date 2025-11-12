@@ -110,7 +110,7 @@ void Walrus::FillSemantic(void)
 void Walrus::FillSemantic(void)
 {
    SemanticsToOrbitFixedHand();
-   sem.SetOurPrimaryScorer(cumulScore, config.txt.primaScorerCode);
+   sem.SetOurPrimaryScorer(cumulScore, config.lens.prim.txtCode);
    sem.onBoardFound = &Walrus::GrabPrecisionVariant;
    sem.onAfterMath = (&Walrus::NOP);
    sem.onShareStart = (&WaMulti::NOP);

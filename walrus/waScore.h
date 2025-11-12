@@ -28,7 +28,6 @@ struct LineScorer {
    bool HasDouble() const;
    s64  Get(uint tricks);
    void operator () (uint tricks);
-   void FillUpon(s64* ourBase, const LineScorer& other, const s64* thatBase);
    int  Goal() const;
    int  Trump() const;
    int  Decl() const;
@@ -36,6 +35,7 @@ private:
    const char* title;
    const s64* linearBase;
    s64* outSum;
+   void FillUpon(s64* ourBase, const LineScorer& other, const s64* thatBase);
 };
 
 struct CumulativeScore {

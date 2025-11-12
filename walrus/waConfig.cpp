@@ -57,11 +57,11 @@ bool Walrus::InitSemantics()
    // SCORER setup
    if (config.solve.shouldSolveTwice) {
       if (config.solve.seekDecisionCompete) {
-         sem.SetOurPrimaryScorer(cumulScore, config.txt.primaScorerCode);
-         sem.SetTheirScorer     (cumulScore, config.txt.secundaScorerCode);
+         sem.SetOurPrimaryScorer(cumulScore, config.lens.prim.txtCode);
+         sem.SetTheirScorer     (cumulScore, config.lens.secondary.txtCode);
       } else {
-         sem.SetOurPrimaryScorer  (cumulScore, config.txt.primaScorerCode);
-         sem.SetOurSecondaryScorer(cumulScore, config.txt.secundaScorerCode);
+         sem.SetOurPrimaryScorer  (cumulScore, config.lens.prim.txtCode);
+         sem.SetOurSecondaryScorer(cumulScore, config.lens.secondary.txtCode);
       }
    } else {
       sem.SetBiddingLevelScorer(cumulScore);
@@ -80,7 +80,7 @@ bool Walrus::InitSemantics()
    // POSTMORTEM is about extra marks after solving
    {
       if (config.postm.Is(WPM_OPENING_LEADS)) {
-         sem.SetOpeningLeadScorer(cumulScore, config.txt.primaScorerCode);
+         sem.SetOpeningLeadScorer(cumulScore, config.lens.prim.txtCode);
          sem.onFirstMarks = &Walrus::AddMarksByOpLeads;
       }
 

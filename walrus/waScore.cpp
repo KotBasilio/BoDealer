@@ -60,6 +60,7 @@ void LineScorer::operator()(uint tricks)
    *outSum += Get(tricks);
 }
 
+// deprecated: allows to setup aim at some other out
 void LineScorer::FillUpon(s64* ourBase, const LineScorer& other, const s64* thatBase)
 {
    if (other.IsEmpty()) {
@@ -162,6 +163,14 @@ void WaConfig::Contract::Init(const LineScorer& scorer)
    strcpy(txtTrump, s_TrumpNames[trump]);
    strcpy(txtAttacker, s_SeatNames[first]);
    strcpy(txtBy, s_SeatNames[by]);
+
+   // FillShortScorer
+   const char* from = txtCode;
+   if (strlen(from) > 4) {
+      txtShort[0] = from[1];
+      txtShort[1] = from[2];
+      txtShort[2] = 0;
+   }
 }
 
 void WaConfig::Contract::CheckTheSetup(const LineScorer& scorer)
@@ -319,12 +328,12 @@ void Semantics::SetTheirScorer(CumulativeScore& cs, const char* code)
 void Semantics::SetBiddingLevelScorer(CumulativeScore& cs)
 {
    // prima scorer aims at "bidGame"
-   const char* code = config.txt.primaScorerCode;
+   const char* code = config.lens.prim.txtCode;
    SetOurPrimaryScorer(cs, code);
 
    // make permanent other scorer code
    config.MakeSecondaryScrorerForBiddingLevel();
-   SetOurSecondaryScorer(cs, config.txt.secundaScorerCode);
+   SetOurSecondaryScorer(cs, config.lens.secondary.txtCode);
 
    // secunda scorer aims at "bidPartscore"
    cs.secunda.TargetOut(cs.bidPartscore);
@@ -339,13 +348,12 @@ void Semantics::SetBiddingLevelScorer(CumulativeScore& cs)
 void WaConfig::MakeSecondaryScrorerForBiddingLevel()
 {
    // construct
-   char* hedge = txt.secundaScorerCode;
-   strcpy(hedge, txt.primaScorerCode);
+   char* hedge = lens.secondary.txtCode;
+   strcpy(hedge, lens.prim.txtCode);
    hedge[1]--;
 
    // act as in ReadSecundaScorer()
    CumulativeScore attempt;
-   FillShortScorer(hedge, txt.secundaShort);
    if (!attempt.secunda.Init(attempt.ourOther, hedge)) {
       MarkFail("Failed to parse constructed scorer");
       return;

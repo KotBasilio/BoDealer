@@ -221,28 +221,42 @@ void WaConfig::ReadHandPBN(const char* line)
    SAFE_ADD(txt.taskHandPBN, "]");
 }
 
-bool WaConfig::Txt::IsMagicFly()
+bool WaConfig::AllLenses::IsMagicFly()
 {
    // are the short scorers for magic fly?
-   if ((secundaShort[0] == '3') && 
-       (secundaShort[1] == 'N')) {
-      if (    primaShort[0] == '4') {
-         if ((primaShort[1] == 'H') ||
-             (primaShort[1] == 'S')) {
-            return true;
-         }
-      }
+   if (secondary.goal == 9 &&
+       secondary.trump == SOL_NOTRUMP &&
+       prim.goal == 10 && 
+      (prim.trump == SOL_HEARTS || prim.trump == SOL_SPADES)) {
+      return true;
    }
 
-   if ((primaShort[0] == '3') && 
-       (primaShort[1] == 'N')) {
-      if (    secundaShort[0] == '4') {
-         if ((secundaShort[1] == 'H') ||
-             (secundaShort[1] == 'S')) {
-            return true;
-         }
-      }
+   if (prim.goal == 9 &&
+       prim.trump == SOL_NOTRUMP &&
+       secondary.goal == 10 &&
+      (secondary.trump == SOL_HEARTS || secondary.trump == SOL_SPADES)) {
+      return true;
    }
+
+   //if ((secundaShort[0] == '3') && 
+   //    (secundaShort[1] == 'N')) {
+   //   if (    primaShort[0] == '4') {
+   //      if ((primaShort[1] == 'H') ||
+   //          (primaShort[1] == 'S')) {
+   //         return true;
+   //      }
+   //   }
+   //}
+
+   //if ((primaShort[0] == '3') && 
+   //    (primaShort[1] == 'N')) {
+   //   if (    secundaShort[0] == '4') {
+   //      if ((secundaShort[1] == 'H') ||
+   //          (secundaShort[1] == 'S')) {
+   //         return true;
+   //      }
+   //   }
+   //}
 
    return false;
 }
@@ -250,11 +264,11 @@ bool WaConfig::Txt::IsMagicFly()
 void WaConfig::DetectTwoScorers()
 {
    // both scorers must be present
-   if (!txt.primaShort[0]) {
+   if (!lens.prim.txtShort[0]) {
       lens.countLenses = 1;
       return;
    }
-   if (!txt.secundaShort[0]) {
+   if (!lens.secondary.txtShort[0]) {
       lens.countLenses = 1;
       return;
    }
@@ -266,7 +280,7 @@ void WaConfig::DetectTwoScorers()
    // are they on the same line?
    if (lens.secondary.IsNSLine()) {
       solve.seekDecisionCompete = false;
-      if (txt.IsMagicFly()) {
+      if (lens.IsMagicFly()) {
          io.showMagicFly = true;
       }
    } else {// different lines
@@ -283,9 +297,8 @@ void WaConfig::ReadPrimaScorer(const char* line)
 {
    CumulativeScore attempt;
 
-   SAFE_STR_BY_LINE(txt.primaScorerCode);
-   FillShortScorer(txt.primaScorerCode, txt.primaShort);
-   if (!attempt.prima.Init(attempt.bidGame, txt.primaScorerCode)) {
+   SAFE_STR_BY_LINE(lens.prim.txtCode);
+   if (!attempt.prima.Init(attempt.bidGame, lens.prim.txtCode)) {
       MarkFail("Failed to parse prima scorer");
       return;
    }
@@ -306,9 +319,8 @@ void WaConfig::ReadSecundaScorer(const char* line)
 {
    CumulativeScore attempt;
 
-   SAFE_STR_BY_LINE(txt.secundaScorerCode);
-   FillShortScorer(txt.secundaScorerCode, txt.secundaShort);
-   if (!attempt.secunda.Init(attempt.bidGame, txt.secundaScorerCode)) {
+   SAFE_STR_BY_LINE(lens.secondary.txtCode);
+   if (!attempt.secunda.Init(attempt.bidGame, lens.secondary.txtCode)) {
       MarkFail("Failed to parse secunda scorer");
       return;
    }
@@ -318,15 +330,6 @@ void WaConfig::ReadSecundaScorer(const char* line)
    // use attempt to detect doubled opponents
    if (!lens.secondary.IsNSLine()) {
       io.oppsAreDoubled = attempt.secunda.HasDouble();
-   }
-}
-
-void WaConfig::FillShortScorer(const char* from, char* to)
-{
-   if (strlen(from) > 4) {
-      to[0] = from[1];
-      to[1] = from[2];
-      to[2] = 0;
    }
 }
 
@@ -415,11 +418,11 @@ void WaConfig::AnnounceTask()
    owl.Show("%s : %s", txt.nameTask, txt.titleBrief);
    owl.Show("Fixed hand is %s\n", txt.taskHandPBN);
 
-   if (txt.primaScorerCode[0]) {
-      if (txt.secundaScorerCode[0]) {
-         owl.Show("Scorers to use are: %s; %s\n", txt.primaScorerCode, txt.secundaScorerCode);
+   if (lens.prim.txtCode[0]) {
+      if (lens.secondary.txtCode[0]) {
+         owl.Show("Scorers to use are: %s; %s\n", lens.prim.txtCode, lens.secondary.txtCode);
       } else {
-         owl.Show("Scorer to use is %s\n", txt.primaScorerCode);
+         owl.Show("Scorer to use is %s\n", lens.prim.txtCode);
       }
    }
 }
@@ -493,7 +496,7 @@ void WaConfig::ReadTask(Walrus *walrus)
    // prepare
    char line[128];
    txt.titleBrief[0] = 0;
-   txt.primaScorerCode[0] = 0;
+   lens.prim.txtCode[0] = 0;
    txt.taskHandPBN[0] = 0;
    filters.sourceCode[0] = 0;
 

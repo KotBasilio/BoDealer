@@ -187,12 +187,9 @@ void Walrus::SolveSecondTime(boards& arrSrc, const solvedBoards& chunk)
       (this->*sem.onCompareContracts)(trFirst.plainScore, trSecond.plainScore, cards);
 
       // may monitor TNT -- TODO
-      //deal& cards(bo.deals[handno]);
       //(this->*sem.onMonitorTNT)(cards, trFirst.plainScore + trSecond.plainScore);
 
       // may debug each board
-      // cards.trump = config.soTrump;
-      // cards.first = config.soFirst;
       // Orb_ReSolveAndShow(cards);
       // ui.WaitAnyKey();
    }
