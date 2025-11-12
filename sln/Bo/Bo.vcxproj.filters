@@ -222,6 +222,9 @@
     <ClCompile Include="..\..\walrus\waConfReader.cpp">
       <Filter>Source Files\walrus\Config</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\walrus\waConfTask.cpp">
+      <Filter>Source Files\walrus\Config</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\walrus\waAI.h">
