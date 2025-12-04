@@ -311,8 +311,9 @@ bool Semantics::BuildMultiScorer(const char* sourceCode, size_t size, Cumulative
       }
    }
 
-   // require all filters to be for SOUTH, see TrumpFillMultiLens()
+   // see result
    if (ctx.out.size()) {
+      // require all filters to be for SOUTH, see TrumpFillMultiLens()
       for (auto& filter : ctx.out) {
          if (filter.params[0] != SOUTH) {
             printf("\nFailed: multi-scorer filters must be for SOUTH so far.\n");
@@ -320,6 +321,16 @@ bool Semantics::BuildMultiScorer(const char* sourceCode, size_t size, Cumulative
          }
          filter.params[0] = 0;
       }
+
+      // log to Oscar
+      owl.Silent("with a multi-scorer of %d contracts: ", ctx.out.size() + 1);
+      for (uint i = 1; i < config.lens.countLenses; i++) {
+         owl.Silent("%s ", config.lens.arrLenses[i].txtCode);
+         if (i < config.lens.countLenses - 1) {
+            owl.Silent("; ");
+         }
+      }
+      owl.Silent("\n");
    }
 
    return true;

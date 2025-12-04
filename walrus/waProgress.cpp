@@ -158,8 +158,13 @@ void MiniUI::AdaptMiniRows(Walrus* wal)
       sprintf(miniRowStart[IO_ROW_OUR_DOWN],   "(ctrA:%s down): ", config.lens.prim.txtShort);
       sprintf(miniRowStart[IO_ROW_OUR_MADE],   "(ctrA:%s make): ", config.lens.prim.txtShort);
       sprintf(miniRowStart[IO_ROW_OUR_MADE+1], "        (----): ");
-      sprintf(miniRowStart[IO_ROW_THEIRS+0],   "(ctrB:%s down): ", config.lens.secondary.txtShort);
-      sprintf(miniRowStart[IO_ROW_THEIRS+1],   "(ctrB:%s make): ", config.lens.secondary.txtShort);
+      if (config.lens.countLenses > 2) {
+         sprintf(miniRowStart[IO_ROW_THEIRS + 0], "(B:multi down): ");
+         sprintf(miniRowStart[IO_ROW_THEIRS + 1], "(B:multi make): ");
+      } else {
+         sprintf(miniRowStart[IO_ROW_THEIRS + 0], "(ctrB:%s down): ", config.lens.secondary.txtShort);
+         sprintf(miniRowStart[IO_ROW_THEIRS + 1], "(ctrB:%s make): ", config.lens.secondary.txtShort);
+      }
       sprintf(miniRowStart[IO_ROW_COMPARISON], "  (A, same, B): ");
    } else if (config.io.showOppResults) {
       sprintf(miniRowStart[IO_ROW_OUR_DOWN], "    (we down): ");
