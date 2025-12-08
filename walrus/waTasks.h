@@ -8,9 +8,6 @@
  ************************************************************/
 #pragma once
 
-// generalized config-based tasks:
-#define SEM_ORBITING_FIXED_HAND
-
 /// -----------------------------------------------------------------
 // old format, #define-based 
 // Bidding decision one-sided:
@@ -50,9 +47,6 @@
 //#define SEM_AUG_TRICOLOR_OVER_OPP_3S
 //#define SEM_AUG_BLITZ_VS_DIMULYA
 //#define SEM_NOV_65_OGNJEN
-
-// Opening lead:
-//#define SEM_JUN24_LEAD_AK
 
 // One hand tasks:
 //#define SEMANTIC_KEYCARDS_10_12

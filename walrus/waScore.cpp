@@ -383,7 +383,10 @@ WA_TASK_TYPE WaConfig::DetectOneHandVariant()
       return TTYPE_ONE_SIDED_DENOMINATION;
    }
 
-   // TODO: detect opening lead task
+   // detect opening lead task
+   if (config.postm.Type == WPM_OPENING_LEADS) {
+      return TTYPE_SEEK_OPENING_LEAD;
+   }
 
    // basic
    return TTYPE_ONE_SIDED_BIDDING_LEVEL;

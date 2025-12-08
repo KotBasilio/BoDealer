@@ -9,7 +9,10 @@ Competitive:
 //TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
 
 One sided:
-TASK NAME:NOV25_MULTI_SCORE_SLAMISH
+//TASK NAME:DEC25_GAME_FORCING_WEAK_65
+//TASK NAME:DEC25_ALL_ACES
+//TASK NAME:DEC25_14_HCP_MAJOR_NV
+//TASK NAME:NOV25_MULTI_SCORE_SLAMISH
 //TASK NAME:NOV25_SLAMISH
 //TASK NAME:NOV25_DIAMONDS_MILTISCORER
 //TASK NAME:NOV25_MEETING_1S
@@ -28,11 +31,78 @@ TASK NAME:NOV25_MULTI_SCORE_SLAMISH
 //TASK NAME:MAY24_TENS_AND_NINES
 
 Leads:
-//TASK NAME:JUN24_LEAD_AK
+TASK NAME:JUN24_LEAD_AK
 
 No fixed hand:
 //TASK NAME:4_HAND_MINOR_SUPERFIT
 //TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
+
+-----------------------------------------------------------------------------------------------------------------------
+DEC25_GAME_FORCING_WEAK_65 ...
+Bidding one sided: 1c  1d
+                   2c  2d
+                   2NT 3h
+                   3s  ??
+Question: 5D inv or 6D?
+
+HAND: N:QJT83.T.T87532.2
+PRIMARY SCORER: V6D BY S
+POSTMORTEM: AUTO
+
+FILTERS:
+    SOUTH: PointsRange, 22, 23
+    SOUTH: SpadesLen, 2, 2
+    SOUTH: HeartsLen, 2, 4
+    SOUTH: DiamondsLen, 2, 5
+    SOUTH: ClubsLen, 2, 5
+
+    WEST: NoOvercall
+    EAST: NoOvercall
+
+
+-----------------------------------------------------------------------------------------------------------------------
+DEC25_ALL_ACES ...
+Bidding one sided: 1c  1d
+                   2c  2d
+                   2NT 3h
+                   3s  5d
+                   ??
+Question: pass or 6D?
+
+HAND: N:A2.AK985.AK94.AJ
+PRIMARY SCORER: V6D BY S
+POSTMORTEM: AUTO
+
+FILTERS:
+    SOUTH: PointsRange, 0, 3
+    SOUTH: SpadesLen, 5, 5
+    SOUTH: DiamondsLen, 5, 6
+    SOUTH: ControlsRange, 0, 0
+
+    WEST: NoOvercall
+    EAST: NoOvercall
+
+-----------------------------------------------------------------------------------------------------------------------
+DEC25_14_HCP_MAJOR_NV
+Bidding one-sided: 1h(8-16) 1s 
+                   1NT      ??
+Question: is there a game or an invit?
+
+HAND: N:AK97.K85.A832.76
+PRIMARY SCORER: N4H BY S
+POSTMORTEM: AUTO
+
+FILTERS:
+    SOUTH: PointsRange, 8, 9
+    SOUTH: HeartsLen, 5, 5
+    SOUTH: SpadesLen, 0, 3
+    SOUTH: PointsSuitAtLeast, HRT, 2
+    SOUTH: ControlsRange, 2, 4
+    SOUTH: ClubsLen, 0, 4
+    SOUTH: DiamondsLen, 0, 5
+
+    WEST: NoOvercall
+    EAST: NoOvercall
 
 -----------------------------------------------------------------------------------------------------------------------
 NOV25_MULTI_SCORE_SLAMISH  ...
@@ -798,7 +868,7 @@ AQ65
 ??
 -----------------------------------------------------------------------------------------------------------------------
 TASK_TYPE:FIXED_ONE_HAND
-// below are task types that can be as well auto-detected for FIXED_ONE_HAND
+// below are task types that are auto-detected for FIXED_ONE_HAND
 //TASK_TYPE:ONE_SIDED_BIDDING_LEVEL
 //TASK_TYPE:ONE_SIDED_DENOMINATION
 //TASK_TYPE:COMPETITIVE_GENERIC

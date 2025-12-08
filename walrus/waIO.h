@@ -101,6 +101,7 @@ struct WaConfig {
       char nameTask[WA_TASK_NANE_LEN];
       char titleBrief[WA_TASK_BRIEF];   // a title and a brief
       char taskHandPBN[WA_HAND_LEN];
+      char taskLeadsPBN[WA_HAND_LEN];
       char secLongName[WA_SECONDARY_LNAME_LEN];
       char freqTitleFormat[WA_TASK_NANE_LEN];
       char mulScorerSourceCode[WA_TASK_BRIEF];
@@ -131,6 +132,8 @@ struct WaConfig {
       int ddsSol = 1;
       struct Leads { // cards to lead for WPM_OPENING_LEADS
          int S=0, H=0, D=0, C=0;
+         bool IsEmpty() const  { return (S == 0) && (H == 0) && (D == 0) && (C == 0); }
+         bool IsFilled() const { return (S != 0) && (H != 0) && (D != 0) && (C != 0); }
       } leads;
       bool shouldSolveTwice = false;
       bool seekDecisionCompete = false;

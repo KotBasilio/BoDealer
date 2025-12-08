@@ -162,6 +162,7 @@ WaConfig::WaConfig()
    txt.nameTask[0] = 0;
    txt.titleBrief[0] = 0;
    txt.taskHandPBN[0] = 0;
+   txt.taskLeadsPBN[0] = 0;
    txt.secLongName[0] = 0;
    txt.freqTitleFormat[0] = 0;
 }

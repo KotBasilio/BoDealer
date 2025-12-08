@@ -195,10 +195,11 @@ void WaConfig::ResolvePostmortemType(Walrus* walrus)
       }
    }
    if (checkLeads) {
-      auto sum = solve.leads.S + solve.leads.H + solve.leads.D + solve.leads.C;
-      if (!sum) {
-         printf("Error: '%s' line is missing or in a wrong format.\n", key.Leads);
+      if (solve.leads.IsEmpty()) {
+         printf("Error: '%s' line is missing.\n", key.Leads);
          MarkFail();
+      } else {
+         owl.Silent("Leads to inspect: %s", txt.taskLeadsPBN);
       }
    }
 }

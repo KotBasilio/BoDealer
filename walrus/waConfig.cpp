@@ -145,6 +145,10 @@ void WaConfig::AnalyzeTaskType()
          break;
 
       case TTYPE_NONE:
+         printf("Error: '%s' line is missing.\n", key.TType);
+         MarkFail();
+         break;
+
       case TTYPE_FOUR_HANDS_TASK:
       case TTYPE_FILTERING_ONLY:
       default:

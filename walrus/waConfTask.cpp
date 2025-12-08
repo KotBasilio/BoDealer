@@ -324,6 +324,22 @@ void WaConfig::ReadLeadCards(const char* line)
    solve.leads.H = IsCard(line[2]);
    solve.leads.D = IsCard(line[4]);
    solve.leads.C = IsCard(line[6]);
+
+   // check
+   if (!solve.leads.IsFilled()) {
+      printf("Error: A short leads PBN didn't fill all leads. Your line %sResulted in : %d, %d, %d, %d\n", 
+         line,
+         solve.leads.S,
+         solve.leads.H,
+         solve.leads.D,
+         solve.leads.C
+      );
+      MarkFail();
+      return;
+   }
+
+   // store
+   strcpy_s(txt.taskLeadsPBN, sizeof(txt.taskLeadsPBN), line);
 }
 
 EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
@@ -397,6 +413,7 @@ void WaConfig::ReadTask(Walrus *walrus)
    txt.titleBrief[0] = 0;
    lens.prim.txtCode[0] = 0;
    txt.taskHandPBN[0] = 0;
+   txt.taskLeadsPBN[0] = 0;
    filters.sourceCode[0] = 0;
 
    // fsm on all lines

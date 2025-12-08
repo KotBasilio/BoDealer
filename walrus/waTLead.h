@@ -2,10 +2,6 @@
 // --- DESCRIPTIONS
 // -------------------------------------------------------- 
 
-#ifdef SEM_JUN24_LEAD_AK
-   #define SEEK_OPENING_LEAD
-#endif
-
 #ifdef SEMANTIC_JAN_PETYA_VS_3NT
    #define TITLE_VERSION  "Fix a 10 hcp ;\n 1NT - 3NT\nQuestion: what to lead?\nVer 2.0 "
    #define DEP_SEEK_OPENING_LEAD
