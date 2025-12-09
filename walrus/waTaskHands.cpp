@@ -132,7 +132,7 @@ uint wa_PosByDds [DDS_SUITS] = {    48,    32,    16,     0 };
 extern SplitBits BuildReducedNSHand(const unsigned int cards[][DDS_SUITS]);
 
 static ddTableDeal pbnDeal;
-twlHCP Walrus::ParsePbnDeal()
+twlHCP WaConfig::ParsePbnDeal()
 {
    if (ConvertFromPBN(config.txt.taskHandPBN, pbnDeal.cards) != 1) {
       printf("\nERROR: Cannot parse PBN: %s\n", config.txt.taskHandPBN);
@@ -168,6 +168,40 @@ void Walrus::WithdrawByInput(void)
    if (!shuf.AssertDeckSize(config.deck.cardsCount, config.txt.taskHandPBN)) {
       config.MarkFail();
    }
+}
+
+void WaConfig::EnsureLeadCardsInLeadHand()
+{
+   auto West = pbnDeal.cards[WEST];
+   auto card = 0x0001;
+
+   #define CHECK_SUIT(FIELD, DD_SUIT, POS)                           \
+      card = 0x0001 << solve.leads.FIELD;                            \
+      if (0 == (West[DD_SUIT] & card)) {                             \
+         printf("Error: " #DD_SUIT " %c from '%s' is not in %s.\n",  \
+            txt.taskLeadsPBN[POS],                                   \
+            txt.taskLeadsPBN, txt.taskHandPBN);                      \
+         MarkFail();                                                 \
+      }
+
+   CHECK_SUIT(S, SOL_SPADES   , 0)
+   CHECK_SUIT(H, SOL_HEARTS   , 2)
+   CHECK_SUIT(D, SOL_DIAMONDS , 4)
+   CHECK_SUIT(C, SOL_CLUBS    , 6)
+
+   // DDS specific: adjacent lead cards go to "equals", not to "rank"
+   // this yields zero tricks for such leads,
+   // so we need to silently correct lead cards
+   #define SHIFT_CARD(FIELD, DD_SUIT)                        \
+      card = 0x0001 << solve.leads.FIELD;                    \
+      while (West[DD_SUIT] & (card<<1)) {                    \
+         card = 0x0001 << (++solve.leads.FIELD);             \
+      }
+
+   SHIFT_CARD(S, SOL_SPADES   )
+   SHIFT_CARD(H, SOL_HEARTS   )
+   SHIFT_CARD(D, SOL_DIAMONDS )
+   SHIFT_CARD(C, SOL_CLUBS    )
 }
 
 static uint CountBits(uint v)// count bits set in v (32-bit value)

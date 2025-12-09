@@ -110,7 +110,7 @@ void WaConfig::DetectTwoScorers()
    }
 }
 
-void WaConfig::ResolvePostmortemType(Walrus* walrus)
+void WaConfig::ResolvePostmortemType()
 {
    // failed before
    if (IsInitFailed()) {
@@ -118,17 +118,29 @@ void WaConfig::ResolvePostmortemType(Walrus* walrus)
    }
 
    // always read board 
-   postm.hcpFixedHand = walrus->ParsePbnDeal();
+   postm.hcpFixedHand = ParsePbnDeal();
 
-   // pm none is ok
+   // pm none is trivial
+   bool checkNorth = false;
    if (postm.Type == WPM_NONE) {
-      return;
+      checkNorth = true;
+   } else {
+      checkNorth = ResolveNontrivialPostmortems();
    }
 
+   if (checkNorth && config.txt.taskHandPBN[1] != 'N') {
+      printf("Error: pls put fixed hand on NORTH, N. Your line is: %s\n", config.txt.taskHandPBN);
+      MarkFail();
+   }
+
+}
+
+bool WaConfig::ResolveNontrivialPostmortems()
+{
    // announce; resolve auto 
    printf("Postmortem type: ");
    if (postm.Type == WPM_HCP_SINGLE_SCORER ||
-       postm.Type == WPM_A_TO_B) {
+      postm.Type == WPM_A_TO_B) {
       printf("(deprecated; consider using AUTO) ");
    } else if (postm.Type == WPM_AUTO) {
       printf("Auto --> ");
@@ -136,7 +148,7 @@ void WaConfig::ResolvePostmortemType(Walrus* walrus)
       if (!filters.FindHCPRange(SOUTH, postm.minHCP, postm.maxHCP)) {
          printf("Error: missing PointsRange for SOUTH\n");
          MarkFail();
-         return;
+         return false;
       }
       postm.minHCP += postm.hcpFixedHand.total;
       postm.maxHCP += postm.hcpFixedHand.total;
@@ -152,6 +164,7 @@ void WaConfig::ResolvePostmortemType(Walrus* walrus)
    // final types
    bool checkRange = false;
    bool checkLeads = false;
+   bool checkNorth = false;
    switch (postm.Type) {
       case WPM_HCP_SINGLE_SCORER:
          if (postm.minControls) {
@@ -162,12 +175,14 @@ void WaConfig::ResolvePostmortemType(Walrus* walrus)
          }
          strcpy(config.txt.freqTitleFormat, "TRICKS FREQUENCY FOR %d HCP");
          checkRange = true;
+         checkNorth = true;
          break;
 
       case WPM_A_TO_B:
          printf("A to B comparator with HCP %d to %d\n", postm.minHCP, postm.maxHCP);
          strcpy(config.txt.freqTitleFormat, "COMPARISON RESULTS FOR %d HCP");
          checkRange = true;
+         checkNorth = true;
          break;
 
       case WPM_OPENING_LEADS:// lead task should have lead cards specified
@@ -178,7 +193,8 @@ void WaConfig::ResolvePostmortemType(Walrus* walrus)
 
       case WPM_SUIT:
          printf("Suit\n");
-         strcpy(config.txt.freqTitleFormat, "TRICKS FREQUENCY FOR HCP in a suit (which?)");
+         strcpy(config.txt.freqTitleFormat, "TRICKS FREQUENCY FOR HCP in a suit (which? TODO)");
+         checkNorth = true;
          break;
 
       default:
@@ -195,12 +211,18 @@ void WaConfig::ResolvePostmortemType(Walrus* walrus)
       }
    }
    if (checkLeads) {
-      if (solve.leads.IsEmpty()) {
+      if (config.txt.taskHandPBN[1] != 'W') {
+         printf("Error: pls put fixed hand on WEST, W. Your line is: %s\n", config.txt.taskHandPBN);
+         MarkFail();
+      } else if (solve.leads.IsEmpty()) {
          printf("Error: '%s' line is missing.\n", key.Leads);
          MarkFail();
       } else {
-         owl.Silent("Leads to inspect: %s", txt.taskLeadsPBN);
+         owl.Silent("Leads to inspect: %s\n", txt.taskLeadsPBN);
+         EnsureLeadCardsInLeadHand();
       }
    }
+
+   return checkNorth;
 }
 

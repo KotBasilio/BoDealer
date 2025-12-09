@@ -306,6 +306,11 @@ void Walrus::AddOverallStats(int idx)
 
 void Walrus::ShowSummarizedExtraMarks()
 {
+   // overall for leads shadow out "ideal", so, don't show them
+   if (config.postm.Is(WPM_OPENING_LEADS)) {
+      return;
+   }
+
    // print setting line
    double prevSum = 0;
    owl.Silent("( all down): ");

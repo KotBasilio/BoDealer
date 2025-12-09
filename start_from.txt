@@ -31,11 +31,42 @@ One sided:
 //TASK NAME:MAY24_TENS_AND_NINES
 
 Leads:
-TASK NAME:JUN24_LEAD_AK
+//TASK NAME:JUN24_LEAD_AK
+TASK NAME:DEC25_LEAD_BORIS
 
 No fixed hand:
 //TASK NAME:4_HAND_MINOR_SUPERFIT
 //TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
+
+-----------------------------------------------------------------------------------------------------------------------
+DEC25_LEAD_BORIS lead from 5-card or another suit
+Fix a 3 hcp 3541; Bidding from RHO (S): 
+        (1NT) p 
+ (3c) p (3d)  p   Puppet; No 5M
+ (3NT) all pass
+Question: what to lead?
+
+HAND: W:T74.J7543.J865.J
+LEAD CARDS: 7.3.6.J
+PRIMARY SCORER: V3N BY S
+
+FILTERS:
+    SOUTH: PointsRange 15, 17
+    SOUTH: SpadesLen 2, 4
+    SOUTH: HeartsLen 2, 4
+    SOUTH: ClubsLen, 2, 5
+    SOUTH: DiamondsLen, 2, 5
+
+    EAST: NoOvercall
+
+    NORTH: PointsRange 9, 10
+    NORTH: ClubsLen 2, 5
+    NORTH: HeartsLen 1, 3
+    NORTH: SpadesLen 1, 3
+    NORTH: ExcludeCombination {
+        NORTH: HeartsLen 1, 2
+        NORTH: SpadesLen 1, 2
+    }
 
 -----------------------------------------------------------------------------------------------------------------------
 DEC25_GAME_FORCING_WEAK_65 ...
@@ -58,7 +89,6 @@ FILTERS:
 
     WEST: NoOvercall
     EAST: NoOvercall
-
 
 -----------------------------------------------------------------------------------------------------------------------
 DEC25_ALL_ACES ...
@@ -792,8 +822,7 @@ Fix a 8 hcp 5224; Bidding from RHO (S):
 Question: what to lead?
 
 HAND: W:J6532.63.54.AK96
-POSTMORTEM: LEAD
-LEAD CARDS: 3.3.5.A
+LEAD CARDS: 3.3.5.K
 PRIMARY SCORER: V4H BY S
 
 FILTERS:
@@ -873,9 +902,10 @@ TASK_TYPE:FIXED_ONE_HAND
 //TASK_TYPE:ONE_SIDED_DENOMINATION
 //TASK_TYPE:COMPETITIVE_GENERIC
 //TASK_TYPE:SEEK_OPENING_LEAD
+//POSTMORTEM: LEAD -- autodetected from LEAD CARDS
 
 -----------------------------------------------------------------------------------------------------------------------
-SCALE: 30
+SCALE: 5
 //SCALE: MIN
 //OPMODE: SEMI_STRAY
 //OPMODE: DEMO_STATISTICS

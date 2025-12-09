@@ -145,8 +145,10 @@ void WaConfig::AnalyzeTaskType()
          break;
 
       case TTYPE_NONE:
-         printf("Error: '%s' line is missing.\n", key.TType);
-         MarkFail();
+         if (isInitSuccess) {
+            printf("Error: '%s' line is missing.\n", key.TType);
+            MarkFail();
+         }
          break;
 
       case TTYPE_FOUR_HANDS_TASK:
@@ -178,7 +180,7 @@ bool WaConfig::OrdinaryRead(Walrus* walrus)
    InitCardsCount();
    BuildNewFilters(walrus);
    BuildMultiScorer(walrus);
-   ResolvePostmortemType(walrus);
+   ResolvePostmortemType();
    SetupOutputOptions();
 
    return isInitSuccess;

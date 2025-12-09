@@ -42,7 +42,6 @@ protected:
    // inits
    bool StartOscar();
    void InitDeck();
-   twlHCP ParsePbnDeal();
    void WithdrawByInput();
    void DetectScorerGoals();
 

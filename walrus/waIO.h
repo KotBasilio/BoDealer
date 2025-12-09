@@ -227,9 +227,12 @@ private:
    void ChangeOpMode(const char* line);
    void ReadTaskType(const char* line);
    void InitCardsCount();
-   void ResolvePostmortemType(Walrus* walrus);
+   void ResolvePostmortemType();
+   bool ResolveNontrivialPostmortems();
    void SetupOutputOptions();
    void ReadHandPBN(const char *line);
+   twlHCP ParsePbnDeal();
+   void EnsureLeadCardsInLeadHand();
    void ReadLeadCards(const char *line);
    void ReadPrimaScorer(const char *line);
    void ReadSecundaScorer(const char *line);

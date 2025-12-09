@@ -13,12 +13,12 @@
    STR[sizeof(STR) - 1] = 0; \
    STR[strlen(STR) - 1] = 0
 
-#define SAFE_STR_BY_LINE(TOSTR)         \
-   strncpy(TOSTR, line, sizeof(TOSTR)); \
+#define SAFE_STR_BY_LINE(TOSTR)             \
+   copyTrimmed(TOSTR, line, sizeof(TOSTR)); \
    CUT_AT_TAIL(TOSTR)
 
-#define SAFE_ADD_BY_LINE(TOSTR)                         \
-   strncat(TOSTR, line, sizeof(TOSTR) - strlen(TOSTR)); \
+#define SAFE_ADD_BY_LINE(TOSTR)                            \
+   addTrimmed(TOSTR, line, sizeof(TOSTR) - strlen(TOSTR)); \
    CUT_AT_TAIL(TOSTR)
 
 #define SAFE_ADD(TOSTR, ADDITION) \
@@ -59,6 +59,41 @@ static bool IsStartsWith(const char *str, const char *prefix)
    }
 
    return strncmp(str, prefix, lenPrefix) == 0;
+}
+
+static void copyTrimmed(char* dest, const char* line, size_t destSize)
+{
+   // skip leading whitespace
+   while (*line && ' ' == *line) {
+      ++line;
+   }
+
+   // find end (before trailing whitespace)
+   const char* end = line + strlen(line);
+   while ((end > line) && ' ' == *(end - 1)) {
+      --end;
+   }
+
+   size_t len = end - line;
+   strncpy_s(dest, destSize, line, len);
+   dest[len] = '\0'; // ensure null termination
+}
+
+static void addTrimmed(char* dest, const char* line, size_t destSize)
+{
+   // skip leading whitespace
+   while (*line && ' ' == *line) {
+      ++line;
+   }
+
+   // find end (before trailing whitespace)
+   const char* end = line + strlen(line);
+   while ((end > line) && ' ' == *(end - 1)) {
+      --end;
+   }
+
+   size_t len = end - line;
+   strncat_s(dest, destSize, line, len);
 }
 
 template<typename T>
@@ -308,13 +343,23 @@ extern int IsCard(const char cardChar);
 
 void WaConfig::ReadLeadCards(const char* line)
 {
+   // postm type
+   if (!(postm.Type == WPM_OPENING_LEADS ||
+         postm.Type == WPM_AUTO ||
+         postm.Type == WPM_NONE )) {
+      printf("Error: setting lead cards makes sense only for postmortem types LEAD/AUTO\n");
+      MarkFail();
+      return;
+   }
+   postm.Type = WPM_OPENING_LEADS;
+
    // check format
    bool ok = (strlen(line) >= 7) && 
       line[1] == '.' &&
       line[3] == '.' &&
       line[5] == '.';
    if (!ok) {
-      printf("Error: A short PBN notation is expected as leads. Example: like A.5.T.2\n Your line is: %s", line);
+      printf("Error: A short PBN notation is expected as leads for checking.\nExample: like A.5.T.2\nYour line is: %s", line);
       MarkFail();
       return;
    }
@@ -339,7 +384,7 @@ void WaConfig::ReadLeadCards(const char* line)
    }
 
    // store
-   strcpy_s(txt.taskLeadsPBN, sizeof(txt.taskLeadsPBN), line);
+   SAFE_STR_BY_LINE(txt.taskLeadsPBN);
 }
 
 EConfigReaderState WaConfig::FSM_DoTaskState(char* line)

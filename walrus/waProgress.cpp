@@ -277,6 +277,10 @@ void Progress::ShowSolvingTime()
 
 void Walrus::ShowBiddingLevel(s64 sumRows)
 {
+   if (config.postm.Is(WPM_OPENING_LEADS)) {
+      return;
+   }
+   
    // game/partscore or slam/game
    owl.OnDone("Averages: ");
    if (cumulScore.ideal) {
