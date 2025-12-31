@@ -9,6 +9,7 @@ Competitive:
 //TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
 
 One sided:
+TASK NAME:DEC25_DUMMY_GF
 //TASK NAME:DEC25_GAME_FORCING_WEAK_65
 //TASK NAME:DEC25_ALL_ACES
 //TASK NAME:DEC25_14_HCP_MAJOR_NV
@@ -32,11 +33,30 @@ One sided:
 
 Leads:
 //TASK NAME:JUN24_LEAD_AK
-TASK NAME:DEC25_LEAD_BORIS
+//TASK NAME:DEC25_LEAD_BORIS
 
 No fixed hand:
 //TASK NAME:4_HAND_MINOR_SUPERFIT
 //TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
+
+-----------------------------------------------------------------------------------------------------------------------
+DEC25_DUMMY_GF Bidding one sided: 1s ??
+We choose between game forcing 2C and semi-forcing 1NT.
+
+HAND: N:T2.AT93.KJ2.A982
+//HAND: N:82.A893.KJ2.A982
+PRIMARY SCORER: V3N BY N
+POSTMORTEM: AUTO
+
+FILTERS:
+    SOUTH: PointsRange, 11, 12
+    SOUTH: SpadesLen, 5, 5
+    SOUTH: HeartsLen, 0, 3
+    SOUTH: DiamondsLen, 1, 4
+    SOUTH: ClubsLen, 1, 4
+
+    WEST: NoOvercall
+    EAST: NoOvercall
 
 -----------------------------------------------------------------------------------------------------------------------
 DEC25_LEAD_BORIS lead from 5-card or another suit
@@ -905,7 +925,7 @@ TASK_TYPE:FIXED_ONE_HAND
 //POSTMORTEM: LEAD -- autodetected from LEAD CARDS
 
 -----------------------------------------------------------------------------------------------------------------------
-SCALE: 5
+SCALE: 50
 //SCALE: MIN
 //OPMODE: SEMI_STRAY
 //OPMODE: DEMO_STATISTICS

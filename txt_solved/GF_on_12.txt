@@ -1,0 +1,75 @@
+
+
+        |\_______/|
+      / | [o] [o] | \
+     / /|    V    |\ \
+        |         |
+        -ooo---ooo-
+
+Senior kibitzer Oscar is observing a task:
+DEC25_DUMMY_GF : Bidding one sided: 1s ??
+We choose between game forcing 2C and semi-forcing 1NT.
+Fixed hand is [N:T2.AT93.KJ2.A982]
+Scorer to use is V3N BY N
+Recognized a fixed hand task type: ONE_SIDED_BIDDING_LEVEL
+Primary scorer (notrump, 9 tr): -200 -100 600 630 660 690 720  /  -100 120 150 180 210 240 270
+----
+29:    NORTH     EAST    SOUTH     WEST
+30:    50120,       0,    >MLN,       0,  :   PointsRange 11 12 SOUTH
+31:        0,       0,  502496,       0,  :   SpadesLen 5 5 SOUTH
+32:        0,       0,   23948,       0,  :   HeartsLen 0 3 SOUTH
+33:        0,       0,    9504,       0,  :   DiamondsLen 1 4 SOUTH
+34:        0,       0,    4716,       0,  :   ClubsLen 1 4 SOUTH
+35:        0,       0,       0,   13711,  :   NoOvercall WEST
+36:        0,   13337,       0,       0,  :   NoOvercall EAST
+ 9 tricks board by North in notrump example:
+--------
+               T2          HCP : 24
+               AT93        CTRL: 8
+               KJ2
+               A982
+   9875                    Q6
+   KJ                      Q8542
+   AT75                    83
+   J76                     KT43
+               AKJ43
+               76
+               Q964
+               Q5
+
+Seek 9 tricks board by North in notrump ... example:
+--------
+               T2          HCP : 23
+               AT93        CTRL: 8
+               KJ2
+               A982
+   983                     765
+   754                     KQ62
+   T93                     AQ765
+   KQJ4                    6
+               AKQJ4
+               J8
+               84
+               T753
+
+  card suit   rank   equals score
+     0 C      6             4
+     1 S      7      65     4
+     2 D      7      65     4
+     3 D      Q             4
+     4 H      K      Q      3
+     5 D      A             3
+     6 H      2             3
+     7 H      6             3
+
+       (down):    16345,    3515,     421,      72,       5,       0,       0,       20358
+       (make):    21007,    7921,     813,      21,       0,       0,       0,       29762
+Processed: 50120 total. East is on lead. Goal is 9 tricks in notrump.
+Averages: ideal = 392, 3N = 312, 2N = 124.   Chance to make = 59.4%.
+
+A split of board results by HCP from 23 to 24:
+(p 23 down):     9768,    2712,     320,      53,       4,   :    12857,
+(p 23 make):     9097,    2313,     193,       4,       0,   :    11607,  --> 47 %
+(p 24 down):     6577,     803,     101,      19,       1,   :     7501,
+(p 24 make):    11910,    5608,     620,      17,       0,   :    18155,  --> 70 %
+The search took 0.1 sec + an aftermath 4 min 25 sec --> ~11.3K boards per minute.
