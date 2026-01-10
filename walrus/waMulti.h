@@ -47,6 +47,10 @@ struct OscarTheOwl {
    void Send(char* msg);
    void Flush();
    void Goodbye();
+
+   char screen[DDS_HAND_LINES][DDS_FULL_LINE]{};
+   void ClearViScreen();
+   void SilentViScreen(int count);
 private:
    static const size_t bufferSize = 512;
    static char buffer[bufferSize];

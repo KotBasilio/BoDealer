@@ -7,8 +7,8 @@
 #include "waAI.h"
 #include "waScore.h"
 #include "waShuffle.h"
-#include "waMulti.h"
 #include "waIO.h"
+#include "waMulti.h"
 #include "waSemantic.h"
 
 // The main class -- named after Walter the Walrus, whose expertise in and devotion to 

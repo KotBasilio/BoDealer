@@ -150,9 +150,6 @@ static void ClearFreqs()
    }
 }
 
-extern char viscr[DDS_HAND_LINES][DDS_FULL_LINE];
-extern void ClearViScreen();
-extern void SilentViScreen(int count, char scr[][DDS_FULL_LINE]);
 constexpr int REL_GRAPH_LINES = 10;
 constexpr int REL_GRAPH_SCREEN = DDS_HAND_LINES;
 
@@ -175,9 +172,9 @@ static void PictureTricksFrequences(int factor = -1)
    }
 
    // prepare v-screen
-   ClearViScreen();
+   owl.ClearViScreen();
    // -- title
-   auto locTitle = viscr[0] + 28;
+   auto locTitle = owl.screen[0] + 28;
    if (factor >= 0) {
       if (config.postm.Is(WPM_OPENING_LEADS)) {
          sprintf(locTitle, config.txt.freqTitleFormat, s_CapsSuit[factor]);
@@ -189,9 +186,9 @@ static void PictureTricksFrequences(int factor = -1)
    }
    // -- bottom line
    auto line = REL_GRAPH_SCREEN - 1;
-   viscr[line][0] = 0;
+   owl.screen[line][0] = 0;
    for (int i = 0; i < MAX_SIZE; ++i) {
-      auto loc = viscr[line] + i * 5;
+      auto loc = owl.screen[line] + i * 5;
       sprintf(loc, " %02d    ", i);
    }
 
@@ -204,7 +201,7 @@ static void PictureTricksFrequences(int factor = -1)
          continue;
       }
       for (int j = line; j > 0; j--, val -= step) {
-         auto loc = viscr[j] + i * 5;
+         auto loc = owl.screen[j] + i * 5;
          if (val > 1e-9) {
             loc[0] = loc[1] = loc[2] = loc[3] = '*';
          }
@@ -212,7 +209,7 @@ static void PictureTricksFrequences(int factor = -1)
    }
 
    // out
-   SilentViScreen(REL_GRAPH_SCREEN, viscr);
+   owl.SilentViScreen(REL_GRAPH_SCREEN);
 }
 
 static void CalcAndDisplayStatistics(char *title)

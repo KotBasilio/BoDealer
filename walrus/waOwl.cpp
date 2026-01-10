@@ -10,9 +10,13 @@
 #include "waDoubleDeal.h"
 #include "../dds-develop/examples/hands.h"
 
-static HANDLE g_PipeOut = NULL;
-static HANDLE g_PipeFromOwl = NULL;
+struct OwlImpl {
+    HANDLE PipeOut = NULL;
+    HANDLE PipeFromOwl = NULL;
+};
+
 OscarTheOwl owl;
+static OwlImpl impl;
 char OscarTheOwl::buffer   [OscarTheOwl::bufferSize];
 char OscarTheOwl::earlyLine[OscarTheOwl::bufferSize];
 char viscr[DDS_HAND_LINES][DDS_FULL_LINE]{};
@@ -71,23 +75,23 @@ bool Walrus::StartOscar()
    saAttr.lpSecurityDescriptor = NULL;
 
    // Create the input pipe for sending data from parent to child
-   if (!CreatePipe(&g_hChildStd_IN_Rd, &g_PipeOut, &saAttr, 0)) {
+   if (!CreatePipe(&g_hChildStd_IN_Rd, &impl.PipeOut, &saAttr, 0)) {
       //std::cerr << "CreatePipe failed";
       return false;
    }
 
-   if (!SetHandleInformation(g_PipeOut, HANDLE_FLAG_INHERIT, 0)) {
+   if (!SetHandleInformation(impl.PipeOut, HANDLE_FLAG_INHERIT, 0)) {
       //std::cerr << "SetHandleInformation failed";
       return false;
    }
 
    // Create the output pipe for receiving data from child to parent
-   if (!CreatePipe(&g_PipeFromOwl, &g_hChildStd_OUT_Wr, &saAttr, 0)) {
+   if (!CreatePipe(&impl.PipeFromOwl, &g_hChildStd_OUT_Wr, &saAttr, 0)) {
       //std::cerr << "CreatePipe failed";
       return false;
    }
 
-   if (!SetHandleInformation(g_PipeFromOwl, HANDLE_FLAG_INHERIT, 0)) {
+   if (!SetHandleInformation(impl.PipeFromOwl, HANDLE_FLAG_INHERIT, 0)) {
       //std::cerr << "SetHandleInformation failed";
       return false;
    }
@@ -122,7 +126,7 @@ bool Walrus::StartOscar()
    // Receive data from the child process
    char buffer[256];
    DWORD bytesRead = 0;
-   if (!ReadFile(g_PipeFromOwl, buffer, sizeof(buffer), &bytesRead, NULL)) {
+   if (!ReadFile(impl.PipeFromOwl, buffer, sizeof(buffer), &bytesRead, NULL)) {
       //std::cerr << "Read from output pipe failed";
       return false;
    }
@@ -199,9 +203,9 @@ void OscarTheOwl::Silent(const char* format, ...)
 
 void OscarTheOwl::Send(char* message)
 {
-   if (g_PipeOut) {
+   if (impl.PipeOut) {
       DWORD bytesWritten;
-      WriteFile(g_PipeOut, message, (DWORD)strlen(message), &bytesWritten, NULL);
+      WriteFile(impl.PipeOut, message, (DWORD)strlen(message), &bytesWritten, NULL);
    } else {
       strcat(earlyLine, message);
    }
@@ -219,8 +223,8 @@ void OscarTheOwl::Goodbye()
 {
    Silent(GRIFFINS_CLUB_IS_CLOSING);
    PLATFORM_SLEEP(100);
-   CloseHandle(g_PipeOut);
-   g_PipeOut = NULL;
+   CloseHandle(impl.PipeOut);
+   impl.PipeOut = NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -275,7 +279,7 @@ void OwlOneFut(char title[], futureTricks * fut)
    owl.Silent("\n");
 }
 
-void ClearViScreen()
+void _ClearViScreen()
 {
    // clear virtual screen
    for (int l = 0; l < DDS_HAND_LINES; l++) {
@@ -284,7 +288,7 @@ void ClearViScreen()
    }
 }
 
-void SilentViScreen(int count, char scr[][DDS_FULL_LINE])
+void _SilentViScreen(int count, char scr[][DDS_FULL_LINE])
 {
    // print the v-screen
    for (int i = 0; i < count; i++) {
@@ -293,11 +297,25 @@ void SilentViScreen(int count, char scr[][DDS_FULL_LINE])
    //owl.Silent("\n\n");
 }
 
+void OscarTheOwl::ClearViScreen()
+{
+   // clear virtual screen
+   for (int l = 0; l < DDS_HAND_LINES; l++) {
+      memset(screen[l], ' ', DDS_FULL_LINE);
+      viscr[l][DDS_FULL_LINE - 1] = '\0';
+   }
+}
+
+void OscarTheOwl::SilentViScreen(int count)
+{
+   _SilentViScreen(count, screen);
+}
+
 static void FillVScreen(const deal& dl)
 {
    int c, h, s, r;
 
-   ClearViScreen();
+   _ClearViScreen();
 
    // for each hand
    for (h = 0; h < DDS_HANDS; h++)
@@ -353,7 +371,7 @@ void PrintHand(char title[], const deal& dl)
    dashes[l] = '\0';
    owl.Silent("%s\n", dashes);
 
-   SilentViScreen(DDS_HAND_LINES, viscr);
+   _SilentViScreen(DDS_HAND_LINES, viscr);
 }
 
 void OwlOutBoard(char title[], const deal& dl)
@@ -369,7 +387,7 @@ void OwlOutBoard(char title[], const deal& dl)
    dashes[l] = '\0';
    owl.Silent("%s\n", dashes);
 
-   SilentViScreen(DDS_HAND_LINES, viscr);
+   _SilentViScreen(DDS_HAND_LINES, viscr);
 }
 
 void OwlTNTBoard(char title[], const deal& dl)
@@ -378,7 +396,7 @@ void OwlTNTBoard(char title[], const deal& dl)
 
 void PrintTwoFutures(char title[], futureTricks * fut1, futureTricks * fut2)
 {
-   char bigScr[DDS_OPLEAD_LINES][DDS_FULL_LINE];
+   static char bigScr[DDS_OPLEAD_LINES][DDS_FULL_LINE];
 
    // clear virtual screen
    for (int lidx = 0; lidx < DDS_OPLEAD_LINES; lidx++) {
@@ -412,7 +430,7 @@ void PrintTwoFutures(char title[], futureTricks * fut1, futureTricks * fut2)
 
    // print the v-screen
    auto maxline = __max(fut1->cards, fut2->cards) + 2;
-   SilentViScreen(maxline, bigScr);
+   _SilentViScreen(maxline, bigScr);
 }
 
 void OwlTwoFut(char title[], futureTricks * fut1, futureTricks * fut2)
@@ -451,6 +469,6 @@ void OwlTwoFut(char title[], futureTricks * fut1, futureTricks * fut2)
 
    // print the v-screen
    auto maxline = __max(fut1->cards, fut2->cards) + 2;
-   SilentViScreen(maxline, bigScr);
+   _SilentViScreen(maxline, bigScr);
 }
 
