@@ -79,11 +79,18 @@ void Walrus::Main()
 
 void ReadCLI(int argc, char* argv[])
 {
-   // Check for the "-exitondone" CLI parameter
    for (int i = 1; i < argc; ++i) {
+      // check for the "-exitondone" CLI parameter
       if (std::strcmp(argv[i], "-exitondone") == 0) {
-         config.dbg.exitOnDone = true;
-         break;
+         config.cli.exitOnDone = true;
+      }
+
+      // check for the "-cfgname" CLI parameter
+      if (std::strcmp(argv[i], "-cfgname") == 0 && i + 1 < argc) {
+         auto last = sizeof(config.cli.cfgFile) - 1;
+         std::strncpy(config.cli.cfgFile, argv[i + 1], last);  
+         config.cli.cfgFile[last] = '\0';
+         ++i;
       }
    }
 
@@ -101,7 +108,7 @@ int main(int argc, char *argv[])
 
    DoSelfTests();
 
-   if (!config.dbg.exitOnDone) {
+   if (!config.cli.exitOnDone) {
       printf("Press any key.\n");
       PLATFORM_GETCH();
    }

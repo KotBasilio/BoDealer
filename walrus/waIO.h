@@ -88,6 +88,7 @@ constexpr size_t WA_TASK_BRIEF = 512;
 constexpr size_t WA_TASK_NANE_LEN = 64;
 constexpr size_t WA_SECONDARY_LNAME_LEN = WA_TASK_NANE_LEN * 2;
 constexpr size_t WA_HAND_LEN = 30;
+constexpr size_t WA_FNAME_LEN = 64;
 constexpr size_t WA_TXT_SEAT_SUIT = 10;
 constexpr size_t WA_SOURCE_CODE_BUF = 2 * 1024;
 
@@ -211,8 +212,13 @@ struct WaConfig {
       bool verboseCompile = false;
       bool verboseMemory = false;
       bool verboseComparisons = false;
-      bool exitOnDone = false;
    } dbg;
+
+   // CLI options
+   struct CLI {
+      bool exitOnDone = false;
+      char cfgFile[WA_FNAME_LEN];
+   } cli;
 
    bool OrdinaryRead(Walrus* walrus);
    void BuildNewFilters(class Walrus *walrus);
