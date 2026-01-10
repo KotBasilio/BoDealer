@@ -40,7 +40,11 @@ void waFileNames::Build()
    memcpy(Solution, buf, size);
 
    // make real names
-   strcat(StartFrom, config.cli.cfgFile[0] ? config.cli.cfgFile : START_FROM_FNAME);
+   if (config.cli.nameFileConfig[0]) {
+      strcpy(StartFrom, config.cli.nameFileConfig);
+   } else {
+      strcat(StartFrom, START_FROM_FNAME);
+   }
    strcat(Command, COMMAND_FNAME);
    strcat(Progress, PROGRESS_FNAME);
    strcat(Solution, OUT_FNAME);

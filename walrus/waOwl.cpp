@@ -43,9 +43,16 @@ static BOOL _AttemptStartOscar(CHAR *workDirPath, CHAR* suffix, STARTUPINFO& siS
 
    //printf("Attempt path to Oscar: %s\n", oscarPath);
 
+   CHAR exeCLI[MAX_PATH];
+   strcpy(exeCLI, GRIFFINS_CLUB_RUNS);
+   if (config.cli.nameFileOutput[0]) {
+      strcat(exeCLI, "-logresult ");
+      strcat(exeCLI, config.cli.nameFileOutput);
+   }
+
    // Create the child process.
    return CreateProcess(oscarPath,
-      GRIFFINS_CLUB_RUNS,     // Command line
+      exeCLI,   // Command line
       NULL,     // Process handle not inheritable
       NULL,     // Thread handle not inheritable
       TRUE,     // Set handle inheritance to TRUE
@@ -59,9 +66,9 @@ static BOOL _AttemptStartOscar(CHAR *workDirPath, CHAR* suffix, STARTUPINFO& siS
 bool Walrus::StartOscar()
 {
    const DWORD bufferSize = MAX_PATH;
-   CHAR oscarPath[bufferSize];
+   CHAR oscarPath0[bufferSize];
 
-   DWORD dwRet = GetCurrentDirectory(bufferSize, oscarPath);
+   DWORD dwRet = GetCurrentDirectory(bufferSize, oscarPath0);
    if (dwRet == 0) {
       return false;
    }
@@ -106,9 +113,17 @@ bool Walrus::StartOscar()
    siStartInfo.hStdError = g_hChildStd_OUT_Wr;
    siStartInfo.dwFlags |= STARTF_USESTDHANDLES;
 
-   if (      !_AttemptStartOscar(oscarPath,                   "\\Oscar.exe", siStartInfo, piProcInfo)) {
-      if (   !_AttemptStartOscar(oscarPath, OWL_CONFIG_SUFFIX "\\Oscar.exe", siStartInfo, piProcInfo)) {
-         if (!_AttemptStartOscar(oscarPath, OWL_VSCODE_SUFFIX "\\Oscar.exe", siStartInfo, piProcInfo)) {
+
+   CHAR oscarPath1[bufferSize];
+   strcpy(oscarPath1, oscarPath0);
+   strcat(oscarPath1, OWL_CONFIG_SUFFIX);
+   CHAR oscarPath2[bufferSize];
+   strcpy(oscarPath2, oscarPath0);
+   strcat(oscarPath2, OWL_VSCODE_SUFFIX);
+
+   if (      !_AttemptStartOscar(oscarPath0, "\\Oscar.exe", siStartInfo, piProcInfo)) {
+      if (   !_AttemptStartOscar(oscarPath1, "\\Oscar.exe", siStartInfo, piProcInfo)) {
+         if (!_AttemptStartOscar(oscarPath2, "\\Oscar.exe", siStartInfo, piProcInfo)) {
             printf("Oscar is absent.\n");
             return false;
          }

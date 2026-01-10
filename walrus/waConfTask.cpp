@@ -449,7 +449,9 @@ void WaConfig::ReadTask(Walrus *walrus)
    const char* fname = txt.namesBase.StartFrom;
    printf("Reading config from: %s\n", fname);
    FILE* stream;
-   if (fopen_s(&stream, fname, "r")) {// non-zero => failed to open
+   if (auto err = fopen_s(&stream, fname, "r")) {// non-zero => failed to open  
+      printf("Error: '%s' not found.\n", fname);  
+      MarkFail("Failed to open configuration file.");  
       return;
    }
 

@@ -19,7 +19,7 @@ static const char* artOscar[] = {
    "        -ooo---ooo-      \n\n",
 };
 
-#define LOGFILE_NAME "oscar_log.txt"
+CHAR LOGFILE_NAME[MAX_PATH];
 
 static void PaintOscar()
 {
@@ -97,7 +97,7 @@ bool OscarEcho::Retell()
    // Append gossip to a file
    FILE* file = fopen(LOGFILE_NAME, "a");
    if (!file) {
-      printf("Failed to open " LOGFILE_NAME "\n");
+      printf("Failed to open %s\n", LOGFILE_NAME);
       return false;
    }
    fprintf(file, "%s\n", gossip);
@@ -143,22 +143,37 @@ static void ShowAllScores()
    PrintCode("V2SX");
 }
 
-//void TrainingTask();
-extern void LibZipTask();
+void ReadCLIParams(int argc, char* argv[])
+{
+   strcpy(LOGFILE_NAME, "oscar_log.txt");
+   printf("Command-line arguments:\n");
+   for (int i = 0; i < argc; ++i) {
+      // Print all CLI parameters, numbered
+      printf("Arg %d: %s\n", i, argv[i]);
+
+      // check for the "-logresult" CLI parameter
+      if (std::strcmp(argv[i], "-logresult") == 0 && i + 1 < argc) {
+         auto last = sizeof(LOGFILE_NAME) - 1;
+         std::strncpy(LOGFILE_NAME, argv[i + 1], last);
+         LOGFILE_NAME[last] = '\0';
+      }
+   }
+   printf("log to : %s\n", LOGFILE_NAME);
+}
 
 int main(int argc, char* argv[])
 {
    if (argc < 2) {
       ShowAllScores();
-      //LibZipTask(); -- needs \sln\Oscar\TestLibZip.cpp
-      //TrainingTask();
-      //printf("Waiting for the club to start.\n");
-      printf("Enter to exit.\n");
+      printf("Waiting for the club to start.\n");
+      printf("Press Enter to exit.\n");
       char tmpBuf[10];
       gets_s(tmpBuf, 5);
 
       return 0;
    }
+
+   ReadCLIParams(argc, argv);
 
    OscarEcho owl;
    while (owl.Retell()) {}

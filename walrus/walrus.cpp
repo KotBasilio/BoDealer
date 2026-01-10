@@ -87,9 +87,17 @@ void ReadCLI(int argc, char* argv[])
 
       // check for the "-cfgname" CLI parameter
       if (std::strcmp(argv[i], "-cfgname") == 0 && i + 1 < argc) {
-         auto last = sizeof(config.cli.cfgFile) - 1;
-         std::strncpy(config.cli.cfgFile, argv[i + 1], last);  
-         config.cli.cfgFile[last] = '\0';
+         auto last = sizeof(config.cli.nameFileConfig) - 1;
+         std::strncpy(config.cli.nameFileConfig, argv[i + 1], last);  
+         config.cli.nameFileConfig[last] = '\0';
+         ++i;
+      }
+
+      // check for the "-logresult" CLI parameter
+      if (std::strcmp(argv[i], "-logresult") == 0 && i + 1 < argc) {
+         auto last = sizeof(config.cli.nameFileOutput) - 1;
+         std::strncpy(config.cli.nameFileOutput, argv[i + 1], last);
+         config.cli.nameFileOutput[last] = '\0';
          ++i;
       }
    }

@@ -165,7 +165,7 @@ WaConfig::WaConfig()
    txt.taskLeadsPBN[0] = 0;
    txt.secLongName[0] = 0;
    txt.freqTitleFormat[0] = 0;
-   cli.cfgFile[0] = 0;
+   cli.nameFileConfig[0] = 0;
 }
 
 void WaConfig::SetupOutputOptions()
