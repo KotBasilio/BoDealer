@@ -7,6 +7,7 @@
 #include "walrus.h"
 #include HEADER_CURSES
 #include <chrono>
+#include <cstring> // For std::strcmp
 
 std::chrono::steady_clock::duration timeChronoStart;
 extern void DoSelfTests();
@@ -76,9 +77,22 @@ void Walrus::Main()
    }
 }
 
+void ReadCLI(int argc, char* argv[])
+{
+   // Check for the "-exitondone" CLI parameter
+   for (int i = 1; i < argc; ++i) {
+      if (std::strcmp(argv[i], "-exitondone") == 0) {
+         config.dbg.exitOnDone = true;
+         break;
+      }
+   }
+
+}
+
 int main(int argc, char *argv[])
 {
    ChronoStart();
+   ReadCLI(argc, argv);
 
    Walrus walter;
    if (walter.InitByConfig()) {
@@ -86,9 +100,14 @@ int main(int argc, char *argv[])
    }
 
    DoSelfTests();
-   printf("Press any key.\n");
-   PLATFORM_GETCH();
+
+   if (!config.dbg.exitOnDone) {
+      printf("Press any key.\n");
+      PLATFORM_GETCH();
+   }
+
    owl.Goodbye();
 
    return 0;
 }
+

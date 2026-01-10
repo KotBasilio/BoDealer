@@ -211,6 +211,7 @@ struct WaConfig {
       bool verboseCompile = false;
       bool verboseMemory = false;
       bool verboseComparisons = false;
+      bool exitOnDone = false;
    } dbg;
 
    bool OrdinaryRead(Walrus* walrus);

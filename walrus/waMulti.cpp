@@ -12,6 +12,7 @@
 //#define SHOW_EFFORT_SPLIT
 
 extern u64 ChronoRound();
+void ReadCLI(int argc, char* argv[]);
 void PaintWalrus();
 
 WaMulti::WaMulti()
