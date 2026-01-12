@@ -53,8 +53,8 @@ struct OscarTheOwl {
    void SilentViScreen(int count);
 private:
    static const size_t bufferSize = 512;
-   static char buffer[bufferSize];
-   static char earlyLine[bufferSize];
+   char buffer[bufferSize];
+   char earlyLine[bufferSize];
 };
 
 extern OscarTheOwl owl;

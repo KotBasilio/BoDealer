@@ -13,13 +13,11 @@
 struct OwlImpl {
     HANDLE PipeOut = NULL;
     HANDLE PipeFromOwl = NULL;
+    char viscr[DDS_HAND_LINES][DDS_FULL_LINE]{};
 };
 
 OscarTheOwl owl;
 static OwlImpl impl;
-char OscarTheOwl::buffer   [OscarTheOwl::bufferSize];
-char OscarTheOwl::earlyLine[OscarTheOwl::bufferSize];
-char viscr[DDS_HAND_LINES][DDS_FULL_LINE]{};
 
 #ifdef _DEBUG
    #define OWL_CONFIG_SUFFIX  "\\x64\\Debug"
@@ -33,6 +31,7 @@ OscarTheOwl::OscarTheOwl()
 {
    buffer[0] = 0;
    earlyLine[0] = 0;
+   ClearViScreen();
 }
 
 static BOOL _AttemptStartOscar(CHAR *workDirPath, CHAR* suffix, STARTUPINFO& siStartInfo, PROCESS_INFORMATION& piProcInfo)
@@ -298,8 +297,8 @@ void _ClearViScreen()
 {
    // clear virtual screen
    for (int l = 0; l < DDS_HAND_LINES; l++) {
-      memset(viscr[l], ' ', DDS_FULL_LINE);
-      viscr[l][DDS_FULL_LINE - 1] = '\0';
+      memset(impl.viscr[l], ' ', DDS_FULL_LINE);
+      impl.viscr[l][DDS_FULL_LINE - 1] = '\0';
    }
 }
 
@@ -307,6 +306,7 @@ void _SilentViScreen(int count, char scr[][DDS_FULL_LINE])
 {
    // print the v-screen
    for (int i = 0; i < count; i++) {
+      scr[i][DDS_FULL_LINE - 1] = '\0';
       owl.Silent("   %s\n", scr[i]);
    }
    //owl.Silent("\n\n");
@@ -317,7 +317,7 @@ void OscarTheOwl::ClearViScreen()
    // clear virtual screen
    for (int l = 0; l < DDS_HAND_LINES; l++) {
       memset(screen[l], ' ', DDS_FULL_LINE);
-      viscr[l][DDS_FULL_LINE - 1] = '\0';
+      impl.viscr[l][DDS_FULL_LINE - 1] = '\0';
    }
 }
 
@@ -356,21 +356,21 @@ static void FillVScreen(const deal& dl)
          c = offset;
          for (r = 14; r >= 2; r--) {
             if ((dl.remainCards[h][s] >> 2) & dbitMapRank[r])
-               viscr[line + s][c++] = static_cast<char>(dcardRank[r]);
+               impl.viscr[line + s][c++] = static_cast<char>(dcardRank[r]);
          }
 
          if (c == offset)
-            viscr[line + s][c++] = '-';
+            impl.viscr[line + s][c++] = '-';
 
          if (h == SOUTH || h == EAST)
-            viscr[line + s][c] = '\0';
+            impl.viscr[line + s][c] = '\0';
       }
    }
 
    // add HCP and controls
    uint ctrl;
-   sprintf(viscr[DDS_STATS_LINE  ] + DDS_STATS_OFFSET, "HCP : %d", CalcNSLineHCP(dl, ctrl));
-   sprintf(viscr[DDS_STATS_LINE+1] + DDS_STATS_OFFSET, "CTRL: %d", ctrl);
+   sprintf(impl.viscr[DDS_STATS_LINE  ] + DDS_STATS_OFFSET, "HCP : %d", CalcNSLineHCP(dl, ctrl));
+   sprintf(impl.viscr[DDS_STATS_LINE+1] + DDS_STATS_OFFSET, "CTRL: %d", ctrl);
 }
 
 void PrintHand(char title[], const deal& dl)
@@ -386,7 +386,7 @@ void PrintHand(char title[], const deal& dl)
    dashes[l] = '\0';
    owl.Silent("%s\n", dashes);
 
-   _SilentViScreen(DDS_HAND_LINES, viscr);
+   _SilentViScreen(DDS_HAND_LINES, impl.viscr);
 }
 
 void OwlOutBoard(char title[], const deal& dl)
@@ -402,7 +402,7 @@ void OwlOutBoard(char title[], const deal& dl)
    dashes[l] = '\0';
    owl.Silent("%s\n", dashes);
 
-   _SilentViScreen(DDS_HAND_LINES, viscr);
+   _SilentViScreen(DDS_HAND_LINES, impl.viscr);
 }
 
 void OwlTNTBoard(char title[], const deal& dl)

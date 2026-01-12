@@ -50,7 +50,7 @@ private:
    void SetupConsoleColors();
 
    int countEmpty = 0;
-   char gossip[512];
+   char gossip[4096];
 };
 extern void PrepareLinearScores();
 extern s64  gLinearScores[];
