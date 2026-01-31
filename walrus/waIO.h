@@ -4,6 +4,7 @@
 ************************************************************/
 
 #include "WaSemMicro.h"
+#include "OwlTransport.h"
 
 // file names
 #define START_FROM_FNAME "start_from.txt"
@@ -220,6 +221,10 @@ struct WaConfig {
       char nameFileConfig[WA_FNAME_LEN];
       char nameFileOutput[WA_FNAME_LEN];
    } cli;
+
+   // Owl transport
+   std::string TaskID;
+   OwlConfig cowl;
 
    bool OrdinaryRead(Walrus* walrus);
    void BuildNewFilters(class Walrus *walrus);

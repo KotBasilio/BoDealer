@@ -1,6 +1,6 @@
 /************************************************************
 * Walrus project                                        2023
-* Configuration
+* communication part
 *
 ************************************************************/
 #define  _CRT_SECURE_NO_WARNINGS
@@ -10,10 +10,16 @@
 #include "waDoubleDeal.h"
 #include "../dds-develop/examples/hands.h"
 
+#pragma message("waOwl.cpp REV: hello v0.5")
+
 struct OwlImpl {
     HANDLE PipeOut = NULL;
     HANDLE PipeFromOwl = NULL;
     char viscr[DDS_HAND_LINES][DDS_FULL_LINE]{};
+
+    // HTTP transport -- enabled when config.cowl.isHttp
+    std::string taskId;
+    std::unique_ptr<IOwlTransport> http;
 };
 
 OscarTheOwl owl;
@@ -64,6 +70,20 @@ static BOOL _AttemptStartOscar(CHAR *workDirPath, CHAR* suffix, STARTUPINFO& siS
 
 bool Walrus::StartOscar()
 {
+   // consider HTTP transport
+   config.cowl.isHttp = false;
+   if (config.cowl.isHttp) {
+      config.TaskID = config.txt.nameTask;
+      impl.taskId = config.TaskID;
+      impl.http = CreateOwlTransport();
+      if (!impl.http->InitAndHandshake()) {
+         printf("Failed to init HTTP transport to Oscar.\n");
+         return false;
+      }
+      return true;
+   }
+
+   // go pipe-way
    const DWORD bufferSize = MAX_PATH;
    CHAR oscarPath0[bufferSize];
 

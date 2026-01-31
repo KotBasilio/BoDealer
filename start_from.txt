@@ -9,7 +9,8 @@ Competitive:
 //TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
 
 One sided:
-TASK NAME:DEC25_DUMMY_GF
+TASK NAME:JAN26_BOTH_5332
+//TASK NAME:DEC25_DUMMY_GF
 //TASK NAME:DEC25_GAME_FORCING_WEAK_65
 //TASK NAME:DEC25_ALL_ACES
 //TASK NAME:DEC25_14_HCP_MAJOR_NV
@@ -38,6 +39,29 @@ Leads:
 No fixed hand:
 //TASK NAME:4_HAND_MINOR_SUPERFIT
 //TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
+
+
+-----------------------------------------------------------------------------------------------------------------------
+JAN26_BOTH_5332 Bidding one sided:
+      1c  1d
+      1h  1s
+      2c  2d
+      2h  2s
+      2NT ??
+We choose between pass on 2NT and bidding 3NT.
+
+HAND: N:AJ843.74.JT8.742
+PRIMARY SCORER: V3N BY S
+POSTMORTEM: AUTO
+
+FILTERS:
+    SOUTH: PointsRange, 17, 18
+    SOUTH: SpadesLen, 2, 2
+    SOUTH: HeartsLen, 5, 5
+    SOUTH: DiamondsLen, 3, 3
+
+    WEST: NoOvercall
+    EAST: NoOvercall
 
 -----------------------------------------------------------------------------------------------------------------------
 DEC25_DUMMY_GF Bidding one sided: 1s ??

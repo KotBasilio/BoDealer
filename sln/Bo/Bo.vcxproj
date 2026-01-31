@@ -138,6 +138,7 @@
     <ClCompile Include="..\..\dds-develop\src\TimeStatList.cpp" />
     <ClCompile Include="..\..\dds-develop\src\TransTableL.cpp" />
     <ClCompile Include="..\..\dds-develop\src\TransTableS.cpp" />
+    <ClCompile Include="..\..\walrus\OwlTransportHttp.cpp" />
     <ClCompile Include="..\..\walrus\waAI.cpp" />
     <ClCompile Include="..\..\walrus\waBitTwelve.cpp" />
     <ClCompile Include="..\..\walrus\waCompareContracts.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="..\..\dds-develop\src\TransTable.h" />
     <ClInclude Include="..\..\dds-develop\src\TransTableL.h" />
     <ClInclude Include="..\..\dds-develop\src\TransTableS.h" />
+    <ClInclude Include="..\..\walrus\OwlTransport.h" />
     <ClInclude Include="..\..\walrus\waDoubleDeal.h" />
     <ClInclude Include="..\..\walrus\waAI.h" />
     <ClInclude Include="..\..\walrus\waCrossPlatform.h" />
