@@ -4,6 +4,8 @@
  ************************************************************/
 class Walrus;
 
+#pragma message("waMulti.h REV: hello v0.6")
+
 struct WaMulti {
    WaMulti();
    void NOP() {}
@@ -45,7 +47,7 @@ struct OscarTheOwl {
    void OnProgress(const char* format, ...);
    void OnDone(const char* format, ...);
    void Send(char* msg);
-   void Flush();
+   void OnStart();
    void Goodbye();
 
    char screen[DDS_HAND_LINES][DDS_FULL_LINE]{};

@@ -10,7 +10,7 @@
 #include "waDoubleDeal.h"
 #include "../dds-develop/examples/hands.h"
 
-#pragma message("waOwl.cpp REV: hello v0.5")
+#pragma message("waOwl.cpp REV: hello v0.6")
 
 struct OwlImpl {
     HANDLE PipeOut = NULL;
@@ -170,7 +170,7 @@ bool Walrus::StartOscar()
    printf(buffer);
 
    // follow with early line
-   owl.Flush();
+   owl.OnStart();
 
    // Test variable parameters
    // owl.Show("message %d %s\n", 10, "xxx");
@@ -237,6 +237,17 @@ void OscarTheOwl::Silent(const char* format, ...)
 
 void OscarTheOwl::Send(char* message)
 {
+   // HTTP path
+   if (impl.http) {
+      OwlEvent e;
+      e.type = OwlEventType::Log;
+      e.message = message ? std::string(message) : std::string();
+      e.silent = false; // first step: treat Send() as non-silent
+      impl.http->Enqueue(e);
+      return;
+   }
+
+   // PIPE path
    if (impl.PipeOut) {
       DWORD bytesWritten;
       WriteFile(impl.PipeOut, message, (DWORD)strlen(message), &bytesWritten, NULL);
@@ -245,8 +256,11 @@ void OscarTheOwl::Send(char* message)
    }
 }
 
-void OscarTheOwl::Flush()
+void OscarTheOwl::OnStart()
 {
+   // the intention of OnStart is in 
+   // sending accumulated earlyLine 
+   // -- valid both for HTTP and PIPE paths
    if (earlyLine[0]) {
       Send(earlyLine);
       earlyLine[0] = 0;
@@ -255,6 +269,21 @@ void OscarTheOwl::Flush()
 
 void OscarTheOwl::Goodbye()
 {
+   // HTTP path
+   if (impl.http) {
+      OwlEvent d;
+      d.type = OwlEventType::Done;
+      d.message = GRIFFINS_CLUB_IS_CLOSING;
+      d.silent = false;
+      impl.http->Enqueue(d);
+
+      impl.http->Flush(std::chrono::milliseconds(200));
+      impl.http->Shutdown();
+      impl.http.reset();
+      return;
+   }
+
+   // PIPE path
    Silent(GRIFFINS_CLUB_IS_CLOSING);
    PLATFORM_SLEEP(100);
    CloseHandle(impl.PipeOut);
