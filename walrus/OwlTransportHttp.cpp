@@ -6,7 +6,7 @@
 #include HEADER_CURSES
 #include "waDoubleDeal.h"
 
-#pragma message("OwlTransportHttp.cpp REV: hello v0.9")
+#pragma message("OwlTransportHttp.cpp REV: hello v1.0")
 
 static uint64_t now_unix_ms()
 {
@@ -68,7 +68,7 @@ public:
    OwlHttpTransport() = default;
    ~OwlHttpTransport() override { Shutdown(); }
 
-   bool InitAndHandshake() override
+   bool InitHeated() override 
    {
       cfg_ = config.cowl;
       task_id_ = config.TaskID;
@@ -78,6 +78,11 @@ public:
       client_->set_read_timeout(0, 200000);   // 200ms
       client_->set_write_timeout(0, 200000);
 
+      return hello_probe();
+   }
+
+   virtual bool HandshakeAttempt() override 
+   { 
       if (!hello_probe()) {
          // Retry hello a bit (Oscar boot time)
          bool ok = false;
@@ -212,7 +217,8 @@ private:
 // ---- Null transport stub: black hole ----
 class OwlNullTransport final : public IOwlTransport {
 public:
-   bool InitAndHandshake() override { return true; }
+   bool InitHeated() override { return true; }
+   bool HandshakeAttempt() override { return true; }
    void Enqueue(const OwlEvent& /*e*/) override {}
    void Flush(std::chrono::milliseconds /*maxWait*/) override {}
    void Shutdown() override {}

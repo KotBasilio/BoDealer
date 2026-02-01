@@ -4,7 +4,7 @@
  ************************************************************/
 class Walrus;
 
-#pragma message("waMulti.h REV: hello v0.9")
+#pragma message("waMulti.h REV: hello v1.0")
 
 struct WaMulti {
    WaMulti();

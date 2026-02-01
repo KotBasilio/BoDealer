@@ -11,7 +11,7 @@
 #include "Oscar.h"
 #include HEADER_CURSES
 
-#pragma message("Oscar.cpp REV: hello v0.9")
+#pragma message("Oscar.cpp REV: hello v1.0")
 
 static const char* artOscar[] = {
    "        |\\_______/|      \n",
@@ -181,8 +181,8 @@ int main(int argc, char* argv[])
       return 0;
    }
 
+   OscarEcho owl;
    if (!OscarAttemptHttpRun(argc, argv)) {
-      OscarEcho owl;
       while (owl.Retell()) {}
    }
 

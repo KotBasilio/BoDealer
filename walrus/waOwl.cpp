@@ -10,7 +10,7 @@
 #include "waDoubleDeal.h"
 #include "../dds-develop/examples/hands.h"
 
-#pragma message("waOwl.cpp REV: hello v0.9")
+#pragma message("waOwl.cpp REV: hello v1.0")
 
 struct OwlImpl {
     HANDLE PipeOut = NULL;
@@ -79,14 +79,54 @@ static BOOL _AttemptStartOscar(CHAR *workDirPath, CHAR* suffix, STARTUPINFO& siS
       &piProcInfo); // Pointer to PROCESS_INFORMATION structure
 }
 
+bool _SeekOscar(STARTUPINFO& siStartInfo, PROCESS_INFORMATION& piProcInfo)
+{
+   const DWORD bufferSize = MAX_PATH;
+   CHAR oscarPath0[bufferSize];
+   DWORD dwRet = GetCurrentDirectory(bufferSize, oscarPath0);
+   if (dwRet == 0) {
+      return false;
+   }
+
+   CHAR oscarPath1[bufferSize];
+   strcpy(oscarPath1, oscarPath0);
+   strcat(oscarPath1, OWL_CONFIG_SUFFIX);
+   CHAR oscarPath2[bufferSize];
+   strcpy(oscarPath2, oscarPath0);
+   strcat(oscarPath2, OWL_VSCODE_SUFFIX);
+
+   if (      !_AttemptStartOscar(oscarPath0, "\\Oscar.exe", siStartInfo, piProcInfo)) {
+      if (   !_AttemptStartOscar(oscarPath1, "\\Oscar.exe", siStartInfo, piProcInfo)) {
+         if (!_AttemptStartOscar(oscarPath2, "\\Oscar.exe", siStartInfo, piProcInfo)) {
+            printf("Oscar is absent.\n");
+            return false;
+         }
+      }
+   }
+
+   return true;
+}
+
 bool Walrus::StartOscar()
 {
+   // prepare for process creation
+   PROCESS_INFORMATION piProcInfo;
+   STARTUPINFO siStartInfo;
+   ZeroMemory(&piProcInfo, sizeof(PROCESS_INFORMATION));
+   ZeroMemory(&siStartInfo, sizeof(STARTUPINFO));
+
    // consider HTTP transport
    if (config.cowl.isHttp) {
       config.TaskID = config.txt.nameTask;
       impl.taskId = config.TaskID;
       impl.http = CreateOwlTransport();
-      if (impl.http->InitAndHandshake()) {
+      if (impl.http->InitHeated()) {
+         return true;
+      }
+      if (!_SeekOscar(siStartInfo, piProcInfo)) {
+         return false;
+      }
+      if (impl.http->HandshakeAttempt()) {
          return true;
       }
 
@@ -97,14 +137,6 @@ bool Walrus::StartOscar()
    }
 
    // go pipe-way
-   const DWORD bufferSize = MAX_PATH;
-   CHAR oscarPath0[bufferSize];
-
-   DWORD dwRet = GetCurrentDirectory(bufferSize, oscarPath0);
-   if (dwRet == 0) {
-      return false;
-   }
-
    HANDLE g_hChildStd_IN_Rd = NULL;
    HANDLE g_hChildStd_OUT_Wr = NULL;
 
@@ -135,31 +167,13 @@ bool Walrus::StartOscar()
       return false;
    }
 
-   PROCESS_INFORMATION piProcInfo;
-   STARTUPINFO siStartInfo;
-
-   ZeroMemory(&piProcInfo, sizeof(PROCESS_INFORMATION));
-   ZeroMemory(&siStartInfo, sizeof(STARTUPINFO));
    siStartInfo.cb = sizeof(STARTUPINFO);
    siStartInfo.hStdInput = g_hChildStd_IN_Rd;
    siStartInfo.hStdError = g_hChildStd_OUT_Wr;
    siStartInfo.dwFlags |= STARTF_USESTDHANDLES;
 
-
-   CHAR oscarPath1[bufferSize];
-   strcpy(oscarPath1, oscarPath0);
-   strcat(oscarPath1, OWL_CONFIG_SUFFIX);
-   CHAR oscarPath2[bufferSize];
-   strcpy(oscarPath2, oscarPath0);
-   strcat(oscarPath2, OWL_VSCODE_SUFFIX);
-
-   if (      !_AttemptStartOscar(oscarPath0, "\\Oscar.exe", siStartInfo, piProcInfo)) {
-      if (   !_AttemptStartOscar(oscarPath1, "\\Oscar.exe", siStartInfo, piProcInfo)) {
-         if (!_AttemptStartOscar(oscarPath2, "\\Oscar.exe", siStartInfo, piProcInfo)) {
-            printf("Oscar is absent.\n");
-            return false;
-         }
-      }
+   if (!_SeekOscar(siStartInfo, piProcInfo)) {
+      return false;
    }
 
    // Close handles to the child process and its primary thread.

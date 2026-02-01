@@ -10,13 +10,13 @@
 #include <chrono>
 #include <cstdio>
 
-#pragma message("OwlTransport.h REV: hello v0.9")
+#pragma message("OwlTransport.h REV: hello v1.0")
 
 // http relevant slice.
 struct OwlConfig {
    bool isHttp = false;
    std::string host = "127.0.0.1";
-   int port = 3042;
+   int port = 3000;
    std::string helloPath = "/oscar/hello";
    std::string eventPath = "/oscar/event";
    int helloRetries = 2;
@@ -40,7 +40,8 @@ struct OwlEvent {
 class IOwlTransport {
 public:
    virtual ~IOwlTransport() = default;
-   virtual bool InitAndHandshake() = 0;
+   virtual bool InitHeated() = 0;
+   virtual bool HandshakeAttempt() = 0;
    virtual void Enqueue(const OwlEvent& e) = 0; // fire-and-forget
    virtual void Flush(std::chrono::milliseconds maxWait) = 0;
    virtual void Shutdown() = 0;

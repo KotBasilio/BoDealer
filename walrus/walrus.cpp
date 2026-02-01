@@ -80,12 +80,17 @@ void Walrus::Main()
 void ReadCLI(int argc, char* argv[])
 {
    for (int i = 1; i < argc; ++i) {
-      // check for the "-exitondone" CLI parameter
+      // check for the exit control
       if (std::strcmp(argv[i], "-exitondone") == 0) {
          config.cli.exitOnDone = true;
       }
 
-      // check for the "-cfgname" CLI parameter
+      // check for the parameter to enforce HTTP mode
+      if (std::strcmp(argv[i], "-http") == 0) {
+         config.cowl.isHttp = true;
+      }
+
+      // check for the config name
       if (std::strcmp(argv[i], "-cfgname") == 0 && i + 1 < argc) {
          auto last = sizeof(config.cli.nameFileConfig) - 1;
          std::strncpy(config.cli.nameFileConfig, argv[i + 1], last);  
@@ -93,7 +98,7 @@ void ReadCLI(int argc, char* argv[])
          ++i;
       }
 
-      // check for the "-logresult" CLI parameter
+      // check for the log result parameter
       if (std::strcmp(argv[i], "-logresult") == 0 && i + 1 < argc) {
          auto last = sizeof(config.cli.nameFileOutput) - 1;
          std::strncpy(config.cli.nameFileOutput, argv[i + 1], last);

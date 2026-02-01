@@ -11,7 +11,7 @@
 #include "httplib.h"
 #include "json.hpp"
 
-#pragma message("OsServer.cpp REV: hello v0.9")
+#pragma message("OsServer.cpp REV: hello v1.0")
 
 using json = nlohmann::json;
 
@@ -143,10 +143,10 @@ static void listener_event(const httplib::Request& req, httplib::Response& res)
       }
 
       // timestamp (optional)
-      if (unix_ms != 0) {
-         line += " @";
-         line += std::to_string(unix_ms);
-      }
+      //if (unix_ms != 0) {
+      //   line += " @";
+      //   line += std::to_string(unix_ms);
+      //}
 
       if (!msg.empty()) {
          line += ": ";
