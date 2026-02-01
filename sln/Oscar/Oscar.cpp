@@ -152,8 +152,6 @@ bool ReadCLIParams(int argc, char* argv[])
       ShowAllScores();
       printf("Waiting for the club to start.\n");
       printf("Press Enter to exit.\n");
-      char tmpBuf[10];
-      gets_s(tmpBuf, 5);
       return false;
    }
 

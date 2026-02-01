@@ -6,6 +6,13 @@
 #include HEADER_CURSES
 #include "waDoubleDeal.h"
 
+#include <atomic>
+#include <deque>
+#include <mutex>
+#include <condition_variable>
+#include <thread>
+#include <cstdio>
+
 #pragma message("OwlTransportHttp.cpp REV: hello v1.0")
 
 static uint64_t now_unix_ms()

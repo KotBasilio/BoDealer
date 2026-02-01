@@ -2,13 +2,7 @@
 #pragma once
 #include <string>
 #include <memory>
-#include <atomic>
-#include <deque>
-#include <mutex>
-#include <condition_variable>
-#include <thread>
 #include <chrono>
-#include <cstdio>
 
 #pragma message("OwlTransport.h REV: hello v1.0")
 
@@ -16,7 +10,7 @@
 struct OwlConfig {
    bool isHttp = false;
    std::string host = "127.0.0.1";
-   int port = 3000;
+   int port = 3042;
    std::string helloPath = "/oscar/hello";
    std::string eventPath = "/oscar/event";
    std::string donePath = "/oscar/stop";
@@ -36,6 +30,8 @@ struct OwlEvent {
    uint64_t seq = 0;
    uint64_t unix_ms = 0;
    bool silent = false;   // for Log
+
+   bool AttemptParse(const std::string& body);
 };
 
 class IOwlTransport {

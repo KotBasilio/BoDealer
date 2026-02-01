@@ -79,7 +79,7 @@ static BOOL _AttemptStartOscar(CHAR *workDirPath, CHAR* suffix, STARTUPINFO& siS
       &piProcInfo); // Pointer to PROCESS_INFORMATION structure
 }
 
-bool _SeekOscar(STARTUPINFO& siStartInfo, PROCESS_INFORMATION& piProcInfo)
+static bool _SeekOscar(STARTUPINFO& siStartInfo, PROCESS_INFORMATION& piProcInfo)
 {
    const DWORD bufferSize = MAX_PATH;
    CHAR oscarPath0[bufferSize];
@@ -107,7 +107,7 @@ bool _SeekOscar(STARTUPINFO& siStartInfo, PROCESS_INFORMATION& piProcInfo)
    return true;
 }
 
-bool Walrus::StartOscar()
+static bool _AttemptOscarTransports()
 {
    // prepare for process creation
    PROCESS_INFORMATION piProcInfo;
@@ -181,7 +181,7 @@ bool Walrus::StartOscar()
    CloseHandle(piProcInfo.hThread);
 
    // Now, in this process we can write to g_PipeOut and the child process will be able to read from it.
-   char *message = "Senior kibitzer Oscar is observing a task:\n";
+   char* message = "Senior kibitzer Oscar is observing a task:\n";
    owl.Send(message);
 
    // Receive data from the child process
@@ -196,11 +196,18 @@ bool Walrus::StartOscar()
    }
    printf("%s", buffer);
 
+   return true;
+}
+
+bool Walrus::StartOscar()
+{
+   // pipes or HTTP transport
+   if (!_AttemptOscarTransports()) {
+      return false;
+   }
+
    // follow with early line
    owl.OnStart();
-
-   // Test variable parameters
-   // owl.Show("message %d %s\n", 10, "xxx");
 
    return true;
 }
