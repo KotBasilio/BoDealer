@@ -70,41 +70,42 @@ public:
 
    bool InitHeated() override 
    {
+      // fill class members
       cfg_ = config.cowl;
       task_id_ = config.TaskID;
-
       client_ = std::make_unique<httplib::Client>(cfg_.host, cfg_.port);
       client_->set_keep_alive(true);
       client_->set_read_timeout(0, 200000);   // 200ms
       client_->set_write_timeout(0, 200000);
 
-      return hello_probe();
+      // check for Oscar presence
+      if (!hello_probe()) {
+         return false;
+      }
+
+      // ok to start sender
+      StartSenderThread();
+      return true;
    }
 
    virtual bool HandshakeAttempt() override 
    { 
+      // may retry hello a bit (Oscar boot time)
       if (!hello_probe()) {
-         // Retry hello a bit (Oscar boot time)
          bool ok = false;
          for (int i = 0; i < cfg_.helloRetries; ++i) {
             std::this_thread::sleep_for(std::chrono::milliseconds(cfg_.helloRetryMs));
             if (hello_probe()) { ok = true; break; }
          }
-         if (!ok) {
+         if (!ok) {// might still start worker; it would drop/skip sends.
             std::fprintf(stderr, "[owl/http] Oscar not responding on %s:%d\n",
                cfg_.host.c_str(), cfg_.port);
             return false;
-            // might still start worker; it would drop/skip sends.
          }
       }
 
-      running_.store(true);
-      worker_ = std::thread([this]() { this->worker_loop(); });
-
-      // Print handshake info similarly to your pipe version (best-effort).
-      if (!handshake_text_.empty()) {
-         std::fprintf(stdout, "%s\n", handshake_text_.c_str());
-      }
+      // ok to start sender
+      StartSenderThread();
       return true;
    }
 
@@ -171,6 +172,17 @@ private:
       return true;
    }
 
+   void StartSenderThread()
+   {
+      running_.store(true);
+      worker_ = std::thread([this]() { this->worker_loop(); });
+
+      // Print handshake info similarly to your pipe version (best-effort).
+      if (!handshake_text_.empty()) {
+         std::fprintf(stdout, "%s\n", handshake_text_.c_str());
+      }
+   }
+
    void worker_loop()
    {
       while (running_.load()) {
@@ -189,8 +201,8 @@ private:
          // POST event (best-effort, no blocking retries here)
          if (!client_) continue;
          std::string body = event_to_json(ev);
-
-         auto res = client_->Post(cfg_.eventPath.c_str(), body, "application/json");
+         std::string path = (ev.type == OwlEventType::Done) ? cfg_.donePath : cfg_.eventPath;
+         auto res = client_->Post(path.c_str(), body, "application/json");
          // If Oscar is down, we just drop quietly (still "fire-and-forget").
          // If you want mild resilience, you can requeue on certain errors.
          (void)res;

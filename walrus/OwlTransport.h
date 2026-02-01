@@ -19,6 +19,7 @@ struct OwlConfig {
    int port = 3000;
    std::string helloPath = "/oscar/hello";
    std::string eventPath = "/oscar/event";
+   std::string donePath = "/oscar/stop";
    int helloRetries = 2;
    int helloRetryMs = 100;
    size_t queueMax = 256;
