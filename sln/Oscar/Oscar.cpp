@@ -11,6 +11,8 @@
 #include "Oscar.h"
 #include HEADER_CURSES
 
+#pragma message("Oscar.cpp REV: hello v0.9")
+
 static const char* artOscar[] = {
    "        |\\_______/|      \n",
    "      / | [o] [o] | \\     \n",
@@ -143,8 +145,19 @@ static void ShowAllScores()
    PrintCode("V2SX");
 }
 
-void ReadCLIParams(int argc, char* argv[])
+bool ReadCLIParams(int argc, char* argv[])
 {
+   // too few params
+   if (argc < 2) {
+      ShowAllScores();
+      printf("Waiting for the club to start.\n");
+      printf("Press Enter to exit.\n");
+      char tmpBuf[10];
+      gets_s(tmpBuf, 5);
+      return false;
+   }
+
+   // default log file name
    strcpy(LOGFILE_NAME, "oscar_log.txt");
    printf("Command-line arguments:\n");
    for (int i = 0; i < argc; ++i) {
@@ -159,24 +172,19 @@ void ReadCLIParams(int argc, char* argv[])
       }
    }
    printf("log to : %s\n", LOGFILE_NAME);
+   return true;
 }
 
 int main(int argc, char* argv[])
 {
-   if (argc < 2) {
-      ShowAllScores();
-      printf("Waiting for the club to start.\n");
-      printf("Press Enter to exit.\n");
-      char tmpBuf[10];
-      gets_s(tmpBuf, 5);
-
+   if (!ReadCLIParams(argc, argv)) {
       return 0;
    }
 
-   ReadCLIParams(argc, argv);
-
-   OscarEcho owl;
-   while (owl.Retell()) {}
+   if (!OscarAttemptHttpRun(argc, argv)) {
+      OscarEcho owl;
+      while (owl.Retell()) {}
+   }
 
    return 0;
 }

@@ -143,8 +143,10 @@
   <ItemGroup>
     <ClCompile Include="OsBook.cpp" />
     <ClCompile Include="Oscar.cpp" />
+    <ClCompile Include="OsServer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="Oscar.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

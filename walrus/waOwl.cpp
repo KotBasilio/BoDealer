@@ -10,7 +10,7 @@
 #include "waDoubleDeal.h"
 #include "../dds-develop/examples/hands.h"
 
-#pragma message("waOwl.cpp REV: hello v0.6")
+#pragma message("waOwl.cpp REV: hello v0.9")
 
 struct OwlImpl {
     HANDLE PipeOut = NULL;
@@ -50,9 +50,20 @@ static BOOL _AttemptStartOscar(CHAR *workDirPath, CHAR* suffix, STARTUPINFO& siS
 
    CHAR exeCLI[MAX_PATH];
    strcpy(exeCLI, GRIFFINS_CLUB_RUNS);
+
+   // if HTTP mode desired:
+   if (config.cowl.isHttp) {
+      char tmp[64];
+      sprintf(tmp, "-http %d ", config.cowl.port);   // e.g. 3042
+      strcat(exeCLI, tmp);
+   }
+
+   // keep logresult
    if (config.cli.nameFileOutput[0]) {
       strcat(exeCLI, "-logresult ");
+      strcat(exeCLI, "\"");
       strcat(exeCLI, config.cli.nameFileOutput);
+      strcat(exeCLI, "\" ");
    }
 
    // Create the child process.
@@ -71,16 +82,18 @@ static BOOL _AttemptStartOscar(CHAR *workDirPath, CHAR* suffix, STARTUPINFO& siS
 bool Walrus::StartOscar()
 {
    // consider HTTP transport
-   config.cowl.isHttp = false;
    if (config.cowl.isHttp) {
       config.TaskID = config.txt.nameTask;
       impl.taskId = config.TaskID;
       impl.http = CreateOwlTransport();
-      if (!impl.http->InitAndHandshake()) {
-         printf("Failed to init HTTP transport to Oscar.\n");
-         return false;
+      if (impl.http->InitAndHandshake()) {
+         return true;
       }
-      return true;
+
+      printf("Failed to init HTTP transport to Oscar.\n");
+      printf("Fallback to pipes\n");
+      impl.http->Shutdown();
+      impl.http.reset();
    }
 
    // go pipe-way
@@ -167,7 +180,7 @@ bool Walrus::StartOscar()
    if (bytesRead < sizeof(buffer)) {
       buffer[bytesRead] = 0;
    }
-   printf(buffer);
+   printf("%s", buffer);
 
    // follow with early line
    owl.OnStart();
@@ -284,7 +297,7 @@ void OscarTheOwl::Goodbye()
    }
 
    // PIPE path
-   Silent(GRIFFINS_CLUB_IS_CLOSING);
+   Silent("%s\n", GRIFFINS_CLUB_IS_CLOSING);
    PLATFORM_SLEEP(100);
    CloseHandle(impl.PipeOut);
    impl.PipeOut = NULL;

@@ -10,16 +10,15 @@
 #include <chrono>
 #include <cstdio>
 
-#pragma message("OwlTransport.h REV: hello v0.6")
+#pragma message("OwlTransport.h REV: hello v0.9")
 
 // http relevant slice.
 struct OwlConfig {
-   bool isHttp = true;
+   bool isHttp = false;
    std::string host = "127.0.0.1";
    int port = 3042;
    std::string helloPath = "/oscar/hello";
    std::string eventPath = "/oscar/event";
-   bool autoSpawn = true;
    int helloRetries = 2;
    int helloRetryMs = 100;
    size_t queueMax = 256;

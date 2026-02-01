@@ -6,7 +6,7 @@
 #include HEADER_CURSES
 #include "waDoubleDeal.h"
 
-#pragma message("OwlTransportHttp.cpp REV: hello v0.5")
+#pragma message("OwlTransportHttp.cpp REV: hello v0.9")
 
 static uint64_t now_unix_ms()
 {
@@ -46,12 +46,6 @@ static const char* type_to_str(OwlEventType t)
    }
 }
 
-static bool SpawnOscarProcessLegacy()
-{
-   // TODO spawn Oscar.exe with pipes -- existing CreateProcess version
-   return false;
-}
-
 static std::string event_to_json(const OwlEvent& e)
 {
    // Minimal JSON payload. Keep it stable; easy for OO to parse.
@@ -85,11 +79,6 @@ public:
       client_->set_write_timeout(0, 200000);
 
       if (!hello_probe()) {
-         if (cfg_.autoSpawn) {
-            if (!SpawnOscarProcessLegacy()) {
-               std::fprintf(stderr, "[owl/http] spawn Oscar failed\n");
-            }
-         }
          // Retry hello a bit (Oscar boot time)
          bool ok = false;
          for (int i = 0; i < cfg_.helloRetries; ++i) {
@@ -99,7 +88,8 @@ public:
          if (!ok) {
             std::fprintf(stderr, "[owl/http] Oscar not responding on %s:%d\n",
                cfg_.host.c_str(), cfg_.port);
-            // Still start worker; it will drop/skip sends. Up to you.
+            return false;
+            // might still start worker; it would drop/skip sends.
          }
       }
 
@@ -219,8 +209,8 @@ private:
    std::atomic<uint64_t> seq_{ 0 };
 };
 
-// ---- Pipe transport stub: plug your existing implementation here ----
-class OwlPipeTransport final : public IOwlTransport {
+// ---- Null transport stub: black hole ----
+class OwlNullTransport final : public IOwlTransport {
 public:
    bool InitAndHandshake() override { return true; }
    void Enqueue(const OwlEvent& /*e*/) override {}
@@ -231,5 +221,5 @@ public:
 std::unique_ptr<IOwlTransport> CreateOwlTransport()
 {
    if (config.cowl.isHttp) return std::make_unique<OwlHttpTransport>();
-   return std::make_unique<OwlPipeTransport>();
+   return std::make_unique<OwlNullTransport>();
 }
