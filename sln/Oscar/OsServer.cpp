@@ -1,17 +1,15 @@
 // OsServer.cpp
-#include "OwlTransport.h"
+#include "TaskRegistry.h"
 
 #include <iostream>
 #include <fstream>
-#include <unordered_map>
-#include <mutex>
 #include <atomic>
 
 #include "httplib.h"
 #include "json.hpp"
 #include "Oscar.h"
 
-#pragma message("OsServer.cpp REV: hello v1.0")
+#pragma message("OsServer.cpp REV: registry v0.5")
 
 using json = nlohmann::json;
 
@@ -65,13 +63,66 @@ struct SServer {
 
 static SConfig config;
 static SServer srv;
+static TaskRegistry g_tasks("oscar_tasks"); // directory for per-task logs
+
+static const char* TaskStatusToStr(TaskStatus st)
+{
+   switch (st) {
+      case TaskStatus::Started:    return "STARTED";
+      case TaskStatus::InProgress: return "IN_PROGRESS";
+      case TaskStatus::Done:       return "DONE";
+      case TaskStatus::Failed:     return "FAILED";
+      case TaskStatus::Canceled:   return "CANCELED";
+      default:                     return "UNKNOWN";
+   }
+}
+
+static json SnapshotToJson(const TaskSnapshot& s, bool includeLogTail, const std::optional<std::string>& logTail)
+{
+   json j;
+   j["id"] = s.id;
+   j["name"] = s.name;
+   j["boardsNumber"] = s.boardsNumber;
+   j["status"] = TaskStatusToStr(s.status);
+   j["seq"] = s.seq;
+   j["percent"] = s.percent;
+   j["message"] = s.message;
+
+   if (!s.resultJson.empty()) j["resultJson"] = s.resultJson;
+   if (!s.errorText.empty())  j["errorText"] = s.errorText;
+   j["cancelRequested"] = s.cancelRequested;
+
+   j["createdMs"] = s.createdMs;
+   j["lastSeenMs"] = s.lastSeenMs;
+
+   if (includeLogTail) {
+      j["logTail"] = logTail.has_value() ? *logTail : "";
+   }
+   return j;
+}
+
+static DeleteMode ParseDeleteMode(const httplib::Request& req)
+{
+   if (!req.has_param("mode")) return DeleteMode::Auto;
+   auto m = req.get_param_value("mode");
+   if (m == "cancel") return DeleteMode::Cancel;
+   if (m == "ack")    return DeleteMode::Ack;
+   return DeleteMode::Auto;
+}
+
+static GetOptions ParseGetOptions(const httplib::Request& req)
+{
+   GetOptions opt;
+   opt.includeLogTail = req.has_param("log_req") && req.get_param_value("log_req") == "1";
+   // You can also allow ?tail=8192 if you want, but keeping minimal:
+   return opt;
+}
 
 static uint64_t NowUnixMs()
 {
    using namespace std::chrono;
    return (uint64_t)duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 }
-
 
 static void PrintLine(const std::string& line)
 {
@@ -142,8 +193,10 @@ bool OwlEvent::AttemptParse(const std::string& body)
    try {
       json j = json::parse(body);
 
-      type = j.value("type", "log") == "progress" ? OwlEventType::Progress :
-         j.value("type", "log") == "done" ? OwlEventType::Done : OwlEventType::Log;
+      auto valType = j.value("type", "log");
+      type = valType == "progress" ? OwlEventType::Progress :
+             valType == "done" ? OwlEventType::Done : 
+             OwlEventType::Log;
       task_id = j.value("task_id", "unknown");
       seq = j.value("seq", (uint64_t)0);
       unix_ms = j.value("unix_ms", (uint64_t)0);
@@ -227,8 +280,119 @@ static void ListenerEvent(const httplib::Request& req, httplib::Response& res)
 
    VerboseOut(ev);
 
+   g_tasks.ApplyEvent(ev, now);
+
    res.status = 200;
    res.set_content("ok", "text/plain");
+}
+
+static void TasksGetList(const httplib::Request& req, httplib::Response& res)
+{
+   // minimal v0: ignore filters; you can add limit/offset later
+   auto lst = g_tasks.ListAll();
+
+   json out;
+   out["totalElements"] = lst.totalElements;
+   out["tasks"] = json::array();
+
+   for (const auto& s : lst.tasks) {
+      out["tasks"].push_back(SnapshotToJson(s, false, std::nullopt));
+   }
+
+   res.status = 200;
+   res.set_content(out.dump(), "application/json");
+}
+
+static void TasksHello(const httplib::Request&, httplib::Response& res)
+{
+   res.set_content("Tasks API ready v0.1", "text/plain");
+}
+
+// POST /tasks
+// Accepts JSON like:
+// { "task_id": "...", "name":"...", "boardsNumber": 777 }
+// or { "id": "...", ... }
+static void TasksPost(const httplib::Request& req, httplib::Response& res)
+{
+   const auto now = NowUnixMs();
+
+   json j;
+   try { j = json::parse(req.body); }
+   catch (...) {
+      res.status = 400;
+      res.set_content("bad json", "text/plain");
+      return;
+   }
+
+   const std::string taskId = j.value("task_id", j.value("id", std::string{}));
+   if (taskId.empty()) {
+      res.status = 400;
+      res.set_content("missing task_id", "text/plain");
+      return;
+   }
+
+   std::string name = j.value("name", std::string{});
+   int boardsNumber = j.value("boardsNumber", 0);
+
+   auto snap = g_tasks.CreateOrGet(taskId, std::move(name), boardsNumber, now);
+
+   json out = SnapshotToJson(snap, false, std::nullopt);
+   res.status = 200;
+   res.set_content(out.dump(), "application/json");
+}
+
+// GET /tasks/:id  (implemented via regex route)
+static void TasksGetOne(const httplib::Request& req, httplib::Response& res)
+{
+   const auto opt = ParseGetOptions(req);
+
+   // Expect first capture group to be id
+   if (req.matches.size() < 2) {
+      res.status = 400;
+      res.set_content("missing id", "text/plain");
+      return;
+   }
+   const std::string taskId = req.matches[1];
+
+   auto got = g_tasks.Get(taskId, opt);
+   if (!got.has_value()) {
+      res.status = 404;
+      res.set_content("not found", "text/plain");
+      return;
+   }
+
+   json out = SnapshotToJson(got->snapshot, opt.includeLogTail, got->logTail);
+   res.status = 200;
+   res.set_content(out.dump(), "application/json");
+}
+
+// DELETE /tasks/:id
+static void TasksDeleteOne(const httplib::Request& req, httplib::Response& res)
+{
+   const auto now = NowUnixMs();
+   const auto mode = ParseDeleteMode(req);
+
+   if (req.matches.size() < 2) {
+      res.status = 400;
+      res.set_content("missing id", "text/plain");
+      return;
+   }
+   const std::string taskId = req.matches[1];
+
+   auto snap = g_tasks.Delete(taskId, mode, now);
+   if (!snap.has_value()) {
+      // idempotent delete is nice: treat as ok
+      res.status = 200;
+      res.set_content(R"({"ok":true,"alreadyDeleted":true})", "application/json");
+      return;
+   }
+
+   json out = SnapshotToJson(*snap, false, std::nullopt);
+   out["ok"] = true;
+   out["deleteMode"] = (mode == DeleteMode::Cancel ? "cancel" : mode == DeleteMode::Ack ? "ack" : "auto");
+
+   res.status = 200;
+   res.set_content(out.dump(), "application/json");
 }
 
 bool OscarAttemptHttpRun(int argc, char** argv)
@@ -247,12 +411,19 @@ bool OscarAttemptHttpRun(int argc, char** argv)
    htsvr.new_task_queue = [] {
        return new httplib::ThreadPool(8);
    };
+   // -- routes to walruses
    htsvr.Get("/oscar/hello", ListenerHello);
    htsvr.Post("/oscar/event", ListenerEvent);
    htsvr.Post("/oscar/stop", [&](const httplib::Request&, httplib::Response& res) {
       res.set_content("stopping", "text/plain");
       htsvr.stop();
    });
+   // -- routes outwards to UI
+   htsvr.Get("/tasks/hello", TasksHello);
+   htsvr.Post("/tasks", TasksPost);
+   htsvr.Get("/tasks", TasksGetList);
+   htsvr.Get(R"(/tasks/([A-Za-z0-9\-_]+))", TasksGetOne);
+   htsvr.Delete(R"(/tasks/([A-Za-z0-9\-_]+))", TasksDeleteOne);
 
    // listen
    PrintLine("Oscar starts listening on " + config.localHost + ":" + std::to_string(port));

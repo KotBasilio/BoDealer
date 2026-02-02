@@ -4,7 +4,7 @@
 #include <memory>
 #include <chrono>
 
-#pragma message("OwlTransport.h REV: hello v1.0")
+#pragma message("OwlTransport.h REV: registry v0.5")
 
 // http relevant slice.
 struct OwlConfig {
@@ -20,16 +20,17 @@ struct OwlConfig {
 };
 
 // Minimal event model (maps cleanly to your owl.Show/Silent/OnProgress/OnDone).
-enum class OwlEventType { Log, Progress, Done };
+enum class OwlEventType { Log, Progress, Done, Fail };
 
 struct OwlEvent {
    OwlEventType type{};
    std::string task_id;
-   std::string message;   // for Log/Done
-   int percent = -1;      // for Progress
+   std::string message;     // for Log/Done
+   int percent = -1;        // for Progress 0..100
    uint64_t seq = 0;
    uint64_t unix_ms = 0;
-   bool silent = false;   // for Log
+   bool silent = false;     // for Log
+   std::string resultJson;  // optional
 
    bool AttemptParse(const std::string& body);
 };
