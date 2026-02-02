@@ -7,7 +7,7 @@
 #include <optional>
 #include "OwlTransport.h"
 
-#pragma message("TaskRegistry.h REV: registry v0.5")
+#pragma message("TaskRegistry.h REV: registry v0.6")
 
 enum class TaskStatus : uint8_t {
    Started,

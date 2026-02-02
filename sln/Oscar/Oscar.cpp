@@ -8,7 +8,6 @@
 #include <windows.h>
 #include <wincon.h>
 #include "walrus.h"
-#include "Oscar.h"
 #include HEADER_CURSES
 
 #pragma message("Oscar.cpp REV: hello v1.0")
@@ -22,6 +21,7 @@ static const char* artOscar[] = {
 };
 
 CHAR LOGFILE_NAME[MAX_PATH];
+extern bool OscarAttemptHttpRun(int argc, char** argv);
 
 static void PaintOscar()
 {
@@ -186,4 +186,3 @@ int main(int argc, char* argv[])
 
    return 0;
 }
-

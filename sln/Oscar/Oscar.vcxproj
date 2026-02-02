@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="OsBook.cpp" />
     <ClCompile Include="Oscar.cpp" />
+    <ClCompile Include="OsHelpers.cpp" />
     <ClCompile Include="OsServer.cpp" />
     <ClCompile Include="TaskRegistry.cpp" />
   </ItemGroup>

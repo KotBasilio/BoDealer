@@ -5,16 +5,9 @@
 #include <sstream>
 #include <vector>
 #include <string_view>
+#include "Oscar.h"
 
-#pragma message("TaskRegistry.cpp REV: registry v0.5")
-
-#if defined(_WIN32)
-#include <direct.h>
-static void EnsureDir(const std::string& d) { _mkdir(d.c_str()); }
-#else
-#include <sys/stat.h>
-static void EnsureDir(const std::string& d) { ::mkdir(d.c_str(), 0755); }
-#endif
+#pragma message("TaskRegistry.cpp REV: registry v0.6")
 
 TaskRegistry::TaskRegistry(std::string logDir) : m_logDir(std::move(logDir))
 {
@@ -227,17 +220,6 @@ std::string TaskRegistry::SanitizeForFilename(const std::string& taskId)
 std::string TaskRegistry::LogPathForTask(const std::string& taskId) const
 {
    return m_logDir + "/task_" + SanitizeForFilename(taskId) + ".log";
-}
-
-static std::string_view OwlEventTypeToStrView(OwlEventType t)
-{
-   switch (t) {
-      case OwlEventType::Log:      return "log";
-      case OwlEventType::Progress: return "progress";
-      case OwlEventType::Done:     return "final";
-      case OwlEventType::Fail:     return "error";
-      default:                     return "unknown";
-   }
 }
 
 void TaskRegistry::AppendLogLine(const std::string& path, uint64_t seq, const OwlEventType type,
