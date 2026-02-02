@@ -10,10 +10,20 @@
 #pragma message("OsHelpers.cpp REV: registry v0.6")
 
 SServer* SServer::_this = nullptr;
-SServer::SServer() { if (!_this) _this = this; }
+SServer::SServer() { 
+   if (!_this) {
+      _this = this;
+   } else {
+      throw std::runtime_error("Oscar is single and a bachelor.");
+   }
+}
+SServer::~SServer()
+{
+   LogFlush(); 
+   _this = nullptr;
+}
 
 SConfig config;
-SServer srv;
 
 using json = nlohmann::json;
 
@@ -142,6 +152,8 @@ int GetHttpPort(int argc, char** argv)
 
 bool OscarAttemptHttpRun(int argc, char** argv)
 {
+   SServer oscar;
+
    // prep
    int port = GetHttpPort(argc, argv);
    if (port <= 0) {
@@ -150,7 +162,7 @@ bool OscarAttemptHttpRun(int argc, char** argv)
    FillConfig(argc, argv);
 
    // run
-   return srv.AttemptHttpRun(port);
+   return oscar.AttemptHttpRun(port);
 }
 
 std::string SafeTaskId(const httplib::Request& req)
@@ -158,6 +170,18 @@ std::string SafeTaskId(const httplib::Request& req)
    auto it = req.get_param_value("task_id");
    if (!it.empty()) return it;
    return "unknown";
+}
+
+std::string SServer::HandleHelloWalrus(const httplib::Request& req)
+{
+   const auto taskId = SafeTaskId(req);
+   const auto now = NowUnixMs();
+   {
+      std::lock_guard<std::mutex> lk(mx);
+      tasks[taskId].last_seen_ms = now;
+   }
+
+   return taskId;
 }
 
 bool SServer::ConsiderDroppingEvent(const std::string& taskId, uint64_t seq, uint64_t now)

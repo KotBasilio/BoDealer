@@ -25,18 +25,13 @@ struct TaskState {
    uint64_t last_seen_ms = 0;
 };
 
-struct SServer {
-   std::unordered_map<std::string, TaskState> tasks;
-
-   bool AttemptHttpRun(int port);
-
-   SServer();
-   ~SServer() { LogFlush(); }
-private:
+class SServer {
    static SServer* _this;
    std::mutex mx;
-   TaskRegistry reg;
    std::ofstream log;
+   TaskRegistry reg;
+   std::unordered_map<std::string, TaskState> tasks;
+
    void LogOpen(const std::string& logPath);
    void LogLine(const std::string& line);
    void LogFlush();
@@ -54,22 +49,23 @@ private:
 
    void HandleClubEvent(OwlEvent& ev, httplib::Response& res);
    bool ConsiderDroppingEvent(const std::string& taskId, uint64_t seq, uint64_t now);
+   std::string HandleHelloWalrus(const httplib::Request& req);
+
+public:
+   SServer();
+   ~SServer();
+   bool AttemptHttpRun(int port);
 };
 
 extern SConfig config;
 extern SServer srv;
 
 // helpers
-const char* TaskStatusToStr(TaskStatus st);
 std::string_view OwlEventTypeToStrView(OwlEventType t);
 json SnapshotToJson(const TaskSnapshot& s, bool includeLogTail, const std::optional<std::string>& logTail);
 DeleteMode ParseDeleteMode(const httplib::Request& req);
 GetOptions ParseGetOptions(const httplib::Request& req);
 uint64_t NowUnixMs();
 bool GetArgValue(int argc, char** argv, const char* key, std::string& out);
-bool HasArg(int argc, char** argv, const char* key);
 void EnsureDir(const std::string& d); 
-void FillConfig(int argc, char** argv);
-int GetHttpPort(int argc, char** argv);
-std::string SafeTaskId(const httplib::Request& req);
 

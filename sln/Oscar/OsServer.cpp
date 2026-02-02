@@ -6,6 +6,12 @@
 #include "Oscar.h"
 
 #pragma message("OsServer.cpp REV: registry v0.6")
+#define REQUIRE_SELF                                       \
+   if (!_this) {                                           \
+      res.status = 404;                                    \
+      res.set_content("no self => no gain", "text/plain"); \
+      return;                                              \
+   }
 
 // GET /tasks/hello
 void SServer::OutwardsHello(const httplib::Request&, httplib::Response& res)
@@ -16,13 +22,9 @@ void SServer::OutwardsHello(const httplib::Request&, httplib::Response& res)
 // GET /oscar/hello
 void SServer::HelloWalrus(const httplib::Request& req, httplib::Response& res)
 {
-   const auto taskId = SafeTaskId(req);
-   const auto now = NowUnixMs();
-   {
-      std::lock_guard<std::mutex> lk(_this->mx);
-      _this->tasks[taskId].last_seen_ms = now;
-   }
+   REQUIRE_SELF;
 
+   const auto taskId = _this->HandleHelloWalrus(req);
    std::string body = "Hi, Walrus. Your task is registered; task_id=" + taskId;
    res.set_content(body, "text/plain");
 }
@@ -30,6 +32,8 @@ void SServer::HelloWalrus(const httplib::Request& req, httplib::Response& res)
 // POST /oscar/event
 void SServer::HearClubEvent(const httplib::Request& req, httplib::Response& res)
 {
+   REQUIRE_SELF;
+
    OwlEvent ev;
    if (!ev.AttemptParse(req.body)) {
       res.status = 400;
@@ -44,6 +48,8 @@ void SServer::HearClubEvent(const httplib::Request& req, httplib::Response& res)
 // GET /tasks
 void SServer::TasksGetList(const httplib::Request& req, httplib::Response& res)
 {
+   REQUIRE_SELF;
+
    // minimal v0: ignore filters; you can add limit/offset later
    auto lst = _this->reg.ListAll();
 
@@ -65,6 +71,8 @@ void SServer::TasksGetList(const httplib::Request& req, httplib::Response& res)
 // or { "id": "...", ... }
 void SServer::TasksPost(const httplib::Request& req, httplib::Response& res)
 {
+   REQUIRE_SELF;
+
    const auto now = NowUnixMs();
 
    json j;
@@ -95,6 +103,8 @@ void SServer::TasksPost(const httplib::Request& req, httplib::Response& res)
 // GET /tasks/:id  (implemented via regex route)
 void SServer::TasksGetOne(const httplib::Request& req, httplib::Response& res)
 {
+   REQUIRE_SELF;
+
    const auto opt = ParseGetOptions(req);
 
    // Expect first capture group to be id
@@ -120,6 +130,8 @@ void SServer::TasksGetOne(const httplib::Request& req, httplib::Response& res)
 // DELETE /tasks/:id
 void SServer::TasksDeleteOne(const httplib::Request& req, httplib::Response& res)
 {
+   REQUIRE_SELF;
+
    const auto now = NowUnixMs();
    const auto mode = ParseDeleteMode(req);
 
