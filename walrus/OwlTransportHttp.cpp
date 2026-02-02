@@ -175,7 +175,7 @@ private:
 
       // Whatever OO returns, we keep as "handshake text" for now.
       // If it's JSON, you can parse it later; for now just print body.
-      handshake_text_ = "[Oscar hello] " + res->body;
+      handshake_text_ = "[HTTP handshake] Oscar: `" + res->body + "`";
       return true;
    }
 

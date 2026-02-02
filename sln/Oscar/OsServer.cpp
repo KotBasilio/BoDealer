@@ -19,11 +19,11 @@ void SServer::HelloWalrus(const httplib::Request& req, httplib::Response& res)
    const auto taskId = SafeTaskId(req);
    const auto now = NowUnixMs();
    {
-      std::lock_guard<std::mutex> lk(srv.mx);
-      srv.tasks[taskId].last_seen_ms = now;
+      std::lock_guard<std::mutex> lk(_this->mx);
+      _this->tasks[taskId].last_seen_ms = now;
    }
 
-   std::string body = "Oscar ready; the task is registered; task_id=" + taskId;
+   std::string body = "Hi, Walrus. Your task is registered; task_id=" + taskId;
    res.set_content(body, "text/plain");
 }
 
