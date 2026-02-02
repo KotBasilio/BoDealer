@@ -1,5 +1,4 @@
 // TaskRegistry.cpp
-#include "TaskRegistry.h"
 #include <algorithm>
 #include <fstream>
 #include <sstream>
@@ -18,83 +17,75 @@ TaskRegistry::TaskRegistry()
    if (!m_logDir.empty()) EnsureDir(m_logDir);
 }
 
+std::shared_ptr<TaskRegistry::TaskEntry>
+TaskRegistry::FindOrCreate_(const std::string& taskId, int64_t nowMs, bool* outCreated)
+{
+   std::lock_guard<std::mutex> g(m_mapMutex);
+
+   auto it = m_tasks.find(taskId);
+   if (it != m_tasks.end()) {
+      if (outCreated) *outCreated = false;
+      return it->second;
+   }
+
+   auto e = std::make_shared<TaskEntry>();
+   e->s.id = taskId;
+   e->s.status = TaskStatus::Started;
+   e->s.seq = 0;
+   e->s.createdMs = nowMs;
+   e->s.lastSeenMs = nowMs;
+
+   m_tasks.emplace(taskId, e);
+   if (outCreated) *outCreated = true;
+   return e;
+}
+
 TaskSnapshot TaskRegistry::CreateOrGet(const std::string& taskId,
    std::string name,
    int boardsNumber,
    int64_t nowMs)
 {
-   std::unique_ptr<TaskEntry>* slot = nullptr;
-   {
-      std::lock_guard<std::mutex> g(m_mapMutex);
-      auto it = m_tasks.find(taskId);
-      if (it == m_tasks.end()) {
-         auto e = std::make_unique<TaskEntry>();
-         e->s.id = taskId;
-         e->s.name = std::move(name);
-         e->s.boardsNumber = boardsNumber;
-         e->s.status = TaskStatus::Started;
-         e->s.seq = 0;
-         e->s.createdMs = nowMs;
-         e->s.lastSeenMs = nowMs;
-         auto [insIt, _] = m_tasks.emplace(taskId, std::move(e));
-         slot = &insIt->second;
-      } else {
-         slot = &it->second;
-      }
+   bool created = false;
+   auto entry = FindOrCreate_(taskId, nowMs, &created);
+
+   std::lock_guard<std::mutex> lk(entry->m);
+   auto& s = entry->s;
+   s.lastSeenMs = nowMs;
+
+   if (created) {
+      s.name = std::move(name);
+      s.boardsNumber = boardsNumber;
+   } else {
+      // T3 fix-ready behavior: fill missing metadata without overwriting meaningful existing values
+      if (s.name.empty() && !name.empty()) s.name = std::move(name);
+      if (s.boardsNumber == 0 && boardsNumber != 0) s.boardsNumber = boardsNumber;
    }
 
-   // Update mutable fields under per-task lock (only if we created; else leave as-is)
-   std::lock_guard<std::mutex> lk((*slot)->m);
-   (*slot)->s.lastSeenMs = nowMs;
-   return (*slot)->s;
+   return s;
 }
 
 TaskSnapshot TaskRegistry::ApplyEvent(const OwlEvent& ev, int64_t nowMs)
 {
    const std::string& taskId = ev.task_id;
+   auto entry = FindOrCreate_(taskId, nowMs, nullptr);
 
-   // Ensure task exists (if Walter races before UI GET/POST, we still accept)
-   std::unique_ptr<TaskEntry>* slot = nullptr;
-   {
-      std::lock_guard<std::mutex> g(m_mapMutex);
-      auto it = m_tasks.find(taskId);
-      if (it == m_tasks.end()) {
-         auto e = std::make_unique<TaskEntry>();
-         e->s.id = taskId;
-         e->s.name = ""; // unknown unless UI set
-         e->s.boardsNumber = 0;
-         e->s.status = TaskStatus::Started;
-         e->s.seq = 0;
-         e->s.createdMs = nowMs;
-         e->s.lastSeenMs = nowMs;
-         auto [insIt, _] = m_tasks.emplace(taskId, std::move(e));
-         slot = &insIt->second;
-      } else {
-         slot = &it->second;
-      }
-   }
-
-   std::lock_guard<std::mutex> lk((*slot)->m);
-   auto& s = (*slot)->s;
+   std::lock_guard<std::mutex> lk(entry->m);
+   auto& s = entry->s;
    s.lastSeenMs = nowMs;
 
-   // Ignore updates after terminal unless it's just logging (optional)
    if (IsTerminal(s.status) && ev.type != OwlEventType::Log) {
       return s;
    }
 
-   // Enforce monotonic seq (idempotent-ish)
+   // monotonic seq guard
    if (ev.seq <= s.seq) {
       return s;
    }
    s.seq = ev.seq;
 
-   // Update snapshot
    if (ev.percent >= 0) {
       s.percent = std::clamp(ev.percent, 0, 100);
-      if (s.status == TaskStatus::Started && s.percent > 0) {
-         s.status = TaskStatus::InProgress;
-      }
+      if (s.status == TaskStatus::Started && s.percent > 0) s.status = TaskStatus::InProgress;
    }
    if (!ev.message.empty()) s.message = ev.message;
 
@@ -108,7 +99,6 @@ TaskSnapshot TaskRegistry::ApplyEvent(const OwlEvent& ev, int64_t nowMs)
    } else if (ev.type == OwlEventType::Progress) {
       if (s.status == TaskStatus::Started) s.status = TaskStatus::InProgress;
    }
-   // ev.type == "log" -> snapshot unchanged aside from message/seq
 
    // Append to per-task log (tiny, safe)
    AppendLogLine(LogPathForTask(taskId), ev.seq, ev.type, ev.percent, ev.message, ev.resultJson);
@@ -117,18 +107,18 @@ TaskSnapshot TaskRegistry::ApplyEvent(const OwlEvent& ev, int64_t nowMs)
 
 std::optional<GetResult> TaskRegistry::Get(const std::string& taskId, const GetOptions& opt) const
 {
-   std::unique_ptr<TaskEntry>* slot = nullptr;
+   std::shared_ptr<TaskEntry> entry;
    {
       std::lock_guard<std::mutex> g(m_mapMutex);
       auto it = m_tasks.find(taskId);
       if (it == m_tasks.end()) return std::nullopt;
-      slot = const_cast<std::unique_ptr<TaskEntry>*>(&it->second);
+      entry = it->second; // copy shared_ptr => safe after unlock
    }
 
    GetResult out;
    {
-      std::lock_guard<std::mutex> lk((*slot)->m);
-      out.snapshot = (*slot)->s;
+      std::lock_guard<std::mutex> lk(entry->m);
+      out.snapshot = entry->s;
    }
 
    if (opt.includeLogTail) {
@@ -139,32 +129,31 @@ std::optional<GetResult> TaskRegistry::Get(const std::string& taskId, const GetO
 
 std::optional<TaskSnapshot> TaskRegistry::Delete(const std::string& taskId, DeleteMode mode, int64_t nowMs)
 {
-   std::unique_ptr<TaskEntry>* slot = nullptr;
+   std::shared_ptr<TaskEntry> entry;
    {
       std::lock_guard<std::mutex> g(m_mapMutex);
       auto it = m_tasks.find(taskId);
       if (it == m_tasks.end()) return std::nullopt;
-      slot = &it->second;
+      entry = it->second;
    }
 
    TaskSnapshot snap;
    bool shouldEvict = false;
 
    {
-      std::lock_guard<std::mutex> lk((*slot)->m);
-      auto& s = (*slot)->s;
+      std::lock_guard<std::mutex> lk(entry->m);
+      auto& s = entry->s;
       s.lastSeenMs = nowMs;
 
       if (!IsTerminal(s.status)) {
-         // Running: cancellation request
+         // v0.5 behavior: optimistic cancel
          s.status = TaskStatus::Canceled;
          s.cancelRequested = true;
          s.message = "Canceled by user";
-         // We do NOT evict immediately by default; keep until UI acks or TTL sweeps,
-         // unless you prefer aggressive eviction.
-         shouldEvict = (mode == DeleteMode::Ack); // courtesy: if they explicitly ack, evict
+
+         // courtesy semantics: explicit ack can force eviction
+         shouldEvict = (mode == DeleteMode::Ack);
       } else {
-         // Terminal: allow eviction
          shouldEvict = true;
       }
       snap = s;
@@ -172,32 +161,74 @@ std::optional<TaskSnapshot> TaskRegistry::Delete(const std::string& taskId, Dele
 
    if (shouldEvict) {
       std::lock_guard<std::mutex> g(m_mapMutex);
-      m_tasks.erase(taskId);
-      // optional: delete log file here if you want
-      // ::remove(LogPathForTask(taskId).c_str());
+      auto it = m_tasks.find(taskId);
+      // avoid erasing a new task if the ID got re-created/reused somehow
+      if (it != m_tasks.end() && it->second == entry) {
+         m_tasks.erase(it);
+      }
    }
    return snap;
 }
 
 size_t TaskRegistry::SweepByLastSeen(int64_t nowMs, int64_t maxAgeMs)
 {
-   std::vector<std::string> toDrop;
+   // Copy snapshot of entries first (short map lock), then evaluate outside if desired.
+   // Minimal v0.5: do it in two phases.
+   std::vector<std::pair<std::string, std::shared_ptr<TaskEntry>>> items;
    {
       std::lock_guard<std::mutex> g(m_mapMutex);
-      toDrop.reserve(m_tasks.size());
-      for (auto& kv : m_tasks) {
-         auto& entry = kv.second;
-         std::lock_guard<std::mutex> lk(entry->m);
-         if (nowMs - entry->s.lastSeenMs > maxAgeMs) {
-            toDrop.push_back(kv.first);
+      items.reserve(m_tasks.size());
+      for (auto& kv : m_tasks) items.push_back(kv);
+   }
+
+   std::vector<std::string> toDrop;
+   toDrop.reserve(items.size());
+   for (auto& kv : items) {
+      const auto& id = kv.first;
+      const auto& entry = kv.second;
+      std::lock_guard<std::mutex> lk(entry->m);
+      if (nowMs - entry->s.lastSeenMs > maxAgeMs) {
+         toDrop.push_back(id);
+      }
+   }
+
+   if (toDrop.empty()) return 0;
+
+   size_t dropped = 0;
+   {
+      std::lock_guard<std::mutex> g(m_mapMutex);
+      for (const auto& id : toDrop) {
+         auto it = m_tasks.find(id);
+         if (it != m_tasks.end()) {
+            m_tasks.erase(it);
+            ++dropped;
          }
       }
-      for (auto& id : toDrop) m_tasks.erase(id);
    }
-   return toDrop.size();
+   return dropped;
 }
 
-bool TaskRegistry::IsTerminal(TaskStatus st)
+TaskRegistry::ListResult TaskRegistry::ListAll() const
+{
+   std::vector<std::shared_ptr<TaskEntry>> entries;
+   {
+      std::lock_guard<std::mutex> g(m_mapMutex);
+      entries.reserve(m_tasks.size());
+      for (auto& kv : m_tasks) entries.push_back(kv.second);
+   }
+
+   ListResult out;
+   out.totalElements = entries.size();
+   out.tasks.reserve(entries.size());
+
+   for (auto& e : entries) {
+      std::lock_guard<std::mutex> lk(e->m);
+      out.tasks.push_back(e->s);
+   }
+   return out;
+}
+
+bool IsTerminal(TaskStatus st)
 {
    return st == TaskStatus::Done || st == TaskStatus::Failed || st == TaskStatus::Canceled;
 }
@@ -255,19 +286,4 @@ std::optional<std::string> TaskRegistry::ReadTail(const std::string& path, size_
    buf.resize((size_t)(len - start));
    f.read(buf.data(), (std::streamsize)buf.size());
    return buf;
-}
-
-TaskRegistry::ListResult TaskRegistry::ListAll() const
-{
-   ListResult out;
-   std::lock_guard<std::mutex> g(m_mapMutex);
-   out.totalElements = m_tasks.size();
-   out.tasks.reserve(m_tasks.size());
-
-   for (auto& kv : m_tasks) {
-      auto& entry = kv.second;
-      std::lock_guard<std::mutex> lk(entry->m);
-      out.tasks.push_back(entry->s);
-   }
-   return out;
 }

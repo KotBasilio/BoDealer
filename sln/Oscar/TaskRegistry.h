@@ -15,6 +15,7 @@ enum class TaskStatus : uint8_t {
    Failed,
    Canceled
 };
+bool IsTerminal(TaskStatus st);
 
 struct TaskSnapshot {
    std::string id;
@@ -55,6 +56,26 @@ struct GetResult {
 };
 
 class TaskRegistry {
+   // LOGS
+   std::string m_logDir;
+   static std::string SanitizeForFilename(const std::string& taskId);
+   std::string LogPathForTask(const std::string& taskId) const;
+   static void AppendLogLine(const std::string& path, uint64_t seq, const OwlEventType type, int percent, const std::string& msg, const std::string& json);
+   static std::optional<std::string> ReadTail(const std::string& path, size_t tailBytes);
+
+   // MUTEX SET: 
+   // -- global map mutex only for map structure; 
+   // -- per-task mutex for task content.
+   struct TaskEntry
+   {
+      mutable std::mutex m;
+      TaskSnapshot s;
+   };
+   std::unordered_map<std::string, std::shared_ptr<TaskEntry>> m_tasks;
+   mutable std::mutex m_mapMutex;
+
+   std::shared_ptr<TaskEntry> FindOrCreate_(const std::string& taskId, int64_t nowMs, bool* outCreated);
+
 public:
    explicit TaskRegistry();
 
@@ -84,29 +105,6 @@ public:
       std::vector<TaskSnapshot> tasks;
       size_t totalElements = 0;
    };
-
    ListResult ListAll() const;
 
-private:
-   struct TaskEntry {
-      mutable std::mutex m;
-      TaskSnapshot s;
-   };
-
-   std::string m_logDir;
-
-   // NOTE: global map mutex only for map structure; per-task mutex for task content.
-   mutable std::mutex m_mapMutex;
-   std::unordered_map<std::string, std::unique_ptr<TaskEntry>> m_tasks;
-
-   static std::string SanitizeForFilename(const std::string& taskId);
-   std::string LogPathForTask(const std::string& taskId) const;
-
-   static bool IsTerminal(TaskStatus st);
-
-   static void AppendLogLine(const std::string& path, uint64_t seq, const OwlEventType type,
-      int percent, const std::string& msg, const std::string& json);
-
-   static std::optional<std::string> ReadTail(const std::string& path, size_t tailBytes);
 };
-
