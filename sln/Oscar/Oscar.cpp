@@ -184,5 +184,6 @@ int main(int argc, char* argv[])
       while (owl.Retell()) {}
    }
 
+   //_getch();
    return 0;
 }

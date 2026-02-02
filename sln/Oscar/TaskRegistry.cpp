@@ -9,7 +9,8 @@
 
 #pragma message("TaskRegistry.cpp REV: registry v0.6")
 
-TaskRegistry::TaskRegistry(std::string logDir) : m_logDir(std::move(logDir))
+TaskRegistry::TaskRegistry()
+   : m_logDir("oscar_tasks") // directory for per-task logs
 {
    if (!m_logDir.empty() && (m_logDir.back() == '/' || m_logDir.back() == '\\')) {
       m_logDir.pop_back();

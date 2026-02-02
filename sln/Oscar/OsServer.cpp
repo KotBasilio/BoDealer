@@ -1,6 +1,4 @@
 // OsServer.cpp
-#include "TaskRegistry.h"
-
 #include <iostream>
 #include <fstream>
 #include <atomic>
@@ -9,25 +7,28 @@
 
 #pragma message("OsServer.cpp REV: registry v0.6")
 
-SConfig config;
-SServer srv;
-static TaskRegistry g_tasks("oscar_tasks"); // directory for per-task logs
+// GET /tasks/hello
+void SServer::OutwardsHello(const httplib::Request&, httplib::Response& res)
+{
+   res.set_content("Pipeline Design for UI-Oscar–Walter v0.6", "text/plain");
+}
 
-static void ListenerHello(const httplib::Request& req, httplib::Response& res)
+// GET /oscar/hello
+void SServer::HelloWalrus(const httplib::Request& req, httplib::Response& res)
 {
    const auto taskId = SafeTaskId(req);
    const auto now = NowUnixMs();
-
    {
       std::lock_guard<std::mutex> lk(srv.mx);
       srv.tasks[taskId].last_seen_ms = now;
    }
 
-   std::string body = "Oscar ready v0.7; task_id=" + taskId;
+   std::string body = "Oscar ready; the task is registered; task_id=" + taskId;
    res.set_content(body, "text/plain");
 }
 
-static void ListenerEvent(const httplib::Request& req, httplib::Response& res)
+// POST /oscar/event
+void SServer::HearClubEvent(const httplib::Request& req, httplib::Response& res)
 {
    const auto now = NowUnixMs();
 
@@ -44,18 +45,19 @@ static void ListenerEvent(const httplib::Request& req, httplib::Response& res)
       return;
    }
 
-   VerboseOut(ev);
+   _this->VerboseOut(ev);
 
-   g_tasks.ApplyEvent(ev, now);
+   _this->reg.ApplyEvent(ev, now);
 
    res.status = 200;
    res.set_content("ok", "text/plain");
 }
 
-static void TasksGetList(const httplib::Request& req, httplib::Response& res)
+// GET /tasks
+void SServer::TasksGetList(const httplib::Request& req, httplib::Response& res)
 {
    // minimal v0: ignore filters; you can add limit/offset later
-   auto lst = g_tasks.ListAll();
+   auto lst = _this->reg.ListAll();
 
    json out;
    out["totalElements"] = lst.totalElements;
@@ -69,16 +71,11 @@ static void TasksGetList(const httplib::Request& req, httplib::Response& res)
    res.set_content(out.dump(), "application/json");
 }
 
-static void TasksHello(const httplib::Request&, httplib::Response& res)
-{
-   res.set_content("Tasks API ready v0.1", "text/plain");
-}
-
 // POST /tasks
 // Accepts JSON like:
 // { "task_id": "...", "name":"...", "boardsNumber": 777 }
 // or { "id": "...", ... }
-static void TasksPost(const httplib::Request& req, httplib::Response& res)
+void SServer::TasksPost(const httplib::Request& req, httplib::Response& res)
 {
    const auto now = NowUnixMs();
 
@@ -100,7 +97,7 @@ static void TasksPost(const httplib::Request& req, httplib::Response& res)
    std::string name = j.value("name", std::string{});
    int boardsNumber = j.value("boardsNumber", 0);
 
-   auto snap = g_tasks.CreateOrGet(taskId, std::move(name), boardsNumber, now);
+   auto snap = _this->reg.CreateOrGet(taskId, std::move(name), boardsNumber, now);
 
    json out = SnapshotToJson(snap, false, std::nullopt);
    res.status = 200;
@@ -108,7 +105,7 @@ static void TasksPost(const httplib::Request& req, httplib::Response& res)
 }
 
 // GET /tasks/:id  (implemented via regex route)
-static void TasksGetOne(const httplib::Request& req, httplib::Response& res)
+void SServer::TasksGetOne(const httplib::Request& req, httplib::Response& res)
 {
    const auto opt = ParseGetOptions(req);
 
@@ -120,7 +117,7 @@ static void TasksGetOne(const httplib::Request& req, httplib::Response& res)
    }
    const std::string taskId = req.matches[1];
 
-   auto got = g_tasks.Get(taskId, opt);
+   auto got = _this->reg.Get(taskId, opt);
    if (!got.has_value()) {
       res.status = 404;
       res.set_content("not found", "text/plain");
@@ -133,7 +130,7 @@ static void TasksGetOne(const httplib::Request& req, httplib::Response& res)
 }
 
 // DELETE /tasks/:id
-static void TasksDeleteOne(const httplib::Request& req, httplib::Response& res)
+void SServer::TasksDeleteOne(const httplib::Request& req, httplib::Response& res)
 {
    const auto now = NowUnixMs();
    const auto mode = ParseDeleteMode(req);
@@ -145,7 +142,7 @@ static void TasksDeleteOne(const httplib::Request& req, httplib::Response& res)
    }
    const std::string taskId = req.matches[1];
 
-   auto snap = g_tasks.Delete(taskId, mode, now);
+   auto snap = _this->reg.Delete(taskId, mode, now);
    if (!snap.has_value()) {
       // idempotent delete is nice: treat as ok
       res.status = 200;
@@ -161,35 +158,34 @@ static void TasksDeleteOne(const httplib::Request& req, httplib::Response& res)
    res.set_content(out.dump(), "application/json");
 }
 
-bool OscarAttemptHttpRun(int argc, char** argv)
+bool SServer::AttemptHttpRun(int port)
 {
-   // prep
-   int port = GetHttpPort(argc, argv);
-   if (port <= 0) {
-      return false;
-   }
-   FillConfig(argc, argv);
-   srv.LogOpen(config.logPath);
-   PrintLine("Oscar (http-only) ready for creation.");
-
-   // setup
+   // create
+   LogOpen(config.logPath);
+   PrintLine("Oscar server is ready for creation.");
    httplib::Server htsvr;
-   htsvr.new_task_queue = [] {
-       return new httplib::ThreadPool(8);
+   htsvr.new_task_queue = [=] {
+       return new httplib::ThreadPool(config.threadPoolSize);
    };
-   // -- routes to walruses
-   htsvr.Get("/oscar/hello", ListenerHello);
-   htsvr.Post("/oscar/event", ListenerEvent);
-   htsvr.Post("/oscar/stop", [&](const httplib::Request&, httplib::Response& res) {
+
+   // route inwards to walruses
+   htsvr.Get(config.walrusHelloRoute, HelloWalrus);
+   htsvr.Post(config.clubEventRoute, HearClubEvent);
+
+   // route outwards to UI
+   htsvr.Get(config.tasksHelloRoute, OutwardsHello);
+   htsvr.Post(config.tasksPostRoute, TasksPost);
+   htsvr.Get(config.tasksGetListRoute, TasksGetList);
+   htsvr.Get(config.tasksGetOneRoute, TasksGetOne);
+   htsvr.Delete(config.tasksDeleteRoute, TasksDeleteOne);
+
+   // route to club exit
+   htsvr.Post(config.clubStopRoute, [&](const httplib::Request&, httplib::Response& res) {
+      std::cout << "\nOscar puts on his hat,";
       res.set_content("stopping", "text/plain");
       htsvr.stop();
+      std::cout << " then nods";
    });
-   // -- routes outwards to UI
-   htsvr.Get("/tasks/hello", TasksHello);
-   htsvr.Post("/tasks", TasksPost);
-   htsvr.Get("/tasks", TasksGetList);
-   htsvr.Get(R"(/tasks/([A-Za-z0-9\-_]+))", TasksGetOne);
-   htsvr.Delete(R"(/tasks/([A-Za-z0-9\-_]+))", TasksDeleteOne);
 
    // listen
    PrintLine("Oscar starts listening on " + config.localHost + ":" + std::to_string(port));
@@ -197,7 +193,7 @@ bool OscarAttemptHttpRun(int argc, char** argv)
       std::cerr << "Oscar: listen failed on " << config.localHost << ":" << port << "\n";
       return false;
    }
+   std::cout << " and walks out..." << std::endl;
 
    return true;
 }
-

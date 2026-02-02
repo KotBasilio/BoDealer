@@ -1,13 +1,23 @@
 #pragma once
 #include "httplib.h"
 #include "json.hpp"
+#include "TaskRegistry.h"
 
 using json = nlohmann::json;
 
 struct SConfig {
+   bool isVerbose = false;
    std::string localHost = "127.0.0.1";
    std::string logPath = "oscar_log.txt";
-   bool isVerbose = false;
+   std::string tasksHelloRoute = "/tasks/hello";
+   std::string tasksPostRoute = "/tasks";
+   std::string tasksGetListRoute = "/tasks";
+   std::string tasksGetOneRoute = R"(/tasks/([A-Za-z0-9\-_]+))";
+   std::string tasksDeleteRoute = R"(/tasks/([A-Za-z0-9\-_]+))";
+   std::string walrusHelloRoute = "/oscar/hello";
+   std::string clubEventRoute = "/oscar/event";
+   std::string clubStopRoute = "/griffins/club/stop";
+   int threadPoolSize = 8;
 };
 
 struct TaskState {
@@ -20,11 +30,26 @@ struct SServer {
    std::unordered_map<std::string, TaskState> tasks;
    std::ofstream log;
 
+   bool AttemptHttpRun(int port);
+
+   SServer();
+   ~SServer() { LogFlush(); }
+private:
+   static SServer* _this;
+   TaskRegistry reg;
    void LogOpen(const std::string& logPath);
    void LogLine(const std::string& line);
    void LogFlush();
 
-   ~SServer() { LogFlush(); }
+   static void OutwardsHello(const httplib::Request&, httplib::Response& res);
+   static void HelloWalrus(const httplib::Request& req, httplib::Response& res);
+   static void HearClubEvent(const httplib::Request& req, httplib::Response& res);
+   static void TasksGetList(const httplib::Request& req, httplib::Response& res);
+   static void TasksPost(const httplib::Request& req, httplib::Response& res);
+   static void TasksGetOne(const httplib::Request& req, httplib::Response& res);
+   static void TasksDeleteOne(const httplib::Request& req, httplib::Response& res);
+
+   void VerboseOut(OwlEvent& ev);
 };
 
 extern SConfig config;
@@ -45,5 +70,4 @@ void FillConfig(int argc, char** argv);
 int GetHttpPort(int argc, char** argv);
 std::string SafeTaskId(const httplib::Request& req);
 bool ShouldDropBySeq(const std::string& taskId, uint64_t seq, uint64_t now);
-void VerboseOut(OwlEvent& ev);
 

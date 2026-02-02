@@ -9,6 +9,12 @@
 
 #pragma message("OsHelpers.cpp REV: registry v0.6")
 
+SServer* SServer::_this = nullptr;
+SServer::SServer() { if (!_this) _this = this; }
+
+SConfig config;
+SServer srv;
+
 using json = nlohmann::json;
 
 #if defined(_WIN32)
@@ -134,6 +140,19 @@ int GetHttpPort(int argc, char** argv)
    catch (...) { return -1; }
 }
 
+bool OscarAttemptHttpRun(int argc, char** argv)
+{
+   // prep
+   int port = GetHttpPort(argc, argv);
+   if (port <= 0) {
+      return false;
+   }
+   FillConfig(argc, argv);
+
+   // run
+   return srv.AttemptHttpRun(port);
+}
+
 std::string SafeTaskId(const httplib::Request& req)
 {
    auto it = req.get_param_value("task_id");
@@ -177,14 +196,14 @@ bool OwlEvent::AttemptParse(const std::string& body)
    }
 }
 
-void VerboseOut(OwlEvent& ev)
+void SServer::VerboseOut(OwlEvent& ev)
 {
    if (!config.isVerbose) {
       std::cout << '.';
       if (!(ev.seq & 0x03f)) {
          std::cout << std::endl;
       }
-      srv.LogLine(ev.message);
+      LogLine(ev.message);
       return;
    }
 
@@ -208,7 +227,7 @@ void VerboseOut(OwlEvent& ev)
       line += ev.message;
    }
 
-   srv.LogLine(ev.message);
+   LogLine(ev.message);
    if (!ev.silent) PrintLine(line);
 }
 

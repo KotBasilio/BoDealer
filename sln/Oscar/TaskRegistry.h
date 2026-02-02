@@ -2,7 +2,6 @@
 #pragma once
 #include <cstdint>
 #include <mutex>
-#include <string>
 #include <unordered_map>
 #include <optional>
 #include "OwlTransport.h"
@@ -57,7 +56,7 @@ struct GetResult {
 
 class TaskRegistry {
 public:
-   explicit TaskRegistry(std::string logDir);
+   explicit TaskRegistry();
 
    // UI side: create task (or return existing)
    TaskSnapshot CreateOrGet(const std::string& taskId,
