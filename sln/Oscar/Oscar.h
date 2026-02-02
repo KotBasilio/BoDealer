@@ -26,9 +26,7 @@ struct TaskState {
 };
 
 struct SServer {
-   std::mutex mx;
    std::unordered_map<std::string, TaskState> tasks;
-   std::ofstream log;
 
    bool AttemptHttpRun(int port);
 
@@ -36,7 +34,9 @@ struct SServer {
    ~SServer() { LogFlush(); }
 private:
    static SServer* _this;
+   std::mutex mx;
    TaskRegistry reg;
+   std::ofstream log;
    void LogOpen(const std::string& logPath);
    void LogLine(const std::string& line);
    void LogFlush();
@@ -50,6 +50,10 @@ private:
    static void TasksDeleteOne(const httplib::Request& req, httplib::Response& res);
 
    void VerboseOut(OwlEvent& ev);
+   void PrintLine(const std::string& line);
+
+   void HandleClubEvent(OwlEvent& ev, httplib::Response& res);
+   bool ConsiderDroppingEvent(const std::string& taskId, uint64_t seq, uint64_t now);
 };
 
 extern SConfig config;
@@ -62,12 +66,10 @@ json SnapshotToJson(const TaskSnapshot& s, bool includeLogTail, const std::optio
 DeleteMode ParseDeleteMode(const httplib::Request& req);
 GetOptions ParseGetOptions(const httplib::Request& req);
 uint64_t NowUnixMs();
-void PrintLine(const std::string& line);
 bool GetArgValue(int argc, char** argv, const char* key, std::string& out);
 bool HasArg(int argc, char** argv, const char* key);
 void EnsureDir(const std::string& d); 
 void FillConfig(int argc, char** argv);
 int GetHttpPort(int argc, char** argv);
 std::string SafeTaskId(const httplib::Request& req);
-bool ShouldDropBySeq(const std::string& taskId, uint64_t seq, uint64_t now);
 

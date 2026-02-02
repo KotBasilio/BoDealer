@@ -30,8 +30,6 @@ void SServer::HelloWalrus(const httplib::Request& req, httplib::Response& res)
 // POST /oscar/event
 void SServer::HearClubEvent(const httplib::Request& req, httplib::Response& res)
 {
-   const auto now = NowUnixMs();
-
    OwlEvent ev;
    if (!ev.AttemptParse(req.body)) {
       res.status = 400;
@@ -39,18 +37,8 @@ void SServer::HearClubEvent(const httplib::Request& req, httplib::Response& res)
       return;
    }
 
-   if (ShouldDropBySeq(ev.task_id, ev.seq, now)) {
-      res.status = 200;
-      res.set_content("dup", "text/plain");
-      return;
-   }
-
-   _this->VerboseOut(ev);
-
-   _this->reg.ApplyEvent(ev, now);
-
+   _this->HandleClubEvent(ev, res);
    res.status = 200;
-   res.set_content("ok", "text/plain");
 }
 
 // GET /tasks

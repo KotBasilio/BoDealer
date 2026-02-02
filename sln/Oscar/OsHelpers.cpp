@@ -95,9 +95,9 @@ uint64_t NowUnixMs()
    return (uint64_t)duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 }
 
-void PrintLine(const std::string& line)
+void SServer::PrintLine(const std::string& line)
 {
-   std::lock_guard<std::mutex> lk(srv.mx);
+   std::lock_guard<std::mutex> lk(mx);
    std::cout << line << std::endl;
 }
 
@@ -160,16 +160,31 @@ std::string SafeTaskId(const httplib::Request& req)
    return "unknown";
 }
 
-bool ShouldDropBySeq(const std::string& taskId, uint64_t seq, uint64_t now)
+bool SServer::ConsiderDroppingEvent(const std::string& taskId, uint64_t seq, uint64_t now)
 {
-   std::lock_guard<std::mutex> lk(srv.mx);
-   auto& st = srv.tasks[taskId];
+   std::lock_guard<std::mutex> lk(mx);
+   auto& st = tasks[taskId];
    st.last_seen_ms = now;
    if (seq != 0) {
       if (seq <= st.last_seq) return true;
       st.last_seq = seq;
    }
    return false;
+}
+
+void SServer::HandleClubEvent(OwlEvent& ev, httplib::Response& res)
+{
+   const auto now = NowUnixMs();
+
+   if (ConsiderDroppingEvent(ev.task_id, ev.seq, now)) {
+      res.set_content("dup", "text/plain");
+      return;
+   }
+
+   VerboseOut(ev);
+   reg.ApplyEvent(ev, now);
+
+   res.set_content("ok", "text/plain");
 }
 
 bool OwlEvent::AttemptParse(const std::string& body)
