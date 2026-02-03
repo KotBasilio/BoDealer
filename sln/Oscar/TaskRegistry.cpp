@@ -6,7 +6,7 @@
 #include <string_view>
 #include "Oscar.h"
 
-#pragma message("TaskRegistry.cpp REV: registry v0.6")
+#pragma message("TaskRegistry.cpp REV: registry v0.8")
 
 TaskRegistry::TaskRegistry()
    : m_logDir("oscar_tasks") // directory for per-task logs
@@ -64,8 +64,18 @@ TaskSnapshot TaskRegistry::CreateOrGet(const std::string& taskId,
    return s;
 }
 
-TaskSnapshot TaskRegistry::ApplyEvent(const OwlEvent& ev, int64_t nowMs)
+TaskSnapshot TaskRegistry::Touch(const std::string& taskId, int64_t nowMs)
 {
+   auto entry = FindOrCreate_(taskId, nowMs, nullptr);
+   std::lock_guard<std::mutex> lk(entry->m);
+   entry->s.lastSeenMs = nowMs;
+   return entry->s;
+}
+
+ApplyEventResult TaskRegistry::ApplyEvent(const OwlEvent& ev, int64_t nowMs)
+{
+   ApplyEventResult out;
+
    const std::string& taskId = ev.task_id;
    auto entry = FindOrCreate_(taskId, nowMs, nullptr);
 
@@ -73,15 +83,22 @@ TaskSnapshot TaskRegistry::ApplyEvent(const OwlEvent& ev, int64_t nowMs)
    auto& s = entry->s;
    s.lastSeenMs = nowMs;
 
+   // Ignore non-log updates once terminal (keeps state stable; not a "dup")
    if (IsTerminal(s.status) && ev.type != OwlEventType::Log) {
-      return s;
+      out.disposition = IngestDisposition::Ignored;
+      out.snapshot = s;
+      return out;
    }
 
-   // monotonic seq guard
-   if (ev.seq <= s.seq) {
-      return s;
+   // monotonic seq guard (seq==0 is treated as "always accept")
+   if (ev.seq != 0) {
+      if (ev.seq <= s.seq) {
+         out.disposition = IngestDisposition::Duplicate;
+         out.snapshot = s;
+         return out;
+      }
+      s.seq = ev.seq;
    }
-   s.seq = ev.seq;
 
    if (ev.percent >= 0) {
       s.percent = std::clamp(ev.percent, 0, 100);
@@ -102,7 +119,10 @@ TaskSnapshot TaskRegistry::ApplyEvent(const OwlEvent& ev, int64_t nowMs)
 
    // Append to per-task log (tiny, safe)
    AppendLogLine(LogPathForTask(taskId), ev.seq, ev.type, ev.percent, ev.message, ev.resultJson);
-   return s;
+
+   out.disposition = IngestDisposition::Accepted;
+   out.snapshot = s;
+   return out;
 }
 
 std::optional<GetResult> TaskRegistry::Get(const std::string& taskId, const GetOptions& opt) const

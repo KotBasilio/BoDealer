@@ -6,7 +6,7 @@
 #include <optional>
 #include "OwlTransport.h"
 
-#pragma message("TaskRegistry.h REV: registry v0.6")
+#pragma message("TaskRegistry.h REV: registry v0.8")
 
 enum class TaskStatus : uint8_t {
    Started,
@@ -55,6 +55,18 @@ struct GetResult {
    std::optional<std::string> logTail; // present only if requested and available
 };
 
+// event ingest disposition (this replaces SServer::tasks[] dedupe responsibility)
+enum class IngestDisposition : uint8_t {
+   Accepted,   // applied & logged
+   Duplicate,  // dropped due to seq <= last seq (the old tasks[] behavior)
+   Ignored     // dropped for other reasons (e.g. terminal task ignoring non-log)
+};
+
+struct ApplyEventResult {
+   IngestDisposition disposition = IngestDisposition::Ignored;
+   TaskSnapshot snapshot;
+};
+
 class TaskRegistry {
    // LOGS
    std::string m_logDir;
@@ -79,6 +91,9 @@ class TaskRegistry {
 public:
    explicit TaskRegistry();
 
+   // touch/register a task without changing anything else (used by /oscar/hello)
+   TaskSnapshot Touch(const std::string& taskId, int64_t nowMs);
+
    // UI side: create task (or return existing)
    TaskSnapshot CreateOrGet(const std::string& taskId,
       std::string name,
@@ -86,8 +101,8 @@ public:
       int64_t nowMs);
 
    // Walter -> Oscar: apply streamed event
-   // Returns updated snapshot if task exists/created; out-of-order/duplicates ignored safely.
-   TaskSnapshot ApplyEvent(const OwlEvent& ev, int64_t nowMs);
+   // Returns returns whether event was accepted / duplicate / ignored
+   ApplyEventResult ApplyEvent(const OwlEvent& ev, int64_t nowMs);
 
    // UI side: get current snapshot (optionally with log tail)
    std::optional<GetResult> Get(const std::string& taskId, const GetOptions& opt) const;

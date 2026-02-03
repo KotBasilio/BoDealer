@@ -90,6 +90,12 @@ void ReadCLI(int argc, char* argv[])
          config.cowl.isHttp = true;
       }
 
+      // check for the parameter to enforce DEV mode
+      if (std::strcmp(argv[i], "-dev") == 0) {
+         config.cowl.isHttp = true;
+         config.cowl.isDevMode = true;
+      }
+
       // check for the config name
       if (std::strcmp(argv[i], "-cfgname") == 0 && i + 1 < argc) {
          auto last = sizeof(config.cli.nameFileConfig) - 1;

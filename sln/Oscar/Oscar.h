@@ -1,7 +1,10 @@
+// Oscar.h 
 #pragma once
 #include "httplib.h"
 #include "json.hpp"
 #include "TaskRegistry.h"
+
+#pragma message("Oscar.h  REV: registry v0.8")
 
 using json = nlohmann::json;
 
@@ -20,17 +23,11 @@ struct SConfig {
    int threadPoolSize = 8;
 };
 
-struct TaskState {
-   uint64_t last_seq = 0;
-   uint64_t last_seen_ms = 0;
-};
-
 class SServer {
    static SServer* _this;
    std::mutex mx;
    std::ofstream log;
    TaskRegistry reg;
-   std::unordered_map<std::string, TaskState> tasks;
 
    void LogOpen(const std::string& logPath);
    void LogLine(const std::string& line);
@@ -48,7 +45,6 @@ class SServer {
    void PrintLine(const std::string& line);
 
    void HandleClubEvent(OwlEvent& ev, httplib::Response& res);
-   bool ConsiderDroppingEvent(const std::string& taskId, uint64_t seq, uint64_t now);
    std::string HandleHelloWalrus(const httplib::Request& req);
 
 public:

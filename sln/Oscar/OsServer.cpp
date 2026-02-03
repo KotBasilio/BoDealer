@@ -5,10 +5,10 @@
 
 #include "Oscar.h"
 
-#pragma message("OsServer.cpp REV: registry v0.6")
+#pragma message("OsServer.cpp REV: registry v0.8")
 #define REQUIRE_SELF                                       \
    if (!_this) {                                           \
-      res.status = 404;                                    \
+      res.status = 503;                                    \
       res.set_content("no self => no gain", "text/plain"); \
       return;                                              \
    }
@@ -16,7 +16,7 @@
 // GET /tasks/hello
 void SServer::OutwardsHello(const httplib::Request&, httplib::Response& res)
 {
-   res.set_content("Pipeline Design for UI-Oscar–Walter v0.6", "text/plain");
+   res.set_content("Pipeline Design for UI-Oscar-Walter v0.7", "text/plain");
 }
 
 // GET /oscar/hello

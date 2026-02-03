@@ -208,11 +208,15 @@ private:
          // POST event (best-effort, no blocking retries here)
          if (!client_) continue;
          std::string body = event_to_json(ev);
-         std::string path = (ev.type == OwlEventType::Done) ? cfg_.donePath : cfg_.eventPath;
-         auto res = client_->Post(path.c_str(), body, "application/json");
+         auto res = client_->Post(cfg_.eventPath.c_str(), body, "application/json");
          // If Oscar is down, we just drop quietly (still "fire-and-forget").
          // If you want mild resilience, you can requeue on certain errors.
          (void)res;
+
+         // dev mode => also POST griffins/club/stop on Done
+         if (config.cowl.isDevMode && (ev.type == OwlEventType::Done)) {
+            client_->Post(cfg_.donePath.c_str(), body, "application/json");
+         }
       }
    }
 
