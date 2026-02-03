@@ -1,13 +1,12 @@
 // OsHelpers.cpp
-#include "TaskRegistry.h"
-
 #include <iostream>
 #include <fstream>
 #include <atomic>
 
 #include "Oscar.h"
+#include "OwlTransport.h"
 
-#pragma message("OsHelpers.cpp REV: registry v0.6")
+#pragma message("OsHelpers.cpp REV: registry v0.8")
 
 SServer* SServer::_this = nullptr;
 SServer::SServer() { 
@@ -176,56 +175,72 @@ std::string SServer::HandleHelloWalrus(const httplib::Request& req)
 {
    const auto taskId = SafeTaskId(req);
    const auto now = NowUnixMs();
-   {
-      std::lock_guard<std::mutex> lk(mx);
-      tasks[taskId].last_seen_ms = now;
-   }
-
+   reg.Touch(taskId, now);
    return taskId;
-}
-
-bool SServer::ConsiderDroppingEvent(const std::string& taskId, uint64_t seq, uint64_t now)
-{
-   std::lock_guard<std::mutex> lk(mx);
-   auto& st = tasks[taskId];
-   st.last_seen_ms = now;
-   if (seq != 0) {
-      if (seq <= st.last_seq) return true;
-      st.last_seq = seq;
-   }
-   return false;
 }
 
 void SServer::HandleClubEvent(OwlEvent& ev, httplib::Response& res)
 {
    const auto now = NowUnixMs();
 
-   if (ConsiderDroppingEvent(ev.task_id, ev.seq, now)) {
+   VerboseOut(ev);
+
+   auto ar = reg.ApplyEvent(ev, now);
+   if (ar.disposition == IngestDisposition::Duplicate) {
       res.set_content("dup", "text/plain");
       return;
    }
 
-   VerboseOut(ev);
-   reg.ApplyEvent(ev, now);
-
    res.set_content("ok", "text/plain");
+}
+
+static OwlEventType ParseOwlEventType(const std::string& s)
+{
+   if (s == "progress") return OwlEventType::Progress;
+   if (s == "done")     return OwlEventType::Done;
+   if (s == "fail")     return OwlEventType::Fail;
+   return OwlEventType::Log;
+}
+
+void OwlEvent::ExtractMessage(json& j)
+{
+   // message: allow non-string payloads (store as JSON text)
+   if (j.contains("message")) {
+      const auto& jm = j["message"];
+      if (jm.is_string()) message = jm.get<std::string>();
+      else message = jm.dump();
+   } else {
+      message.clear();
+   }
+
+   // optional resultJson: can be a string or an object/array; store as string
+   resultJson.clear();
+   if (j.contains("resultJson")) {
+      const auto& jr = j["resultJson"];
+      if (jr.is_string()) resultJson = jr.get<std::string>();
+      else resultJson = jr.dump();
+   }
+
+   // Optional alias: some senders might use errorText instead of message for failures
+   if (type == OwlEventType::Fail && message.empty() && j.contains("errorText")) {
+      const auto& je = j["errorText"];
+      if (je.is_string()) message = je.get<std::string>();
+      else message = je.dump();
+   }
 }
 
 bool OwlEvent::AttemptParse(const std::string& body)
 {
    try {
       json j = json::parse(body);
-
       auto valType = j.value("type", "log");
-      type = valType == "progress" ? OwlEventType::Progress :
-             valType == "done" ? OwlEventType::Done : 
-             OwlEventType::Log;
+      type = ParseOwlEventType(valType);
       task_id = j.value("task_id", "unknown");
       seq = j.value("seq", (uint64_t)0);
       unix_ms = j.value("unix_ms", (uint64_t)0);
       silent = j.value("silent", false);
       percent = j.value("percent", -1);
-      message = j.value("message", "");
+      ExtractMessage(j);
 
       return true;
    }

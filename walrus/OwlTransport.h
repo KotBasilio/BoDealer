@@ -4,11 +4,12 @@
 #include <memory>
 #include <chrono>
 
-#pragma message("OwlTransport.h REV: registry v0.6")
+#pragma message("OwlTransport.h REV: registry v0.8")
 
 // http relevant slice.
 struct OwlConfig {
    bool isHttp = false;
+   bool isDevMode = false;
    std::string host = "127.0.0.1";
    int port = 3042;
    std::string helloPath = "/oscar/hello";
@@ -33,6 +34,10 @@ struct OwlEvent {
    std::string resultJson;  // optional
 
    bool AttemptParse(const std::string& body);
+private:
+#ifdef INCLUDE_NLOHMANN_JSON_HPP_
+   void ExtractMessage(nlohmann::json& j);
+#endif
 };
 
 class IOwlTransport {
