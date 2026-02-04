@@ -51,7 +51,7 @@ JAN26_BOTH_5332 Bidding one sided:
 We choose between pass on 2NT and bidding 3NT.
 
 HAND: N:AJ843.74.JT8.742
-PRIMARY SCORER: V3N BY S
+PR IMARY SCORER: V3N BY S
 POSTMORTEM: AUTO
 
 FILTERS:
