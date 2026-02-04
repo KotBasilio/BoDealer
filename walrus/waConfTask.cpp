@@ -431,11 +431,19 @@ EConfigReaderState WaConfig::FSM_GoInsideTask(char* line)
    return S_IN_TASK;
 }
 
-EConfigReaderState WaConfig::FSM_Go2WaitTask(char* line)
+EConfigReaderState WaConfig::FSM_Go2WaitTask(char* line, class Walrus* walrus)
 {
+   // read
    line += strlen(key.TName);
    SAFE_STR_BY_LINE(txt.nameTask);
 
+   // transport init
+   if (!walrus->StartOscar()) {
+      MarkFail();
+      owl.Show("Failed to start Oscar\n");
+   }
+
+   // ok
    return S_WAIT_TASK;
 }
 
@@ -474,7 +482,7 @@ void WaConfig::ReadTask(Walrus *walrus)
       switch (fsm) {
          case S_IDLE: {// parse to fill task name
             if (IsStartsWith(line, key.TName)) {
-               fsm = FSM_Go2WaitTask(line);
+               fsm = FSM_Go2WaitTask(line, walrus);
             }
 
             break;

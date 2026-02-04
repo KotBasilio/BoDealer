@@ -256,7 +256,7 @@ private:
    EConfigReaderState FSM_DoFiltersState(char* line);
    EConfigReaderState FSM_DoMulScorerState(char* line);
    EConfigReaderState FSM_DoTaskState(char* line);
-   EConfigReaderState FSM_Go2WaitTask(char* line);
+   EConfigReaderState FSM_Go2WaitTask(char* line, class Walrus* walrus);
    EConfigReaderState FSM_GoInsideTask(char* line);
    const char* TaskTypeText(WA_TASK_TYPE key);
    bool RecognizePostmType(const char* token);

@@ -36,7 +36,7 @@ struct OwlEvent {
    bool AttemptParse(const std::string& body);
 private:
 #ifdef INCLUDE_NLOHMANN_JSON_HPP_
-   void ExtractMessage(nlohmann::json& j);
+   void ExtractMessage(const nlohmann::json& j);
 #endif
 };
 

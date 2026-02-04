@@ -54,7 +54,6 @@ public:
 };
 
 extern SConfig config;
-extern SServer srv;
 
 // helpers
 std::string_view OwlEventTypeToStrView(OwlEventType t);

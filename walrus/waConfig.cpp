@@ -213,5 +213,5 @@ bool Walrus::InitByConfig()
       return false;
    }
 
-   return StartOscar();
+   return true;
 }

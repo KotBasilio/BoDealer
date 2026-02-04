@@ -25,6 +25,7 @@ public:
 
    // top level
    bool InitByConfig();
+   bool StartOscar();
    void Main();
    void ScanAsHelper();
 
@@ -40,7 +41,6 @@ protected:
    void EndStray(void);
 
    // inits
-   bool StartOscar();
    void InitDeck();
    void WithdrawByInput();
    void DetectScorerGoals();

@@ -202,7 +202,7 @@ static OwlEventType ParseOwlEventType(const std::string& s)
    return OwlEventType::Log;
 }
 
-void OwlEvent::ExtractMessage(json& j)
+void OwlEvent::ExtractMessage(const json& j)
 {
    // message: allow non-string payloads (store as JSON text)
    if (j.contains("message")) {
