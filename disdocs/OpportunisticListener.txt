@@ -1,0 +1,372 @@
+TAGs: GriffinsClubInternals, DesignDoc
+
+# 🦦→🦉 Flow Design Doc (v0.1)
+_Oscar the Owl as an Opportunistic Listener / Kibitzer_ 😹🦉  
+Scope: this doc is about **Walrus Worker (🦦)** streaming human-readable output and **Oscar Owl (🦉)** ingesting it into a structured task model.
+
+This is intentionally “low-invasiveness first”: 🦦 may mumble in his own human-readable language; 🦉 should opportunistically recognize markers already present and turn them into progress + final results for UI.
+
+---
+
+## 0) Glossary / Roles
+- **📱🖥️💻 UI clients**: create tasks, poll status, ACK/cancel.
+- **🦉 Oscar**: HTTP server + TaskRegistry + process supervisor + listener.
+- **🦦 Walter/Walrus**: per-task worker process; may do heavy sampling + DD solving.
+- **TaskRegistry**: Oscar’s single source of truth for task state + last seq + logs.
+
+---
+
+## 1) Goals
+1) Make 🦉 reliably extract:
+   - task metadata (task type, question, fixed hand, scorers)
+   - filter/search summary (iterations, accepted boards, skipped, pick rate, time/mem)
+   - solve progress (processed boards, chance, comparison %, etc.)
+   - final answer (split tables, verdict, key metrics)
+2) Handle failures gracefully:
+   - “semantic refusal” (bad input, contradictory constraints)
+   - technical failures (spawn, crash, stall)
+3) Provide UI-friendly state:
+   - STARTED / IN_PROGRESS / DONE / FAILED / CANCELED
+   - incremental updates via `GET /tasks/:id`
+4) Keep it testable: build features in an order where each step is verifiable.
+
+---
+
+## 2) Non-Goals (for v0.1)
+- Exactly-once delivery end-to-end
+- Distributed scheduling / multi-host workers
+- Full schema enforcement for every possible Walrus output line
+- Authentication / authorization hardening (later)
+
+---
+
+## 3) High-level architecture (🦦→🦉)
+- 🦦 is spawned per TaskID.
+- 🦦 emits a stream of **OwlEvent** messages to 🦉 (e.g. via `/oscar/event`), including `type=Log`.
+- 🦉 constructs the “mumbling” text stream (MTS, 🎤) by **concatenating `ev.message` from LOG events** (see `SServer::VerboseOut` → `LogLine(ev.message)`).
+- 🦉 stores:
+  - full raw text into per-task log file (debuggable)
+  - structured snapshots into TaskRegistry (UI uses these)
+- 🦉 is an **opportunistic parser**:
+  - it listens for known markers already present in logs
+  - it accepts partial structure and upgrades state when it can
+
+So, by definition, MTS (🎤) is a text stream, as recorded by 🦉 as described above. It is the canonical human-mumble channel used by the Opportunistic Listener.
+
+---
+
+## 4) 🦉 “Lifecycle Model” for 🦦 (state machine)
+Oscar holds a per-task phase; phase guides parsing and timeouts.
+
+### State 0 — SPAWNED (technical)
+Entry: process created, pipes attached, TaskRegistry entry touched.
+Exit: first output line OR immediate process exit.
+
+### State 1 — HEADER / INIT (semantic refusal possible)
+Typical content: task name, auction, question, fixed hand, scorer, recognized task type.
+Failure possible: “ERROR: …”, “Failed to init …”
+
+Transitions to FILTERING:
+- if we see `Compiling filters...` or other init-success hints
+
+### State 2 — FILTERING / SEARCH
+Walrus generates random boards and filters by constraints.
+This phase can be:
+- fast (seconds) OR
+- dominant (minutes) OR
+- endless (contradictory filters → accepted=0 forever)
+
+Transition to SOLVING:
+- if we see `Solving started:` or `Processed: … total.`
+
+### State 3 — SOLVING / AFTERMATH
+Walrus runs DD solving on each accepted board and computes stats.
+Natural failures are rare; technical stalls/crashes remain.
+
+Transition to FINAL:
+- `Verdict:` OR `A split …` OR end timing summary `The search took …`
+
+### State 4 — FINAL
+Oscar captures the final answer payload.
+Exit: worker exits OR grace-timeout triggers.
+
+### State 5 — EXITED
+Oscar finalizes status:
+- DONE if final markers were seen and exit is clean
+- FAILED otherwise (with best available error text)
+
+---
+
+## 5) “Markers already there” (what 🦉 listens for)
+Oscar should keep a rolling buffer of recent lines (e.g. last 200–500) and use regex triggers.
+All markers are optional; Oscar uses whatever appears.
+
+### Filter/Search summary markers (Phase 1)
+- `Passing (\d+) for double-dummy inspection.`
+  - accepted_total = N (boards passing constraints)
+- `(\d+) boards are skipped.`
+  - skipped = rejected candidates
+- `A pick rate is 1 to (\d+)`
+  - pick_rate
+- `Total iterations = (\d+)`
+  - generator_iterations_total
+- `The search is done in ...` (seconds or minutes+seconds)
+  - filter_time
+- `Memory consumed:\s*([0-9]+)K`
+  - mem_kb
+
+### Solve progress markers (Phase 2)
+Heartbeat:
+- `Processed:\s*(\d+)\s*total.`
+  - processed
+
+Nearby optional companions (capture if present within a small window around Processed):
+- `Chance to make =\s*([0-9.]+)%`
+  - chance_make_pct
+- `Averages: ...`
+  - averages per action/contract (task-dependent)
+- `Comparison: favor bidding ([0-9.]+)%.*same ([0-9.]+)%.*favor defending ([0-9.]+)%`
+  - comparison tuple
+- `A huge match: \+(\d+) IMPs`
+  - imps_total
+- `HITS COUNT` table
+  - store as “diagnostics payload” (raw block or structured later)
+
+### Final markers
+- `Verdict:\s*(.+)`  ✅ best single-line final decision
+- `A split .*:`      ✅ signals final aggregation start
+- `The search took ...` ✅ final performance summary
+
+### Failure markers
+- `^ERROR:` / `Semantics ERROR:` / `Parsing ERROR:`
+- `Failed to init ...`
+Also use:
+- process exit code != 0 as the strongest “technical failure” signal.
+
+---
+
+## 6) Parsing strategy with *zero changes* to 🦦
+Oscar uses “windowed block capture” rather than strict BEGIN/END tags.
+
+- HEADER block: from first line until `----` (or until `Passing ...`)
+- CONSTRAINTS block: from `----` until `example:` / `Passing ...`
+- EXAMPLE block (optional): from `example:` until `Passing ...`
+- FILTER_SUMMARY: from `Passing ...` until `Solving started:` or first `Processed:`
+- PROGRESS_TICK: anchored at each `Processed:` line; capture a small window of lines before/after to pick up HITS/Chance/Averages/Comparison.
+- FINAL: from `Verdict:` or `A split` until EOF/exit
+
+Oscar stores raw blocks in the per-task log file anyway; structured extraction is “best effort.”
+
+---
+
+## 7) Failure taxonomy (☠️) + watchdogs (🍺💓 pulse monitoring)
+Oscar maintains:
+- `last_output_ms` (any line)
+- `last_progress_ms` (Processed heartbeat)
+- `phase` (spawn/header/filter/solve/final)
+- optionally: `filter_pulse` (if Walrus supports it later)
+
+### 7.1 Failures by phase
+**State 0 SPAWNED (technical ☠️)**
+- spawn failure, cannot start process, immediate crash
+Action: FAILED(reason=spawn_failed), include OS error + exit code.
+
+**State 1 HEADER / INIT (semantic refusal ☠️)**
+- invalid input (bad PBN, wrong seat, scorer parse/encode fail)
+Action: FAILED(reason=user_input or config_error), capture the error block.
+
+**State 2 FILTERING**
+Risks:
+- contradictory constraints → endless loop with accepted=0 ☠️
+- very tight constraints → long runtime but valid
+We want:
+- optional “filter pulse” from Walrus (see 🍺💓 Feature Request)
+Fallback:
+- coarse no-output timeout if silent.
+
+**State 3 SOLVING**
+Mostly technical:
+- crash, deadlock, stall
+Action:
+- if no output for too long, assume lost → FAILED(reason=worker_silent ☠️)
+- if Processed doesn’t advance for too long → FAILED(reason=solver_stall ☠️)
+
+**State 4 FINAL**
+- saw final markers but no exit → kill after grace timeout → FAILED(reason=finalization_stall) or DONE if final payload complete.
+
+### 7.2 Suggested timeouts (tunable)
+- spawn_first_output_timeout: 10–20s
+- header_timeout: 60s
+- filtering_no_output_timeout: 60–180s (depends on expected workloads)
+- solving_no_output_timeout: 60–120s
+- solving_no_progress_timeout: longer (e.g. 5–10 min) unless you expect frequent Processed
+- final_grace_timeout: 10–30s
+
+---
+
+## 8) Feature request to 🦦 (minimal and “less invasive than A”)
+We keep Walrus “mumbling,” but we want one tiny capability:
+
+### FR-1: Filtering signs-of-life (pulse)
+Problem: filtering can dominate runtime; if constraints are contradictory, Walrus may loop forever; Oscar needs a way to distinguish “still working” vs “stuck” vs “no samples found.”
+
+Request:
+- During FILTERING, Walrus emits **any** periodic human-readable line such as:
+  - `Filtering... iters=123456789 accepted=0 elapsed=45s`
+  - `Search heartbeat: iters=... accepted=... rate≈...`
+- Oscar will parse opportunistically if present; otherwise ignore.
+
+Desired:
+- emitted every X seconds (e.g. 5–15s) OR every Y iterations
+- should appear **before** the final “Passing N for double-dummy inspection...” line
+
+### FR-2: “Connect early enough”
+Interpretation:
+- Walrus should start emitting output as soon as it starts filter compilation/search.
+- If you later move to socket/protobuf/etc, this maps to “connect to Oscar early,” but for now 🎤 is fine: *print early, print occasionally.*
+
+#### FR-3: Semantic refusal signature (HEADER ☠️)
+**Goal:** When 🦦 refuses a task in **State 1 (HEADER / INIT)** due to semantic/config issues, 🦉 wants a stable *one-line* summary to show in UI, while preserving full details in the 🎤 MTS log.
+
+**Oscar-side policy (🦉):**
+- UI-facing `ERROR_SUMMARY` is normalized to:
+  - `Failed to init task semantics`
+- Full diagnostic text remains in the complete 🦦 log (🎤 MTS).  
+- This keeps UI clean and avoids leaking internal parser noise, while retaining deep trace for debugging.
+
+**Walrus-side request (🦦): **
+- see W-2
+
+**Acceptance criteria:**
+- 🦉 detects the failure block (`ERROR:`, `Semantics ERROR:`, `Parsing ERROR:`, `Failed to init ...`)
+- 🦉 stores the full block in the per-task log (🎤 MTS)
+- 🦉 sets task status to `FAILED` with `errorSummary = "Failed to init task semantics"`
+
+---
+
+## 9) 🦉 implementation plan (testable order)
+Each step should be independently verifiable via logs + unit-ish fixtures.
+
+### Phase P0 — Supervisor baseline (already mostly done)
+- spawn 🦦, make sure 🎤 stream works, store per-task logs
+- update TaskRegistry status STARTED/IN_PROGRESS
+Test: spawn + log file created + `GET /tasks/:id` works.
+
+### Phase P1 — Opportunistic parsing v0 (existing markers only)
+- implement phase machine (spawn/header/filter/solve/final)
+- regex detectors for:
+  - `Passing N...`, `Total iterations`, `search time`, `memory`
+  - `Processed N total`, `Chance to make`, `Comparison`, `Verdict`, `A split`
+- update TaskRegistry snapshot fields:
+  - percent (if total known), processed, accepted_total, verdict, final split lines (raw)
+Test: replay saved logs → snapshot matches expected.
+
+### Phase P2 — Pulse watchdogs (🍺💓)
+- maintain last_output_ms / last_progress_ms
+- phase-dependent timeouts and failure reasons
+Test: simulate silent worker / stalled progress → Oscar fails task cleanly.
+
+### Phase P3 — Final answer extraction (nuanced)
+- parse final split tables into structured fields:
+  - for “make% by HCP” splits
+  - for “go A / same / go B” comparison splits
+- preserve “HITS COUNT” as raw diagnostic payload (or structured later)
+Test: UI shows a compact final + expandable diagnostics.
+
+### Phase P4 — Filtering pulse support (when 🦦 adds it)
+- parse filtering pulses into:
+  - elapsed, iters, accepted
+- add “contradictory constraints” refusal:
+  - accepted=0 beyond threshold → fail(reason=no_samples_found)
+Test: run a known-contradictory task; Oscar fails fast with meaningful message.
+
+### Phase P5 — Better contracts (optional later)
+- `resultJson` schema stabilized per task type
+- JSONL or @EV upgrade path if/when desired
+
+---
+
+## 10) Split into tasks (Oscar-side planned work)
+You can paste these into TTL or issue tracker.
+
+### Core tasks (must)
+**T1. Phase machine + marker recognizers**
+- Implement lifecycle phases and transitions driven by existing markers.
+
+**T2. Filter summary extractor**
+- Extract accepted_total, skipped, pick_rate, iterations, filter_time, mem_kb.
+
+**T3. Progress tick extractor**
+- Anchor on `Processed:` and parse chance/averages/comparison if nearby.
+
+**T4. Final answer extractor**
+- Detect final markers and assemble final payload:
+  - verdict (if present)
+  - split tables (raw + structured)
+  - perf summary (search sec + aftermath + throughput)
+
+**T5. Pulse watchdogs (🍺💓)**
+- last_output_ms / last_progress_ms + phase timeouts + failure reasons.
+
+### Integration tasks (near-term, highly recommended)
+**T6. TaskRegistry as the single source of truth**
+- Ensure dedupe/seq handling and “last seen” live only in TaskRegistry (encapsulation refactor).
+
+**T7. Log plumbing + retrieval**
+- Per-task logs reliable and separated
+- Optional: `?log_req=1` support for UI retrieval (tail)
+
+### Walrus-facing tasks (feature requests)
+**W1. Filtering pulse line**
+- Add “sign of life” printing during filtering.
+
+**W2. Semantic refusal signature**
+- On semantic/config refusal in HEADER ☠️, emit to 🎤 keyword “ERROR” and/or “Failed”. 
+  - Avoid emitting these keywords on normal workflow.
+- Continue emitting the detailed failure messages as usual (no need to restructure them).
+
+---
+
+## Appendix A — Other 🦉 tasks & optional features
+### A1) Team Task List (TTL) items we’re carrying
+- **Parser rewrite (future): `OwlEvent::AttemptParse`**  
+  Rewrite to support richer event schema when/if we move to structured events (log/progress/final/fail + resultJson + diagnostics).  
+  DoD: fail events produce FAILED; final result payload flows to UI; tests with fixtures.
+
+- **TaskRegistry encapsulates old `tasks[]` map**  
+  Move dedupe/seq filtering entirely into TaskRegistry; Oscar uses returned disposition (`Accepted/Duplicate/Ignored`).  
+  (This reduces drift/leaks and makes the listener architecture cleaner.)
+
+- **Optional: DELETE semantics alignment**
+  Ensure `mode=cancel` vs `mode=ack` behavior matches comments and expectations.
+
+- **Optional: global log newline policy**
+  Decide whether server log should force newline separation (per-task logs already do it well).
+
+### A2) Optional feature ideas (nice-to-have)
+- “Diagnostics pack” in UI: show split tables + HITS COUNT + perf
+- Rate limit protection: cut off flooding workers per task (you already want this)
+- Structured “task family” display: competitive compare vs one-sided make vs others
+- Auto-sweep policy: once UI ACKs (`DELETE mode=ack`), registry may evict snapshot + delete task log file
+
+### A3) Collaboration flags (🟩🟨🟥)
+- 🟩 Go: implement a phase or extractor with tests against saved logs
+- 🟨 Slow: changes that affect timeouts/kill policies; check assumptions
+- 🟥 Stop: any ambiguity in TaskID / ownership / deleting active tasks requires clarity
+
+---
+
+## Appendix B — “Upgrade path” (if we ever want)
+Even though we start with mumble-parsing, the doc keeps a clean ladder:
+- v0.1: parse existing markers
+- v0.2: add filtering pulses
+- v0.3: optional single-line embedded JSON events (`@EV {...}`)
+- v0.4: optional full JSONL event stream
+
+We do not need to decide now. The opportunistic listener approach stays valid and useful across all versions.
+
+---
+
+## APPENDIX C — Phase transition triggers
+Request a separate file from Architect.
+

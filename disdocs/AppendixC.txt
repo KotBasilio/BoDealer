@@ -1,0 +1,88 @@
+TAGs: GriffinsClubInternals, DesignDoc
+
+**Appendix C: Phase Transition Triggers** in a “paste-ready” format (tight, implementation-shaped). 
+SPAWNED → HEADER → FILTERING → SOLVING → FINAL → EXITED, plus failure/cancel edges.
+
+---
+
+APPENDIX C — Phase transition triggers (v0.1)
+
+0. **SPAWNED**
+* Entry condition:
+  * process created + TaskRegistry entry touched
+* Exit to **HEADER**:
+  * first non-empty output line received (any stdout/stderr line)
+* Exit to **EXITED (FAILED)**:
+  * process exits before first output line
+  * reason: `worker_exit_early`
+
+1. **HEADER / INIT**
+* Remain in HEADER while:
+  * metadata lines appear (task name, auction, question, fixed hand, scorer, task type)
+* Transition to **FILTERING** (init success hints):
+  * line contains substring: `Compiling filters...`
+  * (optionally add more “init OK” hints later)
+* Transition to **EXITED (FAILED)** (semantic/early failure):
+  * line contains substring: `ERROR:`
+  * OR line contains substring: `Failed to init`
+  * reason: `semantic_refusal` or `init_failed` (pick your naming)
+* Transition to **EXITED (FAILED)** (timeout):
+  * no output for `header_timeout`
+  * reason: `header_silent`
+
+2. **FILTERING / SEARCH**
+* Remain in FILTERING while:
+  * filter/search markers arrive (Passing N, skipped, pick rate, iterations, etc.)
+* Transition to **SOLVING**:
+  * line contains substring: `Solving started:`
+  * OR line contains substring: `Processed:` (first time you see it)
+* Transition to **EXITED (FAILED)** (semantic refusal / impossible constraints):
+  * line contains substring: `ERROR:`
+  * OR line contains substring: `Failed to init` (if late)
+  * reason: `semantic_refusal`
+* Transition to **EXITED (FAILED)** (timeout / stall):
+  * no output for `filtering_no_output_timeout`
+  * reason: `worker_silent`
+  * (optional stricter stall rule later: accepted_total stays 0 “too long” → `filters_contradictory`)
+
+3. **SOLVING / AFTERMATH**
+* Remain in SOLVING while:
+  * progress markers appear (Processed…, chance/comparison nearby)
+* Transition to **FINAL**:
+  * line contains substring: `Verdict:`
+  * OR line contains substring: `A split`
+  * OR line contains substring: `The search took`
+* Transition to **EXITED (FAILED)** (technical failure):
+  * line contains substring: `ERROR:`
+  * reason: `solver_error`
+* Transition to **EXITED (FAILED)** (stall):
+  * no output for `solving_no_output_timeout` → `worker_silent`
+  * OR Processed doesn’t advance for “too long” → `solver_stall`
+
+4. **FINAL**
+* Remain in FINAL while:
+  * collecting final payload (split blocks, summary, timing)
+* Transition to **EXITED** (normal):
+  * worker process exits (clean exit)
+  * status:
+    * DONE if final markers were seen and final payload considered “complete enough”
+    * FAILED otherwise (best available error/trace)
+* Transition to **EXITED (FAILED or DONE)** (grace timeout):
+  * saw final markers but worker does not exit within `final_grace_timeout`
+  * if final payload is complete enough → DONE (with note `final_grace_exit`)
+  * else → FAILED (`finalization_stall`)
+
+5. **EXITED**
+* Terminal state; no transitions, only post-processing:
+  * decide DONE/FAILED/CANCELED
+  * freeze snapshot + log tail for UI
+  * allow ACK/cleanup policy
+
+6. **CANCEL (cross-cutting)**
+* Cancellation request (from UI / internal control):
+  * set `cancel_requested=true` in registry (does not instantly imply exit)
+* Transition to **EXITED (CANCELED)**:
+  * worker exits after cancel requested
+  * or Oscar kills worker after cancel grace timeout
+
+---
