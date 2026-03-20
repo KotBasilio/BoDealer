@@ -4,8 +4,6 @@
  ************************************************************/
 class Walrus;
 
-#include "OscarCLI.h"
-
 //#pragma message("waMulti.h REV: hello v1.0")
 
 struct WaMulti {

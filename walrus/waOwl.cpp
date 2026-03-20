@@ -8,11 +8,10 @@
 #include HEADER_SLEEP
 #include HEADER_C_LEGACY
 #include "waDoubleDeal.h"
+#include "OscarCLI.h"
 #include "../dds-develop/examples/hands.h"
 
 //#pragma message("waOwl.cpp REV: hello v1.0")
-
-//#define OWL_DEVMODE
 
 struct OwlImpl {
     HANDLE PipeOut = NULL;
@@ -68,10 +67,10 @@ static BOOL _AttemptStartOscar(CHAR *workDirPath, CHAR* suffix, STARTUPINFO& siS
       strcat(exeCLI, "\" ");
    }
 
-   // may setup devmode
-   #ifdef OWL_DEVMODE
+   // may pass waitAttach
+   if (config.cli.waitAttach) {
       strcat(exeCLI, ARG_WAITATTACH);
-   #endif 
+   }
 
    // Create the child process.
    return CreateProcess(oscarPath,

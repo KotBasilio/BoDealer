@@ -217,6 +217,8 @@ struct WaConfig {
 
    // CLI options
    struct CLI {
+      bool isDevMode = false;
+      bool waitAttach = false;
       bool exitOnDone = false;
       char nameFileConfig[WA_FNAME_LEN];
       char nameFileOutput[WA_FNAME_LEN];

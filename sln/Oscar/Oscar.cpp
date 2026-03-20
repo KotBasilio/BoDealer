@@ -23,6 +23,7 @@ extern bool OscarAttemptHttpRun(int argc, char** argv);
 extern void ShowAllScores();
 
 // config
+//#define VERBOSE_LOGGING
 #define DEFAULT_LOGFILE_NAME "oscar_log.txt"
 static CHAR logFileName[MAX_PATH];
 static bool bWaitAttach = false;
@@ -98,7 +99,7 @@ bool OscarEcho::Retell()
       return false;
    }
 
-   // Append gossip to a file
+   // Append each gossip to a file
    FILE* file = fopen(logFileName, "a");
    if (!file) {
       printf("Failed to open %s\n", logFileName);
@@ -107,9 +108,6 @@ bool OscarEcho::Retell()
    fprintf(file, "%s\n", gossip);
    fclose(file);
 
-   // TODO: recognize other commands
-
-   // stay content
    return true;
 }
 
@@ -119,13 +117,18 @@ bool ReadCLIParams(int argc, char* argv[])
    if (argc < 2) {
       return false;
    }
+   #ifdef VERBOSE_LOGGING
+      printf("Command-line arguments:\n");
+   #endif
 
    // default log file name
    strcpy(logFileName, DEFAULT_LOGFILE_NAME);
-   printf("Command-line arguments:\n");
+
    for (int i = 0; i < argc; ++i) {
       // for debug: print all CLI parameters, numbered
-      //printf("Arg %d: %s\n", i, argv[i]);
+      #ifdef VERBOSE_LOGGING
+         printf("Arg %d: %s\n", i, argv[i]);
+      #endif
 
       // check for the "-logresult" CLI param
       if (std::strcmp(argv[i], ARG_LOGRESULT) == 0 && i + 1 < argc) {
@@ -139,7 +142,11 @@ bool ReadCLIParams(int argc, char* argv[])
          bWaitAttach = true;
       }
    }
-   printf("log to : %s\n", logFileName);
+
+   #ifdef VERBOSE_LOGGING
+      printf("log to : %s\n", logFileName);
+   #endif
+
    return true;
 }
 
@@ -149,7 +156,7 @@ static void ConsiderWaitForAttach()
       return;
    }
 
-   printf("Waiting debugger attach...\n");
+   printf("Waiting for debugger to attach...\n");
    while (bWaitAttach) {
       Sleep(100);
       if (false) {

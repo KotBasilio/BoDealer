@@ -9,7 +9,6 @@
 // http relevant slice.
 struct OwlConfig {
    bool isHttp = false;
-   bool isDevMode = false;
    std::string host = "127.0.0.1";
    int port = 3042;
    std::string helloPath = "/oscar/hello";

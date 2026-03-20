@@ -6,6 +6,7 @@
 #define  _CRT_SECURE_NO_WARNINGS
 #include "walrus.h"
 #include HEADER_C_LEGACY
+#include "OscarCLI.h"
 #include <chrono>
 #include <cstring> // For std::strcmp
 
@@ -81,23 +82,29 @@ void ReadCLI(int argc, char* argv[])
 {
    for (int i = 1; i < argc; ++i) {
       // check for the exit control
-      if (std::strcmp(argv[i], "-exitondone") == 0) {
+      if (std::strcmp(argv[i], ARG_EXITONDONE) == 0) {
          config.cli.exitOnDone = true;
       }
 
-      // check for the parameter to enforce HTTP mode
-      if (std::strcmp(argv[i], "-http") == 0) {
+      // check for the wait attach parameter
+      if (std::strcmp(argv[i], ARG_WAITATTACH) == 0) {
+         config.cli.waitAttach = true;
+      }
+
+      // check for the parameter to enforce DEV mode -- umbrella
+      if (std::strcmp(argv[i], ARG_DEV) == 0) {
+         config.cli.isDevMode = true;
+         config.cli.exitOnDone = true;
          config.cowl.isHttp = true;
       }
 
-      // check for the parameter to enforce DEV mode
-      if (std::strcmp(argv[i], "-dev") == 0) {
+      // check for the parameter to enforce HTTP mode
+      if (std::strcmp(argv[i], ARG_HTTP) == 0) {
          config.cowl.isHttp = true;
-         config.cowl.isDevMode = true;
       }
 
       // check for the config name
-      if (std::strcmp(argv[i], "-cfgname") == 0 && i + 1 < argc) {
+      if (std::strcmp(argv[i], ARG_CFGNAME) == 0 && i + 1 < argc) {
          auto last = sizeof(config.cli.nameFileConfig) - 1;
          std::strncpy(config.cli.nameFileConfig, argv[i + 1], last);  
          config.cli.nameFileConfig[last] = '\0';
@@ -105,7 +112,7 @@ void ReadCLI(int argc, char* argv[])
       }
 
       // check for the log result parameter
-      if (std::strcmp(argv[i], "-logresult") == 0 && i + 1 < argc) {
+      if (std::strcmp(argv[i], ARG_LOGRESULT) == 0 && i + 1 < argc) {
          auto last = sizeof(config.cli.nameFileOutput) - 1;
          std::strncpy(config.cli.nameFileOutput, argv[i + 1], last);
          config.cli.nameFileOutput[last] = '\0';

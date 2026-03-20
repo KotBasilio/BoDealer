@@ -100,11 +100,13 @@ public:
       // may retry hello a bit (Oscar boot time)
       if (!hello_probe()) {
          bool ok = false;
-         for (int i = 0; i < cfg_.helloRetries; ++i) {
+         for (int i = 0; i < cfg_.helloRetries || config.cli.waitAttach; ++i) {
             std::this_thread::sleep_for(std::chrono::milliseconds(cfg_.helloRetryMs));
             if (hello_probe()) { ok = true; break; }
          }
-         if (!ok) {// might still start worker; it would drop/skip sends.
+
+         // might still start worker; it would drop/skip sends.
+         if (!ok) {
             std::fprintf(stderr, "[owl/http] Oscar not responding on %s:%d\n",
                cfg_.host.c_str(), cfg_.port);
             return false;
@@ -214,7 +216,7 @@ private:
          (void)res;
 
          // dev mode => also POST griffins/club/stop on Done
-         if (config.cowl.isDevMode && (ev.type == OwlEventType::Done)) {
+         if ((ev.type == OwlEventType::Done) && config.cli.isDevMode) {
             client_->Post(cfg_.donePath.c_str(), body, "application/json");
          }
       }
