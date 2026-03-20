@@ -374,6 +374,9 @@
     <ClInclude Include="..\..\walrus\OwlTransport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\walrus\OscarCLI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\dds-develop\src\COMMENT">

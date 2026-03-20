@@ -5,7 +5,7 @@
 
 #include "Oscar.h"
 
-#pragma message("OsServer.cpp REV: registry v0.8")
+//#pragma message("OsServer.cpp REV: registry v0.8")
 #define REQUIRE_SELF                                       \
    if (!_this) {                                           \
       res.status = 503;                                    \

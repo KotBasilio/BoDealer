@@ -6,7 +6,7 @@
 #include <string_view>
 #include "Oscar.h"
 
-#pragma message("TaskRegistry.cpp REV: registry v0.8")
+//#pragma message("TaskRegistry.cpp REV: registry v0.8")
 
 TaskRegistry::TaskRegistry()
    : m_logDir("oscar_tasks") // directory for per-task logs

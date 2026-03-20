@@ -3,7 +3,7 @@
 #include "waCrossPlatform.h"
 #include "httplib.h" // cpp-httplib (https://github.com/yhirose/cpp-httplib)
 #include HEADER_SLEEP
-#include HEADER_CURSES
+#include HEADER_C_LEGACY
 #include "waDoubleDeal.h"
 
 #include <atomic>
@@ -13,7 +13,7 @@
 #include <thread>
 #include <cstdio>
 
-#pragma message("OwlTransportHttp.cpp REV: hello v1.0")
+//#pragma message("OwlTransportHttp.cpp REV: hello v1.0")
 
 static uint64_t now_unix_ms()
 {

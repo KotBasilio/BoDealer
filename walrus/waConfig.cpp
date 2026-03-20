@@ -6,7 +6,7 @@
 #define  _CRT_SECURE_NO_WARNINGS
 #include "waCrossPlatform.h"
 #include HEADER_SLEEP
-#include HEADER_CURSES
+#include HEADER_C_LEGACY
 #include "walrus.h"
 #include <assert.h>
 

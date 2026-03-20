@@ -9,7 +9,7 @@
 #include "../dds-develop/include/dll.h"
 #include "../dds-develop/examples/hands.h"
 #include "walrus.h"
-#include HEADER_CURSES
+#include HEADER_C_LEGACY
 #include <assert.h>
 
 #define ORBIT_PERMUTE_FACTOR 6

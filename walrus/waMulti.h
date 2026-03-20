@@ -4,7 +4,9 @@
  ************************************************************/
 class Walrus;
 
-#pragma message("waMulti.h REV: hello v1.0")
+#include "OscarCLI.h"
+
+//#pragma message("waMulti.h REV: hello v1.0")
 
 struct WaMulti {
    WaMulti();
@@ -35,10 +37,6 @@ struct WaMulti {
 
 // co-working on filtering
 constexpr uint MAX_TASKS_TO_SOLVE = 200 * 1000;
-
-// Oscar interactions
-#define GRIFFINS_CLUB_RUNS       "Lights are on "
-#define GRIFFINS_CLUB_IS_CLOSING "Shutdown"
 
 struct OscarTheOwl {
    OscarTheOwl();

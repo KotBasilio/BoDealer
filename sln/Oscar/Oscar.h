@@ -4,7 +4,7 @@
 #include "json.hpp"
 #include "TaskRegistry.h"
 
-#pragma message("Oscar.h  REV: registry v0.8")
+//#pragma message("Oscar.h  REV: registry v0.8")
 
 using json = nlohmann::json;
 
@@ -63,4 +63,3 @@ GetOptions ParseGetOptions(const httplib::Request& req);
 uint64_t NowUnixMs();
 bool GetArgValue(int argc, char** argv, const char* key, std::string& out);
 void EnsureDir(const std::string& d); 
-

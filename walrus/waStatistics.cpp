@@ -12,7 +12,7 @@
 #include "walrus.h"
 #include <cmath>
 #include "waStatistics.h"
-#include HEADER_CURSES
+#include HEADER_C_LEGACY
 
 extern char fmtCellFloat[];
 extern char fmtCellDouble[];

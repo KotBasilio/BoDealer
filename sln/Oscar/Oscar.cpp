@@ -5,12 +5,11 @@
 //
 
 #define  _CRT_SECURE_NO_WARNINGS
-#include <windows.h>
-#include <wincon.h>
-#include "walrus.h"
-#include HEADER_CURSES
+#include <fstream>  
+#include "Oscar.h"
+#include "OscarCLI.h"
 
-#pragma message("Oscar.cpp REV: hello v1.0")
+//#pragma message("Oscar.cpp REV: hello v1.0")
 
 static const char* artOscar[] = {
    "        |\\_______/|      \n",
@@ -20,8 +19,13 @@ static const char* artOscar[] = {
    "        -ooo---ooo-      \n\n",
 };
 
-CHAR LOGFILE_NAME[MAX_PATH];
 extern bool OscarAttemptHttpRun(int argc, char** argv);
+extern void ShowAllScores();
+
+// config
+#define DEFAULT_LOGFILE_NAME "oscar_log.txt"
+static CHAR logFileName[MAX_PATH];
+static bool bWaitAttach = false;
 
 static void PaintOscar()
 {
@@ -41,7 +45,7 @@ struct OscarEcho {
       fprintf(stderr, "%s", "Oscar is watching\n");
 
       // Delete the file after the loop ends
-      remove(LOGFILE_NAME);
+      remove(logFileName);
    }
 
    bool Retell();
@@ -55,8 +59,6 @@ private:
    char gossip[4096];
 };
 extern void PrepareLinearScores();
-extern s64  gLinearScores[];
-const s64* FindLinearScore(const char* code);
 
 void OscarEcho::SetupConsoleColors()
 {
@@ -97,9 +99,9 @@ bool OscarEcho::Retell()
    }
 
    // Append gossip to a file
-   FILE* file = fopen(LOGFILE_NAME, "a");
+   FILE* file = fopen(logFileName, "a");
    if (!file) {
-      printf("Failed to open %s\n", LOGFILE_NAME);
+      printf("Failed to open %s\n", logFileName);
       return false;
    }
    fprintf(file, "%s\n", gossip);
@@ -111,73 +113,60 @@ bool OscarEcho::Retell()
    return true;
 }
 
-constexpr uint SCO_TRICKS = 14;// 0..13
-
-static void PrintCode(const char* code)
-{
-   auto cur = FindLinearScore(code);
-   printf("code : %s\n", code);
-   for (int tricks = 0; tricks < SCO_TRICKS; tricks++) {
-      printf(" %5lld", *cur++);
-   }
-   printf("\n\n");
-}
-
-static void ShowAllScores()
-{
-   PrepareLinearScores();
-
-   const s64* cur = gLinearScores;
-   while (*cur) {
-      for (int tricks = 0; tricks < SCO_TRICKS; tricks++) {
-         printf(" %5lld", *cur++);
-      }
-      printf("\n");
-      for (int tricks = 0; tricks < SCO_TRICKS; tricks++) {
-         printf(" %5lld", *cur++);
-      }
-      printf("\n\n");
-   }
-
-   PrintCode("V7NR");
-   PrintCode("V2C");
-   PrintCode("V3NX");
-   PrintCode("V2SX");
-}
-
 bool ReadCLIParams(int argc, char* argv[])
 {
-   // too few params
+   // too few => fail
    if (argc < 2) {
-      ShowAllScores();
-      printf("Waiting for the club to start.\n");
-      printf("Press Enter to exit.\n");
       return false;
    }
 
    // default log file name
-   strcpy(LOGFILE_NAME, "oscar_log.txt");
+   strcpy(logFileName, DEFAULT_LOGFILE_NAME);
    printf("Command-line arguments:\n");
    for (int i = 0; i < argc; ++i) {
-      // Print all CLI parameters, numbered
-      printf("Arg %d: %s\n", i, argv[i]);
+      // for debug: print all CLI parameters, numbered
+      //printf("Arg %d: %s\n", i, argv[i]);
 
-      // check for the "-logresult" CLI parameter
-      if (std::strcmp(argv[i], "-logresult") == 0 && i + 1 < argc) {
-         auto last = sizeof(LOGFILE_NAME) - 1;
-         std::strncpy(LOGFILE_NAME, argv[i + 1], last);
-         LOGFILE_NAME[last] = '\0';
+      // check for the "-logresult" CLI param
+      if (std::strcmp(argv[i], ARG_LOGRESULT) == 0 && i + 1 < argc) {
+         auto last = sizeof(logFileName) - 1;
+         std::strncpy(logFileName, argv[i + 1], last);
+         logFileName[last] = '\0';
+      }
+
+      // check for the "-waitattach" CLI param
+      if (std::strcmp(argv[i], ARG_WAITATTACH) == 0) {
+         bWaitAttach = true;
       }
    }
-   printf("log to : %s\n", LOGFILE_NAME);
+   printf("log to : %s\n", logFileName);
    return true;
+}
+
+static void ConsiderWaitForAttach()
+{
+   if (!bWaitAttach) {
+      return;
+   }
+
+   printf("Waiting debugger attach...\n");
+   while (bWaitAttach) {
+      Sleep(100);
+      if (false) {
+         bWaitAttach = false; // set breakpoint on Sleep(), then set next statement here => set free
+      }
+   }
 }
 
 int main(int argc, char* argv[])
 {
    if (!ReadCLIParams(argc, argv)) {
+      ShowAllScores();
+      printf("Waiting for the club to start.\n");
+      printf("Press Enter to exit.\n");
       return 0;
    }
+   ConsiderWaitForAttach();
 
    OscarEcho owl;
    if (!OscarAttemptHttpRun(argc, argv)) {

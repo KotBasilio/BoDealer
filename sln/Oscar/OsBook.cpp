@@ -4,6 +4,7 @@
 
 #define  _CRT_SECURE_NO_WARNINGS
 #include <string.h>
+#include <stdio.h> // printf
 
 typedef unsigned int uint;
 typedef signed long long s64;
@@ -14,7 +15,7 @@ constexpr uint SCO_DENOMS      = 3; // m, M, NT
 constexpr uint SCO_TRICKS      = 14;// 0..13
 constexpr uint SCO_VUL         = 2; // nv, V
 constexpr uint SIZE_LINEAR_SCORES = SCO_ACTIONS * SCO_LEVELS * SCO_DENOMS * SCO_VUL * SCO_TRICKS ;
-constexpr uint SCO_DEBUG_TAIL  = 5;
+constexpr uint SCO_DEBUG_TAIL  = SCO_TRICKS * 2;
 s64  gLinearScores[SIZE_LINEAR_SCORES + SCO_DEBUG_TAIL];
 uint gSizeLinearScores = SIZE_LINEAR_SCORES;
 
@@ -573,4 +574,36 @@ const s64* FindLinearScore(const char* code)
       + action * SCO_TRICKS * SCO_VUL * SCO_DENOMS * SCO_LEVELS;  // all actions
 
    return gLinearScores + shift;
+}
+
+static void PrintCode(const char* code)
+{
+   auto cur = FindLinearScore(code);
+   printf("code : %s\n", code);
+   for (int tricks = 0; tricks < SCO_TRICKS; tricks++) {
+      printf(" %5lld", *cur++);
+   }
+   printf("\n\n");
+}
+
+void ShowAllScores()
+{
+   PrepareLinearScores();
+
+   const s64* cur = gLinearScores;
+   while (*cur) {
+      for (int tricks = 0; tricks < SCO_TRICKS; tricks++) {
+         printf(" %5lld", *cur++);
+      }
+      printf("\n");
+      for (int tricks = 0; tricks < SCO_TRICKS; tricks++) {
+         printf(" %5lld", *cur++);
+      }
+      printf("\n\n");
+   }
+
+   PrintCode("V7NR");
+   PrintCode("V2C");
+   PrintCode("V3NX");
+   PrintCode("V2SX");
 }

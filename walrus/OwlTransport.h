@@ -4,7 +4,7 @@
 #include <memory>
 #include <chrono>
 
-#pragma message("OwlTransport.h REV: registry v0.8")
+//#pragma message("OwlTransport.h REV: registry v0.8")
 
 // http relevant slice.
 struct OwlConfig {

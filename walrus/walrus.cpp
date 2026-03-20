@@ -5,7 +5,7 @@
 ************************************************************/
 #define  _CRT_SECURE_NO_WARNINGS
 #include "walrus.h"
-#include HEADER_CURSES
+#include HEADER_C_LEGACY
 #include <chrono>
 #include <cstring> // For std::strcmp
 

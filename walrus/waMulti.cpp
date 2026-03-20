@@ -7,7 +7,7 @@
 #include HEADER_SLEEP  
 #include HEADER_THREADS
 #include "walrus.h"
-#include HEADER_CURSES
+#include HEADER_C_LEGACY
 
 //#define SHOW_EFFORT_SPLIT
 

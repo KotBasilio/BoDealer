@@ -9,7 +9,7 @@
 #include HEADER_SLEEP
 #include <string.h>
 #include "walrus.h"
-#include HEADER_CURSES
+#include HEADER_C_LEGACY
 
 extern char fmtCell[];
 extern char fmtCellStr[];

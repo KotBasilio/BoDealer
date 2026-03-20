@@ -8,7 +8,7 @@
 #include <string.h>
 #include "waDoubleDeal.h"
 #include "../dds-develop/examples/hands.h"
-#include HEADER_CURSES
+#include HEADER_C_LEGACY
 #include <assert.h>
 
 //#define  DBG_VIEW_ON_RECONSTRUCTION

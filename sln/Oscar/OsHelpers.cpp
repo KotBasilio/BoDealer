@@ -6,7 +6,7 @@
 #include "Oscar.h"
 #include "OwlTransport.h"
 
-#pragma message("OsHelpers.cpp REV: registry v0.8")
+//#pragma message("OsHelpers.cpp REV: registry v0.8")
 
 SServer* SServer::_this = nullptr;
 SServer::SServer() { 
@@ -151,8 +151,6 @@ int GetHttpPort(int argc, char** argv)
 
 bool OscarAttemptHttpRun(int argc, char** argv)
 {
-   SServer oscar;
-
    // prep
    int port = GetHttpPort(argc, argv);
    if (port <= 0) {
@@ -161,6 +159,7 @@ bool OscarAttemptHttpRun(int argc, char** argv)
    FillConfig(argc, argv);
 
    // run
+   SServer oscar;
    return oscar.AttemptHttpRun(port);
 }
 

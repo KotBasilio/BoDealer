@@ -9,7 +9,7 @@
  // main fork
 #ifdef _MSC_VER
    // Target: Windows, Visual Studio compiler
-   #define HEADER_CURSES    <conio.h>
+   #define HEADER_C_LEGACY  <conio.h>
    #define HEADER_SLEEP     <Windows.h>
    #define HEADER_THREADS   <process.h>
 
@@ -23,7 +23,7 @@
    #define WIN_DETECT_PATH
 #else // platforms
    // Target: Unix, gnuC++ compiler
-   #define HEADER_CURSES    <curses.h>
+   #define HEADER_C_LEGACY  <curses.h>
    #define HEADER_SLEEP     <unistd.h>
    #define HEADER_THREADS   <pthread.h>
 

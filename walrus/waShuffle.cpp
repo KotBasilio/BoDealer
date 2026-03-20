@@ -7,7 +7,7 @@
 #include <ctime>
 #include <stdlib.h>  // RAND_MAX
 #include "walrus.h"
-#include HEADER_CURSES
+#include HEADER_C_LEGACY
 
 #define HIBITS  ((BO_SPADS+BO_HEART+BO_DIAMD+BO_CLUBS) << 1) // it counts as a hand with two deuces in each suit -- easily detected and doesn't cause an overflow
 #define FLIP_OVER_START_IDX config.deck.cardsCount

@@ -6,11 +6,13 @@
 #define  _CRT_SECURE_NO_WARNINGS
 #include "waCrossPlatform.h"
 #include HEADER_SLEEP
-#include HEADER_CURSES
+#include HEADER_C_LEGACY
 #include "waDoubleDeal.h"
 #include "../dds-develop/examples/hands.h"
 
-#pragma message("waOwl.cpp REV: hello v1.0")
+//#pragma message("waOwl.cpp REV: hello v1.0")
+
+//#define OWL_DEVMODE
 
 struct OwlImpl {
     HANDLE PipeOut = NULL;
@@ -65,6 +67,11 @@ static BOOL _AttemptStartOscar(CHAR *workDirPath, CHAR* suffix, STARTUPINFO& siS
       strcat(exeCLI, config.cli.nameFileOutput);
       strcat(exeCLI, "\" ");
    }
+
+   // may setup devmode
+   #ifdef OWL_DEVMODE
+      strcat(exeCLI, ARG_WAITATTACH);
+   #endif 
 
    // Create the child process.
    return CreateProcess(oscarPath,
