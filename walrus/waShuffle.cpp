@@ -67,7 +67,7 @@ bool Shuffler::AssertDeckSize(uint wish, char const* hint)
       return true;
    }
 
-   printf("\nERROR: Wrong count of cards discarded: %d is left.\nHint: %s\n", cardsInDeck, hint);
+   owl.Show("\nERROR: Wrong count of cards discarded: %d is left.\nHint: %s\n", cardsInDeck, hint);
    return false;
 }
 
@@ -199,7 +199,7 @@ void Shuffler::WithdrawCard(u64 jo)
       }
    }
 
-   printf("WTF ERROR: card to withdraw is already not in deck.\n");
+   owl.Show("WTF ERROR: card to withdraw is already not in deck.\n");
    config.MarkFail();
 }
 

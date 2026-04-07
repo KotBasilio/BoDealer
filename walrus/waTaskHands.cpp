@@ -135,7 +135,7 @@ static ddTableDeal pbnDeal;
 twlHCP WaConfig::ParsePbnDeal()
 {
    if (ConvertFromPBN(config.txt.taskHandPBN, pbnDeal.cards) != 1) {
-      printf("\nERROR: Cannot parse PBN: %s\n", config.txt.taskHandPBN);
+      owl.Show("\nERROR: Cannot parse PBN: %s\n", config.txt.taskHandPBN);
       config.MarkFail();
       return twlHCP();
    }
@@ -178,7 +178,7 @@ void WaConfig::EnsureLeadCardsInLeadHand()
    #define CHECK_SUIT(FIELD, DD_SUIT, POS)                           \
       card = 0x0001 << solve.leads.FIELD;                            \
       if (0 == (West[DD_SUIT] & card)) {                             \
-         printf("Error: " #DD_SUIT " %c from '%s' is not in %s.\n",  \
+         owl.Show("Error: " #DD_SUIT " %c from '%s' is not in %s.\n",\
             txt.taskLeadsPBN[POS],                                   \
             txt.taskLeadsPBN, txt.taskHandPBN);                      \
          MarkFail();                                                 \
@@ -245,7 +245,7 @@ void Semantics::PrepareBaseDeal()
    }
 
    if (countCards != SYMM) {
-      printf("\nERROR: Wrong count of cards in hand: %d\n", countCards);
+      owl.Show("\nERROR: Wrong count of cards in hand: %d\n", countCards);
       config.MarkFail();
    }
 }

@@ -124,6 +124,11 @@ bool Walrus::InitSemantics()
 
 void WaConfig::AnalyzeTaskType()
 {
+   // back off
+   if (IsInitFailed()) {
+      return;
+   }
+
    // decide what hand is fixed and other specifics
    switch (solve.taskType) {
       case TTYPE_FIXED_ONE_HAND:

@@ -88,7 +88,7 @@ bool Semantics::MiniLink(std::vector<MicroFilter>& filters)
 {
    // check size (see CellByIPR)
    if (filters.size() > IPR_COMPACTION * 4) {
-      printf("Link ERROR: Insufficent hit array size for %llu filters\n", filters.size());
+      owl.Show("Link ERROR: Insufficent hit array size for %llu filters\n", filters.size());
       return false;
    }
 
@@ -119,7 +119,7 @@ bool Semantics::MiniLink(std::vector<MicroFilter>& filters)
 
       // sanity check
       if (depth) {
-         printf("Link ERROR: Unmatched control path bracket for filter: %s\n", mic.name);
+         owl.Show("Link ERROR: Unmatched control path bracket for filter: %s\n", mic.name);
          return false;
       }
    }
@@ -155,7 +155,7 @@ struct CompilerContext
    {
       bufCopy = (char *)malloc(size);
       if (!bufCopy) {
-         printf("Compile alloc failed %llu bytes\n", size);
+         owl.Show("Compile alloc failed %llu bytes\n", size);
          PLATFORM_GETCH();
          exit(0);
       }
@@ -232,7 +232,7 @@ bool Semantics::Compile(const char* sourceCode, size_t size, std::vector<MicroFi
    if (filters.size()) {
       const auto& first = filters[0];
       if (first.params[0] == NORTH) {
-         printf("\nFailed: The first filter shouldn't be for NORTH.\n");
+         owl.Show("\nFailed: The first filter shouldn't be for NORTH.\n");
          return false;
       }
    }
@@ -244,7 +244,7 @@ bool Semantics::CompileScorerPart(struct CompilerContext& ctx, CumulativeScore& 
 {
    // ensure space
    if (config.lens.countLenses >= WA_MAX_LENSES) {
-      printf("Exceeded max lenses: %lld\n", WA_MAX_LENSES);
+      owl.Show("Exceeded max lenses: %lld\n", WA_MAX_LENSES);
       return false;
    }
 
@@ -252,13 +252,13 @@ bool Semantics::CompileScorerPart(struct CompilerContext& ctx, CumulativeScore& 
    auto scorerCode = config.lens.arrLenses[config.lens.countLenses].txtCode;
    strcpy(scorerCode, posImply + strlen(config.key.Imply));
    if (config.dbg.verboseCompile) {
-      printf("Scorer %2d: %s\n", ctx.idxLine + 1, scorerCode);
+      owl.Show("Scorer %2d: %s\n", ctx.idxLine + 1, scorerCode);
    }
 
    // parse
    LineScorer& outLin = cumul.allScorers[config.lens.countLenses];
    if (!outLin.Init(cumul.ourOther, scorerCode)) {
-      printf("Parsing multi-scorer failed on line #%d\n", ctx.idxLine + 1);
+      owl.Show("Parsing multi-scorer failed on line #%d\n", ctx.idxLine + 1);
       return false;
    }
 
@@ -296,7 +296,7 @@ bool Semantics::BuildMultiScorer(const char* sourceCode, size_t size, Cumulative
       if (posImply) {
          *posImply = 0;
       } else {
-         printf("\nFailed: Missing '%s' in multi-scorer line #%d: %s\n", config.key.Imply, ctx.idxLine + 1, ctx.line);
+         owl.Show("\nFailed: Missing '%s' in multi-scorer line #%d: %s\n", config.key.Imply, ctx.idxLine + 1, ctx.line);
          return false;
       }
 
@@ -316,7 +316,7 @@ bool Semantics::BuildMultiScorer(const char* sourceCode, size_t size, Cumulative
       // require all filters to be for SOUTH, see TrumpFillMultiLens()
       for (auto& filter : ctx.out) {
          if (filter.params[0] != SOUTH) {
-            printf("\nFailed: multi-scorer filters must be for SOUTH so far.\n");
+            owl.Show("\nFailed: multi-scorer filters must be for SOUTH so far.\n");
             return false;
          }
          filter.params[0] = 0;
@@ -395,7 +395,7 @@ struct Parser
 
    bool Fail(const char* reason1, const char* r2 = "", const char* r3 = "")
    {
-      printf("\n%s%s%s #%d: %s\n", reason1, r2, r3, ctx.idxLine + 1, backupLine);
+      owl.Show("\n%s%s%s #%d: %s\n", reason1, r2, r3, ctx.idxLine + 1, backupLine);
       return false;
    }
 
@@ -563,14 +563,14 @@ bool Semantics::CompileOneLine(CompilerContext &ctx)
 {
    // prepare
    if (config.dbg.verboseCompile) {
-      printf("Line   %2d: %s\n", ctx.idxLine + 1, ctx.line);
+      owl.Show("Line   %2d: %s\n", ctx.idxLine + 1, ctx.line);
    }
    EParserState fsmState = PS_IDLE;
 
    // parse all tokens
    Parser parser(ctx);
    for ( ; parser.token; ++parser ) {
-      //printf( "%s\n", parser.token);
+      //owl.Show( "%s\n", parser.token);
 
       switch (fsmState) {
          case PS_IDLE:
@@ -641,15 +641,15 @@ void WaConfig::BuildNewFilters(Walrus *walrus)
       return;
    }
    if (!filters.sizeSourceCode) {
-      printf("WARNING: No filters are found in the config.\n");
+      owl.Show("WARNING: No filters are found in the config.\n");
       return;
    }
 
    if (dbg.verboseCompile) {
-      printf("A filters source code is found in the config. Passing to compiler, size is %llu of %llu.\n", 
+      owl.Show("A filters source code is found in the config. Passing to compiler, size is %llu of %llu.\n", 
          filters.sizeSourceCode, sizeof(filters.sourceCode));
    } else {
-      printf("Compiling filters...");
+      owl.Show("Compiling filters...");
    }
 
    if (!walrus->sem.Compile(filters.sourceCode, filters.sizeSourceCode, filters.compiled)) {
@@ -662,7 +662,7 @@ void WaConfig::BuildNewFilters(Walrus *walrus)
       return;
    }
 
-   printf("Success on filters compiling and linking.\n");
+   owl.Show("Success on filters compiling and linking.\n");
 }
 
 void WaConfig::BuildMultiScorer(Walrus* walrus)
@@ -675,10 +675,10 @@ void WaConfig::BuildMultiScorer(Walrus* walrus)
    }
 
    if (dbg.verboseCompile) {
-      printf("A multi-scorer source code is found in the config. Passing to compiler, size is %llu of %llu.\n",
+      owl.Show("A multi-scorer source code is found in the config. Passing to compiler, size is %llu of %llu.\n",
          txt.sizeMulScorerSourceCode, sizeof(txt.mulScorerSourceCode));
    } else {
-      printf("Building multi-scorer...");
+      owl.Show("Building multi-scorer...");
    }
 
    if (!walrus->sem.BuildMultiScorer(txt.mulScorerSourceCode, txt.sizeMulScorerSourceCode, walrus->cumulScore)) {
@@ -686,6 +686,6 @@ void WaConfig::BuildMultiScorer(Walrus* walrus)
       return;
    }
 
-   printf("Success.\n");
+   owl.Show("Success.\n");
 }
 
