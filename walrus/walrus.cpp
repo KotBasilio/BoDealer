@@ -11,6 +11,7 @@
 #include <cstring> // For std::strcmp
 
 std::chrono::steady_clock::duration timeChronoStart;
+// Archy overwrote these 3 lines
 extern void DoSelfTests();
 
 void ChronoStart()
