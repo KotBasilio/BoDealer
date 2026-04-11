@@ -1,0 +1,58 @@
+From ab2552a319397cae08fc1e9a86d38157136c7fd0 Mon Sep 17 00:00:00 2001
+From: Codex <codex@openai.com>
+Date: Sat, 11 Apr 2026 10:38:16 +0000
+Subject: [PATCH] Add AGENTS.md collaboration policy and minor whitespace
+ cleanup in walrus.cpp
+
+### Motivation
+- Introduce a repository-level policy that documents default instructions and constraints for AI agents collaborating in this repo and make a trivial cleanup in `walrus/walrus.cpp` to keep the tree tidy.
+
+### Description
+- Add `AGENTS.md` containing scope, collaboration mode, safety/change constraints, C++ editing conventions, validation guidance, and communication rules for AI agents.
+- Remove a trailing blank/whitespace change in `walrus/walrus.cpp` (no functional changes).
+
+### Testing
+- No automated tests were run in this environment; smallest relevant checks could not be executed due to environment limitations.
+---
+ AGENTS.md         | 29 +++++++++++++++++++++++++++++
+ walrus/walrus.cpp |  1 -
+ 2 files changed, 29 insertions(+), 1 deletion(-)
+ create mode 100644 AGENTS.md
+
+diff --git a/AGENTS.md b/AGENTS.md
+new file mode 100644
+index 0000000..4ee3c88
+--- /dev/null
++++ b/AGENTS.md
+@@ -0,0 +1,29 @@
++# AGENTS.md — BoDealer collaboration policy
++
++This file defines default instructions for AI agents working in this repository.
++
++## Scope
++- Applies to the entire repository rooted at this directory.
++
++## Collaboration mode
++- Do not create pull requests unless explicitly requested by the user.
++- Commit directly to the current working branch.
++- Prefer small, focused commits with clear commit messages.
++
++## Safety and change scope
++- Touch only files required for the requested task.
++- Avoid broad refactors unless explicitly requested.
++- Preserve existing behavior unless the user asks for functional changes.
++
++## C++ editing conventions
++- Keep changes minimal and style-consistent with surrounding code.
++- Do not introduce new dependencies without explicit approval.
++- Do not add ornamental comments or banners.
++
++## Validation
++- Run the smallest relevant checks available for the changed area.
++- If a check cannot run due to environment limitations, report that clearly.
++
++## Communication
++- Summarize what changed, why, and how it was validated.
++- Flag assumptions and uncertainties explicitly.
+-- 
+2.43.0
