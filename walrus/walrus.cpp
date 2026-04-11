@@ -11,9 +11,7 @@
 #include <cstring> // For std::strcmp
 
 std::chrono::steady_clock::duration timeChronoStart;
-// Codex was here
-// Codex 2
-// Codex push test
+// Archy overwrote these 3 lines
 extern void DoSelfTests();
 
 void ChronoStart()
