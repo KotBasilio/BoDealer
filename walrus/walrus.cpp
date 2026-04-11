@@ -11,6 +11,7 @@
 #include <cstring> // For std::strcmp
 
 std::chrono::steady_clock::duration timeChronoStart;
+// Codex was here
 extern void DoSelfTests();
 
 void ChronoStart()
