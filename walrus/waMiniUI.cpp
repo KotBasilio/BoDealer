@@ -10,6 +10,27 @@
 #include "../dds-develop/examples/hands.h"
 #include HEADER_C_LEGACY
 
+#define CMD_GOAL_JUST_MADE  ' '
+#define CMD_GOAL_PLUS_1     '1'
+#define CMD_GOAL_PLUS_2     '2'
+#define CMD_GOAL_PLUS_3     '3'
+#define CMD_GOAL_PLUS_4     '4'
+#define CMD_GOAL_MINUS_1    'q'
+#define CMD_GOAL_MINUS_2    'w'
+#define CMD_GOAL_MINUS_3    'e'
+#define CMD_GOAL_MINUS_4    'r'
+#define CMD_GOAL_MINUS_5    't'
+#define CMD_GOAL_MINUS_6    'y'
+#define CMD_GOAL_MINUS_7    'u'
+#define CMD_GOAL_MINUS_8    'i'
+#define CMD_FLY_SAME_NT     '='
+#define CMD_FLY_PREFER_SUIT '['
+#define CMD_FLY_MORE_NT     ']'
+#define CMD_REPORT_ALL      's'
+#define CMD_REPORT_ADVANCED 'a'
+#define CMD_REPORT_ONLY     'z'
+#define CMD_EXIT            'x'
+
 MiniUI::MiniUI()
    : exitRequested(false)
    , reportRequested(false)
@@ -115,45 +136,44 @@ void MiniUI::RecognizeCommands(int inchar)
    switch (inchar) {
       // primary scorer:
       // -- just made
-      case ' ': irGoal = config.lens.prim.goal; break;
+      case CMD_GOAL_JUST_MADE: irGoal = config.lens.prim.goal; break;
       // -- overtricks
-      case '1': irGoal = config.lens.prim.goal + 1; break;
-      case '2': irGoal = config.lens.prim.goal + 2; break;
-      case '3': irGoal = config.lens.prim.goal + 3; break;
-      case '4': irGoal = config.lens.prim.goal + 4; break;
+      case CMD_GOAL_PLUS_1: irGoal = config.lens.prim.goal + 1; break;
+      case CMD_GOAL_PLUS_2: irGoal = config.lens.prim.goal + 2; break;
+      case CMD_GOAL_PLUS_3: irGoal = config.lens.prim.goal + 3; break;
+      case CMD_GOAL_PLUS_4: irGoal = config.lens.prim.goal + 4; break;
       // -- down some
-      case 'q': irGoal = config.lens.prim.goal - 1;  break;
-      case 'w': irGoal = config.lens.prim.goal - 2;  break;
-      case 'e': irGoal = config.lens.prim.goal - 3;  break;
-      case 'r': irGoal = config.lens.prim.goal - 4;  break;
-      case 't': irGoal = config.lens.prim.goal - 5;  break;
-      case 'y': irGoal = config.lens.prim.goal - 6;  break;
-      case 'u': irGoal = config.lens.prim.goal - 7;  break;
-      case 'i': irGoal = config.lens.prim.goal - 8;  break;
+      case CMD_GOAL_MINUS_1: irGoal = config.lens.prim.goal - 1;  break;
+      case CMD_GOAL_MINUS_2: irGoal = config.lens.prim.goal - 2;  break;
+      case CMD_GOAL_MINUS_3: irGoal = config.lens.prim.goal - 3;  break;
+      case CMD_GOAL_MINUS_4: irGoal = config.lens.prim.goal - 4;  break;
+      case CMD_GOAL_MINUS_5: irGoal = config.lens.prim.goal - 5;  break;
+      case CMD_GOAL_MINUS_6: irGoal = config.lens.prim.goal - 6;  break;
+      case CMD_GOAL_MINUS_7: irGoal = config.lens.prim.goal - 7;  break;
+      case CMD_GOAL_MINUS_8: irGoal = config.lens.prim.goal - 8;  break;
 
       // secondary TODO
 
       // fly comparison
-      case '=': irGoal = config.lens.prim.goal; irFly = IO_CAMP_SAME_NT;     break;
-      case '[': irGoal = config.lens.prim.goal; irFly = IO_CAMP_PREFER_SUIT; break;
-      case ']': irGoal = config.lens.prim.goal; irFly = IO_CAMP_MORE_NT;     break;
+      case CMD_FLY_SAME_NT: irGoal = config.lens.prim.goal; irFly = IO_CAMP_SAME_NT;     break;
+      case CMD_FLY_PREFER_SUIT: irGoal = config.lens.prim.goal; irFly = IO_CAMP_PREFER_SUIT; break;
+      case CMD_FLY_MORE_NT: irGoal = config.lens.prim.goal; irFly = IO_CAMP_MORE_NT;     break;
 
       // report hits
-      case 's': // report + all graphs
+      case CMD_REPORT_ALL: // report + all graphs
          allStatGraphs = true;
          // no break
-      case 'a': // report + one graph
+      case CMD_REPORT_ADVANCED: // report + one graph
          advancedStatistics = true;
          // no break
-      case 'z': // just a report
+      case CMD_REPORT_ONLY: // just a report
          reportRequested = true;
          break;
 
       // exit
-      case 'x':
+      case CMD_EXIT:
          exitRequested = true;
          owl.Show("\n");
          break;
    }
 }
-
