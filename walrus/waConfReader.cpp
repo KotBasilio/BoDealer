@@ -17,7 +17,7 @@ void WaConfig::MarkFail(const char* reason)
 {
    isInitSuccess = false;
    auto safeReason = reason ? reason : "..";
-   printf("Parsing ERROR: %s.\n", safeReason);
+   owl.Show("Parsing ERROR: %s.\n", safeReason);
 }
 
 void WaConfig::AnnounceTask()
@@ -106,7 +106,7 @@ void WaConfig::DetectTwoScorers()
 
    // log
    if (io.showMagicFly) {
-      //printf("Search for magic fly is detected -- zero IMPs difference.\n");
+      //owl.Show("Search for magic fly is detected -- zero IMPs difference.\n");
    }
 }
 
@@ -129,7 +129,7 @@ void WaConfig::ResolvePostmortemType()
    }
 
    if (checkNorth && config.txt.taskHandPBN[1] != 'N') {
-      printf("Error: pls put fixed hand on NORTH, N. Your line is: %s\n", config.txt.taskHandPBN);
+      owl.Show("Error: pls put fixed hand on NORTH, N. Your line is: %s\n", config.txt.taskHandPBN);
       MarkFail();
    }
 
@@ -138,15 +138,15 @@ void WaConfig::ResolvePostmortemType()
 bool WaConfig::ResolveNontrivialPostmortems()
 {
    // announce; resolve auto 
-   printf("Postmortem type: ");
+   owl.Show("Postmortem type: ");
    if (postm.Type == WPM_HCP_SINGLE_SCORER ||
       postm.Type == WPM_A_TO_B) {
-      printf("(deprecated; consider using AUTO) ");
+      owl.Show("(deprecated; consider using AUTO) ");
    } else if (postm.Type == WPM_AUTO) {
-      printf("Auto --> ");
+      owl.Show("Auto --> ");
       RecognizePostmType(key.PostmHCP);
       if (!filters.FindHCPRange(SOUTH, postm.minHCP, postm.maxHCP)) {
-         printf("Error: missing PointsRange for SOUTH\n");
+         owl.Show("Error: missing PointsRange for SOUTH\n");
          MarkFail();
          return false;
       }
@@ -169,9 +169,9 @@ bool WaConfig::ResolveNontrivialPostmortems()
       case WPM_HCP_SINGLE_SCORER:
          if (postm.minControls) {
             postm.Type = WPM_CONTROLS;
-            printf("Controls for %d hcp\n", postm.minHCP);
+            owl.Show("Controls for %d hcp\n", postm.minHCP);
          } else {
-            printf("HCP single scorer: %d to %d\n", postm.minHCP, postm.maxHCP);
+            owl.Show("HCP single scorer: %d to %d\n", postm.minHCP, postm.maxHCP);
          }
          strcpy(config.txt.freqTitleFormat, "TRICKS FREQUENCY FOR %d HCP");
          checkRange = true;
@@ -179,26 +179,26 @@ bool WaConfig::ResolveNontrivialPostmortems()
          break;
 
       case WPM_A_TO_B:
-         printf("A to B comparator with HCP %d to %d\n", postm.minHCP, postm.maxHCP);
+         owl.Show("A to B comparator with HCP %d to %d\n", postm.minHCP, postm.maxHCP);
          strcpy(config.txt.freqTitleFormat, "COMPARISON RESULTS FOR %d HCP");
          checkRange = true;
          checkNorth = true;
          break;
 
       case WPM_OPENING_LEADS:// lead task should have lead cards specified
-         printf("Opening Leads\n");
+         owl.Show("Opening Leads\n");
          strcpy(config.txt.freqTitleFormat, "TRICKS FREQUENCY FOR %s LEAD");
          checkLeads = true;
          break;
 
       case WPM_SUIT:
-         printf("Suit\n");
+         owl.Show("Suit\n");
          strcpy(config.txt.freqTitleFormat, "TRICKS FREQUENCY FOR HCP in a suit (which? TODO)");
          checkNorth = true;
          break;
 
       default:
-         printf("unrecognized pm: %d\n", postm.Type);
+         owl.Show("unrecognized pm: %d\n", postm.Type);
          MarkFail();
          break;
    }
@@ -206,16 +206,16 @@ bool WaConfig::ResolveNontrivialPostmortems()
    // final checks
    if (checkRange) {
       if ((postm.minHCP < 0) || (postm.maxHCP < 0) || (postm.minHCP > postm.maxHCP)) {
-         printf("Error: invalid HCP range in postmortem: min=%d, max=%d\n", postm.minHCP, postm.maxHCP);
+         owl.Show("Error: invalid HCP range in postmortem: min=%d, max=%d\n", postm.minHCP, postm.maxHCP);
          MarkFail();
       }
    }
    if (checkLeads) {
       if (config.txt.taskHandPBN[1] != 'W') {
-         printf("Error: pls put fixed hand on WEST, W. Your line is: %s\n", config.txt.taskHandPBN);
+         owl.Show("Error: pls put fixed hand on WEST, W. Your line is: %s\n", config.txt.taskHandPBN);
          MarkFail();
       } else if (solve.leads.IsEmpty()) {
-         printf("Error: '%s' line is missing.\n", key.Leads);
+         owl.Show("Error: '%s' line is missing.\n", key.Leads);
          MarkFail();
       } else {
          owl.Silent("Leads to inspect: %s\n", txt.taskLeadsPBN);

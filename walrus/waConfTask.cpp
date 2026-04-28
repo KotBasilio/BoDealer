@@ -257,7 +257,10 @@ void WaConfig::ReadPrimaScorer(const char* line)
 
    lens.prim.Init(attempt.prima);
    if (!lens.prim.IsNSLine()) {
-      MarkFail("Pls setup primary scorer for N/S line");
+      MarkFail("Pls setup primary scorer for NS line (not EW)");
+      if (postm.Type == WPM_OPENING_LEADS) {
+         MarkFail("For leads search: pls place fixed hand on WEST");
+      }
       return;
    }
 
