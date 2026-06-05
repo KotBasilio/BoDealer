@@ -170,7 +170,7 @@ EConfigReaderState WaConfig::FSM_DoFiltersState(char *line)
    strcat(filters.sourceCode, line);
    filters.sizeSourceCode = strlen(filters.sourceCode) + 1;
    if (filters.sizeSourceCode > sizeof(filters.sourceCode)) {
-      printf("Error: exceeded source code size. Exiting.\n");
+      owl.Show("Error: exceeded source code size. Exiting.\n");
       PLATFORM_GETCH();
       exit(0);
    }
@@ -189,7 +189,7 @@ EConfigReaderState WaConfig::FSM_DoMulScorerState(char* line)
    strcat(txt.mulScorerSourceCode, line);
    txt.sizeMulScorerSourceCode = strlen(txt.mulScorerSourceCode) + 1;
    if (txt.sizeMulScorerSourceCode > sizeof(txt.mulScorerSourceCode)) {
-      printf("Error: exceeded multi-scorer source code size. Exiting.\n");
+      owl.Show("Error: exceeded multi-scorer source code size. Exiting.\n");
       PLATFORM_GETCH();
       exit(0);
    }
@@ -200,7 +200,7 @@ EConfigReaderState WaConfig::FSM_DoMulScorerState(char* line)
 void WaConfig::ReadDebugSetting(char* line)
 {
    if (IsStartsWith(line, key.ShowOnAdded)) {
-      printf("DEBUG: Will show every added board.\n");
+      owl.Show("DEBUG: Will show every added board.\n");
       dbg.viewBoardOnAdd = true;
    }
    if (IsStartsWith(line, key.ShowOnReconstructed)) {
@@ -235,7 +235,7 @@ void WaConfig::ReadScaleSetting(char* line)
       return;
    }
 
-   printf("Warning: cannot read task scale from line: %s", line);
+   owl.Show("Warning: cannot read task scale from line: %s", line);
 }
 
 void WaConfig::ReadHandPBN(const char* line)
@@ -314,9 +314,68 @@ bool WaConfig::RecognizePostmType(const char* token)
       return true;
    }
 
-   printf("Error: unrecognized postmortem type '%s'\n", token);
+   owl.Show("Error: unrecognized postmortem type '%s'\n", token);
    MarkFail();
    return false;
+}
+
+int WaConfig::RecognizePostmSuit(const char* token)
+{
+   struct Map { const char* key; int suit; };
+   static const Map mapping[] = {
+      { "SPD", SOL_SPADES },
+      { "HRT", SOL_HEARTS },
+      { "DMD", SOL_DIAMONDS },
+      { "CLB", SOL_CLUBS }
+   };
+   auto IsToken = [token](const char* key) {
+      return 0 == strcmp(token, key);
+   };
+
+   for (const auto& m : mapping) {
+      if (IsToken(m.key)) {
+         return m.suit;
+      }
+   }
+
+   owl.Show("Error: unrecognized postmortem suit '%s'\n", token);
+   owl.Show("Expected tokens:");
+   for (const auto& m : mapping) {
+      owl.Show("  %s", m.key);
+   }
+   owl.Show("\n");
+   MarkFail();
+   return -1;
+}
+
+int WaConfig::RecognizePostmPosition(const char* token)
+{
+   struct Map { const char* key; int pos; };
+   static const Map mapping[] = {
+      { "SOUTH", SOUTH },
+      { "WEST",  WEST  },
+      { "NORTH", NORTH },
+      { "EAST",  EAST  }
+   };
+
+   auto IsToken = [token](const char* key) {
+      return 0 == strcmp(token, key);
+   };
+
+   for (const auto& m : mapping) {
+      if (IsToken(m.key)) {
+         return m.pos;
+      }
+   }
+
+   owl.Show("Error: unrecognized postmortem position '%s'\n", token);
+   owl.Show("Expected tokens:");
+   for (const auto& m : mapping) {
+      owl.Show("  %s", m.key);
+   }
+   owl.Show("\n");
+   MarkFail();
+   return -1;
 }
 
 void WaConfig::ReadPostmortemParams(char* line)
@@ -332,11 +391,19 @@ void WaConfig::ReadPostmortemParams(char* line)
             break;
 
          case 1:// 1st arg
-            postm.minHCP = atoi(token);
+            if (postm.Type == WPM_SUIT) {
+               postm.idxSuit = RecognizePostmSuit(token);
+            } else {
+               postm.minHCP = atoi(token);
+            }
             break;
 
          case 2:// 2nd arg
-            postm.maxHCP = atoi(token);
+            if (postm.Type == WPM_SUIT) {
+               postm.idxHand = RecognizePostmPosition(token);
+            } else {
+               postm.maxHCP = atoi(token);
+            }
             break;
       }
    }
@@ -350,7 +417,7 @@ void WaConfig::ReadLeadCards(const char* line)
    if (!(postm.Type == WPM_OPENING_LEADS ||
          postm.Type == WPM_AUTO ||
          postm.Type == WPM_NONE )) {
-      printf("Error: setting lead cards makes sense only for postmortem types LEAD/AUTO\n");
+      owl.Show("Error: setting lead cards makes sense only for postmortem types LEAD/AUTO\n");
       MarkFail();
       return;
    }
@@ -362,7 +429,7 @@ void WaConfig::ReadLeadCards(const char* line)
       line[3] == '.' &&
       line[5] == '.';
    if (!ok) {
-      printf("Error: A short PBN notation is expected as leads for checking.\nExample: like A.5.T.2\nYour line is: %s", line);
+      owl.Show("Error: A short PBN notation is expected as leads for checking.\nExample: like A.5.T.2\nYour line is: %s", line);
       MarkFail();
       return;
    }
@@ -375,7 +442,7 @@ void WaConfig::ReadLeadCards(const char* line)
 
    // check
    if (!solve.leads.IsFilled()) {
-      printf("Error: A short leads PBN didn't fill all leads. Your line %sResulted in : %d, %d, %d, %d\n", 
+      owl.Show("Error: A short leads PBN didn't fill all leads. Your line %sResulted in : %d, %d, %d, %d\n", 
          line,
          solve.leads.S,
          solve.leads.H,
@@ -461,7 +528,7 @@ void WaConfig::ReadTask(Walrus *walrus)
    printf("Reading config from: %s\n", fname);
    FILE* stream;
    if (auto err = fopen_s(&stream, fname, "r")) {// non-zero => failed to open  
-      printf("Error: '%s' not found.\n", fname);  
+      owl.Show("Error: '%s' not found.\n", fname);  
       MarkFail("Failed to open configuration file.");  
       return;
    }

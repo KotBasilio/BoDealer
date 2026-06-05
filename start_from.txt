@@ -7,9 +7,10 @@ Competitive:
 //TASK NAME:AUG_BLITZ_VS_DIMULYA
 //TASK NAME:AUG_TRICOLOR_OVER_OPP_3S
 //TASK NAME:AUG_PREEMPTIVE_ON_PART_1H
+//TASK NAME:MAY_AZA_ON_4H
 
 One sided:
-TASK NAME:3S_ATTACK
+//TASK NAME:3S_ATTACK
 //TASK NAME:JAN26_BOTH_5332
 //TASK NAME:DEC25_DUMMY_GF
 //TASK NAME:DEC25_GAME_FORCING_WEAK_65
@@ -24,7 +25,7 @@ TASK NAME:3S_ATTACK
 //TASK NAME:OCT25_POSSIBLY_INSANE_BUTLER
 //TASK NAME:JUN25_ONE_SIDE_HEARTS_CLUBS
 //TASK NAME:FEB25_MAJORS_RESPONCE_PRECISION
-//TASK NAME:OCT_MINOR_SUPERFIT
+TASK NAME:OCT_MINOR_SUPERFIT
 //TASK NAME:COPILOT
 //TASK NAME:SEP_RESPONCE_TO_2C
 //TASK NAME:SEP_PARTIZAN_SPLIT_FIT
@@ -40,6 +41,29 @@ Leads:
 No fixed hand:
 //TASK NAME:4_HAND_MINOR_SUPERFIT
 //TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
+
+-----------------------------------------------------------------------------------------------------------------------
+MAY_AZA_ON_4H competitive, 4H contract
+
+HAND: N:Q3.9.QT854.AJT54
+
+PRIMARY SCORER: N5C BY S
+SECONDARY SCORER: V4SX BY W
+POSTMORTEM: AUTO
+
+FILTERS:
+    SOUTH: PointsRange, 12, 14
+    SOUTH: SpadesLen, 2, 2
+    SOUTH: HeartsLen, 4, 4
+    SOUTH: ClubsLen, 4, 4
+
+    EAST: SpadesLen, 5, 5
+    EAST: HeartsLen, 6, 6
+    EAST: PointsRange, 11, 16
+
+    WEST: NoOvercall
+    WEST: SpadesLen, 4, 4
+    WEST: PointsRange, 7, 10
 
 -----------------------------------------------------------------------------------------------------------------------
 3S_ATTACK best lead?
@@ -570,10 +594,12 @@ HAND: N:64.KJ83.K8.AJ876
 //HAND: N:64.KJ83.K8.KQ876
 PRIMARY SCORER: V3N BY N
 SECONDARY SCORER: V5C BY S
-POSTMORTEM: HCP 23, 28
+//POSTMORTEM: AUTO
+POSTMORTEM: SUIT DMD SOUTH
 
+//SOUTH: PointsRange, 11, 16
 FILTERS:
-    SOUTH: PointsRange, 11, 16
+    SOUTH: PointsRange, 13, 13
     SOUTH: ClubsLen, 5, 7
     SOUTH: SpadesLen, 4, 4
     SOUTH: HeartsLen, 0, 3
@@ -690,6 +716,7 @@ FILTERS:
        }
     }
 
+-----------------------------------------------------------------------------------------------------------------------
 AUG_BLITZ_VS_DIMULYA Fix a 10 hcp 3514;
 Bidding from LHO:
   1s    2d    pass  2h

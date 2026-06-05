@@ -185,7 +185,7 @@ struct WaConfig {
    // adding extra marks aka post-mortem 
    struct Postmortem {
       WA_POSTM_TYPE  Type = WPM_NONE;
-      int            idxHand, idxSuit;// for WPM_SUIT
+      int            idxSuit, idxHand;// for WPM_SUIT
       int            minHCP, maxHCP;
       int            minControls;
       twlHCP         hcpFixedHand;
@@ -262,6 +262,8 @@ private:
    EConfigReaderState FSM_GoInsideTask(char* line);
    const char* TaskTypeText(WA_TASK_TYPE key);
    bool RecognizePostmType(const char* token);
+   int RecognizePostmSuit(const char* token);
+   int RecognizePostmPosition(const char* token);
    void AnalyzeTaskType();
    WA_TASK_TYPE DetectOneHandVariant();
    void AnnounceTask();

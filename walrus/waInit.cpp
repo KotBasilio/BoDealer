@@ -95,8 +95,8 @@ bool WaConfig::Filters::FindHCPRange(int hand, int& from, int& to)
 
 WaConfig::Postmortem::Postmortem()
    : Type(WPM_NONE)
-   , idxHand(NORTH)
-   , idxSuit(SOL_HEARTS)
+   , idxHand(SOUTH)
+   , idxSuit(SOL_DIAMONDS)
    , minHCP(0), maxHCP(0)
    , minControls(0)
 {
