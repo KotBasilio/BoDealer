@@ -101,6 +101,8 @@ WaConfig::Postmortem::Postmortem()
    , minControls(0)
 {
    hcpFixedHand.Zero();
+   txtPosition[0] = 0;
+   txtSuit[0] = 0;
 }
 
 int WaConfig::Postmortem::FactorFromRow(int idx)

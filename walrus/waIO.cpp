@@ -379,6 +379,7 @@ void Walrus::ShowDetailedReportControls()
 void Walrus::ShowDetailedReportSuit()
 {
    UpdateFarColumnUI();
+   owl.Silent("\nA split of board results by %s hcp in %s hand:\n", config.postm.txtSuit, config.postm.txtPosition);
 
    // for mid-rows
    u64 prevSum = 0;

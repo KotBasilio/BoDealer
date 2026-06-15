@@ -189,6 +189,8 @@ struct WaConfig {
       int            minHCP, maxHCP;
       int            minControls;
       twlHCP         hcpFixedHand;
+      char           txtPosition[WA_TXT_SEAT_SUIT];
+      char           txtSuit[WA_TXT_SEAT_SUIT];
       Postmortem();
       bool Is(WA_POSTM_TYPE t) { return (t == Type); }
       int  FactorFromRow(int idx);
