@@ -10,6 +10,7 @@ Competitive:
 //TASK NAME:MAY_AZA_ON_4H
 
 One sided:
+TASK NAME:SPADES_GAMBLING_ON_MAX
 //TASK NAME:3S_ATTACK
 //TASK NAME:JAN26_BOTH_5332
 //TASK NAME:DEC25_DUMMY_GF
@@ -25,7 +26,7 @@ One sided:
 //TASK NAME:OCT25_POSSIBLY_INSANE_BUTLER
 //TASK NAME:JUN25_ONE_SIDE_HEARTS_CLUBS
 //TASK NAME:FEB25_MAJORS_RESPONCE_PRECISION
-TASK NAME:OCT_MINOR_SUPERFIT
+//TASK NAME:OCT_MINOR_SUPERFIT
 //TASK NAME:COPILOT
 //TASK NAME:SEP_RESPONCE_TO_2C
 //TASK NAME:SEP_PARTIZAN_SPLIT_FIT
@@ -41,6 +42,26 @@ Leads:
 No fixed hand:
 //TASK NAME:4_HAND_MINOR_SUPERFIT
 //TASK NAME:4_HAND_SLAM_ON_MINOR_SUPERFIT
+
+-----------------------------------------------------------------------------------------------------------------------
+SPADES_GAMBLING_ON_MAX
+
+PRIMARY SCORER: V3N BY N
+SECONDARY SCORER: V4S BY S
+POSTMORTEM: AUTO
+
+HAND: N:T8.KQ975.A854.54
+
+FILTERS:
+    SOUTH: PointsRange, 15, 16
+    SOUTH: PointsSuitAtLeast, SPD, 10
+    SOUTH: SpadesLen, 6, 7
+    SOUTH: HeartsLen, 1, 3
+    SOUTH: DiamondsLen, 1, 4
+    SOUTH: ClubsLen, 1, 4
+
+    EAST: NoOvercall
+    WEST: NoOvercall
 
 -----------------------------------------------------------------------------------------------------------------------
 MAY_AZA_ON_4H competitive, 4H contract
@@ -997,7 +1018,7 @@ TASK_TYPE:FIXED_ONE_HAND
 //POSTMORTEM: LEAD -- autodetected from LEAD CARDS
 
 -----------------------------------------------------------------------------------------------------------------------
-SCALE: 50
+SCALE: 80
 //SCALE: MIN
 //OPMODE: SEMI_STRAY
 //OPMODE: DEMO_STATISTICS
