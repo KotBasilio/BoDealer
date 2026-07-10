@@ -18,6 +18,8 @@
 #include <unistd.h>
 #if defined(__APPLE__)
 #include <mach-o/dyld.h>
+#elif !defined(__linux__)
+#error "Executable discovery is only implemented for macOS and Linux"
 #endif
 #endif
 
@@ -231,7 +233,7 @@ static std::filesystem::path ExecutableDirectory()
       return std::filesystem::current_path();
    }
    return std::filesystem::weakly_canonical(path.data()).parent_path();
-#else
+#elif defined(__linux__)
    std::vector<char> path(4096);
    auto size = readlink("/proc/self/exe", path.data(), path.size() - 1);
    if (size <= 0) {
