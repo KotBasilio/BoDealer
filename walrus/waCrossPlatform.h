@@ -5,6 +5,9 @@
 #ifndef WALRUS_CROSS_PFM
 #define WALRUS_CROSS_PFM
 
+#include <chrono>
+#include <thread>
+
  // -------------------------------------------------
  // main fork
 #ifdef _MSC_VER
@@ -15,7 +18,6 @@
 
    #define PLATFORM_GETCH _getch
    #define PLATFORM_KBHIT _kbhit
-   #define PLATFORM_SLEEP(TIME)  Sleep(TIME)
    #define PFM_THREAD_RETTYPE  void
    #define PFM_THREAD_RETVAL 
    #define PLATFORM_BEGIN_THREAD(FOO, ARG)  _beginthread(FOO, 0, ARG)
@@ -29,7 +31,6 @@
 
    #define PLATFORM_GETCH getch
    #define PLATFORM_KBHIT kbhit
-   #define PLATFORM_SLEEP(TIME)  sleep(TIME)
 
    #define PFM_THREAD_RETTYPE  void*
    #define PFM_THREAD_RETVAL   0
@@ -48,11 +49,10 @@
    #define MAXUINT32	((guint32) 0xffffffff)
    #define SUCCESS               0
 
-   #define __max(a,b) \
-          ({ typeof (a) _a = (a); \
-              typeof (b) _b = (b); \
-            _a > _b ? _a : _b; })
 #endif // platforms
+
+#define PLATFORM_SLEEP(TIME) \
+   std::this_thread::sleep_for(std::chrono::milliseconds(TIME))
 
 #include <stdio.h> // printf
 

@@ -3,7 +3,7 @@
 *
 ************************************************************/
 
-#include "WaSemMicro.h"
+#include "waSemMicro.h"
 #include "OwlTransport.h"
 
 // file names
@@ -294,4 +294,3 @@ public:
 };
 
 extern WaConfig config;
-

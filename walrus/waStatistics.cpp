@@ -10,6 +10,7 @@
 #include HEADER_SLEEP
 #include <string.h>
 #include "walrus.h"
+#include <algorithm>
 #include <cmath>
 #include "waStatistics.h"
 #include HEADER_C_LEGACY
@@ -143,7 +144,7 @@ static bool IsSmall(double x)
 }
 
 
-static void ClearFreqs()
+void ClearFreqs()
 {
    for (int i = 0; i < MAX_SIZE; ++i) {
       FREQ[i] = 0;
@@ -165,7 +166,7 @@ static void PictureTricksFrequences(int factor = -1)
    // ensure there's a data
    auto top = FREQ[0];
    for (int i = 1; i < MAX_SIZE; ++i) {
-      top = max(top, FREQ[i]);
+      top = std::max(top, FREQ[i]);
    }
    if (IsSmall(top)) {
       return;
@@ -387,4 +388,3 @@ void Walrus::ShowAdvancedStatistics(int idx)
    PictureTricksFrequences();
    CalcAndDisplayStatistics("Detailed statistics");
 }
-

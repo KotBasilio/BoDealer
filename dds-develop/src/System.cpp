@@ -7,7 +7,9 @@
    See LICENSE and README.
 */
 #define _CRT_SECURE_NO_WARNINGS
-#define DDS_THREADS_WINAPI
+#if defined(_WIN32)
+  #define DDS_THREADS_WINAPI
+#endif
 
 #include <iostream>
 #include <iomanip>
@@ -828,4 +830,3 @@ string System::str(DDSInfo * info) const
   strcpy(info->systemString, st.c_str());
   return st;
 }
-

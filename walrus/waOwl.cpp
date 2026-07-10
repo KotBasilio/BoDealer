@@ -10,12 +10,27 @@
 #include "waDoubleDeal.h"
 #include "OscarCLI.h"
 #include "../dds-develop/examples/hands.h"
+#include <algorithm>
+#include <filesystem>
+#include <vector>
+
+#if !defined(_WIN32)
+#include <unistd.h>
+#if defined(__APPLE__)
+#include <mach-o/dyld.h>
+#endif
+#endif
 
 //#pragma message("waOwl.cpp REV: hello v1.0")
 
 struct OwlImpl {
+#if defined(_WIN32)
     HANDLE PipeOut = NULL;
     HANDLE PipeFromOwl = NULL;
+#else
+    int PipeOut = -1;
+    int PipeFromOwl = -1;
+#endif
     char viscr[DDS_HAND_LINES][DDS_FULL_LINE]{};
 
     // HTTP transport -- enabled when config.cowl.isHttp
@@ -26,6 +41,14 @@ struct OwlImpl {
 OscarTheOwl owl;
 static OwlImpl impl;
 
+OscarTheOwl::OscarTheOwl()
+{
+   buffer[0] = 0;
+   earlyLine[0] = 0;
+   ClearViScreen();
+}
+
+#if defined(_WIN32)
 #ifdef _DEBUG
    #define OWL_CONFIG_SUFFIX  "\\x64\\Debug"
    #define OWL_VSCODE_SUFFIX  "\\sln\\Bo\\x64\\Debug"
@@ -33,13 +56,6 @@ static OwlImpl impl;
    #define OWL_CONFIG_SUFFIX  "\\x64\\Release"
    #define OWL_VSCODE_SUFFIX  "\\sln\\Bo\\x64\\Release"
 #endif
-
-OscarTheOwl::OscarTheOwl()
-{
-   buffer[0] = 0;
-   earlyLine[0] = 0;
-   ClearViScreen();
-}
 
 static BOOL _AttemptStartOscar(CHAR *workDirPath, CHAR* suffix, STARTUPINFO& siStartInfo, PROCESS_INFORMATION& piProcInfo)
 {
@@ -204,6 +220,122 @@ static bool _AttemptOscarTransports()
 
    return true;
 }
+#else
+static std::filesystem::path ExecutableDirectory()
+{
+#if defined(__APPLE__)
+   uint32_t size = 0;
+   _NSGetExecutablePath(nullptr, &size);
+   std::vector<char> path(size);
+   if (_NSGetExecutablePath(path.data(), &size) != 0) {
+      return std::filesystem::current_path();
+   }
+   return std::filesystem::weakly_canonical(path.data()).parent_path();
+#else
+   std::vector<char> path(4096);
+   auto size = readlink("/proc/self/exe", path.data(), path.size() - 1);
+   if (size <= 0) {
+      return std::filesystem::current_path();
+   }
+   path[size] = 0;
+   return std::filesystem::path(path.data()).parent_path();
+#endif
+}
+
+static bool StartOscarProcess(int childInput = -1, int childOutput = -1)
+{
+   auto oscarPath = ExecutableDirectory() / "oscar";
+   if (!std::filesystem::exists(oscarPath)) {
+      printf("Oscar is absent: %s\n", oscarPath.c_str());
+      return false;
+   }
+
+   std::vector<std::string> args{oscarPath.string(), GRIFFINS_CLUB_RUNS};
+   if (config.cowl.isHttp) {
+      args.emplace_back(ARG_HTTP);
+      args.emplace_back(std::to_string(config.cowl.port));
+   }
+   if (config.cli.nameFileOutput[0]) {
+      args.emplace_back(ARG_LOGRESULT);
+      args.emplace_back(config.cli.nameFileOutput);
+   }
+   if (config.cli.waitAttach) {
+      args.emplace_back(ARG_WAITATTACH);
+   }
+
+   auto pid = fork();
+   if (pid < 0) {
+      return false;
+   }
+   if (pid == 0) {
+      if (childInput >= 0) {
+         dup2(childInput, STDIN_FILENO);
+      }
+      if (childOutput >= 0) {
+         dup2(childOutput, STDERR_FILENO);
+      }
+
+      std::vector<char*> argv;
+      argv.reserve(args.size() + 1);
+      for (auto& arg : args) {
+         argv.push_back(arg.data());
+      }
+      argv.push_back(nullptr);
+      execv(oscarPath.c_str(), argv.data());
+      _exit(127);
+   }
+   return true;
+}
+
+static bool _AttemptOscarTransports()
+{
+   if (config.cowl.isHttp) {
+      config.TaskID = config.txt.nameTask;
+      impl.taskId = config.TaskID;
+      impl.http = CreateOwlTransport();
+      if (impl.http->InitHeated()) {
+         return true;
+      }
+      if (!StartOscarProcess()) {
+         return false;
+      }
+      if (impl.http->HandshakeAttempt()) {
+         return true;
+      }
+
+      printf("Failed to init HTTP transport to Oscar.\n");
+      printf("Fallback to pipes\n");
+      impl.http->Shutdown();
+      impl.http.reset();
+   }
+
+   int toChild[2];
+   int fromChild[2];
+   if (pipe(toChild) != 0 || pipe(fromChild) != 0) {
+      return false;
+   }
+
+   impl.PipeOut = toChild[1];
+   impl.PipeFromOwl = fromChild[0];
+   if (!StartOscarProcess(toChild[0], fromChild[1])) {
+      return false;
+   }
+   close(toChild[0]);
+   close(fromChild[1]);
+
+   char message[] = "Senior kibitzer Oscar is observing a task:\n";
+   owl.Send(message);
+
+   char buffer[256];
+   auto bytesRead = read(impl.PipeFromOwl, buffer, sizeof(buffer) - 1);
+   if (bytesRead <= 0) {
+      return false;
+   }
+   buffer[bytesRead] = 0;
+   printf("%s", buffer);
+   return true;
+}
+#endif
 
 bool Walrus::StartOscar()
 {
@@ -288,10 +420,16 @@ void OscarTheOwl::Send(char* message)
    }
 
    // PIPE path
+#if defined(_WIN32)
    if (impl.PipeOut) {
       DWORD bytesWritten;
       WriteFile(impl.PipeOut, message, (DWORD)strlen(message), &bytesWritten, NULL);
    } else {
+#else
+   if (impl.PipeOut >= 0) {
+      write(impl.PipeOut, message, strlen(message));
+   } else {
+#endif
       strcat(earlyLine, message);
    }
 }
@@ -326,8 +464,13 @@ void OscarTheOwl::Goodbye()
    // PIPE path
    Silent("%s\n", GRIFFINS_CLUB_IS_CLOSING);
    PLATFORM_SLEEP(100);
+#if defined(_WIN32)
    CloseHandle(impl.PipeOut);
    impl.PipeOut = NULL;
+#else
+   close(impl.PipeOut);
+   impl.PipeOut = -1;
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -533,9 +676,10 @@ void PrintTwoFutures(char title[], futureTricks * fut1, futureTricks * fut2)
    }
 
    // print the v-screen
-   auto maxline = __max(fut1->cards, fut2->cards) + 2;
+   auto maxline = std::max(fut1->cards, fut2->cards) + 2;
    _SilentViScreen(maxline, bigScr);
 }
+
 
 void OwlTwoFut(char title[], futureTricks * fut1, futureTricks * fut2)
 {
@@ -572,7 +716,6 @@ void OwlTwoFut(char title[], futureTricks * fut1, futureTricks * fut2)
    }
 
    // print the v-screen
-   auto maxline = __max(fut1->cards, fut2->cards) + 2;
+   auto maxline = std::max(fut1->cards, fut2->cards) + 2;
    _SilentViScreen(maxline, bigScr);
 }
-
