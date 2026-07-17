@@ -66,7 +66,7 @@ try {
     if ($stdout -notmatch "Processed: [1-9][0-9]* total\. East is on lead\. Goal is 13 tricks in spades\.") {
         throw "Missing expected completed-calculation summary"
     }
-    if ($stdout -notmatch "Averages:\s+7S = 1510, 6S = 980\.\s+Chance to make = 100\.0%\.") {
+    if ($stdout -notmatch "Averages:\s+ideal = 1510, 7S = 1510, 6S = 1010\.\s+Chance to make = 100\.0%\.") {
         throw "Unexpected deterministic grand-slam result"
     }
 
@@ -93,4 +93,3 @@ try {
 finally {
     Remove-Item $testDirectory -Recurse -Force -ErrorAction SilentlyContinue
 }
-
