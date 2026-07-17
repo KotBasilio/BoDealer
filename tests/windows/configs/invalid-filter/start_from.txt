@@ -1,0 +1,13 @@
+TASK NAME:REGRESSION_INVALID_FILTER
+
+-----------------------------------------------------------------------------------------------------------------------
+REGRESSION_INVALID_FILTER The filter name is not recognized
+
+HAND: N:AKQ.JT9.876.5432
+PRIMARY SCORER: V3N BY N
+
+FILTERS:
+    SOUTH: DefinitelyNotAFilter
+
+-----------------------------------------------------------------------------------------------------------------------
+TASK_TYPE:FIXED_ONE_HAND

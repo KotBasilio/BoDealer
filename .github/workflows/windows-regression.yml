@@ -24,3 +24,9 @@ jobs:
         run: >-
           ./tests/windows/missing-config.ps1
           -WalrusPath ./sln/Bo/x64/Debug/Walrus.exe
+
+      - name: Run invalid configuration tests
+        shell: pwsh
+        run: >-
+          ./tests/windows/invalid-config.ps1
+          -WalrusPath ./sln/Bo/x64/Debug/Walrus.exe
