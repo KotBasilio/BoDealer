@@ -10,6 +10,7 @@ $configPath = Join-Path $PSScriptRoot "configs/deterministic-grand-slam/start_fr
 $testDirectory = Join-Path ([System.IO.Path]::GetTempPath()) "bodealer-calculation-$([guid]::NewGuid())"
 $stdoutPath = Join-Path $testDirectory "walrus-stdout.txt"
 $stderrPath = Join-Path $testDirectory "walrus-stderr.txt"
+$resultPath = Join-Path $testDirectory "oscar-result.txt"
 
 if (-not (Test-Path $configPath -PathType Leaf)) {
     throw "Missing deterministic calculation fixture: $configPath"
@@ -25,7 +26,7 @@ New-Item -ItemType Directory -Path $testDirectory -Force | Out-Null
 try {
     $startInfo = [System.Diagnostics.ProcessStartInfo]::new()
     $startInfo.FileName = $walrus
-    $startInfo.Arguments = "-cfgname `"$configPath`" -exitondone"
+    $startInfo.Arguments = "-cfgname `"$configPath`" -logresult `"$resultPath`" -exitondone"
     $startInfo.WorkingDirectory = (Get-Location).Path
     $startInfo.UseShellExecute = $false
     $startInfo.RedirectStandardOutput = $true
@@ -57,19 +58,6 @@ try {
         Write-Host $stderr
     }
 
-    if ($process.ExitCode -ne 0) {
-        throw "Expected legacy Walrus exit code 0, got $($process.ExitCode)"
-    }
-    if ($stdout -notmatch "Primary scorer \(spades, 13 tr\):") {
-        throw "Missing expected 7S primary scorer diagnostic"
-    }
-    if ($stdout -notmatch "Processed: [1-9][0-9]* total\. East is on lead\. Goal is 13 tricks in spades\.") {
-        throw "Missing expected completed-calculation summary"
-    }
-    if ($stdout -notmatch "Averages:\s+ideal = 1510, 7S = 1510, 6S = 1010\.\s+Chance to make = 100\.0%\.") {
-        throw "Unexpected deterministic grand-slam result"
-    }
-
     $deadline = [DateTime]::UtcNow.AddSeconds(5)
     do {
         $oscarProcesses = @(
@@ -86,6 +74,26 @@ try {
         $ids = ($oscarProcesses.Id -join ", ")
         $oscarProcesses | Stop-Process -Force -ErrorAction SilentlyContinue
         throw "Oscar did not exit after the deterministic calculation (process IDs: $ids)"
+    }
+
+    if (-not (Test-Path $resultPath -PathType Leaf)) {
+        throw "Oscar did not create the deterministic calculation result file"
+    }
+    $result = Get-Content $resultPath -Raw
+    Write-Host "Oscar result:"
+    Write-Host $result
+
+    if ($process.ExitCode -ne 0) {
+        throw "Expected legacy Walrus exit code 0, got $($process.ExitCode)"
+    }
+    if ($result -notmatch "Primary scorer \(spades, 13 tr\):") {
+        throw "Missing expected 7S primary scorer diagnostic"
+    }
+    if ($result -notmatch "Processed: [1-9][0-9]* total\. East is on lead\. Goal is 13 tricks in spades\.") {
+        throw "Missing expected completed-calculation summary"
+    }
+    if ($result -notmatch "Averages:\s+ideal = 1510, 7S = 1510, 6S = 1010\.\s+Chance to make = 100\.0%\.") {
+        throw "Unexpected deterministic grand-slam result"
     }
 
     Write-Host "PASS: legacy Walrus produces the deterministic 7S calculation result"
