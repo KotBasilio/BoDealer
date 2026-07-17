@@ -1,0 +1,13 @@
+TASK NAME:REGRESSION_MALFORMED_HAND
+
+-----------------------------------------------------------------------------------------------------------------------
+REGRESSION_MALFORMED_HAND The fixed hand is not valid PBN
+
+HAND: INVALID
+PRIMARY SCORER: V3N BY N
+
+FILTERS:
+    SOUTH: PointsRange, 10, 12
+
+-----------------------------------------------------------------------------------------------------------------------
+TASK_TYPE:FIXED_ONE_HAND

@@ -1,0 +1,23 @@
+TASK NAME:REGRESSION_SEVEN_D_OR_SEVEN_NT
+
+-----------------------------------------------------------------------------------------------------------------------
+REGRESSION_SEVEN_D_OR_SEVEN_NT Is 7D or 7NT better on the matching hands?
+
+HAND: N:A7.AKJ8743.98.AK
+PRIMARY SCORER: N7D BY S
+SECONDARY SCORER: N7N BY S
+POSTMORTEM: AUTO
+
+FILTERS:
+    SOUTH: PointsRange, 11, 13
+    SOUTH: DiamondsLen, 6, 7
+    SOUTH: PointsSuitAtLeast, DMD, 9
+    SOUTH: SpadesLen, 4, 4
+    SOUTH: HeartsLen, 0, 2
+
+    EAST: NoOvercall
+    WEST: NoOvercall
+
+-----------------------------------------------------------------------------------------------------------------------
+TASK_TYPE:FIXED_ONE_HAND
+SCALE: MIN
