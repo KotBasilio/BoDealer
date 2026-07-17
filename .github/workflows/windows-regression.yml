@@ -30,3 +30,15 @@ jobs:
         run: >-
           ./tests/windows/invalid-config.ps1
           -WalrusPath ./sln/Bo/x64/Debug/Walrus.exe
+
+      - name: Run deterministic calculation test
+        shell: pwsh
+        run: >-
+          ./tests/windows/successful-calculation.ps1
+          -WalrusPath ./sln/Bo/x64/Debug/Walrus.exe
+
+      - name: Run recovered statistical calculation test
+        shell: pwsh
+        run: >-
+          ./tests/windows/statistical-calculation.ps1
+          -WalrusPath ./sln/Bo/x64/Debug/Walrus.exe

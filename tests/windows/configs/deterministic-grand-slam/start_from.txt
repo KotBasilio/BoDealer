@@ -1,0 +1,14 @@
+TASK NAME:REGRESSION_DETERMINISTIC_GRAND_SLAM
+
+-----------------------------------------------------------------------------------------------------------------------
+REGRESSION_DETERMINISTIC_GRAND_SLAM North holds every trump, so 7S always makes
+
+HAND: N:AKQJT98765432...
+PRIMARY SCORER: N7S BY N
+
+FILTERS:
+    SOUTH: PointsRange, 0, 37
+
+-----------------------------------------------------------------------------------------------------------------------
+TASK_TYPE:FIXED_ONE_HAND
+SCALE: MIN
