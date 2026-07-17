@@ -23,7 +23,7 @@ $cases = @(
     @{
         Name = "malformed hand"
         Fixture = "malformed-hand"
-        Expected = "ERROR: Cannot parse PBN: [INVALID]"
+        Expected = "Error: pls put fixed hand on NORTH, N. Your line is: [INVALID]"
     },
     @{
         Name = "invalid scorer"
