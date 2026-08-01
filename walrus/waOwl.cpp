@@ -60,7 +60,7 @@ OscarTheOwl::OscarTheOwl()
    #define OWL_VSCODE_SUFFIX  "\\sln\\Bo\\x64\\Release"
 #endif
 
-static BOOL _AttemptStartOscar(CHAR *workDirPath, CHAR* suffix, STARTUPINFO& siStartInfo, PROCESS_INFORMATION& piProcInfo)
+static BOOL _AttemptStartOscar(const CHAR *workDirPath, const CHAR* suffix, STARTUPINFO& siStartInfo, PROCESS_INFORMATION& piProcInfo)
 {
    CHAR oscarPath[MAX_PATH];
    strcpy(oscarPath, workDirPath);
@@ -107,6 +107,15 @@ static BOOL _AttemptStartOscar(CHAR *workDirPath, CHAR* suffix, STARTUPINFO& siS
 static bool _SeekOscar(STARTUPINFO& siStartInfo, PROCESS_INFORMATION& piProcInfo)
 {
    const DWORD bufferSize = MAX_PATH;
+   CHAR executablePath[bufferSize];
+   DWORD executablePathSize = GetModuleFileName(NULL, executablePath, bufferSize);
+   if (executablePathSize > 0 && executablePathSize < bufferSize) {
+      auto executableDirectory = std::filesystem::path(executablePath).parent_path().string();
+      if (_AttemptStartOscar(executableDirectory.c_str(), "\\Oscar.exe", siStartInfo, piProcInfo)) {
+         return true;
+      }
+   }
+
    CHAR oscarPath0[bufferSize];
    DWORD dwRet = GetCurrentDirectory(bufferSize, oscarPath0);
    if (dwRet == 0) {
