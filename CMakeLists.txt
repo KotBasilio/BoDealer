@@ -48,7 +48,7 @@ foreach(target IN ITEMS walrus oscar)
         RUNTIME_OUTPUT_DIRECTORY_RELEASE "${BO_RUNTIME_DIR}"
     )
     if(MSVC)
-        target_compile_definitions(${target} PRIVATE _CRT_SECURE_NO_WARNINGS)
+        target_compile_definitions(${target} PRIVATE NOMINMAX)
     endif()
 endforeach()
 
