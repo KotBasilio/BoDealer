@@ -6,6 +6,7 @@
 #define WALRUS_CROSS_PFM
 
 #include <chrono>
+#include <cstring>
 #include <thread>
 
  // -------------------------------------------------

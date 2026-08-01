@@ -223,7 +223,7 @@ void Walrus::Scan3FixedNorth()
 
 twPermutedContexts::twPermutedContexts
 (const SplitBits& a, const SplitBits& b, const SplitBits& c, uint fixed)
-   : xA(a), xB(b), xC(c)
+   : lay{twContext(a), twContext(b), twContext(c)}
 {
    // after constructors above work, we have lay[0..2] in place
    // let's copy to form a certain order:
@@ -232,19 +232,19 @@ twPermutedContexts::twPermutedContexts
    // this will allow us to pull A along the array forward
    // and this way to get all permutations consequently
    lay[ 3] = twContext( SplitBits(a, b, c) );
-   lay[ 4] = xB;
-   lay[ 5] = xC;
-   lay[ 6] = xB;
+   lay[ 4] = lay[1];
+   lay[ 5] = lay[2];
+   lay[ 6] = lay[1];
    lay[ 7] = lay[3]; // hand D
-   lay[ 8] = xC;
-   lay[ 9] = xB;
+   lay[ 8] = lay[2];
+   lay[ 9] = lay[1];
 
    assert(fixed == NORTH);
 }
 
 twPermutedContexts::twPermutedContexts
 (const SplitBits& a, const SplitBits& b, const SplitBits& c)
-   : xA(a), xB(b), xC(c)
+   : lay{twContext(a), twContext(b), twContext(c)}
 {
    // after constructors above work, we have lay[0..2] in place
    // (fixed == WEST)
@@ -253,12 +253,12 @@ twPermutedContexts::twPermutedContexts
    // 0 1 2 3 4 5 6 7 8 9
    // this will allow us to pull D along the array backwards
    // and this way to get all permutations consequently
-   lay[ 3] = xA;
-   lay[ 4] = xB;
-   lay[ 5] = xA;
-   lay[ 6] = xC;
-   lay[ 7] = xB;
-   lay[ 8] = xA;
+   lay[ 3] = lay[0];
+   lay[ 4] = lay[1];
+   lay[ 5] = lay[0];
+   lay[ 6] = lay[2];
+   lay[ 7] = lay[1];
+   lay[ 8] = lay[0];
    lay[ 9] = twContext( SplitBits(a, b, c) ); // D hand
 }
 

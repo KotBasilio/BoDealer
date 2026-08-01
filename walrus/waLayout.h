@@ -159,20 +159,15 @@ struct twContext {
 
 // now we combine permuted context for filtering with one hand fixed
 constexpr uint SIZE_PERMUTE_PATTERN = 10;
-union twPermutedContexts {
-   struct {
-      twContext xA, xB, xC;
-   };
+struct twPermutedContexts {
    twContext lay[SIZE_PERMUTE_PATTERN];
    twPermutedContexts(const SplitBits& a, const SplitBits& b, const SplitBits& c);
    twPermutedContexts(const SplitBits& a, const SplitBits& b, const SplitBits& c, uint hand);
 };
 
 // and finally we combine them for full transposition used in 4-hands scan
-union twPermutedFullFlip {
-   twPermutedContexts p6;
+struct twPermutedFullFlip {
    twContext lay[SIZE_PERMUTE_PATTERN * 4];
    twPermutedFullFlip(const SplitBits& a, const SplitBits& b, const SplitBits& c);
    void LayPattern(uint dest, uint iNewD);
 };
-

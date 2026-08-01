@@ -47,8 +47,32 @@ CumulativeScore::CumulativeScore()
    , oppCtrDoubled(0L)
    , ourOther     (0L)
    , ourHedging   (0L)
+   , prima(allScorers[0])
+   , secunda(allScorers[1])
 {
    leadS = leadH = leadD = leadC = 0L;
+}
+
+CumulativeScore::CumulativeScore(const CumulativeScore& other)
+   : CumulativeScore()
+{
+   *this = other;
+}
+
+CumulativeScore& CumulativeScore::operator=(const CumulativeScore& other)
+{
+   ideal = other.ideal;
+   bidPartscore = other.bidPartscore;
+   bidGame = other.bidGame;
+   leadS = other.leadS;
+   leadH = other.leadH;
+   leadD = other.leadD;
+   leadC = other.leadC;
+   for (size_t i = 0; i < WA_MAX_LENSES; ++i) {
+      allScorers[i] = other.allScorers[i];
+   }
+   idxVariator = other.idxVariator;
+   return *this;
 }
 
 void Walrus::Main()

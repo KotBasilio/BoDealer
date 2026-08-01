@@ -164,18 +164,13 @@ struct WaConfig {
       bool IsEmpty()  const { return (goal == 0); }
    };
    struct AllLenses {
-      union {// all contracts lenses together
-         struct {
-            Contract prim;      // our primary contract
-            Contract secondary; // either our secondary contract or their contract
-         };
-         struct {
-            Contract arrLenses[WA_MAX_LENSES];
-         };
-      };
+      Contract arrLenses[WA_MAX_LENSES];
+      Contract& prim;      // our primary contract
+      Contract& secondary; // either our secondary contract or their contract
       uint countLenses = 0;
       std::vector<MicroFilter> when;
-      AllLenses() : when() {}
+      AllLenses()
+         : prim(arrLenses[0]), secondary(arrLenses[1]), when() {}
       void SimpleSecondary(struct deal& dl);
       void TrumpFillMultiLens(struct deal& dl);
       bool IsManyLenses() { return (countLenses > 2); }
