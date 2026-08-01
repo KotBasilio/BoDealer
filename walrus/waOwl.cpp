@@ -15,6 +15,7 @@
 #include <vector>
 
 #if !defined(_WIN32)
+#include <fcntl.h>
 #include <unistd.h>
 #if defined(__APPLE__)
 #include <mach-o/dyld.h>
@@ -313,8 +314,19 @@ static bool _AttemptOscarTransports()
 
    int toChild[2];
    int fromChild[2];
-   if (pipe(toChild) != 0 || pipe(fromChild) != 0) {
+   if (pipe(toChild) != 0) {
       return false;
+   }
+   if (pipe(fromChild) != 0) {
+      close(toChild[0]);
+      close(toChild[1]);
+      return false;
+   }
+
+   // Oscar must not inherit the unused ends. In particular, inheriting
+   // toChild[1] prevents it from ever observing EOF when Walrus exits.
+   for (int descriptor : {toChild[0], toChild[1], fromChild[0], fromChild[1]}) {
+      fcntl(descriptor, F_SETFD, fcntl(descriptor, F_GETFD) | FD_CLOEXEC);
    }
 
    impl.PipeOut = toChild[1];

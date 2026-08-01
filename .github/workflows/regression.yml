@@ -1,0 +1,27 @@
+name: Cross-platform regression tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  regression:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --config Release --parallel
+
+      - name: Run regression tests
+        run: ctest --test-dir build -C Release --output-on-failure

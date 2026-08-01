@@ -15,6 +15,9 @@
 #include <iomanip>
 #include <sstream>
 #include <string.h>
+#ifdef __APPLE__
+#include <sys/sysctl.h>
+#endif
 
 #include "SolveBoard.h"
 #include "CalcTables.h"
@@ -211,11 +214,13 @@ void System::GetHardware(
   // the number of cores rather than free memory is almost certainly 
   // the limit for Macs which have  standardized hardware (whereas 
   // say a 32 core Linux server is hardly unusual).
-  FILE * fifo = popen("sysctl -n hw.memsize", "r");
-  fscanf(fifo, "%lld", &kilobytesFree);
-  fclose(fifo);
-
-  kilobytesFree /= 1024;
+  uint64_t physicalMemory = 0;
+  size_t physicalMemorySize = sizeof(physicalMemory);
+  if (sysctlbyname("hw.memsize", &physicalMemory, &physicalMemorySize,
+                   nullptr, 0) == 0)
+    kilobytesFree = physicalMemory / 1024;
+  else
+    kilobytesFree = 1024 * 1024; // guess 1GB
   if (kilobytesFree > 500000)
   {
     kilobytesFree -= 500000;
