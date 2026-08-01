@@ -1,0 +1,10 @@
+REGRESSION_NO_SELECTED_TASK
+
+HAND: N:AKQ.JT9.876.5432
+PRIMARY SCORER: V3N BY N
+
+FILTERS:
+    SOUTH: PointsRange, 10, 12
+
+-----------------------------------------------------------------------------------------------------------------------
+TASK_TYPE:FIXED_ONE_HAND

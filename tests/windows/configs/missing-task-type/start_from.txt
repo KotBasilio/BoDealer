@@ -1,0 +1,12 @@
+TASK NAME:REGRESSION_MISSING_TASK_TYPE
+
+-----------------------------------------------------------------------------------------------------------------------
+REGRESSION_MISSING_TASK_TYPE The global task type setting is absent
+
+HAND: N:AKQ.JT9.876.5432
+PRIMARY SCORER: V3N BY N
+
+FILTERS:
+    SOUTH: PointsRange, 10, 12
+
+-----------------------------------------------------------------------------------------------------------------------

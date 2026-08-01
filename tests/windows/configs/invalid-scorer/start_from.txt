@@ -1,0 +1,13 @@
+TASK NAME:REGRESSION_INVALID_SCORER
+
+-----------------------------------------------------------------------------------------------------------------------
+REGRESSION_INVALID_SCORER The primary scorer is not recognized
+
+HAND: N:AKQ.JT9.876.5432
+PRIMARY SCORER: NOT_A_SCORER
+
+FILTERS:
+    SOUTH: PointsRange, 10, 12
+
+-----------------------------------------------------------------------------------------------------------------------
+TASK_TYPE:FIXED_ONE_HAND
