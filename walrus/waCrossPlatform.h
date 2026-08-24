@@ -13,6 +13,9 @@
  // main fork
 #ifdef _MSC_VER
    // Target: Windows, Visual Studio compiler
+   #ifndef NOMINMAX
+      #define NOMINMAX
+   #endif
    #define HEADER_C_LEGACY  <conio.h>
    #define HEADER_SLEEP     <Windows.h>
    #define HEADER_THREADS   <process.h>
