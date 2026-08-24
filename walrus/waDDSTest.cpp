@@ -378,6 +378,7 @@ void PrintPBNHand(char title[], char remainCardsPBN[])
 
 void TestHeap(void)
 {
+#if defined(_MSC_VER)
    // Check heap status, source:
    // https://learn.microsoft.com/en-us/cpp/c-runtime-library/reference/heapwalk?view=msvc-170
    _HEAPINFO hinfo;
@@ -409,6 +410,7 @@ void TestHeap(void)
          printf("ERROR - bad node in heap\n");
          break;
    }
+#endif
 }
 
 void DoSelfTests()

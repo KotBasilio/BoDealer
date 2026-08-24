@@ -62,8 +62,17 @@ void Walrus::Permute24(SplitBits a, SplitBits b, SplitBits c)
 
 twPermutedFullFlip::twPermutedFullFlip
    (const SplitBits& a, const SplitBits& b, const SplitBits& c)
-   : p6(a, b, c)
+   : lay{twContext(a), twContext(b), twContext(c)}
 {
+   // Seed the first six-hand permutation pattern.
+   lay[3] = lay[0];
+   lay[4] = lay[1];
+   lay[5] = lay[0];
+   lay[6] = lay[2];
+   lay[7] = lay[1];
+   lay[8] = lay[0];
+   lay[9] = twContext(SplitBits(a, b, c));
+
    // first section is in place, ending with (B-A-D). we reuse 3
    LayPattern(FULL_PART_1, 2);
 
@@ -73,7 +82,7 @@ twPermutedFullFlip::twPermutedFullFlip
 
    // third section is in place, ending with (C-B-A). we reuse 1
    lay[FULL_PART_3 + 1] = lay[9];
-   lay[FULL_PART_3 + 2] = p6.xC;
+   lay[FULL_PART_3 + 2] = lay[2];
    LayPattern(FULL_PART_3, 1);
 
    // all sections are ready, ending with (D-A-B)
@@ -190,4 +199,3 @@ void WaMulti::Setup(const char* nameH, ucell ourShare)
    maxTasksToSolve >>= 3;
    maxTasksToSolve *= 3; 
 }
-

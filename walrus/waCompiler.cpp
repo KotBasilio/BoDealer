@@ -159,7 +159,7 @@ struct CompilerContext
          PLATFORM_GETCH();
          exit(0);
       }
-      strcpy_s(bufCopy, size, sourceCode);
+      snprintf(bufCopy, size, "%s", sourceCode);
       line = bufCopy;
    }
 
@@ -369,7 +369,7 @@ struct Parser
       , posName()
       , backupLine()
    {
-      strcpy_s(backupLine, sizeof(backupLine), ctx.line);
+      snprintf(backupLine, sizeof(backupLine), "%s", ctx.line);
       token = std::strtok(ctx.line, delimiters);
    }
 
@@ -385,7 +385,7 @@ struct Parser
 
    void NoticeTokenIsPosition()
    {
-      strcpy_s(posName, sizeof(posName), token);
+      snprintf(posName, sizeof(posName), "%s", token);
    }
 
    void AppendPosition()
@@ -688,4 +688,3 @@ void WaConfig::BuildMultiScorer(Walrus* walrus)
 
    owl.Show("Success.\n");
 }
-

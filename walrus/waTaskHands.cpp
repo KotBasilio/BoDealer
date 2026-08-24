@@ -10,7 +10,6 @@
 #include "../dds-develop/src/PBN.h"
 #include "../dds-develop/examples/hands.h"
 #include HEADER_C_LEGACY
-#include <memory.h> // memset
 
 // --------------------------------------------------------------------------------
 // input

@@ -99,7 +99,7 @@ bool Walrus::RegularBalanceCheck()
    if (bookman < mul.countIterations) {
       owl.Show("%llu iterations left no mark\n", bookman);
    } else {
-      owl.Show("%llu more marks than expected\n", MAXUINT64 - bookman + 1);
+      owl.Show("%llu more marks than expected\n", UINT64_MAX - bookman + 1);
    }
 
    // go to details
@@ -262,8 +262,8 @@ void Progress::ShowMiniHits()
 
 s64 Progress::UpdateDoneStats()
 {
-   doneOurs   = (s64)(__max( hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE  ], 1));
-   doneTheirs = (s64)( __max(hitsRow[IO_ROW_THEIRS  ] + hitsRow[IO_ROW_THEIRS + 1], 1));
+   doneOurs   = (s64)(std::max(hitsRow[IO_ROW_OUR_DOWN] + hitsRow[IO_ROW_OUR_MADE], 1ULL));
+   doneTheirs = (s64)(std::max(hitsRow[IO_ROW_THEIRS] + hitsRow[IO_ROW_THEIRS + 1], 1ULL));
    return doneOurs;
 }
 
@@ -332,7 +332,7 @@ void Walrus::ShowOptionalReports(s64 sumRows, s64 sumOppRows)
    s64 sumBid      = (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_PREFER_TO_BID];
    s64 sumSame     = (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_NO_DIFF];
    s64 sumRefrain  = (s64)progress.hitsCount[IO_ROW_COMPARISON][IO_CAMP_REFRAIN_BIDDING];
-   s64 totalComparisons = __max(sumBid + sumSame + sumRefrain, 1);
+   s64 totalComparisons = std::max(sumBid + sumSame + sumRefrain, 1LL);
    float posto = 100.f / totalComparisons;
 
    // keycards split
@@ -427,20 +427,20 @@ const char* Progress::TimeToReadable(u64 ms)
 
    u64 seconds = ms / 1000;
    if (seconds < 100) {
-      sprintf_s(displayBuf, sizeof(displayBuf), "%llu.%llu sec", seconds, (ms % 1000) / 100);
+      snprintf(displayBuf, sizeof(displayBuf), "%llu.%llu sec", seconds, (ms % 1000) / 100);
       return displayBuf;
    } 
 
    u64 minutes = seconds / 60;
    seconds -= minutes * 60;
    if (minutes < 60) {
-      sprintf_s(displayBuf, sizeof(displayBuf), "%llu min %llu sec", minutes, seconds);
+      snprintf(displayBuf, sizeof(displayBuf), "%llu min %llu sec", minutes, seconds);
       return displayBuf;
    } 
 
    u64 hours = minutes / 60;
    minutes -= hours * 60;
-   sprintf_s(displayBuf, sizeof(displayBuf), "%llu h %llu min", hours, minutes);
+   snprintf(displayBuf, sizeof(displayBuf), "%llu h %llu min", hours, minutes);
    return displayBuf;
 }
 
@@ -516,6 +516,3 @@ void Progress::HitByTricks(uint amount, uint made, uint row, bool isExtraMark)
       countExtraMarks++;
    }
 }
-
-
-

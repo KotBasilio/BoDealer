@@ -11,7 +11,7 @@ MicroFilter::MicroFilter(MicroFunc f, const char *_name, uint p0, uint p1, uint 
    params[2] = p2;
    params[3] = p3;
    params[4] = p4;
-   strcpy_s(name, _name);
+   snprintf(name, sizeof(name), "%s", _name);
 }
 
 uint WaFilter::OKNum(twContext* lay, const uint* par)
@@ -797,4 +797,3 @@ uint WaFilter::PassVul(twContext* lay, const uint* par)
 
    return MIC_PASSED;
 }
-

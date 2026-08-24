@@ -40,6 +40,8 @@ private:
 
 struct CumulativeScore {
    CumulativeScore();
+   CumulativeScore(const CumulativeScore& other);
+   CumulativeScore& operator=(const CumulativeScore& other);
    s64    ideal;
    s64    bidPartscore, bidGame;
    union {
@@ -55,14 +57,9 @@ struct CumulativeScore {
    void VoidGenScoring(DdsTricks& tr) {}
 
    // linear-score oriented
-   union {
-      struct {
-         LineScorer  prima, secunda;
-      };
-      struct {
-         LineScorer  allScorers[WA_MAX_LENSES];
-      };
-   };
+   LineScorer allScorers[WA_MAX_LENSES];
+   LineScorer& prima;
+   LineScorer& secunda;
    uint idxVariator = 1; // secondary
 
    void Primary        (DdsTricks& tr) { prima  (tr.plainScore); }

@@ -8,6 +8,7 @@
 #include HEADER_SLEEP
 #include HEADER_C_LEGACY
 #include "walrus.h"
+#include <algorithm>
 
 #define CUT_AT_TAIL(STR)     \
    STR[sizeof(STR) - 1] = 0; \
@@ -17,8 +18,8 @@
    copyTrimmed(TOSTR, line, sizeof(TOSTR)); \
    CUT_AT_TAIL(TOSTR)
 
-#define SAFE_ADD_BY_LINE(TOSTR)                            \
-   addTrimmed(TOSTR, line, sizeof(TOSTR) - strlen(TOSTR)); \
+#define SAFE_ADD_BY_LINE(TOSTR)          \
+   addTrimmed(TOSTR, line, sizeof(TOSTR)); \
    CUT_AT_TAIL(TOSTR)
 
 #define SAFE_ADD(TOSTR, ADDITION) \
@@ -74,9 +75,9 @@ static void copyTrimmed(char* dest, const char* line, size_t destSize)
       --end;
    }
 
-   size_t len = end - line;
-   strncpy_s(dest, destSize, line, len);
-   dest[len] = '\0'; // ensure null termination
+   size_t len = std::min(static_cast<size_t>(end - line), destSize - 1);
+   memcpy(dest, line, len);
+   dest[len] = '\0';
 }
 
 static void addTrimmed(char* dest, const char* line, size_t destSize)
@@ -92,8 +93,9 @@ static void addTrimmed(char* dest, const char* line, size_t destSize)
       --end;
    }
 
-   size_t len = end - line;
-   strncat_s(dest, destSize, line, len);
+   size_t used = strlen(dest);
+   size_t len = std::min(static_cast<size_t>(end - line), destSize - used - 1);
+   strncat(dest, line, len);
 }
 
 template<typename T>
@@ -231,7 +233,7 @@ void WaConfig::ReadScaleSetting(char* line)
 
    auto kilos = atoi(line);
    if (kilos > 0) {
-      solve.aimTaskCount = __min(kilos * 1000, MAX_TASKS_TO_SOLVE); 
+      solve.aimTaskCount = std::min(static_cast<uint>(kilos * 1000), MAX_TASKS_TO_SOLVE);
       return;
    }
 
@@ -494,7 +496,7 @@ EConfigReaderState WaConfig::FSM_DoTaskState(char* line)
 EConfigReaderState WaConfig::FSM_GoInsideTask(char* line)
 {
    line += strlen(txt.nameTask) + 1;
-   strcpy_s(txt.titleBrief, sizeof(txt.titleBrief), line);
+   snprintf(txt.titleBrief, sizeof(txt.titleBrief), "%s", line);
 
    solve.opMode = OPMODE_FIXED_TASK;
 
@@ -526,8 +528,8 @@ void WaConfig::ReadTask(Walrus *walrus)
    // ensure we have a file
    const char* fname = txt.namesBase.StartFrom;
    printf("Reading config from: %s\n", fname);
-   FILE* stream;
-   if (auto err = fopen_s(&stream, fname, "r")) {// non-zero => failed to open  
+   FILE* stream = fopen(fname, "r");
+   if (!stream) {
       owl.Show("Error: '%s' not found.\n", fname);  
       MarkFail("Failed to open configuration file.");  
       return;

@@ -5,7 +5,10 @@
 //
 
 #define  _CRT_SECURE_NO_WARNINGS
-#include <fstream>  
+#include <chrono>
+#include <cstring>
+#include <fstream>
+#include <thread>
 #include "Oscar.h"
 #include "OscarCLI.h"
 
@@ -25,14 +28,18 @@ extern void ShowAllScores();
 // config
 //#define VERBOSE_LOGGING
 #define DEFAULT_LOGFILE_NAME "oscar_log.txt"
+#if defined(_WIN32)
 static CHAR logFileName[MAX_PATH];
+#else
+static char logFileName[4096];
+#endif
 static bool bWaitAttach = false;
 
 static void PaintOscar()
 {
    printf("\n\n");
    for (auto art : artOscar) {
-      printf(art);
+      printf("%s", art);
    }
 }
 
@@ -63,10 +70,12 @@ extern void PrepareLinearScores();
 
 void OscarEcho::SetupConsoleColors()
 {
+#if defined(_WIN32)
    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
    if (hConsole != INVALID_HANDLE_VALUE) {
       SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
    }
+#endif
 }
 
 bool OscarEcho::IsFeelingLost()
@@ -91,7 +100,14 @@ bool OscarEcho::NewsAre(const char *test)
 bool OscarEcho::Retell()
 {
    // echo from incoming pipe
+#if defined(_WIN32)
    gets_s(gossip, sizeof(gossip));
+#else
+   if (!std::fgets(gossip, sizeof(gossip), stdin)) {
+      gossip[0] = 0;
+   }
+   gossip[strcspn(gossip, "\r\n")] = 0;
+#endif
    printf("%s\n", gossip);
 
    // watch for exit signals
@@ -158,9 +174,9 @@ static void ConsiderWaitForAttach()
 
    printf("Waiting for debugger to attach...\n");
    while (bWaitAttach) {
-      Sleep(100);
+      std::this_thread::sleep_for(std::chrono::milliseconds(100));
       if (false) {
-         bWaitAttach = false; // set breakpoint on Sleep(), then set next statement here => set free
+         bWaitAttach = false; // set a breakpoint in this loop, then set next statement here => set free
       }
    }
 }
